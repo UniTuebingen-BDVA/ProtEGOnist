@@ -5,3 +5,9 @@ dependencies:
   - python=3.11
   - seaborn
   - scipy
+  - setuptools
+  - pip
+  - wheel
+  - conda-content-trust
+  - pywget
+  - menuinst
