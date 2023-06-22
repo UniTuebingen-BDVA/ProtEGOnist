@@ -2,7 +2,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 from pathlib import Path
-import wget
+import requests
 import os
 
 
@@ -23,7 +23,9 @@ def getData():
         return
     print("getData" + str(dataTargetPath))
     try:
-        wget.download(dataURL, str(dataTargetPath))
+        r = requests.get(dataURL)
+        with open(dataTargetPath, "wb") as f:
+            f.write(r.content)
     except OSError:
         print("FAILED to download: " + str(dataTargetPath))
 
