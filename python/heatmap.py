@@ -8,10 +8,11 @@ import os
 
 cwdPath: Path = Path(os.getcwd())
 dataPath = Path(
-    cwdPath.parent / "data" / "ProCan-DepMapSanger_protein_matrix_8498_averaged.txt"
+    cwdPath / "biovis_challenge" / "data" / "ProCan-DepMapSanger_protein_matrix_8498_averaged.txt"
 )
 dataURL = "https://bdvanc.uni-tuebingen.de/index.php/s/BerA8DoTy8EEPsM/download/ProCan-DepMapSanger_protein_matrix_8498_averaged.txt"
 
+print(dataPath)
 
 def getData():
     dataTargetPath: Path = dataPath
