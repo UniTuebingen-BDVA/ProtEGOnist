@@ -1,10 +1,14 @@
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+from matplotlib.colors import ListedColormap
 from pathlib import Path
 import requests
 import os
+import sys
 
+# temporary
+sys.setrecursionlimit(100000)
 
 cwdPath: Path = Path(os.getcwd())
 dataPath = Path(
@@ -14,7 +18,7 @@ dataURL = "https://bdvanc.uni-tuebingen.de/index.php/s/BerA8DoTy8EEPsM/download/
 
 print(dataPath)
 
-def getData():
+def getData() -> None:
     dataTargetPath: Path = dataPath
 
     if not dataTargetPath.parent.exists():
@@ -24,16 +28,16 @@ def getData():
         return
     print("getData" + str(dataTargetPath))
     try:
-        r = requests.get(dataURL)
+        r: requests.Response = requests.get(dataURL)
         with open(dataTargetPath, "wb") as f:
             f.write(r.content)
     except OSError:
         print("FAILED to download: " + str(dataTargetPath))
 
 
-def showHeatmap():
+def showHeatmap() -> None:
     # Read the data
-    df: pd.DataFrame = pd.read_csv(
+    df: pd.DataFrame = pd.read_csv( 
         str(dataPath), sep="\t", index_col=0, header=0, engine="python"
     )
     print(df.shape)
@@ -43,16 +47,18 @@ def showHeatmap():
 
     print(df.head(5))
 
+    cmap = ListedColormap(['black'] + sns.color_palette("RdBu_r", 256).as_hex())
     cg = sns.clustermap(
         df,
-        cmap="RdBu_r",
-        col_cluster=False,
+        cmap=cmap,
+        col_cluster=True,
+        figsize=(100, 50),
         center=0,
-        figsize=(20, 20),
         vmin=-5,
         vmax=5,
         z_score=1,
     )
+    cg.savefig("heatmap.png", format="png", dpi=100)
     plt.show()
 
 
