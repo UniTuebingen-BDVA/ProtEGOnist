@@ -43,10 +43,12 @@ def showHeatmap() -> None:
     print(df.shape)
     df = df.dropna(axis=1, how="all")
     print(df.shape)
-    df.fillna(0, inplace=True)
+    #df.fillna(0, inplace=True)
 
     print(df.head(5))
 
+    # sns.histplot(df.iloc[920, :])
+    # plt.show()
     cmap = ListedColormap(['black'] + sns.color_palette("RdBu_r", 256).as_hex())
     cg = sns.clustermap(
         df,
