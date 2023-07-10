@@ -1,19 +1,35 @@
 {
-  "name": "biovis_challenge",
+  "name": "biovischallenge2023",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "server": "cd server && flask run --no-debugger",
+    "dev": "concurrently \"yarn run server\" \"vite\"",
     "build": "tsc && vite build",
+    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
-  "devDependencies": {
-    "@types/d3": "^7.4.0",
-    "typescript": "^5.0.2",
-    "vite": "^4.3.9"
-  },
   "dependencies": {
-    "d3": "^7.8.5"
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.13.7",
+    "axios": "^1.4.0",
+    "jotai": "^2.2.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.14",
+    "@types/react-dom": "^18.2.6",
+    "@typescript-eslint/eslint-plugin": "^5.61.0",
+    "@typescript-eslint/parser": "^5.61.0",
+    "@vitejs/plugin-react-swc": "^3.3.2",
+    "concurrently": "^8.2.0",
+    "eslint": "^8.44.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.1",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.0"
   }
 }
