@@ -1,34 +1,42 @@
 import {useEffect, useState} from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
-import axios, {AxiosResponse} from "axios";
+import axios from "axios";
 import Egograph from "./components/egograph/egograph.tsx";
 
-type egoGraphNode = {
+export type egoGraphNode = {
     id: string,
     name: string,
 }
+export type egoGraphEdge = {
+    source: number,
+    target: number,
+}
 
 export interface egoGraph {
-    centerNode: object,
+    centerNode: egoGraphNode,
     nodes: egoGraphNode[],
-    edges: object[]
+    edges: egoGraphEdge[]
 }
 
 function App() {
     const [graph, setGraph] = useState<egoGraph | null>(null)
     useEffect(() => {
         axios.get<egoGraph>("/api/test_data_egograph").then((response) => {
-            console.log(response.data)
             setGraph(response.data)
         }).catch((error) => {
                 console.log(error)
             }
         )
     }, [])
+    const posX = 100;
+    const posY = 100;
     return (
-        graph !== null ? <Egograph graph={graph} collapsed={false}/> : null
+        graph !== null ?
+            <svg width={posX*2} height={posY*2}>
+                <g transform={"translate(" + String(posX) + "," + String(posY) + ")"}>
+                    <Egograph graph={graph}/>
+                </g>
+            </svg> : null
     )
 }
 

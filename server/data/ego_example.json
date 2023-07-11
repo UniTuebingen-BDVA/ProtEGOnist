@@ -1,40 +1,70 @@
 {
   "centerNode": {
-    "id": "id1"
+    "id": "id1",
+    "name": "x"
   },
   "nodes": [
     {
       "name": "a",
       "id": "id2"
     },
-     {
+    {
       "name": "b",
       "id": "id3"
     },
-     {
+    {
       "name": "c",
       "id": "id4"
     },
-     {
+    {
       "name": "d",
-      "id": "id4"
-    },
-     {
-      "name": "e",
       "id": "id5"
     },
-     {
+    {
+      "name": "e",
+      "id": "id6"
+    },
+    {
       "name": "f",
       "id": "id7"
     },
-     {
+    {
       "name": "g",
       "id": "id8"
     },
-     {
+    {
       "name": "h",
       "id": "id9"
     }
   ],
-  "links": []
+  "edges": [
+    {
+      "source": 0,
+      "target": 1
+    },
+    {
+      "source": 0,
+      "target": 2
+    },
+    {
+      "source": 3,
+      "target": 5
+    },
+    {
+      "source": 3,
+      "target": 7
+    },
+    {
+      "source": 2,
+      "target": 6
+    },
+    {
+      "source": 3,
+      "target": 4
+    },
+    {
+      "source": 2,
+      "target": 3
+    }
+  ]
 }
