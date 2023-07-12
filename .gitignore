@@ -1,5 +1,7 @@
-# Data
+# pycache
+__pycache__/
 
+# Data
 /data/*
 
 # Logs
