@@ -44,7 +44,27 @@ class egoGraph():
       Returns:
         A JSON representation of the graph object.
       """
-      return json.dumps(nx.node_link_data(self.nxGraph, {"source":"from", "target":"to","link":"edges"}))
+      node_link_data = dict(nx.node_link_data(self.nxGraph, {"link":"edges"}))
+      #check if the nodes in node_link_data have an attribute "name" if not add the attribute "name" with the value of the attribute "id"
+      for node in node_link_data["nodes"]:
+        if "name" not in node:
+          node["name"] = node["id"]
+        node["originalID"] = node["id"]
+        node["id"] = str(self.node) + '_' + str(node["id"])
+
+      #change the edges such that they use the new node ids
+      # for each edge in node_link_data["links"] add the attribute "id" as the string source + target
+
+      for edge in node_link_data["edges"]:
+        edge["source"] = str(self.node) + "_" + str(edge["source"])
+        edge["target"] = str(self.node) + "_" + str(edge["target"])
+        edge["id"] = str(edge["source"]) + "+" + str(edge["target"])
+
+
+      # add a the center node as dictionary to the node_link_data
+      node_link_data["center_node"] = {"id": str(self.node) + "_" + str(self.node), "originalID": self.node, "name": self.nxGraph.nodes[self.node]["name"] if self.nxGraph.nodes[self.node]["name"] else self.node }
+
+      return json.dumps(node_link_data)
     
     
     def getNeighbors(self) -> dict[str, list[str|int]]:

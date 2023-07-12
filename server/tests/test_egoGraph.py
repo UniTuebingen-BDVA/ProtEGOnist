@@ -9,6 +9,8 @@ def G():
     A fixture that returns a networkx graph.
     """
     G = nx.Graph()
+    # Add nodes with an ID and the attribute "name" besides for the ID 2
+    G.add_nodes_from([(1, {"name": "A"}), (2), (3, {"name": "C"}), (4, {"name": "D"}), (5, {"name": "E"}), (6, {"name": "F"}), (7, {"name": "G"}), (8, {"name": "H"}), (9, {"name": "I"}), (10, {"name": "J"}), (11, {"name": "K"}), (12, {"name": "L"})])
     G.add_edges_from([(1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 1), (2, 7), (3, 8), (4, 9), (5, 10), (6, 11), (1, 12)])
     yield G
 
@@ -73,7 +75,7 @@ class TestGetGraphJSON:
         result = ego.getGraphJSON()
         print(result)
         # Check the graph JSON
-        assert result == "{\"directed\": false, \"multigraph\": false, \"graph\": {}, \"nodes\": [{\"id\": 1}, {\"id\": 2}, {\"id\": 3}, {\"id\": 5}, {\"id\": 6}, {\"id\": 7}, {\"id\": 11}, {\"id\": 12}], \"edges\": [{\"from\": 1, \"to\": 2}, {\"from\": 1, \"to\": 6}, {\"from\": 1, \"to\": 12}, {\"from\": 2, \"to\": 3}, {\"from\": 2, \"to\": 7}, {\"from\": 5, \"to\": 6}, {\"from\": 6, \"to\": 11}]}"
+        assert result == "{\"directed\": false, \"multigraph\": false, \"graph\": {}, \"nodes\": [{\"name\": \"A\", \"id\": \"1_1\", \"originalID\": 1}, {\"id\": \"1_2\", \"name\": 2, \"originalID\": 2}, {\"name\": \"C\", \"id\": \"1_3\", \"originalID\": 3}, {\"name\": \"E\", \"id\": \"1_5\", \"originalID\": 5}, {\"name\": \"F\", \"id\": \"1_6\", \"originalID\": 6}, {\"name\": \"G\", \"id\": \"1_7\", \"originalID\": 7}, {\"name\": \"K\", \"id\": \"1_11\", \"originalID\": 11}, {\"name\": \"L\", \"id\": \"1_12\", \"originalID\": 12}], \"edges\": [{\"source\": \"1_1\", \"target\": \"1_2\", \"id\": \"1_1+1_2\"}, {\"source\": \"1_1\", \"target\": \"1_6\", \"id\": \"1_1+1_6\"}, {\"source\": \"1_1\", \"target\": \"1_12\", \"id\": \"1_1+1_12\"}, {\"source\": \"1_2\", \"target\": \"1_3\", \"id\": \"1_2+1_3\"}, {\"source\": \"1_2\", \"target\": \"1_7\", \"id\": \"1_2+1_7\"}, {\"source\": \"1_5\", \"target\": \"1_6\", \"id\": \"1_5+1_6\"}, {\"source\": \"1_6\", \"target\": \"1_11\", \"id\": \"1_6+1_11\"}], \"center_node\": {\"id\": \"1_1\", \"originalID\": 1, \"name\": \"A\"}}"
 
 if __name__ == '__main__':
     unittest.main()
