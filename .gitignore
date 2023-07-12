@@ -1,3 +1,9 @@
+# pycache
+__pycache__/
+
+# Data
+/data/*
+
 # Logs
 logs
 *.log
