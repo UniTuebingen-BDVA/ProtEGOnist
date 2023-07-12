@@ -13,6 +13,10 @@ type layoutEdge = egoGraphEdge & {
     y1: number | undefined;
     y2: number | undefined;
 }
+export interface egoGraphLayout{
+    nodes: layoutNode[];
+    edges: layoutEdge[];
+}
 
 export function calculateEgoLayout(graph: egoGraph, size: number) {
     const nodes: layoutNode[] = [];
