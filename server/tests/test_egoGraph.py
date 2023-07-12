@@ -16,7 +16,7 @@ class TestConstructor:
     """
     Test the constructor of the egoGraph class.
     """
-    def test_constructor(self, G):
+    def test_constructor(self, G: nx.Graph):
         # print type of G
         print(type(G))
 
@@ -34,7 +34,7 @@ class TestGetNeighbors:
     """
     Test the getNeighbors method of the egoGraph class.
     """
-    def test_getNeighbors(self, G):
+    def test_getNeighbors(self, G: nx.Graph):
         # Create an ego graph from the networkx graph
         ego = egoGraph(1, G)
 
@@ -47,7 +47,7 @@ class TestGetNeighbors:
 
 
 class TestGetIntersction:
-    def test_getIntersection(self, G):
+    def test_getIntersection(self, G: nx.Graph):
         # Create two ego graphs from the networkx graph
         ego1 = egoGraph(1, G)
         ego2 = egoGraph(2, G)

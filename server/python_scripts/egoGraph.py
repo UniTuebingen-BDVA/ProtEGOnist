@@ -1,7 +1,8 @@
 import networkx as nx
 import json
+from typing import cast, TypedDict
 
-class Intersection():
+class Intersection(TypedDict):
   intersection: list[str|int]
   len1_prop: float
   len2_prop: float
@@ -51,7 +52,8 @@ class egoGraph():
       Returns all degree-1 and degree2 neighbors of the node.
       
       Returns:
-        A list of all degree-1 and degree2 neighbors of the node.
+        A dictionary with two keys: "t1_neighbors" and "t2_neighbors".
+        The values are lists of the neighbors of the node.
       """
       try:
         t1_neighbors: list[str|int] = list(self.nxGraph.neighbors(self.node))
@@ -113,8 +115,5 @@ class egoGraph():
       len3_prop = len3_prop / total_prop
       len4_prop = len4_prop / total_prop
 
-      return {"intersection": intersection, "len1_prop": len1_prop, "len2_prop": len2_prop, "len3_prop": len3_prop, "len4_prop": len4_prop}
-    
-
-
-    
+      out_dict: Intersection = {"intersection": intersection, "len1_prop": len1_prop, "len2_prop": len2_prop, "len3_prop": len3_prop, "len4_prop": len4_prop}
+      return out_dict
