@@ -1,5 +1,5 @@
 import {egoGraph} from "../../App.tsx";
-import {useCallback, useMemo, useState} from "react";
+import React, {useCallback, useMemo, useState} from "react";
 import {calculateEgoLayout} from "./egolayout.ts";
 import * as d3 from "d3";
 
@@ -24,11 +24,11 @@ const Egograph = (props: EgoGraphProps) => {
     }, [nodeRadius])
     const translate = {x: -egoGraphSize / 2 + radius, y: -egoGraphSize / 2 + radius}
 
-    const selectElements = useCallback((element: SVGElement) => {
-        const childNodes = element.childNodes;
+    const selectElements = useCallback((element: ParentNode) => {
+        const childNodes = element.children;
         if (childNodes && childNodes.length > 1) {
-            const circles: Node[] = [...childNodes].filter(d => d.nodeName === "circle");
-            const lines: Node[] = [...childNodes].filter(d => d.nodeName === "line");
+            const circles = [...childNodes].filter(d => d.nodeName === "circle");
+            const lines = [...childNodes].filter(d => d.nodeName === "line");
             return {circles, lines}
         }
     }, [])
@@ -41,7 +41,9 @@ const Egograph = (props: EgoGraphProps) => {
                 .duration(200)
                 .attr("cx", d => d.cx)
                 .attr("cy", d => d.cy)
-            d3.selectAll(selection.lines).data(layout.edges).transition()
+            d3.selectAll(selection.lines)
+                .data(layout.edges)
+                .transition()
                 .duration(200)
                 .attr("x1", d => d.x1)
                 .attr("x2", d => d.x2)
@@ -49,15 +51,17 @@ const Egograph = (props: EgoGraphProps) => {
                 .attr("y2", d => d.y2)
         }
     }, [layout, selectElements]);
-    const removeLayout = useCallback((event: MouseEvent) => {
-        if (event.target) {
-            const selection = selectElements(event.target.parentNode)
+    const removeLayout = useCallback((event: React.MouseEvent) => {
+        if (event.target && event.target instanceof SVGElement && event.target.parentNode) {
+            const selection = selectElements(event.target.parentNode);
             if (selection) {
-                d3.selectAll(selection.circles).data(layout.nodes).transition()
+                d3.selectAll(selection.circles)
+                    .data(layout.nodes).transition()
                     .duration(200)
                     .attr("cx", () => centerPoint.x)
                     .attr("cy", () => centerPoint.y)
-                d3.selectAll(selection.lines).data(layout.edges).transition()
+                d3.selectAll(selection.lines)
+                    .data(layout.edges).transition()
                     .duration(200)
                     .attr("x1", () => centerPoint.x)
                     .attr("x2", () => centerPoint.x)

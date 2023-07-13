@@ -4,16 +4,17 @@ import {polarToCartesian} from "../../UtilityFunctions.ts";
 
 type layoutNode = egoGraphNode & {
     isCenter: boolean;
-    cx: number | undefined;
-    cy: number | undefined;
+    cx: number;
+    cy: number;
 }
 type layoutEdge = egoGraphEdge & {
-    x1: number | undefined;
-    x2: number | undefined;
-    y1: number | undefined;
-    y2: number | undefined;
+    x1: number;
+    x2: number;
+    y1: number;
+    y2: number;
 }
-export interface egoGraphLayout{
+
+export interface egoGraphLayout {
     nodes: layoutNode[];
     edges: layoutEdge[];
 }
@@ -24,20 +25,20 @@ export function calculateEgoLayout(graph: egoGraph, size: number) {
     const x = d3.scaleBand()
         .range([0, 360])
         .domain(graph.nodes.map(d => d.id))
-    const maxradius:number = (((size / 2) / Math.sin(((180 - x.bandwidth()) / 2)*Math.PI/180)) * Math.sin(x.bandwidth()*Math.PI/180))/2;
+    const maxradius: number = (((size / 2) / Math.sin(((180 - x.bandwidth()) / 2) * Math.PI / 180)) * Math.sin(x.bandwidth() * Math.PI / 180)) / 2;
     graph.nodes.forEach(node => {
-        const currNode: layoutNode = {...node, isCenter: false, cx: undefined, cy: undefined};
         const nodeCoords = polarToCartesian(size / 2, size / 2, size / 2, x(node.id)!);
-        currNode.cx = nodeCoords.x;
-        currNode.cy = nodeCoords.y;
+        const currNode: layoutNode = {...node, isCenter: false, cx: nodeCoords.x, cy: nodeCoords.y};
         nodes.push(currNode);
     })
     graph.edges.forEach((edge) => {
-        const currEdge: layoutEdge = {...edge, x1: undefined, x2: undefined, y1: undefined, y2: undefined};
-        currEdge.x1 = nodes[currEdge.source].cx;
-        currEdge.x2 = nodes[currEdge.target].cx;
-        currEdge.y1 = nodes[currEdge.source].cy;
-        currEdge.y2 = nodes[currEdge.target].cy;
+        const currEdge: layoutEdge = {
+            ...edge,
+            x1: nodes[edge.source].cx,
+            x2: nodes[edge.target].cx,
+            y1: nodes[edge.source].cy,
+            y2: nodes[edge.target].cy
+        };
         edges.push(currEdge);
     })
     nodes.forEach((node, i) => {
