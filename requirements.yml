@@ -1,7 +1,12 @@
-name: biovis_challenge
+name: biovischallenge
 channels:
   - defaults
 dependencies:
   - python=3.11
-  - flask
+  - seaborn
+  - scipy
   - networkx
+  - jupyter
+  - flask
+  - openpyxl
+  - pytest
