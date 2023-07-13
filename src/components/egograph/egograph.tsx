@@ -27,7 +27,7 @@ const Egograph = (props: EgoGraphProps) => {
     const selectElements = useCallback((element: ParentNode) => {
         const childNodes = element.children;
         if (childNodes && childNodes.length > 1) {
-            const circles = [...childNodes].filter(d => d.nodeName === "circle");
+            const circles = [...childNodes].filter(d => d.nodeName === "circle" && d.id != "background");
             const lines = [...childNodes].filter(d => d.nodeName === "line");
             return {circles, lines}
         }
@@ -35,6 +35,7 @@ const Egograph = (props: EgoGraphProps) => {
     const applyLayout = useCallback((element: SVGElement) => {
         const selection = selectElements(element);
         if (selection) {
+            console.log(selection.circles);
             d3.selectAll(selection.circles)
                 .data(layout.nodes)
                 .transition()
@@ -81,7 +82,8 @@ const Egograph = (props: EgoGraphProps) => {
     const elements = useMemo(() => {
         let centerCircle, circles, lines = null
         if (collapsed) {
-            centerCircle = <circle cx={centerPoint.x} cy={centerPoint.y} r={nodeRadius} fill={"white"}/>
+            centerCircle = <circle onMouseEnter={() => setCollapsed(false)}
+                                   cx={centerPoint.x} cy={centerPoint.y} r={nodeRadius} fill={"white"}/>
         } else {
             circles = layout.nodes.map(node => {
                 return (<circle key={node.id} cx={centerPoint.x} cy={centerPoint.y} r={nodeRadius} fill={"white"}/>)
@@ -94,8 +96,13 @@ const Egograph = (props: EgoGraphProps) => {
         }
         return (<g ref={(node) => updateLayout(node)}
                    transform={"translate(" + String(translate.x) + "," + String(translate.y) + ")"}
-                   onMouseEnter={() => setCollapsed(false)}
                    onMouseLeave={(event) => removeLayout(event)}>
+            <circle cx={centerPoint.x}
+                    cy={centerPoint.y}
+                    r={egoGraphSize / 2}
+                    id={"background"}
+                    fill={"none"}
+                    pointerEvents={"visible"}/>
             {circles}
             {lines}
             {centerCircle}
