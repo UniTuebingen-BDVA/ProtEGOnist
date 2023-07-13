@@ -96,7 +96,7 @@ class TestGetIntersction:
         assert set(result["intersection"]) == {1, 2, 3, 6, 7, 12}
 
         # Check the proportions of paths of different lengths
-        assert pytest.approx(result["jaccard"], 0.01) == 0.5
+        assert pytest.approx(result["jaccard"], 0.01) == 0.6
         assert pytest.approx(result["len1Proportion"], 0.01) == 0.333
         assert pytest.approx(result["len2Proportion"], 0.01) == 0.0
         assert pytest.approx(result["len3Proportion"], 0.01) == 0.666

@@ -13,7 +13,7 @@ export interface egoGraph {
   edges: egoGraphEdge[];
 }
 
-export type intersectionData = {
+export type intersectionDatum = {
   intersection: (string | number)[];
   jaccard: number;
   len1Proportion: number;

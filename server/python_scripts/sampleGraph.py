@@ -11,9 +11,9 @@ def generateTestGraphData():
         G.nodes[node]["name"] = str(node)
 
     # print amount of nodes
-    print("Graph nodes: ", G.number_of_nodes())
+    #print("Graph nodes: ", G.number_of_nodes())
     # generate 40 unique random numbers between 0 and 9842 with fixed seed
-    random.seed(42)
+    random.seed(32)
     random_numbers = random.sample(range(0, 1093), 40)
 
     ego_networks = {i: egoGraph(i, G) for i in random_numbers}
@@ -21,8 +21,8 @@ def generateTestGraphData():
 
 
 ## test the function
-if __name__ == "__main__":
-    b, a = generateTestGraphData()
-    # print the json from a random ego network
-    print(b)
-    print(a[b[0]].getGraphJSON())
+# if __name__ == "__main__":
+#     b, a = generateTestGraphData()
+#     # print the json from a random ego network
+#     print(b)
+#     print(a[b[0]].getGraphJSON())

@@ -117,7 +117,6 @@ class egoGraph:
         """
         self_neighbors = self.getNeighbors()
         target_neighbors = target.getNeighbors()
-        print("ABC", target_neighbors)
         # union of t1 and t2 neighbors
         all_self = (
             self_neighbors["t1_neighbors"]
@@ -184,11 +183,10 @@ class egoGraph:
         )
         len4_prop = len(len4_intersection)
         total_prop = len1_prop + len2_prop + len3_prop + len4_prop
-        print(total_prop == len(intersection))
-        len1_prop = len1_prop / total_prop
-        len2_prop = len2_prop / total_prop
-        len3_prop = len3_prop / total_prop
-        len4_prop = len4_prop / total_prop
+        len1_prop =  0 if total_prop == 0 else len1_prop / total_prop
+        len2_prop = 0 if total_prop == 0 else len2_prop / total_prop
+        len3_prop = 0 if total_prop == 0 else len3_prop / total_prop
+        len4_prop = 0 if total_prop == 0 else len4_prop / total_prop
 
         # calulate the jaccard index of the intersection
         jaccard = len(intersection) / (
