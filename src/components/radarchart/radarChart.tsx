@@ -87,10 +87,6 @@ const RadarChart = (props: RadarChartProps) => {
   return (
     <g>
       {pieChartSegments.map(({ classification, startAngle, endAngle }) => {
-        const midAngle = (startAngle + endAngle) / 2;
-        const textX = Math.cos(midAngle) * TEXT_RADIUS;
-        const textY = Math.sin(midAngle) * TEXT_RADIUS;
-
         return (
           <g key={classification}>
             <path
