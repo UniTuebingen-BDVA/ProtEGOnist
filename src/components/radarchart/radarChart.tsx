@@ -77,12 +77,11 @@ const RadarChart = (props: RadarChartProps) => {
     return acc;
   }, [] as { classification: string; startAngle: number; endAngle: number }[]);
 
-  //draw a circle svg for each intersectionDatum with a radius of the setSize.
+  // draw a circle svg for each intersectionDatum with a radius of the setSize.
   // place the node with tarNode as the center of the svg.
   // position each of remaining in a circle around the center of the svg such that we only have a single revolution but also allow for some space between the circles.
   // circles with a higher jaccard index value are drawn closer to the center of the svg. with the minimum radius being 10 and the maximum radius being 200.
   // also add a circular grid to the svg to make it easier to see the distance between the circles.
-  // the grid is drawn with a radius of 50, 100, 150 and 200.
   // draw a pie chart segment for each classification in the data in a lighter shader of the corresponding color to indicate the classification of the intersectionDatum.
   // add labels to the pie chart segments to indicate the classification of the intersectionDatum.
   return (
