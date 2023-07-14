@@ -9,6 +9,8 @@ class Intersection(TypedDict):
     """
 
     intersection: list[str | int]
+    classification: str
+    setSize: int
     jaccard: float
     len1Proportion: float
     len2Proportion: float
@@ -44,6 +46,24 @@ class egoGraph:
         self.node = node
         self.nxGraph: nx.Graph = nx.ego_graph(graph, node, radius=2)
 
+    def getNodeAttributes(self, id) -> dict[str, str | int]:
+        """
+        Returns the attributes of a node.
+
+        Parameters:
+            id: The id of the node.
+
+        Returns:
+            The attributes of the node.
+        """
+        attribs = self.nxGraph.nodes[id]
+        # check if name and classification are in the attributes if not add them
+        if "name" not in attribs:
+            attribs["name"] = id
+        if "classification" not in attribs:
+            attribs["classification"] = "default"
+        return attribs
+
     def getGraphJSON(self) -> str:
         """
         Returns the graph object as a serialized JSON representation.
@@ -57,6 +77,8 @@ class egoGraph:
         for node in node_link_data["nodes"]:
             if "name" not in node:
                 node["name"] = node["id"]
+            if "class" not in node:
+                node["class"] = "default"
             node["originalID"] = node["id"]
             node["id"] = str(self.node) + "_" + str(node["id"])
 
@@ -183,7 +205,7 @@ class egoGraph:
         )
         len4_prop = len(len4_intersection)
         total_prop = len1_prop + len2_prop + len3_prop + len4_prop
-        len1_prop =  0 if total_prop == 0 else len1_prop / total_prop
+        len1_prop = 0 if total_prop == 0 else len1_prop / total_prop
         len2_prop = 0 if total_prop == 0 else len2_prop / total_prop
         len3_prop = 0 if total_prop == 0 else len3_prop / total_prop
         len4_prop = 0 if total_prop == 0 else len4_prop / total_prop
@@ -195,6 +217,8 @@ class egoGraph:
 
         out_dict: Intersection = {
             "intersection": intersection,
+            "classification": self.nxGraph.nodes[self.node]["classification"],
+            "setSize": len(self.nxGraph.nodes),
             "jaccard": jaccard,
             "len1Proportion": len1_prop,
             "len2Proportion": len2_prop,

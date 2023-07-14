@@ -15,6 +15,8 @@ export interface egoGraph {
 
 export type intersectionDatum = {
   intersection: (string | number)[];
+  classification: string;
+  setSize: number;
   jaccard: number;
   len1Proportion: number;
   len2Proportion: number;

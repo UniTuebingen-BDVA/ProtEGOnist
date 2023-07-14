@@ -9,11 +9,16 @@ def generateTestGraphData():
     # add attributes to nodes with the name of the node being the id
     for node in G.nodes:
         G.nodes[node]["name"] = str(node)
+    random.seed(32)
+    # add a class attribute randomly out of ['A','B', 'C', 'D', 'E']  to each node
+    for node in G.nodes:
+        G.nodes[node]["classification"] = random.choice(["A", "B", "C", "D", "E"])
 
     # print amount of nodes
-    #print("Graph nodes: ", G.number_of_nodes())
+    # print("Graph nodes: ", G.number_of_nodes())
     # generate 40 unique random numbers between 0 and 9842 with fixed seed
     random.seed(32)
+
     random_numbers = random.sample(range(0, 1093), 40)
 
     ego_networks = {i: egoGraph(i, G) for i in random_numbers}
