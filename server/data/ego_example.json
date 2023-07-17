@@ -6,55 +6,68 @@
   "nodes": [
     {
       "name": "a",
-      "id": "id2"
+      "id": "id2",
+      "centerDist": 1
     },
     {
       "name": "b",
-      "id": "id3"
+      "id": "id3",
+      "centerDist": 1
     },
     {
       "name": "c",
-      "id": "id4"
+      "id": "id4",
+      "centerDist": 1
     },
     {
       "name": "d",
-      "id": "id5"
+      "id": "id5",
+      "centerDist": 1
     },
     {
       "name": "e",
-      "id": "id6"
+      "id": "id6",
+      "centerDist": 1
     },
     {
       "name": "f",
-      "id": "id7"
+      "id": "id7",
+      "centerDist": 1
     },
     {
       "name": "g",
-      "id": "id8"
+      "id": "id8",
+      "centerDist": 1
     },
     {
       "name": "h",
-      "id": "id9"
+      "id": "id9",
+      "centerDist": 2
+    },
+    {
+      "name": "h",
+      "id": "id10",
+      "centerDist": 2
     },
         {
       "name": "h",
-      "id": "id10"
+      "id": "id11",
+      "centerDist": 2
     },
         {
       "name": "h",
-      "id": "id11"
+      "id": "id12",
+      "centerDist": 2
     },
         {
       "name": "h",
-      "id": "id12"
+      "id": "id13",
+      "centerDist": 2
     },
         {
       "name": "h",
-      "id": "id13"
-    },
-        {
-      "name": "h",
-      "id": "id14"
+      "id": "id14",
+      "centerDist": 2
     }
   ],
   "edges": [

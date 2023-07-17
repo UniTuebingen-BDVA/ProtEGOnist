@@ -1,26 +1,20 @@
-import React, {useCallback, useMemo, useState} from "react";
+import React, {useCallback, useMemo} from "react";
 import * as d3 from "d3";
 import {useAtom} from "jotai";
 
-import {graphAtom, nodesAtomsAtom, numEdgesMinMax} from "./egoStore.ts";
+import {graphAtom, nodesAtomsAtom, colorScaleAtom, nodeRadiusAtom, centerPointAtom, collapsedAtom} from "./egoStore.ts";
 import {EgographNode} from "./egographNode.tsx";
+import {graphSizeAtom} from "./networkStore.ts";
 
 
 const Egograph = () => {
-    const egoGraphSize = 200;
-    const radius = 5
+    const [egoGraphSize] = useAtom(graphSizeAtom);
     const [layout] = useAtom(graphAtom);
     const [nodeAtoms] = useAtom(nodesAtomsAtom);
-    const [numEdges]=useAtom(numEdgesMinMax)
-    const [collapsed, setCollapsed] = useState(true);
-    const colorScale= d3.scaleLinear<string,number>().range(["white", "black"]).domain(numEdges)
-    const nodeRadius = useMemo(() => {
-        return (radius > layout.maxradius ? layout.maxradius : radius)
-    }, [layout.maxradius]);
-    const centerPoint = useMemo(() => {
-        return ({x: egoGraphSize / 2 - nodeRadius, y: egoGraphSize / 2 - nodeRadius})
-    }, [nodeRadius])
-    const translate = {x: -egoGraphSize / 2 + radius, y: -egoGraphSize / 2 + radius}
+    const [colorScale] = useAtom(colorScaleAtom);
+    const [collapsed, setCollapsed] = useAtom(collapsedAtom);
+    const [nodeRadius] = useAtom(nodeRadiusAtom);
+    const [centerPoint] = useAtom(centerPointAtom);
 
     const selectElements = useCallback((element: ParentNode) => {
         const childNodes = element.children;
@@ -69,7 +63,7 @@ const Egograph = () => {
                     )
             }
         }
-    }, [centerPoint, layout.edges, layout.nodes, selectElements]);
+    }, [centerPoint.x, centerPoint.y, layout.edges, layout.nodes, selectElements, setCollapsed]);
 
     const updateLayout = useCallback((element: SVGElement | null) => {
         if (!collapsed && element) {
@@ -83,10 +77,11 @@ const Egograph = () => {
                                    cx={centerPoint.x} cy={centerPoint.y} r={nodeRadius} fill={"white"}/>
         } else {
             circles = layout.nodes.map((node, i) => {
-                return (<EgographNode centerPoint={centerPoint} nodeRadius={nodeRadius} nodeAtom={nodeAtoms[i]} fill={String(colorScale(node.numEdges))}/>)
+                return (<EgographNode key={node.id} centerPoint={centerPoint} nodeRadius={nodeRadius}
+                                      nodeAtom={nodeAtoms[i]} fill={String(colorScale(node.numEdges))}/>)
             })
             lines = layout.edges.map(edge => {
-                let isVisible = false;
+                let isVisible;
                 if (edge.target !== -1) {
                     isVisible = layout.nodes[edge.source].hovered || layout.nodes[edge.target].hovered;
                 } else {
@@ -98,7 +93,7 @@ const Egograph = () => {
             })
         }
         return (<g ref={(node) => updateLayout(node)}
-                   transform={"translate(" + String(translate.x) + "," + String(translate.y) + ")"}
+                   transform={"translate(" + String(-egoGraphSize / 2 + nodeRadius) + "," + String(-egoGraphSize / 2 + nodeRadius) + ")"}
                    onMouseLeave={(event) => removeLayout(event)}>
             <circle cx={centerPoint.x}
                     cy={centerPoint.y}
@@ -110,7 +105,7 @@ const Egograph = () => {
             {circles}
             {centerCircle}
         </g>)
-    }, [centerPoint, collapsed, colorScale, layout.edges, layout.nodes, nodeAtoms, nodeRadius, removeLayout, translate.x, translate.y, updateLayout])
+    }, [centerPoint, collapsed, colorScale, egoGraphSize, layout.edges, layout.nodes, nodeAtoms, nodeRadius, removeLayout, setCollapsed, updateLayout])
 
     return (elements)
 }
