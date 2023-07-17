@@ -4,7 +4,7 @@ import axios, {AxiosResponse} from "axios";
 import Egograph from "./components/egograph/egograph.tsx";
 import {calculateEgoLayout} from "./components/egograph/egolayout.ts";
 import {useAtom} from "jotai";
-import { intersectionDatum, egoGraph } from "./egoGraphSchema";
+import {intersectionDatum, egoGraph} from "./egoGraphSchema";
 import {graphAtom} from "./components/egograph/egoStore.ts";
 import {graphSizeAtom, minRadiusAtom} from "./components/egograph/networkStore.ts";
 import RadarChart from "./components/radarchart/radarChart";
@@ -46,14 +46,15 @@ function App() {
             <>
                 <svg width={posX * 2} height={posY * 2}>
                     <g transform={"translate(" + String(posX) + "," + String(posY) + ")"}>
-                        <Egograph/>
-                    </g>
-                </svg>
-                <svg width={posX * 2} height={posY * 2}>
-                    <g transform={"translate(" + String(posX) + "," + String(posY) + ")"}>
                         <RadarChart intersectionData={intersectionData} tarNode={tarNode}/>
                     </g>
                 </svg>
+                <svg width={posX*2} height={posY*2}>
+                    <g transform={"translate(" + String(posX) + "," + String(posY) + ")"}>
+                        <Egograph/>
+                    </g>
+                </svg>
+
             </>
         )
     } else return null;

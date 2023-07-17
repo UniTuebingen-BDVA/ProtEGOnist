@@ -21,5 +21,5 @@ export const EgographNode = (props: egographNodeProps) => {
         cy={centerPoint.y}
         r={nodeRadius}
         fill={fill}
-        stroke={"white"}/>)
+        stroke={"black"}/>)
 }

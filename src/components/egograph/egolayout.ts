@@ -1,6 +1,6 @@
-import {egoGraph, egoGraphEdge, egoGraphNode} from "../../App.tsx";
 import * as d3 from "d3";
 import {polarToCartesian} from "../../UtilityFunctions.ts";
+import {egoGraph, egoGraphEdge, egoGraphNode} from "../../egoGraphSchema.ts";
 
 export type layoutNode = egoGraphNode & {
     isCenter: boolean;

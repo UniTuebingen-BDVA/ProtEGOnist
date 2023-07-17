@@ -74,7 +74,7 @@ const Egograph = () => {
         let centerCircle, circles, lines = null
         if (collapsed) {
             centerCircle = <circle onMouseEnter={() => setCollapsed(false)}
-                                   cx={centerPoint.x} cy={centerPoint.y} r={nodeRadius} fill={"white"}/>
+                                   cx={centerPoint.x} cy={centerPoint.y} r={nodeRadius} fill={"black"}/>
         } else {
             circles = layout.nodes.map((node, i) => {
                 return (<EgographNode key={node.id} centerPoint={centerPoint} nodeRadius={nodeRadius}
@@ -89,7 +89,7 @@ const Egograph = () => {
                 }
                 return <line key={String(edge.source) + String(edge.target)} x1={centerPoint.x} x2={centerPoint.x}
                              y1={centerPoint.y}
-                             y2={centerPoint.y} stroke={isVisible ? "white" : "none"}/>
+                             y2={centerPoint.y} stroke={isVisible ? "black" : "none"}/>
             })
         }
         return (<g ref={(node) => updateLayout(node)}
