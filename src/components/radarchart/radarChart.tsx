@@ -44,6 +44,7 @@ const RadarChart = (props: RadarChartProps) => {
     .scaleOrdinal()
     .domain(sortedIntersectionData.map((d) => d[1].classification))
     .range(d3.schemeCategory10);
+
   // calculate the propotion of each classification in the data such that we can use it to calulate the size of the pie chart segments used to indicate the classification of the intersectionDatum.
   const classificationProportions = sortedIntersectionData.reduce(
     (acc, [key, intersectionDatum]) => {
@@ -83,10 +84,28 @@ const RadarChart = (props: RadarChartProps) => {
   // circles with a higher jaccard index value are drawn closer to the center of the svg. with the minimum radius being 10 and the maximum radius being 200.
   // also add a circular grid to the svg to make it easier to see the distance between the circles.
   // draw a pie chart segment for each classification in the data in a lighter shader of the corresponding color to indicate the classification of the intersectionDatum.
-  // add labels to the pie chart segments to indicate the classification of the intersectionDatum.
+  // add labels to the pie chart segments to indicate the classification of the intersectionDatum, if the label starts on the bottom half of the circle flip the lable so that the lable is more easily readable.
   return (
     <g>
+      <path
+        id={`textPath-Clockwise`}
+        d={`M 0 ${-TEXT_RADIUS} 
+        A ${TEXT_RADIUS} ${TEXT_RADIUS} 0 0 1 0 ${TEXT_RADIUS}
+        A ${TEXT_RADIUS} ${TEXT_RADIUS} 0 0 1 0 ${-TEXT_RADIUS}`}
+        fill='none'
+      />
+      <path
+        id={`textPath-Counterclockwise`}
+        d={`M 0 ${-TEXT_RADIUS} 
+        A ${TEXT_RADIUS} ${TEXT_RADIUS} 0 0 0 1 ${TEXT_RADIUS}
+        A ${TEXT_RADIUS} ${TEXT_RADIUS} 0 0 0 1 ${-TEXT_RADIUS}`}
+        fill='none'
+      />
       {pieChartSegments.map(({ classification, startAngle, endAngle }) => {
+        const midAngle = (startAngle + endAngle) / 2;
+        const flipLabel =
+          midAngle > Math.PI / 2 && midAngle < (3 * Math.PI) / 2;
+        const startOffset = (flipLabel ? midAngle : midAngle) * TEXT_RADIUS;
         return (
           <g key={classification}>
             <path
@@ -100,22 +119,12 @@ const RadarChart = (props: RadarChartProps) => {
               fill={colorScale(classification)}
               opacity={0.1}
             />
-            <defs>
-              <path
-                id={`textPath-${classification}`}
-                d={`M ${Math.cos(startAngle) * TEXT_RADIUS} ${
-                  Math.sin(startAngle) * TEXT_RADIUS
-                } A ${TEXT_RADIUS} ${TEXT_RADIUS} 0 ${
-                  endAngle - startAngle > Math.PI ? 1 : 0
-                } 1 ${Math.cos(endAngle) * TEXT_RADIUS} ${
-                  Math.sin(endAngle) * TEXT_RADIUS
-                }`}
-              />
-            </defs>
             <text fill={colorScale(classification)} fontSize='18px'>
               <textPath
-                xlinkHref={`#textPath-${classification}`}
-                startOffset='50%'
+                xlinkHref={`#textPath-${
+                  flipLabel ? "Counterclockwise" : "Clockwise"
+                }`}
+                startOffset={startOffset}
               >
                 {classification}
               </textPath>
@@ -147,29 +156,32 @@ const RadarChart = (props: RadarChartProps) => {
       {sortedIntersectionData.map(([key, intersectionDatum], index) => {
         console.log(intersectionLengthScale(intersectionDatum.setSize));
         return (
-          <circle
-            key={key}
-            cx={
-              Math.cos(
-                ((index + 0.5) * 2 * Math.PI) / sortedIntersectionData.length
-              ) *
-              (GUIDE_CIRCLE_RADIUS -
-                intersectionDatum.jaccard * GUIDE_CIRCLE_RADIUS)
-            }
-            cy={
-              Math.sin(
-                ((index + 0.5) * 2 * Math.PI) / sortedIntersectionData.length
-              ) *
-              (GUIDE_CIRCLE_RADIUS -
-                intersectionDatum.jaccard * GUIDE_CIRCLE_RADIUS)
-            }
-            r={
-              CIRCLE_RADIUS +
-              intersectionLengthScale(intersectionDatum.setSize) * CIRCLE_RADIUS
-            }
-            fill={colorScale(intersectionDatum.classification)}
-            opacity={0.7}
-          />
+          <>
+            <circle
+              key={key}
+              cx={
+                Math.cos(
+                  ((index + 0.5) * 2 * Math.PI) / sortedIntersectionData.length
+                ) *
+                (GUIDE_CIRCLE_RADIUS -
+                  intersectionDatum.jaccard * GUIDE_CIRCLE_RADIUS)
+              }
+              cy={
+                Math.sin(
+                  ((index + 0.5) * 2 * Math.PI) / sortedIntersectionData.length
+                ) *
+                (GUIDE_CIRCLE_RADIUS -
+                  intersectionDatum.jaccard * GUIDE_CIRCLE_RADIUS)
+              }
+              r={
+                CIRCLE_RADIUS +
+                intersectionLengthScale(intersectionDatum.setSize) *
+                  CIRCLE_RADIUS
+              }
+              fill={colorScale(intersectionDatum.classification)}
+              opacity={0.7}
+            />
+          </>
         );
       })}
       <circle cx={0} cy={0} r={10} fill={"red"} />
