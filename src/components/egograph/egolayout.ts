@@ -2,10 +2,12 @@ import {egoGraph, egoGraphEdge, egoGraphNode} from "../../App.tsx";
 import * as d3 from "d3";
 import {polarToCartesian} from "../../UtilityFunctions.ts";
 
-type layoutNode = egoGraphNode & {
+export type layoutNode = egoGraphNode & {
     isCenter: boolean;
     cx: number;
     cy: number;
+    hovered: boolean;
+    numEdges: number;
 }
 type layoutEdge = egoGraphEdge & {
     x1: number;
@@ -17,9 +19,10 @@ type layoutEdge = egoGraphEdge & {
 export interface egoGraphLayout {
     nodes: layoutNode[];
     edges: layoutEdge[];
+    maxradius: number;
 }
 
-export function calculateEgoLayout(graph: egoGraph, size: number) {
+export function calculateEgoLayout(graph: egoGraph, size: number): egoGraphLayout {
     const nodes: layoutNode[] = [];
     const edges: layoutEdge[] = [];
     const x = d3.scaleBand()
@@ -28,7 +31,14 @@ export function calculateEgoLayout(graph: egoGraph, size: number) {
     const maxradius: number = (((size / 2) / Math.sin(((180 - x.bandwidth()) / 2) * Math.PI / 180)) * Math.sin(x.bandwidth() * Math.PI / 180)) / 2;
     graph.nodes.forEach(node => {
         const nodeCoords = polarToCartesian(size / 2, size / 2, size / 2, x(node.id)!);
-        const currNode: layoutNode = {...node, isCenter: false, cx: nodeCoords.x, cy: nodeCoords.y};
+        const currNode: layoutNode = {
+            ...node,
+            isCenter: false,
+            cx: nodeCoords.x,
+            cy: nodeCoords.y,
+            hovered: false,
+            numEdges: 1
+        };
         nodes.push(currNode);
     })
     graph.edges.forEach((edge) => {
@@ -40,10 +50,19 @@ export function calculateEgoLayout(graph: egoGraph, size: number) {
             y2: nodes[edge.target].cy
         };
         edges.push(currEdge);
+        nodes[edge.source].numEdges += 1
+        nodes[edge.target].numEdges += 1
     })
     nodes.forEach((node, i) => {
         edges.push({source: i, target: -1, x1: node.cx, y1: node.cy, x2: size / 2, y2: size / 2})
     })
-    nodes.push({...graph.centerNode, isCenter: true, cx: size / 2, cy: size / 2})
+    nodes.push({
+        ...graph.centerNode,
+        isCenter: true,
+        cx: size / 2,
+        cy: size / 2,
+        hovered: false,
+        numEdges: nodes.length - 1
+    })
     return {nodes, edges, maxradius}
 }
