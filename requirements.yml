@@ -1,0 +1,12 @@
+name: biovischallenge
+channels:
+  - defaults
+dependencies:
+  - python=3.11
+  - seaborn
+  - scipy
+  - networkx
+  - jupyter
+  - flask
+  - openpyxl
+  - pytest
