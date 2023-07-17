@@ -22,15 +22,14 @@ export interface egoGraphLayout {
     maxradius: number;
 }
 
-export function calculateEgoLayout(graph: egoGraph, size: number): egoGraphLayout {
+function createLayerNodes(layerNodes: egoGraphNode[], center:number, radius: number) {
     const nodes: layoutNode[] = [];
-    const edges: layoutEdge[] = [];
     const x = d3.scaleBand()
         .range([0, 360])
-        .domain(graph.nodes.map(d => d.id))
-    const maxradius: number = (((size / 2) / Math.sin(((180 - x.bandwidth()) / 2) * Math.PI / 180)) * Math.sin(x.bandwidth() * Math.PI / 180)) / 2;
-    graph.nodes.forEach(node => {
-        const nodeCoords = polarToCartesian(size / 2, size / 2, size / 2, x(node.id)!);
+        .domain(layerNodes.map(d => d.id))
+    const maxradius: number = (((center) / Math.sin(((180 - x.bandwidth()) / 2) * Math.PI / 180)) * Math.sin(x.bandwidth() * Math.PI / 180)) / 2;
+    layerNodes.forEach(node => {
+        const nodeCoords = polarToCartesian(center, center, radius, x(node.id)!);
         const currNode: layoutNode = {
             ...node,
             isCenter: false,
@@ -41,6 +40,16 @@ export function calculateEgoLayout(graph: egoGraph, size: number): egoGraphLayou
         };
         nodes.push(currNode);
     })
+    return {nodes, maxradius};
+}
+
+export function calculateEgoLayout(graph: egoGraph, innerSize: number, outerSize: number): egoGraphLayout {
+    const nodesLayer1 = graph.nodes.filter(d => d.centerDist === 1)
+    const nodesLayer2 = graph.nodes.filter(d => d.centerDist === 2)
+    const nodesLayer1Layout = createLayerNodes(nodesLayer1, outerSize,innerSize);
+    const nodesLayer2Layout = createLayerNodes(nodesLayer2, outerSize,outerSize);
+    const nodes: layoutNode[] = nodesLayer1Layout.nodes.concat(nodesLayer2Layout.nodes);
+    const edges: layoutEdge[] = [];
     graph.edges.forEach((edge) => {
         const currEdge: layoutEdge = {
             ...edge,
@@ -54,15 +63,17 @@ export function calculateEgoLayout(graph: egoGraph, size: number): egoGraphLayou
         nodes[edge.target].numEdges += 1
     })
     nodes.forEach((node, i) => {
-        edges.push({source: i, target: -1, x1: node.cx, y1: node.cy, x2: size / 2, y2: size / 2})
+        if (node.centerDist === 1) {
+            edges.push({source: i, target: -1, x1: node.cx, y1: node.cy, x2: outerSize, y2: outerSize})
+        }
     })
     nodes.push({
         ...graph.centerNode,
         isCenter: true,
-        cx: size / 2,
-        cy: size / 2,
+        cx: outerSize,
+        cy: outerSize,
         hovered: false,
         numEdges: nodes.length - 1
     })
-    return {nodes, edges, maxradius}
+    return {nodes, edges, maxradius: Math.min(nodesLayer1Layout.maxradius, nodesLayer2Layout.maxradius)}
 }

@@ -4,7 +4,7 @@ import {useAtom} from "jotai";
 
 import {graphAtom, nodesAtomsAtom, colorScaleAtom, nodeRadiusAtom, centerPointAtom, collapsedAtom} from "./egoStore.ts";
 import {EgographNode} from "./egographNode.tsx";
-import {graphSizeAtom} from "./networkStore.ts";
+import {graphSizeAtom, innerRadiusAtom, outerRadiusAtom} from "./networkStore.ts";
 
 
 const Egograph = () => {
@@ -15,6 +15,8 @@ const Egograph = () => {
     const [collapsed, setCollapsed] = useAtom(collapsedAtom);
     const [nodeRadius] = useAtom(nodeRadiusAtom);
     const [centerPoint] = useAtom(centerPointAtom);
+    const [innerRadius]=useAtom(innerRadiusAtom);
+    const [outerRadius]=useAtom(outerRadiusAtom);
 
     const selectElements = useCallback((element: ParentNode) => {
         const childNodes = element.children;
@@ -71,7 +73,7 @@ const Egograph = () => {
         }
     }, [applyLayout, collapsed])
     const elements = useMemo(() => {
-        let centerCircle, circles, lines = null
+        let centerCircle, circles, lines, innerCircle, outerCircle = null
         if (collapsed) {
             centerCircle = <circle onMouseEnter={() => setCollapsed(false)}
                                    cx={centerPoint.x} cy={centerPoint.y} r={nodeRadius} fill={"black"}/>
@@ -80,6 +82,9 @@ const Egograph = () => {
                 return (<EgographNode key={node.id} centerPoint={centerPoint} nodeRadius={nodeRadius}
                                       nodeAtom={nodeAtoms[i]} fill={String(colorScale(node.numEdges))}/>)
             })
+            innerCircle=<circle id={"background"} cx={centerPoint.x+nodeRadius} cy={centerPoint.y+nodeRadius} r={innerRadius} fill={"none"} stroke={"black"}/>
+            outerCircle=<circle id={"background"} cx={centerPoint.x+nodeRadius} cy={centerPoint.y+nodeRadius} r={outerRadius} fill={"none"} stroke={"black"}/>
+
             lines = layout.edges.map(edge => {
                 let isVisible;
                 if (edge.target !== -1) {
@@ -101,11 +106,13 @@ const Egograph = () => {
                     id={"background"}
                     fill={"none"}
                     pointerEvents={"visible"}/>
+            {innerCircle}
+            {outerCircle}
             {lines}
             {circles}
             {centerCircle}
         </g>)
-    }, [centerPoint, collapsed, colorScale, egoGraphSize, layout.edges, layout.nodes, nodeAtoms, nodeRadius, removeLayout, setCollapsed, updateLayout])
+    }, [centerPoint, collapsed, colorScale, egoGraphSize, innerRadius, layout.edges, layout.nodes, nodeAtoms, nodeRadius, outerRadius, removeLayout, setCollapsed, updateLayout])
 
     return (elements)
 }

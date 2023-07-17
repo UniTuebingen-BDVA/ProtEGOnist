@@ -1,8 +1,8 @@
 import os
-import json
 from flask import Flask, request
 import json
 from server.python_scripts.sampleGraph import generateTestGraphData
+from server.python_scripts.sampleGraph import generateRandomEgoGraph
 
 app = Flask(__name__, static_folder="../dist", static_url_path="/")
 here = os.path.dirname(__file__)
@@ -42,5 +42,5 @@ def testEgoRadar():
         i: test_ego_networks[i].getIntersection(test_ego_networks[tar_node])
         for i in ids
     }
-    print(intersection_dict)
+    #print(intersection_dict)
     return json.dumps({"intersectionData": intersection_dict, "tarNode": tar_node})

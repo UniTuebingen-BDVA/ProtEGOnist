@@ -98,7 +98,6 @@ class egoGraph:
             if self.nxGraph.nodes[self.node]["name"]
             else self.node,
         }
-
         return json.dumps(node_link_data)
 
     def getNeighbors(self) -> dict[str, list[str | int]]:

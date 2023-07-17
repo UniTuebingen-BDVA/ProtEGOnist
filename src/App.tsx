@@ -6,21 +6,23 @@ import {calculateEgoLayout} from "./components/egograph/egolayout.ts";
 import {useAtom} from "jotai";
 import {intersectionDatum, egoGraph} from "./egoGraphSchema";
 import {graphAtom} from "./components/egograph/egoStore.ts";
-import {graphSizeAtom, minRadiusAtom} from "./components/egograph/networkStore.ts";
+import {graphSizeAtom, innerRadiusAtom, outerRadiusAtom} from "./components/egograph/networkStore.ts";
 import RadarChart from "./components/radarchart/radarChart";
 
 
 function App() {
     const [egoGraph, setEgoGraph] = useAtom(graphAtom);
     const [graphSize] = useAtom(graphSizeAtom);
-    const [minRadius] = useAtom(minRadiusAtom)
+    const [innerRadius] = useAtom(innerRadiusAtom);
+    const [outerRadius] = useAtom(outerRadiusAtom);
+
     const [intersectionData, setIntersectionData] = useState<{
         [name: string | number]: intersectionDatum;
     } | null>(null);
     const [tarNode, setTarNode] = useState<string | null>(null);
     useEffect(() => {
         axios.get<egoGraph>("/api/test_data_egograph").then((response: AxiosResponse<egoGraph>) => {
-            setEgoGraph(calculateEgoLayout(response.data, graphSize - 2 * minRadius))
+            setEgoGraph(calculateEgoLayout(response.data, innerRadius, outerRadius))
         }).catch((error) => {
                 console.log(error)
             }
@@ -38,7 +40,7 @@ function App() {
             .catch((error) => {
                 console.log(error);
             });
-    }, [graphSize, minRadius, setEgoGraph])
+    }, [innerRadius, outerRadius, setEgoGraph])
     if (egoGraph !== null && intersectionData !== null && tarNode !== null) {
         const posX = graphSize / 2;
         const posY = graphSize / 2;
@@ -49,7 +51,7 @@ function App() {
                         <RadarChart intersectionData={intersectionData} tarNode={tarNode}/>
                     </g>
                 </svg>
-                <svg width={posX*2} height={posY*2}>
+                <svg width={posX * 2} height={posY * 2}>
                     <g transform={"translate(" + String(posX) + "," + String(posY) + ")"}>
                         <Egograph/>
                     </g>
