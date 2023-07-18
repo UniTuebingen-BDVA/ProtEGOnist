@@ -25,9 +25,9 @@ export interface egoGraphLayout {
 function createLayerNodes(layerNodes: egoGraphNode[], center:number, radius: number) {
     const nodes: layoutNode[] = [];
     const x = d3.scaleBand()
-        .range([0, 360])
+        .range([0, 2*Math.PI])
         .domain(layerNodes.map(d => d.id))
-    const maxradius: number = (((center) / Math.sin(((180 - x.bandwidth()) / 2) * Math.PI / 180)) * Math.sin(x.bandwidth() * Math.PI / 180)) / 2;
+    const maxradius: number = (((center) / Math.sin((2*Math.PI - x.bandwidth()) / 2)) * Math.sin(x.bandwidth() )) / 2;
     layerNodes.forEach(node => {
         const nodeCoords = polarToCartesian(center, center, radius, x(node.id)!);
         const currNode: layoutNode = {

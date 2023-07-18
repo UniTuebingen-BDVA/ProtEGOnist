@@ -82,8 +82,8 @@ const Egograph = () => {
                 return (<EgographNode key={node.id} centerPoint={centerPoint} nodeRadius={nodeRadius}
                                       nodeAtom={nodeAtoms[i]} fill={String(colorScale(node.numEdges))}/>)
             })
-            innerCircle=<circle id={"background"} cx={centerPoint.x+nodeRadius} cy={centerPoint.y+nodeRadius} r={innerRadius} fill={"none"} stroke={"black"}/>
-            outerCircle=<circle id={"background"} cx={centerPoint.x+nodeRadius} cy={centerPoint.y+nodeRadius} r={outerRadius} fill={"none"} stroke={"black"}/>
+            innerCircle=<circle id={"background"} cx={centerPoint.x} cy={centerPoint.y} r={innerRadius} fill={"none"} stroke={"lightgray"}/>
+            outerCircle=<circle id={"background"} cx={centerPoint.x} cy={centerPoint.y} r={outerRadius} fill={"none"} stroke={"lightgray"}/>
 
             lines = layout.edges.map(edge => {
                 let isVisible;
