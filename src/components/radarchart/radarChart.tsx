@@ -14,6 +14,7 @@ const RadarChart = (props: RadarChartProps) => {
     const GUIDE_CIRCLE_RADIUS_MIN = baseRadius / 4;
     const TEXT_RADIUS = baseRadius + 20;
     const CIRCLE_RADIUS = baseRadius / 20;
+    const LEGEND_ANGLE = 0 * (Math.PI / 180);
     //generate a linear scale for the size of the intersection property in each intersectionDatum
     const intersectionLengthScale = d3
         .scaleLinear()
@@ -84,6 +85,7 @@ const RadarChart = (props: RadarChartProps) => {
     // position each of remaining in a circle around the center of the svg such that we only have a single revolution but also allow for some space between the circles.
     // circles with a higher jaccard index value are drawn closer to the center of the svg. with the minimum radius being 10 and the maximum radius being 200.
     // also add a circular grid to the svg to make it easier to see the distance between the circles.
+    // add a single spoke with labels acting as a radial axis to indicate the jaccard index value of the circular grid.
     // draw a pie chart segment for each classification in the data in a lighter shader of the corresponding color to indicate the classification of the intersectionDatum.
     // add labels to the pie chart segments to indicate the classification of the intersectionDatum, if the label starts on the bottom half of the circle flip the lable so that the lable is more easily readable.
     return (
@@ -149,6 +151,14 @@ const RadarChart = (props: RadarChartProps) => {
                     );
                 }
             )}
+            <line
+                x1={0}
+                y1={0}
+                x2={Math.cos(LEGEND_ANGLE) * GUIDE_CIRCLE_RADIUS}
+                y2={Math.sin(LEGEND_ANGLE) * GUIDE_CIRCLE_RADIUS}
+                stroke="black"
+                opacity={0.1}
+            />
             {
                 // draw a circle with increasing radius to indicate the distance from the center of the svg.
                 // the radii lie between CIRCLE_RADIUS_MIN and CIRCLE_RADIUS and are spaced CIRCLE_RADIUS_STEP apart.
@@ -159,19 +169,31 @@ const RadarChart = (props: RadarChartProps) => {
                         )
                     },
                     (_, index) => {
+                        const radius =
+                            GUIDE_CIRCLE_RADIUS_MIN + GUIDE_CIRCLE_STEP * index;
+                        const x = Math.cos(LEGEND_ANGLE) * radius;
+                        const y = Math.sin(LEGEND_ANGLE) * radius;
                         return (
-                            <circle
-                                key={index}
-                                cx={0}
-                                cy={0}
-                                r={
-                                    GUIDE_CIRCLE_RADIUS_MIN +
-                                    GUIDE_CIRCLE_STEP * index
-                                }
-                                fill={'none'}
-                                stroke={'black'}
-                                opacity={0.1}
-                            />
+                            <g key={radius}>
+                                <circle
+                                    cx={0}
+                                    cy={0}
+                                    r={radius}
+                                    fill="none"
+                                    stroke="black"
+                                    opacity={0.1}
+                                />
+                                <text
+                                    x={x}
+                                    y={y}
+                                    dx="1em"
+                                    textAnchor="middle"
+                                    fontSize="12px"
+                                    opacity={0.5}
+                                >
+                                    {1 - radius / GUIDE_CIRCLE_RADIUS}
+                                </text>
+                            </g>
                         );
                     }
                 )
