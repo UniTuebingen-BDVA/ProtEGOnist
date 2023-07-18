@@ -30,7 +30,7 @@ const Egograph = () => {
         const selection = selectElements(element);
         if (selection) {
             d3.selectAll(selection.circles)
-                .data(layout.nodes)
+                .data(Object.values(layout.nodes))
                 .transition()
                 .duration(200)
                 .attr("cx", d => d.cx)
@@ -50,7 +50,7 @@ const Egograph = () => {
             const selection = selectElements(event.target.parentNode);
             if (selection) {
                 d3.selectAll(selection.circles)
-                    .data(layout.nodes).transition()
+                    .data(Object.values(layout.nodes)).transition()
                     .duration(200)
                     .attr("cx", () => centerPoint.x)
                     .attr("cy", () => centerPoint.y)
@@ -78,7 +78,7 @@ const Egograph = () => {
             centerCircle = <circle onMouseEnter={() => setCollapsed(false)}
                                    cx={centerPoint.x} cy={centerPoint.y} r={nodeRadius} fill={"black"}/>
         } else {
-            circles = layout.nodes.map((node, i) => {
+            circles = Object.values(layout.nodes).map((node, i) => {
                 return (<EgographNode key={node.id} centerPoint={centerPoint} nodeRadius={nodeRadius}
                                       nodeAtom={nodeAtoms[i]} fill={String(colorScale(node.numEdges))}/>)
             })
@@ -86,12 +86,7 @@ const Egograph = () => {
             outerCircle=<circle id={"background"} cx={centerPoint.x} cy={centerPoint.y} r={outerRadius} fill={"none"} stroke={"lightgray"}/>
 
             lines = layout.edges.map(edge => {
-                let isVisible;
-                if (edge.target !== -1) {
-                    isVisible = layout.nodes[edge.source].hovered || layout.nodes[edge.target].hovered;
-                } else {
-                    isVisible = layout.nodes[edge.source].hovered;
-                }
+                const isVisible = layout.nodes[edge.sourceIndex].hovered || layout.nodes[edge.targetIndex].hovered;
                 return <line key={String(edge.source) + String(edge.target)} x1={centerPoint.x} x2={centerPoint.x}
                              y1={centerPoint.y}
                              y2={centerPoint.y} stroke={isVisible ? "black" : "none"}/>
