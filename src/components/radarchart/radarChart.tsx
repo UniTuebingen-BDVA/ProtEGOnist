@@ -103,9 +103,13 @@ const RadarChart = (props: RadarChartProps) => {
       />
       {pieChartSegments.map(({ classification, startAngle, endAngle }) => {
         const midAngle = (startAngle + endAngle) / 2;
-        const flipLabel =
-          midAngle > Math.PI / 2 && midAngle < (3 * Math.PI) / 2;
-        const startOffset = (flipLabel ? midAngle : midAngle) * TEXT_RADIUS;
+        const flipLabel = midAngle > 0 && midAngle < Math.PI;
+        const offsetParam =
+          (midAngle * TEXT_RADIUS + (Math.PI / 2) * TEXT_RADIUS) %
+          (2 * Math.PI * TEXT_RADIUS); //TODO Why do i need to calc the modulo and add the 1/2 pi?
+        const startOffset = flipLabel
+          ? Math.PI * 2 * TEXT_RADIUS - offsetParam
+          : offsetParam;
         return (
           <g key={classification}>
             <path
@@ -119,7 +123,11 @@ const RadarChart = (props: RadarChartProps) => {
               fill={colorScale(classification)}
               opacity={0.1}
             />
-            <text fill={colorScale(classification)} fontSize='18px'>
+            <text
+              fill={colorScale(classification)}
+              fontSize='18px'
+              dominantBaseline='middle'
+            >
               <textPath
                 xlinkHref={`#textPath-${
                   flipLabel ? "Counterclockwise" : "Clockwise"

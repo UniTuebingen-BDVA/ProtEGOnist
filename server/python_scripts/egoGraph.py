@@ -56,12 +56,17 @@ class egoGraph:
         Returns:
             The attributes of the node.
         """
-        attribs = self.nxGraph.nodes[id]
+        attribs = self.nxGraph.nodes(data=True)[id]
         # check if name and classification are in the attributes if not add them
         if "name" not in attribs:
             attribs["name"] = id
+        if "id" not in attribs:
+            attribs["id"] = id
         if "classification" not in attribs:
             attribs["classification"] = "default"
+        if "centerDist" not in attribs:
+            attribs["centerDist"] = nx.shortest_path_length(self.nxGraph, self.node, id)
+
         return attribs
 
     def getGraphJSON(self) -> str:
@@ -73,12 +78,19 @@ class egoGraph:
           A JSON representation of the graph object.
         """
         node_link_data = dict(nx.node_link_data(self.nxGraph, {"link": "edges"}))
+        t1_neighbors: list[str | int] = list(self.nxGraph.neighbors(self.node))
+
         # check if the nodes in node_link_data have an attribute "name" if not add the attribute "name" with the value of the attribute "id"
         for node in node_link_data["nodes"]:
             if "name" not in node:
                 node["name"] = node["id"]
-            if "class" not in node:
-                node["class"] = "default"
+            if "classification" not in node:
+                node["classification"] = "default"
+            if "centerDist" not in node:
+                if node["id"] == self.node:
+                    node["centerDist"] = 0
+                else:
+                    node["centerDist"] = 1 if node["id"] in t1_neighbors else 2
             node["originalID"] = node["id"]
             node["id"] = str(self.node) + "_" + str(node["id"])
 

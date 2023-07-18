@@ -15,7 +15,6 @@ function App() {
     const [graphSize] = useAtom(graphSizeAtom);
     const [innerRadius] = useAtom(innerRadiusAtom);
     const [outerRadius] = useAtom(outerRadiusAtom);
-
     const [intersectionData, setIntersectionData] = useState<{
         [name: string | number]: intersectionDatum;
     } | null>(null);
@@ -33,7 +32,6 @@ function App() {
                 tarNode: string;
             }>("/api/testEgoRadar")
             .then((response) => {
-                console.log(response.data);
                 setIntersectionData(response.data.intersectionData);
                 setTarNode(response.data.tarNode);
             })
@@ -51,7 +49,7 @@ function App() {
                         <RadarChart intersectionData={intersectionData} tarNode={tarNode}/>
                     </g>
                 </svg>
-                <svg width={posX * 2} height={posY * 2}>
+                <svg width={posX*2} height={posY*2}>
                     <g transform={"translate(" + String(posX) + "," + String(posY) + ")"}>
                         <Egograph/>
                     </g>
