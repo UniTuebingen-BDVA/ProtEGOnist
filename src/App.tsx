@@ -66,6 +66,7 @@ function App() {
                         <RadarChart
                             intersectionData={intersectionData}
                             tarNode={tarNode}
+                            baseRadius={posX - 30}
                         />
                     </g>
                 </svg>
