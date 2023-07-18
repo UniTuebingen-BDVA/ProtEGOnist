@@ -1,5 +1,4 @@
 import os
-import json
 from flask import Flask, request
 import json
 from server.python_scripts.sampleGraph import generateTestGraphData
