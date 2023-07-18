@@ -4,18 +4,20 @@ import axios, { AxiosResponse } from 'axios';
 import Egograph from './components/egograph/egograph.tsx';
 import { calculateEgoLayout } from './components/egograph/egolayout.ts';
 import { useAtom } from 'jotai';
-import { intersectionDatum, egoGraph } from './egoGraphSchema';
+import { egoGraph, intersectionDatum } from './egoGraphSchema';
 import { graphAtom } from './components/egograph/egoStore.ts';
 import {
     graphSizeAtom,
-    minRadiusAtom
+    innerRadiusAtom,
+    outerRadiusAtom
 } from './components/egograph/networkStore.ts';
 import RadarChart from './components/radarchart/radarChart';
 
 function App() {
     const [egoGraph, setEgoGraph] = useAtom(graphAtom);
     const [graphSize] = useAtom(graphSizeAtom);
-    const [minRadius] = useAtom(minRadiusAtom);
+    const [innerRadius] = useAtom(innerRadiusAtom);
+    const [outerRadius] = useAtom(outerRadiusAtom);
     const [intersectionData, setIntersectionData] = useState<{
         [name: string | number]: intersectionDatum;
     } | null>(null);
@@ -25,7 +27,7 @@ function App() {
             .get<egoGraph>('/api/test_data_egograph')
             .then((response: AxiosResponse<egoGraph>) => {
                 setEgoGraph(
-                    calculateEgoLayout(response.data, graphSize - 2 * minRadius)
+                    calculateEgoLayout(response.data, innerRadius, outerRadius)
                 );
             })
             .catch((error) => {
@@ -39,14 +41,13 @@ function App() {
                 tarNode: string;
             }>('/api/testEgoRadar')
             .then((response) => {
-                console.log(response.data);
                 setIntersectionData(response.data.intersectionData);
                 setTarNode(response.data.tarNode);
             })
             .catch((error) => {
                 console.log(error);
             });
-    }, [graphSize, minRadius, setEgoGraph]);
+    }, [innerRadius, outerRadius, setEgoGraph]);
     if (egoGraph !== null && intersectionData !== null && tarNode !== null) {
         const posX = graphSize / 2;
         const posY = graphSize / 2;
