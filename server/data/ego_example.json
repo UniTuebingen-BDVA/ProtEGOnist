@@ -49,22 +49,22 @@
       "id": "id10",
       "centerDist": 2
     },
-        {
+    {
       "name": "h",
       "id": "id11",
       "centerDist": 2
     },
-        {
+    {
       "name": "h",
       "id": "id12",
       "centerDist": 2
     },
-        {
+    {
       "name": "h",
       "id": "id13",
       "centerDist": 2
     },
-        {
+    {
       "name": "h",
       "id": "id14",
       "centerDist": 2
@@ -98,6 +98,30 @@
     {
       "source": 2,
       "target": 3
+    },
+    {
+      "source": 2,
+      "target": 7
+    },
+    {
+      "source": 2,
+      "target": 8
+    },
+    {
+      "source": 1,
+      "target": 9
+    },
+    {
+      "source": 5,
+      "target": 10
+    },
+    {
+      "source": 4,
+      "target": 11
+    },
+    {
+      "source": 6,
+      "target": 12
     }
   ]
 }

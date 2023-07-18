@@ -24,6 +24,19 @@ def generateTestGraphData():
     ego_networks = {i: egoGraph(i, G) for i in random_numbers}
     return random_numbers, ego_networks
 
+def generateRandomEgoGraph():
+    G = nx.dorogovtsev_goltsev_mendes_graph(7)
+    # add attributes to nodes with the name of the node being the id
+    for node in G.nodes:
+        G.nodes[node]["name"] = str(node)
+    random.seed(32)
+    # add a class attribute randomly out of ['A','B', 'C', 'D', 'E']  to each node
+    for node in G.nodes:
+        G.nodes[node]["classification"] = random.choice(["A", "B", "C", "D", "E"])
+    random.seed(32)
+
+    random_number = random.randint(0, 1093)
+    return egoGraph(random_number,G).getGraphJSON()
 
 ## test the function
 # if __name__ == "__main__":
