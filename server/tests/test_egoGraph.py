@@ -16,11 +16,11 @@ def G():
             (1, {"name": "A", "classification": "A"}),
             (2),
             (3, {"name": "C", "classification": "C"}),
-            (4, {"name": "D",   "classification": "D"}),
+            (4, {"name": "D", "classification": "D"}),
             (5, {"name": "E", "classification": "E"}),
-            (6, {"name": "F", "classification": "F" }),
+            (6, {"name": "F", "classification": "F"}),
             (7, {"name": "G", "classification": "G"}),
-            (8, {"name": "H", "classification":"H"}),
+            (8, {"name": "H", "classification": "H"}),
             (9, {"name": "I", "classification": "I"}),
             (10, {"name": "J", "classification": "J"}),
             (11, {"name": "K"}),
@@ -115,8 +115,40 @@ class TestGetGraphJSON:
         # Check the graph JSON
         assert (
             result
-            == "{\"directed\": false, \"multigraph\": false, \"graph\": {}, \"nodes\": [{\"name\": \"A\", \"classification\": \"A\", \"id\": \"1_1\", \"class\": \"default\", \"originalID\": 1}, {\"id\": \"1_2\", \"name\": 2, \"class\": \"default\", \"originalID\": 2}, {\"name\": \"C\", \"classification\": \"C\", \"id\": \"1_3\", \"class\": \"default\", \"originalID\": 3}, {\"name\": \"E\", \"classification\": \"E\", \"id\": \"1_5\", \"class\": \"default\", \"originalID\": 5}, {\"name\": \"F\", \"classification\": \"F\", \"id\": \"1_6\", \"class\": \"default\", \"originalID\": 6}, {\"name\": \"G\", \"classification\": \"G\", \"id\": \"1_7\", \"class\": \"default\", \"originalID\": 7}, {\"name\": \"K\", \"id\": \"1_11\", \"class\": \"default\", \"originalID\": 11}, {\"name\": \"L\", \"id\": \"1_12\", \"class\": \"default\", \"originalID\": 12}], \"edges\": [{\"source\": \"1_1\", \"target\": \"1_2\", \"id\": \"1_1+1_2\"}, {\"source\": \"1_1\", \"target\": \"1_6\", \"id\": \"1_1+1_6\"}, {\"source\": \"1_1\", \"target\": \"1_12\", \"id\": \"1_1+1_12\"}, {\"source\": \"1_2\", \"target\": \"1_3\", \"id\": \"1_2+1_3\"}, {\"source\": \"1_2\", \"target\": \"1_7\", \"id\": \"1_2+1_7\"}, {\"source\": \"1_5\", \"target\": \"1_6\", \"id\": \"1_5+1_6\"}, {\"source\": \"1_6\", \"target\": \"1_11\", \"id\": \"1_6+1_11\"}], \"centerNode\": {\"id\": \"1_1\", \"originalID\": 1, \"name\": \"A\"}}"
+            == '{"directed": false, "multigraph": false, "graph": {}, "nodes": [{"name": "A", "classification": "A", "id": "1_1", "centerDist": 0, "originalID": 1}, {"id": "1_2", "name": 2, "classification": "default", "centerDist": 1, "originalID": 2}, {"name": "C", "classification": "C", "id": "1_3", "centerDist": 2, "originalID": 3}, {"name": "E", "classification": "E", "id": "1_5", "centerDist": 2, "originalID": 5}, {"name": "F", "classification": "F", "id": "1_6", "centerDist": 1, "originalID": 6}, {"name": "G", "classification": "G", "id": "1_7", "centerDist": 2, "originalID": 7}, {"name": "K", "id": "1_11", "classification": "default", "centerDist": 2, "originalID": 11}, {"name": "L", "id": "1_12", "classification": "default", "centerDist": 1, "originalID": 12}], "edges": [{"source": "1_1", "target": "1_2", "id": "1_1+1_2"}, {"source": "1_1", "target": "1_6", "id": "1_1+1_6"}, {"source": "1_1", "target": "1_12", "id": "1_1+1_12"}, {"source": "1_2", "target": "1_3", "id": "1_2+1_3"}, {"source": "1_2", "target": "1_7", "id": "1_2+1_7"}, {"source": "1_5", "target": "1_6", "id": "1_5+1_6"}, {"source": "1_6", "target": "1_11", "id": "1_6+1_11"}], "centerNode": {"id": "1_1", "originalID": 1, "name": "A"}}'
         )
+
+
+class TestGetNodeAttibutes:
+    def test_getNodeAttributes(self, G):
+        # Create an ego graph from the networkx graph
+        ego = egoGraph(1, G)
+
+        # Compute the node attributes
+        result = ego.getNodeAttributes(1)
+
+        # Check the node attributes
+        assert result == {
+            "name": "A",
+            "classification": "A",
+            "id": 1,
+            "centerDist": 0,
+        }
+
+    def test_getNodeAttributes2(self, G):
+        # Create an ego graph from the networkx graph
+        ego = egoGraph(1, G)
+
+        # Compute the node attributes
+        result = ego.getNodeAttributes(2)
+
+        # Check the node attributes
+        assert result == {
+            "name": 2,
+            "classification": "default",
+            "id": 2,
+            "centerDist": 1,
+        }
 
 
 if __name__ == "__main__":
