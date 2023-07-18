@@ -4,15 +4,16 @@ import * as d3 from 'd3';
 interface RadarChartProps {
     intersectionData: { [name: string | number]: intersectionDatum };
     tarNode: string;
+    baseRadius: number;
 }
 
 const RadarChart = (props: RadarChartProps) => {
-    const { intersectionData, tarNode } = props;
-    const GUIDE_CIRCLE_RADIUS = 200;
-    const GUIDE_CIRCLE_STEP = 50;
-    const GUIDE_CIRCLE_RADIUS_MIN = 50;
-    const TEXT_RADIUS = 220;
-    const CIRCLE_RADIUS = 15;
+    const { intersectionData, tarNode, baseRadius } = props;
+    const GUIDE_CIRCLE_RADIUS = baseRadius;
+    const GUIDE_CIRCLE_STEP = baseRadius / 4;
+    const GUIDE_CIRCLE_RADIUS_MIN = baseRadius / 4;
+    const TEXT_RADIUS = baseRadius + 20;
+    const CIRCLE_RADIUS = baseRadius / 20;
     //generate a linear scale for the size of the intersection property in each intersectionDatum
     const intersectionLengthScale = d3
         .scaleLinear()
@@ -67,20 +68,16 @@ const RadarChart = (props: RadarChartProps) => {
         }
     );
     // calculate the start and end angle of each pie chart segment
-    const pieChartSegments = angles.reduce(
-        (acc, { classification, angle }) => {
-            const startAngle =
-                acc.length > 0 ? acc[acc.length - 1].endAngle : 0;
-            const endAngle = startAngle + angle;
-            acc.push({
-                classification,
-                startAngle,
-                endAngle
-            });
-            return acc;
-        },
-        [] as { classification: string; startAngle: number; endAngle: number }[]
-    );
+    const pieChartSegments = angles.reduce((acc, { classification, angle }) => {
+        const startAngle = acc.length > 0 ? acc[acc.length - 1].endAngle : 0;
+        const endAngle = startAngle + angle;
+        acc.push({
+            classification,
+            startAngle,
+            endAngle
+        });
+        return acc;
+    }, [] as { classification: string; startAngle: number; endAngle: number }[]);
 
     // draw a circle svg for each intersectionDatum with a radius of the setSize.
     // place the node with tarNode as the center of the svg.
@@ -181,7 +178,7 @@ const RadarChart = (props: RadarChartProps) => {
             }
 
             {sortedIntersectionData.map(([key, intersectionDatum], index) => {
-                //console.log(intersectionLengthScale(intersectionDatum.setSize));
+                console.log(intersectionLengthScale(intersectionDatum.setSize));
                 return (
                     <>
                         <circle

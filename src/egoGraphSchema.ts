@@ -1,5 +1,4 @@
 export type egoGraphNode = {
-    centerDist: number;
     id: string;
     name: string;
 };
