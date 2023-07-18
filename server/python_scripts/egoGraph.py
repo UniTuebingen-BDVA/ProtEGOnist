@@ -44,7 +44,30 @@ class egoGraph:
           graph: The networkx graph object of the ego graph.
         """
         self.node = node
-        self.nxGraph: nx.Graph = nx.ego_graph(graph, node, radius=2)
+        self.nxGraph: nx.Graph = graph
+
+    @classmethod
+    def fromCreatedEgonetwork(cls, node: str | int, graph: nx.Graph):
+        """
+        Constructor to create an egoGraph object from a created ego network.
+
+        Parameters:
+            node: The node that is the center of the ego graph.
+            graph: The networkx graph object of the ego graph.
+        """
+        return cls(node, graph)
+
+    @classmethod
+    def fromStringNetwork(cls, node: str | int, graph: nx.Graph):
+        """
+        Constructor to create an egoGraph object from the string network.
+
+        Parameters:
+            node: The node that is the center of the ego graph.
+            graph: The networkx graph object of the ego graph.
+        """
+        egoGraph: nx.Graph = nx.ego_graph(graph, node, radius=2)
+        return cls(node, egoGraph)
 
     def getNodeAttributes(self, id) -> dict[str, str | int]:
         """

@@ -1,6 +1,7 @@
 import networkx as nx
 from server.python_scripts.egoGraph import egoGraph
 import random
+from server.python_scripts.egoGraph import Intersection
 
 
 # generate a dorogovtsev_goltsev_mendes_graph for the test data
@@ -37,6 +38,29 @@ def generateRandomEgoGraph():
 
     random_number = random.randint(0, 1093)
     return egoGraph(random_number,G).getGraphJSON()
+
+def generateTestGraphDataNew(ego_dicts: dict[str, egoGraph], tar_node: str):
+    # add a random classifcation (A-E) to each node in the ego_dicts
+    for i in ego_dicts:
+        for node in ego_dicts[i].nxGraph.nodes:
+            ego_dicts[i].nxGraph.nodes[node]["classification"] = random.choice(
+                ["A", "B", "C", "D", "E"]
+            )
+
+    # calculate the intersection of the target node and the nodes in the ego_dicts
+    intersection_dict: dict[str, Intersection] = {
+        i: ego_dicts[i].getIntersection(ego_dicts[tar_node]) for i in ego_dicts
+    }
+    # get the 40 nodes with the highest intersection by jaccard index
+    highestProts = sorted(
+        intersection_dict, key=lambda x: intersection_dict[x]["jaccard"], reverse=True
+    )[:40]
+
+    # make a subset of the ego_dicts with only the 40 nodes
+    highestDict = {i: ego_dicts[i] for i in highestProts}
+
+    return highestProts, highestDict
+
 
 ## test the function
 # if __name__ == "__main__":

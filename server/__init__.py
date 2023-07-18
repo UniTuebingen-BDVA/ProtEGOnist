@@ -1,11 +1,19 @@
 import os
+import pathlib
+import json
 from flask import Flask, request
 import json
-from server.python_scripts.sampleGraph import generateTestGraphData
-from server.python_scripts.sampleGraph import generateRandomEgoGraph
+import networkx as nx
+from server.python_scripts.dataIO import read_Ego_Pickles
+from server.python_scripts.sampleGraph import generateTestGraphDataNew
+
+global stringGraph
 
 app = Flask(__name__, static_folder="../dist", static_url_path="/")
-here = os.path.dirname(__file__)
+here: pathlib.Path = pathlib.Path(__file__).parent.absolute()
+
+stringGraph = nx.read_graphml(here.parent / "data" / "graphml_string_cleaned.graphml")
+egoDictGraph = read_Ego_Pickles(here.parent / "data")
 
 
 ## ROUTES
@@ -14,9 +22,13 @@ def test():
     counter = int(request.form.to_dict()["counter"])
     return str(counter + 1)
 
-@app.route('/api/test_data_egograph',methods=['GET'])
+
+@app.route("/api/test_data_egograph", methods=["GET"])
 def test_data_egograph():
-    return generateRandomEgoGraph()
+    with open(os.path.join(here, "data", "ego_example.json")) as f:
+        data = json.load(f)
+    return data
+
 
 @app.route("/")
 def index():
@@ -28,7 +40,13 @@ def testEgoRadar():
     """
     Generate a test ego radar plot using nx.gorogovtsev_goltsev_mendes_graph and generating 40 ego networks from it.
     """
-    ids, test_ego_networks = generateTestGraphData()
+    # select random key from egoDictGraph
+    ids = list(egoDictGraph.keys())
+    print("IDS", ids)
+    print(egoDictGraph)
+    tar_node = ids[0]
+
+    ids, test_ego_networks = generateTestGraphDataNew(egoDictGraph, tar_node)
     tar_node = ids[0]
 
     # if not request.json:
@@ -40,5 +58,6 @@ def testEgoRadar():
         i: test_ego_networks[i].getIntersection(test_ego_networks[tar_node])
         for i in ids
     }
-    #print(intersection_dict)
+    print(intersection_dict)
+
     return json.dumps({"intersectionData": intersection_dict, "tarNode": tar_node})
