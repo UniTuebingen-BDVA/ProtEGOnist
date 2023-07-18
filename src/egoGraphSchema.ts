@@ -4,8 +4,8 @@ export type egoGraphNode = {
     centerDist: number;
 };
 export type egoGraphEdge = {
-    source: number;
-    target: number;
+    source: string;
+    target: string;
 };
 
 export interface egoGraph {

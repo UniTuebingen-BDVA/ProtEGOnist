@@ -36,7 +36,7 @@ function createLayerNodes(
         .range([0, 2 * Math.PI])
         .domain(layerNodes.map((d) => d.id));
     const maxradius: number =
-        (center / Math.sin((Math.PI - x.bandwidth()) / 2) *
+        ((center / Math.sin((Math.PI - x.bandwidth()) / 2)) *
             Math.sin(x.bandwidth())) /
         2;
     layerNodes.forEach((node) => {
@@ -58,6 +58,66 @@ function createLayerNodes(
         nodes[node.id] = currNode;
     });
     return { nodes, maxradius };
+}
+
+function assignToInnerNodes(
+    nodeDict: { [key: string]: egoGraphNode },
+    edges: egoGraphEdge[]
+) {
+    const nodeAssignment: { [key: string]: string[] } = {};
+    edges.forEach((edge) => {
+        if (
+            nodeDict[edge.source].centerDist === 1 &&
+            !Object.keys(nodeAssignment).includes(edge.source)
+        ) {
+            nodeAssignment[edge.source] = [];
+        }
+        if (
+            nodeDict[edge.target].centerDist === 1 &&
+            !Object.keys(nodeAssignment).includes(edge.target)
+        ) {
+            nodeAssignment[edge.target] = [];
+        }
+        if (
+            nodeDict[edge.source].centerDist === 2 &&
+            nodeDict[edge.target].centerDist === 1
+        ) {
+            nodeAssignment[edge.target].push(edge.source);
+        }
+        if (
+            nodeDict[edge.target].centerDist === 2 &&
+            nodeDict[edge.source].centerDist === 1
+        ) {
+            nodeAssignment[edge.source].push(edge.target);
+        }
+    });
+    return nodeAssignment;
+}
+
+function calculateOverlaps(nodeAssignment:{ [key: string]: string[] }){
+    const keys=Object.keys(nodeAssignment);
+    const intersections:{[key:string]:string[]}={}
+    for(let i=0; i<keys.length;i++){
+        for(let j=i+1;j<keys.length;j++){
+            intersections[keys[i] + ',' + keys[j]] = nodeAssignment[
+                keys[i]
+            ].filter((value) => nodeAssignment[keys[j]].includes(value));
+        }
+    }
+    return intersections;
+}
+function sortInnerNodes(nodeAssignment){
+    const intersections=calculateOverlaps(nodeAssignment);
+    const intersectionKeys=Object.keys(intersections);
+    intersectionKeys.sort((a,b)=>{
+        
+    })
+}
+
+function sortNodes(nodes: egoGraphNode[], edges: egoGraphEdge[]) {
+    const nodeDict: { [key: string]: egoGraphNode } = {};
+    nodes.forEach((node) => (nodeDict[node.id] = node));
+    const nodeAssignment = assignToInnerNodes(nodeDict, edges);
 }
 
 export function calculateEgoLayout(
