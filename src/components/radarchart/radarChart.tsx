@@ -178,7 +178,7 @@ const RadarChart = (props: RadarChartProps) => {
             }
 
             {sortedIntersectionData.map(([key, intersectionDatum], index) => {
-                console.log(intersectionLengthScale(intersectionDatum.setSize));
+                //console.log(intersectionLengthScale(intersectionDatum.setSize));
                 return (
                     <>
                         <circle

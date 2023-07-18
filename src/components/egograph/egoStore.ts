@@ -3,7 +3,7 @@ import { focusAtom } from 'jotai-optics';
 import { splitAtom } from 'jotai/utils';
 import { egoGraphLayout } from './egolayout.ts';
 import * as d3 from 'd3';
-import { graphSizeAtom, minRadiusAtom } from './networkStore.ts';
+import { graphSizeAtom, maxRadiusAtom } from './networkStore.ts';
 
 export const graphAtom = atom<egoGraphLayout>({
     nodes: [],
@@ -28,9 +28,10 @@ export const colorScaleAtom = atom((get) => {
         .domain(get(numEdgesMinMax));
 });
 export const nodeRadiusAtom = atom((get) => {
-    return get(minRadiusAtom) > get(graphAtom).maxradius
-        ? get(graphAtom).maxradius
-        : get(minRadiusAtom);
+    console.log(get(maxRadiusAtom),get(graphAtom).maxradius)
+    return get(maxRadiusAtom) < get(graphAtom).maxradius
+        ? get(maxRadiusAtom)
+        : get(graphAtom).maxradius;
 });
 export const centerPointAtom = atom((get) => {
     return {

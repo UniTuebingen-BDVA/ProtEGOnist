@@ -36,7 +36,7 @@ function createLayerNodes(
         .range([0, 2 * Math.PI])
         .domain(layerNodes.map((d) => d.id));
     const maxradius: number =
-        ((center / Math.sin((2 * Math.PI - x.bandwidth()) / 2)) *
+        (center / Math.sin((Math.PI - x.bandwidth()) / 2) *
             Math.sin(x.bandwidth())) /
         2;
     layerNodes.forEach((node) => {
