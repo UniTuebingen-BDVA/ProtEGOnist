@@ -1,25 +1,30 @@
 import os
 import pathlib
 import json
+import random
 from flask import Flask, request
 import json
 import networkx as nx
 from server.python_scripts.dataIO import read_ego_pickles
 from server.python_scripts.sampleGraph import (
     generate_string_intersections,
-    generate_test_graph_data,
-    generate_random_ego_graph,
+    generate_radar_data,
+    generate_dgm_ego_graph,
     generate_random_ego_graph_string,
 )
 
 global string_graph
+global testing_tar_node
 
 dev_Flag = False
 app = Flask(__name__, static_folder="../dist", static_url_path="/")
 here: pathlib.Path = pathlib.Path(__file__).parent.absolute()
 
 try:
+    random.seed(31)
     string_graph = nx.read_graphml(here / "data" / "graphml_string_cleaned.graphml")
+    # pick a random node from the graph as the testing_tar_node
+    testing_tar_node = random.choice(list(string_graph.nodes))
 except FileNotFoundError:
     print(f"No graphml file found in {here / 'data'}. Make sure you added it.")
 
@@ -39,7 +44,7 @@ def test():
 
 @app.route("/api/test_data_egograph", methods=["GET"])
 def test_data_egograph():
-    json_data = generate_random_ego_graph_string(string_graph)
+    json_data = generate_random_ego_graph_string(string_graph, testing_tar_node)
     return json_data
 
 
@@ -57,11 +62,15 @@ def test_ego_radar():
 
     if dev_Flag:
         ids = list(ego_dict_graph.keys())
-        tar_node = ids[0]
-        ids, test_ego_networks = generate_string_intersections(ego_dict_graph, tar_node)
+        ids, rest_ego_graphs = generate_string_intersections(
+            ego_dict_graph, testing_tar_node
+        )
+        tar_ego_graph = rest_ego_graphs[testing_tar_node]
     else:
-        ids, test_ego_networks = generate_test_graph_data()
-        tar_node = ids[0]
+        tar_ego_graph, rest_ego_graphs = generate_radar_data(
+            string_graph, testing_tar_node
+        )
+        ids = list(rest_ego_graphs.keys())
 
     # if not request.json:
     #     tar_node = ids[0]
@@ -69,9 +78,10 @@ def test_ego_radar():
     #     tar_node = request.json["tarNode"]
     # get the intersection of target node and the ids
     intersection_dict = {
-        i: test_ego_networks[i].get_intersection(test_ego_networks[tar_node])
-        for i in ids
+        i: rest_ego_graphs[i].get_intersection(tar_ego_graph) for i in ids
     }
     # print(intersection_dict)
 
-    return json.dumps({"intersectionData": intersection_dict, "tarNode": tar_node})
+    return json.dumps(
+        {"intersectionData": intersection_dict, "tarNode": testing_tar_node}
+    )
