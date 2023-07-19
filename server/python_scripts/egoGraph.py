@@ -18,7 +18,7 @@ class Intersection(TypedDict):
     len4Proportion: float
 
 
-class egoGraph:
+class EgoGraph:
     """
     A class representing the ego graph of a given node.
 
@@ -47,7 +47,7 @@ class egoGraph:
         self.nxGraph: nx.Graph = graph
 
     @classmethod
-    def fromCreatedEgonetwork(cls, node: str | int, graph: nx.Graph):
+    def from_created_egonetwork(cls, node: str | int, graph: nx.Graph):
         """
         Constructor to create an egoGraph object from a created ego network.
 
@@ -58,7 +58,7 @@ class egoGraph:
         return cls(node, graph)
 
     @classmethod
-    def fromStringNetwork(cls, node: str | int, graph: nx.Graph):
+    def from_string_network(cls, node: str | int, graph: nx.Graph):
         """
         Constructor to create an egoGraph object from the string network.
 
@@ -69,7 +69,7 @@ class egoGraph:
         egoGraph: nx.Graph = nx.ego_graph(graph, node, radius=2)
         return cls(node, egoGraph)
 
-    def getNodeAttributes(self, id) -> dict[str, str | int]:
+    def get_node_attributes(self, id) -> dict[str, str | int]:
         """
         Returns the attributes of a node.
 
@@ -92,7 +92,7 @@ class egoGraph:
 
         return attribs
 
-    def getGraphJSON(self) -> str:
+    def get_graph_JSON(self) -> str:
         """
         Returns the graph object as a serialized JSON representation.
         TODO: Currently this returns all attributes of nodes and edges. This might not be necessary.
@@ -135,7 +135,7 @@ class egoGraph:
         }
         return json.dumps(node_link_data)
 
-    def getNeighbors(self) -> dict[str, list[str | int]]:
+    def get_neighbors(self) -> dict[str, list[str | int]]:
         """
         Returns all degree-1 and degree2 neighbors of the node.
 
@@ -154,7 +154,7 @@ class egoGraph:
             print("Node not in graph")
         return {"t1_neighbors": t1_neighbors, "t2_neighbors": t2_neighbors}
 
-    def getIntersection(self, target: "egoGraph") -> Intersection:
+    def get_intersection(self, target: "EgoGraph") -> Intersection:
         """
         Returns the intersection of the ego graph and the target ego graph.
         As both graphs are undirected, the intersection is symmetric.
@@ -171,8 +171,8 @@ class egoGraph:
         Returns:
           A dictionary containing the intersection set and the proportions of paths of different lengths.
         """
-        self_neighbors = self.getNeighbors()
-        target_neighbors = target.getNeighbors()
+        self_neighbors = self.get_neighbors()
+        target_neighbors = target.get_neighbors()
         # union of t1 and t2 neighbors
         all_self = (
             self_neighbors["t1_neighbors"]

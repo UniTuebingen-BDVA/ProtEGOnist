@@ -2,10 +2,10 @@
 import pickle
 import pathlib
 import networkx as nx
-from server.python_scripts.egoGraph import egoGraph
+from server.python_scripts.egoGraph import EgoGraph
 
 
-def read_Ego_Pickles(data_path: pathlib.Path):
+def read_ego_pickles(data_path: pathlib.Path):
     nxEgoGraphs = {}
 
     for i in range(0, 2500, 500):
@@ -16,7 +16,7 @@ def read_Ego_Pickles(data_path: pathlib.Path):
 
     # convert the dictionary to a dictionary of egoGraph objects
     nxEgoGraphs = {
-        i: egoGraph.fromCreatedEgonetwork(i, nxEgoGraphs[i]) for i in nxEgoGraphs
+        i: EgoGraph.from_created_egonetwork(i, nxEgoGraphs[i]) for i in nxEgoGraphs
     }
 
     return nxEgoGraphs
