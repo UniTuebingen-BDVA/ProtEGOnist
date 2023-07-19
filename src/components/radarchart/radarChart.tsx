@@ -69,16 +69,20 @@ const RadarChart = (props: RadarChartProps) => {
         }
     );
     // calculate the start and end angle of each pie chart segment
-    const pieChartSegments = angles.reduce((acc, { classification, angle }) => {
-        const startAngle = acc.length > 0 ? acc[acc.length - 1].endAngle : 0;
-        const endAngle = startAngle + angle;
-        acc.push({
-            classification,
-            startAngle,
-            endAngle
-        });
-        return acc;
-    }, [] as { classification: string; startAngle: number; endAngle: number }[]);
+    const pieChartSegments = angles.reduce(
+        (acc, { classification, angle }) => {
+            const startAngle =
+                acc.length > 0 ? acc[acc.length - 1].endAngle : 0;
+            const endAngle = startAngle + angle;
+            acc.push({
+                classification,
+                startAngle,
+                endAngle
+            });
+            return acc;
+        },
+        [] as { classification: string; startAngle: number; endAngle: number }[]
+    );
 
     // draw a circle svg for each intersectionDatum with a radius of the setSize.
     // place the node with tarNode as the center of the svg.
@@ -202,38 +206,35 @@ const RadarChart = (props: RadarChartProps) => {
             {sortedIntersectionData.map(([key, intersectionDatum], index) => {
                 //console.log(intersectionLengthScale(intersectionDatum.setSize));
                 return (
-                    <>
-                        <circle
-                            key={key}
-                            cx={
-                                Math.cos(
-                                    ((index + 0.5) * 2 * Math.PI) /
-                                        sortedIntersectionData.length
-                                ) *
-                                (GUIDE_CIRCLE_RADIUS -
-                                    intersectionDatum.jaccard *
-                                        GUIDE_CIRCLE_RADIUS)
-                            }
-                            cy={
-                                Math.sin(
-                                    ((index + 0.5) * 2 * Math.PI) /
-                                        sortedIntersectionData.length
-                                ) *
-                                (GUIDE_CIRCLE_RADIUS -
-                                    intersectionDatum.jaccard *
-                                        GUIDE_CIRCLE_RADIUS)
-                            }
-                            r={
-                                CIRCLE_RADIUS +
-                                intersectionLengthScale(
-                                    intersectionDatum.setSize
-                                ) *
-                                    CIRCLE_RADIUS
-                            }
-                            fill={colorScale(intersectionDatum.classification)}
-                            opacity={0.7}
-                        />
-                    </>
+                    <circle
+                        key={key}
+                        cx={
+                            Math.cos(
+                                ((index + 0.5) * 2 * Math.PI) /
+                                    sortedIntersectionData.length
+                            ) *
+                            (GUIDE_CIRCLE_RADIUS -
+                                intersectionDatum.jaccard * GUIDE_CIRCLE_RADIUS)
+                        }
+                        cy={
+                            Math.sin(
+                                ((index + 0.5) * 2 * Math.PI) /
+                                    sortedIntersectionData.length
+                            ) *
+                            (GUIDE_CIRCLE_RADIUS -
+                                intersectionDatum.jaccard * GUIDE_CIRCLE_RADIUS)
+                        }
+                        r={
+                            CIRCLE_RADIUS +
+                            intersectionLengthScale(intersectionDatum.setSize) *
+                                CIRCLE_RADIUS
+                        }
+                        fill={colorScale(intersectionDatum.classification)}
+                        fillOpacity={0.7}
+                        stroke={colorScale(intersectionDatum.classification)}
+                        strokeOpacity={0.8}
+                        strokeWidth={1}
+                    />
                 );
             })}
             <circle cx={0} cy={0} r={10} fill={'red'} />
