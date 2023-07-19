@@ -30,7 +30,7 @@ def test():
 
 @app.route("/api/test_data_egograph", methods=["GET"])
 def test_data_egograph():
-    with open(os.path.join(here, "data", "ego_example.json")) as f:
+    with open(here / "data" / "ego_example.json") as f:
         data = json.load(f)
     return data
 
@@ -64,6 +64,6 @@ def testEgoRadar():
         i: test_ego_networks[i].getIntersection(test_ego_networks[tar_node])
         for i in ids
     }
-    print(intersection_dict)
+    # print(intersection_dict)
 
     return json.dumps({"intersectionData": intersection_dict, "tarNode": tar_node})
