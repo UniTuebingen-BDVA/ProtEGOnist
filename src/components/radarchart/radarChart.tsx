@@ -93,14 +93,14 @@ const RadarChart = (props: RadarChartProps) => {
                 d={`M 0 ${-TEXT_RADIUS} 
         A ${TEXT_RADIUS} ${TEXT_RADIUS} 0 0 1 0 ${TEXT_RADIUS}
         A ${TEXT_RADIUS} ${TEXT_RADIUS} 0 0 1 0 ${-TEXT_RADIUS}`}
-                fill="none"
+                fill='none'
             />
             <path
                 id={`textPath-Counterclockwise`}
                 d={`M 0 ${-TEXT_RADIUS} 
         A ${TEXT_RADIUS} ${TEXT_RADIUS} 0 0 0 1 ${TEXT_RADIUS}
         A ${TEXT_RADIUS} ${TEXT_RADIUS} 0 0 0 1 ${-TEXT_RADIUS}`}
-                fill="none"
+                fill='none'
             />
             {pieChartSegments.map(
                 ({ classification, startAngle, endAngle }) => {
@@ -131,8 +131,8 @@ const RadarChart = (props: RadarChartProps) => {
                             />
                             <text
                                 fill={colorScale(classification)}
-                                fontSize="18px"
-                                dominantBaseline="middle"
+                                fontSize='18px'
+                                dominantBaseline='middle'
                             >
                                 <textPath
                                     xlinkHref={`#textPath-${
@@ -186,27 +186,27 @@ const RadarChart = (props: RadarChartProps) => {
                             cx={
                                 Math.cos(
                                     ((index + 0.5) * 2 * Math.PI) /
-                                        sortedIntersectionData.length
+                                    sortedIntersectionData.length
                                 ) *
                                 (GUIDE_CIRCLE_RADIUS -
                                     intersectionDatum.jaccard *
-                                        GUIDE_CIRCLE_RADIUS)
+                                    GUIDE_CIRCLE_RADIUS)
                             }
                             cy={
                                 Math.sin(
                                     ((index + 0.5) * 2 * Math.PI) /
-                                        sortedIntersectionData.length
+                                    sortedIntersectionData.length
                                 ) *
                                 (GUIDE_CIRCLE_RADIUS -
                                     intersectionDatum.jaccard *
-                                        GUIDE_CIRCLE_RADIUS)
+                                    GUIDE_CIRCLE_RADIUS)
                             }
                             r={
                                 CIRCLE_RADIUS +
                                 intersectionLengthScale(
                                     intersectionDatum.setSize
                                 ) *
-                                    CIRCLE_RADIUS
+                                CIRCLE_RADIUS
                             }
                             fill={colorScale(intersectionDatum.classification)}
                             opacity={0.7}

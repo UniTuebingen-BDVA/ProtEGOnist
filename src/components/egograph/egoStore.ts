@@ -28,7 +28,6 @@ export const colorScaleAtom = atom((get) => {
         .domain(get(numEdgesMinMax));
 });
 export const nodeRadiusAtom = atom((get) => {
-    console.log(get(maxRadiusAtom),get(graphAtom).maxradius)
     return get(maxRadiusAtom) < get(graphAtom).maxradius
         ? get(maxRadiusAtom)
         : get(graphAtom).maxradius;

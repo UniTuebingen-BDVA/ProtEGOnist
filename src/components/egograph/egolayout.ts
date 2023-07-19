@@ -94,30 +94,82 @@ function assignToInnerNodes(
     return nodeAssignment;
 }
 
-function calculateOverlaps(nodeAssignment:{ [key: string]: string[] }){
-    const keys=Object.keys(nodeAssignment);
-    const intersections:{[key:string]:string[]}={}
-    for(let i=0; i<keys.length;i++){
-        for(let j=i+1;j<keys.length;j++){
+function calculateOverlaps(nodeAssignment: { [key: string]: string[] }) {
+    const keys = Object.keys(nodeAssignment);
+    /*
+    const intersections: { [key: string]: string[] } = {};
+    for (let i = 0; i < keys.length; i++) {
+        for (let j = i + 1; j < keys.length; j++) {
             intersections[keys[i] + ',' + keys[j]] = nodeAssignment[
                 keys[i]
-            ].filter((value) => nodeAssignment[keys[j]].includes(value));
+                ].filter((value) => nodeAssignment[keys[j]].includes(value));
+        }
+    }*/
+    const intersections: number[][] = Array(keys.length)
+        .fill()
+        .map(() => Array<number>(keys.length).fill(-1));
+    for (let i = 0; i < keys.length; i++) {
+        for (let j = i + 1; j < keys.length; j++) {
+            intersections[i][j] = nodeAssignment[keys[i]].filter((value) =>
+                nodeAssignment[keys[j]].includes(value)
+            ).length;
         }
     }
     return intersections;
 }
-function sortInnerNodes(nodeAssignment){
-    const intersections=calculateOverlaps(nodeAssignment);
-    const intersectionKeys=Object.keys(intersections);
-    intersectionKeys.sort((a,b)=>{
-        
-    })
+
+function getMaxIndices(matrix: number[][]) {
+    let max = -1;
+    let maxIndex = [-1, -1];
+    for (let i = 0; i < matrix.length; i++) {
+        for (let j = i + 1; j < matrix[i].length; j++) {
+            if (matrix[i][j] > max) {
+                max = matrix[i][j];
+                maxIndex = [i, j];
+            }
+        }
+    }
+    return maxIndex;
+}
+
+function sortInnerNodes(nodeAssignment: { [key: string]: string[] }) {
+    const intersections = calculateOverlaps(nodeAssignment);
+    const innerNodes = Object.keys(nodeAssignment);
+    let maxIndex = getMaxIndices(intersections);
+    intersections[maxIndex[0]][maxIndex[1]] = -1;
+    const nodeOrder = [innerNodes[maxIndex[0]], innerNodes[maxIndex[1]]];
+    while (nodeOrder.length < Object.keys(nodeAssignment).length) {
+        console.log(nodeOrder);
+        let localMax = -1;
+        let left = true;
+        for (let i = 0; i < intersections.length; i++) {
+            if (localMax > intersections[i][maxIndex[1]]) {
+                localMax = intersections[i][maxIndex[1]];
+                intersections[i][maxIndex[1]] = -1;
+                maxIndex = [i, maxIndex[1]];
+                left = true;
+            }
+            if (localMax > intersections[maxIndex[0]][i]) {
+                localMax = intersections[maxIndex[0]][i];
+                intersections[maxIndex[0]][i] = -1;
+                maxIndex = [maxIndex[0], i];
+                left = false;
+            }
+        }
+        if (left) {
+            nodeOrder.unshift(innerNodes[maxIndex[0]]);
+        } else {
+            nodeOrder.push(innerNodes[maxIndex[1]]);
+        }
+    }
+    return nodeOrder;
 }
 
 function sortNodes(nodes: egoGraphNode[], edges: egoGraphEdge[]) {
     const nodeDict: { [key: string]: egoGraphNode } = {};
     nodes.forEach((node) => (nodeDict[node.id] = node));
     const nodeAssignment = assignToInnerNodes(nodeDict, edges);
+    console.log(sortInnerNodes(nodeAssignment));
 }
 
 export function calculateEgoLayout(
@@ -125,6 +177,7 @@ export function calculateEgoLayout(
     innerSize: number,
     outerSize: number
 ): egoGraphLayout {
+    sortNodes(graph.nodes, graph.edges);
     const nodesLayer1 = graph.nodes.filter((d) => d.centerDist === 1);
     const nodesLayer2 = graph.nodes.filter((d) => d.centerDist === 2);
     const nodesLayer1Layout = createLayerNodes(
