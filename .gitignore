@@ -14,6 +14,8 @@ __pycache__/
 
 # Data
 /data/*
+/server/data/ego_dict*
+/server/data/graphml*
 
 # Logs
 logs

@@ -18,9 +18,16 @@ dev_Flag = False
 app = Flask(__name__, static_folder="../dist", static_url_path="/")
 here: pathlib.Path = pathlib.Path(__file__).parent.absolute()
 
-string_graph = nx.read_graphml(here.parent / "data" / "graphml_string_cleaned.graphml")
+try:
+    string_graph = nx.read_graphml(here / "data" / "graphml_string_cleaned.graphml")
+except FileNotFoundError:
+    print(f"No graphml file found in {here / 'data'}. Make sure you added it.")
+
 if dev_Flag:
-    ego_dict_graph = read_ego_pickles(here.parent / "data")
+    try:
+        ego_dict_graph = read_ego_pickles(here / "data")
+    except FileNotFoundError:
+        print(f"No ego pickles found in {here / 'data'}. Make sure you added them.")
 
 
 ## ROUTES
