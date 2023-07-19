@@ -8,6 +8,7 @@ from server.python_scripts.dataIO import read_Ego_Pickles
 from server.python_scripts.sampleGraph import (
     generateTestGraphDataNew,
     generateTestGraphData,
+    generateRandomEgoGraph,
 )
 
 global stringGraph
@@ -30,9 +31,7 @@ def test():
 
 @app.route("/api/test_data_egograph", methods=["GET"])
 def test_data_egograph():
-    with open(here / "data" / "ego_example.json") as f:
-        data = json.load(f)
-    return data
+    return generateRandomEgoGraph()
 
 
 @app.route("/")
