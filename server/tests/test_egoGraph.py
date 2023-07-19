@@ -56,7 +56,7 @@ class TestConstructor:
         print(type(G))
 
         # Create an ego graph from the networkx graph
-        ego = egoGraph(1, G)
+        ego = egoGraph.fromStringNetwork(1, G)
 
         # Check the node attribute
         assert ego.node == 1
@@ -73,7 +73,7 @@ class TestGetNeighbors:
 
     def test_getNeighbors(self, G: nx.Graph):
         # Create an ego graph from the networkx graph
-        ego = egoGraph(1, G)
+        ego = egoGraph.fromStringNetwork(1, G)
 
         # Compute the neighbors
         result = ego.getNeighbors()
@@ -86,8 +86,8 @@ class TestGetNeighbors:
 class TestGetIntersction:
     def test_getIntersection(self, G: nx.Graph):
         # Create two ego graphs from the networkx graph
-        ego1 = egoGraph(1, G)
-        ego2 = egoGraph(2, G)
+        ego1 = egoGraph.fromStringNetwork(1, G)
+        ego2 = egoGraph.fromStringNetwork(2, G)
 
         # Compute the intersection
         result = ego1.getIntersection(ego2)
@@ -107,7 +107,7 @@ class TestGetIntersction:
 class TestGetGraphJSON:
     def test_getGraphJSON(self, G):
         # Create an ego graph from the networkx graph
-        ego = egoGraph(1, G)
+        ego = egoGraph.fromStringNetwork(1, G)
 
         # Compute the graph JSON
         result = ego.getGraphJSON()
@@ -122,7 +122,7 @@ class TestGetGraphJSON:
 class TestGetNodeAttibutes:
     def test_getNodeAttributes(self, G):
         # Create an ego graph from the networkx graph
-        ego = egoGraph(1, G)
+        ego = egoGraph.fromStringNetwork(1, G)
 
         # Compute the node attributes
         result = ego.getNodeAttributes(1)
@@ -137,7 +137,7 @@ class TestGetNodeAttibutes:
 
     def test_getNodeAttributes2(self, G):
         # Create an ego graph from the networkx graph
-        ego = egoGraph(1, G)
+        ego = egoGraph.fromStringNetwork(1, G)
 
         # Compute the node attributes
         result = ego.getNodeAttributes(2)

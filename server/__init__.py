@@ -5,15 +5,20 @@ from flask import Flask, request
 import json
 import networkx as nx
 from server.python_scripts.dataIO import read_Ego_Pickles
-from server.python_scripts.sampleGraph import generateTestGraphDataNew
+from server.python_scripts.sampleGraph import (
+    generateTestGraphDataNew,
+    generateTestGraphData,
+)
 
 global stringGraph
 
+dev_Flag = False
 app = Flask(__name__, static_folder="../dist", static_url_path="/")
 here: pathlib.Path = pathlib.Path(__file__).parent.absolute()
 
 stringGraph = nx.read_graphml(here.parent / "data" / "graphml_string_cleaned.graphml")
-egoDictGraph = read_Ego_Pickles(here.parent / "data")
+if dev_Flag:
+    egoDictGraph = read_Ego_Pickles(here.parent / "data")
 
 
 ## ROUTES
@@ -41,13 +46,14 @@ def testEgoRadar():
     Generate a test ego radar plot using nx.gorogovtsev_goltsev_mendes_graph and generating 40 ego networks from it.
     """
     # select random key from egoDictGraph
-    ids = list(egoDictGraph.keys())
-    print("IDS", ids)
-    print(egoDictGraph)
-    tar_node = ids[0]
 
-    ids, test_ego_networks = generateTestGraphDataNew(egoDictGraph, tar_node)
-    tar_node = ids[0]
+    if dev_Flag:
+        ids = list(egoDictGraph.keys())
+        tar_node = ids[0]
+        ids, test_ego_networks = generateTestGraphDataNew(egoDictGraph, tar_node)
+    else:
+        ids, test_ego_networks = generateTestGraphData()
+        tar_node = ids[0]
 
     # if not request.json:
     #     tar_node = ids[0]

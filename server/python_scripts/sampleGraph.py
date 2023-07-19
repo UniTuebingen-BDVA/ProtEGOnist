@@ -22,8 +22,9 @@ def generateTestGraphData():
 
     random_numbers = random.sample(range(0, 1093), 40)
 
-    ego_networks = {i: egoGraph(i, G) for i in random_numbers}
+    ego_networks = {i: egoGraph.fromStringNetwork(i, G) for i in random_numbers}
     return random_numbers, ego_networks
+
 
 def generateRandomEgoGraph():
     G = nx.dorogovtsev_goltsev_mendes_graph(7)
@@ -37,7 +38,8 @@ def generateRandomEgoGraph():
     random.seed(32)
 
     random_number = random.randint(0, 1093)
-    return egoGraph(random_number,G).getGraphJSON()
+    return egoGraph.fromStringNetwork(random_number, G).getGraphJSON()
+
 
 def generateTestGraphDataNew(ego_dicts: dict[str, egoGraph], tar_node: str):
     # add a random classifcation (A-E) to each node in the ego_dicts
@@ -55,6 +57,8 @@ def generateTestGraphDataNew(ego_dicts: dict[str, egoGraph], tar_node: str):
     highestProts = sorted(
         intersection_dict, key=lambda x: intersection_dict[x]["jaccard"], reverse=True
     )[:40]
+    # randomize the order of highestProts
+    random.shuffle(highestProts)
 
     # make a subset of the ego_dicts with only the 40 nodes
     highestDict = {i: ego_dicts[i] for i in highestProts}
