@@ -22,7 +22,8 @@ here: pathlib.Path = pathlib.Path(__file__).parent.absolute()
 
 try:
     random.seed(31)
-    string_graph = nx.read_graphml(here / "data" / "graphml_string_cleaned.graphml")
+    string_graph = nx.read_graphml(
+        here / "data" / "graphml_string_cleaned.graphml")
     # pick a random node from the graph as the testing_tar_node
     testing_tar_node = random.choice(list(string_graph.nodes))
 except FileNotFoundError:
@@ -32,10 +33,11 @@ if dev_Flag:
     try:
         ego_dict_graph = read_ego_pickles(here / "data")
     except FileNotFoundError:
-        print(f"No ego pickles found in {here / 'data'}. Make sure you added them.")
+        print(
+            f"No ego pickles found in {here / 'data'}. Make sure you added them.")
 
 
-## ROUTES
+# ROUTES
 @app.route("/api/backendcounter", methods=["POST"])
 def test():
     counter = int(request.form.to_dict()["counter"])
@@ -44,7 +46,8 @@ def test():
 
 @app.route("/api/test_data_egograph", methods=["GET"])
 def test_data_egograph():
-    json_data = generate_random_ego_graph_string(string_graph, testing_tar_node)
+    json_data = generate_random_ego_graph_string(
+        string_graph, testing_tar_node)
     return json_data
 
 
