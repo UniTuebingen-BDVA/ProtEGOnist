@@ -46,7 +46,7 @@ function createLayerNodes(
             radius,
             x(node.id)!
         );
-        const currNode: layoutNode = {
+        nodes[node.id] = {
             ...node,
             index: -1,
             isCenter: false,
@@ -55,7 +55,6 @@ function createLayerNodes(
             hovered: false,
             numEdges: 0
         };
-        nodes[node.id] = currNode;
     });
     return { nodes, maxradius };
 }
@@ -132,34 +131,38 @@ function getMaxIndices(matrix: number[][]) {
     return maxIndex;
 }
 
-function sortInnerNodes(nodeAssignment: { [key: string]: string[] }) {
-    const intersections = calculateOverlaps(nodeAssignment);
-    const innerNodes = Object.keys(nodeAssignment);
+function sortInnerNodes(intersections:number[][]) {
     let maxIndex = getMaxIndices(intersections);
-    intersections[maxIndex[0]][maxIndex[1]] = -1;
-    const nodeOrder = [innerNodes[maxIndex[0]], innerNodes[maxIndex[1]]];
-    while (nodeOrder.length < Object.keys(nodeAssignment).length) {
-        console.log(nodeOrder);
+    const nodeOrder = [maxIndex[0], maxIndex[1]];
+    while (nodeOrder.length < intersections.length) {
         let localMax = -1;
         let left = true;
+        intersections[maxIndex[0]][maxIndex[1]]=-1
         for (let i = 0; i < intersections.length; i++) {
-            if (localMax > intersections[i][maxIndex[1]]) {
-                localMax = intersections[i][maxIndex[1]];
-                intersections[i][maxIndex[1]] = -1;
-                maxIndex = [i, maxIndex[1]];
+            //search for next highest number in columns and rows corresponding to maxIndex
+            if (localMax < intersections[i][nodeOrder[0]]) {
+                localMax = intersections[i][nodeOrder[0]];
+                maxIndex = [i, nodeOrder[0]];
                 left = true;
             }
-            if (localMax > intersections[maxIndex[0]][i]) {
-                localMax = intersections[maxIndex[0]][i];
-                intersections[maxIndex[0]][i] = -1;
+            if (localMax < intersections[nodeOrder[nodeOrder.length-1]][i]) {
+                localMax = intersections[nodeOrder[nodeOrder.length-1]][i];
                 maxIndex = [maxIndex[0], i];
                 left = false;
             }
         }
         if (left) {
-            nodeOrder.unshift(innerNodes[maxIndex[0]]);
+            nodeOrder.unshift(maxIndex[0]);
+            for (let i = 0; i < intersections.length; i++) {
+                intersections[i][nodeOrder[1]] = -1;
+                intersections[nodeOrder[1]][i] = -1;
+            }
         } else {
-            nodeOrder.push(innerNodes[maxIndex[1]]);
+            nodeOrder.push(maxIndex[1]);
+            for (let i = 0; i < intersections.length; i++) {
+                intersections[i][nodeOrder[nodeOrder.length-2]] = -1;
+                intersections[nodeOrder[nodeOrder.length-2]][i] = -1;
+            }
         }
     }
     return nodeOrder;
@@ -169,7 +172,8 @@ function sortNodes(nodes: egoGraphNode[], edges: egoGraphEdge[]) {
     const nodeDict: { [key: string]: egoGraphNode } = {};
     nodes.forEach((node) => (nodeDict[node.id] = node));
     const nodeAssignment = assignToInnerNodes(nodeDict, edges);
-    console.log(sortInnerNodes(nodeAssignment));
+    const intersections = calculateOverlaps(nodeAssignment);
+    console.log(sortInnerNodes(intersections));
 }
 
 export function calculateEgoLayout(
