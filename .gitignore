@@ -1,8 +1,21 @@
+# yarn
+
+
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
 # pycache
 __pycache__/
 
 # Data
 /data/*
+/server/data/ego_dict*
+/server/data/graphml*
 
 # Logs
 logs

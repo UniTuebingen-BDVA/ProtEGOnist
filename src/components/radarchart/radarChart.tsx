@@ -14,6 +14,7 @@ const RadarChart = (props: RadarChartProps) => {
     const GUIDE_CIRCLE_RADIUS_MIN = baseRadius / 4;
     const TEXT_RADIUS = baseRadius + 20;
     const CIRCLE_RADIUS = baseRadius / 20;
+    const LEGEND_ANGLE = 0 * (Math.PI / 180);
     //generate a linear scale for the size of the intersection property in each intersectionDatum
     const intersectionLengthScale = d3
         .scaleLinear()
@@ -68,22 +69,27 @@ const RadarChart = (props: RadarChartProps) => {
         }
     );
     // calculate the start and end angle of each pie chart segment
-    const pieChartSegments = angles.reduce((acc, { classification, angle }) => {
-        const startAngle = acc.length > 0 ? acc[acc.length - 1].endAngle : 0;
-        const endAngle = startAngle + angle;
-        acc.push({
-            classification,
-            startAngle,
-            endAngle
-        });
-        return acc;
-    }, [] as { classification: string; startAngle: number; endAngle: number }[]);
+    const pieChartSegments = angles.reduce(
+        (acc, { classification, angle }) => {
+            const startAngle =
+                acc.length > 0 ? acc[acc.length - 1].endAngle : 0;
+            const endAngle = startAngle + angle;
+            acc.push({
+                classification,
+                startAngle,
+                endAngle
+            });
+            return acc;
+        },
+        [] as { classification: string; startAngle: number; endAngle: number }[]
+    );
 
     // draw a circle svg for each intersectionDatum with a radius of the setSize.
     // place the node with tarNode as the center of the svg.
     // position each of remaining in a circle around the center of the svg such that we only have a single revolution but also allow for some space between the circles.
     // circles with a higher jaccard index value are drawn closer to the center of the svg. with the minimum radius being 10 and the maximum radius being 200.
     // also add a circular grid to the svg to make it easier to see the distance between the circles.
+    // add a single spoke with labels acting as a radial axis to indicate the jaccard index value of the circular grid.
     // draw a pie chart segment for each classification in the data in a lighter shader of the corresponding color to indicate the classification of the intersectionDatum.
     // add labels to the pie chart segments to indicate the classification of the intersectionDatum, if the label starts on the bottom half of the circle flip the lable so that the lable is more easily readable.
     return (
@@ -93,14 +99,14 @@ const RadarChart = (props: RadarChartProps) => {
                 d={`M 0 ${-TEXT_RADIUS} 
         A ${TEXT_RADIUS} ${TEXT_RADIUS} 0 0 1 0 ${TEXT_RADIUS}
         A ${TEXT_RADIUS} ${TEXT_RADIUS} 0 0 1 0 ${-TEXT_RADIUS}`}
-                fill='none'
+                fill="none"
             />
             <path
                 id={`textPath-Counterclockwise`}
                 d={`M 0 ${-TEXT_RADIUS} 
         A ${TEXT_RADIUS} ${TEXT_RADIUS} 0 0 0 1 ${TEXT_RADIUS}
         A ${TEXT_RADIUS} ${TEXT_RADIUS} 0 0 0 1 ${-TEXT_RADIUS}`}
-                fill='none'
+                fill="none"
             />
             {pieChartSegments.map(
                 ({ classification, startAngle, endAngle }) => {
@@ -131,8 +137,8 @@ const RadarChart = (props: RadarChartProps) => {
                             />
                             <text
                                 fill={colorScale(classification)}
-                                fontSize='18px'
-                                dominantBaseline='middle'
+                                fontSize="18px"
+                                dominantBaseline="middle"
                             >
                                 <textPath
                                     xlinkHref={`#textPath-${
@@ -149,6 +155,14 @@ const RadarChart = (props: RadarChartProps) => {
                     );
                 }
             )}
+            <line
+                x1={0}
+                y1={0}
+                x2={Math.cos(LEGEND_ANGLE) * GUIDE_CIRCLE_RADIUS}
+                y2={Math.sin(LEGEND_ANGLE) * GUIDE_CIRCLE_RADIUS}
+                stroke="black"
+                opacity={0.1}
+            />
             {
                 // draw a circle with increasing radius to indicate the distance from the center of the svg.
                 // the radii lie between CIRCLE_RADIUS_MIN and CIRCLE_RADIUS and are spaced CIRCLE_RADIUS_STEP apart.
@@ -159,19 +173,31 @@ const RadarChart = (props: RadarChartProps) => {
                         )
                     },
                     (_, index) => {
+                        const radius =
+                            GUIDE_CIRCLE_RADIUS_MIN + GUIDE_CIRCLE_STEP * index;
+                        const x = Math.cos(LEGEND_ANGLE) * radius;
+                        const y = Math.sin(LEGEND_ANGLE) * radius;
                         return (
-                            <circle
-                                key={index}
-                                cx={0}
-                                cy={0}
-                                r={
-                                    GUIDE_CIRCLE_RADIUS_MIN +
-                                    GUIDE_CIRCLE_STEP * index
-                                }
-                                fill={'none'}
-                                stroke={'black'}
-                                opacity={0.1}
-                            />
+                            <g key={radius}>
+                                <circle
+                                    cx={0}
+                                    cy={0}
+                                    r={radius}
+                                    fill="none"
+                                    stroke="black"
+                                    opacity={0.1}
+                                />
+                                <text
+                                    x={x}
+                                    y={y}
+                                    dx="1em"
+                                    textAnchor="middle"
+                                    fontSize="12px"
+                                    opacity={0.5}
+                                >
+                                    {1 - radius / GUIDE_CIRCLE_RADIUS}
+                                </text>
+                            </g>
                         );
                     }
                 )
@@ -180,38 +206,35 @@ const RadarChart = (props: RadarChartProps) => {
             {sortedIntersectionData.map(([key, intersectionDatum], index) => {
                 //console.log(intersectionLengthScale(intersectionDatum.setSize));
                 return (
-                    <>
-                        <circle
-                            key={key}
-                            cx={
-                                Math.cos(
-                                    ((index + 0.5) * 2 * Math.PI) /
+                    <circle
+                        key={key}
+                        cx={
+                            Math.cos(
+                                ((index + 0.5) * 2 * Math.PI) /
                                     sortedIntersectionData.length
-                                ) *
-                                (GUIDE_CIRCLE_RADIUS -
-                                    intersectionDatum.jaccard *
-                                    GUIDE_CIRCLE_RADIUS)
-                            }
-                            cy={
-                                Math.sin(
-                                    ((index + 0.5) * 2 * Math.PI) /
+                            ) *
+                            (GUIDE_CIRCLE_RADIUS -
+                                intersectionDatum.jaccard * GUIDE_CIRCLE_RADIUS)
+                        }
+                        cy={
+                            Math.sin(
+                                ((index + 0.5) * 2 * Math.PI) /
                                     sortedIntersectionData.length
-                                ) *
-                                (GUIDE_CIRCLE_RADIUS -
-                                    intersectionDatum.jaccard *
-                                    GUIDE_CIRCLE_RADIUS)
-                            }
-                            r={
-                                CIRCLE_RADIUS +
-                                intersectionLengthScale(
-                                    intersectionDatum.setSize
-                                ) *
+                            ) *
+                            (GUIDE_CIRCLE_RADIUS -
+                                intersectionDatum.jaccard * GUIDE_CIRCLE_RADIUS)
+                        }
+                        r={
+                            CIRCLE_RADIUS +
+                            intersectionLengthScale(intersectionDatum.setSize) *
                                 CIRCLE_RADIUS
-                            }
-                            fill={colorScale(intersectionDatum.classification)}
-                            opacity={0.7}
-                        />
-                    </>
+                        }
+                        fill={colorScale(intersectionDatum.classification)}
+                        fillOpacity={0.7}
+                        stroke={colorScale(intersectionDatum.classification)}
+                        strokeOpacity={0.8}
+                        strokeWidth={1}
+                    />
                 );
             })}
             <circle cx={0} cy={0} r={10} fill={'red'} />
