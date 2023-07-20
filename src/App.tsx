@@ -79,7 +79,7 @@ function App() {
                             <Grid item md={6}>
                                 <TabViewer/>
                             </Grid>
-                            <Grid item md={6}>
+                            <Grid item md={6} style={{padding: "0%"}}>
                                 <RadarChartViewer intersectionData={intersectionData} tarNode={tarNode}/>
                             </Grid>
                         

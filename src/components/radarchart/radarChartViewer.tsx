@@ -39,8 +39,8 @@ function RadarChartViewer(props: RadarChartViewerProps) {
     const {width, height} = useDimensions(ref)
 
     return (
-        <div style={{ width: '100%', height:"100%", display:"flex", textAlign:"center", alignItems: "center", justifyContent: "center", backgroundColor:"white" }} >
-            <svg style={{"display":"flex"}} width={width} height={height} viewBox={`0 0 ${width*2} ${height*2}`}>
+        <div ref={ref} style={{ width: '100%', height:"100%", display:"flex", textAlign:"center", alignItems: "center", justifyContent: "center", backgroundColor:"white" }} >
+            <svg style={{"display":"flex"}} width={width*0.99} height={height*0.99} viewBox={`0 0 ${width*2} ${height*2}`}>
                 <g
                     transform={
                         'translate(' +
