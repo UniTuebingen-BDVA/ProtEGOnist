@@ -15,6 +15,7 @@ import RadarChart from './components/radarchart/radarChart';
 import { Grid, Typography } from '@mui/material';
 import TabViewer from './components/TabViewer/TabViewer.tsx';
 import { AppBar, Toolbar } from '@mui/material';
+import RadarChartViewer from './components/radarchart/radarChartViewer.tsx';
 
 
 
@@ -79,25 +80,7 @@ function App() {
                                 <TabViewer/>
                             </Grid>
                             <Grid item md={6}>
-                                <div style={{ width: '100%', textAlign:"center", alignItems: "center", justifyContent: "center", backgroundColor:"white" }} >
-                                    <svg style={{"display":"flex"}} width={posX * 2} height={posY * 2}>
-                                        <g
-                                            transform={
-                                                'translate(' +
-                                                String(posX) +
-                                                ',' +
-                                                String(posY) +
-                                                ')'
-                                            }
-                                        >
-                                            <RadarChart
-                                                intersectionData={intersectionData}
-                                                tarNode={tarNode}
-                                                baseRadius={posX - 30}
-                                            />
-                                        </g>
-                                    </svg>
-                                </div>
+                                <RadarChartViewer intersectionData={intersectionData} tarNode={tarNode}/>
                             </Grid>
                         
                         </Grid>
