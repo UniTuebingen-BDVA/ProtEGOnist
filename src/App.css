@@ -30,7 +30,7 @@ body{
   color: #888;
 }
 
-.MuiGrid-item {background-color: rgb(192, 192, 201);}
+.MuiGrid-item {}
 
 .header-title {
   background-color: #61dafbaa;

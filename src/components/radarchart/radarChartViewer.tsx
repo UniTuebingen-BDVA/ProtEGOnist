@@ -5,6 +5,7 @@ import RadarChart from './radarChart.tsx'
 import { useAtom } from 'jotai'
 import { radarSVGSizeAtom } from './radarStore.ts'
 import { useDimensions } from '../../UtilityFunctions.ts'
+import { Paper } from '@mui/material';
 
 interface RadarChartViewerProps {
     intersectionData: { [name: string | number]: intersectionDatum };
@@ -20,8 +21,8 @@ function RadarChartViewer(props: RadarChartViewerProps) {
     }, [height, width])
 
     return (
-         <div ref={ref} style={{ width: '100%', height:"100%", display:"flex", textAlign:"center", alignItems: "center", justifyContent: "center", backgroundColor:"black" }} > 
-            <svg style={{backgroundColor:"white"}} width={svgSize.width-5} height={svgSize.height-5} viewBox={`0 0 ${svgSize.width} ${svgSize.width}`}>
+         <Paper ref={ref} style={{ width: '100%', height:"100%", display:"flex", textAlign:"center", alignItems: "center", justifyContent: "center"}} > 
+            <svg width={svgSize.width-5} height={svgSize.height-5} viewBox={`0 0 ${svgSize.width} ${svgSize.width}`}>
                 <g
                     transform={
                         'translate(' +
@@ -38,7 +39,7 @@ function RadarChartViewer(props: RadarChartViewerProps) {
                     />
                 </g>
             </svg>
-         </div> 
+         </Paper> 
     )
 }
 export default RadarChartViewer;

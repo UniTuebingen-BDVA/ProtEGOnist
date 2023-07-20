@@ -1,7 +1,7 @@
 
 import  {useEffect, useRef} from 'react'
 import Egograph from './egograph.tsx'
-import Grid from '@mui/material/Grid'
+import { Paper} from '@mui/material'
 import { useDimensions } from '../../UtilityFunctions.ts'
 import {useAtom} from 'jotai'
 import {graphSVGSizeAtom} from './networkStore.ts'
@@ -17,8 +17,8 @@ function EgoGraphViewer() {
     }, [height, width])
 
     return (
-             <div ref={refEgo}  style={{ width: '100%', height:"100%",alignItems: "center", justifyContent: "center", backgroundColor:"black", margin:0, padding:0 }} > 
-                <svg style={{backgroundColor:"white"}} width={svgSize.width} height={svgSize.height-10} viewBox={`0 0 ${svgSize.width} ${svgSize.height}`}>
+             <Paper ref={refEgo}  style={{ width: '100%', height:"100%", alignItems: "center", justifyContent: "center", margin:0, padding:0 }} > 
+                <svg width={svgSize.width} height={svgSize.height-10} viewBox={`0 0 ${svgSize.width} ${svgSize.height}`}>
                     <g
                         transform={
                             'translate(' +
@@ -31,7 +31,7 @@ function EgoGraphViewer() {
                         <Egograph />
                     </g>
                 </svg>
-            </div>
+            </Paper>
         
     )
 }

@@ -39,3 +39,4 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+server/data/graphml_string_cleaned.graphml

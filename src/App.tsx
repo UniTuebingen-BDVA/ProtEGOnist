@@ -57,17 +57,17 @@ function App() {
     if (egoGraph !== null && intersectionData !== null && tarNode !== null) {
         return (
             <> 
-            <AppBar className='header-title' style={{ display:"flex", height:"5vh", position:"fixed"}}>
+            <AppBar className='header-title' style={{ display:"flex", height:"5%", position:"fixed"}}>
                 <Toolbar variant="dense">
                     <Typography   variant="h6" color="inherit" component="div">
                       ProtEGOnist
                     </Typography>
                 </Toolbar>
             </AppBar> 
-            <div style={{ display:'flex'}}>
-                <Grid container  direction={"row"} spacing="10" justifyContent="flex-start" style={{height:"95vh", marginTop:"5vh"}}>
+            <div style={{height: "95vh", marginTop: "5vh"}}>
+            <Grid container alignItems={"stretch"} direction={"row"} spacing="10" justifyContent="space-between" style={{ minHeight:"100%", marginBottom:"5vh"}}>
                     <Grid item md={4}>
-                        <Grid container direction={"column"} justifyContent="space-between" style={{height:"95vh"}} 
+                        <Grid container alignItems={"stretch"} direction={"column"} justifyContent="space-between" style={{height:"100%",}} 
                             rowSpacing={3}>
                             <Grid item md={6}>
                                 <TabViewer/>
@@ -81,10 +81,9 @@ function App() {
                     <Grid item md={8}>
                         <EgoGraphViewer/> 
                     </Grid>
-                </Grid>
-            
-            </div>          
-            
+                </Grid>            
+            </div>
+                
             </>
         );
     } else return null;

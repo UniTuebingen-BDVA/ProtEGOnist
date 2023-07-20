@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAtom } from 'jotai';
 
-import { Box,  Tabs, Tab, Typography } from '@mui/material';
+import { Box,  Tabs, Tab, Typography, Paper } from '@mui/material';
 import { showedTabAtom } from './tabViewerStore.ts';
 
 
@@ -44,7 +44,7 @@ function TabViewer() {
 
         return (
 
-        <div style={{ width: '100%', height:'100%', alignItems: "center", justifyContent: "center", backgroundColor:"white" }} >
+        <Paper style={{ width: '100%', height:'100%', alignItems: "center", justifyContent: "center", backgroundColor:"white" }} >
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                     <Tab label="Selection" {...a11yProps(0)} />
@@ -57,7 +57,7 @@ function TabViewer() {
             <CustomTabPanel value={value} index={1}>
                 HERE IS THE SPACE FOR THE EXAMPLES
             </CustomTabPanel>                      
-            </div>
+            </Paper>
         );
 }
 export default TabViewer;
