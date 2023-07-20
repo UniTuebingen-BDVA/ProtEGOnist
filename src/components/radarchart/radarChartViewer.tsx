@@ -1,33 +1,10 @@
 
-import  {useRef} from 'react'
+import  {useRef, useEffect} from 'react'
 import { intersectionDatum } from '../../egoGraphSchema';
 import RadarChart from './radarChart.tsx'
-import { RefObject, useMemo, useSyncExternalStore } from "react"
-
-// import { useDimensions } from '../../UtilityFunctions.ts'
-
-
-function subscribe(callback: (e: Event) => void) {
-    console.log("subscribing")
-    window.addEventListener("resize", callback)
-    return () => {
-      console.log("unsubscribing")
-      window.removeEventListener("resize", callback)
-    }
-  }
-  
-  function useDimensions(ref: RefObject<HTMLElement>) {
-    const dimensions = useSyncExternalStore(
-      subscribe,
-      () => {
-        console.log("getting dimensions")
-        return (JSON.stringify({
-        width: ref.current?.offsetWidth ?? 0,
-        height: ref.current?.offsetHeight ?? 0,
-      }))}
-    )
-    return useMemo(() => JSON.parse(dimensions), [dimensions])
-  }
+import { useAtom } from 'jotai'
+import { radarSVGSizeAtom } from './radarStore.ts'
+import { useDimensions } from '../../UtilityFunctions.ts'
 
 interface RadarChartViewerProps {
     intersectionData: { [name: string | number]: intersectionDatum };
@@ -37,27 +14,31 @@ interface RadarChartViewerProps {
 function RadarChartViewer(props: RadarChartViewerProps) {
     const ref = useRef(null)
     const {width, height} = useDimensions(ref)
+    const [svgSize, setSVGSize] = useAtom(radarSVGSizeAtom)
+    useEffect(() => {
+        setSVGSize({width: width, height: height})
+    }, [height, width])
 
     return (
-        <div ref={ref} style={{ width: '100%', height:"100%", display:"flex", textAlign:"center", alignItems: "center", justifyContent: "center", backgroundColor:"white" }} >
-            <svg style={{"display":"flex"}} width={width*0.99} height={height*0.99} viewBox={`0 0 ${width*2} ${height*2}`}>
+         <div ref={ref} style={{ width: '100%', height:"100%", display:"flex", textAlign:"center", alignItems: "center", justifyContent: "center", backgroundColor:"black" }} > 
+            <svg style={{backgroundColor:"white"}} width={svgSize.width-5} height={svgSize.height-5} viewBox={`0 0 ${svgSize.width} ${svgSize.width}`}>
                 <g
                     transform={
                         'translate(' +
-                        String(width) +
+                        String(svgSize.width/2) +
                         ',' +
-                        String(height) +
+                        String(svgSize.width/2) +
                         ')'
                     }
                 >
                     <RadarChart
                         intersectionData={props.intersectionData}
                         tarNode={props.tarNode}
-                        baseRadius={width/2}
+                        baseRadius={svgSize.width/2-30}
                     />
                 </g>
             </svg>
-        </div>
+         </div> 
     )
 }
 export default RadarChartViewer;

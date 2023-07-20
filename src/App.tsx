@@ -1,27 +1,24 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import axios, { AxiosResponse } from 'axios';
-import Egograph from './components/egograph/egograph.tsx';
 import { calculateEgoLayout } from './components/egograph/egolayout.ts';
 import { useAtom } from 'jotai';
 import { egoGraph, intersectionDatum } from './egoGraphSchema';
 import { graphAtom } from './components/egograph/egoStore.ts';
 import {
-    graphSizeAtom,
     innerRadiusAtom,
     outerRadiusAtom
 } from './components/egograph/networkStore.ts';
-import RadarChart from './components/radarchart/radarChart';
 import { Grid, Typography } from '@mui/material';
 import TabViewer from './components/TabViewer/TabViewer.tsx';
 import { AppBar, Toolbar } from '@mui/material';
 import RadarChartViewer from './components/radarchart/radarChartViewer.tsx';
+import EgoGraphViewer from './components/egograph/egographViewer.tsx';
 
 
 
 function App() {
     const [egoGraph, setEgoGraph] = useAtom(graphAtom);
-    const [graphSize] = useAtom(graphSizeAtom);
     const [innerRadius] = useAtom(innerRadiusAtom);
     const [outerRadius] = useAtom(outerRadiusAtom);
 
@@ -58,10 +55,6 @@ function App() {
     }, [innerRadius, outerRadius, setEgoGraph]);
     
     if (egoGraph !== null && intersectionData !== null && tarNode !== null) {
-        const posX = graphSize / 2;
-        const posY = graphSize / 2;
-        
-        
         return (
             <> 
             <AppBar className='header-title' style={{ display:"flex", height:"5vh", position:"fixed"}}>
@@ -79,28 +72,14 @@ function App() {
                             <Grid item md={6}>
                                 <TabViewer/>
                             </Grid>
-                            <Grid item md={6} style={{padding: "0%"}}>
+                            <Grid item md={6} >
                                 <RadarChartViewer intersectionData={intersectionData} tarNode={tarNode}/>
                             </Grid>
                         
                         </Grid>
                     </Grid>
                     <Grid item md={8}>
-                    <div style={{ width: '100%', alignItems: "center", justifyContent: "center", backgroundColor:"white" }} >
-                    <svg width={posX * 2} height={posY * 2}>
-                        <g
-                            transform={
-                                'translate(' +
-                                String(posX) +
-                                ',' +
-                                String(posY) +
-                                ')'
-                            }
-                        >
-                            <Egograph />
-                        </g>
-                    </svg>
-                    </div>
+                        <EgoGraphViewer/> 
                     </Grid>
                 </Grid>
             
