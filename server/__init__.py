@@ -8,15 +8,17 @@ app = Flask(__name__, static_folder="../dist", static_url_path="/")
 here = os.path.dirname(__file__)
 
 
-## ROUTES
+# ROUTES
 @app.route("/api/backendcounter", methods=["POST"])
 def test():
     counter = int(request.form.to_dict()["counter"])
     return str(counter + 1)
 
-@app.route('/api/test_data_egograph',methods=['GET'])
+
+@app.route('/api/test_data_egograph', methods=['GET'])
 def test_data_egograph():
     return generateRandomEgoGraph()
+
 
 @app.route("/")
 def index():
@@ -40,5 +42,5 @@ def testEgoRadar():
         i: test_ego_networks[i].getIntersection(test_ego_networks[tar_node])
         for i in ids
     }
-    #print(intersection_dict)
+    # print(intersection_dict)
     return json.dumps({"intersectionData": intersection_dict, "tarNode": tar_node})
