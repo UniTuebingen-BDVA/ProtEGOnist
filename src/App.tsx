@@ -74,13 +74,13 @@ function App() {
                                 alignItems={'stretch'}
                                 direction={'column'}
                                 justifyContent="space-between"
-                                style={{ height: '100%' }}
+                                style={{ height: '100%', width: '100%' }}
                                 rowSpacing={3}
-                            >
-                                <Grid item md={6}>
+                                >
+                                <Grid item md={6} style={{ maxWidth: '100%' }}>
                                     <TabViewer />
                                 </Grid>
-                                <Grid item md={6}>
+                                <Grid item md={6} >
                                     <RadarChartViewer
                                         intersectionData={intersectionData}
                                         tarNode={tarNode}
