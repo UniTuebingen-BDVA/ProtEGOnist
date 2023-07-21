@@ -5,7 +5,7 @@ import random
 from flask import Flask, request
 import json
 import networkx as nx
-from server.python_scripts.dataIO import read_ego_pickles
+from server.python_scripts.dataIO import read_ego_pickles, read_excel_sheet
 from server.python_scripts.sampleGraph import (
     generate_string_intersections,
     generate_radar_data,
@@ -22,10 +22,8 @@ here: pathlib.Path = pathlib.Path(__file__).parent.absolute()
 
 try:
     random.seed(31)
-    string_graph = nx.read_graphml(
-        here / "data" / "graphml_string_cleaned.graphml")
+    string_graph = nx.read_graphml(here / "data" / "graphml_string_cleaned.graphml")
     # pick a random node from the graph as the testing_tar_node
-    testing_tar_node = random.choice(list(string_graph.nodes))
 except FileNotFoundError:
     print(f"No graphml file found in {here / 'data'}. Make sure you added it.")
 
@@ -33,8 +31,7 @@ if dev_Flag:
     try:
         ego_dict_graph = read_ego_pickles(here / "data")
     except FileNotFoundError:
-        print(
-            f"No ego pickles found in {here / 'data'}. Make sure you added them.")
+        print(f"No ego pickles found in {here / 'data'}. Make sure you added them.")
 
 
 # ROUTES
@@ -44,10 +41,9 @@ def test():
     return str(counter + 1)
 
 
-@app.route("/api/test_data_egograph", methods=["GET"])
-def test_data_egograph():
-    json_data = generate_random_ego_graph_string(
-        string_graph, testing_tar_node)
+@app.route("/api/test_data_egograph/<targetNode>", methods=["GET"])
+def test_data_egograph(targetNode: str):
+    json_data = generate_random_ego_graph_string(string_graph, targetNode)
     return json_data
 
 
@@ -56,8 +52,8 @@ def index():
     return app.send_static_file("index.html")
 
 
-@app.route("/api/testEgoRadar", methods=["GET"])
-def test_ego_radar():
+@app.route("/api/testEgoRadar/<targetNode>", methods=["GET"])
+def test_ego_radar(targetNode: str):
     """
     Generate a test ego radar plot using nx.gorogovtsev_goltsev_mendes_graph and generating 40 ego networks from it.
     """
@@ -65,14 +61,10 @@ def test_ego_radar():
 
     if dev_Flag:
         ids = list(ego_dict_graph.keys())
-        ids, rest_ego_graphs = generate_string_intersections(
-            ego_dict_graph, testing_tar_node
-        )
-        tar_ego_graph = rest_ego_graphs[testing_tar_node]
+        ids, rest_ego_graphs = generate_string_intersections(ego_dict_graph, targetNode)
+        tar_ego_graph = rest_ego_graphs[targetNode]
     else:
-        tar_ego_graph, rest_ego_graphs = generate_radar_data(
-            string_graph, testing_tar_node
-        )
+        tar_ego_graph, rest_ego_graphs = generate_radar_data(string_graph, targetNode)
         ids = list(rest_ego_graphs.keys())
 
     # if not request.json:
@@ -83,8 +75,13 @@ def test_ego_radar():
     intersection_dict = {
         i: rest_ego_graphs[i].get_intersection(tar_ego_graph) for i in ids
     }
+    intersection_dict[targetNode] = tar_ego_graph.get_intersection(tar_ego_graph)
     # print(intersection_dict)
 
-    return json.dumps(
-        {"intersectionData": intersection_dict, "tarNode": testing_tar_node}
-    )
+    return json.dumps(intersection_dict)
+
+
+@app.route("/api/getTableData", methods=["GET"])
+def get_table_data():
+    table_data = read_excel_sheet(here / "data" / "s5_with_uniprot.xlsx", 0)
+    return table_data

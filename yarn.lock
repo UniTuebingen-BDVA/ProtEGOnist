@@ -613,6 +613,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mui/utils@npm:^5.13.6":
+  version: 5.14.1
+  resolution: "@mui/utils@npm:5.14.1"
+  dependencies:
+    "@babel/runtime": ^7.22.6
+    "@types/prop-types": ^15.7.5
+    "@types/react-is": ^18.2.1
+    prop-types: ^15.8.1
+    react-is: ^18.2.0
+  peerDependencies:
+    react: ^17.0.0 || ^18.0.0
+  checksum: 39b1ab8d428f1783d0f7621b4ab284f7d035920c43c527114d865ba2d7d467ead850528a042ea986b76d4bac1ad6fc9cb0541add0d17d29d5ad59460c69106d1
+  languageName: node
+  linkType: hard
+
 "@mui/utils@npm:^5.13.7":
   version: 5.13.7
   resolution: "@mui/utils@npm:5.13.7"
@@ -625,6 +640,24 @@ __metadata:
   peerDependencies:
     react: ^17.0.0 || ^18.0.0
   checksum: 80d50b3453f98ee708db0c0264ea530b3c9a75fe97d26b509d1f228bd06ebe9eb203b01e019f8ba9d2bd10ef864b9d523405c0fcdccccb74d5a93350722eb359
+  languageName: node
+  linkType: hard
+
+"@mui/x-data-grid@npm:^6.10.0":
+  version: 6.10.0
+  resolution: "@mui/x-data-grid@npm:6.10.0"
+  dependencies:
+    "@babel/runtime": ^7.22.5
+    "@mui/utils": ^5.13.6
+    clsx: ^1.2.1
+    prop-types: ^15.8.1
+    reselect: ^4.1.8
+  peerDependencies:
+    "@mui/material": ^5.4.1
+    "@mui/system": ^5.4.1
+    react: ^17.0.0 || ^18.0.0
+    react-dom: ^17.0.0 || ^18.0.0
+  checksum: 79925a325d0e8629d12da3949f2cf921d1e323f1aea6a7a5dd77652e37176663057943da40f857b75687068c528c8f69ef85b1dac0ea7e9d465255a97084150e
   languageName: node
   linkType: hard
 
@@ -1464,6 +1497,7 @@ __metadata:
     "@emotion/styled": ^11.11.0
     "@mui/icons-material": ^5.14.1
     "@mui/material": ^5.13.7
+    "@mui/x-data-grid": ^6.10.0
     "@types/d3": ^7.4.0
     "@types/react": ^18.2.14
     "@types/react-dom": ^18.2.6
@@ -3616,6 +3650,13 @@ __metadata:
   version: 2.1.1
   resolution: "require-directory@npm:2.1.1"
   checksum: fb47e70bf0001fdeabdc0429d431863e9475e7e43ea5f94ad86503d918423c1543361cc5166d713eaa7029dd7a3d34775af04764bebff99ef413111a5af18c80
+  languageName: node
+  linkType: hard
+
+"reselect@npm:^4.1.8":
+  version: 4.1.8
+  resolution: "reselect@npm:4.1.8"
+  checksum: a4ac87cedab198769a29be92bc221c32da76cfdad6911eda67b4d3e7136dca86208c3b210e31632eae31ebd2cded18596f0dd230d3ccc9e978df22f233b5583e
   languageName: node
   linkType: hard
 
