@@ -3,19 +3,20 @@ import './App.css';
 import Egograph from './components/egograph/egograph.tsx';
 import { useAtom } from 'jotai';
 import {
-    graphSizeAtom,
     innerRadiusAtom,
     outerRadiusAtom
 } from './components/egograph/networkStore.ts';
-import RadarChart from './components/radarchart/radarChart';
+import { Grid, Typography } from '@mui/material';
+import TabViewer from './components/TabViewer/TabViewer.tsx';
+import { AppBar, Toolbar } from '@mui/material';
+import RadarChartViewer from './components/radarchart/radarChartViewer.tsx';
+import EgoGraphViewer from './components/egograph/egographViewer.tsx';
 import SelectionTable from './components/selectionTable/selectionTable';
 import { getEgographAtom, getRadarAtom } from './apiCalls.ts';
 import { tarNodeAtom } from './components/radarchart/radarStore.ts';
 import { getTableAtom } from './apiCalls.ts';
 
 function App() {
-    // const [egoGraph, setEgoGraph] = useAtom(graphAtom);
-    const [graphSize] = useAtom(graphSizeAtom);
     const [innerRadius] = useAtom(innerRadiusAtom);
     const [outerRadius] = useAtom(outerRadiusAtom);
     const [tableData, getTableData] = useAtom(getTableAtom);
@@ -42,48 +43,56 @@ function App() {
         Object.keys(intersectionData).length > 0 && // radarData
         tarNode !== ''
     ) {
-        const posX = graphSize / 2;
-        const posY = graphSize / 2;
         return (
             <>
-                <SelectionTable
-                    onRowSelectionModelChange={(newSelection) => {
-                        console.log('SELECTED: ', newSelection);
-                        // get the ID from the selection
-                        const selectedID = newSelection[0];
-                        // get the name from the tableData
-                        const selectedName =
-                            tableData.rows[selectedID]['UniprotID_inString'];
-                        getEgograph(selectedName);
-                        getRadarData(selectedName);
-                    }}
-                />
-                <svg width={posX * 2} height={posY * 2}>
-                    <g
-                        transform={
-                            'translate(' +
-                            String(posX) +
-                            ',' +
-                            String(posY) +
-                            ')'
-                        }
+                <AppBar
+                    className="header-title"
+                    style={{ display: 'flex', height: '5%', position: 'fixed' }}
+                >
+                    <Toolbar variant="dense">
+                        <Typography
+                            variant="h6"
+                            color="inherit"
+                            component="div"
+                        >
+                            ProtEGOnist
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
+                <div style={{ height: '95vh', marginTop: '5vh' }}>
+                    <Grid
+                        container
+                        alignItems={'stretch'}
+                        direction={'row'}
+                        spacing="10"
+                        justifyContent="space-between"
+                        style={{ minHeight: '100%', marginBottom: '5vh' }}
                     >
-                        <RadarChart baseRadius={posX - 30} />
-                    </g>
-                </svg>
-                <svg width={posX * 2} height={posY * 2}>
-                    <g
-                        transform={
-                            'translate(' +
-                            String(posX) +
-                            ',' +
-                            String(posY) +
-                            ')'
-                        }
-                    >
-                        <Egograph />
-                    </g>
-                </svg>
+                        <Grid item md={4}>
+                            <Grid
+                                container
+                                alignItems={'stretch'}
+                                direction={'column'}
+                                justifyContent="space-between"
+                                style={{ height: '100%' }}
+                                rowSpacing={3}
+                            >
+                                <Grid item md={6}>
+                                    <TabViewer />
+                                </Grid>
+                                <Grid item md={6}>
+                                    <RadarChartViewer
+                                        intersectionData={intersectionData}
+                                        tarNode={tarNode}
+                                    />
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                        <Grid item md={8}>
+                            <EgoGraphViewer />
+                        </Grid>
+                    </Grid>
+                </div>
             </>
         );
     } else return null;

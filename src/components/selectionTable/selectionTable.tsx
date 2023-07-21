@@ -16,7 +16,7 @@ interface SelectionTableProps {
 const SelectionTable = (props: SelectionTableProps) => {
     const [tableData] = useAtom(tableAtom);
     return (
-        <div style={{ height: 400, width: '100%' }}>
+        <div style={{ height: '100%', width: '100%' }}>
             <DataGrid
                 rows={tableData.rows}
                 columns={tableData.columns}

@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "server": "cd server && flask run --no-debugger",
+    "server": "cd server && flask run --port=5002 --no-debugger",
     "dev": "concurrently \"yarn run server\" \"vite\"",
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
@@ -13,6 +13,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.1",
     "@mui/material": "^5.13.7",
     "@mui/x-data-grid": "^6.10.0",
     "@types/d3": "^7.4.0",
