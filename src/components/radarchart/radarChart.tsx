@@ -1,14 +1,16 @@
 import { intersectionDatum } from '../../egoGraphSchema';
+import { useAtom } from 'jotai';
 import * as d3 from 'd3';
+import { intersectionAtom, tarNodeAtom } from './radarStore';
 
 interface RadarChartProps {
-    intersectionData: { [name: string | number]: intersectionDatum };
-    tarNode: string;
     baseRadius: number;
 }
 
 const RadarChart = (props: RadarChartProps) => {
-    const { intersectionData: intersectionData, tarNode, baseRadius } = props;
+    const { baseRadius } = props;
+    const [intersectionData] = useAtom(intersectionAtom);
+    const [tarNode] = useAtom(tarNodeAtom);
     const GUIDE_CIRCLE_RADIUS = baseRadius;
     const GUIDE_CIRCLE_STEP = baseRadius / 4;
     const GUIDE_CIRCLE_RADIUS_MIN = baseRadius / 4;
@@ -26,7 +28,9 @@ const RadarChart = (props: RadarChartProps) => {
         .range([0, 1]);
 
     // remove tarNode from the intersectionData and store it in tarNodeData
-    const tarNodeData = structuredClone(intersectionDataClone[tarNode]);
+    const tarNodeData: intersectionDatum = structuredClone(
+        intersectionDataClone[tarNode]
+    );
     delete intersectionDataClone[tarNode];
     // sort the itersectionData by the "classification" property
     const sortedIntersectionData = Object.entries(intersectionDataClone).sort(

@@ -1,16 +1,12 @@
 import {
     DataGrid,
-    GridRowsProp,
-    GridColDef,
     GridRowSelectionModel,
     GridCallbackDetails
 } from '@mui/x-data-grid';
+import { useAtom } from 'jotai';
+import { tableAtom } from './tableStore';
 
 interface SelectionTableProps {
-    data: {
-        rows: GridRowsProp;
-        columns: GridColDef[];
-    };
     onRowSelectionModelChange: (
         rowSelectionModel: GridRowSelectionModel,
         details: GridCallbackDetails
@@ -18,11 +14,12 @@ interface SelectionTableProps {
 }
 
 const SelectionTable = (props: SelectionTableProps) => {
+    const [tableData] = useAtom(tableAtom);
     return (
         <div style={{ height: 400, width: '100%' }}>
             <DataGrid
-                rows={props.data.rows}
-                columns={props.data.columns}
+                rows={tableData.rows}
+                columns={tableData.columns}
                 onRowSelectionModelChange={props.onRowSelectionModelChange}
             />
         </div>

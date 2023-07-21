@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import './App.css';
 import Egograph from './components/egograph/egograph.tsx';
 import { useAtom } from 'jotai';
@@ -33,7 +33,14 @@ function App() {
         getRadarData('Q9Y625').catch((error) => {
             console.log(error, `couldn't get radar with ID 'Q9Y625'`);
         });
-    }, [innerRadius, outerRadius, getEgograph, getTableData, getRadarData]);
+    }, [
+        innerRadius,
+        outerRadius,
+        getEgograph,
+        getTableData,
+        getRadarData,
+        setTarNode
+    ]);
     if (
         // check if all data is loaded (not empty)
         tableData.rows.length > 0 && // tableData
@@ -46,7 +53,6 @@ function App() {
         return (
             <>
                 <SelectionTable
-                    data={tableData}
                     onRowSelectionModelChange={(newSelection) => {
                         console.log('SELECTED: ', newSelection);
                         // get the ID from the selection
@@ -78,11 +84,7 @@ function App() {
                             ')'
                         }
                     >
-                        <RadarChart
-                            intersectionData={intersectionData}
-                            tarNode={tarNode}
-                            baseRadius={posX - 30}
-                        />
+                        <RadarChart baseRadius={posX - 30} />
                     </g>
                 </svg>
                 <svg width={posX * 2} height={posY * 2}>
