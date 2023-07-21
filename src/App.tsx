@@ -1,12 +1,7 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import axios, { AxiosResponse } from 'axios';
 import Egograph from './components/egograph/egograph.tsx';
-import { calculateEgoLayout } from './components/egograph/egolayout.ts';
 import { useAtom } from 'jotai';
-import { egoGraph, intersectionDatum } from './egoGraphSchema';
-import { GridRowsProp, GridColDef } from '@mui/x-data-grid';
-import { graphAtom } from './components/egograph/egoStore.ts';
 import {
     graphSizeAtom,
     innerRadiusAtom,
@@ -14,65 +9,37 @@ import {
 } from './components/egograph/networkStore.ts';
 import RadarChart from './components/radarchart/radarChart';
 import SelectionTable from './components/selectionTable/selectionTable';
-import { getEgographAtom } from './apiCalls.ts';
-import { get } from 'optics-ts';
+import { getEgographAtom, getRadarAtom } from './apiCalls.ts';
+import { tarNodeAtom } from './components/radarchart/radarStore.ts';
+import { getTableAtom } from './apiCalls.ts';
 
 function App() {
     // const [egoGraph, setEgoGraph] = useAtom(graphAtom);
     const [graphSize] = useAtom(graphSizeAtom);
     const [innerRadius] = useAtom(innerRadiusAtom);
     const [outerRadius] = useAtom(outerRadiusAtom);
+    const [tableData, getTableData] = useAtom(getTableAtom);
     const [egoGraph, getEgograph] = useAtom(getEgographAtom);
-    const [intersectionData, setIntersectionData] = useState<{
-        [name: string | number]: intersectionDatum;
-    } | null>(null);
-    const [tableData, setTableData] = useState<{
-        rows: GridRowsProp;
-        columns: GridColDef[];
-    } | null>(null);
-    const [tarNode, setTarNode] = useState<string | null>(null);
+    const [intersectionData, getRadarData] = useAtom(getRadarAtom);
+    const [tarNode, setTarNode] = useAtom(tarNodeAtom);
     useEffect(() => {
-        axios
-            .get<{
-                rows: GridRowsProp;
-                columns: GridColDef[];
-            }>('/api/getTableData')
-            .then(
-                (
-                    response: AxiosResponse<{
-                        rows: GridRowsProp;
-                        columns: GridColDef[];
-                    }>
-                ) => {
-                    setTableData(response.data);
-                }
-            )
-            .catch((error) => {
-                console.log(error);
-            });
+        getTableData().catch((error) => {
+            console.log(error, `couldn't get table data`);
+        });
         getEgograph('Q9Y625').catch((error) => {
             console.log(error, `couldn't get initial egograph with ID Q9Y625`);
         });
-        axios
-            .get<{
-                intersectionData: {
-                    [name: string | number]: intersectionDatum;
-                };
-                tarNode: string;
-            }>('/api/testEgoRadar/Q9Y625')
-            .then((response) => {
-                setIntersectionData(response.data.intersectionData);
-                setTarNode(response.data.tarNode);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }, [innerRadius, outerRadius, getEgograph]);
+        setTarNode('Q9Y625');
+        getRadarData('Q9Y625').catch((error) => {
+            console.log(error, `couldn't get radar with ID 'Q9Y625'`);
+        });
+    }, [innerRadius, outerRadius, getEgograph, getTableData, getRadarData]);
     if (
-        egoGraph !== null &&
-        intersectionData !== null &&
-        tarNode !== null &&
-        tableData !== null
+        // check if all data is loaded (not empty)
+        tableData.rows.length > 0 && // tableData
+        egoGraph.nodes.length > 0 && // egograph
+        Object.keys(intersectionData).length > 0 && // radarData
+        tarNode !== ''
     ) {
         const posX = graphSize / 2;
         const posY = graphSize / 2;
@@ -93,22 +60,12 @@ function App() {
                                 `couldn't get egograph with ID ${selectedID}`
                             );
                         });
-                        axios
-                            .get<{
-                                intersectionData: {
-                                    [name: string | number]: intersectionDatum;
-                                };
-                                tarNode: string;
-                            }>(`/api/testEgoRadar/${selectedName}`)
-                            .then((response) => {
-                                setIntersectionData(
-                                    response.data.intersectionData
-                                );
-                                setTarNode(response.data.tarNode);
-                            })
-                            .catch((error) => {
-                                console.log(error);
-                            });
+                        getRadarData(selectedName).catch((error) => {
+                            console.log(
+                                error,
+                                `couldn't get radar with ID ${selectedID}`
+                            );
+                        });
                     }}
                 />
                 <svg width={posX * 2} height={posY * 2}>

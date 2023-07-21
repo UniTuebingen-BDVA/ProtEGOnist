@@ -78,7 +78,7 @@ def test_ego_radar(targetNode: str):
     intersection_dict[targetNode] = tar_ego_graph.get_intersection(tar_ego_graph)
     # print(intersection_dict)
 
-    return json.dumps({"intersectionData": intersection_dict, "tarNode": targetNode})
+    return json.dumps(intersection_dict)
 
 
 @app.route("/api/getTableData", methods=["GET"])
