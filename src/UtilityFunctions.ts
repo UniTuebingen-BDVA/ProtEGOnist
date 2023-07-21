@@ -14,10 +14,8 @@ export function polarToCartesian(
 
 
 function subscribe(callback: (e: Event) => void) {
-  console.log("subscribing")
   window.addEventListener("resize", callback)
   return () => {
-    console.log("unsubscribing")
     window.removeEventListener("resize", callback)
   }
 }
@@ -26,7 +24,6 @@ function useDimensions(ref: RefObject<HTMLElement>) {
   const dimensions = useSyncExternalStore(
     subscribe,
     () => {
-      console.log("getting dimensions")
       return (JSON.stringify({
       width: ref.current?.offsetWidth ?? 0,
       height: ref.current?.offsetHeight ?? 0,
