@@ -22,12 +22,15 @@ function CustomTabPanel(props: TabPanelProps) {
             id={`simple-tabpanel-${index}`}
             aria-labelledby={`simple-tab-${index}`}
             {...other}
+            style={{
+                width: '100%',
+                height: '100%',
+                alignItems: 'center',
+                justifyContent: 'center'
+            }}
         >
-            {value === index && (
-                <Box sx={{ p: 3 }}>
-                    <Typography>{children}</Typography>
-                </Box>
-            )}
+            {value === index &&                  children}
+            
         </div>
     );
 }
@@ -68,6 +71,7 @@ function TabViewer() {
                 </Tabs>
             </Box>
             <CustomTabPanel value={value} index={0}>
+                <div style={{ width: '100%', maxHeight: '100%'}}>
                 <SelectionTable
                     onRowSelectionModelChange={(newSelection) => {
                         console.log('SELECTED: ', newSelection);
@@ -80,6 +84,8 @@ function TabViewer() {
                         getRadarData(selectedName);
                     }}
                 />
+                </div> 
+
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
                 HERE IS THE SPACE FOR THE EXAMPLES
