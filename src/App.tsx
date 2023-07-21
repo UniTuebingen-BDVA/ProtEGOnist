@@ -23,16 +23,10 @@ function App() {
     const [intersectionData, getRadarData] = useAtom(getRadarAtom);
     const [tarNode, setTarNode] = useAtom(tarNodeAtom);
     useEffect(() => {
-        getTableData().catch((error) => {
-            console.log(error, `couldn't get table data`);
-        });
-        getEgograph('Q9Y625').catch((error) => {
-            console.log(error, `couldn't get initial egograph with ID Q9Y625`);
-        });
+        getTableData();
+        getEgograph('Q9Y625');
         setTarNode('Q9Y625');
-        getRadarData('Q9Y625').catch((error) => {
-            console.log(error, `couldn't get radar with ID 'Q9Y625'`);
-        });
+        getRadarData('Q9Y625');
     }, [
         innerRadius,
         outerRadius,
@@ -60,18 +54,8 @@ function App() {
                         // get the name from the tableData
                         const selectedName =
                             tableData.rows[selectedID]['UniprotID_inString'];
-                        getEgograph(selectedName).catch((error) => {
-                            console.log(
-                                error,
-                                `couldn't get egograph with ID ${selectedID}`
-                            );
-                        });
-                        getRadarData(selectedName).catch((error) => {
-                            console.log(
-                                error,
-                                `couldn't get radar with ID ${selectedID}`
-                            );
-                        });
+                        getEgograph(selectedName);
+                        getRadarData(selectedName);
                     }}
                 />
                 <svg width={posX * 2} height={posY * 2}>

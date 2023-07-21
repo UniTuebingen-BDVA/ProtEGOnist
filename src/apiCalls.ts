@@ -17,37 +17,54 @@ import { GridRowsProp, GridColDef } from '@mui/x-data-grid';
 
 export const getEgographAtom = atom(
     (get) => get(graphAtom),
-    async (get, set, id: string) => {
-        const result = await axios.get<egoGraph>(
-            `/api/test_data_egograph/${id}`
+    (get, set, id: string) => {
+        axios.get<egoGraph>(`/api/test_data_egograph/${id}`).then(
+            (result) => {
+                const layout = calculateEgoLayout(
+                    result.data,
+                    get(innerRadiusAtom),
+                    get(outerRadiusAtom)
+                );
+                set(graphAtom, layout);
+            },
+            () => {
+                console.error,
+                    console.log(`couldn't get egograph with ID ${id}`);
+            }
         );
-        const layout = calculateEgoLayout(
-            result.data,
-            get(innerRadiusAtom),
-            get(outerRadiusAtom)
-        );
-        set(graphAtom, layout);
     }
 );
 
 export const getRadarAtom = atom(
     (get) => get(intersectionAtom),
-    async (_get, set, id: string) => {
-        const result = await axios.get<{
-            [name: string | number]: intersectionDatum;
-        }>(`/api/testEgoRadar/${id}`);
-        set(intersectionAtom, result.data);
-        set(tarNodeAtom, id);
+    (_get, set, id: string) => {
+        axios
+            .get<{
+                [name: string | number]: intersectionDatum;
+            }>(`/api/testEgoRadar/${id}`)
+            .then(
+                (result) => {
+                    set(intersectionAtom, result.data);
+                    set(tarNodeAtom, id);
+                },
+                () => {
+                    console.error,
+                        console.log(`couldn't get radar with ID ${id}`);
+                }
+            );
     }
 );
 
 export const getTableAtom = atom(
     (get) => get(tableAtom),
-    async (_get, set) => {
-        const result = await axios.get<{
-            rows: GridRowsProp;
-            columns: GridColDef[];
-        }>('/api/getTableData');
-        set(tableAtom, result.data);
+    (_get, set) => {
+        axios
+            .get<{
+                rows: GridRowsProp;
+                columns: GridColDef[];
+            }>('/api/getTableData')
+            .then((result) => {
+                set(tableAtom, result.data);
+            }, console.error);
     }
 );
