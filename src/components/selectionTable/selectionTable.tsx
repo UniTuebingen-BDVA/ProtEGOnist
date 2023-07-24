@@ -18,20 +18,19 @@ const SelectionTable = (props: SelectionTableProps) => {
     const rows = tableData.rows;
     const columns = tableData.columns;
     return (
-        <div style={{  maxWidth: '100%',  width: '100%', maxHeight:"100%" }}>
+        <div style={{ maxWidth: '100%', width: '100%', maxHeight: '100%' }}>
             <DataGrid
                 rows={rows}
                 columns={columns}
                 initialState={{
                     pagination: {
-                    paginationModel: { page: 0, pageSize: 5 },
-                    },
+                        paginationModel: { page: 0, pageSize: 5 }
+                    }
                 }}
                 pageSizeOptions={[5]}
-                checkboxSelection
+                onRowSelectionModelChange={props.onRowSelectionModelChange}
                 autoHeight={true}
-
-                />
+            />
         </div>
     );
 };
