@@ -22,7 +22,7 @@ function RadarChartViewer(props: RadarChartViewerProps) {
 
     return (
          <Paper ref={ref} style={{ width: '100%', height:"100%", display:"flex", textAlign:"center", alignItems: "center", justifyContent: "center"}} > 
-            <svg width={svgSize.width-5} height={svgSize.height-5} viewBox={`0 0 ${svgSize.width} ${svgSize.width}`}>
+            <svg width={svgSize.width} height={svgSize.height} viewBox={`0 0 ${svgSize.width} ${svgSize.width}`}>
                 <g
                     transform={
                         'translate(' +

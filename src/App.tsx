@@ -45,9 +45,15 @@ function App() {
     ) {
         return (
             <>
-                <AppBar
+
+<div className="container">
+    {/* <!-- First Row --> */}
+    <div className="row">
+      <div style={{ flex: 1, display:"flex", justifyContent: "center", alignItems: "center"}}>
+        {/* <!-- Content for the first row --> */}
+        <AppBar
                     className="header-title"
-                    style={{ display: 'flex', height: '5%', position: 'fixed' }}
+                    style={{ display: 'flex', height: '5%' }}
                 >
                     <Toolbar variant="dense">
                         <Typography
@@ -59,40 +65,40 @@ function App() {
                         </Typography>
                     </Toolbar>
                 </AppBar>
-                <div style={{ height: '95vh', marginTop: '5vh' }}>
-                    <Grid
-                        container
-                        alignItems={'stretch'}
-                        direction={'row'}
-                        spacing="10"
-                        justifyContent="space-between"
-                        style={{ minHeight: '100%', marginBottom: '5vh' }}
-                    >
-                        <Grid item md={4}>
-                            <Grid
-                                container
-                                alignItems={'stretch'}
-                                direction={'column'}
-                                justifyContent="space-between"
-                                style={{ height: '100%', width: '100%' }}
-                                rowSpacing={3}
-                                >
-                                <Grid item md={6} style={{ maxWidth: '100%' }}>
-                                    <TabViewer />
-                                </Grid>
-                                <Grid item md={6} >
-                                    <RadarChartViewer
-                                        intersectionData={intersectionData}
-                                        tarNode={tarNode}
-                                    />
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                        <Grid item md={8}>
-                            <EgoGraphViewer />
-                        </Grid>
-                    </Grid>
-                </div>
+      </div>
+    </div>
+
+    {/* <!-- Second Row --> */}
+    <div className="row">
+      {/* <!-- First Column --> */}
+      <div className="column" style={{flex:1, minHeight: "100%",height: "100%", width: "33%", minWidth: "33%"}}>
+        <div>
+          {/* <!-- Content for the first column, first row --> */}
+          <TabViewer />
+
+        </div>
+        <div>
+          {/* <!-- Content for the first column, second row --> */}
+          <RadarChartViewer
+            intersectionData={intersectionData}
+            tarNode={tarNode}
+        />
+        </div>
+      </div>
+
+      {/* <!-- Second Column --> */}
+      <div className="column" style={{flex:2, width: "67%"}}>
+        <div>
+          {/* <!-- Content for the second column, first row --> */}
+          <EgoGraphViewer />
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+                
+             
             </>
         );
     } else return null;
