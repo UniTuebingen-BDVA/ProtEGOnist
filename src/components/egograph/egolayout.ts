@@ -31,17 +31,19 @@ export interface egoGraphLayout {
  * @param {string[]} sortOrder
  * @param {number} center
  * @param {number} radius
+ * @param {number} circlePortion
  */
 function createLayerNodes(
     layerNodes: egoGraphNode[],
     sortOrder: string[],
     center: number,
-    radius: number
+    radius: number,
+    circlePortion: number
 ) {
     const nodes: { [key: string]: layoutNode } = {};
     const x = d3
         .scaleBand()
-        .range([0, 2 * Math.PI])
+        .range([0, 2 * Math.PI * circlePortion])
         .domain(sortOrder);
     const maxradius: number =
         ((center / Math.sin((Math.PI - x.bandwidth()) / 2)) *
@@ -212,9 +214,9 @@ export function sortByOverlap(
         intersections[innerNodeOrder[0]][
             innerNodeOrder[innerNodeOrder.length - 1]
         ] = -1;
-                intersections[
-            innerNodeOrder[innerNodeOrder.length - 1]
-        ][innerNodeOrder[0]] = -1;
+        intersections[innerNodeOrder[innerNodeOrder.length - 1]][
+            innerNodeOrder[0]
+        ] = -1;
         for (let i = 0; i < intersections.length; i++) {
             //search for next highest number in columns and rows corresponding
             // to the leftmost and rightmost node in the sort order
@@ -301,11 +303,13 @@ function sortNodes(nodes: egoGraphNode[], edges: egoGraphEdge[]) {
  * @param {egoGraph} graph
  * @param {number} innerSize
  * @param {number} outerSize
+ * @param {number} circlePortion
  */
 export function calculateEgoLayout(
     graph: egoGraph,
     innerSize: number,
-    outerSize: number
+    outerSize: number,
+    circlePortion: number,
 ): egoGraphLayout {
     const { innerNodeOrder, outerNodeOrder } = sortNodes(
         graph.nodes,
@@ -317,13 +321,15 @@ export function calculateEgoLayout(
         nodesLayer1,
         innerNodeOrder,
         outerSize,
-        innerSize
+        innerSize,
+        circlePortion
     );
     const nodesLayer2Layout = createLayerNodes(
         nodesLayer2,
         outerNodeOrder,
         outerSize,
-        outerSize
+        outerSize,
+        circlePortion
     );
     const nodes = { ...nodesLayer1Layout.nodes, ...nodesLayer2Layout.nodes };
     nodes[graph.centerNode.id] = {

@@ -14,6 +14,7 @@ import {
     outerRadiusAtom
 } from './components/egograph/networkStore.ts';
 import { GridRowsProp, GridColDef } from '@mui/x-data-grid';
+import { circlePortionAtom } from './components/egograph/egoGraphBundleStore.ts';
 
 export const getEgographAtom = atom(
     (get) => get(graphAtom),
@@ -23,7 +24,8 @@ export const getEgographAtom = atom(
                 const layout = calculateEgoLayout(
                     result.data,
                     get(innerRadiusAtom),
-                    get(outerRadiusAtom)
+                    get(outerRadiusAtom),
+                    get(circlePortionAtom),
                 );
                 set(graphAtom, layout);
             },

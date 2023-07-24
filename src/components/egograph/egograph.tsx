@@ -9,13 +9,13 @@ import {
     graphAtom,
     nodeRadiusAtom,
     nodesAtomsAtom
-} from './egoStore.ts';
-import { EgographNode } from './egographNode.tsx';
+} from './egoStore';
+import { EgographNode } from './egographNode';
 import {
     graphSizeAtom,
     innerRadiusAtom,
     outerRadiusAtom
-} from './networkStore.ts';
+} from './networkStore';
 
 const Egograph = () => {
     const [egoGraphSize] = useAtom(graphSizeAtom);

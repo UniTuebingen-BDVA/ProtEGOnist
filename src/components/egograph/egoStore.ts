@@ -1,16 +1,16 @@
 import { atom } from 'jotai';
 import { focusAtom } from 'jotai-optics';
 import { splitAtom } from 'jotai/utils';
-import { egoGraphLayout } from './egolayout.ts';
+import { egoGraphLayout } from './egolayout';
 import * as d3 from 'd3';
-import { graphSizeAtom, maxRadiusAtom } from './networkStore.ts';
+import { graphSizeAtom, maxRadiusAtom } from './networkStore';
 
 export const graphAtom = atom<egoGraphLayout>({
     nodes: [],
     edges: [],
     maxradius: 0
 });
-export const collapsedAtom = atom(true);
+export const collapsedAtom = atom(false);
 const nodeAtom = focusAtom(graphAtom, (optic) => optic.prop('nodes'));
 export const nodesAtomsAtom = splitAtom(nodeAtom);
 const numEdgesMinMax = atom((get) => {

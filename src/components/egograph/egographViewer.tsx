@@ -1,10 +1,10 @@
 
 import  {useEffect, useRef} from 'react'
-import Egograph from './egograph.tsx'
+import Egograph from './egograph'
 import { Paper} from '@mui/material'
-import { useDimensions } from '../../UtilityFunctions.ts'
+import { useDimensions } from '../../UtilityFunctions'
 import {useAtom} from 'jotai'
-import {graphSVGSizeAtom} from './networkStore.ts'
+import {graphSVGSizeAtom} from './networkStore'
 
 
 function EgoGraphViewer() {

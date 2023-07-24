@@ -1,5 +1,5 @@
 import { PrimitiveAtom, useSetAtom } from 'jotai';
-import { layoutNode } from './egolayout.ts';
+import { layoutNode } from './egolayout';
 
 type egographNodeProps = {
     nodeAtom: PrimitiveAtom<layoutNode>;
