@@ -31,12 +31,6 @@ try:
 except FileNotFoundError:
     print(f"No json file found in {here / 'data'}. Make sure you added it.")
 
-if dev_Flag:
-    try:
-        ego_dict_graph = read_ego_pickles(here / "data")
-    except FileNotFoundError:
-        print(f"No ego pickles found in {here / 'data'}. Make sure you added them.")
-
 
 # ROUTES
 @app.route("/api/backendcounter", methods=["POST"])
