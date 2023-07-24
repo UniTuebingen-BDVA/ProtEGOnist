@@ -192,6 +192,7 @@ export function sortByOverlap(
     let index = -1;
     const innerNodeOrder = [maxIndex[0], maxIndex[1]];
     intersections[maxIndex[0]][maxIndex[1]] = -1;
+    intersections[maxIndex[1]][maxIndex[0]] = -1;
     let intersection = getIntersectingNodes(innerNodeOrder, true);
     const outerNodeOrder: string[] = [];
     outerNodeOrder.push(
@@ -211,6 +212,9 @@ export function sortByOverlap(
         intersections[innerNodeOrder[0]][
             innerNodeOrder[innerNodeOrder.length - 1]
         ] = -1;
+                intersections[
+            innerNodeOrder[innerNodeOrder.length - 1]
+        ][innerNodeOrder[0]] = -1;
         for (let i = 0; i < intersections.length; i++) {
             //search for next highest number in columns and rows corresponding
             // to the leftmost and rightmost node in the sort order
