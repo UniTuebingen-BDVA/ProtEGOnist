@@ -1,6 +1,5 @@
 # yarn
 
-
 .pnp.*
 .yarn/*
 !.yarn/patches
@@ -16,6 +15,7 @@ __pycache__/
 /data/*
 /server/data/ego_dict*
 /server/data/graphml*
+/server/data/*.xlsx
 
 # Logs
 logs
@@ -41,3 +41,4 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+server/data/graphml_string_cleaned.graphml

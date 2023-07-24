@@ -1,36 +1,39 @@
 import { intersectionDatum } from '../../egoGraphSchema';
+import { useAtom } from 'jotai';
 import * as d3 from 'd3';
+import { intersectionAtom, tarNodeAtom } from './radarStore';
 
 interface RadarChartProps {
-    intersectionData: { [name: string | number]: intersectionDatum };
-    tarNode: string;
     baseRadius: number;
 }
 
 const RadarChart = (props: RadarChartProps) => {
-    const { intersectionData, tarNode, baseRadius } = props;
+    const { baseRadius } = props;
+    const [intersectionData] = useAtom(intersectionAtom);
+    const [tarNode] = useAtom(tarNodeAtom);
     const GUIDE_CIRCLE_RADIUS = baseRadius;
     const GUIDE_CIRCLE_STEP = baseRadius / 4;
     const GUIDE_CIRCLE_RADIUS_MIN = baseRadius / 4;
     const TEXT_RADIUS = baseRadius + 20;
     const CIRCLE_RADIUS = baseRadius / 20;
     const LEGEND_ANGLE = 0 * (Math.PI / 180);
+    const intersectionDataClone = structuredClone(intersectionData);
     //generate a linear scale for the size of the intersection property in each intersectionDatum
     const intersectionLengthScale = d3
         .scaleLinear()
         .domain([
-            d3.min(Object.values(intersectionData), (d) => d.setSize),
-            d3.max(Object.values(intersectionData), (d) => d.setSize)
+            d3.min(Object.values(intersectionDataClone), (d) => d.setSize),
+            d3.max(Object.values(intersectionDataClone), (d) => d.setSize)
         ] as [number, number])
         .range([0, 1]);
 
-    // extract tarNode from the intersectionData
-    const tarNodeData = intersectionData[tarNode];
-    // remove tarNode from the intersectionData
-    delete intersectionData[tarNode];
-
+    // remove tarNode from the intersectionData and store it in tarNodeData
+    const tarNodeData: intersectionDatum = structuredClone(
+        intersectionDataClone[tarNode]
+    );
+    delete intersectionDataClone[tarNode];
     // sort the itersectionData by the "classification" property
-    const sortedIntersectionData = Object.entries(intersectionData).sort(
+    const sortedIntersectionData = Object.entries(intersectionDataClone).sort(
         (a, b) => {
             if (a[1].classification < b[1].classification) {
                 return -1;
@@ -237,7 +240,15 @@ const RadarChart = (props: RadarChartProps) => {
                     />
                 );
             })}
-            <circle cx={0} cy={0} r={10} fill={'red'} />
+            <circle
+                cx={0}
+                cy={0}
+                r={
+                    CIRCLE_RADIUS +
+                    intersectionLengthScale(tarNodeData.setSize) * CIRCLE_RADIUS
+                }
+                fill={'red'}
+            />
         </g>
     );
 };

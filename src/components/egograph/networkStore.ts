@@ -1,5 +1,5 @@
 import { atom } from 'jotai';
-
+export const graphSVGSizeAtom = atom({width: 400, height: 400});
 export const graphSizeAtom = atom(400);
 export const maxRadiusAtom = atom(5);
 export const outerRadiusAtom = atom((get) => {

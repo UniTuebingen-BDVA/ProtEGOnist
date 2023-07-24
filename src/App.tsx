@@ -1,88 +1,104 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import './App.css';
-import axios, { AxiosResponse } from 'axios';
 import Egograph from './components/egograph/egograph.tsx';
-import { calculateEgoLayout } from './components/egograph/egolayout.ts';
 import { useAtom } from 'jotai';
-import { egoGraph, intersectionDatum } from './egoGraphSchema';
-import { graphAtom } from './components/egograph/egoStore.ts';
 import {
-    graphSizeAtom,
     innerRadiusAtom,
     outerRadiusAtom
 } from './components/egograph/networkStore.ts';
-import RadarChart from './components/radarchart/radarChart';
+import { Grid, Typography } from '@mui/material';
+import TabViewer from './components/TabViewer/TabViewer.tsx';
+import { AppBar, Toolbar } from '@mui/material';
+import RadarChartViewer from './components/radarchart/radarChartViewer.tsx';
+import EgoGraphViewer from './components/egograph/egographViewer.tsx';
+import SelectionTable from './components/selectionTable/selectionTable';
+import { getEgographAtom, getRadarAtom } from './apiCalls.ts';
+import { tarNodeAtom } from './components/radarchart/radarStore.ts';
+import { getTableAtom } from './apiCalls.ts';
 
 function App() {
-    const [egoGraph, setEgoGraph] = useAtom(graphAtom);
-    const [graphSize] = useAtom(graphSizeAtom);
     const [innerRadius] = useAtom(innerRadiusAtom);
     const [outerRadius] = useAtom(outerRadiusAtom);
-    const [intersectionData, setIntersectionData] = useState<{
-        [name: string | number]: intersectionDatum;
-    } | null>(null);
-    const [tarNode, setTarNode] = useState<string | null>(null);
+    const [tableData, getTableData] = useAtom(getTableAtom);
+    const [egoGraph, getEgograph] = useAtom(getEgographAtom);
+    const [intersectionData, getRadarData] = useAtom(getRadarAtom);
+    const [tarNode, setTarNode] = useAtom(tarNodeAtom);
     useEffect(() => {
-        axios
-            .get<egoGraph>('/api/test_data_egograph')
-            .then((response: AxiosResponse<egoGraph>) => {
-                setEgoGraph(
-                    calculateEgoLayout(response.data, innerRadius, outerRadius)
-                );
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-        axios
-            .get<{
-                intersectionData: {
-                    [name: string | number]: intersectionDatum;
-                };
-                tarNode: string;
-            }>('/api/testEgoRadar')
-            .then((response) => {
-                setIntersectionData(response.data.intersectionData);
-                setTarNode(response.data.tarNode);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }, [innerRadius, outerRadius, setEgoGraph]);
-    if (egoGraph !== null && intersectionData !== null && tarNode !== null) {
-        const posX = graphSize / 2;
-        const posY = graphSize / 2;
+        getTableData();
+        getEgograph('Q9Y625');
+        setTarNode('Q9Y625');
+        getRadarData('Q9Y625');
+    }, [
+        innerRadius,
+        outerRadius,
+        getEgograph,
+        getTableData,
+        getRadarData,
+        setTarNode
+    ]);
+    if (
+        // check if all data is loaded (not empty)
+        tableData.rows.length > 0 && // tableData
+        egoGraph.nodes.length > 0 && // egograph
+        Object.keys(intersectionData).length > 0 && // radarData
+        tarNode !== ''
+    ) {
         return (
             <>
-                <svg width={posX * 2} height={posY * 2}>
-                    <g
-                        transform={
-                            'translate(' +
-                            String(posX) +
-                            ',' +
-                            String(posY) +
-                            ')'
-                        }
-                    >
-                        <RadarChart
-                            intersectionData={intersectionData}
-                            tarNode={tarNode}
-                            baseRadius={posX - 30}
-                        />
-                    </g>
-                </svg>
-                <svg width={posX * 2} height={posY * 2}>
-                    <g
-                        transform={
-                            'translate(' +
-                            String(posX) +
-                            ',' +
-                            String(posY) +
-                            ')'
-                        }
-                    >
-                        <Egograph />
-                    </g>
-                </svg>
+
+<div className="container">
+    {/* <!-- First Row --> */}
+    <div className="row">
+      <div style={{ flex: 1, display:"flex", justifyContent: "center", alignItems: "center"}}>
+        {/* <!-- Content for the first row --> */}
+        <AppBar
+                    className="header-title"
+                    style={{ display: 'flex', height: '5%' }}
+                >
+                    <Toolbar variant="dense">
+                        <Typography
+                            variant="h6"
+                            color="inherit"
+                            component="div"
+                        >
+                            ProtEGOnist
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
+      </div>
+    </div>
+
+    {/* <!-- Second Row --> */}
+    <div className="row">
+      {/* <!-- First Column --> */}
+      <div className="column" style={{flex:1, minHeight: "100%",height: "100%", width: "33%", minWidth: "33%"}}>
+        <div>
+          {/* <!-- Content for the first column, first row --> */}
+          <TabViewer />
+
+        </div>
+        <div>
+          {/* <!-- Content for the first column, second row --> */}
+          <RadarChartViewer
+            intersectionData={intersectionData}
+            tarNode={tarNode}
+        />
+        </div>
+      </div>
+
+      {/* <!-- Second Column --> */}
+      <div className="column" style={{flex:2, width: "67%"}}>
+        <div>
+          {/* <!-- Content for the second column, first row --> */}
+          <EgoGraphViewer />
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+                
+             
             </>
         );
     } else return null;
