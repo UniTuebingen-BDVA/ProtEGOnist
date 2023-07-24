@@ -1,24 +1,35 @@
 import {
-    getMaxIndex,
-    sortInnerNodes
+    calculateOverlaps,
+    sortByOverlap
 } from '../components/egograph/egolayout.ts';
 import { expect } from 'chai';
 
-describe('Sort inner nodes', () => {
-    const distanceMatrix = [
-        [-1, 3, 1, 0, 0],
-        [-1, -1, 2, 5, 7],
-        [-1, -1, -1, 5, 2],
-        [-1, -1, -1, -1, 6],
-        [-1, -1, -1, -1, -1]
-    ];
-    const max = getMaxIndex(distanceMatrix);
-    const sortedIndices = sortInnerNodes(distanceMatrix);
-    console.log(sortedIndices);
-    it('check if global maximum is correct', () => {
-        expect(max).to.eql([1, 4]);
+describe('Sort nodes', () => {
+    const nodeAssignment = {
+        a: ['e1', 'e2', 'e3', 'e6'],
+        b: ['e3', 'e4', 'e5'],
+        c: ['e1', 'e2', 'e5', 'e7'],
+        d: ['e3', 'e2', 'e1', 'e8']
+    };
+    const innernodes = ['a', 'b', 'c', 'd'];
+    const distanceMatrix = calculateOverlaps(nodeAssignment, innernodes);
+    const sortedIndices = sortByOverlap(
+        distanceMatrix,
+        nodeAssignment,
+        innernodes
+    );
+    it('check if overlap matrix is correct', () => {
+        expect(distanceMatrix).to.eql([
+            [[], ['e3'], ['e1', 'e2'], ['e1', 'e2', 'e3']],
+            [[], [], ['e5'], ['e3']],
+            [[], [], [], ['e1', 'e2']],
+            [[], [], [], []]
+        ]);
     });
-    it('check if the order is correct', () => {
-        expect(sortedIndices).to.eql([0, 1, 4, 3, 2]);
+    it('check if the inner node order is correct', () => {
+        expect(sortedIndices.innerNodeOrder).to.eql(['b', 'c', 'a', 'd']);
     });
+    it('check if the outer node order is correct',()=>{
+        expect(sortedIndices.outerNodeOrder).to.eql(['e4','e5','e7','e6','e1','e2','e3','e8']);
+    })
 });

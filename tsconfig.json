@@ -30,9 +30,4 @@
       "path": "./tsconfig.node.json"
     }
   ],
-  "ts-node": {
-    // Tell ts-node CLI to install the --loader automatically, explained below
-    "esm": true,
-    "experimentalSpecifierResolution": "node"
-  }
 }

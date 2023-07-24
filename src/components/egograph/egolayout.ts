@@ -25,8 +25,16 @@ export interface egoGraphLayout {
     maxradius: number;
 }
 
+/**
+ * Create nodes for a layer in the ego graph
+ * @param {egoGraphNode[]} layerNodes
+ * @param {string[]} sortOrder
+ * @param {number} center
+ * @param {number} radius
+ */
 function createLayerNodes(
     layerNodes: egoGraphNode[],
+    sortOrder: string[],
     center: number,
     radius: number
 ) {
@@ -34,7 +42,7 @@ function createLayerNodes(
     const x = d3
         .scaleBand()
         .range([0, 2 * Math.PI])
-        .domain(layerNodes.map((d) => d.id));
+        .domain(sortOrder);
     const maxradius: number =
         ((center / Math.sin((Math.PI - x.bandwidth()) / 2)) *
             Math.sin(x.bandwidth())) /
@@ -87,8 +95,7 @@ function assignToInnerNodes(
             nodeDict[edge.target].centerDist === 1
         ) {
             nodeAssignment[edge.target].push(edge.source);
-        }
-        if (
+        } else if (
             nodeDict[edge.target].centerDist === 2 &&
             nodeDict[edge.source].centerDist === 1
         ) {
@@ -103,7 +110,7 @@ function assignToInnerNodes(
  * @param { [key: string]: string[] } nodeAssignment - inner nodes with their assigned outer nodes
  * @param {string[]} keys: node ids
  */
-function calculateOverlaps(
+export function calculateOverlaps(
     nodeAssignment: { [key: string]: string[] },
     keys: string[]
 ) {
@@ -139,86 +146,178 @@ export function getMaxIndex(matrix: number[][]) {
 }
 
 /**
- * sorts inner nodes according to their intersections
- * @param {number[][]} intersections
+ * sorts nodes according to their intersections
+ * @param {number[][]} intersectingNodes
+ * @param { [key: string]: string[] } nodeAssignment
+ * @param {string[]} innerNodes
  */
-export function sortInnerNodes(intersections: number[][]) {
+export function sortByOverlap(
+    intersectingNodes: string[][][],
+    nodeAssignment: { [key: string]: string[] },
+    innerNodes: string[]
+) {
+    const intersections = intersectingNodes.map((row, i) =>
+        row.map((column, j) => {
+            if (j > i) {
+                return column.length;
+            } else return -1;
+        })
+    );
+    const getIntersectingNodes = (
+        currInnerOrder: number[],
+        left: boolean
+    ): string[] => {
+        if (left) {
+            return currInnerOrder[0] < currInnerOrder[1]
+                ? intersectingNodes[currInnerOrder[0]][currInnerOrder[1]]
+                : intersectingNodes[currInnerOrder[1]][currInnerOrder[0]];
+        } else {
+            return currInnerOrder[currInnerOrder.length - 2] <
+                currInnerOrder[currInnerOrder.length - 1]
+                ? intersectingNodes[currInnerOrder[currInnerOrder.length - 2]][
+                      currInnerOrder[currInnerOrder.length - 1]
+                  ]
+                : intersectingNodes[currInnerOrder[currInnerOrder.length - 1]][
+                      currInnerOrder[currInnerOrder.length - 2]
+                  ];
+        }
+    };
+    const deleteColRow = (index: number) => {
+        for (let i = 0; i < intersections.length; i++) {
+            intersections[i][index] = -1;
+            intersections[index][i] = -1;
+        }
+    };
     const maxIndex = getMaxIndex(intersections);
-    let index=-1;
-    const nodeOrder = [maxIndex[0], maxIndex[1]];
-    while (nodeOrder.length < intersections.length) {
+    let index = -1;
+    const innerNodeOrder = [maxIndex[0], maxIndex[1]];
+    intersections[maxIndex[0]][maxIndex[1]] = -1;
+    let intersection = getIntersectingNodes(innerNodeOrder, true);
+    const outerNodeOrder: string[] = [];
+    outerNodeOrder.push(
+        ...nodeAssignment[innerNodes[innerNodeOrder[0]]].filter(
+            (d) => !intersection.includes(d)
+        )
+    );
+    outerNodeOrder.push(...intersection);
+    outerNodeOrder.push(
+        ...nodeAssignment[innerNodes[innerNodeOrder[1]]].filter(
+            (d) => !outerNodeOrder.includes(d)
+        )
+    );
+    let left = true;
+    while (innerNodeOrder.length < intersections.length) {
         let localMax = -1;
-        let left = true;
-        intersections[maxIndex[0]][maxIndex[1]] = -1;
-        intersections[nodeOrder[0]][nodeOrder[nodeOrder.length - 1]] = -1;
+        intersections[innerNodeOrder[0]][
+            innerNodeOrder[innerNodeOrder.length - 1]
+        ] = -1;
         for (let i = 0; i < intersections.length; i++) {
             //search for next highest number in columns and rows corresponding
             // to the leftmost and rightmost node in the sort order
-            if (localMax < intersections[i][nodeOrder[0]]) {
-                localMax = intersections[i][nodeOrder[0]];
-                index=i;
+            if (localMax < intersections[i][innerNodeOrder[0]]) {
+                localMax = intersections[i][innerNodeOrder[0]];
+                index = i;
                 left = true;
             }
-            if (localMax < intersections[nodeOrder[0]][i]) {
-                localMax = intersections[nodeOrder[0]][i];
-                index=i;
+            if (localMax < intersections[innerNodeOrder[0]][i]) {
+                localMax = intersections[innerNodeOrder[0]][i];
+                index = i;
                 left = true;
             }
-            if (localMax < intersections[nodeOrder[nodeOrder.length - 1]][i]) {
-                localMax = intersections[nodeOrder[nodeOrder.length - 1]][i];
-                index=i;
+            if (
+                localMax <
+                intersections[innerNodeOrder[innerNodeOrder.length - 1]][i]
+            ) {
+                localMax =
+                    intersections[innerNodeOrder[innerNodeOrder.length - 1]][i];
+                index = i;
                 left = false;
             }
-            if (localMax < intersections[i][nodeOrder[nodeOrder.length - 1]]) {
-                localMax = intersections[i][nodeOrder[nodeOrder.length - 1]];
-                index=i;
+            if (
+                localMax <
+                intersections[i][innerNodeOrder[innerNodeOrder.length - 1]]
+            ) {
+                localMax =
+                    intersections[i][innerNodeOrder[innerNodeOrder.length - 1]];
+                index = i;
                 left = false;
             }
         }
+        const intersection = getIntersectingNodes(innerNodeOrder, left).filter(
+            (d) => !outerNodeOrder.includes(d)
+        );
+        const otherNodes = nodeAssignment[innerNodes[index]].filter(
+            (d) => !outerNodeOrder.includes(d)
+        );
         if (left) {
-            for (let i = 0; i < intersections.length; i++) {
-                intersections[i][nodeOrder[0]] = -1;
-                intersections[nodeOrder[0]][i] = -1;
-            }
-            nodeOrder.unshift(index);
+            deleteColRow(innerNodeOrder[0]);
+            innerNodeOrder.unshift(index);
+            outerNodeOrder.unshift(...intersection);
+            outerNodeOrder.unshift(...otherNodes);
         } else {
-            for (let i = 0; i < intersections.length; i++) {
-                intersections[i][nodeOrder[nodeOrder.length - 1]] = -1;
-                intersections[nodeOrder[nodeOrder.length - 1]][i] = -1;
-            }
-            nodeOrder.push(index);
+            deleteColRow(innerNodeOrder[innerNodeOrder.length - 1]);
+            innerNodeOrder.push(index);
+            outerNodeOrder.push(...intersection);
+            outerNodeOrder.push(...otherNodes);
         }
     }
-    return nodeOrder;
+    intersection =
+        innerNodeOrder[0] < innerNodeOrder[innerNodeOrder.length - 1]
+            ? intersectingNodes[innerNodeOrder[0]][
+                  innerNodeOrder[innerNodeOrder.length - 1]
+              ]
+            : intersectingNodes[innerNodeOrder[innerNodeOrder.length - 1]][
+                  innerNodeOrder[0]
+              ];
+    outerNodeOrder.push(
+        ...intersection.filter((d) => !outerNodeOrder.includes(d))
+    );
+    return {
+        innerNodeOrder: innerNodeOrder.map((d) => innerNodes[d]),
+        outerNodeOrder
+    };
 }
 
+/**
+ * Sorts nodes in egograph
+ * @param {egoGraphNode[]} nodes
+ * @param {egoGraphEdge[]} edges
+ */
 function sortNodes(nodes: egoGraphNode[], edges: egoGraphEdge[]) {
     const nodeDict: { [key: string]: egoGraphNode } = {};
     nodes.forEach((node) => (nodeDict[node.id] = node));
     const nodeAssignment = assignToInnerNodes(nodeDict, edges);
     const innerNodes = Object.keys(nodeAssignment);
-    const intersections = calculateOverlaps(nodeAssignment, innerNodes);
-    const innerSortOrder = sortInnerNodes(
-        intersections.map((row) => row.map((column) => column.length))
-    );
-    console.log(innerSortOrder.map(index=>nodeDict[innerNodes[index]]));
+    const intersectingNodes = calculateOverlaps(nodeAssignment, innerNodes);
+    return sortByOverlap(intersectingNodes, nodeAssignment, innerNodes);
 }
 
+/**
+ * Create layout for egograph
+ * @param {egoGraph} graph
+ * @param {number} innerSize
+ * @param {number} outerSize
+ */
 export function calculateEgoLayout(
     graph: egoGraph,
     innerSize: number,
     outerSize: number
 ): egoGraphLayout {
-    sortNodes(graph.nodes, graph.edges);
+    const { innerNodeOrder, outerNodeOrder } = sortNodes(
+        graph.nodes,
+        graph.edges
+    );
     const nodesLayer1 = graph.nodes.filter((d) => d.centerDist === 1);
     const nodesLayer2 = graph.nodes.filter((d) => d.centerDist === 2);
     const nodesLayer1Layout = createLayerNodes(
         nodesLayer1,
+        innerNodeOrder,
         outerSize,
         innerSize
     );
     const nodesLayer2Layout = createLayerNodes(
         nodesLayer2,
+        outerNodeOrder,
         outerSize,
         outerSize
     );
