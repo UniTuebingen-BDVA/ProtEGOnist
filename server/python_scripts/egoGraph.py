@@ -35,7 +35,7 @@ class EgoGraph:
         getIntersection(self, target): Returns the intersection of the ego graph and the target ego graph.
     """
 
-    def __init__(self, node: str | int, graph: nx.Graph):
+    def __init__(self, input_node: str | int, graph: nx.Graph):
         """
         Constructor.
 
@@ -43,8 +43,20 @@ class EgoGraph:
           node: The node that is the center of the ego graph.
           graph: The networkx graph object of the ego graph.
         """
-        self.node = node
+        self.node = input_node
         self.nxGraph: nx.Graph = graph
+        # check if name and classification are in the attributes if not add them
+        for node in self.nxGraph.nodes:
+            if "name" not in self.nxGraph.nodes[node]:
+                self.nxGraph.nodes[node]["name"] = node
+            if "id" not in self.nxGraph.nodes[node]:
+                self.nxGraph.nodes[node]["id"] = node
+            if "classification" not in self.nxGraph.nodes[node]:
+                self.nxGraph.nodes[node]["classification"] = "default"
+            if "centerDist" not in self.nxGraph.nodes[node]:
+                self.nxGraph.nodes[node]["centerDist"] = nx.shortest_path_length(
+                    self.nxGraph, self.node, node
+                )
 
     @classmethod
     def from_created_egonetwork(cls, node: str | int, graph: nx.Graph):
@@ -81,14 +93,6 @@ class EgoGraph:
         """
         attribs = self.nxGraph.nodes(data=True)[id]
         # check if name and classification are in the attributes if not add them
-        if "name" not in attribs:
-            attribs["name"] = id
-        if "id" not in attribs:
-            attribs["id"] = id
-        if "classification" not in attribs:
-            attribs["classification"] = "default"
-        if "centerDist" not in attribs:
-            attribs["centerDist"] = nx.shortest_path_length(self.nxGraph, self.node, id)
 
         return attribs
 

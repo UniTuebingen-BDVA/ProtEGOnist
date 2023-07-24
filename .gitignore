@@ -13,7 +13,7 @@ __pycache__/
 
 # Data
 /data/*
-/server/data/ego_dict*
+/server/data/*.pickle
 /server/data/graphml*
 /server/data/*.xlsx
 

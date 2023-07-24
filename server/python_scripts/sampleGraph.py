@@ -72,7 +72,9 @@ def generate_random_ego_graph_string(string_graph: nx.Graph, target_node: str):
     return EgoGraph.from_string_network(target_node, string_graph).get_graph_JSON()
 
 
-def generate_string_intersections(ego_dicts: dict[str, EgoGraph], tar_node: str):
+def generate_string_intersections_pickles(
+    ego_dicts: dict[str, EgoGraph], tar_node: str
+):
     # add a random classifcation (A-E) to each node in the ego_dicts
     for i in ego_dicts:
         for node in ego_dicts[i].nxGraph.nodes:
@@ -95,6 +97,28 @@ def generate_string_intersections(ego_dicts: dict[str, EgoGraph], tar_node: str)
     highestDict = {i: ego_dicts[i] for i in highestProts}
 
     return highestProts, highestDict
+
+
+def generate_string_intersections_top(
+    string_graph: nx.Graph, top_nodes: list[str], tar_node: str
+):
+    # get the 40 nodes with the highest intersection by jaccard index
+    highestProts = top_nodes
+    # randomize the order of highestProts
+    # random.shuffle(highestProts)
+    # generate EgoGraphs from the highestProts
+    highestDict = {
+        i: EgoGraph.from_string_network(i, string_graph) for i in highestProts
+    }
+    # add a random classifcation (A-E) to each node in the ego_dicts
+    for i in highestDict:
+        for node in highestDict[i].nxGraph.nodes:
+            highestDict[i].nxGraph.nodes[node]["classification"] = random.choice(
+                ["A", "B", "C", "D", "E"]
+            )
+    tar_ego_graph = EgoGraph.from_string_network(tar_node, string_graph)
+
+    return tar_ego_graph, highestDict
 
 
 ## test the function
