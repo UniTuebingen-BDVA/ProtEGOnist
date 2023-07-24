@@ -7,6 +7,7 @@
     "server": "cd server && flask run --port=5002 --no-debugger",
     "dev": "concurrently \"yarn run server\" \"vite\"",
     "build": "tsc && vite build",
+    "test": "NODE_OPTIONS=\"--loader ts-node/esm\" mocha src/tests",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -17,6 +18,7 @@
     "@mui/material": "^5.13.7",
     "@mui/x-data-grid": "^6.10.0",
     "@types/d3": "^7.4.0",
+    "@types/mocha": "^10.0.1",
     "axios": "^1.4.0",
     "d3": "^7.8.5",
     "jotai": "^2.2.2",
@@ -26,16 +28,20 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@types/chai": "^4.3.5",
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.6",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
     "@typescript-eslint/parser": "^5.61.0",
     "@vitejs/plugin-react-swc": "^3.3.2",
+    "chai": "^4.3.7",
     "concurrently": "^8.2.0",
     "eslint": "^8.44.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.1",
+    "mocha": "^10.2.0",
     "prettier": "^3.0.0",
+    "ts-node": "^10.9.1",
     "typescript": "^5.0.2",
     "vite": "^4.4.0"
   },
