@@ -4,6 +4,8 @@ import { egoGraph, intersectionDatum } from './egoGraphSchema';
 import { graphAtom } from './components/egograph/egoStore.ts';
 import {
     intersectionAtom,
+    sameNodesAtom,
+    changedNodesAtom,
     tarNodeAtom
 } from './components/radarchart/radarStore.ts';
 import { tableAtom } from './components/selectionTable/tableStore.ts';
@@ -37,13 +39,25 @@ export const getEgographAtom = atom(
 
 export const getRadarAtom = atom(
     (get) => get(intersectionAtom),
-    (_get, set, id: string) => {
+    (get, set, id: string) => {
         axios
             .get<{
                 [name: string | number]: intersectionDatum;
             }>(`/api/testEgoRadar/${id}`)
             .then(
                 (result) => {
+                    // compare the keys of the new and old intersection atoms
+                    const oldKeys = Object.keys(get(intersectionAtom));
+                    const newKeys = Object.keys(result.data);
+                    const sameNodes = oldKeys.filter((x) =>
+                        newKeys.includes(x)
+                    );
+                    const changedNodes = newKeys.filter(
+                        (x) => !oldKeys.includes(x)
+                    );
+                    console.log('chaged nodes', changedNodes);
+                    set(sameNodesAtom, sameNodes);
+                    set(changedNodesAtom, changedNodes);
                     set(intersectionAtom, result.data);
                     set(tarNodeAtom, id);
                 },

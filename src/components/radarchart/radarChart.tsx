@@ -1,9 +1,11 @@
 import { intersectionDatum } from '../../egoGraphSchema';
 import { useAtom } from 'jotai';
 import * as d3 from 'd3';
-import { tarNodeAtom } from './radarStore';
+import { tarNodeAtom, changedNodesAtom, sameNodesAtom } from './radarStore';
 import { getRadarAtom } from '../../apiCalls';
 import { Tooltip } from '@mui/material';
+import RadarCircle from './radarCircle';
+import { useTrail } from '@react-spring/web';
 
 interface RadarChartProps {
     baseRadius: number;
@@ -12,6 +14,7 @@ interface RadarChartProps {
 const RadarChart = (props: RadarChartProps) => {
     const { baseRadius } = props;
     const [intersectionData, getRadarData] = useAtom(getRadarAtom);
+    const [changedNodes] = useAtom(changedNodesAtom);
     const [tarNode] = useAtom(tarNodeAtom);
     const GUIDE_CIRCLE_RADIUS = baseRadius;
     const GUIDE_CIRCLE_STEP = baseRadius / 4;
@@ -208,52 +211,21 @@ const RadarChart = (props: RadarChartProps) => {
                 )
             }
 
-            {sortedIntersectionData.map(([key, intersectionDatum], index) => {
-                //console.log(intersectionLengthScale(intersectionDatum.setSize));
-                return (
-                    <Tooltip title={key} key={key}>
-                        <circle
-                            key={key}
-                            cx={
-                                Math.cos(
-                                    ((index + 0.5) * 2 * Math.PI) /
-                                        sortedIntersectionData.length
-                                ) *
-                                (GUIDE_CIRCLE_RADIUS -
-                                    intersectionDatum.jaccard *
-                                        GUIDE_CIRCLE_RADIUS)
-                            }
-                            cy={
-                                Math.sin(
-                                    ((index + 0.5) * 2 * Math.PI) /
-                                        sortedIntersectionData.length
-                                ) *
-                                (GUIDE_CIRCLE_RADIUS -
-                                    intersectionDatum.jaccard *
-                                        GUIDE_CIRCLE_RADIUS)
-                            }
-                            r={
-                                CIRCLE_RADIUS +
-                                intersectionLengthScale(
-                                    intersectionDatum.setSize
-                                ) *
-                                    CIRCLE_RADIUS
-                            }
-                            fill={colorScale(intersectionDatum.classification)}
-                            fillOpacity={0.7}
-                            stroke={colorScale(
-                                intersectionDatum.classification
-                            )}
-                            style={{ transition: 'all 0.5s ease-in-out' }}
-                            strokeOpacity={0.8}
-                            strokeWidth={1}
-                            onClick={() => {
-                                getRadarData(key);
-                            }}
-                        />
-                    </Tooltip>
-                );
-            })}
+            {sortedIntersectionData.map(([key, intersectionDatum], index) => (
+                <RadarCircle
+                    key={key}
+                    id={key}
+                    index={index}
+                    intersectionDatum={intersectionDatum}
+                    arrayLength={sortedIntersectionData.length}
+                    GUIDE_CIRCLE_RADIUS={GUIDE_CIRCLE_RADIUS}
+                    CIRCLE_RADIUS={CIRCLE_RADIUS}
+                    colorScale={colorScale}
+                    intersectionLengthScale={intersectionLengthScale}
+                    isChanged={changedNodes.includes(key)}
+                    trailAmount={changedNodes.length}
+                />
+            ))}
             <Tooltip title={tarNode} key={tarNode}>
                 <circle
                     cx={0}
