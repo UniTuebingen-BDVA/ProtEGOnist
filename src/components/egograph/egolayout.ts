@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
-import { polarToCartesian } from '../../UtilityFunctions.ts';
-import { egoGraph, egoGraphEdge, egoGraphNode } from '../../egoGraphSchema.ts';
+import { polarToCartesian } from '../../UtilityFunctions';
+import { egoGraph, egoGraphEdge, egoGraphNode } from '../../egoGraphSchema';
 
 export type layoutNode = egoGraphNode & {
     index: number;
@@ -298,6 +298,47 @@ function sortNodes(nodes: egoGraphNode[], edges: egoGraphEdge[]) {
     return sortByOverlap(intersectingNodes, nodeAssignment, innerNodes);
 }
 
+function sortByNumEdges(nodes: egoGraphNode[]) {
+    return nodes.sort((a,b)=>a.numEdges-b.numEdges);
+}
+
+function calculateMultiLayout(
+    egoGraphs: egoGraph[],
+    height,
+    width,
+    innerSize: number,
+    outerSize: number
+) {
+    if (egoGraphs.length > 1) {
+        let graphCenters;
+        const assignment = {};
+        egoGraphs.forEach((graph) => {
+            assignment[graph.centerNode.id] = graph.nodes.map((d) => d.id);
+        });
+        const overlaps = calculateOverlaps(
+            assignment,
+            egoGraphs.map((graph) => graph.centerNode.id)
+        );
+        if (egoGraphs.length === 2) {
+            graphCenters = [
+                { x: outerSize, y: outerSize },
+                { x: width - outerSize, y: outerSize }
+            ];
+        } else if (egoGraphs.length === 3) {
+            graphCenters = [
+                { x: outerSize, y: height / 2 },
+                {
+                    x: width - outerSize,
+                    y: outerSize
+                },
+                { x: width - outerSize, y: height - outerSize }
+            ];
+        }
+    } else {
+        return calculateEgoLayout(egoGraphs[0], innerSize, outerSize, 1);
+    }
+}
+
 /**
  * Create layout for egograph
  * @param {egoGraph} graph
@@ -309,7 +350,7 @@ export function calculateEgoLayout(
     graph: egoGraph,
     innerSize: number,
     outerSize: number,
-    circlePortion: number,
+    circlePortion: number
 ): egoGraphLayout {
     const { innerNodeOrder, outerNodeOrder } = sortNodes(
         graph.nodes,

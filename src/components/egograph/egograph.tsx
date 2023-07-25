@@ -105,7 +105,7 @@ const Egograph = () => {
         },
         [applyLayout, collapsed]
     );
-    const elements = useMemo(() => {
+    return useMemo(() => {
         let centerCircle,
             circles,
             lines,
@@ -212,7 +212,5 @@ const Egograph = () => {
         setCollapsed,
         updateLayout
     ]);
-
-    return elements;
 };
 export default Egograph;
