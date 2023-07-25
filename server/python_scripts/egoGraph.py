@@ -57,6 +57,10 @@ class EgoGraph:
                 self.nxGraph.nodes[node]["centerDist"] = nx.shortest_path_length(
                     self.nxGraph, self.node, node
                 )
+            if "numEdges" not in self.nxGraph.nodes[node]:
+                self.nxGraph.nodes[node]["numEdges"] = len(
+                    list(self.nxGraph.neighbors(node))
+                )
 
     @classmethod
     def from_created_egonetwork(cls, node: str | int, graph: nx.Graph):
