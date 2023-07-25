@@ -302,20 +302,6 @@ function sortByNumEdges(nodes: egoGraphNode[]) {
     return nodes.sort((a, b) => a.numEdges - b.numEdges);
 }
 
-function combinations(nodes) {
-    const fn = (active, rest, a)=> {
-        if (!active && !rest)
-            return;
-        if (!rest) {
-            a.push(active);
-        } else {
-            fn(active + rest[0], rest.slice(1), a);
-            fn(active, rest.slice(1), a);
-        }
-        return a;
-    }
-    return fn("", nodes, []);
-}
 function calculateMultiLayout(
     egoGraphs: egoGraph[],
     height,

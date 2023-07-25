@@ -8,7 +8,7 @@ def create_combinations(sample_list):
     :return: all possible combinations of elements in the list
     """
     list_combinations = list()
-    for n in range(2, len(sample_list) + 1):
+    for n in range(1, len(sample_list) + 1):
         combination = list(combinations(sample_list, n))
         list_combinations += combination
     return list_combinations
