@@ -1,4 +1,4 @@
-import { useSpring, animated, UseTrailProps } from '@react-spring/web';
+import { useSpring, animated, useChain, useSpringRef } from '@react-spring/web';
 import { Tooltip } from '@mui/material';
 import { intersectionDatum } from '../../egoGraphSchema';
 import { getRadarAtom } from '../../apiCalls';
@@ -14,7 +14,6 @@ interface RadarCircleProps {
     colorScale: d3.ScaleOrdinal<string, unknown, never>;
     intersectionLengthScale: d3.ScaleLinear<number, number, never>;
     isChanged: boolean;
-    trailProps: UseTrailProps;
 }
 
 const RadarCircle = (props: RadarCircleProps) => {
@@ -27,31 +26,38 @@ const RadarCircle = (props: RadarCircleProps) => {
         CIRCLE_RADIUS,
         colorScale,
         intersectionLengthScale,
-        isChanged,
-        trailProps
+        isChanged
     } = props;
     const [_intersectionData, getRadarData] = useAtom(getRadarAtom);
-    const springsEntering = useSpring({
+
+    const springToCirclePosition = useSpring({
         from: {
-            cx:
-                Math.cos(((index + 0.5) * 2 * Math.PI) / arrayLength) *
-                GUIDE_CIRCLE_RADIUS,
-            cy:
-                Math.sin(((index + 0.5) * 2 * Math.PI) / arrayLength) *
-                GUIDE_CIRCLE_RADIUS
+            cx: 250,
+            cy: -300
         },
-        to: {
-            cx:
-                Math.cos(((index + 0.5) * 2 * Math.PI) / arrayLength) *
-                (GUIDE_CIRCLE_RADIUS -
-                    intersectionDatum.jaccard * GUIDE_CIRCLE_RADIUS),
-            cy:
-                Math.sin(((index + 0.5) * 2 * Math.PI) / arrayLength) *
-                (GUIDE_CIRCLE_RADIUS -
-                    intersectionDatum.jaccard * GUIDE_CIRCLE_RADIUS)
+        to: async (next, cancel) => {
+            await next({
+                cx:
+                    Math.cos(((index + 0.5) * 2 * Math.PI) / arrayLength) *
+                    GUIDE_CIRCLE_RADIUS,
+                cy:
+                    Math.sin(((index + 0.5) * 2 * Math.PI) / arrayLength) *
+                    GUIDE_CIRCLE_RADIUS
+            });
+            await next({
+                cx:
+                    Math.cos(((index + 0.5) * 2 * Math.PI) / arrayLength) *
+                    (GUIDE_CIRCLE_RADIUS -
+                        intersectionDatum.jaccard * GUIDE_CIRCLE_RADIUS),
+                cy:
+                    Math.sin(((index + 0.5) * 2 * Math.PI) / arrayLength) *
+                    (GUIDE_CIRCLE_RADIUS -
+                        intersectionDatum.jaccard * GUIDE_CIRCLE_RADIUS)
+            });
         },
         config: { duration: 1000 }
     });
+
     const springsRemaining = useSpring({
         to: {
             cx:
@@ -91,7 +97,11 @@ const RadarCircle = (props: RadarCircleProps) => {
                         ? 'red'
                         : colorScale(intersectionDatum.classification)
                 }
-                style={isChanged ? { ...trailProps } : { ...trailProps }}
+                style={
+                    isChanged
+                        ? { ...springToCirclePosition }
+                        : { ...springsRemaining }
+                }
                 strokeOpacity={0.8}
                 strokeWidth={1}
                 onClick={() => {

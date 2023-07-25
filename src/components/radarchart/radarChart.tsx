@@ -91,27 +91,7 @@ const RadarChart = (props: RadarChartProps) => {
         },
         [] as { classification: string; startAngle: number; endAngle: number }[]
     );
-    const trails = useTrail(sortedIntersectionData.length, (i) => ({
-        from: {
-            cx: 0,
-            cy: 0
-        },
-        to: {
-            cx:
-                Math.cos(
-                    ((i + 0.5) * 2 * Math.PI) / sortedIntersectionData.length
-                ) *
-                (GUIDE_CIRCLE_RADIUS -
-                    sortedIntersectionData[i][1].jaccard * GUIDE_CIRCLE_RADIUS),
-            cy:
-                Math.sin(
-                    ((i + 0.5) * 2 * Math.PI) / sortedIntersectionData.length
-                ) *
-                (GUIDE_CIRCLE_RADIUS -
-                    sortedIntersectionData[i][1].jaccard * GUIDE_CIRCLE_RADIUS)
-        },
-        config: { duration: 1000 }
-    }));
+
     // draw a circle svg for each intersectionDatum with a radius of the setSize.
     // place the node with tarNode as the center of the svg.
     // position each of remaining in a circle around the center of the svg such that we only have a single revolution but also allow for some space between the circles.
@@ -243,7 +223,7 @@ const RadarChart = (props: RadarChartProps) => {
                     colorScale={colorScale}
                     intersectionLengthScale={intersectionLengthScale}
                     isChanged={changedNodes.includes(key)}
-                    trailProps={trails[index]}
+                    trailAmount={changedNodes.length}
                 />
             ))}
             <Tooltip title={tarNode} key={tarNode}>
