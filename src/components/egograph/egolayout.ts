@@ -299,9 +299,23 @@ function sortNodes(nodes: egoGraphNode[], edges: egoGraphEdge[]) {
 }
 
 function sortByNumEdges(nodes: egoGraphNode[]) {
-    return nodes.sort((a,b)=>a.numEdges-b.numEdges);
+    return nodes.sort((a, b) => a.numEdges - b.numEdges);
 }
 
+function combinations(nodes) {
+    const fn = (active, rest, a)=> {
+        if (!active && !rest)
+            return;
+        if (!rest) {
+            a.push(active);
+        } else {
+            fn(active + rest[0], rest.slice(1), a);
+            fn(active, rest.slice(1), a);
+        }
+        return a;
+    }
+    return fn("", nodes, []);
+}
 function calculateMultiLayout(
     egoGraphs: egoGraph[],
     height,
@@ -311,14 +325,15 @@ function calculateMultiLayout(
 ) {
     if (egoGraphs.length > 1) {
         let graphCenters;
-        const assignment = {};
-        egoGraphs.forEach((graph) => {
-            assignment[graph.centerNode.id] = graph.nodes.map((d) => d.id);
-        });
-        const overlaps = calculateOverlaps(
-            assignment,
-            egoGraphs.map((graph) => graph.centerNode.id)
-        );
+        let overlaps={};
+        let pairwiseOverlaps = [];
+        let uniqueNodes = [];
+        for (let i = 0; i < egoGraphs.length-1; i++) {
+            for (let j = i + 1; j < egoGraphs.length; j++) {
+
+            }
+        }
+
         if (egoGraphs.length === 2) {
             graphCenters = [
                 { x: outerSize, y: outerSize },

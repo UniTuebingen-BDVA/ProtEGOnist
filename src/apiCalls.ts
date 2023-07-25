@@ -14,7 +14,7 @@ import {
     outerRadiusAtom
 } from './components/egograph/networkStore.ts';
 import { GridRowsProp, GridColDef } from '@mui/x-data-grid';
-import { circlePortionAtom } from './components/egograph/egoGraphBundleStore.ts';
+import { circlePortionAtom, egoGraphBundleAtom } from './components/egograph/egoGraphBundleStore.ts';
 
 export const getEgographAtom = atom(
     (get) => get(graphAtom),
@@ -32,6 +32,21 @@ export const getEgographAtom = atom(
             () => {
                 console.error,
                     console.log(`couldn't get egograph with ID ${id}`);
+            }
+        );
+    }
+);
+export const getEgographBundleAtom = atom(
+    (get) => get(egoGraphBundleAtom),
+    (get, set, ids: string[]) => {
+        axios.post('/api/egograph_bundle',{ids:ids}).then(
+            (result) => {
+                console.log(result);
+                set(egoGraphBundleAtom, result.data);
+            },
+            () => {
+                console.error,
+                    console.log(`couldn't get egograph with IDs ${ids}`);
             }
         );
     }

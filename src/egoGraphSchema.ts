@@ -2,6 +2,7 @@ export type egoGraphNode = {
     id: string;
     name: string;
     centerDist: number;
+    numEdges: number;
 };
 export type egoGraphEdge = {
     source: string;

@@ -12,7 +12,7 @@ import { AppBar, Toolbar } from '@mui/material';
 import RadarChartViewer from './components/radarchart/radarChartViewer.tsx';
 import EgoGraphViewer from './components/egograph/egographViewer.tsx';
 import SelectionTable from './components/selectionTable/selectionTable';
-import { getEgographAtom, getRadarAtom } from './apiCalls.ts';
+import { getEgographAtom, getEgographBundleAtom, getRadarAtom } from './apiCalls.ts';
 import { tarNodeAtom } from './components/radarchart/radarStore.ts';
 import { getTableAtom } from './apiCalls.ts';
 
@@ -21,6 +21,7 @@ function App() {
     const [outerRadius] = useAtom(outerRadiusAtom);
     const [tableData, getTableData] = useAtom(getTableAtom);
     const [egoGraph, getEgograph] = useAtom(getEgographAtom);
+    const [egoGraphBundle, getEgoGraphBundle]=useAtom(getEgographBundleAtom);
     const [intersectionData, getRadarData] = useAtom(getRadarAtom);
     const [tarNode, setTarNode] = useAtom(tarNodeAtom);
     useEffect(() => {
@@ -28,14 +29,8 @@ function App() {
         getEgograph('Q9Y625');
         setTarNode('Q9Y625');
         getRadarData('Q9Y625');
-    }, [
-        innerRadius,
-        outerRadius,
-        getEgograph,
-        getTableData,
-        getRadarData,
-        setTarNode
-    ]);
+        getEgoGraphBundle(['P07093','P30533','Q9Y625'])
+    }, [innerRadius, outerRadius, getEgograph, getTableData, getRadarData, setTarNode, getEgoGraphBundle]);
     if (
         // check if all data is loaded (not empty)
         tableData.rows.length > 0 && // tableData
