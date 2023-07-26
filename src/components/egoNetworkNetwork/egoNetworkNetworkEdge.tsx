@@ -13,7 +13,6 @@ const EgoNetworkNetworkEdge = (props: EgoNetworkNetworkEdgeProps) => {
 
     return (
         <line
-            key={source + '+' + target}
             x1={x1}
             y1={y1}
             x2={x2}

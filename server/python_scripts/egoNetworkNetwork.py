@@ -53,6 +53,8 @@ class EgoNetworkNetwork:
                 ego_network.node,
                 size=ego_network.nx_graph.number_of_nodes(),
                 name=ego_network.node,
+                x=0,
+                y=0,
                 id=ego_network.node,
             )
             for other_ego_network in list_of_ego_networks:
