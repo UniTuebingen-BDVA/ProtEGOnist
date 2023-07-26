@@ -8,9 +8,6 @@ const EgoNetworkNetwork = () => {
     const [egoNetworkNetwork, getEgoNetworkNetwork] = useAtom(
         egoNetworkNetworksAtom
     );
-    // temporary pair of 3 node positions
-
-    // generate a structure clone from the nodes and edges
 
     const nodeClone = structuredClone(egoNetworkNetwork.nodes);
     const edgeClone = structuredClone(egoNetworkNetwork.edges);
