@@ -4,6 +4,7 @@ import { intersectionDatum } from '../../egoGraphSchema';
 import { getRadarAtom } from '../../apiCalls';
 import { useAtom } from 'jotai';
 import * as d3 from 'd3';
+import { Opacity } from '@mui/icons-material';
 
 interface RadarCircleProps {
     id: string;
@@ -44,7 +45,8 @@ const RadarCircle = (props: RadarCircleProps) => {
             fill: d3
                 .color(colorScale(intersectionDatum.classification))
                 .brighter(4.0)
-                .toString()
+                .toString(),
+            opacity: 0.0
         },
         to: async (next, cancel) => {
             await next({
@@ -57,7 +59,8 @@ const RadarCircle = (props: RadarCircleProps) => {
                 fill: d3
                     .color(colorScale(intersectionDatum.classification))
                     .brighter(4.0)
-                    .toString()
+                    .toString(),
+                opacity: 1.0
             });
             await next({
                 cx:
