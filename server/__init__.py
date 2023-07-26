@@ -11,6 +11,8 @@ from server.python_scripts.sampleGraph import (
     generate_radar_data,
     generate_random_ego_graph_string,
 )
+from server.python_scripts.egoNetworkNetwork import EgoNetworkNetwork
+from server.python_scripts.egoGraph import EgoGraph
 
 global string_graph
 global top_intersections
@@ -79,3 +81,15 @@ def test_ego_radar(targetNode: str):
 def get_table_data():
     table_data = read_excel_sheet(here / "data" / "s5_with_uniprot.xlsx", 0)
     return table_data
+
+
+@app.route("/api/getEgoNetworkNetwork/<targetNodes>", methods=["GET"])
+def get_ego_network_network(targetNodes: str):
+    """
+    Generate a network of ego networks from the target nodes.
+    """
+    split_target = targetNodes.split("+")
+    ego_networks = [EgoGraph.from_string_network(i, string_graph) for i in split_target]
+    ego_network_network = EgoNetworkNetwork(ego_networks)
+
+    return ego_network_network.get_graph_json()

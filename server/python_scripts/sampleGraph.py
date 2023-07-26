@@ -77,8 +77,8 @@ def generate_string_intersections_pickles(
 ):
     # add a random classifcation (A-E) to each node in the ego_dicts
     for i in ego_dicts:
-        for node in ego_dicts[i].nxGraph.nodes:
-            ego_dicts[i].nxGraph.nodes[node]["classification"] = random.choice(
+        for node in ego_dicts[i].nx_graph.nodes:
+            ego_dicts[i].nx_graph.nodes[node]["classification"] = random.choice(
                 ["A", "B", "C", "D", "E"]
             )
 
@@ -112,8 +112,8 @@ def generate_string_intersections_top(
     }
     # add a random classifcation (A-E) to each node in the ego_dicts
     for i in highestDict:
-        for node in highestDict[i].nxGraph.nodes:
-            highestDict[i].nxGraph.nodes[node]["classification"] = random.choice(
+        for node in highestDict[i].nx_graph.nodes:
+            highestDict[i].nx_graph.nodes[node]["classification"] = random.choice(
                 ["A", "B", "C", "D", "E"]
             )
     tar_ego_graph = EgoGraph.from_string_network(tar_node, string_graph)
