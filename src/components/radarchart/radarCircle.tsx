@@ -1,10 +1,9 @@
-import { useSpring, animated, useChain, useSpringRef } from '@react-spring/web';
+import { useSpring, animated } from '@react-spring/web';
 import { Tooltip } from '@mui/material';
 import { intersectionDatum } from '../../egoGraphSchema';
 import { getRadarAtom } from '../../apiCalls';
 import { useAtom } from 'jotai';
 import * as d3 from 'd3';
-import { Opacity } from '@mui/icons-material';
 
 interface RadarCircleProps {
     id: string;
