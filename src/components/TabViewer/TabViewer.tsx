@@ -29,8 +29,7 @@ function CustomTabPanel(props: TabPanelProps) {
                 justifyContent: 'center'
             }}
         >
-            {value === index &&                  children}
-            
+            {value === index && children}
         </div>
     );
 }
@@ -43,9 +42,9 @@ function a11yProps(index: number) {
 
 function TabViewer() {
     const [value, setValue] = useAtom(showedTabAtom);
-    const [tableData, getTableData] = useAtom(getTableAtom);
-    const [egoGraph, getEgograph] = useAtom(getEgographAtom);
-    const [intersectionData, getRadarData] = useAtom(getRadarAtom);
+    const [tableData, _getTableData] = useAtom(getTableAtom);
+    const [_egoGraph, getEgograph] = useAtom(getEgographAtom);
+    const [_intersectionData, getRadarData] = useAtom(getRadarAtom);
     const handleChange = (e: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
@@ -71,21 +70,22 @@ function TabViewer() {
                 </Tabs>
             </Box>
             <CustomTabPanel value={value} index={0}>
-                <div style={{ width: '100%', maxHeight: '100%'}}>
-                <SelectionTable
-                    onRowSelectionModelChange={(newSelection) => {
-                        console.log('SELECTED: ', newSelection);
-                        // get the ID from the selection
-                        const selectedID = newSelection[0];
-                        // get the name from the tableData
-                        const selectedName =
-                            tableData.rows[selectedID]['UniprotID_inString'];
-                        getEgograph(selectedName);
-                        getRadarData(selectedName);
-                    }}
-                />
-                </div> 
-
+                <div style={{ width: '100%', maxHeight: '100%' }}>
+                    <SelectionTable
+                        onRowSelectionModelChange={(newSelection) => {
+                            console.log('SELECTED: ', newSelection);
+                            // get the ID from the selection
+                            const selectedID = newSelection[0];
+                            // get the name from the tableData
+                            const selectedName =
+                                tableData.rows[selectedID][
+                                    'UniprotID_inString'
+                                ];
+                            getEgograph(selectedName);
+                            getRadarData(selectedName);
+                        }}
+                    />
+                </div>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
                 HERE IS THE SPACE FOR THE EXAMPLES

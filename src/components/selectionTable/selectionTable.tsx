@@ -1,5 +1,6 @@
 import {
     DataGrid,
+    GridToolbar,
     GridRowSelectionModel,
     GridCallbackDetails
 } from '@mui/x-data-grid';
@@ -30,6 +31,16 @@ const SelectionTable = (props: SelectionTableProps) => {
                 pageSizeOptions={[5]}
                 onRowSelectionModelChange={props.onRowSelectionModelChange}
                 autoHeight={true}
+                disableDensitySelector
+                slots={{ toolbar: GridToolbar }}
+                slotProps={{
+                    toolbar: {
+                        showQuickFilter: true,
+                        quickFilterProps: { debounceMs: 500 },
+                        printOptions: { disableToolbarButton: true },
+                        csvOptions: { disableToolbarButton: true }
+                    }
+                }}
             />
         </div>
     );
