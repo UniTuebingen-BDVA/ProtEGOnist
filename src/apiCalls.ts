@@ -8,7 +8,7 @@ import {
 import { graphAtom } from './components/egograph/egoStore.ts';
 import {
     intersectionAtom,
-    sameNodesAtom,
+    leavingNodesAtom,
     changedNodesAtom,
     tarNodeAtom
 } from './components/radarchart/radarStore.ts';
@@ -54,14 +54,14 @@ export const getRadarAtom = atom(
                     // compare the keys of the new and old intersection atoms
                     const oldKeys = Object.keys(get(intersectionAtom));
                     const newKeys = Object.keys(result.data);
-                    const sameNodes = oldKeys.filter((x) =>
-                        newKeys.includes(x)
-                    );
                     const changedNodes = newKeys.filter(
                         (x) => !oldKeys.includes(x)
                     );
+                    const leavingNodes = oldKeys.filter(
+                        (x) => !newKeys.includes(x)
+                    );
                     console.log(' nodes', changedNodes);
-                    set(sameNodesAtom, sameNodes);
+                    set(leavingNodesAtom, leavingNodes);
                     set(changedNodesAtom, changedNodes);
                     set(intersectionAtom, result.data);
                     set(tarNodeAtom, id);

@@ -1,11 +1,10 @@
 import { intersectionDatum } from '../../egoGraphSchema';
 import { useAtom } from 'jotai';
 import * as d3 from 'd3';
-import { tarNodeAtom, changedNodesAtom, sameNodesAtom } from './radarStore';
+import { tarNodeAtom, changedNodesAtom, leavingNodesAtom } from './radarStore';
 import { getRadarAtom } from '../../apiCalls';
 import { Tooltip } from '@mui/material';
-import RadarCircle from './radarCircle';
-import { useTrail } from '@react-spring/web';
+import RadarCircles from './radarCircles';
 
 interface RadarChartProps {
     baseRadius: number;
@@ -15,6 +14,7 @@ const RadarChart = (props: RadarChartProps) => {
     const { baseRadius } = props;
     const [intersectionData, getRadarData] = useAtom(getRadarAtom);
     const [changedNodes] = useAtom(changedNodesAtom);
+    const [leavingNodes] = useAtom(leavingNodesAtom);
     const [tarNode] = useAtom(tarNodeAtom);
     const GUIDE_CIRCLE_RADIUS = baseRadius;
     const GUIDE_CIRCLE_STEP = baseRadius / 4;
@@ -211,21 +211,15 @@ const RadarChart = (props: RadarChartProps) => {
                 )
             }
 
-            {sortedIntersectionData.map(([key, intersectionDatum], index) => (
-                <RadarCircle
-                    key={key}
-                    id={key}
-                    index={index}
-                    intersectionDatum={intersectionDatum}
-                    arrayLength={sortedIntersectionData.length}
+            {
+                <RadarCircles
+                    intersectionData={sortedIntersectionData}
                     GUIDE_CIRCLE_RADIUS={GUIDE_CIRCLE_RADIUS}
                     CIRCLE_RADIUS={CIRCLE_RADIUS}
                     colorScale={colorScale}
                     intersectionLengthScale={intersectionLengthScale}
-                    isChanged={changedNodes.includes(key)}
-                    trailAmount={changedNodes.length}
                 />
-            ))}
+            }
             <Tooltip title={tarNode} key={tarNode}>
                 <circle
                     cx={0}
