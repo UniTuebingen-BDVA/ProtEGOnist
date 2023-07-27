@@ -5,10 +5,11 @@ interface EgoNetworkNetworkNodeProps {
     size: number;
     x: number;
     y: number;
+    color: string;
 }
 
 const EgoNetworkNetworkNode = (props: EgoNetworkNetworkNodeProps) => {
-    const { id, size, x, y } = props;
+    const { id, size, x, y, color } = props;
 
     return (
         <Tooltip title={id} key={id}>
@@ -17,7 +18,7 @@ const EgoNetworkNetworkNode = (props: EgoNetworkNetworkNodeProps) => {
                 r={size}
                 cx={x}
                 cy={y}
-                fill="red"
+                fill={color}
                 stroke="black"
                 strokeWidth="1"
             />

@@ -1,17 +1,14 @@
 import { useEffect } from 'react';
 import './App.css';
-import Egograph from './components/egograph/egograph.tsx';
 import { useAtom } from 'jotai';
 import {
     innerRadiusAtom,
     outerRadiusAtom
 } from './components/egograph/networkStore.ts';
-import { Grid, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import TabViewer from './components/TabViewer/TabViewer.tsx';
 import { AppBar, Toolbar } from '@mui/material';
 import RadarChartViewer from './components/radarchart/radarChartViewer.tsx';
-import EgoGraphViewer from './components/egograph/egographViewer.tsx';
-import SelectionTable from './components/selectionTable/selectionTable';
 import {
     getEgoNetworkNetworkAtom,
     getEgographAtom,
@@ -20,7 +17,6 @@ import {
 import { tarNodeAtom } from './components/radarchart/radarStore.ts';
 import { getTableAtom } from './apiCalls.ts';
 import EgoNetworkNetworkViewer from './components/egoNetworkNetwork/egoNetworkNetworkViewer.tsx';
-import { get } from 'optics-ts';
 
 function App() {
     const [innerRadius] = useAtom(innerRadiusAtom);
@@ -28,7 +24,7 @@ function App() {
     const [tableData, getTableData] = useAtom(getTableAtom);
     const [egoGraph, getEgograph] = useAtom(getEgographAtom);
     const [intersectionData, getRadarData] = useAtom(getRadarAtom);
-    const [egoNetworkNetworkData, getEgoNetworkNetworkData] = useAtom(
+    const [_egoNetworkNetworkData, getEgoNetworkNetworkData] = useAtom(
         getEgoNetworkNetworkAtom
     );
     const [tarNode, setTarNode] = useAtom(tarNodeAtom);
@@ -37,7 +33,13 @@ function App() {
         getEgograph('Q9Y625');
         setTarNode('Q9Y625');
         getRadarData('Q9Y625');
-        getEgoNetworkNetworkData(['P07093', 'P30533', 'Q9Y625']);
+        getEgoNetworkNetworkData([
+            'P07093',
+            'P30533',
+            'Q9Y625',
+            'Q15369',
+            'Q9H3U1'
+        ]);
     }, [
         innerRadius,
         outerRadius,

@@ -3,8 +3,18 @@ import { egoNetworkNetworksAtom } from './egoNetworkNetworkStore';
 import EgoNetworkNetworkNode from './egoNetworkNetworkNode.tsx';
 import EgoNetworkNetworkEdge from './egoNetworkNetworkEdge.tsx';
 import * as d3 from 'd3';
+import {
+    egoNetworkNetworkEdge,
+    egoNetworkNetworkNode
+} from '../../egoGraphSchema.ts';
 
-const EgoNetworkNetwork = () => {
+interface egoNetworkNetworkNodeProps {
+    aggregateEgoNetworkNodeIDs: string[];
+}
+
+const EgoNetworkNetwork = (props: egoNetworkNetworkNodeProps) => {
+    const { aggregateEgoNetworkNodeIDs } = props;
+
     const [egoNetworkNetwork, getEgoNetworkNetwork] = useAtom(
         egoNetworkNetworksAtom
     );
@@ -12,13 +22,22 @@ const EgoNetworkNetwork = () => {
     const nodeClone = structuredClone(egoNetworkNetwork.nodes);
     const edgeClone = structuredClone(egoNetworkNetwork.edges);
 
+    const { outNodes, outEdges } = aggregateEgoNetworkNodes(
+        nodeClone,
+        edgeClone,
+        aggregateEgoNetworkNodeIDs
+    );
+
+    console.log('outNodes', outNodes);
+    console.log('outEdges', outEdges);
+
     const forceLayout = d3
-        .forceSimulation(nodeClone)
+        .forceSimulation(outNodes)
         .force('charge', d3.forceManyBody().strength(-100))
         .force(
             'link',
             d3
-                .forceLink(edgeClone)
+                .forceLink(outEdges)
                 .id((d) => d.id)
                 .distance(50)
         )
@@ -32,17 +51,17 @@ const EgoNetworkNetwork = () => {
 
     return (
         <g>
-            {edgeClone.map((edge) => {
-                const sourceNode = nodeClone.find(
+            {outEdges.map((edge) => {
+                const sourceNode = outNodes.find(
                     (node) => node.id === edge.source.id
                 );
 
-                const targetNode = nodeClone.find(
+                const targetNode = outNodes.find(
                     (node) => node.id === edge.target.id
                 );
                 return (
                     <EgoNetworkNetworkEdge
-                        key={edge.source.id + '+' + edge.target.id}
+                        key={edge.source + '+' + edge.target}
                         source={edge.source}
                         target={edge.target}
                         weight={edge.weight}
@@ -54,14 +73,17 @@ const EgoNetworkNetwork = () => {
                 );
             })}
 
-            {nodeClone.map((node) => {
+            {outNodes.map((node) => {
+                console.log('node', node);
+                console.log('node.x', node.x);
                 return (
                     <EgoNetworkNetworkNode
                         key={node.id}
                         id={node.id}
-                        size={node.size / 5}
+                        size={node.size / 20}
                         x={node.x}
                         y={node.y}
+                        color={node.color ? node.color : 'red'}
                     />
                 );
             })}
@@ -70,3 +92,82 @@ const EgoNetworkNetwork = () => {
 };
 
 export default EgoNetworkNetwork;
+
+function aggregateEgoNetworkNodes(
+    egoNetworkNodesNodes: egoNetworkNetworkNode[],
+    egoNetworkNetworkEdges: egoNetworkNetworkEdge[],
+    aggregateNodeIDs: string[]
+): { outNodes: egoNetworkNetworkNode[]; outEdges: egoNetworkNetworkEdge[] } {
+    const outNodes: egoNetworkNetworkNode[] = [];
+    const outEdges: egoNetworkNetworkEdge[] = [];
+
+    let sizeAccumulator = 0;
+    let xAccumulator = 0;
+    let yAccumulator = 0;
+    for (const node of egoNetworkNodesNodes) {
+        if (!aggregateNodeIDs.includes(node.id)) {
+            outNodes.push(node);
+        } else {
+            sizeAccumulator += node.size;
+            xAccumulator += node.x;
+            yAccumulator += node.y;
+        }
+    }
+    xAccumulator = xAccumulator / aggregateNodeIDs.length;
+    yAccumulator = yAccumulator / aggregateNodeIDs.length;
+
+    const aggregateID = aggregateNodeIDs.join(';');
+    outNodes.push({
+        id: aggregateID,
+        name: aggregateID,
+        size: sizeAccumulator,
+        x: xAccumulator,
+        y: yAccumulator,
+        color: 'green'
+    });
+
+    // add all edges that do not have a source or target in aggregateNodeIDs to outEdges
+    // instead of the edges that have a source or target in aggregateNodeIDs add a new edge to outEdges that targets the new node and has the sum of the weights of the edges as weight
+    for (const edge of egoNetworkNetworkEdges) {
+        if (
+            !aggregateNodeIDs.includes(edge.source) &&
+            !aggregateNodeIDs.includes(edge.target)
+        ) {
+            outEdges.push(edge);
+        } else {
+            const weight = aggregateNodeIDs.reduce((acc, cur) => {
+                const currentEdge = egoNetworkNetworkEdges.find(
+                    (edge) => edge.source === cur || edge.target === cur
+                );
+                const currentEdgeWeight = currentEdge ? currentEdge.weight : 0;
+                return acc + currentEdgeWeight;
+            }, 0);
+            //check which edges to add
+            // no edges from aggregateNodeIDs to aggregateNodeIDs should be added
+            // edges from aggregateNodeIDs to other nodes should be added
+            // edges from other nodes to aggregateNodeIDs should be added
+
+            const sourceInAggregate = aggregateNodeIDs.includes(edge.source);
+            const targetInAggregate = aggregateNodeIDs.includes(edge.target);
+
+            if (!sourceInAggregate || !targetInAggregate) {
+                const newEdge: egoNetworkNetworkEdge = {
+                    source: sourceInAggregate ? aggregateID : edge.source,
+                    target: targetInAggregate ? aggregateID : edge.target,
+                    weight: weight
+                };
+                if (
+                    !outEdges.find(
+                        (edge) =>
+                            edge.source === newEdge.source &&
+                            edge.target === newEdge.target
+                    )
+                ) {
+                    outEdges.push(newEdge);
+                }
+            }
+        }
+    }
+
+    return { outNodes: outNodes, outEdges: outEdges };
+}

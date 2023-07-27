@@ -33,6 +33,7 @@ export type egoNetworkNetworkNode = baseNode & {
     size: number;
     x: number;
     y: number;
+    color: string;
 };
 
 export type egoNetworkNetworkEdge = egoGraphEdge & {

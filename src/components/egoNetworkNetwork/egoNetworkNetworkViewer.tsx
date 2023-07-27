@@ -3,12 +3,16 @@ import EgoNetworkNetwork from './egoNetworkNetwork.tsx';
 import { Paper } from '@mui/material';
 import { useDimensions } from '../../UtilityFunctions.ts';
 import { useAtom } from 'jotai';
-import { egoNetworkNetworkSizeAtom } from './egoNetworkNetworkStore.ts';
+import {
+    egoNetworkNetworkSizeAtom,
+    decollapseIDsAtom
+} from './egoNetworkNetworkStore.ts';
 
 function EgoNetworkNetworkViewer() {
     const refEgoNetworkNetwork = useRef(null);
     const { width, height } = useDimensions(refEgoNetworkNetwork);
     const [svgSize, setSVGSize] = useAtom(egoNetworkNetworkSizeAtom);
+    const [decollapseIDs, _setDecollapseID] = useAtom(decollapseIDsAtom);
 
     useEffect(() => {
         setSVGSize({ width: width, height: height });
@@ -40,7 +44,9 @@ function EgoNetworkNetworkViewer() {
                         ')'
                     }
                 >
-                    <EgoNetworkNetwork />
+                    <EgoNetworkNetwork
+                        aggregateEgoNetworkNodeIDs={decollapseIDs}
+                    />
                 </g>
             </svg>
         </Paper>
