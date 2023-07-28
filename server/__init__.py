@@ -37,7 +37,9 @@ except FileNotFoundError:
 try:
     with open(here / "data" / "uniprot_brite.csv", "r") as f:
         # read the uniprot_brite_dict csv file into a dictionary, the key is the uniprot id(col0) and the value is the brite id(col1)
-        uniprot_brite_dict = {line.split(",")[0]: line.split(",")[1] for line in f}
+        uniprot_brite_dict = {
+            line.strip().split(",")[0]: line.strip().split(",")[1] for line in f
+        }
         print("Loaded uniprot_brite_dict ", len(uniprot_brite_dict))
 except FileNotFoundError:
     print(f"No uniprot_brite.csv found in {here / 'data'}. Make sure you added it.")

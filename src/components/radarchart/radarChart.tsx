@@ -49,11 +49,6 @@ const RadarChart = (props: RadarChartProps) => {
             return 0;
         }
     );
-    // create a color scale that maps the "classification" property to a color
-    const colorScale = d3
-        .scaleOrdinal()
-        .domain(sortedIntersectionData.map((d) => d[1].classification))
-        .range(d3.schemeCategory10);
 
     // calculate the propotion of each classification in the data such that we can use it to calulate the size of the pie chart segments used to indicate the classification of the intersectionDatum.
     const classificationProportions = sortedIntersectionData.reduce(
@@ -67,15 +62,64 @@ const RadarChart = (props: RadarChartProps) => {
         },
         {} as { [name: string]: number }
     );
-    // calculate the angle of each pie chart segment
-    const angles = Object.entries(classificationProportions).map(
-        ([key, value]) => {
-            return {
-                classification: key,
-                angle: (value / sortedIntersectionData.length) * 2 * Math.PI
-            };
-        }
+    // sort the classiciationProportions by size
+    const classificationProportionsSorted = Object.entries(
+        classificationProportions
+    ).sort((a, b) => {
+        return a[1] - b[1];
+    });
+    // change the order of the classificationProportionsSorted so that the largest is followed by the smallest and so on
+    const classificationProportionsalternating: [string, number][] = [];
+    for (
+        let i = 0;
+        i < Math.floor(classificationProportionsSorted.length / 2);
+        i++
+    ) {
+        classificationProportionsalternating.push(
+            classificationProportionsSorted[
+                classificationProportionsSorted.length - 1 - i
+            ]
+        );
+        classificationProportionsalternating.push(
+            classificationProportionsSorted[i]
+        );
+    }
+    if (classificationProportionsSorted.length % 2 !== 0) {
+        classificationProportionsalternating.push(
+            classificationProportionsSorted[
+                Math.floor(classificationProportionsSorted.length / 2)
+            ]
+        );
+    }
+    console.log(
+        'classificationProportionsSorted',
+        classificationProportionsalternating
     );
+    // sort sortedIntersectionData to have the same order as classificationProportionsalternating
+    sortedIntersectionData.sort((a, b) => {
+        return (
+            classificationProportionsalternating.findIndex(
+                (d) => d[0] === a[1].classification
+            ) -
+            classificationProportionsalternating.findIndex(
+                (d) => d[0] === b[1].classification
+            )
+        );
+    });
+    // create a color scale that maps the "classification" property to a color
+    const colorScale = d3
+        .scaleOrdinal()
+        .domain(sortedIntersectionData.map((d) => d[1].classification))
+        .range(d3.schemeCategory10);
+
+    // calculate the angle of each pie chart segment
+    const angles = classificationProportionsalternating.map(([key, size]) => {
+        const value = classificationProportions[key];
+        return {
+            classification: key,
+            angle: (value / sortedIntersectionData.length) * 2 * Math.PI
+        };
+    });
     // calculate the start and end angle of each pie chart segment
     const pieChartSegments = angles.reduce(
         (acc, { classification, angle }) => {
