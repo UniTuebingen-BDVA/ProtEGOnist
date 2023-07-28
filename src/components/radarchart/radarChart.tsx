@@ -180,7 +180,7 @@ const RadarChart = (props: RadarChartProps) => {
                                 fill={colorScale(classification)}
                                 fontSize="18px"
                                 dominantBaseline="middle"
-                                text-anchor="middle"
+                                textAnchor="middle"
                             >
                                 <textPath
                                     xlinkHref={`#textPath-${
