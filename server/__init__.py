@@ -16,6 +16,7 @@ from server.python_scripts.egoGraph import EgoGraph
 
 global string_graph
 global top_intersections
+global uniprot_brite_dict
 
 dev_Flag = True
 app = Flask(__name__, static_folder="../dist", static_url_path="/")
@@ -32,6 +33,14 @@ try:
         print("Loaded intersections ", len(top_intersections))
 except FileNotFoundError:
     print(f"No json file found in {here / 'data'}. Make sure you added it.")
+
+try:
+    with open(here / "data" / "uniprot_brite.csv", "r") as f:
+        # read the uniprot_brite_dict csv file into a dictionary, the key is the uniprot id(col0) and the value is the brite id(col1)
+        uniprot_brite_dict = {line.split(",")[0]: line.split(",")[1] for line in f}
+        print("Loaded uniprot_brite_dict ", len(uniprot_brite_dict))
+except FileNotFoundError:
+    print(f"No uniprot_brite.csv found in {here / 'data'}. Make sure you added it.")
 
 
 # ROUTES
@@ -64,10 +73,12 @@ def test_ego_radar(targetNode: str):
         # get the ids of the top intersections
         ids = list(intersections.keys())
         tar_ego_graph, rest_ego_graphs = generate_string_intersections_top(
-            string_graph, ids, targetNode
+            string_graph, ids, targetNode, uniprot_brite_dict
         )
     else:
-        tar_ego_graph, rest_ego_graphs = generate_radar_data(string_graph, targetNode)
+        tar_ego_graph, rest_ego_graphs = generate_radar_data(
+            string_graph, targetNode, uniprot_brite_dict
+        )
         ids = list(rest_ego_graphs.keys())
     intersection_dict = {
         i: rest_ego_graphs[i].get_intersection(tar_ego_graph) for i in ids
