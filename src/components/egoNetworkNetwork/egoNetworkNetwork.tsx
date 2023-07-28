@@ -28,9 +28,6 @@ const EgoNetworkNetwork = (props: egoNetworkNetworkNodeProps) => {
         aggregateEgoNetworkNodeIDs
     );
 
-    console.log('outNodes', outNodes);
-    console.log('outEdges', outEdges);
-
     const forceLayout = d3
         .forceSimulation(outNodes)
         .force('charge', d3.forceManyBody().strength(-100))
@@ -61,7 +58,7 @@ const EgoNetworkNetwork = (props: egoNetworkNetworkNodeProps) => {
                 );
                 return (
                     <EgoNetworkNetworkEdge
-                        key={edge.source + '+' + edge.target}
+                        key={edge.source.id + '+' + edge.target.id}
                         source={edge.source}
                         target={edge.target}
                         weight={edge.weight}
@@ -74,8 +71,6 @@ const EgoNetworkNetwork = (props: egoNetworkNetworkNodeProps) => {
             })}
 
             {outNodes.map((node) => {
-                console.log('node', node);
-                console.log('node.x', node.x);
                 return (
                     <EgoNetworkNetworkNode
                         key={node.id}
