@@ -1,7 +1,7 @@
 import { intersectionDatum } from '../../egoGraphSchema';
 import { useAtom } from 'jotai';
 import * as d3 from 'd3';
-import { tarNodeAtom, changedNodesAtom, leavingNodesAtom } from './radarStore';
+import { tarNodeAtom } from './radarStore';
 import { getRadarAtom } from '../../apiCalls';
 import { Tooltip } from '@mui/material';
 import RadarCircles from './radarCircles';
@@ -12,14 +12,14 @@ interface RadarChartProps {
 
 const RadarChart = (props: RadarChartProps) => {
     const { baseRadius } = props;
-    const [intersectionData, getRadarData] = useAtom(getRadarAtom);
-    const [changedNodes] = useAtom(changedNodesAtom);
-    const [leavingNodes] = useAtom(leavingNodesAtom);
+    const [intersectionData, _getRadarData] = useAtom(getRadarAtom);
     const [tarNode] = useAtom(tarNodeAtom);
     const GUIDE_CIRCLE_RADIUS = baseRadius;
     const GUIDE_CIRCLE_STEP = baseRadius / 4;
     const GUIDE_CIRCLE_RADIUS_MIN = baseRadius / 4;
     const TEXT_RADIUS = baseRadius + 20;
+    const TEXT_RADIUS_2 = baseRadius + 40;
+    let labelOnSecondCircle = false;
     const CIRCLE_RADIUS = baseRadius / 20;
     const LEGEND_ANGLE = 0 * (Math.PI / 180);
     const intersectionDataClone = structuredClone(intersectionData);
@@ -57,7 +57,7 @@ const RadarChart = (props: RadarChartProps) => {
 
     // calculate the propotion of each classification in the data such that we can use it to calulate the size of the pie chart segments used to indicate the classification of the intersectionDatum.
     const classificationProportions = sortedIntersectionData.reduce(
-        (acc, [key, intersectionDatum]) => {
+        (acc, [_key, intersectionDatum]) => {
             if (acc[intersectionDatum.classification]) {
                 acc[intersectionDatum.classification] += 1;
             } else {
@@ -116,15 +116,48 @@ const RadarChart = (props: RadarChartProps) => {
         A ${TEXT_RADIUS} ${TEXT_RADIUS} 0 0 0 1 ${-TEXT_RADIUS}`}
                 fill="none"
             />
+            <path
+                id={`textPath-Clockwise2`}
+                d={`M 0 ${-TEXT_RADIUS_2} 
+        A ${TEXT_RADIUS_2} ${TEXT_RADIUS_2} 0 0 1 0 ${TEXT_RADIUS_2}
+        A ${TEXT_RADIUS_2} ${TEXT_RADIUS_2} 0 0 1 0 ${-TEXT_RADIUS_2}`}
+                fill="none"
+            />
+            <path
+                id={`textPath-Counterclockwise2`}
+                d={`M 0 ${-TEXT_RADIUS_2} 
+        A ${TEXT_RADIUS_2} ${TEXT_RADIUS_2} 0 0 0 1 ${TEXT_RADIUS_2}
+        A ${TEXT_RADIUS_2} ${TEXT_RADIUS_2} 0 0 0 1 ${-TEXT_RADIUS_2}`}
+                fill="none"
+            />
             {pieChartSegments.map(
-                ({ classification, startAngle, endAngle }) => {
+                ({ classification, startAngle, endAngle }, index) => {
+                    // if the labeling would overlap with the previous label, move the label to the second circle
+                    const previousLabelMidAngle =
+                        index > 0
+                            ? (pieChartSegments[index - 1].startAngle +
+                                  pieChartSegments[index - 1].endAngle) /
+                              2
+                            : 0;
+
                     const midAngle = (startAngle + endAngle) / 2;
+                    const labelOverlap =
+                        midAngle - previousLabelMidAngle < Math.PI / 4;
+
+                    if (labelOverlap) {
+                        labelOnSecondCircle = !labelOnSecondCircle;
+                    }
+
+                    const TEXT_RADIUS_INTERNAL = labelOnSecondCircle
+                        ? TEXT_RADIUS_2
+                        : TEXT_RADIUS;
                     const flipLabel = midAngle > 0 && midAngle < Math.PI;
                     const offsetParam =
-                        (midAngle * TEXT_RADIUS + (Math.PI / 2) * TEXT_RADIUS) %
-                        (2 * Math.PI * TEXT_RADIUS); //TODO Why do i need to calc the modulo and add the 1/2 pi?
+                        (midAngle * TEXT_RADIUS_INTERNAL +
+                            (Math.PI / 2) * TEXT_RADIUS_INTERNAL) %
+                        (2 * Math.PI * TEXT_RADIUS_INTERNAL); //TODO Why do i need to calc the modulo and add the 1/2 pi?
                     const startOffset = flipLabel
-                        ? Math.PI * 2 * TEXT_RADIUS - offsetParam
+                        ? Math.PI * 2 * TEXT_RADIUS_INTERNAL - offsetParam
                         : offsetParam;
                     return (
                         <g key={classification}>
@@ -147,13 +180,14 @@ const RadarChart = (props: RadarChartProps) => {
                                 fill={colorScale(classification)}
                                 fontSize="18px"
                                 dominantBaseline="middle"
+                                text-anchor="middle"
                             >
                                 <textPath
                                     xlinkHref={`#textPath-${
                                         flipLabel
                                             ? 'Counterclockwise'
                                             : 'Clockwise'
-                                    }`}
+                                    }${labelOnSecondCircle ? '2' : ''}`}
                                     startOffset={startOffset}
                                 >
                                     {classification}
