@@ -96,8 +96,8 @@ function App() {
                                 flex: 1,
                                 minHeight: '100%',
                                 height: '100%',
-                                width: '33%',
-                                minWidth: '33%'
+                                width: '40%',
+                                minWidth: '40%'
                             }}
                         >
                             <div>
@@ -116,7 +116,7 @@ function App() {
                         {/* <!-- Second Column --> */}
                         <div
                             className="column"
-                            style={{ flex: 2, width: '67%' }}
+                            style={{ flex: 2, width: '60%' }}
                         >
                             <div>
                                 {/* <!-- Content for the second column, first row --> */}

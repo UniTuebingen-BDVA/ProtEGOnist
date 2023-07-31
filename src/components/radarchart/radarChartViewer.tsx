@@ -32,8 +32,8 @@ function RadarChartViewer(props: RadarChartViewerProps) {
             }}
         >
             <svg
-                width={svgSize.width}
-                height={svgSize.height}
+                width={'70%'}
+                height={'70%'}
                 viewBox={`0 0 ${svgSize.width} ${svgSize.width}`}
             >
                 <g
@@ -48,7 +48,7 @@ function RadarChartViewer(props: RadarChartViewerProps) {
                     <RadarChart
                         intersectionData={props.intersectionData}
                         tarNode={props.tarNode}
-                        baseRadius={svgSize.width / 2 - 50}
+                        baseRadius={svgSize.width / 2}
                     />
                 </g>
             </svg>
