@@ -3,7 +3,7 @@ import { focusAtom } from 'jotai-optics';
 import { splitAtom } from 'jotai/utils';
 import { egoGraphLayout } from './egolayout';
 import * as d3 from 'd3';
-import { graphSizeAtom, maxRadiusAtom } from './networkStore';
+import { graphSVGSizeAtom, maxRadiusAtom } from './networkStore';
 
 export const graphAtom = atom<egoGraphLayout>({
     nodes: [],
@@ -34,7 +34,7 @@ export const nodeRadiusAtom = atom((get) => {
 });
 export const centerPointAtom = atom((get) => {
     return {
-        x: get(graphSizeAtom) / 2 - get(nodeRadiusAtom),
-        y: get(graphSizeAtom) / 2 - get(nodeRadiusAtom)
+        x: get(graphSVGSizeAtom).width / 2 - get(nodeRadiusAtom),
+        y: get(graphSVGSizeAtom).height / 2 - get(nodeRadiusAtom)
     };
 });

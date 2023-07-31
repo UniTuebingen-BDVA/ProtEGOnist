@@ -4,12 +4,26 @@ export function polarToCartesian(
     centerX: number,
     centerY: number,
     radius: number,
-    angleInRadians: number
+    angleInRadians: number,
+    offset: number,
 ) {
     return {
-        x: centerX + radius * Math.cos(angleInRadians),
-        y: centerY + radius * Math.sin(angleInRadians)
+        x: centerX + radius * Math.cos(angleInRadians+offset),
+        y: centerY + radius * Math.sin(angleInRadians+offset)
     };
+}
+
+export function getPartialRanges(numRanges) {
+    const fullRange = 2 * Math.PI;
+    const partialRange = fullRange / numRanges;
+    const ranges = [];
+    for (let i = 0; i < numRanges; i++) {
+        ranges.push(
+            [[i * partialRange, (i+1) * partialRange],
+            [(i+1) * partialRange, fullRange]]
+        );
+    }
+    return(ranges)
 }
 
 export function createArcPath(

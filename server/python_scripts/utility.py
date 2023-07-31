@@ -32,9 +32,9 @@ def create_intersections(set_dict):
     intersections = {}
     combinations = create_combinations(list(set_dict.keys()))
     combinations.sort(key=tuple_size, reverse=True)
-    used_ids = set()
+    used_ids = set(set_dict.keys())
     for combination in combinations:
-        intersection = list(set_dict[combination[0]].intersection(*map(lambda id: set_dict[id], combination[1:-1])))
+        intersection = list(set_dict[combination[0]].intersection(*(set_dict[id] for id in combination[1:len(combination)])))
         intersections[','.join(list(combination))] = list(filter(lambda element: element not in used_ids, intersection))
         used_ids.update(intersection)
     return intersections

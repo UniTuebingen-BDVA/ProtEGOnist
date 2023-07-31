@@ -1,6 +1,6 @@
 
 import  {useEffect, useRef} from 'react'
-import Egograph from './egograph'
+import EgographBundle from './egoGraphBundle'
 import { Paper} from '@mui/material'
 import { useDimensions } from '../../UtilityFunctions'
 import {useAtom} from 'jotai'
@@ -19,16 +19,8 @@ function EgoGraphViewer() {
     return (
              <Paper ref={refEgo}  style={{ width: '100%', height:"100%", alignItems: "center", justifyContent: "center", margin:0, padding:0 }} > 
                 <svg width={svgSize.width} height={svgSize.height-10} viewBox={`0 0 ${svgSize.width} ${svgSize.height}`}>
-                    <g
-                        transform={
-                            'translate(' +
-                            String(svgSize.width/2) +
-                            ',' +
-                            String(svgSize.height/2) +
-                            ')'
-                        }
-                    >
-                        <Egograph />
+                    <g>
+                        <EgographBundle />
                     </g>
                 </svg>
             </Paper>

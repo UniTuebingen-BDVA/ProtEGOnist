@@ -12,7 +12,7 @@ export const EgographNode = (props: egographNodeProps) => {
     const { nodeAtom, centerPoint, nodeRadius, fill } = props;
     const [node, setNode] = useAtom(nodeAtom);
     return (
-        <Tooltip title={node.id.split("_")[1]}>
+        <Tooltip title={`Name ${node.originalID},  Num edges ${node.numEdges}`}>
             <circle
                 onMouseEnter={() => {
                     setNode((oldValue) => ({ ...oldValue, hovered: true }));

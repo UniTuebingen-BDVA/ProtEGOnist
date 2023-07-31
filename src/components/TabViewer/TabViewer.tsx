@@ -5,7 +5,7 @@ import { Box, Tabs, Tab, Typography, Paper } from '@mui/material';
 import { showedTabAtom } from './tabViewerStore.ts';
 import { getTableAtom } from '../../apiCalls.ts';
 import SelectionTable from '../selectionTable/selectionTable.tsx';
-import { getEgographAtom, getRadarAtom } from '../../apiCalls.ts';
+import { getEgographBundleAtom, getRadarAtom } from '../../apiCalls.ts';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -44,7 +44,7 @@ function a11yProps(index: number) {
 function TabViewer() {
     const [value, setValue] = useAtom(showedTabAtom);
     const [tableData, getTableData] = useAtom(getTableAtom);
-    const [egoGraph, getEgograph] = useAtom(getEgographAtom);
+    //const [egoGraph, getEgograph] = useAtom(getEgographAtom);
     const [intersectionData, getRadarData] = useAtom(getRadarAtom);
     const handleChange = (e: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
@@ -80,7 +80,7 @@ function TabViewer() {
                         // get the name from the tableData
                         const selectedName =
                             tableData.rows[selectedID]['UniprotID_inString'];
-                        getEgograph(selectedName);
+                        //getEgograph(selectedName);
                         getRadarData(selectedName);
                     }}
                 />

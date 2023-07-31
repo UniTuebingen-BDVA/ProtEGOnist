@@ -1,5 +1,6 @@
 export type egoGraphNode = {
     id: string;
+    originalID:string;
     name: string;
     centerDist: number;
     numEdges: number;

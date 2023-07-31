@@ -1,22 +1,15 @@
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import { atom } from 'jotai';
 import { egoGraph, intersectionDatum } from './egoGraphSchema';
-import { graphAtom } from './components/egograph/egoStore.ts';
 import {
     intersectionAtom,
     tarNodeAtom
 } from './components/radarchart/radarStore.ts';
 import { tableAtom } from './components/selectionTable/tableStore.ts';
-import { calculateEgoLayout } from './components/egograph/egolayout.ts';
-import {
-    graphSizeAtom,
-    innerRadiusAtom,
-    outerRadiusAtom
-} from './components/egograph/networkStore.ts';
-import { GridRowsProp, GridColDef } from '@mui/x-data-grid';
-import { circlePortionAtom, egoGraphBundleAtom } from './components/egograph/egoGraphBundleStore.ts';
+import { GridColDef, GridRowsProp } from '@mui/x-data-grid';
+import { egoGraphBundleDataAtom } from './components/egograph/egoGraphBundleStore.ts';
 
-export const getEgographAtom = atom(
+/*export const getEgographAtom = atom(
     (get) => get(graphAtom),
     (get, set, id: string) => {
         axios.get<egoGraph>(`/api/test_data_egograph/${id}`).then(
@@ -25,7 +18,6 @@ export const getEgographAtom = atom(
                     result.data,
                     get(innerRadiusAtom),
                     get(outerRadiusAtom),
-                    get(circlePortionAtom),
                 );
                 set(graphAtom, layout);
             },
@@ -35,20 +27,24 @@ export const getEgographAtom = atom(
             }
         );
     }
-);
+);*/
 export const getEgographBundleAtom = atom(
-    (get) => get(egoGraphBundleAtom),
-    (get, set, ids: string[]) => {
-        axios.post('/api/egograph_bundle',{ids:ids}).then(
-            (result) => {
-                console.log(result);
-                set(egoGraphBundleAtom, result.data);
-            },
-            () => {
-                console.error,
-                    console.log(`couldn't get egograph with IDs ${ids}`);
-            }
-        );
+    (get) => get(egoGraphBundleDataAtom),
+    (_get, set, ids: string[]) => {
+        axios
+            .post<{
+                egoGraphs: egoGraph[];
+                intersections: { [key: string]: string[] };
+            }>('/api/egograph_bundle', { ids: ids })
+            .then(
+                (result) => {
+                    set(egoGraphBundleDataAtom, result.data);
+                },
+                () => {
+                    console.error,
+                        console.log(`couldn't get egograph with IDs ${ids}`);
+                }
+            );
     }
 );
 
@@ -65,8 +61,7 @@ export const getRadarAtom = atom(
                     set(tarNodeAtom, id);
                 },
                 () => {
-                    console.error,
-                        console.log(`couldn't get radar with ID ${id}`);
+                    console.error;
                 }
             );
     }

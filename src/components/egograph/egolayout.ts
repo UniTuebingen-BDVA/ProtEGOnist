@@ -8,7 +8,6 @@ export type layoutNode = egoGraphNode & {
     cx: number;
     cy: number;
     hovered: boolean;
-    numEdges: number;
 };
 type layoutEdge = egoGraphEdge & {
     sourceIndex: number;
@@ -18,10 +17,18 @@ type layoutEdge = egoGraphEdge & {
     y1: number;
     y2: number;
 };
+type identityEdge = {
+    id: string;
+    x1: number;
+    x2: number;
+    y1: number;
+    y2: number;
+};
 
 export interface egoGraphLayout {
     nodes: layoutNode[];
     edges: layoutEdge[];
+    identityEdges: identityEdge[];
     maxradius: number;
 }
 
@@ -31,20 +38,21 @@ export interface egoGraphLayout {
  * @param {string[]} sortOrder
  * @param {number} center
  * @param {number} radius
- * @param {number} circlePortion
+ * @param xRange
+ * @param transformVector
+ * @param offset
  */
 function createLayerNodes(
     layerNodes: egoGraphNode[],
     sortOrder: string[],
     center: number,
     radius: number,
-    circlePortion: number
+    xRange: [number, number], // full circle: 0, 2PI
+    transformVector: { x: number; y: number },
+    offset: number
 ) {
     const nodes: { [key: string]: layoutNode } = {};
-    const x = d3
-        .scaleBand()
-        .range([0, 2 * Math.PI * circlePortion])
-        .domain(sortOrder);
+    const x = d3.scaleBand().range(xRange).domain(sortOrder);
     const maxradius: number =
         ((center / Math.sin((Math.PI - x.bandwidth()) / 2)) *
             Math.sin(x.bandwidth())) /
@@ -54,16 +62,16 @@ function createLayerNodes(
             center,
             center,
             radius,
-            x(node.id)!
+            x(node.id)!,
+            offset
         );
         nodes[node.id] = {
             ...node,
             index: -1,
             isCenter: false,
-            cx: nodeCoords.x,
-            cy: nodeCoords.y,
-            hovered: false,
-            numEdges: 0
+            cx: nodeCoords.x + transformVector.x,
+            cy: nodeCoords.y + transformVector.y,
+            hovered: false
         };
     });
     return { nodes, maxradius };
@@ -80,28 +88,35 @@ function assignToInnerNodes(
 ) {
     const nodeAssignment: { [key: string]: string[] } = {};
     edges.forEach((edge) => {
+        const sourceId = edge.source;
+        const targetId = edge.target;
         if (
-            nodeDict[edge.source].centerDist === 1 &&
-            !Object.keys(nodeAssignment).includes(edge.source)
+            Object.keys(nodeDict).includes(sourceId) &&
+            Object.keys(nodeDict).includes(targetId)
         ) {
-            nodeAssignment[edge.source] = [];
-        }
-        if (
-            nodeDict[edge.target].centerDist === 1 &&
-            !Object.keys(nodeAssignment).includes(edge.target)
-        ) {
-            nodeAssignment[edge.target] = [];
-        }
-        if (
-            nodeDict[edge.source].centerDist === 2 &&
-            nodeDict[edge.target].centerDist === 1
-        ) {
-            nodeAssignment[edge.target].push(edge.source);
-        } else if (
-            nodeDict[edge.target].centerDist === 2 &&
-            nodeDict[edge.source].centerDist === 1
-        ) {
-            nodeAssignment[edge.source].push(edge.target);
+            if (
+                nodeDict[sourceId].centerDist === 1 &&
+                !Object.keys(nodeAssignment).includes(sourceId)
+            ) {
+                nodeAssignment[sourceId] = [];
+            }
+            if (
+                nodeDict[targetId].centerDist === 1 &&
+                !Object.keys(nodeAssignment).includes(targetId)
+            ) {
+                nodeAssignment[targetId] = [];
+            }
+            if (
+                nodeDict[sourceId].centerDist === 2 &&
+                nodeDict[targetId].centerDist === 1
+            ) {
+                nodeAssignment[targetId].push(sourceId);
+            } else if (
+                nodeDict[targetId].centerDist === 2 &&
+                nodeDict[sourceId].centerDist === 1
+            ) {
+                nodeAssignment[sourceId].push(targetId);
+            }
         }
     });
     return nodeAssignment;
@@ -298,34 +313,50 @@ function sortNodes(nodes: egoGraphNode[], edges: egoGraphEdge[]) {
     return sortByOverlap(intersectingNodes, nodeAssignment, innerNodes);
 }
 
-function sortByNumEdges(nodes: egoGraphNode[]) {
-    return nodes.sort((a, b) => a.numEdges - b.numEdges);
+function sortPairwiseIntersection(
+    nodes: string[],
+    nodeDict: { [key: string]: egoGraphNode },
+    graphID: string
+) {
+    nodes.sort(
+        (a, b) =>
+            nodeDict[graphID + '_' + a].numEdges -
+            nodeDict[graphID + '_' + b].numEdges
+    );
+    return nodes;
 }
 
-function calculateMultiLayout(
+/**
+ *
+ * @param {egoGraph[]} egoGraphs
+ * @param {{ [key: string]: string[] }} intersections
+ * @param {number} height
+ * @param {number} width
+ * @param {number} innerSize
+ * @param {number} outerSize
+ */
+export function calculateLayout(
     egoGraphs: egoGraph[],
-    height,
-    width,
+    intersections: { [key: string]: string[] },
+    height: number,
+    width: number,
     innerSize: number,
     outerSize: number
 ) {
     if (egoGraphs.length > 1) {
         let graphCenters;
-        let overlaps={};
-        let pairwiseOverlaps = [];
-        let uniqueNodes = [];
-        for (let i = 0; i < egoGraphs.length-1; i++) {
-            for (let j = i + 1; j < egoGraphs.length; j++) {
-
-            }
-        }
-
+        const layout: egoGraphLayout = {
+            nodes: [],
+            edges: [],
+            identityEdges: [],
+            maxradius: 10000
+        };
         if (egoGraphs.length === 2) {
             graphCenters = [
                 { x: outerSize, y: outerSize },
                 { x: width - outerSize, y: outerSize }
             ];
-        } else if (egoGraphs.length === 3) {
+        } else {
             graphCenters = [
                 { x: outerSize, y: height / 2 },
                 {
@@ -335,9 +366,353 @@ function calculateMultiLayout(
                 { x: width - outerSize, y: height - outerSize }
             ];
         }
+        const fullRange = 2 * Math.PI;
+        const xRanges: [[number, number], [number, number]] = [
+            [0, fullRange / egoGraphs.length],
+            [fullRange / egoGraphs.length, fullRange]
+        ];
+        let layoutNodeDict: { [key: string]: layoutNode }={};
+        let nodeDict: { [key: string]: egoGraphNode } = {};
+        egoGraphs[egoGraphs.length - 1].nodes.forEach(
+            (node) => (nodeDict[node.id] = node)
+        );
+        let pairwiseIntersections = sortPairwiseIntersection(
+            intersections[
+                [
+                    egoGraphs[egoGraphs.length - 1].centerNode.originalID,
+                    egoGraphs[0].centerNode.originalID
+                ]
+                    .sort()
+                    .toString()
+            ],
+            nodeDict,
+            egoGraphs[egoGraphs.length - 1].centerNode.originalID
+        ).reverse();
+        for (let i = 0; i < egoGraphs.length; i++) {
+            nodeDict = {};
+            egoGraphs[i].nodes.forEach((node) => (nodeDict[node.id] = node));
+            const firstGraphId = egoGraphs[i].centerNode.originalID;
+            let secondGraphId;
+            if (i === egoGraphs.length - 1) {
+                secondGraphId = egoGraphs[0].centerNode.originalID;
+            } else {
+                secondGraphId = egoGraphs[i + 1].centerNode.originalID;
+            }
+            const intersectingNodes = [];
+            let nextPairwiseIntersections =
+                intersections[[firstGraphId, secondGraphId].sort().toString()];
+            // if we only have selected two egographs we don't sort both of them to prevent crossing edges.
+            if(egoGraphs.length>2) {
+                nextPairwiseIntersections = sortPairwiseIntersection(
+                    nextPairwiseIntersections,
+                    nodeDict,
+                    egoGraphs[i].centerNode.originalID
+                );
+            }
+            // push all the other intersecting nodes
+            const otherIntersections = egoGraphs[i].nodes
+                .map((d) => d.originalID)
+                .filter(
+                    (id) =>
+                        !pairwiseIntersections.includes(id) &&
+                        !nextPairwiseIntersections.includes(id) &&
+                        !intersections[
+                            egoGraphs[i].centerNode.originalID
+                        ].includes(id)
+                );
+            intersectingNodes.push(...pairwiseIntersections);
+            intersectingNodes.push(...otherIntersections);
+            intersectingNodes.push(...nextPairwiseIntersections);
+            pairwiseIntersections = nextPairwiseIntersections.reverse();
+            const currLayout = calculateMultiLayout(
+                egoGraphs[i],
+                innerSize,
+                outerSize,
+                intersections[egoGraphs[i].centerNode.originalID],
+                intersectingNodes.reverse(),
+                graphCenters[i],
+                xRanges,
+                -fullRange / egoGraphs.length / 2 + (fullRange / egoGraphs.length) * i
+            );
+            layoutNodeDict = { ...currLayout.nodes, ...layoutNodeDict };
+            layout.maxradius = Math.max(
+                Math.min(currLayout.maxradius, layout.maxradius),
+                1
+            );
+        }
+        layout.edges = createEgoEdges(
+            layoutNodeDict,
+            egoGraphs.map((d) => d.edges).flat()
+        );
+        layout.identityEdges = createIdentityEdges(
+            layoutNodeDict,
+            egoGraphs.map((d) => d.centerNode.originalID)
+        );
+        layout.nodes = Object.values(layoutNodeDict);
+        return layout;
     } else {
-        return calculateEgoLayout(egoGraphs[0], innerSize, outerSize, 1);
+        return calculateEgoLayout(egoGraphs[0], innerSize, outerSize);
     }
+}
+
+function calculateMultiLayout(
+    graph: egoGraph,
+    innerSize: number,
+    outerSize: number,
+    uniqueNodeIds: string[],
+    sharedNodeIds: string[],
+    graphCenter: { x: number; y: number },
+    xRanges: [[number, number], [number, number]],
+    offset: number
+) {
+    const transformVector = {
+        x: graphCenter.x - outerSize,
+        y: graphCenter.y - outerSize
+    };
+    const nodeDict: { [key: string]: egoGraphNode } = {};
+    graph.nodes.forEach((node) => (nodeDict[node.id] = node));
+    let nodes:{ [key: string]: layoutNode };
+    const sharedNodesLayout = calculateLayoutSharedNodes(
+        sharedNodeIds.map(
+            (nodeId) => nodeDict[graph.centerNode.originalID + '_' + nodeId]
+        ),
+        sharedNodeIds.map(
+            (nodeId) => graph.centerNode.originalID + '_' + nodeId
+        ),
+        outerSize,
+        outerSize,
+        xRanges[0],
+        1 - innerSize / outerSize,
+        transformVector,
+        offset
+    );
+    nodes = sharedNodesLayout.nodes;
+    let maxRadius = sharedNodesLayout.maxradius;
+    if (uniqueNodeIds.length > 0) {
+        const uniqueNodesLayout = calculateLayoutUniqueNodes(
+            uniqueNodeIds.map(
+                (nodeId) => nodeDict[graph.centerNode.originalID + '_' + nodeId]
+            ),
+            graph.edges,
+            innerSize,
+            outerSize,
+            xRanges[1],
+            transformVector,
+            offset
+        );
+        nodes = {
+            ...uniqueNodesLayout.nodesLayer1Layout.nodes,
+            ...uniqueNodesLayout.nodesLayer2Layout.nodes,
+            ...nodes
+        };
+        maxRadius = Math.min(
+            uniqueNodesLayout.nodesLayer1Layout.maxradius,
+            uniqueNodesLayout.nodesLayer2Layout.maxradius,
+            maxRadius
+        );
+    }
+    nodes[graph.centerNode.id] = createCenterNode(
+        graph.nodes[graph.nodes.map((d) => d.id).indexOf(graph.centerNode.id)],
+        outerSize,
+        transformVector
+    );
+    return {
+        nodes: nodes,
+        maxradius: maxRadius
+    };
+}
+
+function moveToCenter(
+    point: { x: number; y: number },
+    center: { x: number; y: number },
+    factor: number
+) {
+    const dx = center.x - point.x;
+    const dy = center.y - point.y;
+    return { x: point.x + dx * factor, y: point.y + dy * factor };
+}
+
+/**
+ * creates layout for shared nodes according to a sort order
+ * @param {egoGraphNode[]} nodes
+ * @param {string[]} sortOrder
+ * @param {number} center
+ * @param {number} radius
+ * @param {[number, number]} xRange
+ * @param {string} factor
+ * @param {{ x: number; y: number }} graphCenter
+ * @param {number} offset
+ */
+function calculateLayoutSharedNodes(
+    nodes: egoGraphNode[],
+    sortOrder: string[],
+    center: number,
+    radius: number,
+    xRange: [number, number],
+    factor: number,
+    graphCenter: { x: number; y: number },
+    offset: number
+) {
+    const nodeLayout = createLayerNodes(
+        nodes,
+        sortOrder,
+        center,
+        radius,
+        xRange,
+        graphCenter,
+        offset
+    );
+    Object.keys(nodeLayout.nodes).forEach((nodeId) => {
+        if (nodeLayout.nodes[nodeId].centerDist === 1) {
+            const newPos = moveToCenter(
+                {
+                    x: nodeLayout.nodes[nodeId].cx,
+                    y: nodeLayout.nodes[nodeId].cy
+                },
+                { x: graphCenter.x + center, y: graphCenter.y + center },
+                factor
+            );
+            nodeLayout.nodes[nodeId].cx = newPos.x;
+            nodeLayout.nodes[nodeId].cy = newPos.y;
+        }
+    });
+    return nodeLayout;
+}
+
+/**
+ * creates layout for unique nodes and sorts them in a way to align inner and outer nodes
+ * @param {egoGraphNode[]} nodes
+ * @param {egoGraphEdge[]} edges
+ * @param {number} innerSize
+ * @param {number} outerSize
+ * @param {[number, number]} xRange
+ * @param {{x: number, y:number}} transformVector - vector to transform all points to their position
+ * @param {number} offset
+ */
+function calculateLayoutUniqueNodes(
+    nodes: egoGraphNode[],
+    edges: egoGraphEdge[],
+    innerSize: number,
+    outerSize: number,
+    xRange: [number, number],
+    transformVector: { x: number; y: number },
+    offset: number
+) {
+    const { innerNodeOrder, outerNodeOrder } = sortNodes(nodes, edges);
+    const nodesLayer1 = nodes.filter((d) => d.centerDist === 1);
+    const nodesLayer2 = nodes.filter((d) => d.centerDist === 2);
+    nodesLayer1.forEach((node) => {
+        if (!innerNodeOrder.includes(node.id)) {
+            innerNodeOrder.push(node.id);
+        }
+    });
+    nodesLayer2.forEach((node) => {
+        if (!outerNodeOrder.includes(node.id)) {
+            outerNodeOrder.push(node.id);
+        }
+    });
+    const nodesLayer1Layout = createLayerNodes(
+        nodesLayer1,
+        innerNodeOrder,
+        outerSize,
+        innerSize,
+        xRange,
+        transformVector,
+        offset
+    );
+    const nodesLayer2Layout = createLayerNodes(
+        nodesLayer2,
+        outerNodeOrder,
+        outerSize,
+        outerSize,
+        xRange,
+        transformVector,
+        offset
+    );
+    return { nodesLayer1Layout, nodesLayer2Layout };
+}
+
+/**
+ * creates Identity edges
+ * @param { [key: string]: layoutNode } nodeDict - dict of nodes with positions
+ * @param {string[]} centerNodes - nodes in center of egographs, used to derive ids of nodes
+ */
+function createIdentityEdges(
+    nodeDict: { [key: string]: layoutNode },
+    centerNodes: string[]
+): identityEdge[] {
+    const proteinIds = new Set(
+        Object.keys(nodeDict).map((d) => d.split('_')[1])
+    );
+    const edges: identityEdge[] = [];
+    [...proteinIds].forEach((proteinId) => {
+        const nodeIds = centerNodes
+            .map((d) => d + '_' + proteinId)
+            .filter((nodeId) => Object.keys(nodeDict).includes(nodeId));
+        if (nodeIds.length > 1) {
+            for (let i = 0; i < nodeIds.length; i++) {
+                for (let j = i + 1; j < nodeIds.length; j++) {
+                    edges.push({
+                        id: nodeIds[i] + '_' + nodeIds[j],
+                        x1: nodeDict[nodeIds[i]].cx,
+                        y1: nodeDict[nodeIds[i]].cy,
+                        x2: nodeDict[nodeIds[j]].cx,
+                        y2: nodeDict[nodeIds[j]].cy
+                    });
+                }
+            }
+        }
+    });
+    return edges;
+}
+
+/**
+ * create edges in egoGraph
+ * @param { [key: string]: layoutNode } nodeDict - dict of all edges in egograph with positions
+ * @param {egoGraphEdge[]} edges - edges to draw
+ */
+function createEgoEdges(
+    nodeDict: { [key: string]: layoutNode },
+    edges: egoGraphEdge[]
+) {
+    Object.values(nodeDict).forEach((elem, index) => (elem.index = index));
+    const layoutEdges: layoutEdge[] = [];
+    edges.forEach((edge) => {
+        const sourceId = edge.source;
+        const targetId = edge.target;
+        const currEdge: layoutEdge = {
+            ...edge,
+            sourceIndex: nodeDict[sourceId].index,
+            targetIndex: nodeDict[targetId].index,
+            x1: nodeDict[sourceId].cx,
+            x2: nodeDict[targetId].cx,
+            y1: nodeDict[sourceId].cy,
+            y2: nodeDict[targetId].cy
+        };
+        layoutEdges.push(currEdge);
+    });
+    return layoutEdges;
+}
+
+/**
+ * Creates node at center
+ * @param {egoGraphNode} centerNode
+ * @param {number} outerSize
+ * @param {x:number,y:number>} transformVector
+ */
+function createCenterNode(
+    centerNode: egoGraphNode,
+    outerSize: number,
+    transformVector: { x: number; y: number }
+): layoutNode {
+    return {
+        ...centerNode,
+        index: -1,
+        isCenter: true,
+        cx: outerSize + transformVector.x,
+        cy: outerSize + transformVector.y,
+        hovered: false
+    };
 }
 
 /**
@@ -345,61 +720,30 @@ function calculateMultiLayout(
  * @param {egoGraph} graph
  * @param {number} innerSize
  * @param {number} outerSize
- * @param {number} circlePortion
  */
 export function calculateEgoLayout(
     graph: egoGraph,
     innerSize: number,
-    outerSize: number,
-    circlePortion: number
-): egoGraphLayout {
-    const { innerNodeOrder, outerNodeOrder } = sortNodes(
+    outerSize: number
+) {
+    const { nodesLayer1Layout, nodesLayer2Layout } = calculateLayoutUniqueNodes(
         graph.nodes,
-        graph.edges
-    );
-    const nodesLayer1 = graph.nodes.filter((d) => d.centerDist === 1);
-    const nodesLayer2 = graph.nodes.filter((d) => d.centerDist === 2);
-    const nodesLayer1Layout = createLayerNodes(
-        nodesLayer1,
-        innerNodeOrder,
-        outerSize,
+        graph.edges,
         innerSize,
-        circlePortion
-    );
-    const nodesLayer2Layout = createLayerNodes(
-        nodesLayer2,
-        outerNodeOrder,
         outerSize,
-        outerSize,
-        circlePortion
+        [0, 2 * Math.PI],
+        { x: 0, y: 0 },
+        0
     );
     const nodes = { ...nodesLayer1Layout.nodes, ...nodesLayer2Layout.nodes };
-    nodes[graph.centerNode.id] = {
-        ...graph.centerNode,
-        index: -1,
-        isCenter: true,
-        cx: outerSize,
-        cy: outerSize,
-        hovered: false,
-        numEdges: 0
-    };
+    // add inner node to layout at center position
+    nodes[graph.centerNode.id] = createCenterNode(
+        graph.nodes[graph.nodes.map((d) => d.id).indexOf(graph.centerNode.id)],
+        outerSize,
+        { x: 0, y: 0 }
+    );
     Object.values(nodes).forEach((elem, index) => (elem.index = index));
-    const edges: layoutEdge[] = [];
-    graph.edges.forEach((edge) => {
-        const currEdge: layoutEdge = {
-            ...edge,
-            sourceIndex: nodes[edge.source].index,
-            targetIndex: nodes[edge.target].index,
-            x1: nodes[edge.source].cx,
-            x2: nodes[edge.target].cx,
-            y1: nodes[edge.source].cy,
-            y2: nodes[edge.target].cy
-        };
-        edges.push(currEdge);
-        nodes[edge.source].numEdges += 1;
-        nodes[edge.target].numEdges += 1;
-    });
-
+    const edges = createEgoEdges(nodes, graph.edges);
     return {
         nodes: Object.values(nodes).sort((a, b) => a.index - b.index),
         edges,
