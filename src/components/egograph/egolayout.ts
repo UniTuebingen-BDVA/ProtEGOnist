@@ -30,6 +30,7 @@ export interface egoGraphLayout {
     edges: layoutEdge[];
     identityEdges: identityEdge[];
     maxradius: number;
+    centers: {x:number,y:number}[];
 }
 
 /**
@@ -358,7 +359,8 @@ export function calculateLayout(
             nodes: [],
             edges: [],
             identityEdges: [],
-            maxradius: 10000
+            maxradius: 10000,
+            centers: [],
         };
         if (egoGraphs.length === 2) {
             graphCenters = [
@@ -446,7 +448,7 @@ export function calculateLayout(
             layoutNodeDict = { ...currLayout.nodes, ...layoutNodeDict };
             layout.maxradius = Math.max(
                 Math.min(currLayout.maxradius, layout.maxradius),
-                1
+                2
             );
         }
         layout.edges = createEgoEdges(
@@ -458,6 +460,7 @@ export function calculateLayout(
             egoGraphs.map((d) => d.centerNode.originalID)
         );
         layout.nodes = Object.values(layoutNodeDict);
+        layout.centers=graphCenters;
         return layout;
     } else {
         return calculateEgoLayout(egoGraphs[0], innerSize, outerSize);
@@ -760,6 +763,7 @@ export function calculateEgoLayout(
         maxradius: Math.max(Math.min(
             nodesLayer1Layout.maxradius,
             nodesLayer2Layout.maxradius
-        ),1)
+        ),2),
+        centers:[{x:outerSize,y:outerSize}]
     };
 }

@@ -1,16 +1,17 @@
 import { atom } from 'jotai';
-import { bundleGroupSizeAtom, graphSVGSizeAtom, maxRadiusAtom } from './networkStore';
+import { bundleGroupSizeAtom, maxRadiusAtom } from './networkStore';
 import { focusAtom } from 'jotai-optics';
 import { splitAtom } from 'jotai/utils';
 import * as d3 from 'd3';
 import { calculateLayout, egoGraphLayout } from './egolayout.ts';
 import { egoGraph } from '../../egoGraphSchema.ts';
 
-const bundleSizeAtom = atom(1);
 export const egoGraphBundleDataAtom = atom<{
     egoGraphs: egoGraph[];
     intersections: { [key: string]: string[] };
 } | null>(null);
+export const innerRadiusAtom=atom(50);
+export const outerRadiusAtom=atom(70);
 const egoGraphBundleDefaultAtom = atom((get) => {
     const data = get(egoGraphBundleDataAtom);
     if (data === null) {
@@ -21,12 +22,13 @@ const egoGraphBundleDefaultAtom = atom((get) => {
             data.intersections,
             get(bundleGroupSizeAtom).height,
             get(bundleGroupSizeAtom).width,
-            50,
-            70
+            get(innerRadiusAtom),
+            get(outerRadiusAtom)
         );
     }
 });
 const egoGraphBundleOverwrittenAtom = atom(null);
+// writable version of egoGraphBundle
 export const egoGraphBundleAtom = atom<egoGraphLayout>(
     (get) => {
         return (
@@ -49,7 +51,7 @@ const numEdgesMinMax = atom((get) => {
 export const colorScaleAtom = atom((get) => {
     return d3
         .scaleLinear<string, number>()
-        .range(['white', 'black'])
+        .range(['#ffeda0', '#f03b20'])
         .domain(get(numEdgesMinMax));
 });
 export const nodeRadiusAtom = atom((get) => {
@@ -57,4 +59,3 @@ export const nodeRadiusAtom = atom((get) => {
         ? get(maxRadiusAtom)
         : get(egoGraphBundleAtom).maxradius;
 });
-export const circlePortionAtom = atom((get) => 1 / get(bundleSizeAtom));

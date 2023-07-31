@@ -3,9 +3,9 @@ import { useAtom } from 'jotai';
 
 import {
     colorScaleAtom,
-    egoGraphBundleAtom,
+    egoGraphBundleAtom, innerRadiusAtom,
     nodeRadiusAtom,
-    nodesAtomsAtom
+    nodesAtomsAtom, outerRadiusAtom
 } from './egoGraphBundleStore';
 import { EgographNode } from './egographNode';
 
@@ -14,9 +14,19 @@ const EgographBundle = () => {
     const [nodeAtoms] = useAtom(nodesAtomsAtom);
     const [colorScale] = useAtom(colorScaleAtom);
     const [nodeRadius] = useAtom(nodeRadiusAtom);
+    const [innerRadius]=useAtom(innerRadiusAtom);
+    const [outerRadius]=useAtom(outerRadiusAtom);
 
     return useMemo(() => {
         let lines = [];
+        const layoutCircles = layout.centers.map((center,i) => {
+            return (
+                <g key={i}>
+                    <circle cx={center.x} cy={center.y} r={innerRadius} stroke={"lightgray"} fill={"none"}/>
+                    <circle cx={center.x} cy={center.y} r={outerRadius} stroke={"lightgray"} fill={"none"}/>
+                </g>
+            );
+        });
         const circles = Object.values(layout.nodes).map((node, i) => {
             return (
                 <EgographNode
@@ -40,7 +50,7 @@ const EgographBundle = () => {
                     x2={edge.x2}
                     y1={edge.y1}
                     y2={edge.y2}
-                    stroke={isVisible ? 'black' : 'none'}
+                    stroke={isVisible ? 'gray' : 'none'}
                 />
             );
         });
@@ -54,7 +64,7 @@ const EgographBundle = () => {
                         y1={edge.y1}
                         y2={edge.y2}
                         stroke={'gray'}
-                        opacity={0.5}
+                        opacity={0.3}
                         strokeWidth={nodeRadius * 2}
                     />
                 );
@@ -62,17 +72,11 @@ const EgographBundle = () => {
         );
         return (
             <>
+                {layoutCircles}
                 {lines}
                 {circles}
             </>
         );
-    }, [
-        colorScale,
-        layout.edges,
-        layout.identityEdges,
-        layout.nodes,
-        nodeAtoms,
-        nodeRadius
-    ]);
+    }, [colorScale, innerRadius, layout.centers, layout.edges, layout.identityEdges, layout.nodes, nodeAtoms, nodeRadius, outerRadius]);
 };
 export default EgographBundle;
