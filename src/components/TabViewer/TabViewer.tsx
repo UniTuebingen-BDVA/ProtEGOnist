@@ -1,17 +1,21 @@
 import React from 'react';
 import { useAtom } from 'jotai';
 
-import { Box, Tabs, Tab, Typography, Paper } from '@mui/material';
+import { Box, Paper, Tab, Tabs } from '@mui/material';
 import { multiSelectionAtom, showedTabAtom } from './tabViewerStore.ts';
-import { getTableAtom } from '../../apiCalls.ts';
+import {
+    getEgographBundleAtom,
+    getRadarAtom,
+    getTableAtom
+} from '../../apiCalls.ts';
 import SelectionTable from '../selectionTable/selectionTable.tsx';
-import { getEgographBundleAtom, getRadarAtom } from '../../apiCalls.ts';
 
 interface TabPanelProps {
     children?: React.ReactNode;
     index: number;
     value: number;
 }
+
 function CustomTabPanel(props: TabPanelProps) {
     const { children, value, index, ...other } = props;
 
@@ -29,11 +33,11 @@ function CustomTabPanel(props: TabPanelProps) {
                 justifyContent: 'center'
             }}
         >
-            {value === index &&                  children}
-            
+            {value === index && children}
         </div>
     );
 }
+
 function a11yProps(index: number) {
     return {
         id: `simple-tab-${index}`,
@@ -43,12 +47,12 @@ function a11yProps(index: number) {
 
 function TabViewer() {
     const [value, setValue] = useAtom(showedTabAtom);
-    const [tableData, getTableData] = useAtom(getTableAtom);
-    const [egoGraphBundle, getEgographBundle] = useAtom(getEgographBundleAtom);
-    const [intersectionData, getRadarData] = useAtom(getRadarAtom);
-    const [multiSelection,setMultiSelection]=useAtom(multiSelectionAtom);
+    const [tableData, _getTableData] = useAtom(getTableAtom);
+    const [_egoGraphBundle, getEgographBundle] = useAtom(getEgographBundleAtom);
+    const [_intersectionData, getRadarData] = useAtom(getRadarAtom);
+    const [multiSelection, setMultiSelection] = useAtom(multiSelectionAtom);
 
-    const handleChange = (e: React.SyntheticEvent, newValue: number) => {
+    const handleChange = (_e: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
 
@@ -73,27 +77,28 @@ function TabViewer() {
                 </Tabs>
             </Box>
             <CustomTabPanel value={value} index={0}>
-                <div style={{ width: '100%', maxHeight: '100%'}}>
-                <SelectionTable
-                    onRowSelectionModelChange={(newSelection) => {
-                        console.log('SELECTED: ', newSelection);
-                        // get the ID from the selection
-                        const selectedID = newSelection[0];
-                        // get the name from the tableData
-                        const selectedName =
-                            tableData.rows[selectedID]['UniprotID_inString'];
-                        const multiSelectionLocal=multiSelection.slice();
-                        multiSelectionLocal.push(selectedName)
-                        if(multiSelectionLocal.length>3) {
-                            multiSelectionLocal.shift();
-                        }
-                        setMultiSelection(multiSelectionLocal);
-                        getEgographBundle(multiSelectionLocal);
-                        getRadarData(selectedName);
-                    }}
-                />
-                </div> 
-
+                <div style={{ width: '100%', maxHeight: '100%' }}>
+                    <SelectionTable
+                        onRowSelectionModelChange={(newSelection) => {
+                            console.log('SELECTED: ', newSelection);
+                            // get the ID from the selection
+                            const selectedID = newSelection[0];
+                            // get the name from the tableData
+                            const selectedName =
+                                tableData.rows[selectedID][
+                                    'UniprotID_inString'
+                                ];
+                            const multiSelectionLocal = multiSelection.slice();
+                            multiSelectionLocal.push(selectedName);
+                            if (multiSelectionLocal.length > 3) {
+                                multiSelectionLocal.shift();
+                            }
+                            setMultiSelection(multiSelectionLocal);
+                            getEgographBundle(multiSelectionLocal);
+                            getRadarData(selectedName);
+                        }}
+                    />
+                </div>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
                 HERE IS THE SPACE FOR THE EXAMPLES
@@ -101,4 +106,5 @@ function TabViewer() {
         </Paper>
     );
 }
+
 export default TabViewer;

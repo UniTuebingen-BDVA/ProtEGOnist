@@ -45,22 +45,22 @@ class EgoGraph:
           graph: The networkx graph object of the ego graph.
         """
         self.node = input_node
-        self.nxGraph: nx.Graph = graph
+        self.nx_graph: nx.Graph = graph
         # check if name and classification are in the attributes if not add them
-        for node in self.nxGraph.nodes:
-            if "name" not in self.nxGraph.nodes[node]:
-                self.nxGraph.nodes[node]["name"] = node
-            if "id" not in self.nxGraph.nodes[node]:
-                self.nxGraph.nodes[node]["id"] = node
-            if "classification" not in self.nxGraph.nodes[node]:
-                self.nxGraph.nodes[node]["classification"] = "default"
-            if "centerDist" not in self.nxGraph.nodes[node]:
-                self.nxGraph.nodes[node]["centerDist"] = nx.shortest_path_length(
-                    self.nxGraph, self.node, node
+        for node in self.nx_graph.nodes:
+            if "name" not in self.nx_graph.nodes[node]:
+                self.nx_graph.nodes[node]["name"] = node
+            if "id" not in self.nx_graph.nodes[node]:
+                self.nx_graph.nodes[node]["id"] = node
+            if "classification" not in self.nx_graph.nodes[node]:
+                self.nx_graph.nodes[node]["classification"] = "default"
+            if "centerDist" not in self.nx_graph.nodes[node]:
+                self.nx_graph.nodes[node]["centerDist"] = nx.shortest_path_length(
+                    self.nx_graph, self.node, node
                 )
-            if "numEdges" not in self.nxGraph.nodes[node]:
-                self.nxGraph.nodes[node]["numEdges"] = len(
-                    list(self.nxGraph.neighbors(node))
+            if "numEdges" not in self.nx_graph.nodes[node]:
+                self.nx_graph.nodes[node]["numEdges"] = len(
+                    list(self.nx_graph.neighbors(node))
                 )
 
     @classmethod
@@ -100,7 +100,7 @@ class EgoGraph:
         Returns:
             The attributes of the node.
         """
-        attribs = self.nxGraph.nodes(data=True)[id]
+        attribs = self.nx_graph.nodes(data=True)[id]
         # check if name and classification are in the attributes if not add them
 
         return attribs
@@ -113,8 +113,8 @@ class EgoGraph:
         Returns:
           A JSON representation of the graph object.
         """
-        node_link_data = dict(nx.node_link_data(self.nxGraph, {"link": "edges"}))
-        t1_neighbors: list[str | int] = list(self.nxGraph.neighbors(self.node))
+        node_link_data = dict(nx.node_link_data(self.nx_graph, {"link": "edges"}))
+        t1_neighbors: list[str | int] = list(self.nx_graph.neighbors(self.node))
 
         # check if the nodes in node_link_data have an attribute "name" if not add the attribute "name" with the value of the attribute "id"
         for node in node_link_data["nodes"]:
@@ -142,8 +142,8 @@ class EgoGraph:
         node_link_data["centerNode"] = {
             "id": str(self.node) + "_" + str(self.node),
             "originalID": self.node,
-            "name": self.nxGraph.nodes[self.node]["name"]
-            if self.nxGraph.nodes[self.node]["name"]
+            "name": self.nx_graph.nodes[self.node]["name"]
+            if self.nx_graph.nodes[self.node]["name"]
             else self.node,
         }
         return node_link_data
@@ -157,9 +157,9 @@ class EgoGraph:
           The values are lists of the neighbors of the node.
         """
         try:
-            t1_neighbors: list[str | int] = list(self.nxGraph.neighbors(self.node))
+            t1_neighbors: list[str | int] = list(self.nx_graph.neighbors(self.node))
             t2_neighbors: list[str | int] = list(
-                nx.non_neighbors(self.nxGraph, self.node)
+                nx.non_neighbors(self.nx_graph, self.node)
             )
         except nx.NetworkXError:
             t1_neighbors = []
@@ -264,8 +264,8 @@ class EgoGraph:
 
         out_dict: Intersection = {
             "intersection": intersection,
-            "classification": self.nxGraph.nodes[self.node]["classification"],
-            "setSize": len(self.nxGraph.nodes),
+            "classification": self.nx_graph.nodes[self.node]["classification"],
+            "setSize": len(self.nx_graph.nodes),
             "jaccard": jaccard,
             "len1Proportion": len1_prop,
             "len2Proportion": len2_prop,

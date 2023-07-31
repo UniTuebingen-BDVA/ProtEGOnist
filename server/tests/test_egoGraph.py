@@ -61,9 +61,9 @@ class TestConstructor:
         # Check the node attribute
         assert ego.node == 1
         #
-        print(type(ego.nxGraph))
+        print(type(ego.nx_graph))
         # Check the graph attribute
-        assert isinstance(ego.nxGraph, nx.Graph)
+        assert isinstance(ego.nx_graph, nx.Graph)
 
 
 class TestGetNeighbors:

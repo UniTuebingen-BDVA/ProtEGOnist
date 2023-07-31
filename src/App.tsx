@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
 import './App.css';
-import { useAtom, useSetAtom } from 'jotai';
+import { useAtom,useSetAtom } from 'jotai';
 import { AppBar, Toolbar, Typography } from '@mui/material';
 import TabViewer from './components/TabViewer/TabViewer.tsx';
 import RadarChartViewer from './components/radarchart/radarChartViewer.tsx';
 import EgoGraphViewer from './components/egograph/egographViewer.tsx';
 import {
     getEgographBundleAtom,
+    getEgoNetworkNetworkAtom,
     getRadarAtom,
     getTableAtom
 } from './apiCalls.ts';
@@ -18,13 +19,29 @@ function App() {
     const getEgoGraphBundle = useSetAtom(getEgographBundleAtom);
     const [egoGraphBundle] = useAtom(egoGraphBundleAtom);
     const [intersectionData, getRadarData] = useAtom(getRadarAtom);
+    const [_egoNetworkNetworkData, getEgoNetworkNetworkData] = useAtom(
+        getEgoNetworkNetworkAtom
+    );
     const [tarNode, setTarNode] = useAtom(tarNodeAtom);
     useEffect(() => {
         getTableData();
         setTarNode('Q9Y625');
         getRadarData('Q9Y625');
+        getEgoNetworkNetworkData([
+            'P07093',
+            'P30533',
+            'Q9Y625',
+            'Q15369',
+            'Q9H3U1'
+        ]);
         getEgoGraphBundle(['P07093', 'P30533', 'Q9Y625']);
-    }, [getTableData, getRadarData, setTarNode, getEgoGraphBundle]);
+    }, [
+        getTableData,
+        getRadarData,
+        setTarNode,
+        getEgoGraphBundle,
+        getEgoNetworkNetworkData
+    ]);
     if (
         // check if all data is loaded (not empty)
         tableData.rows.length > 0 && // tableData
@@ -97,6 +114,16 @@ function App() {
                             <div>
                                 {/* <!-- Content for the second column, first row --> */}
                                 <EgoGraphViewer />
+                            </div>
+                        </div>
+                        <div
+                            className="column"
+                            style={{ flex: 2, width: '67%' }}
+                        >
+                            <div>
+                                {/* <!-- Content for the second column, first row --> */}
+                                {/* <EgoGraphViewer /> */}
+                                <EgoNetworkNetworkViewer />
                             </div>
                         </div>
                     </div>
