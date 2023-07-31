@@ -13,6 +13,8 @@ import {
 } from './apiCalls.ts';
 import { tarNodeAtom } from './components/radarchart/radarStore.ts';
 import { egoGraphBundleAtom } from './components/egograph/egoGraphBundleStore.ts';
+import EgoNetworkNetworkViewer from './components/egoNetworkNetwork/egoNetworkNetworkViewer.tsx';
+
 
 function App() {
     const [tableData, getTableData] = useAtom(getTableAtom);
@@ -129,7 +131,7 @@ function App() {
                     </div>
                 </div>
             </>
-        );
+        )
     } else return null;
 }
 
