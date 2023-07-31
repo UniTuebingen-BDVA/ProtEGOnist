@@ -2,7 +2,7 @@ import React from 'react';
 import { useAtom } from 'jotai';
 
 import { Box, Tabs, Tab, Typography, Paper } from '@mui/material';
-import { showedTabAtom } from './tabViewerStore.ts';
+import { multiSelectionAtom, showedTabAtom } from './tabViewerStore.ts';
 import { getTableAtom } from '../../apiCalls.ts';
 import SelectionTable from '../selectionTable/selectionTable.tsx';
 import { getEgographBundleAtom, getRadarAtom } from '../../apiCalls.ts';
@@ -44,8 +44,10 @@ function a11yProps(index: number) {
 function TabViewer() {
     const [value, setValue] = useAtom(showedTabAtom);
     const [tableData, getTableData] = useAtom(getTableAtom);
-    //const [egoGraph, getEgograph] = useAtom(getEgographAtom);
+    const [egoGraphBundle, getEgographBundle] = useAtom(getEgographBundleAtom);
     const [intersectionData, getRadarData] = useAtom(getRadarAtom);
+    const [multiSelection,setMultiSelection]=useAtom<string[]>(multiSelectionAtom);
+
     const handleChange = (e: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
@@ -80,7 +82,14 @@ function TabViewer() {
                         // get the name from the tableData
                         const selectedName =
                             tableData.rows[selectedID]['UniprotID_inString'];
-                        //getEgograph(selectedName);
+                        const multiSelectionLocal=multiSelection.slice();
+                        multiSelectionLocal.push(selectedName)
+                        if(multiSelectionLocal.length>3) {
+                            multiSelectionLocal.shift();
+                        }
+                        console.log(multiSelectionLocal)
+                        setMultiSelection(multiSelectionLocal);
+                        getEgographBundle(multiSelectionLocal);
                         getRadarData(selectedName);
                     }}
                 />

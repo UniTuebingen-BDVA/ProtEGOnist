@@ -38,9 +38,9 @@ export interface egoGraphLayout {
  * @param {string[]} sortOrder
  * @param {number} center
  * @param {number} radius
- * @param xRange
- * @param transformVector
- * @param offset
+ * @param {[number,number]} xRange
+ * @param {{ x: number; y: number }} transformVector
+ * @param {number} offset
  */
 function createLayerNodes(
     layerNodes: egoGraphNode[],
@@ -53,10 +53,15 @@ function createLayerNodes(
 ) {
     const nodes: { [key: string]: layoutNode } = {};
     const x = d3.scaleBand().range(xRange).domain(sortOrder);
-    const maxradius: number =
-        ((center / Math.sin((Math.PI - x.bandwidth()) / 2)) *
-            Math.sin(x.bandwidth())) /
-        2;
+    let maxradius:number;
+    if(layerNodes.length>1) {
+         maxradius =
+            ((center / Math.sin((Math.PI - x.bandwidth()) / 2)) *
+                Math.sin(x.bandwidth())) /
+            2;
+    } else{
+        maxradius=radius;
+    }
     layerNodes.forEach((node) => {
         const nodeCoords = polarToCartesian(
             center,
@@ -310,7 +315,11 @@ function sortNodes(nodes: egoGraphNode[], edges: egoGraphEdge[]) {
     const nodeAssignment = assignToInnerNodes(nodeDict, edges);
     const innerNodes = Object.keys(nodeAssignment);
     const intersectingNodes = calculateOverlaps(nodeAssignment, innerNodes);
-    return sortByOverlap(intersectingNodes, nodeAssignment, innerNodes);
+    if(intersectingNodes.length>1) {
+        return sortByOverlap(intersectingNodes, nodeAssignment, innerNodes);
+    }else{
+        return {innerNodeOrder: innerNodes,outerNodeOrder: [...new Set(Object.values(nodeAssignment).flat())]}
+    }
 }
 
 function sortPairwiseIntersection(
@@ -747,9 +756,10 @@ export function calculateEgoLayout(
     return {
         nodes: Object.values(nodes).sort((a, b) => a.index - b.index),
         edges,
-        maxradius: Math.min(
+        identityEdges:[],
+        maxradius: Math.max(Math.min(
             nodesLayer1Layout.maxradius,
             nodesLayer2Layout.maxradius
-        )
+        ),1)
     };
 }

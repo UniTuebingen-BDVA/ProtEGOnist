@@ -35,6 +35,8 @@ def create_intersections(set_dict):
     used_ids = set(set_dict.keys())
     for combination in combinations:
         intersection = list(set_dict[combination[0]].intersection(*(set_dict[id] for id in combination[1:len(combination)])))
-        intersections[','.join(list(combination))] = list(filter(lambda element: element not in used_ids, intersection))
+        id=list(combination)
+        id.sort()
+        intersections[','.join(id)] = list(filter(lambda element: element not in used_ids, intersection))
         used_ids.update(intersection)
     return intersections

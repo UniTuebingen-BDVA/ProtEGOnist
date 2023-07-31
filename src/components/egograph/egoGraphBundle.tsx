@@ -61,10 +61,10 @@ const EgographBundle = () => {
             })
         );
         return (
-            <g>
+            <>
                 {lines}
                 {circles}
-            </g>
+            </>
         );
     }, [
         colorScale,
