@@ -10,7 +10,9 @@ def create_combinations(sample_list):
     list_combinations = list()
     for n in range(1, len(sample_list) + 1):
         combination = list(combinations(sample_list, n))
+        combination.sort()
         list_combinations += combination
+    list_combinations.sort(key=tuple_size, reverse=True)
     return list_combinations
 
 
@@ -31,12 +33,9 @@ def create_intersections(set_dict):
     """
     intersections = {}
     combinations = create_combinations(list(set_dict.keys()))
-    combinations.sort(key=tuple_size, reverse=True)
     used_ids = set(set_dict.keys())
     for combination in combinations:
         intersection = list(set_dict[combination[0]].intersection(*(set_dict[id] for id in combination[1:len(combination)])))
-        id=list(combination)
-        id.sort()
-        intersections[','.join(id)] = list(filter(lambda element: element not in used_ids, intersection))
+        intersections[','.join(combination)] = list(filter(lambda element: element not in used_ids, intersection))
         used_ids.update(intersection)
     return intersections
