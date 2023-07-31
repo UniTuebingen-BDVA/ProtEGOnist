@@ -26,15 +26,13 @@ def generate_dgm_radar_data():
     return random_numbers, ego_networks
 
 
-def generate_radar_data(string_graph: nx.Graph, target_node: str):
+def generate_radar_data(string_graph: nx.Graph, target_node: str, brite_dict: dict):
     random.seed(31)
     for node in string_graph.nodes:
         string_graph.nodes[node]["name"] = str(
             node
         )  # TODO: this is a side effect, we should think on how to handle the problem of the name attribute
-        string_graph.nodes[node]["classification"] = random.choice(
-            ["A", "B", "C", "D", "E"]
-        )  # TODO same here
+        string_graph.nodes[node]["classification"] = brite_dict[node]  # TODO same here
 
     tar_ego_graph = EgoGraph.from_string_network(target_node, string_graph)
 
@@ -77,8 +75,8 @@ def generate_string_intersections_pickles(
 ):
     # add a random classifcation (A-E) to each node in the ego_dicts
     for i in ego_dicts:
-        for node in ego_dicts[i].nxGraph.nodes:
-            ego_dicts[i].nxGraph.nodes[node]["classification"] = random.choice(
+        for node in ego_dicts[i].nx_graph.nodes:
+            ego_dicts[i].nx_graph.nodes[node]["classification"] = random.choice(
                 ["A", "B", "C", "D", "E"]
             )
 
@@ -100,7 +98,10 @@ def generate_string_intersections_pickles(
 
 
 def generate_string_intersections_top(
-    string_graph: nx.Graph, top_nodes: list[str], tar_node: str
+    string_graph: nx.Graph,
+    top_nodes: list[str],
+    tar_node: str,
+    uniprot_brite_dict: dict,
 ):
     # get the 40 nodes with the highest intersection by jaccard index
     highestProts = top_nodes
@@ -112,10 +113,14 @@ def generate_string_intersections_top(
     }
     # add a random classifcation (A-E) to each node in the ego_dicts
     for i in highestDict:
-        for node in highestDict[i].nxGraph.nodes:
-            highestDict[i].nxGraph.nodes[node]["classification"] = random.choice(
-                ["A", "B", "C", "D", "E"]
-            )
+        for node in highestDict[i].nx_graph.nodes:
+            try:
+                highestDict[i].nx_graph.nodes[node][
+                    "classification"
+                ] = uniprot_brite_dict[node]
+            except KeyError:
+                highestDict[i].nx_graph.nodes[node]["classification"] = "NA"
+
     tar_ego_graph = EgoGraph.from_string_network(tar_node, string_graph)
 
     return tar_ego_graph, highestDict

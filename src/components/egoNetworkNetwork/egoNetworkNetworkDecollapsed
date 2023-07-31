@@ -1,0 +1,10 @@
+interface EgoNetworkNetworkDecollapsed {
+    containedNodes: string[];
+    containedEdges: string[];
+    containedEgoNetworks: string[];
+    size: number;
+}
+
+const EgoNetworkNetworkDecollapsed = (props: {
+    egoNetworkNetworkDecollapsed: EgoNetworkNetworkDecollapsed;
+}) => {};

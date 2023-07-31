@@ -1,10 +1,14 @@
 import axios, { AxiosResponse } from 'axios';
 import { atom } from 'jotai';
-import { egoGraph, intersectionDatum } from './egoGraphSchema';
+import {
+    egoGraph,
+    intersectionDatum,
+    egoNetworkNetwork
+} from './egoGraphSchema';
 import { graphAtom } from './components/egograph/egoStore.ts';
 import {
     intersectionAtom,
-    sameNodesAtom,
+    leavingNodesAtom,
     changedNodesAtom,
     tarNodeAtom
 } from './components/radarchart/radarStore.ts';
@@ -16,6 +20,7 @@ import {
     outerRadiusAtom
 } from './components/egograph/networkStore.ts';
 import { GridRowsProp, GridColDef } from '@mui/x-data-grid';
+import { egoNetworkNetworksAtom } from './components/egoNetworkNetwork/egoNetworkNetworkStore.ts';
 
 export const getEgographAtom = atom(
     (get) => get(graphAtom),
@@ -49,14 +54,14 @@ export const getRadarAtom = atom(
                     // compare the keys of the new and old intersection atoms
                     const oldKeys = Object.keys(get(intersectionAtom));
                     const newKeys = Object.keys(result.data);
-                    const sameNodes = oldKeys.filter((x) =>
-                        newKeys.includes(x)
-                    );
                     const changedNodes = newKeys.filter(
                         (x) => !oldKeys.includes(x)
                     );
-                    console.log('chaged nodes', changedNodes);
-                    set(sameNodesAtom, sameNodes);
+                    const leavingNodes = oldKeys.filter(
+                        (x) => !newKeys.includes(x)
+                    );
+                    console.log(' nodes', changedNodes);
+                    set(leavingNodesAtom, leavingNodes);
                     set(changedNodesAtom, changedNodes);
                     set(intersectionAtom, result.data);
                     set(tarNodeAtom, id);
@@ -80,5 +85,27 @@ export const getTableAtom = atom(
             .then((result) => {
                 set(tableAtom, result.data);
             }, console.error);
+    }
+);
+
+export const getEgoNetworkNetworkAtom = atom(
+    (get) => get(egoNetworkNetworksAtom),
+    (get, set, ids: string[]) => {
+        axios
+            .get<egoNetworkNetwork>(
+                `/api/getEgoNetworkNetwork/${ids.join('+')}`
+            )
+            .then(
+                (result) => {
+                    console.log('egoNetworkNetwork', result.data);
+                    set(egoNetworkNetworksAtom, result.data);
+                },
+                () => {
+                    console.error,
+                        console.log(
+                            `couldn't get egographswith ID ${ids.join(';')}`
+                        );
+                }
+            );
     }
 );

@@ -1,11 +1,10 @@
 import { intersectionDatum } from '../../egoGraphSchema';
 import { useAtom } from 'jotai';
 import * as d3 from 'd3';
-import { tarNodeAtom, changedNodesAtom, sameNodesAtom } from './radarStore';
+import { tarNodeAtom } from './radarStore';
 import { getRadarAtom } from '../../apiCalls';
 import { Tooltip } from '@mui/material';
-import RadarCircle from './radarCircle';
-import { useTrail } from '@react-spring/web';
+import RadarCircles from './radarCircles';
 
 interface RadarChartProps {
     baseRadius: number;
@@ -13,13 +12,14 @@ interface RadarChartProps {
 
 const RadarChart = (props: RadarChartProps) => {
     const { baseRadius } = props;
-    const [intersectionData, getRadarData] = useAtom(getRadarAtom);
-    const [changedNodes] = useAtom(changedNodesAtom);
+    const [intersectionData, _getRadarData] = useAtom(getRadarAtom);
     const [tarNode] = useAtom(tarNodeAtom);
     const GUIDE_CIRCLE_RADIUS = baseRadius;
     const GUIDE_CIRCLE_STEP = baseRadius / 4;
     const GUIDE_CIRCLE_RADIUS_MIN = baseRadius / 4;
     const TEXT_RADIUS = baseRadius + 20;
+    const TEXT_RADIUS_2 = baseRadius + 40;
+    let labelOnSecondCircle = false;
     const CIRCLE_RADIUS = baseRadius / 20;
     const LEGEND_ANGLE = 0 * (Math.PI / 180);
     const intersectionDataClone = structuredClone(intersectionData);
@@ -49,15 +49,10 @@ const RadarChart = (props: RadarChartProps) => {
             return 0;
         }
     );
-    // create a color scale that maps the "classification" property to a color
-    const colorScale = d3
-        .scaleOrdinal()
-        .domain(sortedIntersectionData.map((d) => d[1].classification))
-        .range(d3.schemeCategory10);
 
     // calculate the propotion of each classification in the data such that we can use it to calulate the size of the pie chart segments used to indicate the classification of the intersectionDatum.
     const classificationProportions = sortedIntersectionData.reduce(
-        (acc, [key, intersectionDatum]) => {
+        (acc, [_key, intersectionDatum]) => {
             if (acc[intersectionDatum.classification]) {
                 acc[intersectionDatum.classification] += 1;
             } else {
@@ -67,15 +62,64 @@ const RadarChart = (props: RadarChartProps) => {
         },
         {} as { [name: string]: number }
     );
-    // calculate the angle of each pie chart segment
-    const angles = Object.entries(classificationProportions).map(
-        ([key, value]) => {
-            return {
-                classification: key,
-                angle: (value / sortedIntersectionData.length) * 2 * Math.PI
-            };
-        }
+    // sort the classiciationProportions by size
+    const classificationProportionsSorted = Object.entries(
+        classificationProportions
+    ).sort((a, b) => {
+        return a[1] - b[1];
+    });
+    // change the order of the classificationProportionsSorted so that the largest is followed by the smallest and so on
+    const classificationProportionsalternating: [string, number][] = [];
+    for (
+        let i = 0;
+        i < Math.floor(classificationProportionsSorted.length / 2);
+        i++
+    ) {
+        classificationProportionsalternating.push(
+            classificationProportionsSorted[
+                classificationProportionsSorted.length - 1 - i
+            ]
+        );
+        classificationProportionsalternating.push(
+            classificationProportionsSorted[i]
+        );
+    }
+    if (classificationProportionsSorted.length % 2 !== 0) {
+        classificationProportionsalternating.push(
+            classificationProportionsSorted[
+                Math.floor(classificationProportionsSorted.length / 2)
+            ]
+        );
+    }
+    console.log(
+        'classificationProportionsSorted',
+        classificationProportionsalternating
     );
+    // sort sortedIntersectionData to have the same order as classificationProportionsalternating
+    sortedIntersectionData.sort((a, b) => {
+        return (
+            classificationProportionsalternating.findIndex(
+                (d) => d[0] === a[1].classification
+            ) -
+            classificationProportionsalternating.findIndex(
+                (d) => d[0] === b[1].classification
+            )
+        );
+    });
+    // create a color scale that maps the "classification" property to a color
+    const colorScale = d3
+        .scaleOrdinal()
+        .domain(sortedIntersectionData.map((d) => d[1].classification))
+        .range(d3.schemeCategory10);
+
+    // calculate the angle of each pie chart segment
+    const angles = classificationProportionsalternating.map(([key, size]) => {
+        const value = classificationProportions[key];
+        return {
+            classification: key,
+            angle: (value / sortedIntersectionData.length) * 2 * Math.PI
+        };
+    });
     // calculate the start and end angle of each pie chart segment
     const pieChartSegments = angles.reduce(
         (acc, { classification, angle }) => {
@@ -116,15 +160,48 @@ const RadarChart = (props: RadarChartProps) => {
         A ${TEXT_RADIUS} ${TEXT_RADIUS} 0 0 0 1 ${-TEXT_RADIUS}`}
                 fill="none"
             />
+            <path
+                id={`textPath-Clockwise2`}
+                d={`M 0 ${-TEXT_RADIUS_2} 
+        A ${TEXT_RADIUS_2} ${TEXT_RADIUS_2} 0 0 1 0 ${TEXT_RADIUS_2}
+        A ${TEXT_RADIUS_2} ${TEXT_RADIUS_2} 0 0 1 0 ${-TEXT_RADIUS_2}`}
+                fill="none"
+            />
+            <path
+                id={`textPath-Counterclockwise2`}
+                d={`M 0 ${-TEXT_RADIUS_2} 
+        A ${TEXT_RADIUS_2} ${TEXT_RADIUS_2} 0 0 0 1 ${TEXT_RADIUS_2}
+        A ${TEXT_RADIUS_2} ${TEXT_RADIUS_2} 0 0 0 1 ${-TEXT_RADIUS_2}`}
+                fill="none"
+            />
             {pieChartSegments.map(
-                ({ classification, startAngle, endAngle }) => {
+                ({ classification, startAngle, endAngle }, index) => {
+                    // if the labeling would overlap with the previous label, move the label to the second circle
+                    const previousLabelMidAngle =
+                        index > 0
+                            ? (pieChartSegments[index - 1].startAngle +
+                                  pieChartSegments[index - 1].endAngle) /
+                              2
+                            : 0;
+
                     const midAngle = (startAngle + endAngle) / 2;
+                    const labelOverlap =
+                        midAngle - previousLabelMidAngle < Math.PI / 4;
+
+                    if (labelOverlap) {
+                        labelOnSecondCircle = !labelOnSecondCircle;
+                    }
+
+                    const TEXT_RADIUS_INTERNAL = labelOnSecondCircle
+                        ? TEXT_RADIUS_2
+                        : TEXT_RADIUS;
                     const flipLabel = midAngle > 0 && midAngle < Math.PI;
                     const offsetParam =
-                        (midAngle * TEXT_RADIUS + (Math.PI / 2) * TEXT_RADIUS) %
-                        (2 * Math.PI * TEXT_RADIUS); //TODO Why do i need to calc the modulo and add the 1/2 pi?
+                        (midAngle * TEXT_RADIUS_INTERNAL +
+                            (Math.PI / 2) * TEXT_RADIUS_INTERNAL) %
+                        (2 * Math.PI * TEXT_RADIUS_INTERNAL); //TODO Why do i need to calc the modulo and add the 1/2 pi?
                     const startOffset = flipLabel
-                        ? Math.PI * 2 * TEXT_RADIUS - offsetParam
+                        ? Math.PI * 2 * TEXT_RADIUS_INTERNAL - offsetParam
                         : offsetParam;
                     return (
                         <g key={classification}>
@@ -147,13 +224,14 @@ const RadarChart = (props: RadarChartProps) => {
                                 fill={colorScale(classification)}
                                 fontSize="18px"
                                 dominantBaseline="middle"
+                                textAnchor="middle"
                             >
                                 <textPath
                                     xlinkHref={`#textPath-${
                                         flipLabel
                                             ? 'Counterclockwise'
                                             : 'Clockwise'
-                                    }`}
+                                    }${labelOnSecondCircle ? '2' : ''}`}
                                     startOffset={startOffset}
                                 >
                                     {classification}
@@ -211,21 +289,15 @@ const RadarChart = (props: RadarChartProps) => {
                 )
             }
 
-            {sortedIntersectionData.map(([key, intersectionDatum], index) => (
-                <RadarCircle
-                    key={key}
-                    id={key}
-                    index={index}
-                    intersectionDatum={intersectionDatum}
-                    arrayLength={sortedIntersectionData.length}
+            {
+                <RadarCircles
+                    intersectionData={sortedIntersectionData}
                     GUIDE_CIRCLE_RADIUS={GUIDE_CIRCLE_RADIUS}
                     CIRCLE_RADIUS={CIRCLE_RADIUS}
                     colorScale={colorScale}
                     intersectionLengthScale={intersectionLengthScale}
-                    isChanged={changedNodes.includes(key)}
-                    trailAmount={changedNodes.length}
                 />
-            ))}
+            }
             <Tooltip title={tarNode} key={tarNode}>
                 <circle
                     cx={0}
