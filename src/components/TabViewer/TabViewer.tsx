@@ -46,7 +46,7 @@ function TabViewer() {
     const [tableData, getTableData] = useAtom(getTableAtom);
     const [egoGraphBundle, getEgographBundle] = useAtom(getEgographBundleAtom);
     const [intersectionData, getRadarData] = useAtom(getRadarAtom);
-    const [multiSelection,setMultiSelection]=useAtom<string[]>(multiSelectionAtom);
+    const [multiSelection,setMultiSelection]=useAtom(multiSelectionAtom);
 
     const handleChange = (e: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
@@ -87,7 +87,6 @@ function TabViewer() {
                         if(multiSelectionLocal.length>3) {
                             multiSelectionLocal.shift();
                         }
-                        console.log(multiSelectionLocal)
                         setMultiSelection(multiSelectionLocal);
                         getEgographBundle(multiSelectionLocal);
                         getRadarData(selectedName);
