@@ -1,11 +1,12 @@
 import { intersectionDatum } from '../../egoGraphSchema';
 import { useAtom } from 'jotai';
 import * as d3 from 'd3';
-import { tarNodeAtom } from './radarStore';
+import { labelsAtoms, tarNodeAtom } from './radarStore';
 import { getRadarAtom } from '../../apiCalls';
 import { Tooltip } from '@mui/material';
 import RadarCircles from './radarCircles';
 import RadarLabel from './radarLabel';
+import { colorScaleAtom } from '../egograph/egoStore';
 
 interface RadarChartProps {
     baseRadius: number;
@@ -15,6 +16,8 @@ const RadarChart = (props: RadarChartProps) => {
     const { baseRadius } = props;
     const [intersectionData, _getRadarData] = useAtom(getRadarAtom);
     const [tarNode] = useAtom(tarNodeAtom);
+    const [labelValue, setLabelValue] = useAtom(labelsAtoms);
+    const [colorScale] = useAtom(colorScaleAtom);
 
     const intersectionDataClone = structuredClone(intersectionData);
     //generate a linear scale for the size of the intersection property in each intersectionDatum
@@ -98,10 +101,6 @@ const RadarChart = (props: RadarChartProps) => {
         );
     });
     // create a color scale that maps the "classification" property to a color
-    const colorScale = d3
-        .scaleOrdinal()
-        .domain(sortedIntersectionData.map((d) => d[1].classification))
-        .range(d3.schemeCategory10);
 
     // calculate the angle of each pie chart segment
     const angles = classificationProportionsalternating.map(([key, size]) => {
@@ -128,7 +127,7 @@ const RadarChart = (props: RadarChartProps) => {
                 (classificationInternal.length * 1.9 * Math.PI) / 180; // 10px per character
             acc.push({
                 classification: classificationInternal,
-                classficationFull: classification,
+                classificationFull: classification,
                 startAngle,
                 endAngle,
                 midAngle,
@@ -177,13 +176,6 @@ const RadarChart = (props: RadarChartProps) => {
                     return acc;
                 }
             );
-
-            const currentLeftBorder =
-                segment.midAngle - segment.labelAngleWidth / 2;
-            const unvailableRightBorder =
-                segmentWithRingIndex.midAngle +
-                segmentWithRingIndex.labelAngleWidth / 2;
-            console.log('CLB', currentLeftBorder, 'URB', unvailableRightBorder);
             if (
                 segment.midAngle - segment.labelAngleWidth / 2 >
                 segmentWithRingIndex.midAngle +
@@ -219,7 +211,7 @@ const RadarChart = (props: RadarChartProps) => {
         return acc;
     }, 0);
 
-    const baseRadiusInternal = baseRadius - 24 * maxRingIndex;
+    const baseRadiusInternal = baseRadius - 33 * maxRingIndex;
     const GUIDE_CIRCLE_RADIUS = baseRadiusInternal;
     const GUIDE_CIRCLE_STEP = baseRadiusInternal / 4;
     const GUIDE_CIRCLE_RADIUS_MIN = baseRadiusInternal / 4;
@@ -227,16 +219,9 @@ const RadarChart = (props: RadarChartProps) => {
     const CIRCLE_RADIUS = baseRadiusInternal / 20;
     const LEGEND_ANGLE = 0 * (Math.PI / 180);
 
-    // draw a circle svg for each intersectionDatum with a radius of the setSize.
-    // place the node with tarNode as the center of the svg.
-    // position each of remaining in a circle around the center of the svg such that we only have a single revolution but also allow for some space between the circles.
-    // circles with a higher jaccard index value are drawn closer to the center of the svg. with the minimum radius being 10 and the maximum radius being 200.
-    // also add a circular grid to the svg to make it easier to see the distance between the circles.
-    // add a single spoke with labels acting as a radial axis to indicate the jaccard index value of the circular grid.
-    // draw a pie chart segment for each classification in the data in a lighter shader of the corresponding color to indicate the classification of the intersectionDatum.
-    // add labels to the pie chart segments to indicate the classification of the intersectionDatum, if the label starts on the bottom half of the circle flip the lable so that the lable is more easily readable.
     return (
         <g>
+            {/* labels and pie segments */}
             {pieChartSegments.map(
                 (
                     {
@@ -251,21 +236,6 @@ const RadarChart = (props: RadarChartProps) => {
                 ) => {
                     return (
                         <g key={classification}>
-                            <path
-                                d={`M 0 0 L ${
-                                    Math.cos(startAngle) * GUIDE_CIRCLE_RADIUS
-                                } ${
-                                    Math.sin(startAngle) * GUIDE_CIRCLE_RADIUS
-                                } A ${GUIDE_CIRCLE_RADIUS} ${GUIDE_CIRCLE_RADIUS} 0 ${
-                                    endAngle - startAngle > Math.PI ? 1 : 0
-                                } 1 ${
-                                    Math.cos(endAngle) * GUIDE_CIRCLE_RADIUS
-                                } ${
-                                    Math.sin(endAngle) * GUIDE_CIRCLE_RADIUS
-                                } Z`}
-                                fill={colorScale(classification)}
-                                opacity={0.1}
-                            />
                             <RadarLabel
                                 key={classification}
                                 label={classification}
@@ -273,12 +243,14 @@ const RadarChart = (props: RadarChartProps) => {
                                 startAngle={startAngle}
                                 endAngle={endAngle}
                                 radius={TEXT_RADIUS + 16 * ringIndex}
+                                guideCircleRadius={GUIDE_CIRCLE_RADIUS}
                                 color={colorScale(classification)}
                             />
                         </g>
                     );
                 }
             )}
+            {/* guide circles */}
             <line
                 x1={0}
                 y1={0}
@@ -311,16 +283,18 @@ const RadarChart = (props: RadarChartProps) => {
                                     stroke="black"
                                     opacity={0.1}
                                 />
-                                <text
-                                    x={x}
-                                    y={y}
-                                    dx="1em"
-                                    textAnchor="middle"
-                                    fontSize="12px"
-                                    opacity={0.5}
-                                >
-                                    {1 - radius / GUIDE_CIRCLE_RADIUS}
-                                </text>
+                                <Tooltip title={radius} key={radius}>
+                                    <text
+                                        x={x}
+                                        y={y}
+                                        dx="1em"
+                                        textAnchor="middle"
+                                        fontSize="12px"
+                                        opacity={0.5}
+                                    >
+                                        {1 - radius / GUIDE_CIRCLE_RADIUS}
+                                    </text>
+                                </Tooltip>
                             </g>
                         );
                     }
@@ -332,7 +306,6 @@ const RadarChart = (props: RadarChartProps) => {
                     intersectionData={sortedIntersectionData}
                     GUIDE_CIRCLE_RADIUS={GUIDE_CIRCLE_RADIUS}
                     CIRCLE_RADIUS={CIRCLE_RADIUS}
-                    colorScale={colorScale}
                     intersectionLengthScale={intersectionLengthScale}
                 />
             }

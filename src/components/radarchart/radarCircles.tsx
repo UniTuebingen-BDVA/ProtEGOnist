@@ -4,12 +4,13 @@ import RadarCircle from './radarCircle';
 import { useAtom } from 'jotai';
 import { changedNodesAtom } from './radarStore';
 import * as d3 from 'd3';
+import { use } from 'chai';
+import { colorScaleAtom } from '../egograph/egoStore';
 
 interface RadarCirclesProps {
     intersectionData: [string, intersectionDatum][];
     GUIDE_CIRCLE_RADIUS: number;
     CIRCLE_RADIUS: number;
-    colorScale: d3.ScaleOrdinal<string, unknown, never>;
     intersectionLengthScale: d3.ScaleLinear<number, number, never>;
 }
 
@@ -18,10 +19,9 @@ const RadarCircles = (props: RadarCirclesProps) => {
         intersectionData,
         GUIDE_CIRCLE_RADIUS,
         CIRCLE_RADIUS,
-        colorScale,
         intersectionLengthScale
     } = props;
-
+    const [colorScale] = useAtom(colorScaleAtom);
     const intersectionDataWithIndex = intersectionData.map(
         ([key, intersectionDatum], index) => ({
             key,
