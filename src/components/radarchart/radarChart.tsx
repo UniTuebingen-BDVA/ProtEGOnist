@@ -5,6 +5,7 @@ import { tarNodeAtom } from './radarStore';
 import { getRadarAtom } from '../../apiCalls';
 import { Tooltip } from '@mui/material';
 import RadarCircles from './radarCircles';
+import RadarLabel from './radarLabel';
 
 interface RadarChartProps {
     baseRadius: number;
@@ -12,16 +13,9 @@ interface RadarChartProps {
 
 const RadarChart = (props: RadarChartProps) => {
     const { baseRadius } = props;
-    const [intersectionData, _getRadarData] = useAtom(getRadarAtom);
+    const [intersectionData, getRadarData] = useAtom(getRadarAtom);
     const [tarNode] = useAtom(tarNodeAtom);
-    const GUIDE_CIRCLE_RADIUS = baseRadius;
-    const GUIDE_CIRCLE_STEP = baseRadius / 4;
-    const GUIDE_CIRCLE_RADIUS_MIN = baseRadius / 4;
-    const TEXT_RADIUS = baseRadius + 20;
-    const TEXT_RADIUS_2 = baseRadius + 40;
-    let labelOnSecondCircle = false;
-    const CIRCLE_RADIUS = baseRadius / 20;
-    const LEGEND_ANGLE = 0 * (Math.PI / 180);
+
     const intersectionDataClone = structuredClone(intersectionData);
     //generate a linear scale for the size of the intersection property in each intersectionDatum
     const intersectionLengthScale = d3
@@ -91,10 +85,7 @@ const RadarChart = (props: RadarChartProps) => {
             ]
         );
     }
-    console.log(
-        'classificationProportionsSorted',
-        classificationProportionsalternating
-    );
+
     // sort sortedIntersectionData to have the same order as classificationProportionsalternating
     sortedIntersectionData.sort((a, b) => {
         return (
@@ -107,10 +98,6 @@ const RadarChart = (props: RadarChartProps) => {
         );
     });
     // create a color scale that maps the "classification" property to a color
-    const colorScale = d3
-        .scaleOrdinal()
-        .domain(sortedIntersectionData.map((d) => d[1].classification))
-        .range(d3.schemeCategory10);
 
     // calculate the angle of each pie chart segment
     const angles = classificationProportionsalternating.map(([key, size]) => {
@@ -123,124 +110,149 @@ const RadarChart = (props: RadarChartProps) => {
     // calculate the start and end angle of each pie chart segment
     const pieChartSegments = angles.reduce(
         (acc, { classification, angle }) => {
+            // limit label length to 15 characters
+            const classificationInternal =
+                classification.length > 15
+                    ? classification.slice(0, 15) + '...'
+                    : classification;
             const startAngle =
                 acc.length > 0 ? acc[acc.length - 1].endAngle : 0;
             const endAngle = startAngle + angle;
+            const midAngle = (startAngle + endAngle) / 2;
+            // estimate the angular width of the label text at TEXT_RADIUS in radians
+            const labelAngleWidth =
+                (classificationInternal.length * 1.9 * Math.PI) / 180; // 10px per character
             acc.push({
-                classification,
+                classification: classificationInternal,
+                classificationFull: classification,
                 startAngle,
-                endAngle
+                endAngle,
+                midAngle,
+                labelAngleWidth,
+                ringIndex: -1
             });
             return acc;
         },
-        [] as { classification: string; startAngle: number; endAngle: number }[]
+        [] as {
+            classification: string;
+            classificationFull: string;
+            startAngle: number;
+            endAngle: number;
+            midAngle: number;
+            labelAngleWidth: number;
+            ringIndex: number;
+        }[]
     );
 
-    // draw a circle svg for each intersectionDatum with a radius of the setSize.
-    // place the node with tarNode as the center of the svg.
-    // position each of remaining in a circle around the center of the svg such that we only have a single revolution but also allow for some space between the circles.
-    // circles with a higher jaccard index value are drawn closer to the center of the svg. with the minimum radius being 10 and the maximum radius being 200.
-    // also add a circular grid to the svg to make it easier to see the distance between the circles.
-    // add a single spoke with labels acting as a radial axis to indicate the jaccard index value of the circular grid.
-    // draw a pie chart segment for each classification in the data in a lighter shader of the corresponding color to indicate the classification of the intersectionDatum.
-    // add labels to the pie chart segments to indicate the classification of the intersectionDatum, if the label starts on the bottom half of the circle flip the lable so that the lable is more easily readable.
+    // sort the pieChartSegments by midAngle - labelAngleWidth/2
+    pieChartSegments.sort((a, b) => {
+        return (
+            a.midAngle -
+            a.labelAngleWidth / 2 -
+            (b.midAngle - b.labelAngleWidth / 2)
+        );
+    });
+
+    const colorScale = d3
+        .scaleOrdinal()
+        .domain(Object.values(pieChartSegments).map((d) => d.classification))
+        .range(d3.schemeCategory10);
+
+    const availableRingIndices: number[] = [0];
+    const unavailableRingIndices: number[] = [];
+    pieChartSegments.forEach((segment, index) => {
+        // check for all unavailableRingIndices if they are available again
+        // this is the case if the current segements midAngle - labelAngleWidth/2 is greater than the midAngle + labelAngleWidth/2 of the segment with the a ringIndex in unavailableRingIndices
+        unavailableRingIndices.forEach((ringIndex) => {
+            // find all segments with the ringIndex and chooses the one with the largest midAngle
+            const segmentWithRingIndex = pieChartSegments.reduce(
+                (acc, segment) => {
+                    if (segment.ringIndex === ringIndex) {
+                        if (!acc) {
+                            return segment;
+                        }
+                        if (segment.midAngle > acc.midAngle) {
+                            return segment;
+                        }
+                    }
+                    return acc;
+                }
+            );
+            if (
+                segment.midAngle - segment.labelAngleWidth / 2 >
+                segmentWithRingIndex.midAngle +
+                    segmentWithRingIndex.labelAngleWidth / 2
+            ) {
+                // remove the ringIndex from unavailableRingIndices and add it to availableRingIndices
+                unavailableRingIndices.splice(
+                    unavailableRingIndices.indexOf(ringIndex),
+                    1
+                );
+                availableRingIndices.push(ringIndex);
+            }
+        });
+
+        // if no ring indices are available, add a new one to availableRingIndices
+        if (availableRingIndices.length === 0) {
+            availableRingIndices.push(unavailableRingIndices.length);
+        }
+        //pick the first available ringIndex
+        const ringIndex = availableRingIndices[0];
+        // remove the ringIndex from availableRingIndices and add it to unavailableRingIndices
+        availableRingIndices.shift();
+        unavailableRingIndices.push(ringIndex);
+        // add the ringIndex to the segment
+        segment.ringIndex = ringIndex;
+    });
+
+    // get max ringIndex
+    const maxRingIndex = pieChartSegments.reduce((acc, segment) => {
+        if (segment.ringIndex > acc) {
+            return segment.ringIndex;
+        }
+        return acc;
+    }, 0);
+
+    const baseRadiusInternal = baseRadius - 33 * maxRingIndex;
+    const GUIDE_CIRCLE_RADIUS = baseRadiusInternal;
+    const GUIDE_CIRCLE_STEP = baseRadiusInternal / 4;
+    const GUIDE_CIRCLE_RADIUS_MIN = baseRadiusInternal / 4;
+    const TEXT_RADIUS = baseRadiusInternal + 10;
+    const CIRCLE_RADIUS = baseRadiusInternal / 20;
+    const LEGEND_ANGLE = 0 * (Math.PI / 180);
+
     return (
         <g>
-            <path
-                id={`textPath-Clockwise`}
-                d={`M 0 ${-TEXT_RADIUS} 
-        A ${TEXT_RADIUS} ${TEXT_RADIUS} 0 0 1 0 ${TEXT_RADIUS}
-        A ${TEXT_RADIUS} ${TEXT_RADIUS} 0 0 1 0 ${-TEXT_RADIUS}`}
-                fill="none"
-            />
-            <path
-                id={`textPath-Counterclockwise`}
-                d={`M 0 ${-TEXT_RADIUS} 
-        A ${TEXT_RADIUS} ${TEXT_RADIUS} 0 0 0 1 ${TEXT_RADIUS}
-        A ${TEXT_RADIUS} ${TEXT_RADIUS} 0 0 0 1 ${-TEXT_RADIUS}`}
-                fill="none"
-            />
-            <path
-                id={`textPath-Clockwise2`}
-                d={`M 0 ${-TEXT_RADIUS_2} 
-        A ${TEXT_RADIUS_2} ${TEXT_RADIUS_2} 0 0 1 0 ${TEXT_RADIUS_2}
-        A ${TEXT_RADIUS_2} ${TEXT_RADIUS_2} 0 0 1 0 ${-TEXT_RADIUS_2}`}
-                fill="none"
-            />
-            <path
-                id={`textPath-Counterclockwise2`}
-                d={`M 0 ${-TEXT_RADIUS_2} 
-        A ${TEXT_RADIUS_2} ${TEXT_RADIUS_2} 0 0 0 1 ${TEXT_RADIUS_2}
-        A ${TEXT_RADIUS_2} ${TEXT_RADIUS_2} 0 0 0 1 ${-TEXT_RADIUS_2}`}
-                fill="none"
-            />
+            {/* labels and pie segments */}
             {pieChartSegments.map(
-                ({ classification, startAngle, endAngle }, index) => {
-                    // if the labeling would overlap with the previous label, move the label to the second circle
-                    const previousLabelMidAngle =
-                        index > 0
-                            ? (pieChartSegments[index - 1].startAngle +
-                                  pieChartSegments[index - 1].endAngle) /
-                              2
-                            : 0;
-
-                    const midAngle = (startAngle + endAngle) / 2;
-                    const labelOverlap =
-                        midAngle - previousLabelMidAngle < Math.PI / 4;
-
-                    if (labelOverlap) {
-                        labelOnSecondCircle = !labelOnSecondCircle;
-                    }
-
-                    const TEXT_RADIUS_INTERNAL = labelOnSecondCircle
-                        ? TEXT_RADIUS_2
-                        : TEXT_RADIUS;
-                    const flipLabel = midAngle > 0 && midAngle < Math.PI;
-                    const offsetParam =
-                        (midAngle * TEXT_RADIUS_INTERNAL +
-                            (Math.PI / 2) * TEXT_RADIUS_INTERNAL) %
-                        (2 * Math.PI * TEXT_RADIUS_INTERNAL); //TODO Why do i need to calc the modulo and add the 1/2 pi?
-                    const startOffset = flipLabel
-                        ? Math.PI * 2 * TEXT_RADIUS_INTERNAL - offsetParam
-                        : offsetParam;
+                (
+                    {
+                        classification,
+                        classificationFull,
+                        startAngle,
+                        endAngle,
+                        labelAngleWidth,
+                        ringIndex
+                    },
+                    index
+                ) => {
                     return (
                         <g key={classification}>
-                            <path
-                                d={`M 0 0 L ${
-                                    Math.cos(startAngle) * GUIDE_CIRCLE_RADIUS
-                                } ${
-                                    Math.sin(startAngle) * GUIDE_CIRCLE_RADIUS
-                                } A ${GUIDE_CIRCLE_RADIUS} ${GUIDE_CIRCLE_RADIUS} 0 ${
-                                    endAngle - startAngle > Math.PI ? 1 : 0
-                                } 1 ${
-                                    Math.cos(endAngle) * GUIDE_CIRCLE_RADIUS
-                                } ${
-                                    Math.sin(endAngle) * GUIDE_CIRCLE_RADIUS
-                                } Z`}
-                                fill={colorScale(classification)}
-                                opacity={0.1}
+                            <RadarLabel
+                                key={classification}
+                                label={classification}
+                                hoverLabel={classificationFull}
+                                startAngle={startAngle}
+                                endAngle={endAngle}
+                                radius={TEXT_RADIUS + 16 * ringIndex}
+                                guideCircleRadius={GUIDE_CIRCLE_RADIUS}
+                                colorScale={colorScale}
                             />
-                            <text
-                                fill={colorScale(classification)}
-                                fontSize="18px"
-                                dominantBaseline="middle"
-                                textAnchor="middle"
-                            >
-                                <textPath
-                                    xlinkHref={`#textPath-${
-                                        flipLabel
-                                            ? 'Counterclockwise'
-                                            : 'Clockwise'
-                                    }${labelOnSecondCircle ? '2' : ''}`}
-                                    startOffset={startOffset}
-                                >
-                                    {classification}
-                                </textPath>
-                            </text>
                         </g>
                     );
                 }
             )}
+            {/* guide circles */}
             <line
                 x1={0}
                 y1={0}
@@ -294,8 +306,8 @@ const RadarChart = (props: RadarChartProps) => {
                     intersectionData={sortedIntersectionData}
                     GUIDE_CIRCLE_RADIUS={GUIDE_CIRCLE_RADIUS}
                     CIRCLE_RADIUS={CIRCLE_RADIUS}
-                    colorScale={colorScale}
                     intersectionLengthScale={intersectionLengthScale}
+                    colorScale={colorScale}
                 />
             }
             <Tooltip title={tarNode} key={tarNode}>

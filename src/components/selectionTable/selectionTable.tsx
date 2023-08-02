@@ -30,7 +30,7 @@ const SelectionTable = (props: SelectionTableProps) => {
                 }}
                 pageSizeOptions={[5]}
                 onRowSelectionModelChange={props.onRowSelectionModelChange}
-                autoHeight={true}
+                rowHeight={40}
                 disableDensitySelector
                 slots={{ toolbar: GridToolbar }}
                 slotProps={{

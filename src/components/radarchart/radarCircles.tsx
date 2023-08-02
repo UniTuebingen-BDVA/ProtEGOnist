@@ -1,16 +1,14 @@
 import { useTransition } from '@react-spring/web';
 import { intersectionDatum } from '../../egoGraphSchema';
 import RadarCircle from './radarCircle';
-import { useAtom } from 'jotai';
-import { changedNodesAtom } from './radarStore';
 import * as d3 from 'd3';
 
 interface RadarCirclesProps {
     intersectionData: [string, intersectionDatum][];
     GUIDE_CIRCLE_RADIUS: number;
     CIRCLE_RADIUS: number;
-    colorScale: d3.ScaleOrdinal<string, unknown, never>;
     intersectionLengthScale: d3.ScaleLinear<number, number, never>;
+    colorScale: d3.ScaleOrdinal<string, string, never>;
 }
 
 const RadarCircles = (props: RadarCirclesProps) => {
@@ -18,10 +16,9 @@ const RadarCircles = (props: RadarCirclesProps) => {
         intersectionData,
         GUIDE_CIRCLE_RADIUS,
         CIRCLE_RADIUS,
-        colorScale,
-        intersectionLengthScale
+        intersectionLengthScale,
+        colorScale
     } = props;
-
     const intersectionDataWithIndex = intersectionData.map(
         ([key, intersectionDatum], index) => ({
             key,

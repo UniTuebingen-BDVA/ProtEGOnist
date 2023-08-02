@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import './App.css';
-import { useAtom,useSetAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import { AppBar, Toolbar, Typography } from '@mui/material';
 import TabViewer from './components/TabViewer/TabViewer.tsx';
 import RadarChartViewer from './components/radarchart/radarChartViewer.tsx';
@@ -14,7 +14,6 @@ import {
 import { tarNodeAtom } from './components/radarchart/radarStore.ts';
 import { egoGraphBundleAtom } from './components/egograph/egoGraphBundleStore.ts';
 import EgoNetworkNetworkViewer from './components/egoNetworkNetwork/egoNetworkNetworkViewer.tsx';
-
 
 function App() {
     const [tableData, getTableData] = useAtom(getTableAtom);
@@ -122,7 +121,7 @@ function App() {
                     </div>
                 </div>
             </>
-        )
+        );
     } else return null;
 }
 
