@@ -12,7 +12,7 @@ interface radarLabelProps {
     hoverLabel: string;
     guideCircleRadius: number;
     radius: number;
-    color: string;
+    colorScale: d3.ScaleOrdinal<string, string, never>;
 }
 
 // given radarLabel props draw an arc and a text label along the arc
@@ -25,7 +25,7 @@ const RadarLabel = (props: radarLabelProps) => {
         hoverLabel,
         guideCircleRadius,
         radius,
-        color
+        colorScale
     } = props;
     const midAngle = (startAngle + endAngle) / 2;
     const flipLabel = midAngle > 0 && midAngle < Math.PI;
@@ -59,7 +59,7 @@ const RadarLabel = (props: radarLabelProps) => {
                 } 1 ${Math.cos(endAngle) * guideCircleRadius} ${
                     Math.sin(endAngle) * guideCircleRadius
                 } Z`}
-                fill={color}
+                fill={colorScale(hoverLabel)}
                 opacity={0.1}
                 onMouseEnter={() => {
                     labelValueWithID(hoverLabel);
@@ -78,13 +78,13 @@ const RadarLabel = (props: radarLabelProps) => {
                 }}
             >
                 <path d={arc} fill="none" id={`${label}Arc`} />
-                <text fill={color}>
+                <text fill={colorScale(hoverLabel)}>
                     <textPath
                         fontSize="14px"
                         textAnchor="middle"
                         alignmentBaseline="middle"
                         xlinkHref={`#${label}Arc`}
-                        fill={color}
+                        fill={colorScale(hoverLabel)}
                         startOffset={'50%'}
                     >
                         {labelValue[hoverLabel]

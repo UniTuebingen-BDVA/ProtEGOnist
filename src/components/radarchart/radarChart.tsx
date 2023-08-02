@@ -1,12 +1,11 @@
 import { intersectionDatum } from '../../egoGraphSchema';
 import { useAtom } from 'jotai';
 import * as d3 from 'd3';
-import { labelsAtoms, tarNodeAtom } from './radarStore';
+import { tarNodeAtom } from './radarStore';
 import { getRadarAtom } from '../../apiCalls';
 import { Tooltip } from '@mui/material';
 import RadarCircles from './radarCircles';
 import RadarLabel from './radarLabel';
-import { colorScaleAtom } from '../egograph/egoStore';
 
 interface RadarChartProps {
     baseRadius: number;
@@ -16,8 +15,6 @@ const RadarChart = (props: RadarChartProps) => {
     const { baseRadius } = props;
     const [intersectionData, _getRadarData] = useAtom(getRadarAtom);
     const [tarNode] = useAtom(tarNodeAtom);
-    const [labelValue, setLabelValue] = useAtom(labelsAtoms);
-    const [colorScale] = useAtom(colorScaleAtom);
 
     const intersectionDataClone = structuredClone(intersectionData);
     //generate a linear scale for the size of the intersection property in each intersectionDatum
@@ -156,6 +153,11 @@ const RadarChart = (props: RadarChartProps) => {
         );
     });
 
+    const colorScale = d3
+        .scaleOrdinal()
+        .domain(Object.values(pieChartSegments).map((d) => d.classification))
+        .range(d3.schemeCategory10);
+
     const availableRingIndices: number[] = [0];
     const unavailableRingIndices: number[] = [];
     pieChartSegments.forEach((segment, index) => {
@@ -244,7 +246,7 @@ const RadarChart = (props: RadarChartProps) => {
                                 endAngle={endAngle}
                                 radius={TEXT_RADIUS + 16 * ringIndex}
                                 guideCircleRadius={GUIDE_CIRCLE_RADIUS}
-                                color={colorScale(classification)}
+                                colorScale={colorScale}
                             />
                         </g>
                     );
@@ -283,18 +285,16 @@ const RadarChart = (props: RadarChartProps) => {
                                     stroke="black"
                                     opacity={0.1}
                                 />
-                                <Tooltip title={radius} key={radius}>
-                                    <text
-                                        x={x}
-                                        y={y}
-                                        dx="1em"
-                                        textAnchor="middle"
-                                        fontSize="12px"
-                                        opacity={0.5}
-                                    >
-                                        {1 - radius / GUIDE_CIRCLE_RADIUS}
-                                    </text>
-                                </Tooltip>
+                                <text
+                                    x={x}
+                                    y={y}
+                                    dx="1em"
+                                    textAnchor="middle"
+                                    fontSize="12px"
+                                    opacity={0.5}
+                                >
+                                    {1 - radius / GUIDE_CIRCLE_RADIUS}
+                                </text>
                             </g>
                         );
                     }
@@ -307,6 +307,7 @@ const RadarChart = (props: RadarChartProps) => {
                     GUIDE_CIRCLE_RADIUS={GUIDE_CIRCLE_RADIUS}
                     CIRCLE_RADIUS={CIRCLE_RADIUS}
                     intersectionLengthScale={intersectionLengthScale}
+                    colorScale={colorScale}
                 />
             }
             <Tooltip title={tarNode} key={tarNode}>
