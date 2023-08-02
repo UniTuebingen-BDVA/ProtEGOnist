@@ -1,6 +1,6 @@
 export type baseNode = {
     id: string;
-    originalID:string;
+    originalID: string;
     name: string;
 };
 
