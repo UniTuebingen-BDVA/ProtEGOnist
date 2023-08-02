@@ -1,6 +1,7 @@
-import networkx as nx
 import json
-from typing import cast, TypedDict
+from typing import TypedDict
+
+import networkx as nx
 
 
 class Intersection(TypedDict):
@@ -85,6 +86,10 @@ class EgoGraph:
         egoGraph: nx.Graph = nx.ego_graph(graph, node, radius=2)
         return cls(node, egoGraph)
 
+    def get_node_set(self) -> set[str]:
+        #print(self.nxGraph.nodes)
+        return set(self.nx_graph.nodes)
+
     def get_node_attributes(self, id) -> dict[str, str | int]:
         """
         Returns the attributes of a node.
@@ -141,7 +146,7 @@ class EgoGraph:
             if self.nx_graph.nodes[self.node]["name"]
             else self.node,
         }
-        return json.dumps(node_link_data)
+        return node_link_data
 
     def get_neighbors(self) -> dict[str, list[str | int]]:
         """
@@ -183,14 +188,14 @@ class EgoGraph:
         target_neighbors = target.get_neighbors()
         # union of t1 and t2 neighbors
         all_self = (
-            self_neighbors["t1_neighbors"]
-            + self_neighbors["t2_neighbors"]
-            + [self.node]
+                self_neighbors["t1_neighbors"]
+                + self_neighbors["t2_neighbors"]
+                + [self.node]
         )
         all_target = (
-            target_neighbors["t1_neighbors"]
-            + target_neighbors["t2_neighbors"]
-            + [target.node]
+                target_neighbors["t1_neighbors"]
+                + target_neighbors["t2_neighbors"]
+                + [target.node]
         )
 
         # all intersections
@@ -238,9 +243,9 @@ class EgoGraph:
             len1_intersection_target_self
         )
         len2_prop = (
-            len(len2_intersection)
-            + len(len2_intersection_self_target)
-            + len(len2_intersection_target_self)
+                len(len2_intersection)
+                + len(len2_intersection_self_target)
+                + len(len2_intersection_target_self)
         )
         len3_prop = len(len3_intersection_self_target) + len(
             len3_intersection_target_self
@@ -254,7 +259,7 @@ class EgoGraph:
 
         # calulate the jaccard index of the intersection
         jaccard = len(intersection) / (
-            len(all_self) + len(all_target) - len(intersection)
+                len(all_self) + len(all_target) - len(intersection)
         )
 
         out_dict: Intersection = {

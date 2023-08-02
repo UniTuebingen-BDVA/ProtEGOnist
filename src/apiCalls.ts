@@ -5,7 +5,6 @@ import {
     intersectionDatum,
     egoNetworkNetwork
 } from './egoGraphSchema';
-import { graphAtom } from './components/egograph/egoStore.ts';
 import {
     intersectionAtom,
     leavingNodesAtom,
@@ -13,32 +12,27 @@ import {
     tarNodeAtom
 } from './components/radarchart/radarStore.ts';
 import { tableAtom } from './components/selectionTable/tableStore.ts';
-import { calculateEgoLayout } from './components/egograph/egolayout.ts';
-import {
-    graphSizeAtom,
-    innerRadiusAtom,
-    outerRadiusAtom
-} from './components/egograph/networkStore.ts';
-import { GridRowsProp, GridColDef } from '@mui/x-data-grid';
+import { GridColDef, GridRowsProp } from '@mui/x-data-grid';
+import { egoGraphBundleDataAtom } from './components/egograph/egoGraphBundleStore.ts';
 import { egoNetworkNetworksAtom } from './components/egoNetworkNetwork/egoNetworkNetworkStore.ts';
 
-export const getEgographAtom = atom(
-    (get) => get(graphAtom),
-    (get, set, id: string) => {
-        axios.get<egoGraph>(`/api/test_data_egograph/${id}`).then(
-            (result) => {
-                const layout = calculateEgoLayout(
-                    result.data,
-                    get(innerRadiusAtom),
-                    get(outerRadiusAtom)
-                );
-                set(graphAtom, layout);
-            },
-            () => {
-                console.error,
-                    console.log(`couldn't get egograph with ID ${id}`);
-            }
-        );
+export const getEgographBundleAtom = atom(
+    (get) => get(egoGraphBundleDataAtom),
+    (_get, set, ids: string[]) => {
+        axios
+            .post<{
+                egoGraphs: egoGraph[];
+                intersections: { [key: string]: string[] };
+            }>('/api/egograph_bundle', { ids: ids })
+            .then(
+                (result) => {
+                    set(egoGraphBundleDataAtom, result.data);
+                },
+                () => {
+                    console.error,
+                        console.log(`couldn't get egograph with IDs ${ids}`);
+                }
+            );
     }
 );
 

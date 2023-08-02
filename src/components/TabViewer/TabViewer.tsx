@@ -1,17 +1,21 @@
 import React from 'react';
 import { useAtom } from 'jotai';
 
-import { Box, Tabs, Tab, Typography, Paper } from '@mui/material';
-import { showedTabAtom } from './tabViewerStore.ts';
-import { getTableAtom } from '../../apiCalls.ts';
+import { Box, Paper, Tab, Tabs } from '@mui/material';
+import { multiSelectionAtom, showedTabAtom } from './tabViewerStore.ts';
+import {
+    getEgographBundleAtom,
+    getRadarAtom,
+    getTableAtom
+} from '../../apiCalls.ts';
 import SelectionTable from '../selectionTable/selectionTable.tsx';
-import { getEgographAtom, getRadarAtom } from '../../apiCalls.ts';
 
 interface TabPanelProps {
     children?: React.ReactNode;
     index: number;
     value: number;
 }
+
 function CustomTabPanel(props: TabPanelProps) {
     const { children, value, index, ...other } = props;
 
@@ -33,6 +37,7 @@ function CustomTabPanel(props: TabPanelProps) {
         </div>
     );
 }
+
 function a11yProps(index: number) {
     return {
         id: `simple-tab-${index}`,
@@ -43,9 +48,11 @@ function a11yProps(index: number) {
 function TabViewer() {
     const [value, setValue] = useAtom(showedTabAtom);
     const [tableData, _getTableData] = useAtom(getTableAtom);
-    const [_egoGraph, getEgograph] = useAtom(getEgographAtom);
+    const [_egoGraphBundle, getEgographBundle] = useAtom(getEgographBundleAtom);
     const [_intersectionData, getRadarData] = useAtom(getRadarAtom);
-    const handleChange = (e: React.SyntheticEvent, newValue: number) => {
+    const [multiSelection, setMultiSelection] = useAtom(multiSelectionAtom);
+
+    const handleChange = (_e: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
 
@@ -81,7 +88,13 @@ function TabViewer() {
                                 tableData.rows[selectedID][
                                     'UniprotID_inString'
                                 ];
-                            getEgograph(selectedName);
+                            const multiSelectionLocal = multiSelection.slice();
+                            multiSelectionLocal.push(selectedName);
+                            if (multiSelectionLocal.length > 3) {
+                                multiSelectionLocal.shift();
+                            }
+                            setMultiSelection(multiSelectionLocal);
+                            getEgographBundle(multiSelectionLocal);
                             getRadarData(selectedName);
                         }}
                     />
@@ -93,4 +106,5 @@ function TabViewer() {
         </Paper>
     );
 }
+
 export default TabViewer;

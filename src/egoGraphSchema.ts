@@ -1,10 +1,12 @@
 export type baseNode = {
     id: string;
+    originalID:string;
     name: string;
 };
 
 export type egoGraphNode = baseNode & {
     centerDist: number;
+    numEdges: number;
 };
 
 export type egoGraphEdge = {
