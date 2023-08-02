@@ -9,7 +9,8 @@ import {
 } from './egoGraphBundleStore';
 import { EgographNode } from './egographNode';
 
-const EgographBundle = () => {
+const EgographBundle = (props:{x:number,y:number}) => {
+    const {x,y}=props
     const [layout] = useAtom(egoGraphBundleAtom);
     const [nodeAtoms] = useAtom(nodesAtomsAtom);
     const [colorScale] = useAtom(colorScaleAtom);
@@ -71,12 +72,12 @@ const EgographBundle = () => {
             })
         );
         return (
-            <>
+            <g transform={`translate(${x},${y})`}>
                 {layoutCircles}
                 {lines}
                 {circles}
-            </>
+            </g>
         );
-    }, [colorScale, innerRadius, layout.centers, layout.edges, layout.identityEdges, layout.nodes, nodeAtoms, nodeRadius, outerRadius]);
+    }, [colorScale, innerRadius, layout.centers, layout.edges, layout.identityEdges, layout.nodes, nodeAtoms, nodeRadius, outerRadius, x, y]);
 };
 export default EgographBundle;

@@ -7,6 +7,8 @@ import {
     egoNetworkNetworkEdge,
     egoNetworkNetworkNode
 } from '../../egoGraphSchema.ts';
+import EgoGraphBundle from '../egograph/egoGraphBundle.tsx';
+import { bundleGroupSizeAtom } from '../egograph/networkStore.ts';
 
 interface egoNetworkNetworkNodeProps {
     aggregateEgoNetworkNodeIDs: string[];
@@ -18,6 +20,7 @@ const EgoNetworkNetwork = (props: egoNetworkNetworkNodeProps) => {
     const [egoNetworkNetwork, getEgoNetworkNetwork] = useAtom(
         egoNetworkNetworksAtom
     );
+    const [bundleGroupSize]=useAtom(bundleGroupSizeAtom);
 
     const nodeClone = structuredClone(egoNetworkNetwork.nodes);
     const edgeClone = structuredClone(egoNetworkNetwork.edges);
@@ -39,7 +42,7 @@ const EgoNetworkNetwork = (props: egoNetworkNetworkNodeProps) => {
                 .distance(50)
         )
         .force('center', d3.forceCenter(0, 0))
-        .force('collision', d3.forceCollide().radius(50));
+        .force('collision', d3.forceCollide().radius(d=>d.size));
 
     forceLayout.stop();
     for (let i = 0; i < 100; i++) {
@@ -71,14 +74,17 @@ const EgoNetworkNetwork = (props: egoNetworkNetworkNodeProps) => {
             })}
 
             {outNodes.map((node) => {
-                return (
+                if(node.color){
+                    return <EgoGraphBundle x={node.x-bundleGroupSize.width/2} y={node.y-bundleGroupSize.height/2}/>
+                }
+                else return (
                     <EgoNetworkNetworkNode
                         key={node.id}
                         id={node.id}
                         size={node.size / 20}
                         x={node.x}
                         y={node.y}
-                        color={node.color ? node.color : 'red'}
+                        color={'red'}
                     />
                 );
             })}
@@ -116,8 +122,8 @@ function aggregateEgoNetworkNodes(
         id: aggregateID,
         name: aggregateID,
         size: sizeAccumulator,
-        x: xAccumulator,
-        y: yAccumulator,
+        x: 0,
+        y: 0,
         color: 'green'
     });
 

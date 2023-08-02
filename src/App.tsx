@@ -115,15 +115,6 @@ function App() {
                         >
                             <div>
                                 {/* <!-- Content for the second column, first row --> */}
-                                <EgoGraphViewer />
-                            </div>
-                        </div>
-                        <div
-                            className="column"
-                            style={{ flex: 2, width: '67%' }}
-                        >
-                            <div>
-                                {/* <!-- Content for the second column, first row --> */}
                                 {/* <EgoGraphViewer /> */}
                                 <EgoNetworkNetworkViewer />
                             </div>
