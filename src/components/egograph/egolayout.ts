@@ -8,6 +8,7 @@ export type layoutNode = egoGraphNode & {
     cx: number;
     cy: number;
     hovered: boolean;
+    pseudo: boolean; // invisible node
 };
 type layoutEdge = egoGraphEdge & {
     sourceIndex: number;
@@ -30,7 +31,7 @@ export interface egoGraphLayout {
     edges: layoutEdge[];
     identityEdges: identityEdge[];
     maxradius: number;
-    centers: {x:number,y:number}[];
+    centers: { x: number; y: number }[];
 }
 
 /**
@@ -54,14 +55,14 @@ function createLayerNodes(
 ) {
     const nodes: { [key: string]: layoutNode } = {};
     const x = d3.scaleBand().range(xRange).domain(sortOrder);
-    let maxradius:number;
-    if(layerNodes.length>1) {
-         maxradius =
+    let maxradius: number;
+    if (layerNodes.length > 1) {
+        maxradius =
             ((center / Math.sin((Math.PI - x.bandwidth()) / 2)) *
                 Math.sin(x.bandwidth())) /
             2;
-    } else{
-        maxradius=radius;
+    } else {
+        maxradius = radius;
     }
     layerNodes.forEach((node) => {
         const nodeCoords = polarToCartesian(
@@ -77,7 +78,8 @@ function createLayerNodes(
             isCenter: false,
             cx: nodeCoords.x + transformVector.x,
             cy: nodeCoords.y + transformVector.y,
-            hovered: false
+            hovered: false,
+            pseudo: false
         };
     });
     return { nodes, maxradius };
@@ -316,10 +318,13 @@ function sortNodes(nodes: egoGraphNode[], edges: egoGraphEdge[]) {
     const nodeAssignment = assignToInnerNodes(nodeDict, edges);
     const innerNodes = Object.keys(nodeAssignment);
     const intersectingNodes = calculateOverlaps(nodeAssignment, innerNodes);
-    if(intersectingNodes.length>1) {
+    if (intersectingNodes.length > 1) {
         return sortByOverlap(intersectingNodes, nodeAssignment, innerNodes);
-    }else{
-        return {innerNodeOrder: innerNodes,outerNodeOrder: [...new Set(Object.values(nodeAssignment).flat())]}
+    } else {
+        return {
+            innerNodeOrder: innerNodes,
+            outerNodeOrder: [...new Set(Object.values(nodeAssignment).flat())]
+        };
     }
 }
 
@@ -360,7 +365,7 @@ export function calculateLayout(
             edges: [],
             identityEdges: [],
             maxradius: 10000,
-            centers: [],
+            centers: []
         };
         if (egoGraphs.length === 2) {
             graphCenters = [
@@ -382,7 +387,7 @@ export function calculateLayout(
             [0, fullRange / egoGraphs.length],
             [fullRange / egoGraphs.length, fullRange]
         ];
-        let layoutNodeDict: { [key: string]: layoutNode }={};
+        let layoutNodeDict: { [key: string]: layoutNode } = {};
         let nodeDict: { [key: string]: egoGraphNode } = {};
         egoGraphs[egoGraphs.length - 1].nodes.forEach(
             (node) => (nodeDict[node.id] = node)
@@ -413,7 +418,7 @@ export function calculateLayout(
             let nextPairwiseIntersections =
                 intersections[[firstGraphId, secondGraphId].sort().toString()];
             // if we only have selected two egographs we don't sort both of them to prevent crossing edges.
-            if(egoGraphs.length>2) {
+            if (egoGraphs.length > 2) {
                 nextPairwiseIntersections = sortPairwiseIntersection(
                     nextPairwiseIntersections,
                     nodeDict,
@@ -443,7 +448,8 @@ export function calculateLayout(
                 intersectingNodes.reverse(),
                 graphCenters[i],
                 xRanges,
-                -fullRange / egoGraphs.length / 2 + (fullRange / egoGraphs.length) * i
+                -fullRange / egoGraphs.length / 2 +
+                    (fullRange / egoGraphs.length) * i
             );
             layoutNodeDict = { ...currLayout.nodes, ...layoutNodeDict };
             layout.maxradius = Math.max(
@@ -460,7 +466,7 @@ export function calculateLayout(
             egoGraphs.map((d) => d.centerNode.originalID)
         );
         layout.nodes = Object.values(layoutNodeDict);
-        layout.centers=graphCenters;
+        layout.centers = graphCenters;
         return layout;
     } else {
         return calculateEgoLayout(egoGraphs[0], innerSize, outerSize);
@@ -483,7 +489,7 @@ function calculateMultiLayout(
     };
     const nodeDict: { [key: string]: egoGraphNode } = {};
     graph.nodes.forEach((node) => (nodeDict[node.id] = node));
-    let nodes:{ [key: string]: layoutNode };
+    let nodes: { [key: string]: layoutNode };
     const sharedNodesLayout = calculateLayoutSharedNodes(
         sharedNodeIds.map(
             (nodeId) => nodeDict[graph.centerNode.originalID + '_' + nodeId]
@@ -576,6 +582,10 @@ function calculateLayoutSharedNodes(
     );
     Object.keys(nodeLayout.nodes).forEach((nodeId) => {
         if (nodeLayout.nodes[nodeId].centerDist === 1) {
+            nodeLayout.nodes[`${nodeId}_pseudo`] = {
+                ...nodeLayout.nodes[nodeId],
+                pseudo: true
+            };
             const newPos = moveToCenter(
                 {
                     x: nodeLayout.nodes[nodeId].cx,
@@ -661,18 +671,40 @@ function createIdentityEdges(
         const nodeIds = centerNodes
             .map((d) => d + '_' + proteinId)
             .filter((nodeId) => Object.keys(nodeDict).includes(nodeId));
+        const layer1Nodes = nodeIds.filter(
+            (nodeId) => nodeDict[nodeId].centerDist === 1
+        );
         if (nodeIds.length > 1) {
             for (let i = 0; i < nodeIds.length; i++) {
                 for (let j = i + 1; j < nodeIds.length; j++) {
+                    // don't draw an edge if the nodes are first layer nodes but not pseudo
+                    let firstId = nodeIds[i];
+                    let secondId = nodeIds[j];
+                    if (Object.keys(nodeDict).includes(firstId + '_pseudo')) {
+                        firstId = firstId + '_pseudo';
+                    }
+                    if (Object.keys(nodeDict).includes(secondId + '_pseudo')) {
+                        secondId = secondId + '_pseudo';
+                    }
+                    console.log(firstId, secondId);
                     edges.push({
-                        id: nodeIds[i] + '_' + nodeIds[j],
-                        x1: nodeDict[nodeIds[i]].cx,
-                        y1: nodeDict[nodeIds[i]].cy,
-                        x2: nodeDict[nodeIds[j]].cx,
-                        y2: nodeDict[nodeIds[j]].cy
+                        id: firstId + '_' + secondId,
+                        x1: nodeDict[firstId].cx,
+                        y1: nodeDict[firstId].cy,
+                        x2: nodeDict[secondId].cx,
+                        y2: nodeDict[secondId].cy
                     });
                 }
             }
+            layer1Nodes.forEach((nodeId) => {
+                edges.push({
+                    id: nodeId + '_' + nodeId + '_pseudo',
+                    x1: nodeDict[nodeId].cx,
+                    y1: nodeDict[nodeId].cy,
+                    x2: nodeDict[nodeId + '_pseudo'].cx,
+                    y2: nodeDict[nodeId + '_pseudo'].cy
+                });
+            });
         }
     });
     return edges;
@@ -723,7 +755,8 @@ function createCenterNode(
         isCenter: true,
         cx: outerSize + transformVector.x,
         cy: outerSize + transformVector.y,
-        hovered: false
+        hovered: false,
+        pseudo: false
     };
 }
 
@@ -759,11 +792,11 @@ export function calculateEgoLayout(
     return {
         nodes: Object.values(nodes).sort((a, b) => a.index - b.index),
         edges,
-        identityEdges:[],
-        maxradius: Math.max(Math.min(
-            nodesLayer1Layout.maxradius,
-            nodesLayer2Layout.maxradius
-        ),2),
-        centers:[{x:outerSize,y:outerSize}]
+        identityEdges: [],
+        maxradius: Math.max(
+            Math.min(nodesLayer1Layout.maxradius, nodesLayer2Layout.maxradius),
+            2
+        ),
+        centers: [{ x: outerSize, y: outerSize }]
     };
 }
