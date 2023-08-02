@@ -13,7 +13,7 @@ interface RadarChartProps {
 
 const RadarChart = (props: RadarChartProps) => {
     const { baseRadius } = props;
-    const [intersectionData, _getRadarData] = useAtom(getRadarAtom);
+    const [intersectionData, getRadarData] = useAtom(getRadarAtom);
     const [tarNode] = useAtom(tarNodeAtom);
 
     const intersectionDataClone = structuredClone(intersectionData);

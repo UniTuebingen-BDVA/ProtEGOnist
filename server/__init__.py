@@ -1,15 +1,16 @@
+import json
 import pathlib
 import pickle
-import json
-import random
-from flask import Flask, request
-import json
+
 import networkx as nx
+from flask import Flask, request
+
 from server.python_scripts.dataIO import read_ego_pickles, read_excel_sheet
 from server.python_scripts.sampleGraph import (
     generate_string_intersections_top,
     generate_radar_data,
     generate_random_ego_graph_string,
+    generate_ego_graph_bundle
 )
 from server.python_scripts.egoNetworkNetwork import EgoNetworkNetwork
 from server.python_scripts.egoGraph import EgoGraph
@@ -55,6 +56,14 @@ def test():
 @app.route("/api/test_data_egograph/<targetNode>", methods=["GET"])
 def test_data_egograph(targetNode: str):
     json_data = generate_random_ego_graph_string(string_graph, targetNode)
+    return json_data
+
+
+@app.route("/api/egograph_bundle", methods=["POST"])
+def test_data_egograph_bundle():
+    target_nodes=request.json["ids"]
+    json_data = generate_ego_graph_bundle(string_graph, target_nodes)
+    #print(json_data)
     return json_data
 
 

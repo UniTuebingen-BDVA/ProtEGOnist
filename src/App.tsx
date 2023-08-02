@@ -1,28 +1,24 @@
 import { useEffect } from 'react';
 import './App.css';
-import { useAtom } from 'jotai';
-import {
-    innerRadiusAtom,
-    outerRadiusAtom
-} from './components/egograph/networkStore.ts';
-import { Typography } from '@mui/material';
+import { useAtom, useSetAtom } from 'jotai';
+import { AppBar, Toolbar, Typography } from '@mui/material';
 import TabViewer from './components/TabViewer/TabViewer.tsx';
-import { AppBar, Toolbar } from '@mui/material';
 import RadarChartViewer from './components/radarchart/radarChartViewer.tsx';
+import EgoGraphViewer from './components/egograph/egographViewer.tsx';
 import {
+    getEgographBundleAtom,
     getEgoNetworkNetworkAtom,
-    getEgographAtom,
-    getRadarAtom
+    getRadarAtom,
+    getTableAtom
 } from './apiCalls.ts';
 import { tarNodeAtom } from './components/radarchart/radarStore.ts';
-import { getTableAtom } from './apiCalls.ts';
+import { egoGraphBundleAtom } from './components/egograph/egoGraphBundleStore.ts';
 import EgoNetworkNetworkViewer from './components/egoNetworkNetwork/egoNetworkNetworkViewer.tsx';
 
 function App() {
-    const [innerRadius] = useAtom(innerRadiusAtom);
-    const [outerRadius] = useAtom(outerRadiusAtom);
     const [tableData, getTableData] = useAtom(getTableAtom);
-    const [egoGraph, getEgograph] = useAtom(getEgographAtom);
+    const getEgoGraphBundle = useSetAtom(getEgographBundleAtom);
+    const [egoGraphBundle] = useAtom(egoGraphBundleAtom);
     const [intersectionData, getRadarData] = useAtom(getRadarAtom);
     const [_egoNetworkNetworkData, getEgoNetworkNetworkData] = useAtom(
         getEgoNetworkNetworkAtom
@@ -30,7 +26,6 @@ function App() {
     const [tarNode, setTarNode] = useAtom(tarNodeAtom);
     useEffect(() => {
         getTableData();
-        getEgograph('Q9Y625');
         setTarNode('Q9Y625');
         getRadarData('Q9Y625');
         getEgoNetworkNetworkData([
@@ -40,19 +35,18 @@ function App() {
             'Q15369',
             'Q9H3U1'
         ]);
+        getEgoGraphBundle(['P07093', 'P30533', 'Q9Y625']);
     }, [
-        innerRadius,
-        outerRadius,
-        getEgograph,
         getTableData,
         getRadarData,
-        getEgoNetworkNetworkData,
-        setTarNode
+        setTarNode,
+        getEgoGraphBundle,
+        getEgoNetworkNetworkData
     ]);
     if (
         // check if all data is loaded (not empty)
         tableData.rows.length > 0 && // tableData
-        egoGraph.nodes.length > 0 && // egograph
+        egoGraphBundle.nodes.length > 0 && // egograph
         Object.keys(intersectionData).length > 0 && // radarData
         tarNode !== ''
     ) {
@@ -96,8 +90,8 @@ function App() {
                                 flex: 1,
                                 minHeight: '100%',
                                 height: '100%',
-                                width: '40%',
-                                minWidth: '40%'
+                                width: '33%',
+                                minWidth: '33%'
                             }}
                         >
                             <div>
@@ -116,7 +110,16 @@ function App() {
                         {/* <!-- Second Column --> */}
                         <div
                             className="column"
-                            style={{ flex: 2, width: '60%' }}
+                            style={{ flex: 2, width: '67%' }}
+                        >
+                            <div>
+                                {/* <!-- Content for the second column, first row --> */}
+                                <EgoGraphViewer />
+                            </div>
+                        </div>
+                        <div
+                            className="column"
+                            style={{ flex: 2, width: '67%' }}
                         >
                             <div>
                                 {/* <!-- Content for the second column, first row --> */}

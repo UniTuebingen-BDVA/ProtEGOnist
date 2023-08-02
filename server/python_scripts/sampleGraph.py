@@ -1,7 +1,10 @@
-import networkx as nx
-from server.python_scripts.egoGraph import EgoGraph
 import random
+
+import networkx as nx
+
+from server.python_scripts.egoGraph import EgoGraph
 from server.python_scripts.egoGraph import Intersection
+from server.python_scripts.utility import create_intersections
 
 
 # generate a dorogovtsev_goltsev_mendes_graph for the test data
@@ -70,8 +73,19 @@ def generate_random_ego_graph_string(string_graph: nx.Graph, target_node: str):
     return EgoGraph.from_string_network(target_node, string_graph).get_graph_JSON()
 
 
+def generate_ego_graph_bundle(string_graph: nx.Graph, target_nodes: [str]):
+    ego_graphs = []
+    node_assignments = {}
+    for target_node in target_nodes:
+        ego_graph = EgoGraph.from_string_network(target_node, string_graph)
+        ego_graphs.append(ego_graph)
+        node_assignments[target_node] = ego_graph.get_node_set()
+    intersections = create_intersections(node_assignments)
+    return {"intersections": intersections, "egoGraphs": [ego_graph.get_graph_JSON() for ego_graph in ego_graphs]}
+
+
 def generate_string_intersections_pickles(
-    ego_dicts: dict[str, EgoGraph], tar_node: str
+        ego_dicts: dict[str, EgoGraph], tar_node: str
 ):
     # add a random classifcation (A-E) to each node in the ego_dicts
     for i in ego_dicts:
@@ -124,7 +138,6 @@ def generate_string_intersections_top(
     tar_ego_graph = EgoGraph.from_string_network(tar_node, string_graph)
 
     return tar_ego_graph, highestDict
-
 
 ## test the function
 # if __name__ == "__main__":

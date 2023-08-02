@@ -32,8 +32,8 @@ function RadarChartViewer(props: RadarChartViewerProps) {
             }}
         >
             <svg
-                width={'70%'}
-                height={'70%'}
+                width={svgSize.width}
+                height={svgSize.height}
                 viewBox={`0 0 ${svgSize.width} ${svgSize.width}`}
             >
                 <g
