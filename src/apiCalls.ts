@@ -13,8 +13,14 @@ import {
 } from './components/radarchart/radarStore.ts';
 import { tableAtom } from './components/selectionTable/tableStore.ts';
 import { GridColDef, GridRowsProp } from '@mui/x-data-grid';
-import { egoGraphBundleDataAtom } from './components/egograph/egoGraphBundleStore.ts';
-import { egoNetworkNetworksAtom } from './components/egoNetworkNetwork/egoNetworkNetworkStore.ts';
+import {
+    egoGraphBundleDataAtom,
+    egoGraphBundlesDataAtom
+} from './components/egograph/egoGraphBundleStore.ts';
+import {
+    decollapseIDsAtom,
+    egoNetworkNetworksAtom
+} from './components/egoNetworkNetwork/egoNetworkNetworkStore.ts';
 
 export const getEgographBundleAtom = atom(
     (get) => get(egoGraphBundleDataAtom),
@@ -33,6 +39,33 @@ export const getEgographBundleAtom = atom(
                         console.log(`couldn't get egograph with IDs ${ids}`);
                 }
             );
+    }
+);
+export const getMultiEgographBundleAtom = atom(
+    (get) => get(egoGraphBundlesDataAtom),
+    (get, set) => {
+        const bundleIds = get(decollapseIDsAtom);
+        bundleIds.forEach((ids) => {
+            const jointID = ids.join(',');
+            if (!Object.keys(get(egoGraphBundlesDataAtom)).includes(jointID)) {
+                axios
+                    .post<{
+                        egoGraphs: egoGraph[];
+                        intersections: { [key: string]: string[] };
+                    }>('/api/egograph_bundle', { ids: ids })
+                    .then(
+                        (result) => {
+                            set(egoGraphBundlesDataAtom, {...egoGraphBundlesDataAtom,[jointID]:result.data});
+                        },
+                        () => {
+                            console.error,
+                                console.log(
+                                    `couldn't get egograph with IDs ${ids}`
+                                );
+                        }
+                    );
+            }
+        });
     }
 );
 

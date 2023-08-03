@@ -6,12 +6,19 @@ import * as d3 from 'd3';
 import { calculateLayout, egoGraphLayout } from './egolayout.ts';
 import { egoGraph } from '../../egoGraphSchema.ts';
 
+
+export const egoGraphBundlesDataAtom = atom<{
+    [key: string]: {
+        egoGraphs: egoGraph[];
+        intersections: { [key: string]: string[] };
+    } | null;
+}>({});
 export const egoGraphBundleDataAtom = atom<{
     egoGraphs: egoGraph[];
     intersections: { [key: string]: string[] };
 } | null>(null);
-export const innerRadiusAtom=atom(50);
-export const outerRadiusAtom=atom(70);
+export const innerRadiusAtom = atom(50);
+export const outerRadiusAtom = atom(70);
 const egoGraphBundleDefaultAtom = atom((get) => {
     const data = get(egoGraphBundleDataAtom);
     if (data === null) {

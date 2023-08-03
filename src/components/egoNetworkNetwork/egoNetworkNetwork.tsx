@@ -30,6 +30,7 @@ const EgoNetworkNetwork = (props: egoNetworkNetworkNodeProps) => {
         edgeClone,
         aggregateEgoNetworkNodeIDs
     );
+    console.log(outNodes);
 
     const forceLayout = d3
         .forceSimulation(outNodes)
