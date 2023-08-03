@@ -4,6 +4,7 @@ import { egoGraph, egoGraphEdge, egoGraphNode } from '../../egoGraphSchema';
 
 export type layoutNode = egoGraphNode & {
     index: number;
+    identityNodes: number[];
     isCenter: boolean;
     cx: number;
     cy: number;
@@ -20,6 +21,8 @@ type layoutEdge = egoGraphEdge & {
 };
 type identityEdge = {
     id: string;
+    sourceIndex: number;
+    targetIndex: number;
     x1: number;
     x2: number;
     y1: number;
@@ -79,7 +82,8 @@ function createLayerNodes(
             cx: nodeCoords.x + transformVector.x,
             cy: nodeCoords.y + transformVector.y,
             hovered: false,
-            pseudo: false
+            pseudo: false,
+            identityNodes: []
         };
     });
     return { nodes, maxradius };
@@ -671,6 +675,19 @@ function createIdentityEdges(
         const nodeIds = centerNodes
             .map((d) => d + '_' + proteinId)
             .filter((nodeId) => Object.keys(nodeDict).includes(nodeId));
+        nodeIds.forEach((nodeId) => {
+            nodeDict[nodeId].identityNodes = nodeIds
+                .map((d) => {
+                    if (Object.keys(nodeDict).includes(d + '_pseudo')) {
+                        return [
+                            nodeDict[d].index,
+                            nodeDict[d + '_pseudo'].index
+                        ];
+                    }
+                    return [nodeDict[d].index];
+                })
+                .flat();
+        });
         const layer1Nodes = nodeIds.filter(
             (nodeId) => nodeDict[nodeId].centerDist === 1
         );
@@ -686,8 +703,9 @@ function createIdentityEdges(
                     if (Object.keys(nodeDict).includes(secondId + '_pseudo')) {
                         secondId = secondId + '_pseudo';
                     }
-                    console.log(firstId, secondId);
                     edges.push({
+                        sourceIndex: nodeDict[firstId].index,
+                        targetIndex: nodeDict[secondId].index,
                         id: firstId + '_' + secondId,
                         x1: nodeDict[firstId].cx,
                         y1: nodeDict[firstId].cy,
@@ -698,6 +716,8 @@ function createIdentityEdges(
             }
             layer1Nodes.forEach((nodeId) => {
                 edges.push({
+                    sourceIndex: nodeDict[nodeId].index,
+                    targetIndex: nodeDict[nodeId + '_pseudo'].index,
                     id: nodeId + '_' + nodeId + '_pseudo',
                     x1: nodeDict[nodeId].cx,
                     y1: nodeDict[nodeId].cy,
@@ -756,7 +776,8 @@ function createCenterNode(
         cx: outerSize + transformVector.x,
         cy: outerSize + transformVector.y,
         hovered: false,
-        pseudo: false
+        pseudo: false,
+        identityNodes: []
     };
 }
 
