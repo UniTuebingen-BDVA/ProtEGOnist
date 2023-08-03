@@ -1,4 +1,7 @@
 import { Tooltip } from '@mui/material';
+import { useAtom } from 'jotai';
+import { decollapseIDsAtom } from './egoNetworkNetworkStore';
+import { animated } from '@react-spring/web';
 
 interface EgoNetworkNetworkNodeProps {
     id: string;
@@ -10,10 +13,10 @@ interface EgoNetworkNetworkNodeProps {
 
 const EgoNetworkNetworkNode = (props: EgoNetworkNetworkNodeProps) => {
     const { id, size, x, y, color } = props;
-
+    const [_, setDecollapseID] = useAtom(decollapseIDsAtom);
     return (
         <Tooltip title={id} key={id}>
-            <circle
+            <animated.circle
                 key={id}
                 r={size}
                 cx={x}
@@ -21,6 +24,7 @@ const EgoNetworkNetworkNode = (props: EgoNetworkNetworkNodeProps) => {
                 fill={color}
                 stroke="black"
                 strokeWidth="1"
+                onClick={() => setDecollapseID(id)}
             />
         </Tooltip>
     );

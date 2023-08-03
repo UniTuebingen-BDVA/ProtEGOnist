@@ -1,11 +1,11 @@
 export type baseNode = {
     id: string;
-    originalID: string;
     name: string;
 };
 
 export type egoGraphNode = baseNode & {
     centerDist: number;
+    originalID: string;
     numEdges: number;
 };
 
@@ -35,7 +35,7 @@ export type egoNetworkNetworkNode = baseNode & {
     size: number;
     x: number;
     y: number;
-    color: string;
+    collapsed: boolean;
 };
 
 export type egoNetworkNetworkEdge = egoGraphEdge & {
