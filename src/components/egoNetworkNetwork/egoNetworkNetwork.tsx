@@ -28,8 +28,6 @@ const EgoNetworkNetwork = () => {
         aggregateEgoNetworkNodeIDs
     );
 
-    console.log('outNodes', outNodes);
-    console.log('outEdges', outEdges);
 
     const forceLayout = d3
         .forceSimulation(outNodes)
@@ -144,6 +142,7 @@ const EgoNetworkNetwork = () => {
 
             {transitionsNodes((style, node) => {
                 if (!node.collapsed) {
+                    console.log(node)
                     return (
                         <EgoGraphBundle
                             x={style.x - bundleGroupSize.width / 2}
@@ -176,9 +175,6 @@ function aggregateEgoNetworkNodes(
 ): { outNodes: egoNetworkNetworkNode[]; outEdges: egoNetworkNetworkEdge[] } {
     const outNodes: egoNetworkNetworkNode[] = [];
     const outEdges: egoNetworkNetworkEdge[] = [];
-
-    aggregateNodeIDs.forEach((aggregates, index) => {
-        let sizeAccumulator = 0;
         for (const node of egoNetworkNodesNodes) {
             // check if any of the arrays in aggregateNodeIDs includes node.id
             if (
@@ -187,16 +183,16 @@ function aggregateEgoNetworkNodes(
                 )
             ) {
                 outNodes.push({ ...node, collapsed: true });
-            } else {
-                sizeAccumulator += node.size;
             }
         }
+    aggregateNodeIDs.forEach((aggregates, index) => {
 
-        const aggregateID = aggregates.join(';');
+
+        const aggregateID = aggregates.join(',');
         outNodes.push({
             id: aggregateID,
             name: aggregateID,
-            size: sizeAccumulator / 2,
+            size: 400,
             x: 0,
             y: 0,
             collapsed: false

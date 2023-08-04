@@ -83,6 +83,7 @@ const EgographBundle = (props: { x: number; y: number, nodeId:string }) => {
     const [outerRadius] = useAtom(outerRadiusAtom);
     const [highlightedNodeIndices] = useAtom(highlightedNodeIndicesAtom);
 
+    console.log(nodeId,isLoaded)
     return useMemo(() => {
         if(isLoaded) {
             let lines = [];

@@ -25,6 +25,7 @@ export const getMultiEgographBundleAtom = atom(
     (get, set,bundleIds:string[][]) => {
         bundleIds.forEach((ids) => {
             const jointID = ids.join(',');
+            console.log(jointID);
             if (!Object.keys(get(egoGraphBundlesDataAtom)).includes(jointID)) {
                 axios
                     .post<{
