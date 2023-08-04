@@ -11,7 +11,7 @@ import {
     egoNetworkNetworkNode
 } from '../../egoGraphSchema.ts';
 import EgoGraphBundle from '../egograph/egoGraphBundle.tsx';
-import { bundleGroupSizeAtom } from '../egograph/networkStore.ts';
+import { bundleGroupSizeAtom } from '../egograph/egoGraphBundleStore.ts';
 import { a, useTransition } from '@react-spring/web';
 
 const EgoNetworkNetwork = () => {
@@ -27,9 +27,6 @@ const EgoNetworkNetwork = () => {
         egoNetworkNetwork.edges,
         aggregateEgoNetworkNodeIDs
     );
-
-    console.log('outNodes', outNodes);
-    console.log('outEdges', outEdges);
 
     const forceLayout = d3
         .forceSimulation(outNodes)
@@ -144,10 +141,12 @@ const EgoNetworkNetwork = () => {
 
             {transitionsNodes((style, node) => {
                 if (!node.collapsed) {
+                    console.log(node);
                     return (
                         <EgoGraphBundle
                             x={style.x - bundleGroupSize.width / 2}
                             y={style.y - bundleGroupSize.height / 2}
+                            nodeId={node.id}
                         />
                     );
                 } else
@@ -175,27 +174,20 @@ function aggregateEgoNetworkNodes(
 ): { outNodes: egoNetworkNetworkNode[]; outEdges: egoNetworkNetworkEdge[] } {
     const outNodes: egoNetworkNetworkNode[] = [];
     const outEdges: egoNetworkNetworkEdge[] = [];
-
-    aggregateNodeIDs.forEach((aggregates, index) => {
-        let sizeAccumulator = 0;
-        for (const node of egoNetworkNodesNodes) {
-            // check if any of the arrays in aggregateNodeIDs includes node.id
-            if (
-                !aggregateNodeIDs.some((aggregate) =>
-                    aggregate.includes(node.id)
-                )
-            ) {
-                outNodes.push({ ...node, collapsed: true });
-            } else {
-                sizeAccumulator += node.size;
-            }
+    for (const node of egoNetworkNodesNodes) {
+        // check if any of the arrays in aggregateNodeIDs includes node.id
+        if (
+            !aggregateNodeIDs.some((aggregate) => aggregate.includes(node.id))
+        ) {
+            outNodes.push({ ...node, collapsed: true });
         }
-
-        const aggregateID = aggregates.join(';');
+    }
+    aggregateNodeIDs.forEach((aggregates, index) => {
+        const aggregateID = aggregates.join(',');
         outNodes.push({
             id: aggregateID,
             name: aggregateID,
-            size: sizeAccumulator / 2,
+            size: 400,
             x: 0,
             y: 0,
             collapsed: false

@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
 import { egoNetworkNetwork } from '../../egoGraphSchema';
-import { get } from 'optics-ts';
+import { getMultiEgographBundleAtom } from '../../apiCalls.ts';
 
 export const egoNetworkNetworkSizeAtom = atom({
     width: 1000,
@@ -9,7 +9,7 @@ export const egoNetworkNetworkSizeAtom = atom({
     y: 0
 });
 
-export const decollapseIDsArrayAtom = atom<string[][]>([['Q15369', 'P30533']]);
+export const decollapseIDsArrayAtom = atom<string[][]>([[]]);
 
 export const decollapseIDsAtom = atom(
     (get) => get(decollapseIDsArrayAtom),
@@ -24,6 +24,7 @@ export const decollapseIDsAtom = atom(
                 currentIdArray.push([id]);
             }
             set(decollapseIDsArrayAtom, currentIdArray);
+            set(getMultiEgographBundleAtom, currentIdArray);
         }
     }
 );
