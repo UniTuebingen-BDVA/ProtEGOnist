@@ -30,7 +30,6 @@ const EgoNetworkNetwork = (props: egoNetworkNetworkNodeProps) => {
         edgeClone,
         aggregateEgoNetworkNodeIDs
     );
-    console.log(outNodes);
 
     const forceLayout = d3
         .forceSimulation(outNodes)
@@ -76,7 +75,7 @@ const EgoNetworkNetwork = (props: egoNetworkNetworkNodeProps) => {
 
             {outNodes.map((node) => {
                 if(node.color){
-                    return <EgoGraphBundle x={node.x-bundleGroupSize.width/2} y={node.y-bundleGroupSize.height/2}/>
+                    return <EgoGraphBundle key={node.id} x={node.x-bundleGroupSize.width/2} y={node.y-bundleGroupSize.height/2} nodeId={node.id}/>
                 }
                 else return (
                     <EgoNetworkNetworkNode

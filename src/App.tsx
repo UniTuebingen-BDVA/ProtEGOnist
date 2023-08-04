@@ -1,24 +1,19 @@
 import { useEffect } from 'react';
 import './App.css';
-import { useAtom, useSetAtom } from 'jotai';
+import { useAtom } from 'jotai';
 import { AppBar, Toolbar, Typography } from '@mui/material';
 import TabViewer from './components/TabViewer/TabViewer.tsx';
 import RadarChartViewer from './components/radarchart/radarChartViewer.tsx';
-import EgoGraphViewer from './components/egograph/egographViewer.tsx';
 import {
-    getEgographBundleAtom,
     getEgoNetworkNetworkAtom,
     getRadarAtom,
     getTableAtom
 } from './apiCalls.ts';
 import { tarNodeAtom } from './components/radarchart/radarStore.ts';
-import { egoGraphBundleAtom } from './components/egograph/egoGraphBundleStore.ts';
 import EgoNetworkNetworkViewer from './components/egoNetworkNetwork/egoNetworkNetworkViewer.tsx';
 
 function App() {
     const [tableData, getTableData] = useAtom(getTableAtom);
-    const getEgoGraphBundle = useSetAtom(getEgographBundleAtom);
-    const [egoGraphBundle] = useAtom(egoGraphBundleAtom);
     const [intersectionData, getRadarData] = useAtom(getRadarAtom);
     const [_egoNetworkNetworkData, getEgoNetworkNetworkData] = useAtom(
         getEgoNetworkNetworkAtom
@@ -35,18 +30,15 @@ function App() {
             'Q15369',
             'Q9H3U1'
         ]);
-        getEgoGraphBundle(['P07093', 'P30533', 'Q9Y625']);
     }, [
         getTableData,
         getRadarData,
         setTarNode,
-        getEgoGraphBundle,
         getEgoNetworkNetworkData
     ]);
     if (
         // check if all data is loaded (not empty)
         tableData.rows.length > 0 && // tableData
-        egoGraphBundle.nodes.length > 0 && // egograph
         Object.keys(intersectionData).length > 0 && // radarData
         tarNode !== ''
     ) {

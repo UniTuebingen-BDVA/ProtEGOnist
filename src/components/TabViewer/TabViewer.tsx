@@ -1,14 +1,11 @@
 import React from 'react';
-import { useAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 
 import { Box, Paper, Tab, Tabs } from '@mui/material';
 import { multiSelectionAtom, showedTabAtom } from './tabViewerStore.ts';
-import {
-    getEgographBundleAtom,
-    getRadarAtom,
-    getTableAtom
-} from '../../apiCalls.ts';
+import { getRadarAtom, getTableAtom } from '../../apiCalls.ts';
 import SelectionTable from '../selectionTable/selectionTable.tsx';
+import { decollapseIDsAtom } from '../egoNetworkNetwork/egoNetworkNetworkStore.ts';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -48,10 +45,10 @@ function a11yProps(index: number) {
 function TabViewer() {
     const [value, setValue] = useAtom(showedTabAtom);
     const [tableData, _getTableData] = useAtom(getTableAtom);
-    const [_egoGraphBundle, getEgographBundle] = useAtom(getEgographBundleAtom);
     const [_intersectionData, getRadarData] = useAtom(getRadarAtom);
     const [multiSelection, setMultiSelection] = useAtom(multiSelectionAtom);
 
+    const [_decollapseIds,setDecollapseIDs] = useAtom(decollapseIDsAtom);
     const handleChange = (_e: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
@@ -94,8 +91,9 @@ function TabViewer() {
                                 multiSelectionLocal.shift();
                             }
                             setMultiSelection(multiSelectionLocal);
-                            getEgographBundle(multiSelectionLocal);
                             getRadarData(selectedName);
+                            setDecollapseIDs('Q15369');
+                            setDecollapseIDs('P30533');
                         }}
                     />
                 </div>

@@ -14,37 +14,16 @@ import {
 import { tableAtom } from './components/selectionTable/tableStore.ts';
 import { GridColDef, GridRowsProp } from '@mui/x-data-grid';
 import {
-    egoGraphBundleDataAtom,
     egoGraphBundlesDataAtom
 } from './components/egograph/egoGraphBundleStore.ts';
 import {
-    decollapseIDsAtom,
     egoNetworkNetworksAtom
 } from './components/egoNetworkNetwork/egoNetworkNetworkStore.ts';
 
-export const getEgographBundleAtom = atom(
-    (get) => get(egoGraphBundleDataAtom),
-    (_get, set, ids: string[]) => {
-        axios
-            .post<{
-                egoGraphs: egoGraph[];
-                intersections: { [key: string]: string[] };
-            }>('/api/egograph_bundle', { ids: ids })
-            .then(
-                (result) => {
-                    set(egoGraphBundleDataAtom, result.data);
-                },
-                () => {
-                    console.error,
-                        console.log(`couldn't get egograph with IDs ${ids}`);
-                }
-            );
-    }
-);
 export const getMultiEgographBundleAtom = atom(
     (get) => get(egoGraphBundlesDataAtom),
-    (get, set) => {
-        const bundleIds = get(decollapseIDsAtom);
+    (get, set,bundleIds:string[][]) => {
+        console.log(bundleIds)
         bundleIds.forEach((ids) => {
             const jointID = ids.join(',');
             if (!Object.keys(get(egoGraphBundlesDataAtom)).includes(jointID)) {
@@ -55,7 +34,7 @@ export const getMultiEgographBundleAtom = atom(
                     }>('/api/egograph_bundle', { ids: ids })
                     .then(
                         (result) => {
-                            set(egoGraphBundlesDataAtom, {...egoGraphBundlesDataAtom,[jointID]:result.data});
+                            set(egoGraphBundlesDataAtom, {...get(egoGraphBundlesDataAtom),[jointID]:result.data})
                         },
                         () => {
                             console.error,
@@ -66,6 +45,11 @@ export const getMultiEgographBundleAtom = atom(
                     );
             }
         });
+        Object.keys(get(egoGraphBundlesDataAtom)).filter(id=>!bundleIds.map(ids=>ids.join(',')).includes(id)).forEach(id=>{
+            const egographBundleData=get(egoGraphBundlesDataAtom);
+            delete egographBundleData[id];
+            set(egoGraphBundlesDataAtom,egographBundleData);
+        } )
     }
 );
 
