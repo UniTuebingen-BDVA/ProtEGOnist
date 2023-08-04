@@ -59,3 +59,4 @@ export const nodeRadiusAtom = atom((get) => {
         ? get(maxRadiusAtom)
         : get(egoGraphBundleAtom).maxradius;
 });
+export const highlightedNodIndicesAtom = atom<number[]>([]);

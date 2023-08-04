@@ -4,6 +4,7 @@ import { useAtom } from 'jotai';
 import {
     colorScaleAtom,
     egoGraphBundleAtom,
+    highlightedNodIndicesAtom,
     innerRadiusAtom,
     nodeRadiusAtom,
     nodesAtomsAtom,
@@ -19,9 +20,12 @@ const EgographBundle = (props: { x: number; y: number }) => {
     const [nodeRadius] = useAtom(nodeRadiusAtom);
     const [innerRadius] = useAtom(innerRadiusAtom);
     const [outerRadius] = useAtom(outerRadiusAtom);
+    const [highlightedNodeIndices] = useAtom(highlightedNodIndicesAtom);
 
     return useMemo(() => {
         let lines = [];
+        const foregroundBands: React.ReactElement[] = [];
+        const backgroundBands: React.ReactElement[] = [];
         const layoutCircles = layout.centers.map((center, i) => {
             return (
                 <g key={i}>
@@ -42,22 +46,26 @@ const EgographBundle = (props: { x: number; y: number }) => {
                 </g>
             );
         });
-        const circles = Object.values(layout.nodes).map((node, i) => {
-            return (
-                <EgographNode
-                    key={node.id}
-                    centerPoint={{ x: node.cx, y: node.cy }}
-                    nodeRadius={nodeRadius}
-                    nodeAtom={nodeAtoms[i]}
-                    fill={String(colorScale(node.numEdges))}
-                />
-            );
+        const circles: React.ReactElement[] = [];
+        Object.values(layout.nodes).forEach((node, i) => {
+            if (!node.pseudo) {
+                circles.push(
+                    <EgographNode
+                        key={node.id}
+                        centerPoint={{ x: node.cx, y: node.cy }}
+                        nodeRadius={nodeRadius}
+                        nodeAtom={nodeAtoms[i]}
+                        fill={String(colorScale(node.numEdges))}
+                    />
+                );
+            }
         });
 
         lines = layout.edges.map((edge) => {
+            // show edge if any node with the same original ID as source/target is hovered
             const isVisible =
-                layout.nodes[edge.sourceIndex].hovered ||
-                layout.nodes[edge.targetIndex].hovered;
+                highlightedNodeIndices.includes(edge.sourceIndex) ||
+                highlightedNodeIndices.includes(edge.targetIndex);
             return (
                 <line
                     key={String(edge.source) + String(edge.target)}
@@ -69,9 +77,24 @@ const EgographBundle = (props: { x: number; y: number }) => {
                 />
             );
         });
-        lines.push(
-            ...layout.identityEdges.map((edge) => {
-                return (
+        layout.identityEdges.forEach((edge) => {
+            const isHighlighted =
+                highlightedNodeIndices.includes(edge.sourceIndex) ||
+                highlightedNodeIndices.includes(edge.targetIndex);
+            if (isHighlighted) {
+                foregroundBands.push(
+                    <line
+                        key={edge.id}
+                        x1={edge.x1}
+                        x2={edge.x2}
+                        y1={edge.y1}
+                        y2={edge.y2}
+                        stroke={'black'}
+                        strokeWidth={nodeRadius * 2}
+                    />
+                );
+            } else {
+                backgroundBands.push(
                     <line
                         key={edge.id}
                         x1={edge.x1}
@@ -83,17 +106,20 @@ const EgographBundle = (props: { x: number; y: number }) => {
                         strokeWidth={nodeRadius * 2}
                     />
                 );
-            })
-        );
+            }
+        });
         return (
             <g transform={`translate(${x},${y})`}>
                 {layoutCircles}
                 {lines}
+                {backgroundBands}
+                {foregroundBands}
                 {circles}
             </g>
         );
     }, [
         colorScale,
+        highlightedNodeIndices,
         innerRadius,
         layout.centers,
         layout.edges,
