@@ -1,9 +1,32 @@
 import { atom } from 'jotai';
 import { egoNetworkNetwork } from '../../egoGraphSchema';
+import { get } from 'optics-ts';
 
-export const egoNetworkNetworkSizeAtom = atom({ width: 400, height: 400 });
+export const egoNetworkNetworkSizeAtom = atom({
+    width: 1000,
+    height: 1000,
+    x: 0,
+    y: 0
+});
 
-export const decollapseIDsAtom = atom<string[]>(['Q15369', 'P30533']);
+export const decollapseIDsArrayAtom = atom<string[][]>([['Q15369', 'P30533']]);
+
+export const decollapseIDsAtom = atom(
+    (get) => get(decollapseIDsArrayAtom),
+    (get, set, id: string) => {
+        if (id == '') {
+            set(decollapseIDsArrayAtom, []);
+        } else {
+            const currentIdArray = get(decollapseIDsArrayAtom);
+            if (currentIdArray[currentIdArray.length - 1].length < 3) {
+                currentIdArray[currentIdArray.length - 1].push(id);
+            } else {
+                currentIdArray.push([id]);
+            }
+            set(decollapseIDsArrayAtom, currentIdArray);
+        }
+    }
+);
 
 export const egoNetworkNetworksAtom = atom<egoNetworkNetwork>({
     nodes: [],

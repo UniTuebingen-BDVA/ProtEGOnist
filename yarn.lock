@@ -1438,6 +1438,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@use-gesture/core@npm:10.2.27":
+  version: 10.2.27
+  resolution: "@use-gesture/core@npm:10.2.27"
+  checksum: 3cc29b93e23597257483e2bb14fa53d322fca9c1e41a50a0d2af78557f4565404e2029c1409cfb49c2fd75096044fe9219914b4ce908f8eb3846ec8404f23b0a
+  languageName: node
+  linkType: hard
+
+"@use-gesture/react@npm:^10.2.27":
+  version: 10.2.27
+  resolution: "@use-gesture/react@npm:10.2.27"
+  dependencies:
+    "@use-gesture/core": 10.2.27
+  peerDependencies:
+    react: ">= 16.8.0"
+  checksum: 745c835483138eb033953dee285ddece04f236ac82a6897dcf03dd38daeb5335f91e664436ff55e3b449dccb1eadd809fcd7e7d1440c6f82c4e87663bfaadd5f
+  languageName: node
+  linkType: hard
+
 "@vitejs/plugin-react-swc@npm:^3.3.2":
   version: 3.3.2
   resolution: "@vitejs/plugin-react-swc@npm:3.3.2"
@@ -1684,6 +1702,7 @@ __metadata:
     "@types/react-dom": ^18.2.6
     "@typescript-eslint/eslint-plugin": ^5.61.0
     "@typescript-eslint/parser": ^5.61.0
+    "@use-gesture/react": ^10.2.27
     "@vitejs/plugin-react-swc": ^3.3.2
     axios: ^1.4.0
     chai: ^4.3.7
