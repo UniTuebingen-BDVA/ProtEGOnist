@@ -16,6 +16,8 @@ function EgoNetworkNetworkViewer() {
     const bind = useGesture(
         {
             onWheel: ({ event, delta: [, dy] }) => {
+                // todo: if we want to have a scrolling webpage: https://stackoverflow.com/questions/57358640/cancel-wheel-event-with-e-preventdefault-in-react-event-bubbling
+                event.preventDefault();
                 setSvgSize((prevSize) => {
                     const newHeight = prevSize.height + dy;
                     const minHeight = 100;
@@ -27,17 +29,17 @@ function EgoNetworkNetworkViewer() {
                     const width = newWidth < minWidth ? minWidth : newWidth;
                     const newX = prevSize.x - (width - prevSize.width) / 2;
                     const minY = 0;
-                    const y = prevSize.y < minY ? minY : prevSize.y;
+                    const newY = prevSize.y < minY ? minY : prevSize.y;
                     return {
                         x: newX,
-                        y: y,
+                        y: newY,
                         width: width,
                         height: height
                     };
                 });
             },
             onDrag: ({ event, movement: [mx, my] }) => {
-                const sensitivity = 0.01;
+                const sensitivity = 0.1;
                 setSvgSize((prevSize) => {
                     const newX = prevSize.x - mx * sensitivity;
                     const newY = prevSize.y - my * sensitivity;
@@ -88,9 +90,7 @@ function EgoNetworkNetworkViewer() {
                         ')'
                     }
                 >
-                    <EgoNetworkNetwork
-                        aggregateEgoNetworkNodeIDs={decollapseIDs}
-                    />
+                    <EgoNetworkNetwork />
                 </g>
             </svg>
         </Paper>

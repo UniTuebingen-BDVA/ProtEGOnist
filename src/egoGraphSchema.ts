@@ -38,7 +38,9 @@ export type egoNetworkNetworkNode = baseNode & {
     collapsed: boolean;
 };
 
-export type egoNetworkNetworkEdge = egoGraphEdge & {
+export type egoNetworkNetworkEdge = {
+    source: egoNetworkNetworkNode;
+    target: egoNetworkNetworkNode;
     weight: number;
 };
 
