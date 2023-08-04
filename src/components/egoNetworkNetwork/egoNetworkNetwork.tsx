@@ -11,7 +11,7 @@ import {
     egoNetworkNetworkNode
 } from '../../egoGraphSchema.ts';
 import EgoGraphBundle from '../egograph/egoGraphBundle.tsx';
-import { bundleGroupSizeAtom } from '../egograph/networkStore.ts';
+import { bundleGroupSizeAtom } from '../egograph/egoGraphBundleStore.ts';
 import { a, useTransition } from '@react-spring/web';
 
 const EgoNetworkNetwork = () => {
@@ -148,6 +148,7 @@ const EgoNetworkNetwork = () => {
                         <EgoGraphBundle
                             x={style.x - bundleGroupSize.width / 2}
                             y={style.y - bundleGroupSize.height / 2}
+                            nodeId={node.id}
                         />
                     );
                 } else

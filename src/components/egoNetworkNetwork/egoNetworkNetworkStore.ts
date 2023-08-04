@@ -9,7 +9,7 @@ export const egoNetworkNetworkSizeAtom = atom({
     y: 0
 });
 
-export const decollapseIDsArrayAtom = atom<string[][]>([['Q15369', 'P30533']]);
+export const decollapseIDsArrayAtom = atom<string[][]>([]);
 
 export const decollapseIDsAtom = atom(
     (get) => get(decollapseIDsArrayAtom),

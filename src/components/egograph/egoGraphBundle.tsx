@@ -1,21 +1,23 @@
-import { useMemo } from 'react';
+import { ReactElement, useMemo } from 'react';
 import { useAtom } from 'jotai';
 
 import {
     egoGraphBundlesDataAtom,
     innerRadiusAtom,
-    outerRadiusAtom
+    outerRadiusAtom,
+    bundleGroupSizeAtom, maxRadiusAtom
 } from './egoGraphBundleStore';
 import { EgographNode } from './egographNode';
 import { atom } from 'jotai';
 import { calculateLayout, egoGraphLayout } from './egolayout.ts';
-import { bundleGroupSizeAtom, maxRadiusAtom } from './networkStore.ts';
 import { focusAtom } from 'jotai-optics';
 import { splitAtom } from 'jotai/utils';
 import * as d3 from 'd3';
 
 const EgographBundle = (props: { x: number; y: number, nodeId:string }) => {
     const { x, y,nodeId } = props;
+
+    // "local store"
     const egoGraphBundleDataAtom=useMemo(()=>{
         return focusAtom(egoGraphBundlesDataAtom,optic=>optic.prop(nodeId))
     },[nodeId])
@@ -71,6 +73,7 @@ const EgographBundle = (props: { x: number; y: number, nodeId:string }) => {
             : get(egoGraphBundleAtom).maxradius;
     }),[egoGraphBundleAtom]);
     const highlightedNodeIndicesAtom = useMemo(()=>atom<number[]>([]),[]);
+
     const [isLoaded]=useAtom(isLoadedAtom);
     const [layout] = useAtom(egoGraphBundleAtom);
     const [nodeAtoms] = useAtom(nodesAtomsAtom);
@@ -83,8 +86,8 @@ const EgographBundle = (props: { x: number; y: number, nodeId:string }) => {
     return useMemo(() => {
         if(isLoaded) {
             let lines = [];
-            const foregroundBands: React.ReactElement[] = [];
-            const backgroundBands: React.ReactElement[] = [];
+            const foregroundBands: ReactElement[] = [];
+            const backgroundBands: ReactElement[] = [];
             const layoutCircles = layout.centers.map((center, i) => {
                 return (
                     <g key={i}>

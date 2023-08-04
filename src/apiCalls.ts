@@ -23,7 +23,6 @@ import {
 export const getMultiEgographBundleAtom = atom(
     (get) => get(egoGraphBundlesDataAtom),
     (get, set,bundleIds:string[][]) => {
-        console.log(bundleIds)
         bundleIds.forEach((ids) => {
             const jointID = ids.join(',');
             if (!Object.keys(get(egoGraphBundlesDataAtom)).includes(jointID)) {

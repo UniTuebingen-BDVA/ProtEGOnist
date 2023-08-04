@@ -1,11 +1,10 @@
 import React from 'react';
-import { useAtom, useSetAtom } from 'jotai';
+import { useAtom } from 'jotai';
 
 import { Box, Paper, Tab, Tabs } from '@mui/material';
 import { multiSelectionAtom, showedTabAtom } from './tabViewerStore.ts';
 import { getRadarAtom, getTableAtom } from '../../apiCalls.ts';
 import SelectionTable from '../selectionTable/selectionTable.tsx';
-import { decollapseIDsAtom } from '../egoNetworkNetwork/egoNetworkNetworkStore.ts';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -48,7 +47,6 @@ function TabViewer() {
     const [_intersectionData, getRadarData] = useAtom(getRadarAtom);
     const [multiSelection, setMultiSelection] = useAtom(multiSelectionAtom);
 
-    const [_decollapseIds,setDecollapseIDs] = useAtom(decollapseIDsAtom);
     const handleChange = (_e: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
@@ -92,8 +90,6 @@ function TabViewer() {
                             }
                             setMultiSelection(multiSelectionLocal);
                             getRadarData(selectedName);
-                            setDecollapseIDs('Q15369');
-                            setDecollapseIDs('P30533');
                         }}
                     />
                 </div>
