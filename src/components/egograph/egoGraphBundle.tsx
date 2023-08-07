@@ -31,7 +31,6 @@ const EgographBundle = (props: { x: number; y: number, nodeId:string }) => {
                 data.egoGraphs,
                 data.intersections,
                 get(bundleGroupSizeAtom).height,
-                get(bundleGroupSizeAtom).width,
                 get(innerRadiusAtom),
                 get(outerRadiusAtom)
             );
