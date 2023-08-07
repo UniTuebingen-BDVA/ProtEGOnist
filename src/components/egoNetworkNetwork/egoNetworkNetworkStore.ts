@@ -41,7 +41,7 @@ export const egoNetworkNetworksAtom = atom<egoNetworkNetwork>({
 
 export const aggregateNetworkAtom = atom((get) => {
     const egoNetworkNetwork = get(egoNetworkNetworksAtom);
-    const aggregateEgoNetworkNodeIDs = get(decollapseIDsAtom);
+    const aggregateEgoNetworkNodeIDs = get(decollapseIDsArrayAtom);
     const { outNodes, outEdges } = aggregateEgoNetworkNodes(
         egoNetworkNetwork.nodes,
         egoNetworkNetwork.edges,
@@ -75,6 +75,7 @@ function aggregateEgoNetworkNodes(
     egoNetworkNetworkEdges: egoNetworkNetworkEdge[],
     aggregateNodeIDs: string[][]
 ): { outNodes: egoNetworkNetworkNode[]; outEdges: egoNetworkNetworkEdge[] } {
+    console.log('aggregating');
     const outNodes: egoNetworkNetworkNode[] = [];
     const outEdges: egoNetworkNetworkEdge[] = [];
     for (const node of egoNetworkNodesNodes) {

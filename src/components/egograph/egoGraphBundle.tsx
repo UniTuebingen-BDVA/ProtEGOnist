@@ -5,7 +5,8 @@ import {
     egoGraphBundlesDataAtom,
     innerRadiusAtom,
     outerRadiusAtom,
-    bundleGroupSizeAtom, maxRadiusAtom
+    bundleGroupSizeAtom,
+    maxRadiusAtom
 } from './egoGraphBundleStore';
 import { EgographNode } from './egographNode';
 import { atom } from 'jotai';
@@ -14,67 +15,99 @@ import { focusAtom } from 'jotai-optics';
 import { splitAtom } from 'jotai/utils';
 import * as d3 from 'd3';
 
-const EgographBundle = (props: { x: number; y: number, nodeId:string }) => {
-    const { x, y,nodeId } = props;
+const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
+    const { x, y, nodeId } = props;
 
     // "local store"
-    const egoGraphBundleDataAtom=useMemo(()=>{
-        return focusAtom(egoGraphBundlesDataAtom,optic=>optic.prop(nodeId))
-    },[nodeId])
-    const isLoadedAtom=useMemo(()=>atom((get)=>get(egoGraphBundleDataAtom)!==undefined),[egoGraphBundleDataAtom])
-    const egoGraphBundleDefaultAtom = useMemo(()=>atom((get) => {
-        const data = get(egoGraphBundleDataAtom);
-        if (!get(isLoadedAtom)) {
-            return { edges: [], nodes: [], identityEdges: [], maxRadius: 0 };
-        } else {
-            return calculateLayout(
-                data.egoGraphs,
-                data.intersections,
-                get(bundleGroupSizeAtom).height,
-                get(bundleGroupSizeAtom).width,
-                get(innerRadiusAtom),
-                get(outerRadiusAtom)
-            );
-        }
-    }),[isLoadedAtom, egoGraphBundleDataAtom])
-    const egoGraphBundleOverwrittenAtom = useMemo(()=>atom(null),[]);
+    const egoGraphBundleDataAtom = useMemo(() => {
+        return focusAtom(egoGraphBundlesDataAtom, (optic) =>
+            optic.prop(nodeId)
+        );
+    }, [nodeId]);
+    const isLoadedAtom = useMemo(
+        () => atom((get) => get(egoGraphBundleDataAtom) !== undefined),
+        [egoGraphBundleDataAtom]
+    );
+    const egoGraphBundleDefaultAtom = useMemo(
+        () =>
+            atom((get) => {
+                const data = get(egoGraphBundleDataAtom);
+                if (!get(isLoadedAtom)) {
+                    return {
+                        edges: [],
+                        nodes: [],
+                        identityEdges: [],
+                        maxRadius: 0
+                    };
+                } else {
+                    return calculateLayout(
+                        data.egoGraphs,
+                        data.intersections,
+                        get(bundleGroupSizeAtom).height,
+                        get(bundleGroupSizeAtom).width,
+                        get(innerRadiusAtom),
+                        get(outerRadiusAtom)
+                    );
+                }
+            }),
+        [isLoadedAtom, egoGraphBundleDataAtom]
+    );
+    const egoGraphBundleOverwrittenAtom = useMemo(() => atom(null), []);
     // writable version of egoGraphBundle
-    const egoGraphBundleAtom = useMemo(()=>atom<egoGraphLayout>(
-        (get) => {
-            return (
-                get(egoGraphBundleOverwrittenAtom) ||
-                get(egoGraphBundleDefaultAtom)
-            );
-        },
-        (_get, set, action) => set(egoGraphBundleOverwrittenAtom, action)
-    ),[egoGraphBundleDefaultAtom, egoGraphBundleOverwrittenAtom]);
+    const egoGraphBundleAtom = useMemo(
+        () =>
+            atom<egoGraphLayout>(
+                (get) => {
+                    return (
+                        get(egoGraphBundleOverwrittenAtom) ||
+                        get(egoGraphBundleDefaultAtom)
+                    );
+                },
+                (_get, set, action) =>
+                    set(egoGraphBundleOverwrittenAtom, action)
+            ),
+        [egoGraphBundleDefaultAtom, egoGraphBundleOverwrittenAtom]
+    );
 
-    const nodeAtom = useMemo(()=>focusAtom(egoGraphBundleAtom, (optic) =>
-        optic.prop('nodes')
-    ),[egoGraphBundleAtom]);
-    const nodesAtomsAtom = useMemo(()=>splitAtom(nodeAtom),[nodeAtom]);
-    const numEdgesMinMax = useMemo(()=>atom((get) => {
-        const numEdges = get(egoGraphBundleAtom)
-            ?.nodes.filter((d) => !d.isCenter)
-            .map((d) => d.numEdges);
-        if (numEdges && numEdges.length > 0) {
-            return [Math.min(...numEdges), Math.max(...numEdges)];
-        } else return [0, 0];
-    }),[egoGraphBundleAtom]);
-    const colorScaleAtom = useMemo(()=>atom((get) => {
-        return d3
-            .scaleLinear<string, number>()
-            .range(['#ffeda0', '#f03b20'])
-            .domain(get(numEdgesMinMax));
-    }),[numEdgesMinMax]);
-    const nodeRadiusAtom = useMemo(()=>atom((get) => {
-        return get(maxRadiusAtom) < get(egoGraphBundleAtom).maxradius
-            ? get(maxRadiusAtom)
-            : get(egoGraphBundleAtom).maxradius;
-    }),[egoGraphBundleAtom]);
-    const highlightedNodeIndicesAtom = useMemo(()=>atom<number[]>([]),[]);
+    const nodeAtom = useMemo(
+        () => focusAtom(egoGraphBundleAtom, (optic) => optic.prop('nodes')),
+        [egoGraphBundleAtom]
+    );
+    const nodesAtomsAtom = useMemo(() => splitAtom(nodeAtom), [nodeAtom]);
+    const numEdgesMinMax = useMemo(
+        () =>
+            atom((get) => {
+                const numEdges = get(egoGraphBundleAtom)
+                    ?.nodes.filter((d) => !d.isCenter)
+                    .map((d) => d.numEdges);
+                if (numEdges && numEdges.length > 0) {
+                    return [Math.min(...numEdges), Math.max(...numEdges)];
+                } else return [0, 0];
+            }),
+        [egoGraphBundleAtom]
+    );
+    const colorScaleAtom = useMemo(
+        () =>
+            atom((get) => {
+                return d3
+                    .scaleLinear<string, number>()
+                    .range(['#ffeda0', '#f03b20'])
+                    .domain(get(numEdgesMinMax));
+            }),
+        [numEdgesMinMax]
+    );
+    const nodeRadiusAtom = useMemo(
+        () =>
+            atom((get) => {
+                return get(maxRadiusAtom) < get(egoGraphBundleAtom).maxradius
+                    ? get(maxRadiusAtom)
+                    : get(egoGraphBundleAtom).maxradius;
+            }),
+        [egoGraphBundleAtom]
+    );
+    const highlightedNodeIndicesAtom = useMemo(() => atom<number[]>([]), []);
 
-    const [isLoaded]=useAtom(isLoadedAtom);
+    const [isLoaded] = useAtom(isLoadedAtom);
     const [layout] = useAtom(egoGraphBundleAtom);
     const [nodeAtoms] = useAtom(nodesAtomsAtom);
     const [colorScale] = useAtom(colorScaleAtom);
@@ -83,9 +116,9 @@ const EgographBundle = (props: { x: number; y: number, nodeId:string }) => {
     const [outerRadius] = useAtom(outerRadiusAtom);
     const [highlightedNodeIndices] = useAtom(highlightedNodeIndicesAtom);
 
-    console.log(nodeId,isLoaded)
+    //console.log(nodeId,isLoaded)
     return useMemo(() => {
-        if(isLoaded) {
+        if (isLoaded) {
             let lines = [];
             const foregroundBands: ReactElement[] = [];
             const backgroundBands: ReactElement[] = [];
@@ -118,7 +151,9 @@ const EgographBundle = (props: { x: number; y: number, nodeId:string }) => {
                             centerPoint={{ x: node.cx, y: node.cy }}
                             nodeRadius={nodeRadius}
                             nodeAtom={nodeAtoms[i]}
-                            highlightedNodeIndicesAtom={highlightedNodeIndicesAtom}
+                            highlightedNodeIndicesAtom={
+                                highlightedNodeIndicesAtom
+                            }
                             fill={String(colorScale(node.numEdges))}
                         />
                     );
