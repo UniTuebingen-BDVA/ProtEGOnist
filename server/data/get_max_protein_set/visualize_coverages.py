@@ -11,7 +11,6 @@ def read_pckl(file_name):
 
 def visualize_coverage_over_size(df):
     # Visualize 2x2 plot of coverage over size of protein set
-    print(df.head())
     fig, axs = plt.subplots(ncols=2, nrows=2)
     sns.lineplot(x='Number of EGO centers',
                  y='Number of proteins', data=df, ax=axs[0, 0])
@@ -21,12 +20,22 @@ def visualize_coverage_over_size(df):
                  y='Coverage of proteins', data=df, ax=axs[0, 1])
     sns.lineplot(x='Number of EGO centers',
                  y='Coverage of edges', data=df, ax=axs[1, 1])
-    plt.show()
+    plt.suptitle("Differences over size of EGO center set")
+    # remove xlabel from all but bottom plots
+    axs[0, 0].set_xlabel("")
+    axs[0, 1].set_xlabel("")
+    axs[1, 1].set_xlabel("Number of EGO centers")
+    axs[1, 0].set_xlabel("Number of EGO centers")
+    # Change figsize
+    fig.set_figheight(8)
+    fig.set_figwidth(10)
+    # Save the figure
+    # plt.show()
+    plt.savefig('coverage_over_EGOCentersize.png')
+    plt.close()
 
 
 def visualize_coverage_over_iterations(df):
-
-    print(df.head())
     fig, axs = plt.subplots(ncols=2, nrows=2, sharex=True)
 
     sns.barplot(x='type', y='Number of proteins',
@@ -37,26 +46,44 @@ def visualize_coverage_over_iterations(df):
                 data=df, errorbar="sd", ax=axs[0, 1])
     sns.barplot(x='type', y='Coverage of edges',
                 data=df, errorbar="sd", ax=axs[1, 1])
-    axs[1, 0].set_xticks([0, 1, 2])
-    axs[1, 0].set_xticklabels(["Start Set", "Random set",
-                               "Random set with neigbour removal"])
-    plt.show()
+    fig.subplots_adjust(top=0.9)
+    axs[1, 0].set_xticks([0, 1, 2, 3])
+    axs[1, 0].set_xticklabels(["Published Set", "Random set",
+                               "Random set\nwith neigbour \nremoval", "Random set\nwith filter\n(n>20)"])
+    # remove xlabel from all but bottom plots
+    axs[0, 0].set_xlabel("")
+    axs[0, 1].set_xlabel("")
+    axs[1, 1].set_xlabel("Sampling Method")
+    axs[1, 0].set_xlabel("Sampling Method")
+
+    # Change figsize
+    fig.set_figheight(8)
+    fig.set_figwidth(12)
+    # plt.tight_layout()
+    plt.suptitle(
+        "Differences across different sampling methods for the EGO centers",  y=0.98)
+    # plt.xlabel("Sampling method")
+    # Save the figure
+    # plt.show()
+    plt.savefig('coverage_over_sampling.png')
+    plt.close()
 
 
 def main():
     normal_set = read_pckl('coverage.pkl')
     random_set_with_rep = read_pckl('random_set_with_rep.pkl')
     random_set_without_rep = read_pckl('random_set_without_rep.pkl')
+    random_set_without_rep_and_filter = read_pckl(
+        'random_set_with_filter20.pkl')
 
-    # visualize_coverage_over_size(normal_set)
+    visualize_coverage_over_size(normal_set)
     normal_set["type"] = "normal"
     subset_normal_set = normal_set[normal_set["Number of EGO centers"] == 91]
     random_set_with_rep["type"] = "random_set_with_rep"
     random_set_without_rep["type"] = "random_set_without_rep"
+    random_set_without_rep_and_filter["type"] = "random_set_without_rep_and_filter"
     df = pd.concat(
-        [subset_normal_set, random_set_with_rep, random_set_without_rep]).reset_index(drop=True)
-
-    print(len(df[df["Number of EGO centers"] == 91]))
+        [subset_normal_set, random_set_with_rep, random_set_without_rep, random_set_without_rep_and_filter]).reset_index(drop=True)
 
     visualize_coverage_over_iterations(df)
 

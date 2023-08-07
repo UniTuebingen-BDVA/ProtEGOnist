@@ -112,7 +112,7 @@ def get_coverage_of_starting_set(protein_set, string_graph, all_prots_graph, all
     df.to_pickle('coverage.pkl')
 
 
-def get_random_set(string_graph, method='repetition', size=91):
+def get_random_set(string_graph, method='repetition', size=91, min_neighbors=3):
     """Get a random set of proteins from the PPI network
 
     Args:
@@ -142,10 +142,18 @@ def get_random_set(string_graph, method='repetition', size=91):
         while len(random_proteins) < size or len(all_prots_graph_without_overlap) == 0:
             all_prots_graph_without_overlap = all_prots_graph_without_overlap.difference(
                 all_neighbors)
+
             random_protein = np.random.choice(
                 list(all_prots_graph_without_overlap), size=1, replace=False)[0]
             neighboring_proteins = get_ego_graph_proteins(
                 string_graph, random_protein)
+            while len(neighboring_proteins) < min_neighbors:
+                all_prots_graph_without_overlap = all_prots_graph_without_overlap.difference(
+                    random_protein)
+                random_protein = np.random.choice(
+                    list(all_prots_graph_without_overlap), size=1, replace=False)[0]
+                neighboring_proteins = get_ego_graph_proteins(
+                    string_graph, random_protein)
             all_neighbors = all_neighbors.union(neighboring_proteins)
             random_proteins.add(random_protein)
 
@@ -165,34 +173,60 @@ def get_coverage_random_sets(string_graph, all_prots_graph, all_prots_edges):
         all_prots_graph (set): Set of all proteins from the PPI network
         all_prots_edges (set): Edges from the PPI network
     """
-    random_sets = []
     print('Getting random sets')
 
-    print('Getting random sets with repetition')
+    # simple_sampling_method(string_graph, all_prots_graph, all_prots_edges)
+    # sampling_with_removal(string_graph, all_prots_graph, all_prots_edges)
+    sampling_with_filter(string_graph, all_prots_graph, all_prots_edges)
+    sampling_with_filter(string_graph, all_prots_graph, all_prots_edges, 10)
+    sampling_with_filter(string_graph, all_prots_graph, all_prots_edges, 20)
+
+
+def sampling_with_filter(string_graph, all_prots_graph, all_prots_edges, min_neighbors=3):
+    print('Getting random sets with filtering')
+    data_plotting = []
     for i in range(100):
         if i % 10 == 0:
             print(f'Iteration {i}')
-        random_set, all_neighbors = get_random_set(string_graph)
+        random_set, all_neighbors = get_random_set(
+            string_graph, method='without_overlap', min_neighbors=min_neighbors)
         edges_covered = string_graph.subgraph(all_neighbors).edges()
-        random_sets.append((i, len(random_set), len(all_neighbors),
-                            len(edges_covered),  len(all_neighbors) / len(all_prots_graph), len(edges_covered) / len(all_prots_edges)))
-    df = pd.DataFrame(random_sets, columns=['Iteration', 'Number of EGO centers', 'Number of proteins',
-                      'Number of edges', 'Coverage of proteins', 'Coverage of edges'])
-    df.to_pickle('random_set_with_rep.pkl')
+        data_plotting.append((i, len(random_set), len(all_neighbors),
+                              len(edges_covered),  len(all_neighbors) / len(all_prots_graph), len(edges_covered) / len(all_prots_edges)))
+    df = pd.DataFrame(data_plotting, columns=['Iteration', 'Number of EGO centers', 'Number of proteins',
+                                              'Number of edges', 'Coverage of proteins', 'Coverage of edges'])
+    df.to_pickle(f'random_set_with_filter{min_neighbors}.pkl')
 
+
+def sampling_with_removal(string_graph, all_prots_graph, all_prots_edges):
     print('Getting random sets without neighbors repetition')
-    random_sets = []
+    data_plotting = []
     for i in range(100):
         if i % 10 == 0:
             print(f'Iteration {i}')
         random_set, all_neighbors = get_random_set(
             string_graph, method='without_overlap')
         edges_covered = string_graph.subgraph(all_neighbors).edges()
-        random_sets.append((i, len(random_set), len(all_neighbors),
-                            len(edges_covered),  len(all_neighbors) / len(all_prots_graph), len(edges_covered) / len(all_prots_edges)))
-    df = pd.DataFrame(random_sets, columns=['Iteration', 'Number of EGO centers', 'Number of proteins',
-                                            'Number of edges', 'Coverage of proteins', 'Coverage of edges'])
+        data_plotting.append((i, len(random_set), len(all_neighbors),
+                              len(edges_covered),  len(all_neighbors) / len(all_prots_graph), len(edges_covered) / len(all_prots_edges)))
+    df = pd.DataFrame(data_plotting, columns=['Iteration', 'Number of EGO centers', 'Number of proteins',
+                                              'Number of edges', 'Coverage of proteins', 'Coverage of edges'])
     df.to_pickle('random_set_without_rep.pkl')
+
+
+def simple_sampling_method(string_graph, all_prots_graph, all_prots_edges):
+    data_plotting = []
+    print('Getting random sets with repetition')
+    for i in range(100):
+        if i % 10 == 0:
+            print(f'Iteration {i}')
+        random_set, all_neighbors = get_random_set(string_graph)
+        edges_covered = string_graph.subgraph(all_neighbors).edges()
+        data_plotting.append((i, len(random_set), len(all_neighbors),
+                              len(edges_covered),  len(all_neighbors) / len(all_prots_graph), len(edges_covered) / len(all_prots_edges)))
+    df = pd.DataFrame(data_plotting, columns=['Iteration', 'Number of EGO centers', 'Number of proteins',
+                      'Number of edges', 'Coverage of proteins', 'Coverage of edges'])
+    df.to_pickle('random_set_with_rep.pkl')
 
 
 def main():
