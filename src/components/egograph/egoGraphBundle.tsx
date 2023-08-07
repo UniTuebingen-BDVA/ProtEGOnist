@@ -24,7 +24,7 @@ const EgographBundle = (props: { x: number; y: number, nodeId:string }) => {
     const isLoadedAtom=useMemo(()=>atom((get)=>get(egoGraphBundleDataAtom)!==undefined),[egoGraphBundleDataAtom])
     const egoGraphBundleDefaultAtom = useMemo(()=>atom((get) => {
         const data = get(egoGraphBundleDataAtom);
-        if (!get(isLoadedAtom)) {
+        if (!data) {
             return { edges: [], nodes: [], identityEdges: [], maxRadius: 0 };
         } else {
             return calculateLayout(
@@ -35,7 +35,7 @@ const EgographBundle = (props: { x: number; y: number, nodeId:string }) => {
                 get(outerRadiusAtom)
             );
         }
-    }),[isLoadedAtom, egoGraphBundleDataAtom])
+    }),[egoGraphBundleDataAtom])
     const egoGraphBundleOverwrittenAtom = useMemo(()=>atom(null),[]);
     // writable version of egoGraphBundle
     const egoGraphBundleAtom = useMemo(()=>atom<egoGraphLayout>(
