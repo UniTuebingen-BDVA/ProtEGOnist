@@ -8,8 +8,6 @@ import { useTransition } from '@react-spring/web';
 
 const EgoNetworkNetwork = () => {
     const [{ nodes, edges }] = useAtom(aggregateNetworkAtom);
-
-    //console.log('egoNetworkNetwork: redraw');
     const [bundleGroupSize] = useAtom(bundleGroupSizeAtom);
 
     const transitionsNodes = useTransition(nodes, {
