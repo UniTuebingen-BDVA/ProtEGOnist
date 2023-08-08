@@ -13,19 +13,14 @@ import {
 } from './components/radarchart/radarStore.ts';
 import { tableAtom } from './components/selectionTable/tableStore.ts';
 import { GridColDef, GridRowsProp } from '@mui/x-data-grid';
-import {
-    egoGraphBundlesDataAtom
-} from './components/egograph/egoGraphBundleStore.ts';
-import {
-    egoNetworkNetworksAtom
-} from './components/egoNetworkNetwork/egoNetworkNetworkStore.ts';
+import { egoGraphBundlesDataAtom } from './components/egograph/egoGraphBundleStore.ts';
+import { egoNetworkNetworksAtom } from './components/egoNetworkNetwork/egoNetworkNetworkStore.ts';
 
 export const getMultiEgographBundleAtom = atom(
     (get) => get(egoGraphBundlesDataAtom),
-    (get, set,bundleIds:string[][]) => {
+    (get, set, bundleIds: string[][]) => {
         bundleIds.forEach((ids) => {
             const jointID = ids.join(',');
-            console.log(jointID);
             if (!Object.keys(get(egoGraphBundlesDataAtom)).includes(jointID)) {
                 axios
                     .post<{
@@ -34,7 +29,10 @@ export const getMultiEgographBundleAtom = atom(
                     }>('/api/egograph_bundle', { ids: ids })
                     .then(
                         (result) => {
-                            set(egoGraphBundlesDataAtom, {...get(egoGraphBundlesDataAtom),[jointID]:result.data})
+                            set(egoGraphBundlesDataAtom, {
+                                ...get(egoGraphBundlesDataAtom),
+                                [jointID]: result.data
+                            });
                         },
                         () => {
                             console.error,
@@ -45,11 +43,13 @@ export const getMultiEgographBundleAtom = atom(
                     );
             }
         });
-        Object.keys(get(egoGraphBundlesDataAtom)).filter(id=>!bundleIds.map(ids=>ids.join(',')).includes(id)).forEach(id=>{
-            const egographBundleData=get(egoGraphBundlesDataAtom);
-            delete egographBundleData[id];
-            set(egoGraphBundlesDataAtom,egographBundleData);
-        } )
+        Object.keys(get(egoGraphBundlesDataAtom))
+            .filter((id) => !bundleIds.map((ids) => ids.join(',')).includes(id))
+            .forEach((id) => {
+                const egographBundleData = get(egoGraphBundlesDataAtom);
+                delete egographBundleData[id];
+                set(egoGraphBundlesDataAtom, egographBundleData);
+            });
     }
 );
 
@@ -71,7 +71,6 @@ export const getRadarAtom = atom(
                     const leavingNodes = oldKeys.filter(
                         (x) => !newKeys.includes(x)
                     );
-                    console.log(' nodes', changedNodes);
                     set(leavingNodesAtom, leavingNodes);
                     set(changedNodesAtom, changedNodes);
                     set(intersectionAtom, result.data);
@@ -108,7 +107,6 @@ export const getEgoNetworkNetworkAtom = atom(
             )
             .then(
                 (result) => {
-                    console.log('egoNetworkNetwork', result.data);
                     set(egoNetworkNetworksAtom, result.data);
                 },
                 () => {
