@@ -21,7 +21,6 @@ export const getMultiEgographBundleAtom = atom(
     (get, set, bundleIds: string[][]) => {
         bundleIds.forEach((ids) => {
             const jointID = ids.join(',');
-            console.log(jointID);
             if (!Object.keys(get(egoGraphBundlesDataAtom)).includes(jointID)) {
                 axios
                     .post<{
@@ -72,7 +71,6 @@ export const getRadarAtom = atom(
                     const leavingNodes = oldKeys.filter(
                         (x) => !newKeys.includes(x)
                     );
-                    console.log(' nodes', changedNodes);
                     set(leavingNodesAtom, leavingNodes);
                     set(changedNodesAtom, changedNodes);
                     set(intersectionAtom, result.data);
@@ -109,7 +107,6 @@ export const getEgoNetworkNetworkAtom = atom(
             )
             .then(
                 (result) => {
-                    console.log('egoNetworkNetwork', result.data);
                     set(egoNetworkNetworksAtom, result.data);
                 },
                 () => {
