@@ -73,25 +73,7 @@ function TabViewer() {
             </Box>
             <CustomTabPanel value={value} index={0}>
                 <div style={{ width: '100%', maxHeight: '100%' }}>
-                    <SelectionTable
-                        onRowSelectionModelChange={(newSelection) => {
-                            console.log('SELECTED: ', newSelection);
-                            // get the ID from the selection
-                            const selectedID = newSelection[0];
-                            // get the name from the tableData
-                            const selectedName =
-                                tableData.rows[selectedID][
-                                    'UniprotID_inString'
-                                ];
-                            const multiSelectionLocal = multiSelection.slice();
-                            multiSelectionLocal.push(selectedName);
-                            if (multiSelectionLocal.length > 3) {
-                                multiSelectionLocal.shift();
-                            }
-                            setMultiSelection(multiSelectionLocal);
-                            getRadarData(selectedName);
-                        }}
-                    />
+                    <SelectionTable />
                 </div>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
