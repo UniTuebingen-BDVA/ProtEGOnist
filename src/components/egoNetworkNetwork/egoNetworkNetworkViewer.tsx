@@ -2,10 +2,7 @@ import { useGesture } from '@use-gesture/react';
 import EgoNetworkNetwork from './egoNetworkNetwork.tsx';
 import { Paper } from '@mui/material';
 import { useAtom } from 'jotai';
-import {
-    egoNetworkNetworkSizeAtom,
-    decollapseIDsAtom
-} from './egoNetworkNetworkStore.ts';
+import { egoNetworkNetworkSizeAtom } from './egoNetworkNetworkStore.ts';
 
 function EgoNetworkNetworkViewer() {
     const [svgSize, setSvgSize] = useAtom(egoNetworkNetworkSizeAtom);
@@ -74,6 +71,7 @@ function EgoNetworkNetworkViewer() {
                 height="100%"
                 viewBox={`${svgSize.x} ${svgSize.y} ${svgSize.width} ${svgSize.height}`}
                 style={{
+                    touchAction: 'none',
                     position: 'absolute',
                     top: 0,
                     left: 0,

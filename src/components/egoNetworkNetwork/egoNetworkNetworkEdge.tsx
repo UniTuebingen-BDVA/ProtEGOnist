@@ -2,20 +2,24 @@ import { animated } from '@react-spring/web';
 
 interface EgoNetworkNetworkEdgeProps {
     weight: number;
-    x1: number;
-    y1: number;
-    x2: number;
-    y2: number;
+    animatedParams: {
+        opacity: number;
+        x1: number;
+        y1: number;
+        x2: number;
+        y2: number;
+    };
 }
 
 const EgoNetworkNetworkEdge = (props: EgoNetworkNetworkEdgeProps) => {
-    const { weight, x1, x2, y1, y2 } = props;
+    const { weight, animatedParams } = props;
     return (
         <animated.line
-            x1={x1}
-            y1={y1}
-            x2={x2}
-            y2={y2}
+            opacity={animatedParams.opacity}
+            x1={animatedParams.x1}
+            y1={animatedParams.y1}
+            x2={animatedParams.x2}
+            y2={animatedParams.y2}
             stroke="black"
             strokeWidth={weight * 20}
         />
