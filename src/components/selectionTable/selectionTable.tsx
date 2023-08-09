@@ -6,16 +6,13 @@ import {
 } from '@mui/x-data-grid';
 import { useAtom } from 'jotai';
 import { tableAtom } from './tableStore';
+import { getEgoNetworkNetworkAtom } from '../../apiCalls';
 
-interface SelectionTableProps {
-    onRowSelectionModelChange: (
-        rowSelectionModel: GridRowSelectionModel,
-        details: GridCallbackDetails
-    ) => void;
-}
-
-const SelectionTable = (props: SelectionTableProps) => {
+const SelectionTable = () => {
     const [tableData] = useAtom(tableAtom);
+    const [_egoNetworkNetworkData, getEgoNetworkNetworkData] = useAtom(
+        getEgoNetworkNetworkAtom
+    );
     const rows = tableData.rows;
     const columns = tableData.columns;
     return (
@@ -29,9 +26,20 @@ const SelectionTable = (props: SelectionTableProps) => {
                     }
                 }}
                 pageSizeOptions={[5]}
-                onRowSelectionModelChange={props.onRowSelectionModelChange}
                 rowHeight={40}
+                checkboxSelection
+                disableRowSelectionOnClick
                 disableDensitySelector
+                onRowSelectionModelChange={(selection) => {
+                    // when the model changes, we need to update the network data
+                    // for this we call getEgoNetworkNetworkData with the IDs of the selected rows
+                    const selectedIDs = selection.map(
+                        (id) => rows[id]['UniprotID_inString']
+                    );
+                    if (selectedIDs.length > 0) {
+                        getEgoNetworkNetworkData(selectedIDs);
+                    }
+                }}
                 slots={{ toolbar: GridToolbar }}
                 slotProps={{
                     toolbar: {

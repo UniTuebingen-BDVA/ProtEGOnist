@@ -4,14 +4,14 @@ import {
     egoGraph,
     intersectionDatum,
     egoNetworkNetwork
-} from './egoGraphSchema';
+} from './egoGraphSchema.ts';
 import {
     intersectionAtom,
     leavingNodesAtom,
     changedNodesAtom,
     tarNodeAtom
 } from './components/radarchart/radarStore.ts';
-import { tableAtom } from './components/selectionTable/tableStore.ts';
+import { tableAtom } from './components/selectionTable/tableStore.tsx';
 import { GridColDef, GridRowsProp } from '@mui/x-data-grid';
 import { egoGraphBundlesDataAtom } from './components/egograph/egoGraphBundleStore.ts';
 import { egoNetworkNetworksAtom } from './components/egoNetworkNetwork/egoNetworkNetworkStore.ts';
