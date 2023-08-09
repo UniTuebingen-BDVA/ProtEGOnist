@@ -177,9 +177,11 @@ def get_coverage_random_sets(string_graph, all_prots_graph, all_prots_edges):
 
     # simple_sampling_method(string_graph, all_prots_graph, all_prots_edges)
     # sampling_with_removal(string_graph, all_prots_graph, all_prots_edges)
-    sampling_with_filter(string_graph, all_prots_graph, all_prots_edges)
-    sampling_with_filter(string_graph, all_prots_graph, all_prots_edges, 10)
-    sampling_with_filter(string_graph, all_prots_graph, all_prots_edges, 20)
+    # sampling_with_filter(string_graph, all_prots_graph, all_prots_edges)
+    # sampling_with_filter(string_graph, all_prots_graph, all_prots_edges, 10)
+    # sampling_with_filter(string_graph, all_prots_graph, all_prots_edges, 20)
+    simple_sampling_method_with_filter(
+        string_graph, all_prots_graph, all_prots_edges, 20)
 
 
 def sampling_with_filter(string_graph, all_prots_graph, all_prots_edges, min_neighbors=3):
@@ -227,6 +229,22 @@ def simple_sampling_method(string_graph, all_prots_graph, all_prots_edges):
     df = pd.DataFrame(data_plotting, columns=['Iteration', 'Number of EGO centers', 'Number of proteins',
                       'Number of edges', 'Coverage of proteins', 'Coverage of edges'])
     df.to_pickle('random_set_with_rep.pkl')
+
+
+def simple_sampling_method_with_filter(string_graph, all_prots_graph, all_prots_edges, min_neighbors=3):
+    data_plotting = []
+    print('Getting random sets with repetition')
+    for i in range(100):
+        if i % 10 == 0:
+            print(f'Iteration {i}')
+        random_set, all_neighbors = get_random_set(
+            string_graph, min_neighbors=min_neighbors)
+        edges_covered = string_graph.subgraph(all_neighbors).edges()
+        data_plotting.append((i, len(random_set), len(all_neighbors),
+                              len(edges_covered),  len(all_neighbors) / len(all_prots_graph), len(edges_covered) / len(all_prots_edges)))
+    df = pd.DataFrame(data_plotting, columns=['Iteration', 'Number of EGO centers', 'Number of proteins',
+                      'Number of edges', 'Coverage of proteins', 'Coverage of edges'])
+    df.to_pickle(f'simple_random_set_with_filter{min_neighbors}.pkl')
 
 
 def main():

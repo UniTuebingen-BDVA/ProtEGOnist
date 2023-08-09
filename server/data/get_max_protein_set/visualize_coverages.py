@@ -47,9 +47,9 @@ def visualize_coverage_over_iterations(df):
     sns.barplot(x='type', y='Coverage of edges',
                 data=df, errorbar="sd", ax=axs[1, 1])
     fig.subplots_adjust(top=0.9)
-    axs[1, 0].set_xticks([0, 1, 2, 3])
+    axs[1, 0].set_xticks([0, 1, 2, 3, 4])
     axs[1, 0].set_xticklabels(["Published Set", "Random set",
-                               "Random set\nwith neigbour \nremoval", "Random set\nwith filter\n(n>20)"])
+                               "Random set\nwith neigbour \nremoval", "Random set\nwith neigbour \nremoval and filter\n(n>20)", "Random set\nwith filter\n(n>20)"])
     # remove xlabel from all but bottom plots
     axs[0, 0].set_xlabel("")
     axs[0, 1].set_xlabel("")
@@ -75,6 +75,8 @@ def main():
     random_set_without_rep = read_pckl('random_set_without_rep.pkl')
     random_set_without_rep_and_filter = read_pckl(
         'random_set_with_filter20.pkl')
+    random_set_with_rep_and_filter = read_pckl(
+        'simple_random_set_with_filter20.pkl')
 
     visualize_coverage_over_size(normal_set)
     normal_set["type"] = "normal"
@@ -82,8 +84,9 @@ def main():
     random_set_with_rep["type"] = "random_set_with_rep"
     random_set_without_rep["type"] = "random_set_without_rep"
     random_set_without_rep_and_filter["type"] = "random_set_without_rep_and_filter"
+    random_set_with_rep_and_filter["type"] = "random_set_with_rep_and_filter"
     df = pd.concat(
-        [subset_normal_set, random_set_with_rep, random_set_without_rep, random_set_without_rep_and_filter]).reset_index(drop=True)
+        [subset_normal_set, random_set_with_rep, random_set_without_rep, random_set_without_rep_and_filter, random_set_with_rep_and_filter]).reset_index(drop=True)
 
     visualize_coverage_over_iterations(df)
 
