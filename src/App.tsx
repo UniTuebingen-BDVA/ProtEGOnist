@@ -7,16 +7,22 @@ import RadarChartViewer from './components/radarchart/radarChartViewer.tsx';
 import {
     getEgoNetworkNetworkAtom,
     getRadarAtom,
-    getTableAtom
+    getTableAtom, 
+    getEgoNetworkNetworkOverviewAtom
 } from './apiCalls.ts';
 import { tarNodeAtom } from './components/radarchart/radarStore.ts';
 import EgoNetworkNetworkViewer from './components/egoNetworkNetwork/egoNetworkNetworkViewer.tsx';
+import EgoNetworkNetworkOverviewViewer from './components/overview_component/egoNetworkNetworkOverviewViewer.tsx';
+import { get } from 'optics-ts/interop';
 
 function App() {
     const [tableData, getTableData] = useAtom(getTableAtom);
     const [intersectionData, getRadarData] = useAtom(getRadarAtom);
     const [_egoNetworkNetworkData, getEgoNetworkNetworkData] = useAtom(
         getEgoNetworkNetworkAtom
+    );
+    const [_egoNetworkNetworkOverviewData, getEgoNetworkNetworkOverviewData] = useAtom(
+        getEgoNetworkNetworkOverviewAtom
     );
     const [tarNode, setTarNode] = useAtom(tarNodeAtom);
     useEffect(() => {
@@ -29,12 +35,16 @@ function App() {
             'Q9Y625',
             'Q15369',
             'Q9H3U1'
-        ]);
+        ]), 
+        getEgoNetworkNetworkOverviewData(['P07093',
+        'P30533',
+        'Q9H3U1']);
     }, [
         getTableData,
         getRadarData,
         setTarNode,
-        getEgoNetworkNetworkData
+        getEgoNetworkNetworkData, 
+        getEgoNetworkNetworkOverviewData
     ]);
     if (
         // check if all data is loaded (not empty)
@@ -72,11 +82,13 @@ function App() {
                             </AppBar>
                         </div>
                     </div>
-
+                    <div className="row" style={{minHeight:"100%", minWidth:"100%" }}>
+                            <EgoNetworkNetworkOverviewViewer/>
+                    </div>
                     {/* <!-- Second Row --> */}
                     <div className="row">
                         {/* <!-- First Column --> */}
-                        <div
+                         <div
                             className="column"
                             style={{
                                 flex: 1,
@@ -106,7 +118,7 @@ function App() {
                         >
                             <div>
                                 {/* <!-- Content for the second column, first row --> */}
-                                {/* <EgoGraphViewer /> */}
+                                {/* <EgoGraphViewer />  */}
                                 <EgoNetworkNetworkViewer />
                             </div>
                         </div>
