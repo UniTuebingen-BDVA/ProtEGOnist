@@ -13,26 +13,43 @@ import {
 } from './components/radarchart/radarStore.ts';
 import { tableAtom } from './components/selectionTable/tableStore.ts';
 import { GridColDef, GridRowsProp } from '@mui/x-data-grid';
-import { egoGraphBundleDataAtom } from './components/egograph/egoGraphBundleStore.ts';
+import { egoGraphBundlesDataAtom } from './components/egograph/egoGraphBundleStore.ts';
 import { egoNetworkNetworksAtom } from './components/egoNetworkNetwork/egoNetworkNetworkStore.ts';
 
-export const getEgographBundleAtom = atom(
-    (get) => get(egoGraphBundleDataAtom),
-    (_get, set, ids: string[]) => {
-        axios
-            .post<{
-                egoGraphs: egoGraph[];
-                intersections: { [key: string]: string[] };
-            }>('/api/egograph_bundle', { ids: ids })
-            .then(
-                (result) => {
-                    set(egoGraphBundleDataAtom, result.data);
-                },
-                () => {
-                    console.error,
-                        console.log(`couldn't get egograph with IDs ${ids}`);
-                }
-            );
+export const getMultiEgographBundleAtom = atom(
+    (get) => get(egoGraphBundlesDataAtom),
+    (get, set, bundleIds: string[][]) => {
+        bundleIds.forEach((ids) => {
+            const jointID = ids.join(',');
+            if (!Object.keys(get(egoGraphBundlesDataAtom)).includes(jointID)) {
+                axios
+                    .post<{
+                        egoGraphs: egoGraph[];
+                        intersections: { [key: string]: string[] };
+                    }>('/api/egograph_bundle', { ids: ids })
+                    .then(
+                        (result) => {
+                            set(egoGraphBundlesDataAtom, {
+                                ...get(egoGraphBundlesDataAtom),
+                                [jointID]: result.data
+                            });
+                        },
+                        () => {
+                            console.error,
+                                console.log(
+                                    `couldn't get egograph with IDs ${ids}`
+                                );
+                        }
+                    );
+            }
+        });
+        Object.keys(get(egoGraphBundlesDataAtom))
+            .filter((id) => !bundleIds.map((ids) => ids.join(',')).includes(id))
+            .forEach((id) => {
+                const egographBundleData = get(egoGraphBundlesDataAtom);
+                delete egographBundleData[id];
+                set(egoGraphBundlesDataAtom, egographBundleData);
+            });
     }
 );
 
@@ -54,7 +71,6 @@ export const getRadarAtom = atom(
                     const leavingNodes = oldKeys.filter(
                         (x) => !newKeys.includes(x)
                     );
-                    console.log(' nodes', changedNodes);
                     set(leavingNodesAtom, leavingNodes);
                     set(changedNodesAtom, changedNodes);
                     set(intersectionAtom, result.data);
@@ -91,7 +107,6 @@ export const getEgoNetworkNetworkAtom = atom(
             )
             .then(
                 (result) => {
-                    console.log('egoNetworkNetwork', result.data);
                     set(egoNetworkNetworksAtom, result.data);
                 },
                 () => {

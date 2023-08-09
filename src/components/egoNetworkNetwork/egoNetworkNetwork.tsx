@@ -1,62 +1,22 @@
 import { useAtom } from 'jotai';
-import {
-    decollapseIDsAtom,
-    egoNetworkNetworksAtom
-} from './egoNetworkNetworkStore';
+import { aggregateNetworkAtom } from './egoNetworkNetworkStore';
 import EgoNetworkNetworkNode from './egoNetworkNetworkNode.tsx';
 import EgoNetworkNetworkEdge from './egoNetworkNetworkEdge.tsx';
-import * as d3 from 'd3';
-import {
-    egoNetworkNetworkEdge,
-    egoNetworkNetworkNode
-} from '../../egoGraphSchema.ts';
 import EgoGraphBundle from '../egograph/egoGraphBundle.tsx';
-import { bundleGroupSizeAtom } from '../egograph/networkStore.ts';
-import { a, useTransition } from '@react-spring/web';
+import { bundleGroupSizeAtom } from '../egograph/egoGraphBundleStore.ts';
+import { useTransition } from '@react-spring/web';
 
 const EgoNetworkNetwork = () => {
-    const [aggregateEgoNetworkNodeIDs, setAggregateEgoNetworkNodeIDs] =
-        useAtom(decollapseIDsAtom);
-    const [egoNetworkNetwork, getEgoNetworkNetwork] = useAtom(
-        egoNetworkNetworksAtom
-    );
+    const [{ nodes, edges }] = useAtom(aggregateNetworkAtom);
     const [bundleGroupSize] = useAtom(bundleGroupSizeAtom);
 
-    const { outNodes, outEdges } = aggregateEgoNetworkNodes(
-        egoNetworkNetwork.nodes,
-        egoNetworkNetwork.edges,
-        aggregateEgoNetworkNodeIDs
-    );
-
-    console.log('outNodes', outNodes);
-    console.log('outEdges', outEdges);
-
-    const forceLayout = d3
-        .forceSimulation(outNodes)
-        .force('charge', d3.forceManyBody().strength(-100))
-        .force(
-            'link',
-            d3
-                .forceLink(outEdges)
-                .id((d) => d.id)
-                .distance(50)
-        )
-        .force('center', d3.forceCenter(0, 0))
-        .force(
-            'collision',
-            d3.forceCollide().radius((d) => d.size)
-        );
-    forceLayout.stop();
-    for (let i = 0; i < 100; i++) {
-        forceLayout.tick();
-    }
-
-    const transitionsNodes = useTransition(outNodes, {
+    const transitionsNodes = useTransition(nodes, {
         keys: ({ id }) => id,
-        from: ({ x, y }, index) => ({
+        from: {
             x: 0,
-            y: 0
-        }),
+            y: 0,
+            opacity: 1
+        },
         enter:
             ({ x, y }, index) =>
             async (next, cancel) => {
@@ -65,7 +25,12 @@ const EgoNetworkNetwork = () => {
                     y: y
                 });
             },
-        leave:
+        leave: () => async (next, cancel) => {
+            await next({
+                opacity: 0
+            });
+        },
+        update:
             ({ x, y }, index) =>
             async (next, cancel) => {
                 await next({
@@ -75,46 +40,40 @@ const EgoNetworkNetwork = () => {
             },
         config: { duration: 2000 }
     });
-    const transitionsEdges = useTransition(outEdges, {
+    const transitionsEdges = useTransition(edges, {
         keys: ({ source, target }) => source.id + '+' + target.id,
-        from: ({ source, target }, index) => {
-            const sourceNode = outNodes.find((node) => node.id === source.id);
-
-            const targetNode = outNodes.find((node) => node.id === target.id);
-            return {
-                x1: sourceNode?.x,
-                y1: sourceNode?.y,
-                x2: targetNode?.x,
-                y2: targetNode?.y
-            };
+        from: {
+            x1: 0,
+            y1: 0,
+            x2: 0,
+            y2: 0,
+            opacity: 1
         },
         enter:
             ({ source, target }, index) =>
             async (next, cancel) => {
-                const sourceNode = outNodes.find(
-                    (node) => node.id === source.id
-                );
+                const sourceNode = nodes.find((node) => node.id === source.id);
 
-                const targetNode = outNodes.find(
-                    (node) => node.id === target.id
-                );
+                const targetNode = nodes.find((node) => node.id === target.id);
                 await next({
                     x1: sourceNode?.x,
                     y1: sourceNode?.y,
                     x2: targetNode?.x,
-                    y2: targetNode?.y
+                    y2: targetNode?.y,
+                    opacity: 1
                 });
             },
-        leave:
+        leave: () => async (next, cancel) => {
+            await next({
+                opacity: 0
+            });
+        },
+        update:
             ({ source, target }, index) =>
             async (next, cancel) => {
-                const sourceNode = outNodes.find(
-                    (node) => node.id === source.id
-                );
+                const sourceNode = nodes.find((node) => node.id === source.id);
 
-                const targetNode = outNodes.find(
-                    (node) => node.id === target.id
-                );
+                const targetNode = nodes.find((node) => node.id === target.id);
                 await next({
                     x1: sourceNode?.x,
                     y1: sourceNode?.y,
@@ -131,23 +90,20 @@ const EgoNetworkNetwork = () => {
                 return (
                     <EgoNetworkNetworkEdge
                         key={edge.source.id + '+' + edge.target.id}
-                        source={edge.source}
-                        target={edge.target}
                         weight={edge.weight}
-                        x1={style.x1}
-                        y1={style.y1}
-                        x2={style.x2}
-                        y2={style.y2}
+                        animatedParams={style}
                     />
                 );
             })}
 
             {transitionsNodes((style, node) => {
                 if (!node.collapsed) {
+                    //console.log(node);
                     return (
                         <EgoGraphBundle
                             x={style.x - bundleGroupSize.width / 2}
                             y={style.y - bundleGroupSize.height / 2}
+                            nodeId={node.id}
                         />
                     );
                 } else
@@ -156,9 +112,8 @@ const EgoNetworkNetwork = () => {
                             key={node.id}
                             id={node.id}
                             size={node.size}
-                            x={style.x}
-                            y={style.y}
                             color={'red'}
+                            animatedParams={style}
                         />
                     );
             })}
@@ -167,94 +122,3 @@ const EgoNetworkNetwork = () => {
 };
 
 export default EgoNetworkNetwork;
-
-function aggregateEgoNetworkNodes(
-    egoNetworkNodesNodes: egoNetworkNetworkNode[],
-    egoNetworkNetworkEdges: egoNetworkNetworkEdge[],
-    aggregateNodeIDs: string[][]
-): { outNodes: egoNetworkNetworkNode[]; outEdges: egoNetworkNetworkEdge[] } {
-    const outNodes: egoNetworkNetworkNode[] = [];
-    const outEdges: egoNetworkNetworkEdge[] = [];
-
-    aggregateNodeIDs.forEach((aggregates, index) => {
-        let sizeAccumulator = 0;
-        for (const node of egoNetworkNodesNodes) {
-            // check if any of the arrays in aggregateNodeIDs includes node.id
-            if (
-                !aggregateNodeIDs.some((aggregate) =>
-                    aggregate.includes(node.id)
-                )
-            ) {
-                outNodes.push({ ...node, collapsed: true });
-            } else {
-                sizeAccumulator += node.size;
-            }
-        }
-
-        const aggregateID = aggregates.join(';');
-        outNodes.push({
-            id: aggregateID,
-            name: aggregateID,
-            size: sizeAccumulator / 2,
-            x: 0,
-            y: 0,
-            collapsed: false
-        });
-
-        // add all edges that do not have a source or target in aggregateNodeIDs to outEdges
-        // instead of the edges that have a source or target in aggregateNodeIDs add a new edge to outEdges that targets the new node and has the sum of the weights of the edges as weight
-        for (const edge of egoNetworkNetworkEdges) {
-            if (
-                !aggregateNodeIDs.some((aggregate) =>
-                    aggregate.includes(edge.source)
-                ) &&
-                !aggregateNodeIDs.some((aggregate) =>
-                    aggregate.includes(edge.target)
-                )
-            ) {
-                outEdges.push(edge);
-            } else {
-                const weight = aggregates.reduce((acc, cur) => {
-                    const currentEdge = egoNetworkNetworkEdges.find(
-                        (edge) => edge.source === cur || edge.target === cur
-                    );
-                    const currentEdgeWeight = currentEdge
-                        ? currentEdge.weight
-                        : 0;
-                    return acc + currentEdgeWeight;
-                }, 0);
-                //check which edges to add
-                // no edges from aggregateNodeIDs to aggregateNodeIDs should be added
-                // edges from aggregateNodeIDs to other nodes should be added
-                // edges from other nodes to aggregateNodeIDs should be added
-
-                const sourceInAggregate = aggregateNodeIDs.some((aggregate) =>
-                    aggregate.includes(edge.source)
-                );
-                const targetInAggregate = aggregateNodeIDs.some((aggregate) =>
-                    aggregate.includes(edge.target)
-                );
-
-                if (!sourceInAggregate || !targetInAggregate) {
-                    const newEdge: egoNetworkNetworkEdge = {
-                        source: sourceInAggregate ? aggregateID : edge.source,
-                        target: targetInAggregate ? aggregateID : edge.target,
-                        weight: weight
-                    };
-                    if (
-                        outEdges.every(
-                            (edge) =>
-                                (edge.source !== newEdge.source ||
-                                    edge.target !== newEdge.target) &&
-                                (edge.source !== newEdge.target ||
-                                    edge.target !== newEdge.source)
-                        )
-                    ) {
-                        outEdges.push(newEdge);
-                    }
-                }
-            }
-        }
-    });
-    return { outNodes: outNodes, outEdges: outEdges };
-}

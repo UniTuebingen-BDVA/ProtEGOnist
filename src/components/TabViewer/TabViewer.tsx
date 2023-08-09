@@ -3,11 +3,7 @@ import { useAtom } from 'jotai';
 
 import { Box, Paper, Tab, Tabs } from '@mui/material';
 import { multiSelectionAtom, showedTabAtom } from './tabViewerStore.ts';
-import {
-    getEgographBundleAtom,
-    getRadarAtom,
-    getTableAtom
-} from '../../apiCalls.ts';
+import { getRadarAtom, getTableAtom } from '../../apiCalls.ts';
 import SelectionTable from '../selectionTable/selectionTable.tsx';
 
 interface TabPanelProps {
@@ -48,7 +44,6 @@ function a11yProps(index: number) {
 function TabViewer() {
     const [value, setValue] = useAtom(showedTabAtom);
     const [tableData, _getTableData] = useAtom(getTableAtom);
-    const [_egoGraphBundle, getEgographBundle] = useAtom(getEgographBundleAtom);
     const [_intersectionData, getRadarData] = useAtom(getRadarAtom);
     const [multiSelection, setMultiSelection] = useAtom(multiSelectionAtom);
 
@@ -94,7 +89,6 @@ function TabViewer() {
                                 multiSelectionLocal.shift();
                             }
                             setMultiSelection(multiSelectionLocal);
-                            getEgographBundle(multiSelectionLocal);
                             getRadarData(selectedName);
                         }}
                     />

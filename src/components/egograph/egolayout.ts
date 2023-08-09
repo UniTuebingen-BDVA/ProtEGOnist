@@ -349,16 +349,14 @@ function sortPairwiseIntersection(
  *
  * @param {egoGraph[]} egoGraphs
  * @param {{ [key: string]: string[] }} intersections
- * @param {number} height
- * @param {number} width
+ * @param {number} nodeSize
  * @param {number} innerSize
  * @param {number} outerSize
  */
 export function calculateLayout(
     egoGraphs: egoGraph[],
     intersections: { [key: string]: string[] },
-    height: number,
-    width: number,
+    nodeSize: number,
     innerSize: number,
     outerSize: number
 ) {
@@ -373,17 +371,17 @@ export function calculateLayout(
         };
         if (egoGraphs.length === 2) {
             graphCenters = [
-                { x: outerSize, y: outerSize },
-                { x: width - outerSize, y: outerSize }
+                { x: outerSize, y: nodeSize/2 },
+                { x: nodeSize - outerSize, y: nodeSize/2 }
             ];
         } else {
             graphCenters = [
-                { x: outerSize, y: height / 2 },
+                { x: outerSize, y: nodeSize / 2 },
                 {
-                    x: width - outerSize,
+                    x: nodeSize - outerSize,
                     y: outerSize
                 },
-                { x: width - outerSize, y: height - outerSize }
+                { x: nodeSize - outerSize, y: nodeSize - outerSize }
             ];
         }
         const fullRange = 2 * Math.PI;
