@@ -6,8 +6,6 @@ import {
 } from '../../egoGraphSchema';
 import { getMultiEgographBundleAtom } from '../../apiCalls.ts';
 import * as d3 from 'd3';
-import { focusAtom } from 'jotai-optics';
-import { selectAtom, splitAtom } from 'jotai/utils';
 
 export const egoNetworkNetworkSizeAtom = atom({
     width: 1000,
@@ -25,8 +23,8 @@ export const decollapseIDsAtom = atom(
             set(decollapseIDsArrayAtom, []);
         } else {
             const currentIdArray = get(decollapseIDsArrayAtom).slice();
-            if(currentIdArray.length===0){
-                currentIdArray.push([])
+            if (currentIdArray.length === 0) {
+                currentIdArray.push([]);
             }
             if (currentIdArray[currentIdArray.length - 1].length < 3) {
                 currentIdArray[currentIdArray.length - 1].push(id);
@@ -52,6 +50,12 @@ export const aggregateNetworkAtom = atom((get) => {
         egoNetworkNetwork.edges,
         aggregateEgoNetworkNodeIDs
     );
+    console.log('Relayout');
+    // generate a deep copy for the force layout of outNodes and outEdges
+    // const outNodesInternal = JSON.parse(JSON.stringify(outNodes));
+    // const outEdgesInternal = JSON.parse(JSON.stringify(outEdges));
+    // console.log('internalNodes', outNodesInternal);
+    // console.log('internalEdges', outEdgesInternal);
     const forceLayout = d3
         .forceSimulation(outNodes)
         .force('charge', d3.forceManyBody().strength(-100))
@@ -65,10 +69,10 @@ export const aggregateNetworkAtom = atom((get) => {
         .force('center', d3.forceCenter(0, 0))
         .force(
             'collision',
-            d3.forceCollide().radius((d) => d.size)
+            d3.forceCollide().radius((d) => d.size + 10)
         );
     forceLayout.stop();
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 1000; i++) {
         forceLayout.tick();
     }
     return { nodes: outNodes, edges: outEdges };
@@ -88,7 +92,11 @@ function aggregateEgoNetworkNodes(
             outNodes.push({ ...node, collapsed: true });
         }
     }
-    const outEdges=egoNetworkNetworkEdges.filter(d=> !aggregateNodeIDs.flat().includes(d.source.id)&&!aggregateNodeIDs.flat().includes(d.target.id))
+    const outEdges = egoNetworkNetworkEdges.filter(
+        (d) =>
+            !aggregateNodeIDs.flat().includes(d.source.id) &&
+            !aggregateNodeIDs.flat().includes(d.target.id)
+    );
 
     aggregateNodeIDs.forEach((aggregates) => {
         const aggregateID = aggregates.join(',');

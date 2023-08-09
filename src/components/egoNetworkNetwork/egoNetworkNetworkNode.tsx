@@ -6,21 +6,23 @@ import { animated } from '@react-spring/web';
 interface EgoNetworkNetworkNodeProps {
     id: string;
     size: number;
+    color: string;
     x: number;
     y: number;
-    color: string;
+    animatedParams: { x: number; y: number; opacity: number };
 }
 
 const EgoNetworkNetworkNode = (props: EgoNetworkNetworkNodeProps) => {
-    const { id, size, x, y, color } = props;
+    const { id, size, animatedParams, color } = props;
     const [_, setDecollapseID] = useAtom(decollapseIDsAtom);
     return (
         <Tooltip title={id} key={id}>
             <animated.circle
                 key={id}
                 r={size}
-                cx={x}
-                cy={y}
+                cx={animatedParams.x}
+                cy={animatedParams.y}
+                opacity={animatedParams.opacity}
                 fill={color}
                 stroke="black"
                 strokeWidth="1"

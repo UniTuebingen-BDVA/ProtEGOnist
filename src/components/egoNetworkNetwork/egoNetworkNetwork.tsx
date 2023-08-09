@@ -12,10 +12,11 @@ const EgoNetworkNetwork = () => {
 
     const transitionsNodes = useTransition(nodes, {
         keys: ({ id }) => id,
-        from: ({ x, y }, index) => ({
+        from: {
             x: 0,
-            y: 0
-        }),
+            y: 0,
+            opacity: 1
+        },
         enter:
             ({ x, y }, index) =>
             async (next, cancel) => {
@@ -24,7 +25,12 @@ const EgoNetworkNetwork = () => {
                     y: y
                 });
             },
-        leave:
+        leave: () => async (next, cancel) => {
+            await next({
+                opacity: 0
+            });
+        },
+        update:
             ({ x, y }, index) =>
             async (next, cancel) => {
                 await next({
@@ -36,16 +42,12 @@ const EgoNetworkNetwork = () => {
     });
     const transitionsEdges = useTransition(edges, {
         keys: ({ source, target }) => source.id + '+' + target.id,
-        from: ({ source, target }, index) => {
-            const sourceNode = nodes.find((node) => node.id === source.id);
-
-            const targetNode = nodes.find((node) => node.id === target.id);
-            return {
-                x1: sourceNode?.x,
-                y1: sourceNode?.y,
-                x2: targetNode?.x,
-                y2: targetNode?.y
-            };
+        from: {
+            x1: 0,
+            y1: 0,
+            x2: 0,
+            y2: 0,
+            opacity: 1
         },
         enter:
             ({ source, target }, index) =>
@@ -57,10 +59,16 @@ const EgoNetworkNetwork = () => {
                     x1: sourceNode?.x,
                     y1: sourceNode?.y,
                     x2: targetNode?.x,
-                    y2: targetNode?.y
+                    y2: targetNode?.y,
+                    opacity: 1
                 });
             },
-        leave:
+        leave: () => async (next, cancel) => {
+            await next({
+                opacity: 0
+            });
+        },
+        update:
             ({ source, target }, index) =>
             async (next, cancel) => {
                 const sourceNode = nodes.find((node) => node.id === source.id);
@@ -82,13 +90,8 @@ const EgoNetworkNetwork = () => {
                 return (
                     <EgoNetworkNetworkEdge
                         key={edge.source.id + '+' + edge.target.id}
-                        source={edge.source}
-                        target={edge.target}
                         weight={edge.weight}
-                        x1={style.x1}
-                        y1={style.y1}
-                        x2={style.x2}
-                        y2={style.y2}
+                        animatedParams={style}
                     />
                 );
             })}
@@ -109,9 +112,8 @@ const EgoNetworkNetwork = () => {
                             key={node.id}
                             id={node.id}
                             size={node.size}
-                            x={style.x}
-                            y={style.y}
                             color={'red'}
+                            animatedParams={style}
                         />
                     );
             })}
