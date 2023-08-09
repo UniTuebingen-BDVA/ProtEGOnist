@@ -13,15 +13,23 @@ import {
 } from './components/radarchart/radarStore.ts';
 import { tableAtom } from './components/selectionTable/tableStore.ts';
 import { GridColDef, GridRowsProp } from '@mui/x-data-grid';
-import { egoGraphBundlesDataAtom } from './components/egograph/egoGraphBundleStore.ts';
-import { egoNetworkNetworksAtom } from './components/egoNetworkNetwork/egoNetworkNetworkStore.ts';
+import {
+    egoGraphBundlesLayoutAtom,
+    innerRadiusAtom,
+    outerRadiusAtom
+} from './components/egograph/egoGraphBundleStore.ts';
+import {
+    decollapsedSizeAtom,
+    egoNetworkNetworksAtom
+} from './components/egoNetworkNetwork/egoNetworkNetworkStore.ts';
+import { calculateLayout } from './components/egograph/egolayout.ts';
 
 export const getMultiEgographBundleAtom = atom(
-    (get) => get(egoGraphBundlesDataAtom),
+    (get) => get(egoGraphBundlesLayoutAtom),
     (get, set, bundleIds: string[][]) => {
         bundleIds.forEach((ids) => {
             const jointID = ids.join(',');
-            if (!Object.keys(get(egoGraphBundlesDataAtom)).includes(jointID)) {
+            if (!Object.keys(get(egoGraphBundlesLayoutAtom)).includes(jointID)) {
                 axios
                     .post<{
                         egoGraphs: egoGraph[];
@@ -29,9 +37,16 @@ export const getMultiEgographBundleAtom = atom(
                     }>('/api/egograph_bundle', { ids: ids })
                     .then(
                         (result) => {
-                            set(egoGraphBundlesDataAtom, {
-                                ...get(egoGraphBundlesDataAtom),
-                                [jointID]: result.data
+                            const { egoGraphs, intersections } = result.data;
+                            set(egoGraphBundlesLayoutAtom, {
+                                ...get(egoGraphBundlesLayoutAtom),
+                                [jointID]: calculateLayout(
+                                    egoGraphs,
+                                    intersections,
+                                    get(decollapsedSizeAtom),
+                                    get(innerRadiusAtom),
+                                    get(outerRadiusAtom)
+                                )
                             });
                         },
                         () => {
@@ -43,12 +58,12 @@ export const getMultiEgographBundleAtom = atom(
                     );
             }
         });
-        Object.keys(get(egoGraphBundlesDataAtom))
+        Object.keys(get(egoGraphBundlesLayoutAtom))
             .filter((id) => !bundleIds.map((ids) => ids.join(',')).includes(id))
             .forEach((id) => {
-                const egographBundleData = get(egoGraphBundlesDataAtom);
-                delete egographBundleData[id];
-                set(egoGraphBundlesDataAtom, egographBundleData);
+                const egographBundleLayout = get(egoGraphBundlesLayoutAtom);
+                delete egographBundleLayout[id];
+                set(egoGraphBundlesLayoutAtom, egographBundleLayout);
             });
     }
 );

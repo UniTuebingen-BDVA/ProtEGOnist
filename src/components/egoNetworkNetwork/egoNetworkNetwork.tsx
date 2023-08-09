@@ -1,15 +1,20 @@
 import { useAtom } from 'jotai';
-import { aggregateNetworkAtom } from './egoNetworkNetworkStore';
+import {
+    aggregateNetworkBundleEdges, aggregateNetworkEdgesAtom,
+    aggregateNetworkNodesAtom,
+    decollapsedSizeAtom
+} from './egoNetworkNetworkStore';
 import EgoNetworkNetworkNode from './egoNetworkNetworkNode.tsx';
 import EgoNetworkNetworkEdge from './egoNetworkNetworkEdge.tsx';
 import EgoGraphBundle from '../egograph/egoGraphBundle.tsx';
-import { bundleGroupSizeAtom } from '../egograph/egoGraphBundleStore.ts';
 import { useTransition } from '@react-spring/web';
 
 const EgoNetworkNetwork = () => {
-    const [{ nodes, edges }] = useAtom(aggregateNetworkAtom);
-    const [bundleGroupSize] = useAtom(bundleGroupSizeAtom);
+    const [nodes] = useAtom(aggregateNetworkNodesAtom);
+    const [edges] = useAtom(aggregateNetworkEdgesAtom);
+    const [bundleNetworkEdges] = useAtom(aggregateNetworkBundleEdges);
 
+    const [decollapsedSize] = useAtom(decollapsedSizeAtom);
     const transitionsNodes = useTransition(nodes, {
         keys: ({ id }) => id,
         from: ({ x, y }, index) => ({
@@ -94,14 +99,17 @@ const EgoNetworkNetwork = () => {
             })}
 
             {transitionsNodes((style, node) => {
-                if (!node.collapsed) {
+                if (!node.collapsed && Object.keys(bundleNetworkEdges).includes(node.id)) {
                     //console.log(node);
                     return (
-                        <EgoGraphBundle
-                            x={style.x - bundleGroupSize.width / 2}
-                            y={style.y - bundleGroupSize.height / 2}
-                            nodeId={node.id}
-                        />
+                        <g>
+                            <EgoGraphBundle
+                                x={style.x.get() - decollapsedSize / 2}
+                                y={style.y.get() - decollapsedSize / 2}
+                                outsideEdges={bundleNetworkEdges[node.id]}
+                                nodeId={node.id}
+                            />
+                        </g>
                     );
                 } else
                     return (

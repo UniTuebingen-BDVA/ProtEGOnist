@@ -34,7 +34,7 @@ export interface egoGraphLayout {
     edges: layoutEdge[];
     identityEdges: identityEdge[];
     maxradius: number;
-    centers: { x: number; y: number }[];
+    centers: { x: number; y: number; id: string }[];
 }
 
 /**
@@ -361,7 +361,7 @@ export function calculateLayout(
     outerSize: number
 ) {
     if (egoGraphs.length > 1) {
-        let graphCenters;
+        let graphCenters: { x: number; y: number; id: string }[];
         const layout: egoGraphLayout = {
             nodes: [],
             edges: [],
@@ -371,17 +371,34 @@ export function calculateLayout(
         };
         if (egoGraphs.length === 2) {
             graphCenters = [
-                { x: outerSize, y: nodeSize/2 },
-                { x: nodeSize - outerSize, y: nodeSize/2 }
+                {
+                    x: outerSize,
+                    y: nodeSize / 2,
+                    id: egoGraphs[0].centerNode.originalID
+                },
+                {
+                    x: nodeSize - outerSize,
+                    y: nodeSize / 2,
+                    id: egoGraphs[1].centerNode.originalID
+                }
             ];
         } else {
             graphCenters = [
-                { x: outerSize, y: nodeSize / 2 },
+                {
+                    x: outerSize,
+                    y: nodeSize / 2,
+                    id: egoGraphs[0].centerNode.originalID
+                },
                 {
                     x: nodeSize - outerSize,
-                    y: outerSize
+                    y: outerSize,
+                    id: egoGraphs[1].centerNode.originalID
                 },
-                { x: nodeSize - outerSize, y: nodeSize - outerSize }
+                {
+                    x: nodeSize - outerSize,
+                    y: nodeSize - outerSize,
+                    id: egoGraphs[2].centerNode.originalID
+                }
             ];
         }
         const fullRange = 2 * Math.PI;
@@ -806,7 +823,10 @@ export function calculateEgoLayout(
         outerSize,
         { x: 0, y: 0 }
     );
-    Object.values(nodes).forEach((elem, index) => (elem.index = index));
+    Object.values(nodes).forEach((elem, index) => {
+        elem.index = index;
+        elem.identityNodes=[index];
+    });
     const edges = createEgoEdges(nodes, graph.edges);
     return {
         nodes: Object.values(nodes).sort((a, b) => a.index - b.index),
@@ -816,6 +836,8 @@ export function calculateEgoLayout(
             Math.min(nodesLayer1Layout.maxradius, nodesLayer2Layout.maxradius),
             2
         ),
-        centers: [{ x: outerSize, y: outerSize }]
+        centers: [
+            { x: outerSize, y: outerSize, id: graph.centerNode.originalID }
+        ]
     };
 }

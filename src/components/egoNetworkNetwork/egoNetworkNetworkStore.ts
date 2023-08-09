@@ -6,8 +6,7 @@ import {
 } from '../../egoGraphSchema';
 import { getMultiEgographBundleAtom } from '../../apiCalls.ts';
 import * as d3 from 'd3';
-import { focusAtom } from 'jotai-optics';
-import { selectAtom, splitAtom } from 'jotai/utils';
+import { selectAtom } from 'jotai/utils';
 
 export const egoNetworkNetworkSizeAtom = atom({
     width: 1000,
@@ -17,7 +16,7 @@ export const egoNetworkNetworkSizeAtom = atom({
 });
 
 export const decollapseIDsArrayAtom = atom<string[][]>([]);
-
+export const decollapsedSizeAtom = atom(400);
 export const decollapseIDsAtom = atom(
     (get) => get(decollapseIDsArrayAtom),
     (get, set, id: string) => {
@@ -25,8 +24,8 @@ export const decollapseIDsAtom = atom(
             set(decollapseIDsArrayAtom, []);
         } else {
             const currentIdArray = get(decollapseIDsArrayAtom).slice();
-            if(currentIdArray.length===0){
-                currentIdArray.push([])
+            if (currentIdArray.length === 0) {
+                currentIdArray.push([]);
             }
             if (currentIdArray[currentIdArray.length - 1].length < 3) {
                 currentIdArray[currentIdArray.length - 1].push(id);
@@ -50,7 +49,8 @@ export const aggregateNetworkAtom = atom((get) => {
     const { outNodes, outEdges } = aggregateEgoNetworkNodes(
         egoNetworkNetwork.nodes,
         egoNetworkNetwork.edges,
-        aggregateEgoNetworkNodeIDs
+        aggregateEgoNetworkNodeIDs,
+        get(decollapsedSizeAtom)
     );
     const forceLayout = d3
         .forceSimulation(outNodes)
@@ -71,13 +71,47 @@ export const aggregateNetworkAtom = atom((get) => {
     for (let i = 0; i < 100; i++) {
         forceLayout.tick();
     }
-    return { nodes: outNodes, edges: outEdges };
+    const bundleNetworkEdges: { [key: string]: egoNetworkNetworkEdge[] } = {};
+    aggregateEgoNetworkNodeIDs.forEach((ids) => {
+        const id = ids.join(',');
+        if (!Object.keys(bundleNetworkEdges).includes(id)) {
+            bundleNetworkEdges[id] = [];
+        }
+        egoNetworkNetwork.edges.forEach((edge) => {
+            if (ids.includes(edge.source.id) && !ids.includes(edge.target.id)) {
+                bundleNetworkEdges[id].push(edge);
+            } else if (
+                ids.includes(edge.target.id) &&
+                !ids.includes(edge.source.id)
+            ) {
+                bundleNetworkEdges[id].push(edge);
+            }
+        });
+    });
+    return {
+        nodes: outNodes,
+        edges: outEdges,
+        bundleNetworkEdges: bundleNetworkEdges
+    };
 });
+export const aggregateNetworkNodesAtom = selectAtom(
+    aggregateNetworkAtom,
+    (obj) => obj.nodes
+);
+export const aggregateNetworkEdgesAtom = selectAtom(
+    aggregateNetworkAtom,
+    (obj) => obj.edges
+);
+export const aggregateNetworkBundleEdges = selectAtom(
+    aggregateNetworkAtom,
+    (obj) => obj.bundleNetworkEdges
+);
 
 function aggregateEgoNetworkNodes(
     egoNetworkNodesNodes: egoNetworkNetworkNode[],
     egoNetworkNetworkEdges: egoNetworkNetworkEdge[],
-    aggregateNodeIDs: string[][]
+    aggregateNodeIDs: string[][],
+    decollapsedSize: number
 ): { outNodes: egoNetworkNetworkNode[]; outEdges: egoNetworkNetworkEdge[] } {
     const outNodes: egoNetworkNetworkNode[] = [];
     for (const node of egoNetworkNodesNodes) {
@@ -88,14 +122,18 @@ function aggregateEgoNetworkNodes(
             outNodes.push({ ...node, collapsed: true });
         }
     }
-    const outEdges=egoNetworkNetworkEdges.filter(d=> !aggregateNodeIDs.flat().includes(d.source.id)&&!aggregateNodeIDs.flat().includes(d.target.id))
+    const outEdges = egoNetworkNetworkEdges.filter(
+        (d) =>
+            !aggregateNodeIDs.flat().includes(d.source.id) &&
+            !aggregateNodeIDs.flat().includes(d.target.id)
+    );
 
     aggregateNodeIDs.forEach((aggregates) => {
         const aggregateID = aggregates.join(',');
         outNodes.push({
             id: aggregateID,
             name: aggregateID,
-            size: 400,
+            size: decollapsedSize,
             x: 0,
             y: 0,
             collapsed: false

@@ -18,6 +18,7 @@ export const EgographNode = (props: egographNodeProps) => {
             <circle
                 onMouseEnter={() => {
                     setNode((oldValue) => ({ ...oldValue, hovered: true }));
+                    console.log(node.identityNodes);
                     setHighlightedNodeIndices(node.identityNodes);
                 }}
                 onMouseLeave={() => {
