@@ -30,12 +30,7 @@ function App() {
             'Q15369',
             'Q9H3U1'
         ]);
-    }, [
-        getTableData,
-        getRadarData,
-        setTarNode,
-        getEgoNetworkNetworkData
-    ]);
+    }, [getTableData, getRadarData, setTarNode, getEgoNetworkNetworkData]);
     if (
         // check if all data is loaded (not empty)
         tableData.rows.length > 0 && // tableData
