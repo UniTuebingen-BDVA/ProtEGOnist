@@ -34,7 +34,7 @@ export interface egoGraphLayout {
     edges: layoutEdge[];
     identityEdges: identityEdge[];
     maxradius: number;
-    centers: { x: number; y: number }[];
+    centers: { x: number; y: number; id: string }[];
 }
 
 /**
@@ -361,7 +361,7 @@ export function calculateLayout(
     outerSize: number
 ) {
     if (egoGraphs.length > 1) {
-        let graphCenters;
+        let graphCenters: { x: number; y: number; id: string }[];
         const layout: egoGraphLayout = {
             nodes: [],
             edges: [],
@@ -371,17 +371,39 @@ export function calculateLayout(
         };
         if (egoGraphs.length === 2) {
             graphCenters = [
-                { x: outerSize, y: nodeSize/2 },
-                { x: nodeSize - outerSize, y: nodeSize/2 }
+                {
+                    x: outerSize - nodeSize/2,
+                    y: nodeSize / 2,
+                    id: egoGraphs[0].centerNode.originalID
+                },
+                {
+                    x: nodeSize+nodeSize/2 - outerSize,
+                    y: nodeSize / 2,
+                    id: egoGraphs[1].centerNode.originalID
+                }
             ];
         } else {
+            const points=[
+                polarToCartesian(nodeSize/2,nodeSize/2,nodeSize-outerSize,0,Math.PI),
+                polarToCartesian(nodeSize/2,nodeSize/2,nodeSize-outerSize,1/3*(2*Math.PI),Math.PI),
+                polarToCartesian(nodeSize/2,nodeSize/2,nodeSize-outerSize,2/3*(2*Math.PI),Math.PI),
+            ]
             graphCenters = [
-                { x: outerSize, y: nodeSize / 2 },
                 {
-                    x: nodeSize - outerSize,
-                    y: outerSize
+                    x: points[0].x,
+                    y: points[0].y,
+                    id: egoGraphs[0].centerNode.originalID
                 },
-                { x: nodeSize - outerSize, y: nodeSize - outerSize }
+                {
+                    x: points[1].x,
+                    y: points[1].y,
+                    id: egoGraphs[1].centerNode.originalID
+                },
+                {
+                    x: points[2].x,
+                    y: points[2].y,
+                    id: egoGraphs[2].centerNode.originalID
+                }
             ];
         }
         const fullRange = 2 * Math.PI;
@@ -471,7 +493,7 @@ export function calculateLayout(
         layout.centers = graphCenters;
         return layout;
     } else {
-        return calculateEgoLayout(egoGraphs[0], innerSize, outerSize);
+        return calculateEgoLayout(egoGraphs[0], innerSize, outerSize, nodeSize);
     }
 }
 
@@ -784,11 +806,13 @@ function createCenterNode(
  * @param {egoGraph} graph
  * @param {number} innerSize
  * @param {number} outerSize
+ * @param {number} nodeSize
  */
 export function calculateEgoLayout(
     graph: egoGraph,
     innerSize: number,
-    outerSize: number
+    outerSize: number,
+    nodeSize: number
 ) {
     const { nodesLayer1Layout, nodesLayer2Layout } = calculateLayoutUniqueNodes(
         graph.nodes,
@@ -796,7 +820,7 @@ export function calculateEgoLayout(
         innerSize,
         outerSize,
         [0, 2 * Math.PI],
-        { x: 0, y: 0 },
+        { x: nodeSize / 2 - outerSize, y: nodeSize / 2 - outerSize },
         0
     );
     const nodes = { ...nodesLayer1Layout.nodes, ...nodesLayer2Layout.nodes };
@@ -804,9 +828,12 @@ export function calculateEgoLayout(
     nodes[graph.centerNode.id] = createCenterNode(
         graph.nodes[graph.nodes.map((d) => d.id).indexOf(graph.centerNode.id)],
         outerSize,
-        { x: 0, y: 0 }
+        { x: nodeSize / 2 - outerSize, y: nodeSize / 2 - outerSize }
     );
-    Object.values(nodes).forEach((elem, index) => (elem.index = index));
+    Object.values(nodes).forEach((elem, index) => {
+        elem.index = index;
+        elem.identityNodes = [index];
+    });
     const edges = createEgoEdges(nodes, graph.edges);
     return {
         nodes: Object.values(nodes).sort((a, b) => a.index - b.index),
@@ -816,6 +843,12 @@ export function calculateEgoLayout(
             Math.min(nodesLayer1Layout.maxradius, nodesLayer2Layout.maxradius),
             2
         ),
-        centers: [{ x: outerSize, y: outerSize }]
+        centers: [
+            {
+                x: nodeSize / 2,
+                y: nodeSize / 2,
+                id: graph.centerNode.originalID
+            }
+        ]
     };
 }

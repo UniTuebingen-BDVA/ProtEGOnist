@@ -6,6 +6,7 @@ import {
 } from '../../egoGraphSchema';
 import { getMultiEgographBundleAtom } from '../../apiCalls.ts';
 import * as d3 from 'd3';
+import { outerRadiusAtom } from '../egograph/egoGraphBundleStore.ts';
 
 export const egoNetworkNetworkSizeAtom = atom({
     width: 1000,
@@ -15,7 +16,7 @@ export const egoNetworkNetworkSizeAtom = atom({
 });
 
 export const decollapseIDsArrayAtom = atom<string[][]>([]);
-
+export const decollapsedSizeAtom = atom((get)=>[get(outerRadiusAtom),200,200]);
 export const decollapseIDsAtom = atom(
     (get) => get(decollapseIDsArrayAtom),
     (get, set, id: string) => {
@@ -41,18 +42,21 @@ export const egoNetworkNetworksAtom = atom<egoNetworkNetwork>({
     nodes: [],
     edges: []
 });
+const egoNetworkNetworkDeepCopyAtom = atom<egoNetworkNetwork>((get) =>
+    JSON.parse(JSON.stringify(get(egoNetworkNetworksAtom)))
+);
 
 export const aggregateNetworkAtom = atom((get) => {
-    const egoNetworkNetwork = get(egoNetworkNetworksAtom);
+    const egoNetworkNetwork = get(egoNetworkNetworkDeepCopyAtom);
     const aggregateEgoNetworkNodeIDs = get(decollapseIDsAtom);
     const { outNodes, outEdges } = aggregateEgoNetworkNodes(
         egoNetworkNetwork.nodes,
         egoNetworkNetwork.edges,
-        aggregateEgoNetworkNodeIDs
+        aggregateEgoNetworkNodeIDs,
+        get(decollapsedSizeAtom)
     );
     console.log('Relayout');
     // generate a deep copy for the force layout of outNodes and outEdges
-    // const outNodesInternal = JSON.parse(JSON.stringify(outNodes));
     // const outEdgesInternal = JSON.parse(JSON.stringify(outEdges));
     // console.log('internalNodes', outNodesInternal);
     // console.log('internalEdges', outEdgesInternal);
@@ -75,13 +79,17 @@ export const aggregateNetworkAtom = atom((get) => {
     for (let i = 0; i < 1000; i++) {
         forceLayout.tick();
     }
-    return { nodes: outNodes, edges: outEdges };
+    return {
+        nodes: outNodes,
+        edges: outEdges
+    };
 });
 
 function aggregateEgoNetworkNodes(
     egoNetworkNodesNodes: egoNetworkNetworkNode[],
     egoNetworkNetworkEdges: egoNetworkNetworkEdge[],
-    aggregateNodeIDs: string[][]
+    aggregateNodeIDs: string[][],
+    decollapsedSize: number[]
 ): { outNodes: egoNetworkNetworkNode[]; outEdges: egoNetworkNetworkEdge[] } {
     const outNodes: egoNetworkNetworkNode[] = [];
     for (const node of egoNetworkNodesNodes) {
@@ -93,9 +101,9 @@ function aggregateEgoNetworkNodes(
         }
     }
     const outEdges = egoNetworkNetworkEdges.filter(
-        (d) =>
-            !aggregateNodeIDs.flat().includes(d.source.id) &&
-            !aggregateNodeIDs.flat().includes(d.target.id)
+        (edge) =>
+            !aggregateNodeIDs.flat().includes(edge.source.id) &&
+            !aggregateNodeIDs.flat().includes(edge.target.id)
     );
 
     aggregateNodeIDs.forEach((aggregates) => {
@@ -103,7 +111,7 @@ function aggregateEgoNetworkNodes(
         outNodes.push({
             id: aggregateID,
             name: aggregateID,
-            size: 400,
+            size: decollapsedSize[aggregates.length-1],
             x: 0,
             y: 0,
             collapsed: false

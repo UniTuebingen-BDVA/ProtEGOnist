@@ -1,15 +1,18 @@
 import { useAtom } from 'jotai';
-import { aggregateNetworkAtom } from './egoNetworkNetworkStore';
+import {
+    aggregateNetworkAtom,
+    decollapsedSizeAtom
+} from './egoNetworkNetworkStore';
 import EgoNetworkNetworkNode from './egoNetworkNetworkNode.tsx';
 import EgoNetworkNetworkEdge from './egoNetworkNetworkEdge.tsx';
 import EgoGraphBundle from '../egograph/egoGraphBundle.tsx';
-import { bundleGroupSizeAtom } from '../egograph/egoGraphBundleStore.ts';
 import { useTransition } from '@react-spring/web';
 
 const EgoNetworkNetwork = () => {
-    const [{ nodes, edges }] = useAtom(aggregateNetworkAtom);
-    const [bundleGroupSize] = useAtom(bundleGroupSizeAtom);
+    const [{ nodes, edges, bundleNetworkEdges }] =
+        useAtom(aggregateNetworkAtom);
 
+    const [decollapsedSize] = useAtom(decollapsedSizeAtom);
     const transitionsNodes = useTransition(nodes, {
         keys: ({ id }) => id,
         from: {
@@ -98,11 +101,18 @@ const EgoNetworkNetwork = () => {
 
             {transitionsNodes((style, node) => {
                 if (!node.collapsed) {
-                    //console.log(node);
                     return (
                         <EgoGraphBundle
-                            x={style.x - bundleGroupSize.width / 2}
-                            y={style.y - bundleGroupSize.height / 2}
+                            x={
+                                style.x.get() -
+                                decollapsedSize[node.id.split(',').length - 1] /
+                                    2
+                            }
+                            y={
+                                style.y.get() -
+                                decollapsedSize[node.id.split(',').length - 1] /
+                                    2
+                            }
                             nodeId={node.id}
                         />
                     );
