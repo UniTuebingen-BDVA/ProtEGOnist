@@ -1,6 +1,6 @@
 import { atom, useAtom } from 'jotai';
 import { GridRowsProp, GridColDef } from '@mui/x-data-grid';
-import { getRadarAtom } from '../../apiCalls';
+import { getEgoNetworkNetworkAtom, getRadarAtom } from '../../apiCalls';
 import { multiSelectionAtom } from '../TabViewer/tabViewerStore';
 import RadarIcon from '@mui/icons-material/Radar';
 export const tableAtomStore = atom<{
@@ -40,7 +40,17 @@ const RadarButton = (params: rowData) => {
     );
 };
 
-export const selectedProteinsAtom = atom<string[]>([]);
+export const selectedProteinsStoreAtom = atom<string[]>([]);
+
+export const selectedProteinsAtom = atom(
+    (get) => {
+        return get(selectedProteinsStoreAtom);
+    },
+    (get, set, update: string[]) => {
+        set(selectedProteinsStoreAtom, update);
+        set(getEgoNetworkNetworkAtom, get(selectedProteinsAtom));
+    }
+);
 
 export const tableAtom = atom(
     (get) => get(tableAtomStore),

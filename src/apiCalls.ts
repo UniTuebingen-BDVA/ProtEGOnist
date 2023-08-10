@@ -103,8 +103,7 @@ export const getTableAtom = atom(
 
 export const getEgoNetworkNetworkAtom = atom(
     (get) => get(egoNetworkNetworksAtom),
-    (get, set) => {
-        const ids = useAtom(selectedProteinsAtom);
+    (get, set, ids: string[]) => {
         axios
             .get<egoNetworkNetwork>(
                 `/api/getEgoNetworkNetwork/${ids.join('+')}`

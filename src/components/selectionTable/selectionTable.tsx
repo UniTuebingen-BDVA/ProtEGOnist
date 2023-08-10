@@ -6,14 +6,10 @@ import {
 } from '@mui/x-data-grid';
 import { useAtom } from 'jotai';
 import { selectedProteinsAtom, tableAtom } from './tableStore';
-import { getEgoNetworkNetworkAtom } from '../../apiCalls';
 
 const SelectionTable = () => {
     const [tableData] = useAtom(tableAtom);
-    const [_egoNetworkNetworkData, getEgoNetworkNetworkData] = useAtom(
-        getEgoNetworkNetworkAtom
-    );
-    const [selectedProteinsm, setSelectedProteins] =
+    const [_selectedProteins, setSelectedProteins] =
         useAtom(selectedProteinsAtom);
     const rows = tableData.rows;
     const columns = tableData.columns;
@@ -39,7 +35,7 @@ const SelectionTable = () => {
                         (id) => rows[id]['UniprotID_inString']
                     );
                     if (selectedIDs.length > 0) {
-                        getEgoNetworkNetworkData(selectedIDs);
+                        setSelectedProteins(selectedIDs);
                     }
                 }}
                 slots={{ toolbar: GridToolbar }}

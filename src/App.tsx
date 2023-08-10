@@ -4,33 +4,23 @@ import { useAtom } from 'jotai';
 import { AppBar, Toolbar, Typography } from '@mui/material';
 import TabViewer from './components/TabViewer/TabViewer.tsx';
 import RadarChartViewer from './components/radarchart/radarChartViewer.tsx';
-import {
-    getEgoNetworkNetworkAtom,
-    getRadarAtom,
-    getTableAtom
-} from './apiCalls.ts';
+import { getRadarAtom, getTableAtom } from './apiCalls.ts';
 import { tarNodeAtom } from './components/radarchart/radarStore.ts';
 import EgoNetworkNetworkViewer from './components/egoNetworkNetwork/egoNetworkNetworkViewer.tsx';
+import { selectedProteinsAtom } from './components/selectionTable/tableStore.tsx';
 
 function App() {
     const [tableData, getTableData] = useAtom(getTableAtom);
     const [intersectionData, getRadarData] = useAtom(getRadarAtom);
-    const [_egoNetworkNetworkData, getEgoNetworkNetworkData] = useAtom(
-        getEgoNetworkNetworkAtom
-    );
+    const [_selectedProteins, setSelectedProteins] =
+        useAtom(selectedProteinsAtom);
     const [tarNode, setTarNode] = useAtom(tarNodeAtom);
     useEffect(() => {
         getTableData();
         setTarNode('Q9Y625');
         getRadarData('Q9Y625');
-        getEgoNetworkNetworkData([
-            'P07093',
-            'P30533',
-            'Q9Y625',
-            'Q15369',
-            'Q9H3U1'
-        ]);
-    }, [getTableData, getRadarData, setTarNode, getEgoNetworkNetworkData]);
+        setSelectedProteins(['P07093', 'P30533', 'Q9Y625', 'Q15369', 'Q9H3U1']);
+    }, [getTableData, getRadarData, setTarNode, setSelectedProteins]);
     if (
         // check if all data is loaded (not empty)
         tableData.rows.length > 0 && // tableData
