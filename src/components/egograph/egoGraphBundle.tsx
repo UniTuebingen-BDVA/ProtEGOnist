@@ -2,25 +2,27 @@ import { ReactElement, useMemo } from 'react';
 import { useAtom } from 'jotai';
 
 import {
-    egoGraphBundlesDataAtom,
     innerRadiusAtom,
     outerRadiusAtom,
-    bundleGroupSizeAtom,
-    maxRadiusAtom
+    maxRadiusAtom, egoGraphBundlesLayoutAtom
 } from './egoGraphBundleStore';
 import { EgographNode } from './egographNode';
 import { atom } from 'jotai';
-import { calculateLayout, egoGraphLayout } from './egolayout.ts';
+import { egoGraphLayout } from './egolayout.ts';
 import { focusAtom } from 'jotai-optics';
 import { splitAtom } from 'jotai/utils';
 import * as d3 from 'd3';
 
-const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
+const EgographBundle = (props: {
+    x: number;
+    y: number;
+    nodeId: string;
+}) => {
     const { x, y, nodeId } = props;
 
     // "local store"
     const egoGraphBundleDataAtom = useMemo(() => {
-        return focusAtom(egoGraphBundlesDataAtom, (optic) =>
+        return focusAtom(egoGraphBundlesLayoutAtom, (optic) =>
             optic.prop(nodeId)
         );
     }, [nodeId]);
@@ -32,25 +34,19 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
         () =>
             atom((get) => {
                 const data = get(egoGraphBundleDataAtom);
-                if (!get(isLoadedAtom)) {
+                if (!data) {
                     return {
                         edges: [],
                         nodes: [],
                         identityEdges: [],
-                        maxRadius: 0
+                        maxRadius: 0,
+                        centers: []
                     };
                 } else {
-                    return calculateLayout(
-                        data.egoGraphs,
-                        data.intersections,
-                        get(bundleGroupSizeAtom).height,
-                        get(bundleGroupSizeAtom).width,
-                        get(innerRadiusAtom),
-                        get(outerRadiusAtom)
-                    );
+                    return(get(egoGraphBundleDataAtom))
                 }
             }),
-        [isLoadedAtom, egoGraphBundleDataAtom]
+        [egoGraphBundleDataAtom]
     );
     const egoGraphBundleOverwrittenAtom = useMemo(() => atom(null), []);
     // writable version of egoGraphBundle
@@ -116,15 +112,21 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
     const [outerRadius] = useAtom(outerRadiusAtom);
     const [highlightedNodeIndices] = useAtom(highlightedNodeIndicesAtom);
 
-    //console.log(nodeId,isLoaded)
     return useMemo(() => {
         if (isLoaded) {
-            let lines = [];
+            let lines: ReactElement[];
             const foregroundBands: ReactElement[] = [];
             const backgroundBands: ReactElement[] = [];
-            const layoutCircles = layout.centers.map((center, i) => {
+            const layoutCircles = layout.centers.map((center) => {
                 return (
-                    <g key={i}>
+                    <g key={center.id}>
+                        <circle
+                            cx={center.x}
+                            cy={center.y}
+                            r={outerRadius}
+                            stroke={'lightgray'}
+                            fill={'white'}
+                        />
                         <circle
                             cx={center.x}
                             cy={center.y}
@@ -132,17 +134,10 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                             stroke={'lightgray'}
                             fill={'none'}
                         />
-                        <circle
-                            cx={center.x}
-                            cy={center.y}
-                            r={outerRadius}
-                            stroke={'lightgray'}
-                            fill={'none'}
-                        />
                     </g>
                 );
             });
-            const circles: React.ReactElement[] = [];
+            const circles: ReactElement[] = [];
             Object.values(layout.nodes).forEach((node, i) => {
                 if (!node.pseudo) {
                     circles.push(
@@ -218,20 +213,20 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
             );
         } else return null;
     }, [
-        highlightedNodeIndicesAtom,
         isLoaded,
-        colorScale,
-        highlightedNodeIndices,
-        innerRadius,
         layout.centers,
+        layout.nodes,
         layout.edges,
         layout.identityEdges,
-        layout.nodes,
-        nodeAtoms,
-        nodeRadius,
-        outerRadius,
         x,
-        y
+        y,
+        innerRadius,
+        outerRadius,
+        nodeRadius,
+        nodeAtoms,
+        highlightedNodeIndicesAtom,
+        colorScale,
+        highlightedNodeIndices
     ]);
 };
 export default EgographBundle;
