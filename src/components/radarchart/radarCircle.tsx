@@ -4,6 +4,7 @@ import { intersectionDatum } from '../../egoGraphSchema';
 import { getRadarAtom } from '../../apiCalls';
 import { useAtom } from 'jotai';
 import * as d3 from 'd3';
+import { selectedProteinsAtom } from '../selectionTable/tableStore';
 
 interface RadarCircleProps {
     id: string;
@@ -30,6 +31,8 @@ const RadarCircle = (props: RadarCircleProps) => {
         styleParam
     } = props;
     const [_intersectionData, getRadarData] = useAtom(getRadarAtom);
+    const [selectedProteins, setSelectedProteins] =
+        useAtom(selectedProteinsAtom);
 
     return (
         <Tooltip title={id} key={id}>
@@ -46,8 +49,14 @@ const RadarCircle = (props: RadarCircleProps) => {
                 style={{ ...styleParam }}
                 strokeOpacity={0.8}
                 strokeWidth={1}
-                onClick={() => {
-                    getRadarData(id);
+                onClick={(event) => {
+                    if (event.shiftKey) {
+                        if (!selectedProteins.includes(id)) {
+                            setSelectedProteins([...selectedProteins, id]);
+                        }
+                    } else {
+                        getRadarData(id);
+                    }
                 }}
             />
         </Tooltip>

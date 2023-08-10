@@ -19,6 +19,7 @@ function App() {
         getTableData();
         setTarNode('Q9Y625');
         getRadarData('Q9Y625');
+        // TODO it seems like the http-get of the table atom leads to the problem that the initial set of the selectedProteinsAtom is not correctly selected in the table
         setSelectedProteins(['P07093', 'P30533', 'Q9Y625', 'Q15369', 'Q9H3U1']);
     }, [getTableData, getRadarData, setTarNode, setSelectedProteins]);
     if (
