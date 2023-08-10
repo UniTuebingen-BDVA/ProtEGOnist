@@ -1,8 +1,8 @@
 import { atom, useAtom } from 'jotai';
 import { GridRowsProp, GridColDef } from '@mui/x-data-grid';
-import { getRadarAtom } from '../../apiCalls';
+import { getEgoNetworkNetworkAtom, getRadarAtom } from '../../apiCalls';
 import { multiSelectionAtom } from '../TabViewer/tabViewerStore';
-
+import RadarIcon from '@mui/icons-material/Radar';
 export const tableAtomStore = atom<{
     rows: GridRowsProp;
     columns: GridColDef[];
@@ -35,15 +35,36 @@ const RadarButton = (params: rowData) => {
                 getRadarData(selectedName);
             }}
         >
-            Radar
+            <RadarIcon />
         </button>
     );
 };
+
+export const selectedProteinsStoreAtom = atom<string[]>([]);
+
+export const selectedProteinsAtom = atom(
+    (get) => {
+        return get(selectedProteinsStoreAtom);
+    },
+    (get, set, update: string[]) => {
+        set(selectedProteinsStoreAtom, update);
+        set(getEgoNetworkNetworkAtom, get(selectedProteinsAtom));
+        const indices = get(selectedProteinsStoreAtom).map((protein) => {
+            return get(tableAtomStore).rows.findIndex((row) => {
+                return row['UniprotID_inString'] === protein;
+            });
+        });
+        set(tableModelAtom, indices);
+    }
+);
+
+export const tableModelAtom = atom<number[]>([]);
 
 export const tableAtom = atom(
     (get) => get(tableAtomStore),
     (get, set, update: { rows: GridRowsProp; columns: GridColDef[] }) => {
         // add a Radar button to the columns when tableAtom is set
+
         update.columns.unshift({
             field: 'Radar',
             headerName: 'Radar',

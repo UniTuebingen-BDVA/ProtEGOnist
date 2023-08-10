@@ -5,14 +5,13 @@ import {
     GridCallbackDetails
 } from '@mui/x-data-grid';
 import { useAtom } from 'jotai';
-import { tableAtom } from './tableStore';
-import { getEgoNetworkNetworkAtom } from '../../apiCalls';
+import { selectedProteinsAtom, tableAtom, tableModelAtom } from './tableStore';
 
 const SelectionTable = () => {
     const [tableData] = useAtom(tableAtom);
-    const [_egoNetworkNetworkData, getEgoNetworkNetworkData] = useAtom(
-        getEgoNetworkNetworkAtom
-    );
+    const [_selectedProteins, setSelectedProteins] =
+        useAtom(selectedProteinsAtom);
+    const [tableModel, setTableModel] = useAtom(tableModelAtom);
     const rows = tableData.rows;
     const columns = tableData.columns;
     return (
@@ -30,14 +29,17 @@ const SelectionTable = () => {
                 checkboxSelection
                 disableRowSelectionOnClick
                 disableDensitySelector
+                rowSelectionModel={tableModel}
                 onRowSelectionModelChange={(selection) => {
+                    console.log('sel', selection);
+                    setTableModel(selection);
                     // when the model changes, we need to update the network data
                     // for this we call getEgoNetworkNetworkData with the IDs of the selected rows
                     const selectedIDs = selection.map(
                         (id) => rows[id]['UniprotID_inString']
                     );
                     if (selectedIDs.length > 0) {
-                        getEgoNetworkNetworkData(selectedIDs);
+                        setSelectedProteins(selectedIDs);
                     }
                 }}
                 slots={{ toolbar: GridToolbar }}
