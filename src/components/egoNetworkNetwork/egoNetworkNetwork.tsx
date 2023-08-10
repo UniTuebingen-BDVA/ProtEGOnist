@@ -1,7 +1,6 @@
 import { useAtom } from 'jotai';
 import {
-    aggregateNetworkBundleEdges, aggregateNetworkEdgesAtom,
-    aggregateNetworkNodesAtom,
+    aggregateNetworkAtom,
     decollapsedSizeAtom
 } from './egoNetworkNetworkStore';
 import EgoNetworkNetworkNode from './egoNetworkNetworkNode.tsx';
@@ -10,9 +9,8 @@ import EgoGraphBundle from '../egograph/egoGraphBundle.tsx';
 import { useTransition } from '@react-spring/web';
 
 const EgoNetworkNetwork = () => {
-    const [nodes] = useAtom(aggregateNetworkNodesAtom);
-    const [edges] = useAtom(aggregateNetworkEdgesAtom);
-    const [bundleNetworkEdges] = useAtom(aggregateNetworkBundleEdges);
+    const [{ nodes, edges, bundleNetworkEdges }] =
+        useAtom(aggregateNetworkAtom);
 
     const [decollapsedSize] = useAtom(decollapsedSizeAtom);
     const transitionsNodes = useTransition(nodes, {
@@ -102,17 +100,21 @@ const EgoNetworkNetwork = () => {
             })}
 
             {transitionsNodes((style, node) => {
-                if (!node.collapsed && Object.keys(bundleNetworkEdges).includes(node.id)) {
-                    //console.log(node);
+                if (!node.collapsed) {
                     return (
-                        <g>
-                            <EgoGraphBundle
-                                x={style.x.get() - decollapsedSize / 2}
-                                y={style.y.get() - decollapsedSize / 2}
-                                outsideEdges={bundleNetworkEdges[node.id]}
-                                nodeId={node.id}
-                            />
-                        </g>
+                        <EgoGraphBundle
+                            x={
+                                style.x.get() -
+                                decollapsedSize[node.id.split(',').length - 1] /
+                                    2
+                            }
+                            y={
+                                style.y.get() -
+                                decollapsedSize[node.id.split(',').length - 1] /
+                                    2
+                            }
+                            nodeId={node.id}
+                        />
                     );
                 } else
                     return (

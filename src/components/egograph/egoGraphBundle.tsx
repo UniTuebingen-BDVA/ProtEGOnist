@@ -12,15 +12,13 @@ import { egoGraphLayout } from './egolayout.ts';
 import { focusAtom } from 'jotai-optics';
 import { splitAtom } from 'jotai/utils';
 import * as d3 from 'd3';
-import { egoNetworkNetworkEdge } from '../../egoGraphSchema.ts';
 
 const EgographBundle = (props: {
     x: number;
     y: number;
     nodeId: string;
-    outsideEdges: egoNetworkNetworkEdge[];
 }) => {
-    const { x, y, nodeId, outsideEdges } = props;
+    const { x, y, nodeId } = props;
 
     // "local store"
     const egoGraphBundleDataAtom = useMemo(() => {
@@ -104,47 +102,6 @@ const EgographBundle = (props: {
         [egoGraphBundleAtom]
     );
     const highlightedNodeIndicesAtom = useMemo(() => atom<number[]>([]), []);
-    const interEdgesAtom = useMemo(
-        () =>
-            atom((get) => {
-                const centers = get(egoGraphBundleAtom).centers;
-                const centerIds = centers.map((d) => d.id);
-                const returnEdges: {
-                    x1: number;
-                    x2: number;
-                    y1: number;
-                    y2: number;
-                    weight: number;
-                }[] = [];
-                outsideEdges.forEach((outsideEdge) => {
-                    const sourceIndex = centerIds.indexOf(
-                        outsideEdge.source.id
-                    );
-                    const targetIndex = centerIds.indexOf(
-                        outsideEdge.target.id
-                    );
-                    if (sourceIndex !== -1 && targetIndex === -1) {
-                        returnEdges.push({
-                            x1: centers[sourceIndex].x,
-                            y1: centers[sourceIndex].y,
-                            x2: outsideEdge.target.x - x,
-                            y2: outsideEdge.target.y - y,
-                            weight: outsideEdge.weight
-                        });
-                    } else if (targetIndex !== -1 && sourceIndex === -1) {
-                        returnEdges.push({
-                            x1: centers[targetIndex].x,
-                            y1: centers[targetIndex].y,
-                            x2: outsideEdge.source.x - x,
-                            y2: outsideEdge.source.y - y,
-                            weight: outsideEdge.weight
-                        });
-                    }
-                });
-                return returnEdges;
-            }),
-        [egoGraphBundleAtom, outsideEdges, x, y]
-    );
 
     const [isLoaded] = useAtom(isLoadedAtom);
     const [layout] = useAtom(egoGraphBundleAtom);
@@ -154,7 +111,6 @@ const EgographBundle = (props: {
     const [innerRadius] = useAtom(innerRadiusAtom);
     const [outerRadius] = useAtom(outerRadiusAtom);
     const [highlightedNodeIndices] = useAtom(highlightedNodeIndicesAtom);
-    const [interEdges] = useAtom(interEdgesAtom);
 
     return useMemo(() => {
         if (isLoaded) {
@@ -246,21 +202,8 @@ const EgographBundle = (props: {
                     );
                 }
             });
-            const interEdgeLines = interEdges.map((edge) => {
-                return (
-                    <line
-                        x1={edge.x1}
-                        x2={edge.x2}
-                        y1={edge.y1}
-                        y2={edge.y2}
-                        stroke="black"
-                        strokeWidth={edge.weight * 20}
-                    />
-                );
-            });
             return (
                 <g transform={`translate(${x},${y})`}>
-                    {interEdgeLines}
                     {layoutCircles}
                     {lines}
                     {backgroundBands}
@@ -275,7 +218,6 @@ const EgographBundle = (props: {
         layout.nodes,
         layout.edges,
         layout.identityEdges,
-        interEdges,
         x,
         y,
         innerRadius,
