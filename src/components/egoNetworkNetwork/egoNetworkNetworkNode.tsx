@@ -9,10 +9,11 @@ interface EgoNetworkNetworkNodeProps {
     x: number;
     y: number;
     color: string;
+    decollapsePossible: boolean;
 }
 
 const EgoNetworkNetworkNode = (props: EgoNetworkNetworkNodeProps) => {
-    const { id, size, x, y, color } = props;
+    const { id, size, x, y, color, decollapsePossible } = props;
     const [_, setDecollapseID] = useAtom(decollapseIDsAtom);
     return (
         <Tooltip title={id} key={id}>
@@ -24,7 +25,7 @@ const EgoNetworkNetworkNode = (props: EgoNetworkNetworkNodeProps) => {
                 fill={color}
                 stroke="black"
                 strokeWidth="1"
-                onClick={() => setDecollapseID(id)}
+                onClick={() => decollapsePossible ? setDecollapseID(id): null}
             />
         </Tooltip>
     );

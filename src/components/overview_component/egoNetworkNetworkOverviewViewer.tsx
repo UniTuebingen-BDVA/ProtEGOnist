@@ -3,7 +3,6 @@ import { Paper } from '@mui/material';
 import { useAtom } from 'jotai';
 import {
     egoNetworkNetworkSizeAtom,
-    decollapseIDsAtom
 } from './egoNetworkNetworkOverviewStore.ts';
 
 function EgoNetworkNetworkOverviewViewer() {
@@ -12,8 +11,8 @@ function EgoNetworkNetworkOverviewViewer() {
     return (
         <Paper
             style={{
-                width: '1200px',
-                height: '500px',
+                width: '1600px',
+                height: '800px',
                 alignItems: 'center',
                 justifyContent: 'center',
                 margin: 0,
@@ -35,13 +34,13 @@ function EgoNetworkNetworkOverviewViewer() {
                 }}
             >
                 <g
-                    transform={
-                        'translate(' +
-                        String(svgSize.width / 2) +
-                        ',' +
-                        String(svgSize.height / 2) +
-                        ')'
-                    }
+                    // transform={
+                    //     'translate(' +
+                    //     String(svgSize.width / 2) +
+                    //     ',' +
+                    //     String(svgSize.height / 2) +
+                    //     ')'
+                    // }
                 >
                     <EgoNetworkNetwork />
                 </g>

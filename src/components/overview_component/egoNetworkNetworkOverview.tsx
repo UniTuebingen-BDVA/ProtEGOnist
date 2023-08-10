@@ -1,5 +1,5 @@
 import { useAtom } from 'jotai';
-import { aggregateNetworkAtom } from './egoNetworkNetworkOverviewStore';
+import { aggregateNetworkAtom, scaleNodeSizeAtom } from './egoNetworkNetworkOverviewStore';
 import EgoNetworkNetworkNode from '../egoNetworkNetwork/egoNetworkNetworkNode.tsx';
 import EgoNetworkNetworkEdge from '../egoNetworkNetwork/egoNetworkNetworkEdge.tsx';
 import { useTransition } from '@react-spring/web';
@@ -72,7 +72,7 @@ const EgoNetworkNetwork = () => {
             },
         config: { duration: 2000 }
     });
-
+    const [scaleSize] = useAtom(scaleNodeSizeAtom)
     return (
         <g>
             {transitionsEdges((style, edge) => {
@@ -91,14 +91,18 @@ const EgoNetworkNetwork = () => {
             })}
 
             {transitionsNodes((style, node) => {
+                let sizeNode = scaleSize.scale(node.size)
+                let fixX = Math.max(0+sizeNode, Math.min(style.x, 1000-sizeNode));
+                let fixY = Math.max(0+sizeNode, Math.min(style.y, 1000-sizeNode));
                     return (
                         <EgoNetworkNetworkNode
                             key={node.id}
                             id={node.id}
-                            size={node.size}
+                            size={sizeNode}
                             x={style.x}
                             y={style.y}
                             color={'red'}
+                            decollapsePossible={false}
                         />
                     );
             })}
