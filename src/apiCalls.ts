@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { atom } from 'jotai';
+import { atom, useAtom } from 'jotai';
 import {
     egoGraph,
     intersectionDatum,
@@ -11,7 +11,10 @@ import {
     changedNodesAtom,
     tarNodeAtom
 } from './components/radarchart/radarStore.ts';
-import { tableAtom } from './components/selectionTable/tableStore.tsx';
+import {
+    selectedProteinsAtom,
+    tableAtom
+} from './components/selectionTable/tableStore.tsx';
 import { GridColDef, GridRowsProp } from '@mui/x-data-grid';
 import { egoGraphBundlesDataAtom } from './components/egograph/egoGraphBundleStore.ts';
 import { egoNetworkNetworksAtom } from './components/egoNetworkNetwork/egoNetworkNetworkStore.ts';
@@ -100,7 +103,8 @@ export const getTableAtom = atom(
 
 export const getEgoNetworkNetworkAtom = atom(
     (get) => get(egoNetworkNetworksAtom),
-    (get, set, ids: string[]) => {
+    (get, set) => {
+        const ids = useAtom(selectedProteinsAtom);
         axios
             .get<egoNetworkNetwork>(
                 `/api/getEgoNetworkNetwork/${ids.join('+')}`

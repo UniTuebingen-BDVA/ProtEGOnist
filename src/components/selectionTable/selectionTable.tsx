@@ -5,7 +5,7 @@ import {
     GridCallbackDetails
 } from '@mui/x-data-grid';
 import { useAtom } from 'jotai';
-import { tableAtom } from './tableStore';
+import { selectedProteinsAtom, tableAtom } from './tableStore';
 import { getEgoNetworkNetworkAtom } from '../../apiCalls';
 
 const SelectionTable = () => {
@@ -13,6 +13,8 @@ const SelectionTable = () => {
     const [_egoNetworkNetworkData, getEgoNetworkNetworkData] = useAtom(
         getEgoNetworkNetworkAtom
     );
+    const [selectedProteinsm, setSelectedProteins] =
+        useAtom(selectedProteinsAtom);
     const rows = tableData.rows;
     const columns = tableData.columns;
     return (
