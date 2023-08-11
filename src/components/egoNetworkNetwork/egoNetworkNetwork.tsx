@@ -1,18 +1,21 @@
 import { useAtom } from 'jotai';
 import {
     aggregateNetworkAtom,
-    decollapsedSizeAtom
+    decollapsedSizeAtom,
+    interEdgesAtom
 } from './egoNetworkNetworkStore';
 import EgoNetworkNetworkNode from './egoNetworkNetworkNode.tsx';
 import EgoNetworkNetworkEdge from './egoNetworkNetworkEdge.tsx';
 import EgoGraphBundle from '../egograph/egoGraphBundle.tsx';
-import { useTransition } from '@react-spring/web';
+import { animated, useTransition } from '@react-spring/web';
 
 const EgoNetworkNetwork = () => {
     const [{ nodes, edges, bundleNetworkEdges }] =
         useAtom(aggregateNetworkAtom);
 
     const [decollapsedSize] = useAtom(decollapsedSizeAtom);
+    const [interEdges] = useAtom(interEdgesAtom);
+    console.log(interEdges);
     const transitionsNodes = useTransition(nodes, {
         keys: ({ id }) => id,
         from: {
@@ -86,9 +89,21 @@ const EgoNetworkNetwork = () => {
             },
         config: { duration: 2000 }
     });
-
+    const otherEdges = interEdges.map((edge) => {
+        return (
+            <line
+                x1={edge.x1}
+                y1={edge.y1}
+                x2={edge.x2}
+                y2={edge.y2}
+                stroke="black"
+                strokeWidth={edge.weight * 20}
+            />
+        );
+    });
     return (
         <g>
+            {otherEdges}
             {transitionsEdges((style, edge) => {
                 return (
                     <EgoNetworkNetworkEdge
