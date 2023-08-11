@@ -68,13 +68,13 @@ function App() {
                                 flex: 1,
                                 minHeight: '100%',
                                 height: '100%',
-                                width: '33%',
-                                minWidth: '33%'
+                                width: '45%',
+                                minWidth: '45%'
                             }}
                         >
                             <div>
                                 {/* <!-- Content for the first column, first row --> */}
-                                <TabViewer />
+                               
                             </div>
                             <div>
                                 {/* <!-- Content for the first column, second row --> */}
@@ -88,7 +88,7 @@ function App() {
                         {/* <!-- Second Column --> */}
                         <div
                             className="column"
-                            style={{ flex: 2, width: '67%' }}
+                            style={{ flex: 2, width: '55%' }}
                         >
                             <div>
                                 {/* <!-- Content for the second column, first row --> */}
@@ -97,7 +97,17 @@ function App() {
                             </div>
                         </div>
                     </div>
+
+                    {/* <!-- Third Row --> */}
+                    <div className="row">
+                        
+                    
+                                <TabViewer />
+                    </div>
+                            
                 </div>
+
+                       
             </>
         );
     } else return null;
