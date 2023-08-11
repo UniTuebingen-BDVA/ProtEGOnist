@@ -26,7 +26,7 @@ const EgoNetworkNetworkNode = (props: EgoNetworkNetworkNodeProps) => {
                 fill={color}
                 stroke="black"
                 strokeWidth="1"
-                onClick={() => setDecollapseID(id)}
+                onClick={() =>  setDecollapseID(id)}
             />
         </Tooltip>
     );
