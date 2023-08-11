@@ -30,7 +30,7 @@ const RadarButton = (params: rowData) => {
                 multiSelectionLocal.push(selectedName);
                 if (multiSelectionLocal.length > 3) {
                     multiSelectionLocal.shift();
-                }
+                }            
                 setMultiSelection(multiSelectionLocal);
                 getRadarData(selectedName);
             }}
