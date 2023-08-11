@@ -33,6 +33,7 @@ export type intersectionDatum = {
 
 export type egoNetworkNetworkNode = baseNode & {
     size: number;
+    radius: number;
     x: number;
     y: number;
     collapsed: boolean;

@@ -93,7 +93,8 @@ export const aggregateNetworkAtom = atom((get) => {
         egoNetworkNetwork.nodes,
         egoNetworkNetwork.edges,
         aggregateEgoNetworkNodeIDs,
-        get(decollapsedSizeAtom)
+        get(decollapsedSizeAtom),
+        get(scaleNodeSizeAtom)
     );
     console.log('Relayout');
     // generate a deep copy for the force layout of outNodes and outEdges
@@ -102,7 +103,7 @@ export const aggregateNetworkAtom = atom((get) => {
     // console.log('internalEdges', outEdgesInternal);
     const forceLayout = d3
         .forceSimulation(outNodes)
-        .force('charge', d3.forceManyBody().strength(-100))
+        .force('charge', d3.forceManyBody().strength(-50))
         .force(
             'link',
             d3
@@ -113,7 +114,7 @@ export const aggregateNetworkAtom = atom((get) => {
         .force('center', d3.forceCenter(0, 0))
         .force(
             'collision',
-            d3.forceCollide().radius((d) => d.size + 10)
+            d3.forceCollide().radius((d) => d.radius + 10)
         );
     forceLayout.stop();
     for (let i = 0; i < 1000; i++) {
@@ -129,7 +130,8 @@ function aggregateEgoNetworkNodes(
     egoNetworkNodesNodes: egoNetworkNetworkNode[],
     egoNetworkNetworkEdges: egoNetworkNetworkEdge[],
     aggregateNodeIDs: string[][],
-    decollapsedSize: number[]
+    decollapsedSize: number[],
+    radiusScale:d3.ScaleLinear<number, number>,
 ): { outNodes: egoNetworkNetworkNode[]; outEdges: egoNetworkNetworkEdge[] } {
     const outNodes: egoNetworkNetworkNode[] = [];
     for (const node of egoNetworkNodesNodes) {
@@ -137,7 +139,7 @@ function aggregateEgoNetworkNodes(
         if (
             !aggregateNodeIDs.some((aggregate) => aggregate.includes(node.id))
         ) {
-            outNodes.push({ ...node, collapsed: true });
+            outNodes.push({ ...node, radius: Math.sqrt(radiusScale(node.size)/Math.PI),collapsed: true });
         }
     }
     const outEdges = egoNetworkNetworkEdges.filter(
@@ -151,6 +153,7 @@ function aggregateEgoNetworkNodes(
         outNodes.push({
             id: aggregateID,
             name: aggregateID,
+            radius: decollapsedSize[aggregates.length - 1],
             size: decollapsedSize[aggregates.length - 1],
             x: 0,
             y: 0,
@@ -160,6 +163,15 @@ function aggregateEgoNetworkNodes(
     return { outNodes: outNodes, outEdges: outEdges };
 }
 
+export const scaleNodeSizeAtom = atom((get) => {
+    const allSizes = get(egoNetworkNetworksAtom).nodes.map((d) => d.size);
+    const max = d3.max(allSizes);
+    const min = d3.min(allSizes);
+    return d3
+        .scaleLinear()
+        .domain([min, max])
+        .range([Math.PI*5**2, Math.PI*150**2]);
+});
 export const interEdgesAtom = atom((get) => {
     const aggregateEgoNetworkNodeIDs = get(decollapseIDsAtom);
     const egoLayouts = get(egoGraphBundlesLayoutAtom);
@@ -173,8 +185,6 @@ export const interEdgesAtom = atom((get) => {
         y2: number;
         weight: number;
     }[] = [];
-            console.log(  Object.keys(egoLayouts).toString(),
-            aggregateEgoNetworkNodeIDs.map((d) => d.join(',')).toString());
     if (
         Object.keys(egoLayouts).toString() ===
             aggregateEgoNetworkNodeIDs.map((d) => d.join(',')).toString() &&

@@ -7,10 +7,10 @@ import {
 import EgoNetworkNetworkNode from './egoNetworkNetworkNode.tsx';
 import EgoNetworkNetworkEdge from './egoNetworkNetworkEdge.tsx';
 import EgoGraphBundle from '../egograph/egoGraphBundle.tsx';
-import { animated, useTransition } from '@react-spring/web';
+import { useTransition } from '@react-spring/web';
 
 const EgoNetworkNetwork = () => {
-    const [{ nodes, edges, bundleNetworkEdges }] =
+    const [{ nodes, edges }] =
         useAtom(aggregateNetworkAtom);
 
     const [decollapsedSize] = useAtom(decollapsedSizeAtom);
@@ -138,7 +138,7 @@ const EgoNetworkNetwork = () => {
                         <EgoNetworkNetworkNode
                             key={node.id}
                             id={node.id}
-                            size={node.size}
+                            size={node.radius}
                             color={'red'}
                             animatedParams={style}
                         />
