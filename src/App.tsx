@@ -52,13 +52,14 @@ function App() {
         tarNode !== ''
     ) {
         return (
-            <>
+            
                 <div className="container">
                     {/* <!-- First Row --> */}
-                    <div className="row">
-                        <div
+                    <div className="row" style={{ display: 'flex', height: '5%' }}
+ >
+                        <div className="column"
                             style={{
-                                flex: 1,
+                                flex: "1 1 0px",
                                 display: 'flex',
                                 justifyContent: 'center',
                                 alignItems: 'center'
@@ -81,8 +82,12 @@ function App() {
                             </AppBar>
                         </div>
                     </div>
-                    <div className="row" style={{minHeight:"100%", minWidth:"100%" }}>
+                    <div className="row" style={{minHeight:"60%"}} >
+                    <div className='column' style={{width:"100%", height:"100%", flex:"1 1 0px"}} >
+                        <div>
                             <EgoNetworkNetworkOverviewViewer/>
+                        </div>
+                        </div>
                     </div>
                     {/* <!-- Second Row --> */}
                     <div className="row">
@@ -100,8 +105,8 @@ function App() {
                             <div>
                                 {/* <!-- Content for the first column, first row --> */}
                                 <TabViewer />
-                            </div>
-                            <div>
+                            </div >
+                            <div> 
                                 {/* <!-- Content for the first column, second row --> */}
                                 <RadarChartViewer
                                     intersectionData={intersectionData}
@@ -113,9 +118,9 @@ function App() {
                         {/* <!-- Second Column --> */}
                         <div
                             className="column"
-                            style={{ flex: 2, width: '67%' }}
+                            style={{ flex: "2 1 0" }}
                         >
-                            <div>
+                            <div >
                                 {/* <!-- Content for the second column, first row --> */}
                                 {/* <EgoGraphViewer />  */}
                                 <EgoNetworkNetworkViewer />
@@ -123,7 +128,9 @@ function App() {
                         </div>
                     </div>
                 </div>
-            </>
+
+
+        
         );
     } else return null;
 }

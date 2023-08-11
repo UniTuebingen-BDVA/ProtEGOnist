@@ -6,13 +6,13 @@ import * as d3 from 'd3';
 
 
 export const egoNetworkNetworkSizeAtom = atom({
-    width: 1000,
-    height: 1000,
+    width: 500,
+    height: 500,
     x: 0,
     y: 0
 });
 
-export const egoNetworkNetworkNodeSizeScaleAtom = atom({scale: d3.scaleLinear().domain([0, 1]).range([0, 5])})
+export const egoNetworkNetworkNodeSizeScaleAtom = atom({scale: null})
 
 export const scaleNodeSizeAtom = atom(
     (get) => {
@@ -22,8 +22,6 @@ export const scaleNodeSizeAtom = atom(
     return({scale:d3.scaleLinear().domain([min, max]).range([5, 100])})
     }
 );
-
-
 
 export const egoNetworkNetworksOverviewAtom = atom<egoNetworkNetwork>({
     nodes: [],
@@ -38,30 +36,54 @@ export const aggregateNetworkAtom = atom((get) => {
 
     const scaleSize = get(scaleNodeSizeAtom)
 
-    
     const forceLayout = d3
         .forceSimulation(outNodes)
         // .alpha(1).alphaDecay(0.01)
-        // .force('charge', d3.forceManyBody().strength((d) => -200).distanceMax(svgSize.width / 2))
-        .force(
-            'collision',
-            d3.forceCollide().radius((d) => 4 * scaleSize.scale(d.size))
-        )
-        .force(
-            'link',
-            d3
-                .forceLink(outEdges)
-                .id((d) => d.id)
-                .distance((d) => 10 + (25 * (1 - d.weight)))
+        .force('center', d3.forceCenter( svgSize.width/2, svgSize.height/2))
+        .force('charge', d3.forceManyBody().strength((d) => -50))
+        .force('link', d3.forceLink(outEdges)
+                          .id((d) => d.id).distance((d) => 1.5*(scaleSize.scale(d.source.size) +scaleSize.scale(d.target.size)) + (25 * (1 - d.weight)))
+                )
+       
+        .stop();
+    // for (let i = 0; i < 100; i++) {
+        forceLayout.tick(100);
+        forceLayout.force('boxing', boxingForce)
+                    .force('collision',d3.forceCollide().radius((d) => 1.5 * scaleSize.scale(d.size)).iterations(4)
+            ).tick(100);
+        function bounded(node) {
+            const radius = scaleSize.scale(node.size) ;
+            console.log(radius)
+            const blockX = svgSize.width - 2*radius;
+            const blockY = svgSize.height - 2*radius;
+            // Of the positions exceed the box, set them to the boundary position.
+            // You may want to include your nodes width to not overlap with the box.
+            node.x = Math.max(radius, Math.min(blockX, node.x));
+            console.log(node.x)
+            node.y = Math.max(radius, Math.min(blockY, node.y));
+            console.log(node.y)
+        }
+        function boxingForce() {
+            const svgSize = get(egoNetworkNetworkSizeAtom);
 
-                
-        )
-        .force('center', d3.forceCenter(500 , 500))
-        .force('x', d3.forceX(svgSize.width/2).strength(0.2))
-        .force('y', d3.forceY(svgSize.height/2).strength(0.8))
-    for (let i = 0; i < 100; i++) {
-        forceLayout.tick();
-    }
+            for (let node of outNodes) {
+                const radius = scaleSize.scale(node.size) ;
+                console.log(radius)
+                const blockX = svgSize.width - 2*radius;
+                const blockY = svgSize.height - 2*radius;
+                // Of the positions exceed the box, set them to the boundary position.
+                // You may want to include your nodes width to not overlap with the box.
+                node.x = Math.max(radius, Math.min(blockX, node.x));
+                console.log(node.x)
+                node.y = Math.max(radius, Math.min(blockY, node.y));
+                console.log(node.y)
+            }
+        }
+        outNodes.forEach((d) => {
+            bounded(d);
+        });
+    // }
     // forceLayout
     return { nodes: outNodes, edges: outEdges };
 });
+

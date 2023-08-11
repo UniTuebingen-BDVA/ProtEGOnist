@@ -1,18 +1,31 @@
 import EgoNetworkNetwork from './egoNetworkNetworkOverview.tsx';
 import { Paper } from '@mui/material';
+
 import { useAtom } from 'jotai';
 import {
     egoNetworkNetworkSizeAtom,
 } from './egoNetworkNetworkOverviewStore.ts';
+import { svg } from 'd3';
+import { useRef, useEffect } from 'react';
+import { useDimensions } from '../../UtilityFunctions.ts';
 
 function EgoNetworkNetworkOverviewViewer() {
+    const ref = useRef(null);
+
     const [svgSize, setSvgSize] = useAtom(egoNetworkNetworkSizeAtom);
+    const { width, height } = useDimensions(ref);
+
+    useEffect(() => {
+        setSvgSize({ x: 0, y:0 , width: width, height: height });
+    }, [height, width]);
 
     return (
         <Paper
+            ref={ref}
+
             style={{
-                width: '1600px',
-                height: '800px',
+                width: "100%",
+                height: "100%",
                 alignItems: 'center',
                 justifyContent: 'center',
                 margin: 0,
@@ -24,7 +37,7 @@ function EgoNetworkNetworkOverviewViewer() {
             <svg
                 width="100%"
                 height="100%"
-                viewBox={`${svgSize.x} ${svgSize.y} ${svgSize.width} ${svgSize.height}`}
+                viewBox={`${svgSize.x} ${svgSize.y} ${ svgSize.width ?? 0} ${ svgSize.height ?? 0}`}
                 style={{
                     position: 'absolute',
                     top: 0,
