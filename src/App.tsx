@@ -80,15 +80,9 @@ function App() {
                             </AppBar>
                         </div>
                     </div>
-                    <div className="row" style={{minHeight:"60%"}} >
-                    <div className='column' style={{width:"100%", height:"100%", flex:"1 1 0px"}} >
-                        <div>
-                            <EgoNetworkNetworkOverviewViewer/>
-                        </div>
-                        </div>
-                    </div>
+                   
                     {/* <!-- Second Row --> */}
-                    <div className="row">
+                    <div className="row" style={{minHeight:"100%"}}>
                         {/* <!-- First Column --> */}
                          <div
                             className="column"
@@ -97,16 +91,15 @@ function App() {
                                 minHeight: '100%',
                                 height: '100%',
                                 width: '45%',
-                                minWidth: '45%'
+                                minWidth: '45%',
+                                 alignItems: "center"
                             }}
                         >
-                            <div>
+                            <div style={{minHeight:"50%",height:"50%", width:"100%"}}>
                                 {/* <!-- Content for the first column, first row --> */}
-                               <div>
-                                HERE COMES THE OVERVIEW
-                               </div>
+                                    <EgoNetworkNetworkOverviewViewer/>
                             </div>
-                            <div>
+                            <div style={{minWidth:"80%",width:"80%"}}>
                                 {/* <!-- Content for the first column, second row --> */}
                                 <RadarChartViewer
                                     intersectionData={intersectionData}

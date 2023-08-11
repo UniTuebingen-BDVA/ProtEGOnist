@@ -102,6 +102,20 @@ export const getRadarAtom = atom(
             );
     }
 );
+export const accountedProteinsNeigborhoodStoreAtom = atom<Set<string>>([])
+
+export const accountedProteinsNeigborhoodAtom = atom(
+    (get) => {
+        return get(accountedProteinsNeigborhoodStoreAtom);
+    }, 
+    (get, set, update: string[][]) => {
+        // Flatten list
+        let flatArray = update.reduce((acc, val) => acc.concat(val), []);
+        
+        let accountedProteins = new Set(flatArray)
+        set(accountedProteinsNeigborhoodStoreAtom, accountedProteins);
+    }
+);
 
 export const getTableAtom = atom(
     (get) => get(tableAtom),
@@ -126,6 +140,7 @@ export const getEgoNetworkNetworkAtom = atom(
             )
             .then(
                 (result) => {
+                    set(accountedProteinsNeigborhoodAtom, result.data.nodes.map(node => node.neighbors))
                     set(egoNetworkNetworksAtom, result.data);
                 },
                 () => {

@@ -1,10 +1,18 @@
 import { useAtom } from 'jotai';
 import { aggregateNetworkAtom, scaleNodeSizeAtom, egoNetworkNetworkSizeAtom } from './egoNetworkNetworkOverviewStore';
-import EgoNetworkNetworkNode from '../egoNetworkNetwork/egoNetworkNetworkNode.tsx';
-import EgoNetworkNetworkEdge from '../egoNetworkNetwork/egoNetworkNetworkEdge.tsx';
-const EgoNetworkNetwork = () => {
+import EgoNetworkNetworkOverviewNode from './egoNetworkNetworkOverviewNode';
+import EgoNetworkNetworkOverviewEdge from './egoNetworkNetworkOverviewEdge';
+import { accountedProteinsNeigborhoodAtom} from "../../apiCalls.ts";
+import { selectedProteinsAtom } from '../selectionTable/tableStore';
+import { get } from 'optics-ts';
+
+const EgoNetworkNetworkOverview = () => {
     const [{ nodes, edges }] = useAtom(aggregateNetworkAtom);
     const [svgSize, setSvgSize] = useAtom(egoNetworkNetworkSizeAtom);
+    const [selectedEgoCenters] = useAtom(selectedProteinsAtom)
+    const [accountedProteinsNeigborhood] = useAtom(accountedProteinsNeigborhoodAtom)
+    console.log(selectedEgoCenters)
+    console.log(accountedProteinsNeigborhood)
 
 
     const [scaleSize] = useAtom(scaleNodeSizeAtom)
@@ -12,7 +20,7 @@ const EgoNetworkNetwork = () => {
         <g>
             {edges.map( edge => {
                 return (
-                    <EgoNetworkNetworkEdge
+                    <EgoNetworkNetworkOverviewEdge
                         key={edge.source.id + '+' + edge.target.id}
                         source={edge.source}
                         target={edge.target}
@@ -27,17 +35,19 @@ const EgoNetworkNetwork = () => {
 
             {nodes.map( (node) => {
                 let sizeNode = scaleSize.scale(node.size)
-                let fixX = Math.max(0+sizeNode, Math.min(node.x, svgSize.width-sizeNode));
-                let fixY = Math.max(0+sizeNode, Math.min(node.y, svgSize.height-sizeNode));
+                let nodeNeighbors = node.neighbors
+                // Intersection between nodeNeighbors and accountedProteinsNeigborhood
+                let coverageProteins = nodeNeighbors.filter(value => accountedProteinsNeigborhood.has(value)).length / nodeNeighbors.length;
+               
                     return (
-                        <EgoNetworkNetworkNode
+                        <EgoNetworkNetworkOverviewNode
                             key={node.id}
                             id={node.id}
                             size={sizeNode}
                             x={node.x}
                             y={node.y}
                             color={'red'}
-                            decollapsePossible={false}
+                            opacity={coverageProteins}
                         />
                     );
             })}
@@ -46,4 +56,4 @@ const EgoNetworkNetwork = () => {
     );
 };
 
-export default EgoNetworkNetwork;
+export default EgoNetworkNetworkOverview;

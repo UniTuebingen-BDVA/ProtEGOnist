@@ -21,7 +21,6 @@ const EgoNetworkNetworkEdge = (props: EgoNetworkNetworkEdgeProps) => {
             x2={animatedParams.x2}
             y2={animatedParams.y2}
             stroke="black"
-            opacity={weight}
             strokeWidth={weight * 20}
         />
     );

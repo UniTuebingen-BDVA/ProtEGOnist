@@ -1,11 +1,10 @@
-import EgoNetworkNetwork from './egoNetworkNetworkOverview.tsx';
+import EgoNetworkNetworkOverview from './egoNetworkNetworkOverview.tsx';
 import { Paper } from '@mui/material';
 
 import { useAtom } from 'jotai';
 import {
     egoNetworkNetworkSizeAtom,
 } from './egoNetworkNetworkOverviewStore.ts';
-import { svg } from 'd3';
 import { useRef, useEffect } from 'react';
 import { useDimensions } from '../../UtilityFunctions.ts';
 
@@ -46,16 +45,8 @@ function EgoNetworkNetworkOverviewViewer() {
                     right: 0
                 }}
             >
-                <g
-                    // transform={
-                    //     'translate(' +
-                    //     String(svgSize.width / 2) +
-                    //     ',' +
-                    //     String(svgSize.height / 2) +
-                    //     ')'
-                    // }
-                >
-                    <EgoNetworkNetwork />
+                <g>
+                    <EgoNetworkNetworkOverview />
                 </g>
             </svg>
         </Paper>
