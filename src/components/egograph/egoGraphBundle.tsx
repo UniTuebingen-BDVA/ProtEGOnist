@@ -4,7 +4,8 @@ import { useAtom } from 'jotai';
 import {
     innerRadiusAtom,
     outerRadiusAtom,
-    maxRadiusAtom, egoGraphBundlesLayoutAtom
+    maxRadiusAtom,
+    egoGraphBundlesLayoutAtom
 } from './egoGraphBundleStore';
 import { EgographNode } from './egographNode';
 import { atom } from 'jotai';
@@ -12,12 +13,9 @@ import { egoGraphLayout } from './egolayout.ts';
 import { focusAtom } from 'jotai-optics';
 import { splitAtom } from 'jotai/utils';
 import * as d3 from 'd3';
+import { decollapseIDsAtom } from '../egoNetworkNetwork/egoNetworkNetworkStore.ts';
 
-const EgographBundle = (props: {
-    x: number;
-    y: number;
-    nodeId: string;
-}) => {
+const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
     const { x, y, nodeId } = props;
 
     // "local store"
@@ -43,7 +41,7 @@ const EgographBundle = (props: {
                         centers: []
                     };
                 } else {
-                    return(get(egoGraphBundleDataAtom))
+                    return get(egoGraphBundleDataAtom);
                 }
             }),
         [egoGraphBundleDataAtom]
@@ -111,6 +109,7 @@ const EgographBundle = (props: {
     const [innerRadius] = useAtom(innerRadiusAtom);
     const [outerRadius] = useAtom(outerRadiusAtom);
     const [highlightedNodeIndices] = useAtom(highlightedNodeIndicesAtom);
+    const [_, setDecollapseID] = useAtom(decollapseIDsAtom);
 
     return useMemo(() => {
         if (isLoaded) {
@@ -119,7 +118,10 @@ const EgographBundle = (props: {
             const backgroundBands: ReactElement[] = [];
             const layoutCircles = layout.centers.map((center) => {
                 return (
-                    <g key={center.id}>
+                    <g
+                        key={center.id}
+                        onClick={() => setDecollapseID(center.id)}
+                    >
                         <circle
                             cx={center.x}
                             cy={center.y}
@@ -144,7 +146,7 @@ const EgographBundle = (props: {
                         <EgographNode
                             key={node.id}
                             centerPoint={{ x: node.cx, y: node.cy }}
-                            nodeRadius={node.centerDist===0?5:nodeRadius}
+                            nodeRadius={node.centerDist === 0 ? 5 : nodeRadius}
                             nodeAtom={nodeAtoms[i]}
                             highlightedNodeIndicesAtom={
                                 highlightedNodeIndicesAtom

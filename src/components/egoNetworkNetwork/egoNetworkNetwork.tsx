@@ -15,10 +15,10 @@ const EgoNetworkNetwork = () => {
 
     const [decollapsedSize] = useAtom(decollapsedSizeAtom);
     const [interEdges] = useAtom(interEdgesAtom);
-    console.log(interEdges);
     const transitionsNodes = useTransition(nodes, {
         keys: ({ id }) => id,
         from: {
+            transform: "translate(0,0)",
             x: 0,
             y: 0,
             opacity: 1
@@ -27,6 +27,7 @@ const EgoNetworkNetwork = () => {
             ({ x, y }, index) =>
             async (next, cancel) => {
                 await next({
+                    transform: `translate(${x},${y})`,
                     x: x,
                     y: y
                 });
@@ -40,6 +41,7 @@ const EgoNetworkNetwork = () => {
             ({ x, y }, index) =>
             async (next, cancel) => {
                 await next({
+                    transform: `translate(${x},${y})`,
                     x: x,
                     y: y
                 });

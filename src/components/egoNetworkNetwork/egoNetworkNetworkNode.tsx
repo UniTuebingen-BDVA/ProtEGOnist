@@ -9,7 +9,7 @@ interface EgoNetworkNetworkNodeProps {
     color: string;
     x: number;
     y: number;
-    animatedParams: { x: number; y: number; opacity: number };
+    animatedParams: {opacity: number, transform:string };
 }
 
 const EgoNetworkNetworkNode = (props: EgoNetworkNetworkNodeProps) => {
@@ -17,17 +17,31 @@ const EgoNetworkNetworkNode = (props: EgoNetworkNetworkNodeProps) => {
     const [_, setDecollapseID] = useAtom(decollapseIDsAtom);
     return (
         <Tooltip title={id} key={id}>
-            <animated.circle
-                key={id}
-                r={size}
-                cx={animatedParams.x}
-                cy={animatedParams.y}
-                opacity={animatedParams.opacity}
-                fill={color}
-                stroke="black"
-                strokeWidth="1"
-                onClick={() => setDecollapseID(id)}
-            />
+            <animated.g key={id} transform={animatedParams.transform}>
+                <circle
+                    key={id}
+                    r={size}
+                    opacity={animatedParams.opacity}
+                    fill={color}
+                    stroke="black"
+                    strokeWidth="1"
+                    onClick={() => setDecollapseID(id)}
+                />
+                <circle
+                    key={id}
+                    r={(size * 2) / 3}
+                    fill={'none'}
+                    stroke="black"
+                    strokeWidth="1"
+                />
+                <circle
+                    key={id}
+                    r={10}
+                    fill={'black'}
+                    stroke="black"
+                    strokeWidth="1"
+                />
+            </animated.g>
         </Tooltip>
     );
 };
