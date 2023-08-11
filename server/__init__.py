@@ -24,7 +24,8 @@ app = Flask(__name__, static_folder="../dist", static_url_path="/")
 here: pathlib.Path = pathlib.Path(__file__).parent.absolute()
 
 try:
-    string_graph = nx.read_graphml(here / "data" / "graphml_string_cleaned.graphml")
+    string_graph = nx.read_graphml(
+        here / "data" / "graphml_string_cleaned.graphml")
 except FileNotFoundError:
     print(f"No graphml file found in {here / 'data'}. Make sure you added it.")
 
@@ -43,7 +44,8 @@ try:
         }
         print("Loaded uniprot_brite_dict ", len(uniprot_brite_dict))
 except FileNotFoundError:
-    print(f"No uniprot_brite.csv found in {here / 'data'}. Make sure you added it.")
+    print(
+        f"No uniprot_brite.csv found in {here / 'data'}. Make sure you added it.")
 
 
 # ROUTES
@@ -61,9 +63,8 @@ def test_data_egograph(targetNode: str):
 
 @app.route("/api/egograph_bundle", methods=["POST"])
 def test_data_egograph_bundle():
-    target_nodes=request.json["ids"]
+    target_nodes = request.json["ids"]
     json_data = generate_ego_graph_bundle(string_graph, target_nodes)
-    #print(json_data)
     return json_data
 
 
@@ -94,7 +95,8 @@ def test_ego_radar(targetNode: str):
     intersection_dict = {
         i: rest_ego_graphs[i].get_intersection(tar_ego_graph) for i in ids
     }
-    intersection_dict[targetNode] = tar_ego_graph.get_intersection(tar_ego_graph)
+    intersection_dict[targetNode] = tar_ego_graph.get_intersection(
+        tar_ego_graph)
 
     return json.dumps(intersection_dict)
 
@@ -111,7 +113,8 @@ def get_ego_network_network(targetNodes: str):
     Generate a network of ego networks from the target nodes.
     """
     split_target = targetNodes.split("+")
-    ego_networks = [EgoGraph.from_string_network(i, string_graph) for i in split_target]
+    ego_networks = [EgoGraph.from_string_network(
+        i, string_graph) for i in split_target]
     ego_network_network = EgoNetworkNetwork(ego_networks)
 
     return ego_network_network.get_graph_json()

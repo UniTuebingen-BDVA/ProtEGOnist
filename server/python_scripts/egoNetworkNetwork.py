@@ -21,7 +21,8 @@ class EgoNetworkNetwork:
         self.nx_graph = self.get_ego_network_network(ego_networks)
 
     def get_graph_json(self):
-        node_link_data = dict(nx.node_link_data(self.nx_graph, {"link": "edges"}))
+        node_link_data = dict(nx.node_link_data(
+            self.nx_graph, {"link": "edges"}))
         return node_link_data
 
     def get_ego_network_network(self, list_of_ego_networks: list[EgoGraph]):
@@ -48,6 +49,11 @@ class EgoNetworkNetwork:
         # with the jaccard index as weight
 
         for ego_network in list_of_ego_networks:
+            neighborsList = ego_network.get_neighbors().values()
+            # flatten list of lists
+            neighborsList = [
+                item for sublist in neighborsList for item in sublist]
+            # print(neighbors)
             # add node to ego network network size of the node corresponds to the size of the ego network
             ego_network_network.add_node(
                 ego_network.node,
@@ -56,10 +62,12 @@ class EgoNetworkNetwork:
                 x=0,
                 y=0,
                 id=ego_network.node,
+                neighbors=neighborsList
             )
             for other_ego_network in list_of_ego_networks:
                 if ego_network != other_ego_network:
-                    intersection = ego_network.get_intersection(other_ego_network)
+                    intersection = ego_network.get_intersection(
+                        other_ego_network)
                     if intersection["jaccard"] > 0:
                         ego_network_network.add_edge(
                             ego_network.node,
