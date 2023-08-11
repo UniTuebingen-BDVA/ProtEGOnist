@@ -144,7 +144,7 @@ const EgographBundle = (props: {
                         <EgographNode
                             key={node.id}
                             centerPoint={{ x: node.cx, y: node.cy }}
-                            nodeRadius={nodeRadius}
+                            nodeRadius={node.centerDist===0?5:nodeRadius}
                             nodeAtom={nodeAtoms[i]}
                             highlightedNodeIndicesAtom={
                                 highlightedNodeIndicesAtom
