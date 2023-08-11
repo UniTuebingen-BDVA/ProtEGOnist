@@ -17,10 +17,9 @@ const EgoNetworkNetworkNode = (props: EgoNetworkNetworkNodeProps) => {
     const [_, setDecollapseID] = useAtom(decollapseIDsAtom);
     return (
         <Tooltip title={id} key={id}>
-            <animated.g key={id} transform={animatedParams.transform}>
+            <animated.g key={id} transform={animatedParams.transform} opacity={animatedParams.opacity}>
                 <circle
                     r={size}
-                    opacity={animatedParams.opacity}
                     fill={color}
                     stroke="black"
                     strokeWidth="1"
