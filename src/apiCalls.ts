@@ -26,6 +26,7 @@ import {
     egoNetworkNetworksAtom
 } from './components/egoNetworkNetwork/egoNetworkNetworkStore.ts';
 import { calculateLayout } from './components/egograph/egolayout.ts';
+import { egoNetworkNetworksOverviewAtom } from './components/overview_component/egoNetworkNetworkOverviewStore.ts';
 
 export const getMultiEgographBundleAtom = atom(
     (get) => get(egoGraphBundlesLayoutAtom),
@@ -126,6 +127,26 @@ export const getEgoNetworkNetworkAtom = atom(
             .then(
                 (result) => {
                     set(egoNetworkNetworksAtom, result.data);
+                },
+                () => {
+                    console.error,
+                        console.log(
+                            `couldn't get egographswith ID ${ids.join(';')}`
+                        );
+                }
+            );
+    }
+);
+export const getEgoNetworkNetworkOverviewAtom = atom(
+    (get) => get(egoNetworkNetworksOverviewAtom),
+    (get, set, ids: string[]) => {
+        axios
+            .get<egoNetworkNetwork>(
+                `/api/getEgoNetworkNetwork/${ids.join('+')}`
+            )
+            .then(
+                (result) => {
+                    set(egoNetworkNetworksOverviewAtom, result.data);
                 },
                 () => {
                     console.error,
