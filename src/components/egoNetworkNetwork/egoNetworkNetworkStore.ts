@@ -27,10 +27,17 @@ export const decollapsedSizeAtom = atom((get) => [
 export const decollapseIDsAtom = atom(
     (get) => get(decollapseIDsArrayAtom),
     (get, set, id: string) => {
-        if (id == '') {
-            set(decollapseIDsArrayAtom, []);
+        const currentIdArray = get(decollapseIDsArrayAtom).slice();
+        const idIndex = currentIdArray
+            .map((bundleIds) => bundleIds.includes(id))
+            .indexOf(true);
+        if (idIndex !== -1) {
+            const subArray = currentIdArray[idIndex];
+            if (subArray.length > 1) {
+                subArray.splice(currentIdArray[idIndex].indexOf(id), 1);
+                currentIdArray[idIndex] = subArray;
+            } else currentIdArray.splice(idIndex, 1);
         } else {
-            const currentIdArray = get(decollapseIDsArrayAtom).slice();
             if (currentIdArray.length === 0) {
                 currentIdArray.push([]);
             }
@@ -39,9 +46,9 @@ export const decollapseIDsAtom = atom(
             } else {
                 currentIdArray.push([id]);
             }
-            set(decollapseIDsArrayAtom, currentIdArray);
-            set(getMultiEgographBundleAtom, currentIdArray);
         }
+        set(decollapseIDsArrayAtom, currentIdArray);
+        set(getMultiEgographBundleAtom, currentIdArray);
     }
 );
 
@@ -131,7 +138,15 @@ export const interEdgesAtom = atom((get) => {
     const aggregateEgoNetworkNodeIDs = get(decollapseIDsAtom);
     const egoLayouts = get(egoGraphBundlesLayoutAtom);
     const decollapsedSize = get(decollapsedSizeAtom);
-    const interEdges:{source: string, target: string, x1:number,x2: number;y1:number,y2:number, weight: number}[] = [];
+    const interEdges: {
+        source: string;
+        target: string;
+        x1: number;
+        x2: number;
+        y1: number;
+        y2: number;
+        weight: number;
+    }[] = [];
     if (
         Object.keys(egoLayouts).toString() ===
             aggregateEgoNetworkNodeIDs.map((d) => d.join(',')).toString() &&
@@ -143,13 +158,13 @@ export const interEdgesAtom = atom((get) => {
         Object.values(egoLayouts)
             .map((d) => d?.centers)
             .flat()
-            .forEach((center) => centerPositions[center.id] = center);
+            .forEach((center) => (centerPositions[center.id] = center));
         const networkLayout = get(egoNetworkNetworksAtom);
-        const nodeDict:{[key:string]:egoNetworkNetworkNode} = {};
+        const nodeDict: { [key: string]: egoNetworkNetworkNode } = {};
         get(aggregateNetworkAtom).nodes.forEach(
             (node) => (nodeDict[node.id] = node)
         );
-        networkLayout.edges.forEach((edge:egoNetworkNetworkEdge) => {
+        networkLayout.edges.forEach((edge: egoNetworkNetworkEdge) => {
             if (
                 aggregateEgoNetworkNodeIDs.flat().includes(edge.source) ||
                 aggregateEgoNetworkNodeIDs.flat().includes(edge.target)
@@ -169,8 +184,11 @@ export const interEdgesAtom = atom((get) => {
                         target: edge.target,
                         weight: edge.weight,
                         x1:
-                            nodeDict[aggregateEgoNetworkNodeIDs[sourceIndex].join(",")]
-                                .x +
+                            nodeDict[
+                                aggregateEgoNetworkNodeIDs[sourceIndex].join(
+                                    ','
+                                )
+                            ].x +
                             centerPositions[edge.source].x -
                             decollapsedSize[
                                 aggregateEgoNetworkNodeIDs[sourceIndex].length -
@@ -178,8 +196,11 @@ export const interEdgesAtom = atom((get) => {
                             ] /
                                 2,
                         y1:
-                            nodeDict[aggregateEgoNetworkNodeIDs[sourceIndex].join(",")]
-                                .y +
+                            nodeDict[
+                                aggregateEgoNetworkNodeIDs[sourceIndex].join(
+                                    ','
+                                )
+                            ].y +
                             centerPositions[edge.source].y -
                             decollapsedSize[
                                 aggregateEgoNetworkNodeIDs[sourceIndex].length -
@@ -200,8 +221,11 @@ export const interEdgesAtom = atom((get) => {
                         x1: nodeDict[edge.source].x,
                         y1: nodeDict[edge.source].y,
                         x2:
-                            nodeDict[aggregateEgoNetworkNodeIDs[targetIndex].join(",")]
-                                .x +
+                            nodeDict[
+                                aggregateEgoNetworkNodeIDs[targetIndex].join(
+                                    ','
+                                )
+                            ].x +
                             centerPositions[edge.target].x -
                             decollapsedSize[
                                 aggregateEgoNetworkNodeIDs[targetIndex].length -
@@ -209,8 +233,11 @@ export const interEdgesAtom = atom((get) => {
                             ] /
                                 2,
                         y2:
-                            nodeDict[aggregateEgoNetworkNodeIDs[targetIndex].join(",")]
-                                .y +
+                            nodeDict[
+                                aggregateEgoNetworkNodeIDs[targetIndex].join(
+                                    ','
+                                )
+                            ].y +
                             centerPositions[edge.target].y -
                             decollapsedSize[
                                 aggregateEgoNetworkNodeIDs[targetIndex].length -
@@ -232,7 +259,9 @@ export const interEdgesAtom = atom((get) => {
                             weight: edge.weight,
                             x1:
                                 nodeDict[
-                                    aggregateEgoNetworkNodeIDs[sourceIndex].join(",")
+                                    aggregateEgoNetworkNodeIDs[
+                                        sourceIndex
+                                    ].join(',')
                                 ].x +
                                 centerPositions[edge.source].x -
                                 decollapsedSize[
@@ -242,7 +271,9 @@ export const interEdgesAtom = atom((get) => {
                                     2,
                             y1:
                                 nodeDict[
-                                    aggregateEgoNetworkNodeIDs[sourceIndex].join(",")
+                                    aggregateEgoNetworkNodeIDs[
+                                        sourceIndex
+                                    ].join(',')
                                 ].y +
                                 centerPositions[edge.source].y -
                                 decollapsedSize[
@@ -252,7 +283,9 @@ export const interEdgesAtom = atom((get) => {
                                     2,
                             x2:
                                 nodeDict[
-                                    aggregateEgoNetworkNodeIDs[targetIndex].join(",")
+                                    aggregateEgoNetworkNodeIDs[
+                                        targetIndex
+                                    ].join(',')
                                 ].x +
                                 centerPositions[edge.target].x -
                                 decollapsedSize[
@@ -262,7 +295,9 @@ export const interEdgesAtom = atom((get) => {
                                     2,
                             y2:
                                 nodeDict[
-                                    aggregateEgoNetworkNodeIDs[targetIndex].join(",")
+                                    aggregateEgoNetworkNodeIDs[
+                                        targetIndex
+                                    ].join(',')
                                 ].y +
                                 centerPositions[edge.target].y -
                                 decollapsedSize[
