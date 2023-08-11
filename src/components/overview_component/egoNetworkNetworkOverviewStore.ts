@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
 import {
-    egoNetworkNetwork
+    egoNetworkNetwork, egoNetworkNetworkNode
 } from '../../egoGraphSchema';
 import * as d3 from 'd3';
 
@@ -16,10 +16,11 @@ export const egoNetworkNetworkNodeSizeScaleAtom = atom({scale: null})
 
 export const scaleNodeSizeAtom = atom(
     (get) => {
+    const svgSize = get(egoNetworkNetworkSizeAtom);
     let allSizes = get(egoNetworkNetworksOverviewAtom).nodes.map(d=>d.size)
     let max = d3.max(allSizes)
     let min = d3.min(allSizes)
-    return({scale:d3.scaleLinear().domain([min, max]).range([5, 100])})
+    return({scale:d3.scaleLinear().domain([min, max]).range([5, Math.min(svgSize.width, svgSize.height)*0.1])})
     }
 );
 
@@ -46,44 +47,38 @@ export const aggregateNetworkAtom = atom((get) => {
                 )
        
         .stop();
-    // for (let i = 0; i < 100; i++) {
         forceLayout.tick(100);
         forceLayout.force('boxing', boxingForce)
-                    .force('collision',d3.forceCollide().radius((d) => 1.5 * scaleSize.scale(d.size)).iterations(4)
+                    .force('collision',d3.forceCollide().radius((d) =>  1.75*scaleSize.scale(d.size)).iterations(10)
             ).tick(100);
-        function bounded(node) {
-            const radius = scaleSize.scale(node.size) ;
-            console.log(radius)
-            const blockX = svgSize.width - 2*radius;
-            const blockY = svgSize.height - 2*radius;
-            // Of the positions exceed the box, set them to the boundary position.
-            // You may want to include your nodes width to not overlap with the box.
-            node.x = Math.max(radius, Math.min(blockX, node.x));
-            console.log(node.x)
-            node.y = Math.max(radius, Math.min(blockY, node.y));
-            console.log(node.y)
-        }
-        function boxingForce() {
-            const svgSize = get(egoNetworkNetworkSizeAtom);
 
-            for (let node of outNodes) {
-                const radius = scaleSize.scale(node.size) ;
-                console.log(radius)
-                const blockX = svgSize.width - 2*radius;
-                const blockY = svgSize.height - 2*radius;
-                // Of the positions exceed the box, set them to the boundary position.
-                // You may want to include your nodes width to not overlap with the box.
-                node.x = Math.max(radius, Math.min(blockX, node.x));
-                console.log(node.x)
-                node.y = Math.max(radius, Math.min(blockY, node.y));
-                console.log(node.y)
-            }
+        function boxingForce() {
+            outNodes.forEach((node) => {             
+                node = blockNodeCoordinates(scaleSize, node, svgSize);
+            });
         }
-        outNodes.forEach((d) => {
-            bounded(d);
+
+        // Reforce the Coordinate Blocking
+        outNodes.forEach((node) => {
+            blockNodeCoordinates(scaleSize, node, svgSize);
         });
     // }
     // forceLayout
     return { nodes: outNodes, edges: outEdges };
 });
+
+function blockNodeCoordinates(scaleSize: { scale: d3.ScaleLinear<number, number, never>; }, node: egoNetworkNetworkNode, svgSize: { width: number; height: number; x: number; y: number; }) {
+    // This code is for keeping the nodes within the svg canvas. 
+    // The size of the nodes is scaled using a d3 scale function. 
+    //The blockX and blockY variables are used to set the boundaries of the nodes. 
+    //The node.x and node.y variables are set to be within the bounds of the svg canvas.
+
+    const radius = scaleSize.scale(node.size);
+    const blockX = svgSize.width - 2 * radius;
+    const blockY = svgSize.height - 2 * radius;
+
+    node.x = Math.max(radius, Math.min(blockX, node.x));
+    node.y = Math.max(radius, Math.min(blockY, node.y));
+    return node;
+}
 
