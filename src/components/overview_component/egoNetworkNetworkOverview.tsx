@@ -4,8 +4,7 @@ import EgoNetworkNetworkOverviewNode from './egoNetworkNetworkOverviewNode';
 import EgoNetworkNetworkOverviewEdge from './egoNetworkNetworkOverviewEdge';
 import { accountedProteinsNeigborhoodAtom} from "../../apiCalls.ts";
 import { selectedProteinsAtom } from '../selectionTable/tableStore';
-import { get } from 'optics-ts';
-
+import * as d3 from 'd3';
 const EgoNetworkNetworkOverview = () => {
     const [{ nodes, edges }] = useAtom(aggregateNetworkAtom);
     const [svgSize, setSvgSize] = useAtom(egoNetworkNetworkSizeAtom);
@@ -35,9 +34,12 @@ const EgoNetworkNetworkOverview = () => {
 
             {nodes.map( (node) => {
                 let sizeNode = scaleSize.scale(node.size)
-                let nodeNeighbors = node.neighbors
+                let nodeNeighbors = node.neighbors ?? []
+                let setProteinSelected = new Set(selectedEgoCenters)
                 // Intersection between nodeNeighbors and accountedProteinsNeigborhood
-                let coverageProteins = nodeNeighbors.filter(value => accountedProteinsNeigborhood.has(value)).length / nodeNeighbors.length;
+                let coverageProteins = nodeNeighbors.filter(value => accountedProteinsNeigborhood.has(value)).length / nodeNeighbors.length ?? 0;
+                let isProteinSelected = setProteinSelected.has(node.id)
+                let colorGradientFill = d3.scaleLinear().domain([0, 1]).range(["white", "red"])
                
                     return (
                         <EgoNetworkNetworkOverviewNode
@@ -46,8 +48,7 @@ const EgoNetworkNetworkOverview = () => {
                             size={sizeNode}
                             x={node.x}
                             y={node.y}
-                            color={'red'}
-                            opacity={coverageProteins}
+                            color={isProteinSelected?'blue':colorGradientFill(coverageProteins)}
                         />
                     );
             })}

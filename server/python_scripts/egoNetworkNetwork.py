@@ -51,7 +51,7 @@ class EgoNetworkNetwork:
         for ego_network in list_of_ego_networks:
             neighborsList = ego_network.get_neighbors().values()
             # flatten list of lists
-            neighborsList = [
+            neighborsList = [ego_network.node] + [
                 item for sublist in neighborsList for item in sublist]
             # print(neighbors)
             # add node to ego network network size of the node corresponds to the size of the ego network
