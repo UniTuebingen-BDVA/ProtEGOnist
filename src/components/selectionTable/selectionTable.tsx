@@ -19,12 +19,12 @@ const SelectionTable = () => {
             <DataGrid
                 rows={rows}
                 columns={columns}
-                initialState={{
-                    pagination: {
-                        paginationModel: { page: 0, pageSize: 5 }
-                    }
-                }}
-                pageSizeOptions={[5]}
+                // initialState={{
+                //     pagination: {
+                //         paginationModel: { page: 0, pageSize: 5 }
+                //     }
+                // }}
+                // pageSizeOptions={[5]}
                 rowHeight={40}
                 checkboxSelection
                 disableRowSelectionOnClick

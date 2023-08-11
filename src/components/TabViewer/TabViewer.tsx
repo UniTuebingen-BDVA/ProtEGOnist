@@ -58,7 +58,7 @@ function TabViewer() {
                 height: '100%',
                 alignItems: 'center',
                 justifyContent: 'center',
-                backgroundColor: 'white'
+                backgroundColor: 'white', 
             }}
         >
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>

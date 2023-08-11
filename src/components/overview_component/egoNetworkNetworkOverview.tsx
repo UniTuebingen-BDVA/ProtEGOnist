@@ -9,8 +9,6 @@ const EgoNetworkNetworkOverview = () => {
     const [{ nodes, edges }] = useAtom(aggregateNetworkAtom);
     const [selectedEgoCenters] = useAtom(selectedProteinsAtom)
     const [accountedProteinsNeigborhood] = useAtom(accountedProteinsNeigborhoodAtom)
-
-
     const [scaleSize] = useAtom(scaleNodeSizeAtom)
     return (
         <g>
@@ -33,6 +31,7 @@ const EgoNetworkNetworkOverview = () => {
                 let sizeNode = scaleSize.scale(node.size)
                 let nodeNeighbors = node.neighbors ?? []
                 let setProteinSelected = new Set(selectedEgoCenters)
+                
                 // Intersection between nodeNeighbors and accountedProteinsNeigborhood
                 let coverageProteins = nodeNeighbors.filter(value => accountedProteinsNeigborhood.has(value)).length / nodeNeighbors.length ?? 0;
                 let isProteinSelected = setProteinSelected.has(node.id)
