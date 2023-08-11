@@ -7,11 +7,8 @@ import { selectedProteinsAtom } from '../selectionTable/tableStore';
 import * as d3 from 'd3';
 const EgoNetworkNetworkOverview = () => {
     const [{ nodes, edges }] = useAtom(aggregateNetworkAtom);
-    const [svgSize, setSvgSize] = useAtom(egoNetworkNetworkSizeAtom);
     const [selectedEgoCenters] = useAtom(selectedProteinsAtom)
     const [accountedProteinsNeigborhood] = useAtom(accountedProteinsNeigborhoodAtom)
-    console.log(selectedEgoCenters)
-    console.log(accountedProteinsNeigborhood)
 
 
     const [scaleSize] = useAtom(scaleNodeSizeAtom)

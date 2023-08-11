@@ -10,16 +10,13 @@ import EgoGraphBundle from '../egograph/egoGraphBundle.tsx';
 import { animated, useTransition } from '@react-spring/web';
 
 const EgoNetworkNetwork = () => {
-    const [{ nodes, edges }] =
-        useAtom(aggregateNetworkAtom);
+    const [{ nodes, edges }] = useAtom(aggregateNetworkAtom);
 
     const [decollapsedSize] = useAtom(decollapsedSizeAtom);
     const [interEdges] = useAtom(interEdgesAtom);
     const transitionsNodes = useTransition(nodes, {
         keys: ({ id }) => id,
         from: {
-            x: 100,
-            y: 100,
             opacity: 1,
             transform: `translate(${0},${0})`
         },
@@ -28,11 +25,6 @@ const EgoNetworkNetwork = () => {
             async (next, cancel) => {
                 await next({
                     transform: `translate(${x},${y})`,
-                    x: x,
-                    y: y,
-                    transform: `translate(${
-                        x - decollapsedSize[id.split(',').length - 1] / 2
-                    },${y - decollapsedSize[id.split(',').length - 1] / 2})`
                 });
             },
         leave: () => async (next, cancel) => {
@@ -46,11 +38,6 @@ const EgoNetworkNetwork = () => {
             async (next, cancel) => {
                 await next({
                     transform: `translate(${x},${y})`,
-                    x: x,
-                    y: y,
-                    transform: `translate(${
-                        x - decollapsedSize[id.split(',').length - 1] / 2
-                    },${y - decollapsedSize[id.split(',').length - 1] / 2})`
                 });
             },
         config: { duration: 2000 }
@@ -142,7 +129,7 @@ const EgoNetworkNetwork = () => {
     const otherEdges = interEdgesTransition((style, edge) => {
         return (
             <animated.line
-                key={edge.source+"_"+edge.target}
+                key={edge.source + '_' + edge.target}
                 x1={style.x1}
                 y1={style.y1}
                 x2={style.x2}
@@ -168,20 +155,21 @@ const EgoNetworkNetwork = () => {
             {transitionsNodes((style, node) => {
                 if (!node.collapsed) {
                     return (
-                        <EgoGraphBundle
-                            x={
-                                style.x.get() -
-                                decollapsedSize[node.id.split(',').length - 1] /
-                                    2
-                            }
-                            y={
-                                style.y.get() -
-                                decollapsedSize[node.id.split(',').length - 1] /
-                                    2
-                            }
-                            nodeId={node.id}
-                            transform={style.transform}
-                        />
+                        <animated.g transform={style.transform}>
+                            <EgoGraphBundle
+                                x={
+                                    -decollapsedSize[
+                                        node.id.split(',').length - 1
+                                    ] / 2
+                                }
+                                y={
+                                    -decollapsedSize[
+                                        node.id.split(',').length - 1
+                                    ] / 2
+                                }
+                                nodeId={node.id}
+                            />
+                        </animated.g>
                     );
                 } else
                     return (

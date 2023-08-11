@@ -14,14 +14,10 @@ import { focusAtom } from 'jotai-optics';
 import { splitAtom } from 'jotai/utils';
 import * as d3 from 'd3';
 import { animated } from '@react-spring/web';
+import { decollapseIDsAtom } from '../egoNetworkNetwork/egoNetworkNetworkStore.ts';
 
-const EgographBundle = (props: {
-    x: number;
-    y: number;
-    nodeId: string;
-    transform: string;
-}) => {
-    const { x, y, nodeId, transform } = props;
+const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
+    const { x, y, nodeId } = props;
 
     // "local store"
     const egoGraphBundleDataAtom = useMemo(() => {
@@ -210,24 +206,26 @@ const EgographBundle = (props: {
                 }
             });
             return (
-                <animated.g transform={transform}>
+                <g transform={`translate(${x},${y})`}>
                     {layoutCircles}
                     {lines}
                     {backgroundBands}
                     {foregroundBands}
                     {circles}
-                </animated.g>
+                </g>
             );
         } else return null;
     }, [
-        transform,
         isLoaded,
         layout.centers,
         layout.nodes,
         layout.edges,
         layout.identityEdges,
-        innerRadius,
+        x,
+        y,
         outerRadius,
+        innerRadius,
+        setDecollapseID,
         nodeRadius,
         nodeAtoms,
         highlightedNodeIndicesAtom,
