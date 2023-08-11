@@ -10,38 +10,45 @@ import EgoGraphBundle from '../egograph/egoGraphBundle.tsx';
 import { animated, useTransition } from '@react-spring/web';
 
 const EgoNetworkNetwork = () => {
-    const [{ nodes, edges, bundleNetworkEdges }] =
+    const [{ nodes, edges }] =
         useAtom(aggregateNetworkAtom);
 
     const [decollapsedSize] = useAtom(decollapsedSizeAtom);
     const [interEdges] = useAtom(interEdgesAtom);
-    console.log(interEdges);
     const transitionsNodes = useTransition(nodes, {
         keys: ({ id }) => id,
         from: {
-            x: 0,
-            y: 0,
-            opacity: 1
+            x: 100,
+            y: 100,
+            opacity: 1,
+            transform: `translate(${0},${0})`
         },
         enter:
-            ({ x, y }, index) =>
+            ({ x, y, id }, index) =>
             async (next, cancel) => {
                 await next({
                     x: x,
-                    y: y
+                    y: y,
+                    transform: `translate(${
+                        x - decollapsedSize[id.split(',').length - 1] / 2
+                    },${y - decollapsedSize[id.split(',').length - 1] / 2})`
                 });
             },
         leave: () => async (next, cancel) => {
             await next({
-                opacity: 0
+                opacity: 0,
+                transform: `translate(${0},${0})`
             });
         },
         update:
-            ({ x, y }, index) =>
+            ({ x, y, id }, index) =>
             async (next, cancel) => {
                 await next({
                     x: x,
-                    y: y
+                    y: y,
+                    transform: `translate(${
+                        x - decollapsedSize[id.split(',').length - 1] / 2
+                    },${y - decollapsedSize[id.split(',').length - 1] / 2})`
                 });
             },
         config: { duration: 2000 }
@@ -89,13 +96,55 @@ const EgoNetworkNetwork = () => {
             },
         config: { duration: 2000 }
     });
-    const otherEdges = interEdges.map((edge) => {
+
+    //animate the interEdges
+    const interEdgesTransition = useTransition(interEdges, {
+        keys: ({ source, target }) => source + '+' + target,
+        from: {
+            x1: 0,
+            y1: 0,
+            x2: 0,
+            y2: 0,
+            opacity: 1
+        },
+        enter:
+            ({ x1, x2, y1, y2 }, index) =>
+            async (next, cancel) => {
+                await next({
+                    x1: x1,
+                    y1: y1,
+                    x2: x2,
+                    y2: y2,
+                    opacity: 1
+                });
+            },
+        leave: () => async (next, cancel) => {
+            await next({
+                opacity: 0
+            });
+        },
+        update:
+            ({ x1, x2, y1, y2 }, index) =>
+            async (next, cancel) => {
+                await next({
+                    x1: x1,
+                    y1: y1,
+                    x2: x2,
+                    y2: y2,
+                    opacity: 1
+                });
+            },
+        config: { duration: 2000 }
+    });
+
+    const otherEdges = interEdgesTransition((style, edge) => {
         return (
-            <line
-                x1={edge.x1}
-                y1={edge.y1}
-                x2={edge.x2}
-                y2={edge.y2}
+            <animated.line
+                key={edge.source+"_"+edge.target}
+                x1={style.x1}
+                y1={style.y1}
+                x2={style.x2}
+                y2={style.y2}
                 stroke="black"
                 strokeWidth={edge.weight * 20}
             />
@@ -129,6 +178,7 @@ const EgoNetworkNetwork = () => {
                                     2
                             }
                             nodeId={node.id}
+                            transform={style.transform}
                         />
                     );
                 } else

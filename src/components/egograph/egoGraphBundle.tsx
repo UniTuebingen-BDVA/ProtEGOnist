@@ -4,7 +4,8 @@ import { useAtom } from 'jotai';
 import {
     innerRadiusAtom,
     outerRadiusAtom,
-    maxRadiusAtom, egoGraphBundlesLayoutAtom
+    maxRadiusAtom,
+    egoGraphBundlesLayoutAtom
 } from './egoGraphBundleStore';
 import { EgographNode } from './egographNode';
 import { atom } from 'jotai';
@@ -12,13 +13,15 @@ import { egoGraphLayout } from './egolayout.ts';
 import { focusAtom } from 'jotai-optics';
 import { splitAtom } from 'jotai/utils';
 import * as d3 from 'd3';
+import { animated } from '@react-spring/web';
 
 const EgographBundle = (props: {
     x: number;
     y: number;
     nodeId: string;
+    transform: string;
 }) => {
-    const { x, y, nodeId } = props;
+    const { x, y, nodeId, transform } = props;
 
     // "local store"
     const egoGraphBundleDataAtom = useMemo(() => {
@@ -43,7 +46,7 @@ const EgographBundle = (props: {
                         centers: []
                     };
                 } else {
-                    return(get(egoGraphBundleDataAtom))
+                    return get(egoGraphBundleDataAtom);
                 }
             }),
         [egoGraphBundleDataAtom]
@@ -144,7 +147,7 @@ const EgographBundle = (props: {
                         <EgographNode
                             key={node.id}
                             centerPoint={{ x: node.cx, y: node.cy }}
-                            nodeRadius={node.centerDist===0?5:nodeRadius}
+                            nodeRadius={node.centerDist === 0 ? 5 : nodeRadius}
                             nodeAtom={nodeAtoms[i]}
                             highlightedNodeIndicesAtom={
                                 highlightedNodeIndicesAtom
@@ -203,23 +206,22 @@ const EgographBundle = (props: {
                 }
             });
             return (
-                <g transform={`translate(${x},${y})`}>
+                <animated.g transform={transform}>
                     {layoutCircles}
                     {lines}
                     {backgroundBands}
                     {foregroundBands}
                     {circles}
-                </g>
+                </animated.g>
             );
         } else return null;
     }, [
+        transform,
         isLoaded,
         layout.centers,
         layout.nodes,
         layout.edges,
         layout.identityEdges,
-        x,
-        y,
         innerRadius,
         outerRadius,
         nodeRadius,
