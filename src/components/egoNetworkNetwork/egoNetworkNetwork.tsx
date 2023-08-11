@@ -10,12 +10,11 @@ import EgoGraphBundle from '../egograph/egoGraphBundle.tsx';
 import { animated, useTransition } from '@react-spring/web';
 
 const EgoNetworkNetwork = () => {
-    const [{ nodes, edges, bundleNetworkEdges }] =
+    const [{ nodes, edges }] =
         useAtom(aggregateNetworkAtom);
 
     const [decollapsedSize] = useAtom(decollapsedSizeAtom);
     const [interEdges] = useAtom(interEdgesAtom);
-    console.log(interEdges);
     const transitionsNodes = useTransition(nodes, {
         keys: ({ id }) => id,
         from: {
@@ -100,7 +99,7 @@ const EgoNetworkNetwork = () => {
 
     //animate the interEdges
     const interEdgesTransition = useTransition(interEdges, {
-        keys: ({ source, target }) => source.id + '+' + target.id,
+        keys: ({ source, target }) => source + '+' + target,
         from: {
             x1: 0,
             y1: 0,
@@ -141,6 +140,7 @@ const EgoNetworkNetwork = () => {
     const otherEdges = interEdgesTransition((style, edge) => {
         return (
             <animated.line
+                key={edge.source+"_"+edge.target}
                 x1={style.x1}
                 y1={style.y1}
                 x2={style.x2}
