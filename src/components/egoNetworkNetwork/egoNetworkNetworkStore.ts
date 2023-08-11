@@ -28,6 +28,7 @@ export const decollapseIDsAtom = atom(
     (get) => get(decollapseIDsArrayAtom),
     (get, set, id: string) => {
         const currentIdArray = get(decollapseIDsArrayAtom).slice();
+        const nodeNeighbors = get(nodeNeighborsAtom);
         const idIndex = currentIdArray
             .map((bundleIds) => bundleIds.includes(id))
             .indexOf(true);
@@ -38,12 +39,21 @@ export const decollapseIDsAtom = atom(
                 currentIdArray[idIndex] = subArray;
             } else currentIdArray.splice(idIndex, 1);
         } else {
-            if (currentIdArray.length === 0) {
-                currentIdArray.push([]);
+            let idAdded = false;
+            for (let i = currentIdArray.length - 1; i >= 0; i--) {
+                const subArray = currentIdArray[i];
+                if (
+                    subArray.length < 3 &&
+                    subArray.some((currid) =>
+                        nodeNeighbors[currid].includes(id)
+                    )
+                ) {
+                    currentIdArray[i].push(id);
+                    idAdded = true;
+                    break;
+                }
             }
-            if (currentIdArray[currentIdArray.length - 1].length < 3) {
-                currentIdArray[currentIdArray.length - 1].push(id);
-            } else {
+            if (!idAdded) {
                 currentIdArray.push([id]);
             }
         }
@@ -55,6 +65,22 @@ export const decollapseIDsAtom = atom(
 export const egoNetworkNetworksAtom = atom<egoNetworkNetwork>({
     nodes: [],
     edges: []
+});
+const nodeNeighborsAtom = atom((get) => {
+    const neighborDict: { [key: string]: string[] } = {};
+    get(egoNetworkNetworksAtom).edges.forEach((edge) => {
+        if (!Object.keys(neighborDict).includes(edge.source)) {
+            neighborDict[edge.source] = [edge.target];
+        } else {
+            neighborDict[edge.source].push(edge.target);
+        }
+        if (!Object.keys(neighborDict).includes(edge.target)) {
+            neighborDict[edge.target] = [edge.source];
+        } else {
+            neighborDict[edge.target].push(edge.source);
+        }
+    });
+    return neighborDict;
 });
 const egoNetworkNetworkDeepCopyAtom = atom<egoNetworkNetwork>((get) =>
     JSON.parse(JSON.stringify(get(egoNetworkNetworksAtom)))
@@ -147,6 +173,8 @@ export const interEdgesAtom = atom((get) => {
         y2: number;
         weight: number;
     }[] = [];
+            console.log(  Object.keys(egoLayouts).toString(),
+            aggregateEgoNetworkNodeIDs.map((d) => d.join(',')).toString());
     if (
         Object.keys(egoLayouts).toString() ===
             aggregateEgoNetworkNodeIDs.map((d) => d.join(',')).toString() &&
