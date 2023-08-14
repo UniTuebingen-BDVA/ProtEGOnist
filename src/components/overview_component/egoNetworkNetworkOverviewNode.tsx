@@ -4,6 +4,7 @@ import { useAtom } from 'jotai';
 import { selectedProteinsAtom } from '../selectionTable/tableStore';
 import { getRadarAtom } from '../../apiCalls';
 import { get } from 'optics-ts';
+import AdvancedTooltip from '../advancedTooltip/advancedTooltip';
 
 interface EgoNetworkNetworkNodeProps {
     id: string;
@@ -13,26 +14,24 @@ interface EgoNetworkNetworkNodeProps {
     y: number;
 }
 
-
-
 const EgoNetworkNetworkNode = (props: EgoNetworkNetworkNodeProps) => {
     const [selectedProteins, setSelectedProteins] =
         useAtom(selectedProteinsAtom);
     const [_intersectionData, getRadarData] = useAtom(getRadarAtom);
-    
-    const { x,y,id, size,  color} = props;
+
+    const { x, y, id, size, color } = props;
     const transform = `translate(${x}, ${y})`;
     return (
-        <Tooltip title={id} key={id} >
-            <g key={id } transform={transform} onClick={() => {
+        <AdvancedTooltip uniprotID={id} key={id}>
+            <g
+                key={id}
+                transform={transform}
+                onClick={() => {
                     getRadarData(id);
-                    setSelectedProteins([...selectedProteins, id])}}>
-                <circle
-                    r={size}
-                    fill={color}
-                    stroke="black"
-                    strokeWidth="1"
-                />
+                    setSelectedProteins([...selectedProteins, id]);
+                }}
+            >
+                <circle r={size} fill={color} stroke="black" strokeWidth="1" />
                 <circle
                     r={(size * 2) / 3}
                     fill={'none'}
@@ -47,7 +46,7 @@ const EgoNetworkNetworkNode = (props: EgoNetworkNetworkNodeProps) => {
                     strokeWidth="1"
                 />
             </g>
-        </Tooltip>
+        </AdvancedTooltip>
     );
 };
 
