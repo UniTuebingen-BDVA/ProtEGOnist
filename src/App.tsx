@@ -31,7 +31,6 @@ function App() {
     const [stateDrawer, setStateDrawer] = useAtom(drawerShownAtom);
 
     useEffect(() => {
-        console.log('initial effect');
         const startDataOverview = [
             'Q9ULU4',
             'P63279',
@@ -173,7 +172,7 @@ function App() {
                             {/* <!-- Content for the first row --> */}
                             <AppBar
                                 className="header-title"
-                                style={{ display: 'flex', height: '5%' }}
+                                style={{ display: 'flex', height: '5%', backgroundColor: '#1f78b4' }}
                             >
                                 <Toolbar variant="dense">
                                     <IconButton

@@ -23,8 +23,8 @@ export const egoNetworkNetworkSizeAtom = atom({
 export const decollapseIDsArrayAtom = atom<string[][]>([]);
 export const decollapsedSizeAtom = atom((get) => [
     get(outerRadiusAtom),
-    200,
-    200
+    300,
+    300
 ]);
 export const decollapseIDsAtom = atom(
     (get) => get(decollapseIDsArrayAtom),

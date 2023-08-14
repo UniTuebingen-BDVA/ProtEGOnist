@@ -7,6 +7,6 @@ export const egoGraphBundlesLayoutAtom = atom<{
 
 
 
-export const innerRadiusAtom = atom(50);
-export const outerRadiusAtom = atom(70);
+export const innerRadiusAtom = atom(70);
+export const outerRadiusAtom = atom(100);
 export const maxRadiusAtom = atom(5);
