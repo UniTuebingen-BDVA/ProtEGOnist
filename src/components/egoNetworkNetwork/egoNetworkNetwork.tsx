@@ -24,7 +24,7 @@ const EgoNetworkNetwork = () => {
             ({ x, y, id }, index) =>
             async (next, cancel) => {
                 await next({
-                    transform: `translate(${x},${y})`,
+                    transform: `translate(${x},${y})`
                 });
             },
         leave: () => async (next, cancel) => {
@@ -37,120 +37,76 @@ const EgoNetworkNetwork = () => {
             ({ x, y, id }, index) =>
             async (next, cancel) => {
                 await next({
-                    transform: `translate(${x},${y})`,
-                });
-            },
-        config: { duration: 2000 }
-    });
-    const transitionsEdges = useTransition(edges, {
-        keys: ({ source, target }) => source.id + '+' + target.id,
-        from: {
-            x1: 0,
-            y1: 0,
-            x2: 0,
-            y2: 0,
-            opacity: 1
-        },
-        enter:
-            ({ source, target }, index) =>
-            async (next, cancel) => {
-                const sourceNode = nodes.find((node) => node.id === source.id);
-
-                const targetNode = nodes.find((node) => node.id === target.id);
-                await next({
-                    x1: sourceNode?.x,
-                    y1: sourceNode?.y,
-                    x2: targetNode?.x,
-                    y2: targetNode?.y,
-                    opacity: 1
-                });
-            },
-        leave: () => async (next, cancel) => {
-            await next({
-                opacity: 0
-            });
-        },
-        update:
-            ({ source, target }, index) =>
-            async (next, cancel) => {
-                const sourceNode = nodes.find((node) => node.id === source.id);
-
-                const targetNode = nodes.find((node) => node.id === target.id);
-                await next({
-                    x1: sourceNode?.x,
-                    y1: sourceNode?.y,
-                    x2: targetNode?.x,
-                    y2: targetNode?.y
+                    transform: `translate(${x},${y})`
                 });
             },
         config: { duration: 2000 }
     });
 
     //animate the interEdges
-    const interEdgesTransition = useTransition(interEdges, {
+    const edgesTransition = useTransition([...interEdges, ...edges], {
         keys: ({ source, target }) => source + '+' + target,
         from: {
-            x1: 0,
-            y1: 0,
-            x2: 0,
-            y2: 0,
-            opacity: 1
+            opacity: 0
         },
         enter:
-            ({ x1, x2, y1, y2 }, index) =>
+            ({ x1, x2, y1, y2 }) =>
             async (next, cancel) => {
                 await next({
                     x1: x1,
-                    y1: y1,
                     x2: x2,
+                    y1: y1,
                     y2: y2,
                     opacity: 1
                 });
             },
-        leave: () => async (next, cancel) => {
-            await next({
-                opacity: 0
-            });
-        },
+        leave:
+            ({ x1, x2, y1, y2 }) =>
+            async (next, cancel) => {
+                await next({
+                    x1: x1,
+                    x2: x2,
+                    y1: y1,
+                    y2: y2,
+                    opacity: 0
+                });
+            },
         update:
-            ({ x1, x2, y1, y2 }, index) =>
+            ({ x1, x2, y1, y2 }) =>
             async (next, cancel) => {
                 await next({
                     x1: x1,
-                    y1: y1,
                     x2: x2,
+                    y1: y1,
                     y2: y2,
                     opacity: 1
                 });
             },
-        config: { duration: 2000 }
+        config: (item, state, phase) => {
+            switch (phase) {
+                case 'leave':
+                    return { duration: 100 };
+                case 'update':
+                    return { duration: 2000 };
+                case 'enter':
+                    return { duration: 2000 };
+            }
+        }
     });
 
-    const otherEdges = interEdgesTransition((style, edge) => {
+    const otherEdges = edgesTransition((style, edge) => {
         return (
-            <animated.line
+            <EgoNetworkNetworkEdge
                 key={edge.source + '_' + edge.target}
-                x1={style.x1}
-                y1={style.y1}
-                x2={style.x2}
-                y2={style.y2}
                 stroke="black"
-                strokeWidth={edge.weight * 20}
+                weight={edge.weight}
+                animatedParams={style}
             />
         );
     });
     return (
         <g>
             {otherEdges}
-            {transitionsEdges((style, edge) => {
-                return (
-                    <EgoNetworkNetworkEdge
-                        key={edge.source.id + '+' + edge.target.id}
-                        weight={edge.weight}
-                        animatedParams={style}
-                    />
-                );
-            })}
 
             {transitionsNodes((style, node) => {
                 if (!node.collapsed) {
