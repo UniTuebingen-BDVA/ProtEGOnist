@@ -18,12 +18,11 @@ const EgoNetworkNetworkNode = (props: EgoNetworkNetworkNodeProps) => {
     return (
         <Tooltip title={id} key={id}>
             <animated.g key={id} transform={animatedParams.transform} opacity={animatedParams.opacity}>
-                <circle
+                 <circle
                     r={size}
                     fill={color}
                     stroke="black"
                     strokeWidth="1"
-                    onClick={() => setDecollapseID(id)}
                 />
                 <circle
                     r={(size * 2) / 3}
@@ -32,7 +31,8 @@ const EgoNetworkNetworkNode = (props: EgoNetworkNetworkNodeProps) => {
                     strokeWidth="1"
                 />
                 <circle
-                    r={10}
+                    r={size*0.05>1?size*0.05:1}
+                    opacity={0.75}
                     fill={'black'}
                     stroke="black"
                     strokeWidth="1"

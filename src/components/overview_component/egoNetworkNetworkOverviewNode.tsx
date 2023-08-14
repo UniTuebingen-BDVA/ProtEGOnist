@@ -3,7 +3,6 @@ import { animated } from '@react-spring/web';
 import { useAtom } from 'jotai';
 import { selectedProteinsAtom } from '../selectionTable/tableStore';
 import { getRadarAtom } from '../../apiCalls';
-import { get } from 'optics-ts';
 
 interface EgoNetworkNetworkNodeProps {
     id: string;
@@ -40,7 +39,7 @@ const EgoNetworkNetworkNode = (props: EgoNetworkNetworkNodeProps) => {
                     strokeWidth="1"
                 />
                 <circle
-                    r={3}
+                    r={size*0.05>1?size*0.05:1}
                     opacity={0.75}
                     fill={'black'}
                     stroke="black"
