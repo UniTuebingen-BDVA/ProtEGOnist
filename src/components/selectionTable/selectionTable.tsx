@@ -1,8 +1,6 @@
 import {
     DataGrid,
-    GridToolbar,
-    GridRowSelectionModel,
-    GridCallbackDetails
+    GridToolbar
 } from '@mui/x-data-grid';
 import { useAtom } from 'jotai';
 import { selectedProteinsAtom, tableAtom, tableModelAtom } from './tableStore';

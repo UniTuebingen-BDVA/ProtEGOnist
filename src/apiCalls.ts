@@ -1,5 +1,5 @@
-import axios, { AxiosResponse } from 'axios';
-import { atom, useAtom } from 'jotai';
+import axios from 'axios';
+import { atom } from 'jotai';
 import {
     egoGraph,
     intersectionDatum,
@@ -12,7 +12,6 @@ import {
     tarNodeAtom
 } from './components/radarchart/radarStore.ts';
 import {
-    selectedProteinsAtom,
     tableAtom
 } from './components/selectionTable/tableStore.tsx';
 import { GridColDef, GridRowsProp } from '@mui/x-data-grid';

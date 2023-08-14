@@ -11,6 +11,7 @@ import {
     egoGraphBundlesLayoutAtom,
     outerRadiusAtom
 } from '../egograph/egoGraphBundleStore.ts';
+import { egoNetworkNetworksOverviewAtom } from '../overview_component/egoNetworkNetworkOverviewStore.ts';
 
 export const egoNetworkNetworkSizeAtom = atom({
     width: 1000,
@@ -22,8 +23,8 @@ export const egoNetworkNetworkSizeAtom = atom({
 export const decollapseIDsArrayAtom = atom<string[][]>([]);
 export const decollapsedSizeAtom = atom((get) => [
     get(outerRadiusAtom),
-    200,
-    200
+    300,
+    300
 ]);
 export const decollapseIDsAtom = atom(
     (get) => get(decollapseIDsArrayAtom),
@@ -188,7 +189,7 @@ function aggregateEgoNetworkNodes(
 }
 
 export const scaleNodeSizeAtom = atom((get) => {
-    const allSizes = get(egoNetworkNetworksAtom).nodes.map((d) => d.size);
+    const allSizes = get(egoNetworkNetworksOverviewAtom).nodes.map((d) => d.size);
     const max = d3.max(allSizes);
     const min = d3.min(allSizes);
     return d3

@@ -16,11 +16,14 @@ export const egoNetworkNetworkNodeSizeScaleAtom = atom({scale: null})
 
 export const scaleNodeSizeAtom = atom(
     (get) => {
-    const svgSize = get(egoNetworkNetworkSizeAtom);
-    let allSizes = get(egoNetworkNetworksOverviewAtom).nodes.map(d=>d.size)
-    let max = d3.max(allSizes)
-    let min = d3.min(allSizes)
-    return({scale:d3.scaleLinear().domain([min, max]).range([5, Math.min(svgSize.width, svgSize.height)*0.1])})
+         const allSizes = get(egoNetworkNetworksOverviewAtom).nodes.map((d) => d.size);
+        const svgSize = get(egoNetworkNetworkSizeAtom);
+         const max = d3.max(allSizes);
+    const min = d3.min(allSizes);
+    return d3
+        .scaleLinear()
+        .domain([min, max])
+        .range([Math.PI*5**2, Math.PI*(Math.min(svgSize.width, svgSize.height)*0.1)**2]);
     }
 );
 
@@ -43,13 +46,13 @@ export const aggregateNetworkAtom = atom((get) => {
         .force('center', d3.forceCenter( svgSize.width/2, svgSize.height/2))
         .force('charge', d3.forceManyBody().strength((d) => -50))
         .force('link', d3.forceLink(outEdges)
-                          .id((d) => d.id).distance((d) => 1.5*(scaleSize.scale(d.source.size) +scaleSize.scale(d.target.size)) + (25 * (1 - d.weight)))
+                          .id((d) => d.id).distance((d) => 1.5*(Math.sqrt(scaleSize(d.source.size)/Math.PI) +Math.sqrt(scaleSize(d.target.size)/Math.PI)) + (25 * (1 - d.weight)))
                 )
        
         .stop();
         forceLayout.tick(100);
         forceLayout.force('boxing', boxingForce)
-                    .force('collision',d3.forceCollide().radius((d) =>  1.75*scaleSize.scale(d.size)).iterations(10)
+                    .force('collision',d3.forceCollide().radius((d) =>  1.75*Math.sqrt(scaleSize(d.size)/Math.PI)).iterations(10)
             ).tick(100);
 
         function boxingForce() {
@@ -67,13 +70,13 @@ export const aggregateNetworkAtom = atom((get) => {
     return { nodes: outNodes, edges: outEdges };
 });
 
-function blockNodeCoordinates(scaleSize: { scale: d3.ScaleLinear<number, number, never>; }, node: egoNetworkNetworkNode, svgSize: { width: number; height: number; x: number; y: number; }) {
+function blockNodeCoordinates(scaleSize: d3.ScaleLinear<number, number, never>, node: egoNetworkNetworkNode, svgSize: { width: number; height: number; x: number; y: number; }) {
     // This code is for keeping the nodes within the svg canvas. 
     // The size of the nodes is scaled using a d3 scale function. 
     //The blockX and blockY variables are used to set the boundaries of the nodes. 
     //The node.x and node.y variables are set to be within the bounds of the svg canvas.
 
-    const radius = scaleSize.scale(node.size);
+    const radius = Math.sqrt(scaleSize(node.size)/Math.PI);
     const blockX = svgSize.width - 2 * radius;
     const blockY = svgSize.height - 2 * radius;
 

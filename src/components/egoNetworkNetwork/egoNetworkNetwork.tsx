@@ -133,7 +133,7 @@ const EgoNetworkNetwork = () => {
                             key={node.id}
                             id={node.id}
                             size={node.radius}
-                            color={'red'}
+                            color={'#ff7f00'}
                             animatedParams={style}
                         />
                     );

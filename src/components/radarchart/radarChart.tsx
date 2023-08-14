@@ -156,7 +156,7 @@ const RadarChart = (props: RadarChartProps) => {
     const colorScale = d3
         .scaleOrdinal()
         .domain(Object.values(pieChartSegments).map((d) => d.classification))
-        .range(d3.schemeCategory10);
+        .range(['#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#6a3d9a','#b15928']);
 
     const availableRingIndices: number[] = [0];
     const unavailableRingIndices: number[] = [];
@@ -319,7 +319,8 @@ const RadarChart = (props: RadarChartProps) => {
                         intersectionLengthScale(tarNodeData.setSize) *
                             CIRCLE_RADIUS
                     }
-                    fill={'red'}
+                    stroke={'black'}
+                    fill={'#ffff99'}
                 />
             </Tooltip>
         </g>

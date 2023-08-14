@@ -5,11 +5,13 @@ import EgoNetworkNetworkOverviewEdge from './egoNetworkNetworkOverviewEdge';
 import { accountedProteinsNeigborhoodAtom} from "../../apiCalls.ts";
 import { selectedProteinsAtom } from '../selectionTable/tableStore';
 import * as d3 from 'd3';
+import { tarNodeAtom } from '../radarchart/radarStore.ts';
 const EgoNetworkNetworkOverview = () => {
     const [{ nodes, edges }] = useAtom(aggregateNetworkAtom);
     const [selectedEgoCenters] = useAtom(selectedProteinsAtom)
     const [accountedProteinsNeigborhood] = useAtom(accountedProteinsNeigborhoodAtom)
     const [scaleSize] = useAtom(scaleNodeSizeAtom)
+        const [tarNode] = useAtom(tarNodeAtom);
     return (
         <g>
             {edges.map( edge => {
@@ -28,15 +30,14 @@ const EgoNetworkNetworkOverview = () => {
             })}
 
             {nodes.map( (node) => {
-                let sizeNode = scaleSize.scale(node.size)
+                let sizeNode = Math.sqrt(scaleSize(node.size)/Math.PI)
                 let nodeNeighbors = node.neighbors ?? []
                 let setProteinSelected = new Set(selectedEgoCenters)
                 
                 // Intersection between nodeNeighbors and accountedProteinsNeigborhood
                 let coverageProteins = nodeNeighbors.filter(value => accountedProteinsNeigborhood.has(value)).length / nodeNeighbors.length ?? 0;
                 let isProteinSelected = setProteinSelected.has(node.id)
-                let colorGradientFill = d3.scaleLinear().domain([0, 1]).range(["white", "red"])
-               
+                let colorGradientFill = d3.scaleLinear().domain([0, 1]).range(["white", '#1f78b4']);
                     return (
                         <EgoNetworkNetworkOverviewNode
                             key={node.id}
@@ -44,7 +45,7 @@ const EgoNetworkNetworkOverview = () => {
                             size={sizeNode}
                             x={node.x}
                             y={node.y}
-                            color={isProteinSelected?'blue':colorGradientFill(coverageProteins)}
+                            color={tarNode===node.id?'#ffff99':isProteinSelected?'#ff7f00':colorGradientFill(coverageProteins)}
                         />
                     );
             })}

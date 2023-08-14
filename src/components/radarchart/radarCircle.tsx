@@ -52,9 +52,7 @@ const RadarCircle = (props: RadarCircleProps) => {
                 strokeWidth={1}
                 onClick={(event) => {
                     if (event.shiftKey) {
-                        if (!selectedProteins.includes(id)) {
-                            setSelectedProteins([...selectedProteins, id]);
-                        }
+                        setSelectedProteins([id]);
                     } else {
                         getRadarData(id);
                     }
