@@ -2,6 +2,7 @@ import { animated } from '@react-spring/web';
 
 interface EgoNetworkNetworkEdgeProps {
     weight: number;
+
     animatedParams: {
         opacity: number;
         x1: number;

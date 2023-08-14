@@ -2,7 +2,8 @@ import { atom } from 'jotai';
 import {
     egoNetworkNetwork,
     egoNetworkNetworkEdge,
-    egoNetworkNetworkNode
+    egoNetworkNetworkNode,
+    egoNetworkNetworkRenderedEdge
 } from '../../egoGraphSchema';
 import { getMultiEgographBundleAtom } from '../../apiCalls.ts';
 import * as d3 from 'd3';
@@ -120,26 +121,49 @@ export const aggregateNetworkAtom = atom((get) => {
     for (let i = 0; i < 1000; i++) {
         forceLayout.tick();
     }
+
+    // reshape the edges to contain a x1, x2, y1, y2 coordinate
+    const edgesWithCoordinates = outEdges.map((edge) => {
+        const source = outNodes.find((node) => node.id === edge.source.id);
+        const target = outNodes.find((node) => node.id === edge.target.id);
+        return {
+            ...edge,
+            source: edge.source.id,
+            target: edge.target.id,
+            x1: source.x,
+            y1: source.y,
+            x2: target.x,
+            y2: target.y
+        };
+    });
+
     return {
         nodes: outNodes,
-        edges: outEdges
+        edges: edgesWithCoordinates
     };
 });
 
 function aggregateEgoNetworkNodes(
     egoNetworkNodesNodes: egoNetworkNetworkNode[],
-    egoNetworkNetworkEdges: egoNetworkNetworkEdge[],
+    egoNetworkNetworkEdges: egoNetworkNetworkRenderedEdge[],
     aggregateNodeIDs: string[][],
     decollapsedSize: number[],
-    radiusScale:d3.ScaleLinear<number, number>,
-): { outNodes: egoNetworkNetworkNode[]; outEdges: egoNetworkNetworkEdge[] } {
+    radiusScale: d3.ScaleLinear<number, number>
+): {
+    outNodes: egoNetworkNetworkNode[];
+    outEdges: egoNetworkNetworkRenderedEdge[];
+} {
     const outNodes: egoNetworkNetworkNode[] = [];
     for (const node of egoNetworkNodesNodes) {
         // check if any of the arrays in aggregateNodeIDs includes node.id
         if (
             !aggregateNodeIDs.some((aggregate) => aggregate.includes(node.id))
         ) {
-            outNodes.push({ ...node, radius: Math.sqrt(radiusScale(node.size)/Math.PI),collapsed: true });
+            outNodes.push({
+                ...node,
+                radius: Math.sqrt(radiusScale(node.size) / Math.PI),
+                collapsed: true
+            });
         }
     }
     const outEdges = egoNetworkNetworkEdges.filter(
@@ -170,7 +194,7 @@ export const scaleNodeSizeAtom = atom((get) => {
     return d3
         .scaleLinear()
         .domain([min, max])
-        .range([Math.PI*5**2, Math.PI*150**2]);
+        .range([Math.PI * 5 ** 2, Math.PI * 150 ** 2]);
 });
 export const interEdgesAtom = atom((get) => {
     const aggregateEgoNetworkNodeIDs = get(decollapseIDsAtom);
