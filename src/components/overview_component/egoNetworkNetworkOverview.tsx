@@ -1,5 +1,5 @@
 import { useAtom } from 'jotai';
-import { aggregateNetworkAtom, scaleNodeSizeAtom, egoNetworkNetworkSizeAtom } from './egoNetworkNetworkOverviewStore';
+import { aggregateNetworkAtom, scaleNodeSizeAtom } from './egoNetworkNetworkOverviewStore';
 import EgoNetworkNetworkOverviewNode from './egoNetworkNetworkOverviewNode';
 import EgoNetworkNetworkOverviewEdge from './egoNetworkNetworkOverviewEdge';
 import { accountedProteinsNeigborhoodAtom} from "../../apiCalls.ts";
