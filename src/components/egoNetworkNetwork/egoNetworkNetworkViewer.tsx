@@ -1,6 +1,6 @@
 import { useGesture } from '@use-gesture/react';
 import EgoNetworkNetwork from './egoNetworkNetwork.tsx';
-import { Paper } from '@mui/material';
+import { Paper, Typography } from '@mui/material';
 import { useAtom } from 'jotai';
 import { egoNetworkNetworkSizeAtom } from './egoNetworkNetworkStore.ts';
 import { useRef } from 'react';

@@ -3,7 +3,6 @@ import {
     egoNetworkNetwork, egoNetworkNetworkNode
 } from '../../egoGraphSchema';
 import * as d3 from 'd3';
-import { egoNetworkNetworksAtom } from '../egoNetworkNetwork/egoNetworkNetworkStore.ts';
 
 
 export const egoNetworkNetworkSizeAtom = atom({
@@ -47,7 +46,7 @@ export const aggregateNetworkAtom = atom((get) => {
         .force('center', d3.forceCenter( svgSize.width/2, svgSize.height/2))
         .force('charge', d3.forceManyBody().strength((d) => -50))
         .force('link', d3.forceLink(outEdges)
-                          .id((d) => d.id).distance((d) => 1.5*(Math.sqrt(scaleSize(d.source.size)/Math.PI)) +Math.sqrt(scaleSize(d.target.size)/Math.PI) + (25 * (1 - d.weight)))
+                          .id((d) => d.id).distance((d) => 1.5*(Math.sqrt(scaleSize(d.source.size)/Math.PI) +Math.sqrt(scaleSize(d.target.size)/Math.PI)) + (25 * (1 - d.weight)))
                 )
        
         .stop();

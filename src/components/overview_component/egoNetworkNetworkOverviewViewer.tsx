@@ -1,5 +1,5 @@
 import EgoNetworkNetworkOverview from './egoNetworkNetworkOverview.tsx';
-import { Paper } from '@mui/material';
+import { Paper, Typography } from '@mui/material';
 
 import { useAtom } from 'jotai';
 import {
@@ -21,7 +21,6 @@ function EgoNetworkNetworkOverviewViewer() {
     return (
         <Paper
             ref={ref}
-
             style={{
                 width: "100%",
                 height: "100%",
@@ -32,8 +31,7 @@ function EgoNetworkNetworkOverviewViewer() {
                 overflow: 'hidden',
                 position: 'relative'
             }}
-        >
-            <svg
+        ><svg
                 width="100%"
                 height="100%"
                 viewBox={`${svgSize.x} ${svgSize.y} ${ svgSize.width ?? 0} ${ svgSize.height ?? 0}`}
