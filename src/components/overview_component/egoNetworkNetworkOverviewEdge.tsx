@@ -8,7 +8,7 @@ interface EgoNetworkNetworkEdgeProps {
 }
 
 const EgoNetworkNetworkEdge = (props: EgoNetworkNetworkEdgeProps) => {
-    const { weight, x1,x2,y1,y2 } = props;
+    const { weight, x1, x2, y1, y2 } = props;
     return (
         <line
             opacity={weight}
@@ -17,7 +17,7 @@ const EgoNetworkNetworkEdge = (props: EgoNetworkNetworkEdgeProps) => {
             x2={x2}
             y2={y2}
             stroke="black"
-            strokeWidth={weight * 20}
+            strokeWidth={weight * 10}
         />
     );
 };
