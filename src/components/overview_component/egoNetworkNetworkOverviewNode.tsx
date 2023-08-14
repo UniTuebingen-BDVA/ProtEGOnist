@@ -19,23 +19,34 @@ const EgoNetworkNetworkNode = (props: EgoNetworkNetworkNodeProps) => {
     const [selectedProteins, setSelectedProteins] =
         useAtom(selectedProteinsAtom);
     const [_intersectionData, getRadarData] = useAtom(getRadarAtom);
-
+    
     const { x,y,id, size,  color} = props;
+    const transform = `translate(${x}, ${y})`;
     return (
-        <Tooltip title={id} key={id}>
-            <animated.circle
-                key={id}
-                r={size}
-                cx={x}
-                cy={y}
-                fill={color}
-                opacity={1}
-                stroke="black"
-                strokeWidth="1"
-                onClick={() => {
+        <Tooltip title={id} key={id} >
+            <g key={id } transform={transform} onClick={() => {
                     getRadarData(id);
-                    setSelectedProteins([...selectedProteins, id])}}
-            />
+                    setSelectedProteins([...selectedProteins, id])}}>
+                <circle
+                    r={size}
+                    fill={color}
+                    stroke="black"
+                    strokeWidth="1"
+                />
+                <circle
+                    r={(size * 2) / 3}
+                    fill={'none'}
+                    stroke="black"
+                    strokeWidth="1"
+                />
+                <circle
+                    r={3}
+                    opacity={0.75}
+                    fill={'black'}
+                    stroke="black"
+                    strokeWidth="1"
+                />
+            </g>
         </Tooltip>
     );
 };
