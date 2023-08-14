@@ -1,7 +1,7 @@
-import { Tooltip } from '@mui/material';
 import { useAtom } from 'jotai';
 import { selectedProteinsAtom } from '../selectionTable/tableStore';
 import { getRadarAtom } from '../../apiCalls';
+import AdvancedTooltip from '../advancedTooltip/advancedTooltip';
 
 interface EgoNetworkNetworkNodeProps {
     id: string;
@@ -11,17 +11,15 @@ interface EgoNetworkNetworkNodeProps {
     y: number;
 }
 
-
-
 const EgoNetworkNetworkNode = (props: EgoNetworkNetworkNodeProps) => {
     const [selectedProteins, setSelectedProteins] =
         useAtom(selectedProteinsAtom);
     const [_intersectionData, getRadarData] = useAtom(getRadarAtom);
-    
-    const { x,y,id, size,  color} = props;
+
+    const { x, y, id, size, color } = props;
     const transform = `translate(${x}, ${y})`;
     return (
-        <Tooltip title={id} key={id} >
+        <AdvancedTooltip uniprotID={id} key={id}>
             <g key={id } transform={transform} onClick={() => {
                     getRadarData(id);
                     setSelectedProteins([id])}}>
@@ -45,7 +43,7 @@ const EgoNetworkNetworkNode = (props: EgoNetworkNetworkNodeProps) => {
                     strokeWidth="1"
                 />
             </g>
-        </Tooltip>
+        </AdvancedTooltip>
     );
 };
 

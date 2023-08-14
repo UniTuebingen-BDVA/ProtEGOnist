@@ -1,7 +1,7 @@
-import { Tooltip } from '@mui/material';
 import { useAtom } from 'jotai';
 import { decollapseIDsAtom } from './egoNetworkNetworkStore';
 import { animated } from '@react-spring/web';
+import AdvancedTooltip from '../advancedTooltip/advancedTooltip';
 
 interface EgoNetworkNetworkNodeProps {
     id: string;
@@ -16,7 +16,7 @@ const EgoNetworkNetworkNode = (props: EgoNetworkNetworkNodeProps) => {
     const { id, size, animatedParams, color } = props;
     const [_, setDecollapseID] = useAtom(decollapseIDsAtom);
     return (
-        <Tooltip title={id} key={id}>
+        <AdvancedTooltip uniprotID={id} key={id}>
             <animated.g
                 key={id}
                 transform={animatedParams.transform}
@@ -38,7 +38,7 @@ const EgoNetworkNetworkNode = (props: EgoNetworkNetworkNodeProps) => {
                     strokeWidth="1"
                 />
             </animated.g>
-        </Tooltip>
+        </AdvancedTooltip>
     );
 };
 
