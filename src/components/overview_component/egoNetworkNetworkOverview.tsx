@@ -28,7 +28,7 @@ const EgoNetworkNetworkOverview = () => {
             })}
 
             {nodes.map( (node) => {
-                let sizeNode = scaleSize.scale(node.size)
+                let sizeNode = Math.sqrt(scaleSize(node.size)/Math.PI)
                 let nodeNeighbors = node.neighbors ?? []
                 let setProteinSelected = new Set(selectedEgoCenters)
                 
