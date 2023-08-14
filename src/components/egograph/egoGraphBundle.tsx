@@ -13,7 +13,6 @@ import { egoGraphLayout } from './egolayout.ts';
 import { focusAtom } from 'jotai-optics';
 import { splitAtom } from 'jotai/utils';
 import * as d3 from 'd3';
-import { animated } from '@react-spring/web';
 import { decollapseIDsAtom } from '../egoNetworkNetwork/egoNetworkNetworkStore.ts';
 
 const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
