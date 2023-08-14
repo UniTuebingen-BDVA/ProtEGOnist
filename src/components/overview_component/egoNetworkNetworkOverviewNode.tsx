@@ -1,5 +1,4 @@
 import { Tooltip } from '@mui/material';
-import { animated } from '@react-spring/web';
 import { useAtom } from 'jotai';
 import { selectedProteinsAtom } from '../selectionTable/tableStore';
 import { getRadarAtom } from '../../apiCalls';
@@ -25,7 +24,7 @@ const EgoNetworkNetworkNode = (props: EgoNetworkNetworkNodeProps) => {
         <Tooltip title={id} key={id} >
             <g key={id } transform={transform} onClick={() => {
                     getRadarData(id);
-                    setSelectedProteins([...selectedProteins, id])}}>
+                    setSelectedProteins([id])}}>
                 <circle
                     r={size}
                     fill={color}

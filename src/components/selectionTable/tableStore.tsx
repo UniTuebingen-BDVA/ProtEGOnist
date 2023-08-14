@@ -46,10 +46,21 @@ export const selectedProteinsAtom = atom(
     (get) => {
         return get(selectedProteinsStoreAtom);
     },
-    (get, set, update: string[]) => {
-        set(selectedProteinsStoreAtom, update);
-        set(getEgoNetworkNetworkAtom, get(selectedProteinsAtom));
-        const indices = get(selectedProteinsStoreAtom).map((protein) => {
+    (get, set, ids: string[]) => {
+        const idCopy=get(selectedProteinsStoreAtom).slice();
+        const toDelete:number[]=[];
+        ids.forEach((id,i)=> {
+            if(idCopy.includes(id)){
+                toDelete.push(i);
+            } else{
+                idCopy.push(id)
+            }
+        })
+        toDelete.reverse();
+        toDelete.forEach(index=>idCopy.splice(index,1))
+        set(selectedProteinsStoreAtom, idCopy);
+        set(getEgoNetworkNetworkAtom, idCopy);
+        const indices = idCopy.map((protein) => {
             return get(tableAtomStore).rows.findIndex((row) => {
                 return row['UniprotID_inString'] === protein;
             });
