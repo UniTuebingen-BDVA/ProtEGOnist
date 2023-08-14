@@ -5,6 +5,7 @@ import { getRadarAtom } from '../../apiCalls';
 import { useAtom } from 'jotai';
 import * as d3 from 'd3';
 import { selectedProteinsAtom } from '../selectionTable/tableStore';
+import AdvancedTooltip from '../advancedTooltip/advancedTooltip';
 
 interface RadarCircleProps {
     id: string;
@@ -35,7 +36,7 @@ const RadarCircle = (props: RadarCircleProps) => {
         useAtom(selectedProteinsAtom);
 
     return (
-        <Tooltip title={id} key={id}>
+        <AdvancedTooltip uniprotID={id} key={id}>
             <animated.circle
                 key={id}
                 r={
@@ -59,7 +60,7 @@ const RadarCircle = (props: RadarCircleProps) => {
                     }
                 }}
             />
-        </Tooltip>
+        </AdvancedTooltip>
     );
 };
 
