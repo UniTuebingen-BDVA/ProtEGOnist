@@ -16,7 +16,7 @@ interface RadarChartProps {
 const RadarChart = (props: RadarChartProps) => {
     const { baseRadius } = props;
     const [intersectionData, getRadarData] = useAtom(getRadarAtom);
-    const [tarNode] = useAtom(tarNodeAtom);
+    const [tarNode, setTarNode] = useAtom(tarNodeAtom);
     const [selectedProteins, setSelectedProteins] =
         useAtom(selectedProteinsAtom);
 
