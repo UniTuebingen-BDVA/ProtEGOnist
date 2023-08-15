@@ -2,19 +2,25 @@ import { useAtom } from 'jotai';
 import { decollapseIDsAtom } from './egoNetworkNetworkStore';
 import { animated } from '@react-spring/web';
 import AdvancedTooltip from '../advancedTooltip/advancedTooltip';
+import {
+    drugsPerProteinAtom,
+    drugsPerProteinColorscaleAtom
+} from '../selectionTable/tableStore';
 
 interface EgoNetworkNetworkNodeProps {
     id: string;
     size: number;
-    color: string;
     x: number;
     y: number;
     animatedParams: { opacity: number; transform: string };
 }
 
 const EgoNetworkNetworkNode = (props: EgoNetworkNetworkNodeProps) => {
-    const { id, size, animatedParams, color } = props;
+    const { id, size, animatedParams } = props;
     const [_, setDecollapseID] = useAtom(decollapseIDsAtom);
+    const [colorscale] = useAtom(drugsPerProteinColorscaleAtom);
+    const [drugsPerProtein] = useAtom(drugsPerProteinAtom);
+    const color = colorscale(drugsPerProtein[id]);
     return (
         <AdvancedTooltip uniprotID={id} key={id}>
             <animated.g

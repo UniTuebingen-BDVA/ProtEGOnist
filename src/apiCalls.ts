@@ -75,7 +75,6 @@ export const getMultiEgographBundleAtom = atom(
 export const getRadarAtom = atom(
     (get) => get(intersectionAtom),
     (get, set, id: string) => {
-        set(lastSelectedNodeAtom, get(tarNodeAtom));
         axios
             .get<{
                 [name: string | number]: intersectionDatum;
