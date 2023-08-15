@@ -21,8 +21,8 @@ const EgoNetworkNetworkEdge = (props: EgoNetworkNetworkEdgeProps) => {
             y1={animatedParams.y1}
             x2={animatedParams.x2}
             y2={animatedParams.y2}
-            stroke="black"
-            strokeWidth={weight * 20}
+            stroke="gray"
+            strokeWidth={weight * 40}
         />
     );
 };
