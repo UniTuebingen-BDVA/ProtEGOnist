@@ -197,7 +197,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                             x2={edge.x2}
                             y1={edge.y1}
                             y2={edge.y2}
-                            stroke={'#b15928'}
+                            stroke={'#ff7f00'}
                             opacity={0.3}
                             strokeWidth={nodeRadius * 2}
                         />

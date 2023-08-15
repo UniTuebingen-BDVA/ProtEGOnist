@@ -72,7 +72,7 @@ function createLayerNodes(
             center,
             center,
             radius,
-            x(node.id)!,
+            x(node.id)!+x.bandwidth(),
             offset
         );
         nodes[node.id] = {

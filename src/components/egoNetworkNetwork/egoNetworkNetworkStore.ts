@@ -84,9 +84,16 @@ const nodeNeighborsAtom = atom((get) => {
     });
     return neighborDict;
 });
-const egoNetworkNetworkDeepCopyAtom = atom<egoNetworkNetwork>((get) =>
-    JSON.parse(JSON.stringify(get(egoNetworkNetworksAtom)))
-);
+const egoNetworkNetworkDeepCopyAtom = atom<egoNetworkNetwork>((get) => {
+    let copy = JSON.parse(JSON.stringify(get(egoNetworkNetworksAtom)));
+    const nodeDict = {};
+    copy.nodes.forEach((node) => (nodeDict[node.id] = node));
+    copy.edges.forEach((edge) => {
+        edge.source = nodeDict[edge.source];
+        edge.target = nodeDict[edge.target];
+    });
+    return copy;
+});
 
 export const aggregateNetworkAtom = atom((get) => {
     const egoNetworkNetwork = get(egoNetworkNetworkDeepCopyAtom);
@@ -106,17 +113,17 @@ export const aggregateNetworkAtom = atom((get) => {
     const forceLayout = d3
         .forceSimulation(outNodes)
         .force('charge', d3.forceManyBody().strength(-50))
+        .force('center', d3.forceCenter(0, 0))
+        .force(
+            'collision',
+            d3.forceCollide().radius((d) => d.radius + 10)
+        )
         .force(
             'link',
             d3
                 .forceLink(outEdges)
                 .id((d) => d.id)
                 .distance(50)
-        )
-        .force('center', d3.forceCenter(0, 0))
-        .force(
-            'collision',
-            d3.forceCollide().radius((d) => d.radius + 10)
         );
     forceLayout.stop();
     for (let i = 0; i < 1000; i++) {
@@ -189,13 +196,15 @@ function aggregateEgoNetworkNodes(
 }
 
 export const scaleNodeSizeAtom = atom((get) => {
-    const allSizes = get(egoNetworkNetworksOverviewAtom).nodes.map((d) => d.size);
+    const allSizes = get(egoNetworkNetworksOverviewAtom).nodes.map(
+        (d) => d.size
+    );
     const max = d3.max(allSizes);
     const min = d3.min(allSizes);
     return d3
         .scaleLinear()
         .domain([min, max])
-        .range([Math.PI * 5 ** 2, Math.PI * 150 ** 2]);
+        .range([Math.PI * 5 ** 2, Math.PI * 50 ** 2]);
 });
 export const interEdgesAtom = atom((get) => {
     const aggregateEgoNetworkNodeIDs = get(decollapseIDsAtom);
