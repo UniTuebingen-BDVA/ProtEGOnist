@@ -84,9 +84,16 @@ const nodeNeighborsAtom = atom((get) => {
     });
     return neighborDict;
 });
-const egoNetworkNetworkDeepCopyAtom = atom<egoNetworkNetwork>((get) =>
-    JSON.parse(JSON.stringify(get(egoNetworkNetworksAtom)))
-);
+const egoNetworkNetworkDeepCopyAtom = atom<egoNetworkNetwork>((get) => {
+    let copy = JSON.parse(JSON.stringify(get(egoNetworkNetworksAtom)));
+    const nodeDict = {};
+    copy.nodes.forEach((node) => (nodeDict[node.id] = node));
+    copy.edges.forEach((edge) => {
+        edge.source = nodeDict[edge.source];
+        edge.target = nodeDict[edge.target];
+    });
+    return copy;
+});
 
 export const aggregateNetworkAtom = atom((get) => {
     const egoNetworkNetwork = get(egoNetworkNetworkDeepCopyAtom);
@@ -103,14 +110,13 @@ export const aggregateNetworkAtom = atom((get) => {
     // const outEdgesInternal = JSON.parse(JSON.stringify(outEdges));
     // console.log('internalNodes', outNodesInternal);
     // console.log('internalEdges', outEdgesInternal);
-    console.log(outNodes);
     const forceLayout = d3
         .forceSimulation(outNodes)
-        .force('charge', d3.forceManyBody().strength(-5))
+        .force('charge', d3.forceManyBody().strength(-50))
         .force('center', d3.forceCenter(0, 0))
         .force(
             'collision',
-            d3.forceCollide().radius((d) => d.radius+10)
+            d3.forceCollide().radius((d) => d.radius + 10)
         )
         .force(
             'link',
