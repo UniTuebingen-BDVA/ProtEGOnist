@@ -58,3 +58,5 @@ export const labelsAtoms = atom(
         set(lableInternalAtom, labelsInternal);
     }
 );
+
+export const lastSelectedNodeAtom = atom<string>('');

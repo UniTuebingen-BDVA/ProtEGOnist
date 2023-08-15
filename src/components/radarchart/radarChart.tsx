@@ -6,6 +6,8 @@ import { getRadarAtom } from '../../apiCalls';
 import { Tooltip } from '@mui/material';
 import RadarCircles from './radarCircles';
 import RadarLabel from './radarLabel';
+import { selectedProteinsAtom } from '../selectionTable/tableStore';
+import AdvancedTooltip from '../advancedTooltip/advancedTooltip';
 
 interface RadarChartProps {
     baseRadius: number;
@@ -15,6 +17,8 @@ const RadarChart = (props: RadarChartProps) => {
     const { baseRadius } = props;
     const [intersectionData, getRadarData] = useAtom(getRadarAtom);
     const [tarNode] = useAtom(tarNodeAtom);
+    const [selectedProteins, setSelectedProteins] =
+        useAtom(selectedProteinsAtom);
 
     const intersectionDataClone = structuredClone(intersectionData);
     //generate a linear scale for the size of the intersection property in each intersectionDatum
@@ -156,7 +160,19 @@ const RadarChart = (props: RadarChartProps) => {
     const colorScale = d3
         .scaleOrdinal()
         .domain(Object.values(pieChartSegments).map((d) => d.classification))
-        .range(['#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#6a3d9a','#b15928']);
+        .range([
+            '#a6cee3',
+            '#1f78b4',
+            '#b2df8a',
+            '#33a02c',
+            '#fb9a99',
+            '#e31a1c',
+            '#fdbf6f',
+            '#ff7f00',
+            '#cab2d6',
+            '#6a3d9a',
+            '#b15928'
+        ]);
 
     const availableRingIndices: number[] = [0];
     const unavailableRingIndices: number[] = [];
@@ -310,7 +326,7 @@ const RadarChart = (props: RadarChartProps) => {
                     colorScale={colorScale}
                 />
             }
-            <Tooltip title={tarNode} key={tarNode}>
+            <AdvancedTooltip uniprotID={tarNode} key={tarNode}>
                 <circle
                     cx={0}
                     cy={0}
@@ -321,8 +337,11 @@ const RadarChart = (props: RadarChartProps) => {
                     }
                     stroke={'black'}
                     fill={'#ffff99'}
+                    onClick={() => {
+                        setSelectedProteins([tarNode]);
+                    }}
                 />
-            </Tooltip>
+            </AdvancedTooltip>
         </g>
     );
 };

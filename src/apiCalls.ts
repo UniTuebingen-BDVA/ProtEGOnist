@@ -9,11 +9,10 @@ import {
     intersectionAtom,
     leavingNodesAtom,
     changedNodesAtom,
-    tarNodeAtom
+    tarNodeAtom,
+    lastSelectedNodeAtom
 } from './components/radarchart/radarStore.ts';
-import {
-    tableAtom
-} from './components/selectionTable/tableStore.tsx';
+import { tableAtom } from './components/selectionTable/tableStore.tsx';
 import { GridColDef, GridRowsProp } from '@mui/x-data-grid';
 import {
     egoGraphBundlesLayoutAtom,
@@ -32,7 +31,9 @@ export const getMultiEgographBundleAtom = atom(
     (get, set, bundleIds: string[][]) => {
         bundleIds.forEach((ids) => {
             const jointID = ids.join(',');
-            if (!Object.keys(get(egoGraphBundlesLayoutAtom)).includes(jointID)) {
+            if (
+                !Object.keys(get(egoGraphBundlesLayoutAtom)).includes(jointID)
+            ) {
                 axios
                     .post<{
                         egoGraphs: egoGraph[];
@@ -46,7 +47,7 @@ export const getMultiEgographBundleAtom = atom(
                                 [jointID]: calculateLayout(
                                     egoGraphs,
                                     intersections,
-                                    get(decollapsedSizeAtom)[ids.length-1],
+                                    get(decollapsedSizeAtom)[ids.length - 1],
                                     get(innerRadiusAtom),
                                     get(outerRadiusAtom)
                                 )
@@ -74,6 +75,7 @@ export const getMultiEgographBundleAtom = atom(
 export const getRadarAtom = atom(
     (get) => get(intersectionAtom),
     (get, set, id: string) => {
+        set(lastSelectedNodeAtom, get(tarNodeAtom));
         axios
             .get<{
                 [name: string | number]: intersectionDatum;
@@ -101,17 +103,17 @@ export const getRadarAtom = atom(
             );
     }
 );
-export const accountedProteinsNeigborhoodStoreAtom = atom<Set<string>>([])
+export const accountedProteinsNeigborhoodStoreAtom = atom<Set<string>>([]);
 
 export const accountedProteinsNeigborhoodAtom = atom(
     (get) => {
         return get(accountedProteinsNeigborhoodStoreAtom);
-    }, 
+    },
     (get, set, update: string[][]) => {
         // Flatten list
         let flatArray = update.reduce((acc, val) => acc.concat(val), []);
-        
-        let accountedProteins = new Set(flatArray)
+
+        let accountedProteins = new Set(flatArray);
         set(accountedProteinsNeigborhoodStoreAtom, accountedProteins);
     }
 );
@@ -139,7 +141,10 @@ export const getEgoNetworkNetworkAtom = atom(
             )
             .then(
                 (result) => {
-                    set(accountedProteinsNeigborhoodAtom, result.data.nodes.map(node => node.neighbors))
+                    set(
+                        accountedProteinsNeigborhoodAtom,
+                        result.data.nodes.map((node) => node.neighbors)
+                    );
                     set(egoNetworkNetworksAtom, result.data);
                 },
                 () => {

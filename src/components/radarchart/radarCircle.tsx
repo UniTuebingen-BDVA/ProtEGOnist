@@ -6,6 +6,7 @@ import { useAtom } from 'jotai';
 import * as d3 from 'd3';
 import { selectedProteinsAtom } from '../selectionTable/tableStore';
 import AdvancedTooltip from '../advancedTooltip/advancedTooltip';
+import { lastSelectedNodeAtom } from './radarStore';
 
 interface RadarCircleProps {
     id: string;
@@ -34,6 +35,18 @@ const RadarCircle = (props: RadarCircleProps) => {
     const [_intersectionData, getRadarData] = useAtom(getRadarAtom);
     const [selectedProteins, setSelectedProteins] =
         useAtom(selectedProteinsAtom);
+    const [lastSelectedNode] = useAtom(lastSelectedNodeAtom);
+
+    const color = colorScale(intersectionDatum.classification);
+    const strokeColor = selectedProteins.includes(id)
+        ? 'orange'
+        : id == lastSelectedNode
+        ? 'red'
+        : color;
+    const strokeWidth =
+        selectedProteins.includes(id) || id == lastSelectedNode ? 3 : 1;
+    const strokeOpacity =
+        selectedProteins.includes(id) || id == lastSelectedNode ? 1 : 0.8;
 
     return (
         <AdvancedTooltip uniprotID={id} key={id}>
@@ -44,18 +57,14 @@ const RadarCircle = (props: RadarCircleProps) => {
                     intersectionLengthScale(intersectionDatum.setSize) *
                         CIRCLE_RADIUS
                 }
-                fill={colorScale(intersectionDatum.classification)}
+                fill={color}
                 fillOpacity={0.7}
-                stroke={colorScale(intersectionDatum.classification)}
+                stroke={strokeColor}
                 style={{ ...styleParam }}
-                strokeOpacity={0.8}
-                strokeWidth={1}
+                strokeOpacity={strokeOpacity}
+                strokeWidth={strokeWidth}
                 onClick={(event) => {
-                    if (event.shiftKey) {
-                        setSelectedProteins([id]);
-                    } else {
-                        getRadarData(id);
-                    }
+                    getRadarData(id);
                 }}
             />
         </AdvancedTooltip>
