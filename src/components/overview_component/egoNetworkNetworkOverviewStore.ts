@@ -9,6 +9,8 @@ export const egoNetworkNetworkSizeAtom = atom({
     y: 0
 });
 
+export const highlightNodeAtom = atom<string>('');
+
 export const egoNetworkNetworkNodeSizeScaleAtom = atom({ scale: null });
 
 export const scaleNodeSizeAtom = atom((get) => {

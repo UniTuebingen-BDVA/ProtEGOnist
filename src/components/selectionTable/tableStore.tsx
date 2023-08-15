@@ -3,6 +3,7 @@ import { GridRowsProp, GridColDef } from '@mui/x-data-grid';
 import { getEgoNetworkNetworkAtom, getRadarAtom } from '../../apiCalls';
 import { multiSelectionAtom } from '../TabViewer/tabViewerStore';
 import RadarIcon from '@mui/icons-material/Radar';
+import * as d3 from 'd3';
 export const tableAtomStore = atom<{
     rows: GridRowsProp;
     columns: GridColDef[];
@@ -30,7 +31,7 @@ const RadarButton = (params: rowData) => {
                 multiSelectionLocal.push(selectedName);
                 if (multiSelectionLocal.length > 3) {
                     multiSelectionLocal.shift();
-                }            
+                }
                 setMultiSelection(multiSelectionLocal);
                 getRadarData(selectedName);
             }}
@@ -47,17 +48,17 @@ export const selectedProteinsAtom = atom(
         return get(selectedProteinsStoreAtom);
     },
     (get, set, ids: string[]) => {
-        const idCopy=get(selectedProteinsStoreAtom).slice();
-        const toDelete:number[]=[];
-        ids.forEach((id,i)=> {
-            if(idCopy.includes(id)){
+        const idCopy = get(selectedProteinsStoreAtom).slice();
+        const toDelete: number[] = [];
+        ids.forEach((id, i) => {
+            if (idCopy.includes(id)) {
                 toDelete.push(i);
-            } else{
-                idCopy.push(id)
+            } else {
+                idCopy.push(id);
             }
-        })
+        });
         toDelete.reverse();
-        toDelete.forEach(index=>idCopy.splice(index,1))
+        toDelete.forEach((index) => idCopy.splice(index, 1));
         set(selectedProteinsStoreAtom, idCopy);
         set(getEgoNetworkNetworkAtom, idCopy);
         const indices = idCopy.map((protein) => {
@@ -69,19 +70,50 @@ export const selectedProteinsAtom = atom(
     }
 );
 
+export const drugsPerProteinColorscaleAtom = atom((get) => {
+    const drugsPerProtein = get(drugsPerProteinAtom);
+    const max = Math.max(...Object.values(drugsPerProtein));
+    const min = Math.min(...Object.values(drugsPerProtein));
+    // generate a colorscale based on the number of drugs per protein with d3 from white to #ff7f00
+    const colorScale = d3
+        .scaleLinear<string>()
+        .domain([min, max])
+        .range(['#ffffff', '#ff7f00']);
+    return colorScale;
+});
+
+export const drugsPerProteinAtom = atom<{ [key: string]: number }>({});
+
 export const tableModelAtom = atom<number[]>([]);
 
 export const tableAtom = atom(
     (get) => get(tableAtomStore),
     (get, set, update: { rows: GridRowsProp; columns: GridColDef[] }) => {
         // add a Radar button to the columns when tableAtom is set
+        // get all unique uniprot ids (UniprotID_inString)
+        const uniprotIds = update.rows.map((row) => row['UniprotID_inString']);
+        // generate set of unique uniprot ids
+        const uniqueUniprotIds = [...new Set(uniprotIds)];
 
+        const drugsPerProtein = {};
+
+        for (const uniprotId of uniqueUniprotIds) {
+            const filteredRows = update.rows.filter((row) => {
+                return row['UniprotID_inString'] === uniprotId;
+            });
+            const drugNames = filteredRows.map((row) => row['drug_name']);
+            const uniqueDrugNames = [...new Set(drugNames)];
+            drugsPerProtein[uniprotId] = uniqueDrugNames.length;
+        }
+        set(drugsPerProteinAtom, drugsPerProtein);
+        // generate set of unique drug names
         update.columns.unshift({
             field: 'Radar',
             headerName: 'Radar',
             width: 100,
             renderCell: RadarButton
         });
+
         set(tableAtomStore, update);
     }
 );

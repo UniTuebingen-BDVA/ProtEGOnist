@@ -9,7 +9,17 @@ export const intersectionAtom = atom<{
     [name: string]: intersectionDatum;
 }>({});
 
-export const tarNodeAtom = atom<string>('');
+export const tarNodeStoreAtom = atom<string>('');
+
+export const tarNodeAtom = atom(
+    (get) => {
+        return get(tarNodeStoreAtom);
+    },
+    (get, set, id: string) => {
+        set(lastSelectedNodeAtom, get(tarNodeStoreAtom));
+        set(tarNodeStoreAtom, id);
+    }
+);
 
 export const lableInternalAtom = atom<{
     [name: string]: { value: string; short: string; long: string };
