@@ -1,6 +1,7 @@
 import { useAtom } from 'jotai';
 import {
     aggregateNetworkAtom,
+    highlightNodeAtom,
     scaleNodeSizeAtom
 } from './egoNetworkNetworkOverviewStore';
 import EgoNetworkNetworkOverviewNode from './egoNetworkNetworkOverviewNode';
@@ -9,6 +10,7 @@ import { accountedProteinsNeigborhoodAtom } from '../../apiCalls.ts';
 import { selectedProteinsAtom } from '../selectionTable/tableStore';
 import * as d3 from 'd3';
 import { tarNodeAtom } from '../radarchart/radarStore.ts';
+import { useMemo } from 'react';
 const EgoNetworkNetworkOverview = () => {
     const [{ nodes, edges }] = useAtom(aggregateNetworkAtom);
     const [selectedEgoCenters] = useAtom(selectedProteinsAtom);
@@ -17,14 +19,43 @@ const EgoNetworkNetworkOverview = () => {
     );
     const [scaleSize] = useAtom(scaleNodeSizeAtom);
     const [tarNode] = useAtom(tarNodeAtom);
+    const [highlightNode] = useAtom(highlightNodeAtom);
+    // split edges into two groups based on whether their source/target is in highlightedNode
+    const highlightedEdges = [];
+    const unhighlightedEdges = [];
+    for (const edge of edges) {
+        if (
+            highlightNode == edge.source.id ||
+            highlightNode == edge.target.id
+        ) {
+            highlightedEdges.push(edge);
+        } else {
+            unhighlightedEdges.push(edge);
+        }
+    }
+
     return (
         <g>
-            {edges.map((edge) => {
+            {unhighlightedEdges.map((edge) => {
                 return (
                     <EgoNetworkNetworkOverviewEdge
                         key={edge.source.id + '+' + edge.target.id}
-                        source={edge.source.id}
-                        target={edge.target.id}
+                        color="#cccccc"
+                        opacity={edge.weight}
+                        weight={edge.weight}
+                        x1={edge.source.x}
+                        y1={edge.source.y}
+                        x2={edge.target.x}
+                        y2={edge.target.y}
+                    />
+                );
+            })}
+            {highlightedEdges.map((edge) => {
+                return (
+                    <EgoNetworkNetworkOverviewEdge
+                        key={edge.source.id + '+' + edge.target.id}
+                        color="#000000"
+                        opacity={1.0}
                         weight={edge.weight}
                         x1={edge.source.x}
                         y1={edge.source.y}
