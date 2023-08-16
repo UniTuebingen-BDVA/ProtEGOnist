@@ -9,7 +9,7 @@ import {
 
 const SelectionTable = () => {
     const [tableData] = useAtom(tableAtom);
-    const [_selectedProteins, setSelectedProteins] =
+    const [selectedProteins, setSelectedProteins] =
         useAtom(selectedProteinsAtom);
     const [tableModel, setTableModel] = useAtom(tableModelAtom);
     const [columnVisibility, setColumnVisibility] =
@@ -37,15 +37,21 @@ const SelectionTable = () => {
                 }
                 rowSelectionModel={tableModel}
                 onRowSelectionModelChange={(selection) => {
-                    console.log('sel', selection);
                     setTableModel(selection);
                     // when the model changes, we need to update the network data
                     // for this we call getEgoNetworkNetworkData with the IDs of the selected rows
                     const selectedIDs = selection.map(
                         (id) => rows[id]['UniprotID_inString']
                     );
+                    const deselectedIDs = selectedProteins.filter(
+                        (d) => !selectedIDs.includes(d)
+                    );
                     if (selectedIDs.length > 0) {
-                        setSelectedProteins(selectedIDs);
+                        setSelectedProteins(
+                            selectedIDs
+                                .filter((id) => !selectedProteins.includes(id))
+                                .concat(deselectedIDs)
+                        );
                     }
                 }}
                 slots={{ toolbar: GridToolbar }}
