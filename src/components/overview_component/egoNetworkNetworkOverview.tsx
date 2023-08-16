@@ -11,6 +11,7 @@ import { selectedProteinsAtom } from '../selectionTable/tableStore';
 import * as d3 from 'd3';
 import { tarNodeAtom } from '../radarchart/radarStore.ts';
 import { useMemo } from 'react';
+
 const EgoNetworkNetworkOverview = () => {
     const [{ nodes, edges }] = useAtom(aggregateNetworkAtom);
     const [selectedEgoCenters] = useAtom(selectedProteinsAtom);
@@ -21,22 +22,32 @@ const EgoNetworkNetworkOverview = () => {
     const [tarNode] = useAtom(tarNodeAtom);
     const [highlightNode] = useAtom(highlightNodeAtom);
     // split edges into two groups based on whether their source/target is in highlightedNode
-    const highlightedEdges = [];
-    const unhighlightedEdges = [];
-    for (const edge of edges) {
-        if (
-            highlightNode == edge.source.id ||
-            highlightNode == edge.target.id
-        ) {
-            highlightedEdges.push(edge);
-        } else {
-            unhighlightedEdges.push(edge);
+
+    const setProteinSelected = useMemo(
+        () => new Set(selectedEgoCenters),
+        [selectedEgoCenters]
+    );
+    const edgeGroups = useMemo(() => {
+        const highlightedEdges = [];
+        const unhighlightedEdges = [];
+        for (const edge of edges) {
+            if (
+                highlightNode == edge.source.id ||
+                highlightNode == edge.target.id ||
+                (setProteinSelected.has(edge.source.id) &&
+                    setProteinSelected.has(edge.target.id))
+            ) {
+                highlightedEdges.push(edge);
+            } else {
+                unhighlightedEdges.push(edge);
+            }
         }
-    }
+        return{highlightedEdges, unhighlightedEdges}
+    },[edges, highlightNode, setProteinSelected]);
 
     return (
         <g>
-            {unhighlightedEdges.map((edge) => {
+            {edgeGroups.unhighlightedEdges.map((edge) => {
                 return (
                     <EgoNetworkNetworkOverviewEdge
                         key={edge.source.id + '+' + edge.target.id}
@@ -50,7 +61,7 @@ const EgoNetworkNetworkOverview = () => {
                     />
                 );
             })}
-            {highlightedEdges.map((edge) => {
+            {edgeGroups.highlightedEdges.map((edge) => {
                 return (
                     <EgoNetworkNetworkOverviewEdge
                         key={edge.source.id + '+' + edge.target.id}
@@ -68,7 +79,6 @@ const EgoNetworkNetworkOverview = () => {
             {nodes.map((node) => {
                 let sizeNode = Math.sqrt(scaleSize(node.size) / Math.PI);
                 let nodeNeighbors = node.neighbors ?? [];
-                let setProteinSelected = new Set(selectedEgoCenters);
 
                 // Intersection between nodeNeighbors and accountedProteinsNeigborhood
                 let coverageProteins =
