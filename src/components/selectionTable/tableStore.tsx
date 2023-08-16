@@ -19,6 +19,28 @@ interface rowData {
     };
 }
 
+export const columnVisibilityAtom = atom<{ [key: string]: boolean }>({
+    Radar: true,
+    ID: false,
+    drug_name: true,
+    GDSC: false,
+    y_id: false,
+    x_id: true,
+    n: false,
+    beta: false,
+    pval: false,
+    fdr: false,
+    nc_beta: false,
+    nc_pval: false,
+    nc_fdr: false,
+    r2: false,
+    target: true,
+    ppi: false,
+    skew: false,
+    cancer_gene: false,
+    UniprotID_inString: true
+});
+
 const RadarButton = (params: rowData) => {
     const [_intersectionData, getRadarData] = useAtom(getRadarAtom);
     const [multiSelection, setMultiSelection] = useAtom(multiSelectionAtom);
