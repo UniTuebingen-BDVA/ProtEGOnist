@@ -1,20 +1,32 @@
 import { PrimitiveAtom, useAtom } from 'jotai';
 import { layoutNode } from './egolayout';
 import { Tooltip } from '@mui/material';
+import AdvancedTooltip from '../advancedTooltip/advancedTooltip';
 
 type egographNodeProps = {
     nodeAtom: PrimitiveAtom<layoutNode>;
-    highlightedNodeIndicesAtom:PrimitiveAtom<number[]>
+    highlightedNodeIndicesAtom: PrimitiveAtom<number[]>;
     centerPoint: { x: number; y: number };
     nodeRadius: number;
     fill: string;
 };
 export const EgographNode = (props: egographNodeProps) => {
-    const { nodeAtom, highlightedNodeIndicesAtom, centerPoint, nodeRadius, fill } = props;
+    const {
+        nodeAtom,
+        highlightedNodeIndicesAtom,
+        centerPoint,
+        nodeRadius,
+        fill
+    } = props;
     const [node, setNode] = useAtom(nodeAtom);
-    const [highlightedNodeIndices, setHighlightedNodeIndices] = useAtom(highlightedNodeIndicesAtom);
+    const [highlightedNodeIndices, setHighlightedNodeIndices] = useAtom(
+        highlightedNodeIndicesAtom
+    );
     return (
-        <Tooltip title={`Name ${node.originalID},  Num edges ${node.numEdges}`}>
+        <AdvancedTooltip
+            uniprotID={node.originalID}
+            additionalData={`Num edges ${node.numEdges}`}
+        >
             <circle
                 onMouseEnter={() => {
                     setNode((oldValue) => ({ ...oldValue, hovered: true }));
@@ -22,14 +34,18 @@ export const EgographNode = (props: egographNodeProps) => {
                 }}
                 onMouseLeave={() => {
                     setNode((oldValue) => ({ ...oldValue, hovered: false }));
-                    setHighlightedNodeIndices([])
+                    setHighlightedNodeIndices([]);
                 }}
                 cx={centerPoint.x}
                 cy={centerPoint.y}
                 r={nodeRadius}
                 fill={fill}
-                stroke={highlightedNodeIndices.includes(node.index)?"black":"none"}
+                stroke={
+                    highlightedNodeIndices.includes(node.index)
+                        ? 'black'
+                        : 'none'
+                }
             />
-        </Tooltip>
+        </AdvancedTooltip>
     );
 };
