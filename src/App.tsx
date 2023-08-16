@@ -212,7 +212,7 @@ function App() {
                             }}
                         >
                             <Typography style={{ color: 'black' }}>
-                                Overview: 91 protein ego graphs from top 108
+                                Network overview: 91 protein ego graphs from top 108
                                 protein-drug associations
                             </Typography>
                             <div
@@ -226,7 +226,7 @@ function App() {
                                 <EgoNetworkNetworkOverviewViewer />
                             </div>
                             <Typography style={{ color: 'black' }}>
-                                Functional neighborhood of selected protein
+                                Functional neighborhood of selected protein (radar center)
                             </Typography>
                             <div style={{ minWidth: '80%', width: '80%' }}>
                                 {/* <!-- Content for the first column, second row --> */}
@@ -248,7 +248,7 @@ function App() {
                             <Typography
                                 style={{ color: 'black', textAlign: 'center' }}
                             >
-                                Egograph Network
+                                Network of selected ego-graphs
                             </Typography>
                             <div>
                                 {/* <!-- Content for the second column, first row --> */}

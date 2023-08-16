@@ -1,7 +1,7 @@
 import { useAtom } from 'jotai';
 import {
     aggregateNetworkAtom,
-    decollapsedSizeAtom,
+    decollapsedSizeAtom, egoNetworkNetworkSizeAtom,
     interEdgesAtom
 } from './egoNetworkNetworkStore';
 import EgoNetworkNetworkNode from './egoNetworkNetworkNode.tsx';
@@ -11,9 +11,9 @@ import { animated, useTransition } from '@react-spring/web';
 
 const EgoNetworkNetwork = () => {
     const [{ nodes, edges }] = useAtom(aggregateNetworkAtom);
-
     const [decollapsedSize] = useAtom(decollapsedSizeAtom);
     const [interEdges] = useAtom(interEdgesAtom);
+
     const transitionsNodes = useTransition(nodes, {
         keys: ({ id }) => id,
         from: {
