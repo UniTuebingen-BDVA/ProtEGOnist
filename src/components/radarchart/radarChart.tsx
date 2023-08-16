@@ -6,7 +6,7 @@ import { getRadarAtom } from '../../apiCalls';
 import { Tooltip } from '@mui/material';
 import RadarCircles from './radarCircles';
 import RadarLabel from './radarLabel';
-import { selectedProteinsAtom } from '../selectionTable/tableStore';
+import { selectedProteinsAtom, tableAtom } from '../selectionTable/tableStore';
 import AdvancedTooltip from '../advancedTooltip/advancedTooltip';
 
 interface RadarChartProps {
@@ -19,6 +19,7 @@ const RadarChart = (props: RadarChartProps) => {
     const [tarNode, setTarNode] = useAtom(tarNodeAtom);
     const [selectedProteins, setSelectedProteins] =
         useAtom(selectedProteinsAtom);
+    const [tableData] = useAtom(tableAtom);
 
     const intersectionDataClone = structuredClone(intersectionData);
     //generate a linear scale for the size of the intersection property in each intersectionDatum
@@ -240,6 +241,19 @@ const RadarChart = (props: RadarChartProps) => {
     const CIRCLE_RADIUS = baseRadiusInternal / 20;
     const LEGEND_ANGLE = 0 * (Math.PI / 180);
 
+    const getNodeName = (id) => {
+        // find the rows in the table that match the uniprot ID
+        const filteredRows = tableData.rows.filter((row) => {
+            return row['UniprotID_inString'] === id;
+        });
+
+        const proteinNames = filteredRows.map((row) => row['x_id']);
+        // generate set of unique protein names
+        const uniqueProteinNames = [...new Set(proteinNames)];
+        // join the protein names with a comma
+        return uniqueProteinNames.join(', ');
+    };
+
     return (
         <g>
             {/* labels and pie segments */}
@@ -329,7 +343,18 @@ const RadarChart = (props: RadarChartProps) => {
                     colorScale={colorScale}
                 />
             }
+            <text
+                x={0}
+                y={-CIRCLE_RADIUS - 5}
+                textAnchor="middle"
+                fontSize="18px"
+                fontWeight="bold"
+            >
+                {getNodeName(tarNode)}
+            </text>
             <AdvancedTooltip uniprotID={tarNode} key={tarNode}>
+                {/* add text lable above the circle containing the protein name */}
+
                 <circle
                     cx={0}
                     cy={0}
