@@ -157,23 +157,6 @@ const RadarChart = (props: RadarChartProps) => {
         );
     });
 
-    const colorScale = d3
-        .scaleOrdinal()
-        .domain(Object.values(pieChartSegments).map((d) => d.classification))
-        .range([
-            '#a6cee3',
-            '#1f78b4',
-            '#b2df8a',
-            '#33a02c',
-            '#fb9a99',
-            '#e31a1c',
-            '#fdbf6f',
-            '#ff7f00',
-            '#cab2d6',
-            '#6a3d9a',
-            '#b15928'
-        ]);
-
     const availableRingIndices: number[] = [0];
     const unavailableRingIndices: number[] = [];
     pieChartSegments.forEach((segment, index) => {
@@ -229,6 +212,26 @@ const RadarChart = (props: RadarChartProps) => {
         return acc;
     }, 0);
 
+    const colorScale = d3
+        .scaleOrdinal()
+        .domain(
+            Object.values(sortedIntersectionData).map(
+                (d) => d[1].classification
+            )
+        )
+        .range([
+            '#a6cee3',
+            '#33a02c',
+            '#fb9a99',
+            '#b15928',
+            '#6a3d9a',
+            '#fdbf6f',
+            '#1f78b4',
+            '#b2df8a',
+            '#e31a1c',
+            '#ff7f00',
+            '#cab2d6'
+        ]);
     const baseRadiusInternal = baseRadius - 33 * maxRingIndex;
     const GUIDE_CIRCLE_RADIUS = baseRadiusInternal;
     const GUIDE_CIRCLE_STEP = baseRadiusInternal / 4;
