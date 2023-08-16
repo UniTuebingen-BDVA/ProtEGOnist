@@ -1,7 +1,4 @@
-import { Tooltip } from '@mui/material';
 import { PrimitiveAtom, useAtom } from 'jotai';
-import { set } from 'optics-ts';
-import { useEffect, useState } from 'react';
 import { labelsAtoms } from './radarStore';
 
 interface radarLabelProps {
@@ -27,10 +24,12 @@ const RadarLabel = (props: radarLabelProps) => {
         radius,
         colorScale
     } = props;
+    const labelOffset = Math.PI / 4;
     const midAngle = (startAngle + endAngle) / 2;
     const flipLabel = midAngle > 0 && midAngle < Math.PI;
-    const startAltered = startAngle - Math.PI / 4;
-    const endAltered = endAngle + Math.PI / 4;
+    const startAltered = startAngle - labelOffset;
+    const endAltered = endAngle + labelOffset;
+    const arcFlag = endAltered - startAltered > Math.PI ? 0 : 1;
     const [labelValue, labelValueWithID] = useAtom(labelsAtoms);
     // draw the arc from startAngle to endAngle clockwise
     // center the text label such that it is centered along the arc
@@ -44,11 +43,10 @@ const RadarLabel = (props: radarLabelProps) => {
     } else {
         arc = `M ${Math.cos(startAltered - Math.PI) * radius} ${
             Math.sin(startAltered - Math.PI) * radius
-        } A ${radius} ${radius} 0 1 0 ${
+        } A ${radius} ${radius} 0 ${arcFlag} 0 ${
             Math.cos(endAltered - Math.PI) * radius
         } ${Math.sin(endAltered - Math.PI) * radius}`;
     }
-
     return (
         <g>
             <path
