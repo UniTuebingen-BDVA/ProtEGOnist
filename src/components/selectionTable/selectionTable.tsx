@@ -37,21 +37,19 @@ const SelectionTable = () => {
                 }
                 rowSelectionModel={tableModel}
                 onRowSelectionModelChange={(selection) => {
-                    setTableModel(selection);
+                    //setTableModel(selection);
                     // when the model changes, we need to update the network data
                     // for this we call getEgoNetworkNetworkData with the IDs of the selected rows
-                    const selectedIDs = selection.map(
-                        (id) => rows[id]['UniprotID_inString']
+                    const ids = selection.map(
+                        (id) => rows[id-1]['UniprotID_inString']
                     );
+                    const selectedIDs = ids
+                        .filter((id) => !selectedProteins.includes(id));
                     const deselectedIDs = selectedProteins.filter(
-                        (d) => !selectedIDs.includes(d)
+                        (d) => !ids.includes(d)
                     );
-                    if (selectedIDs.length > 0) {
-                        setSelectedProteins(
-                            selectedIDs
-                                .filter((id) => !selectedProteins.includes(id))
-                                .concat(deselectedIDs)
-                        );
+                    if (selectedIDs.length > 0 || deselectedIDs.length > 0) {
+                        setSelectedProteins(selectedIDs.concat(deselectedIDs));
                     }
                 }}
                 slots={{ toolbar: GridToolbar }}

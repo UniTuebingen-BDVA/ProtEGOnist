@@ -86,7 +86,7 @@ export const selectedProteinsAtom = atom(
         const indices = idCopy.map((protein) => {
             return get(tableAtomStore).rows.findIndex((row) => {
                 return row['UniprotID_inString'] === protein;
-            });
+            })+1;
         });
         set(tableModelAtom, indices);
     }
