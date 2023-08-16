@@ -4,9 +4,12 @@ import { Paper, Typography } from '@mui/material';
 import { useAtom } from 'jotai';
 import { egoNetworkNetworkSizeAtom } from './egoNetworkNetworkStore.ts';
 import { useRef } from 'react';
+import ColorLegend from '../ColorLegend.tsx';
+import { drugsPerProteinColorscaleAtom } from '../selectionTable/tableStore.tsx';
 
 function EgoNetworkNetworkViewer() {
     const [svgSize, setSvgSize] = useAtom(egoNetworkNetworkSizeAtom);
+    const [colorscale] = useAtom(drugsPerProteinColorscaleAtom);
     const target = useRef();
     // prevent default pinch zoom
     document.addEventListener('gesturestart', (e) => e.preventDefault());
@@ -100,7 +103,24 @@ function EgoNetworkNetworkViewer() {
                     <EgoNetworkNetwork />
                 </g>
             </svg>
+            <svg height={450} width={200}>
+                <ColorLegend
+                    domain={colorscale.domain()}
+                    range={colorscale.range()}
+                    type={'quantitative'}
+                    transform={`translate(${10},${10})`}
+                    title={'#Drugs associated with protein'}
+                />
+                <ColorLegend
+                    domain={["few interactions","many interactions"]}
+                    range={['#f7f4f9', '#67001f']}
+                    type={'quantitative'}
+                    transform={`translate(${10},${235})`}
+                    title={'Node connectivity within ego-graph'}
+                />
+            </svg>
         </Paper>
     );
 }
+
 export default EgoNetworkNetworkViewer;

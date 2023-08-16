@@ -2,11 +2,10 @@ import EgoNetworkNetworkOverview from './egoNetworkNetworkOverview.tsx';
 import { Paper, Typography } from '@mui/material';
 
 import { useAtom } from 'jotai';
-import {
-    egoNetworkNetworkSizeAtom,
-} from './egoNetworkNetworkOverviewStore.ts';
+import { egoNetworkNetworkSizeAtom } from './egoNetworkNetworkOverviewStore.ts';
 import { useRef, useEffect } from 'react';
 import { useDimensions } from '../../UtilityFunctions.ts';
+import ColorLegend from '../ColorLegend.tsx';
 
 function EgoNetworkNetworkOverviewViewer() {
     const ref = useRef(null);
@@ -15,15 +14,15 @@ function EgoNetworkNetworkOverviewViewer() {
     const { width, height } = useDimensions(ref);
 
     useEffect(() => {
-        setSvgSize({ x: 0, y:0 , width: width, height: height });
+        setSvgSize({ x: 0, y: 0, width: width, height: height });
     }, [height, width]);
 
     return (
         <Paper
             ref={ref}
             style={{
-                width: "100%",
-                height: "100%",
+                width: '100%',
+                height: '100%',
                 alignItems: 'center',
                 justifyContent: 'center',
                 margin: 0,
@@ -31,10 +30,13 @@ function EgoNetworkNetworkOverviewViewer() {
                 overflow: 'hidden',
                 position: 'relative'
             }}
-        ><svg
+        >
+            <svg
                 width="100%"
                 height="100%"
-                viewBox={`${svgSize.x} ${svgSize.y} ${ svgSize.width ?? 0} ${ svgSize.height ?? 0}`}
+                viewBox={`${svgSize.x} ${svgSize.y} ${svgSize.width+30 ?? 0} ${
+                    svgSize.height+30 ?? 0
+                }`}
                 style={{
                     position: 'absolute',
                     top: 0,
@@ -43,11 +45,28 @@ function EgoNetworkNetworkOverviewViewer() {
                     right: 0
                 }}
             >
-                <g>
+                <g transform={"translate(30,30)"}>
                     <EgoNetworkNetworkOverview />
                 </g>
+            </svg>
+            <svg height={400} width={310}>
+                <ColorLegend
+                    domain={[0,100]}
+                    range={['white', '#1f78b4']}
+                    type={'quantitative'}
+                    transform={`translate(${10},${10})`}
+                    title={'Percent of proteins represented in selected ego-graphs (right)'}
+                />
+                <ColorLegend
+                    domain={["Selected","Radar center"]}
+                    range={['#ff7f00', '#ffff99']}
+                    type={'qualitative'}
+                    transform={`translate(${10},${215})`}
+                    title={''}
+                />
             </svg>
         </Paper>
     );
 }
+
 export default EgoNetworkNetworkOverviewViewer;
