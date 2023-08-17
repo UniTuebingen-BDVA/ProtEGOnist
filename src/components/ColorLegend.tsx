@@ -51,13 +51,13 @@ function ColorLegend(props) {
         });
     } else {
         colors = range.map((d, i) => (
-            <rect key={d} x={0} y={itemSize * i+2} height={itemSize} width={itemSize} fill={d}/>
+            <rect key={d} x={0} y={(itemSize+2) * i} height={itemSize} width={itemSize} fill={d}/>
         ));
         labels = domain.map((d, i) => (
             <text
                 key={d}
                 x={itemSize + 2}
-                y={itemSize * i+2 + itemSize * 0.8}
+                y={(itemSize+2) * i + itemSize * 0.8}
                 fontSize={itemSize}
             >
                 {d}

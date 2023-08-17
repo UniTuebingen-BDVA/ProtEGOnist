@@ -212,7 +212,7 @@ function App() {
                             }}
                         >
                             <Typography style={{ color: 'black' }}>
-                                Network overview: 91 protein ego graphs from top 108
+                                Network overview: 91 protein ego-graphs from top 108
                                 protein-drug associations
                             </Typography>
                             <div
@@ -248,7 +248,7 @@ function App() {
                             <Typography
                                 style={{ color: 'black', textAlign: 'center' }}
                             >
-                                Network of selected ego-graphs
+                                Ego-grap subnetwork
                             </Typography>
                             <div>
                                 {/* <!-- Content for the second column, first row --> */}

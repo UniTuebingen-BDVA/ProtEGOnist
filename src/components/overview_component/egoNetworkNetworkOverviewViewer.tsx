@@ -58,7 +58,7 @@ function EgoNetworkNetworkOverviewViewer() {
                     title={'Percent of proteins represented in selected ego-graphs (right)'}
                 />
                 <ColorLegend
-                    domain={["Selected","Radar center"]}
+                    domain={["In ego-graph subnetwork","Radar center"]}
                     range={['#ff7f00', '#ffff99']}
                     type={'qualitative'}
                     transform={`translate(${10},${215})`}
