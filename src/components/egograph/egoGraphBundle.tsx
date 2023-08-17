@@ -169,7 +169,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                         x2={edge.x2}
                         y1={edge.y1}
                         y2={edge.y2}
-                        stroke={isVisible ? 'gray' : 'none'}
+                        stroke={isVisible ? '#67001f' : 'none'}
                     />
                 );
             });
@@ -197,8 +197,8 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                             x2={edge.x2}
                             y1={edge.y1}
                             y2={edge.y2}
-                            stroke={'#ce1256'}
-                            opacity={0.1}
+                            stroke={'gray'}
+                            opacity={0.2}
                             strokeWidth={nodeRadius * 2}
                         />
                     );
