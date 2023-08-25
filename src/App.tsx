@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import './App.css';
-import { useAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import { AppBar, Toolbar, Typography, IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import RadarChartViewer from './components/radarchart/radarChartViewer.tsx';
@@ -28,7 +28,7 @@ function App() {
     const [_egoNetworkNetworkOverviewData, getEgoNetworkNetworkOverviewData] =
         useAtom(getEgoNetworkNetworkOverviewAtom);
     const [tarNode, setTarNode] = useAtom(tarNodeAtom);
-    const [stateDrawer, setStateDrawer] = useAtom(drawerShownAtom);
+    const setStateDrawer = useSetAtom(drawerShownAtom);
 
     useEffect(() => {
         const startDataOverview = [

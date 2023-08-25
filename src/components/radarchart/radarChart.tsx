@@ -1,9 +1,8 @@
 import { intersectionDatum } from '../../egoGraphSchema';
-import { useAtom } from 'jotai';
+import { useAtom, useAtomValue, useSetAtom} from 'jotai';
 import * as d3 from 'd3';
 import { tarNodeAtom } from './radarStore';
 import { getRadarAtom } from '../../apiCalls';
-import { Tooltip } from '@mui/material';
 import RadarCircles from './radarCircles';
 import RadarLabel from './radarLabel';
 import { selectedProteinsAtom, tableAtom } from '../selectionTable/tableStore';
@@ -11,14 +10,17 @@ import AdvancedTooltip from '../advancedTooltip/advancedTooltip';
 
 interface RadarChartProps {
     baseRadius: number;
+    intersectionData: { [name: string | number]: intersectionDatum };
+    tarNode: string;
+
+
 }
 
 const RadarChart = (props: RadarChartProps) => {
     const { baseRadius } = props;
-    const [intersectionData, getRadarData] = useAtom(getRadarAtom);
-    const [tarNode, setTarNode] = useAtom(tarNodeAtom);
-    const [selectedProteins, setSelectedProteins] =
-        useAtom(selectedProteinsAtom);
+    const tarNode = useAtomValue(tarNodeAtom);
+    const intersectionData = useAtomValue(getRadarAtom);
+    const setSelectedProteins = useSetAtom(selectedProteinsAtom);
     const [tableData] = useAtom(tableAtom);
 
     const intersectionDataClone = structuredClone(intersectionData);
@@ -105,7 +107,7 @@ const RadarChart = (props: RadarChartProps) => {
     // create a color scale that maps the "classification" property to a color
 
     // calculate the angle of each pie chart segment
-    const angles = classificationProportionsalternating.map(([key, size]) => {
+    const angles = classificationProportionsalternating.map(([key, _size]) => {
         const value = classificationProportions[key];
         return {
             classification: key,
@@ -160,7 +162,7 @@ const RadarChart = (props: RadarChartProps) => {
 
     const availableRingIndices: number[] = [0];
     const unavailableRingIndices: number[] = [];
-    pieChartSegments.forEach((segment, index) => {
+    pieChartSegments.forEach((segment, _index) => {
         // check for all unavailableRingIndices if they are available again
         // this is the case if the current segements midAngle - labelAngleWidth/2 is greater than the midAngle + labelAngleWidth/2 of the segment with the a ringIndex in unavailableRingIndices
         unavailableRingIndices.forEach((ringIndex) => {
@@ -212,7 +214,19 @@ const RadarChart = (props: RadarChartProps) => {
         }
         return acc;
     }, 0);
-
+    const colorsRadar: string[] = [
+        '#a6cee3',
+        '#33a02c',
+        '#fb9a99',
+        '#b15928',
+        '#6a3d9a',
+        '#fdbf6f',
+        '#1f78b4',
+        '#b2df8a',
+        '#e31a1c',
+        '#ff7f00',
+        '#cab2d6'
+    ];
     const colorScale = d3
         .scaleOrdinal()
         .domain(
@@ -220,19 +234,7 @@ const RadarChart = (props: RadarChartProps) => {
                 (d) => d[1].classification
             )
         )
-        .range([
-            '#a6cee3',
-            '#33a02c',
-            '#fb9a99',
-            '#b15928',
-            '#6a3d9a',
-            '#fdbf6f',
-            '#1f78b4',
-            '#b2df8a',
-            '#e31a1c',
-            '#ff7f00',
-            '#cab2d6'
-        ]);
+        .range(colorsRadar);
     const baseRadiusInternal = baseRadius - 33 * maxRingIndex;
     const GUIDE_CIRCLE_RADIUS = baseRadiusInternal;
     const GUIDE_CIRCLE_STEP = baseRadiusInternal / 4;
@@ -240,7 +242,9 @@ const RadarChart = (props: RadarChartProps) => {
     const TEXT_RADIUS = baseRadiusInternal + 10;
     const CIRCLE_RADIUS = baseRadiusInternal / 20;
     const LEGEND_ANGLE = 0 * (Math.PI / 180);
-
+    // FIXME ID is any
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore ts2304
     const getNodeName = (id) => {
         // find the rows in the table that match the uniprot ID
         const filteredRows = tableData.rows.filter((row) => {
@@ -264,10 +268,10 @@ const RadarChart = (props: RadarChartProps) => {
                         classificationFull,
                         startAngle,
                         endAngle,
-                        labelAngleWidth,
+                        // labelAngleWidth,
                         ringIndex
                     },
-                    index
+                    _index
                 ) => {
                     return (
                         <g key={classification}>

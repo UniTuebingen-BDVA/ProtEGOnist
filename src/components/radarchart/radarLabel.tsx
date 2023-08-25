@@ -1,15 +1,16 @@
-import { PrimitiveAtom, useAtom } from 'jotai';
+// import { PrimitiveAtom, useAtom } from 'jotai';
+import {  useAtom } from 'jotai';
 import { labelsAtoms } from './radarStore';
 
 interface radarLabelProps {
     startAngle: number;
     endAngle: number;
-    labelAtom: PrimitiveAtom<{ value: string; short: string; long: string }>;
+    // labelAtom: PrimitiveAtom<{ value: string; short: string; long: string }>;
     label: string;
     hoverLabel: string;
     guideCircleRadius: number;
     radius: number;
-    colorScale: d3.ScaleOrdinal<string, string, never>;
+    colorScale: d3.ScaleOrdinal<string, string | any, never>;
 }
 
 // given radarLabel props draw an arc and a text label along the arc

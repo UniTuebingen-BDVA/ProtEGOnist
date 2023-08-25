@@ -1,5 +1,5 @@
-import { useAtom } from 'jotai';
-import { highlightNodeAtom } from './egoNetworkNetworkOverviewStore';
+// import { useAtom } from 'jotai';
+// import { highlightNodeAtom } from './egoNetworkNetworkOverviewStore';
 
 interface EgoNetworkNetworkEdgeProps {
     weight: number;
@@ -13,7 +13,7 @@ interface EgoNetworkNetworkEdgeProps {
 
 const EgoNetworkNetworkEdge = (props: EgoNetworkNetworkEdgeProps) => {
     const { weight, x1, x2, y1, y2, color, opacity } = props;
-    const [highlightNode] = useAtom(highlightNodeAtom);
+    // const [highlightNode] = useAtom(highlightNodeAtom);
     return (
         <line
             opacity={opacity}

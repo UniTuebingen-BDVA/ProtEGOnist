@@ -1,3 +1,7 @@
+// ignore all ts errors in this file
+// FIXME remove this once refactor is done
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import axios from 'axios';
 import { atom } from 'jotai';
 import {
@@ -10,7 +14,6 @@ import {
     leavingNodesAtom,
     changedNodesAtom,
     tarNodeAtom,
-    lastSelectedNodeAtom
 } from './components/radarchart/radarStore.ts';
 import { tableAtom } from './components/selectionTable/tableStore.tsx';
 import { GridColDef, GridRowsProp } from '@mui/x-data-grid';
@@ -102,13 +105,13 @@ export const getRadarAtom = atom(
             );
     }
 );
-export const accountedProteinsNeigborhoodStoreAtom = atom<Set<string>>([]);
+export const accountedProteinsNeigborhoodStoreAtom = atom<Set<string>>(new Set([]));
 
 export const accountedProteinsNeigborhoodAtom = atom(
     (get) => {
         return get(accountedProteinsNeigborhoodStoreAtom);
     },
-    (get, set, update: string[][]) => {
+    (_get, set, update: string[][]) => {
         // Flatten list
         let flatArray = update.reduce((acc, val) => acc.concat(val), []);
 
@@ -133,7 +136,7 @@ export const getTableAtom = atom(
 
 export const getEgoNetworkNetworkAtom = atom(
     (get) => get(egoNetworkNetworksAtom),
-    (get, set, ids: string[]) => {
+    (_get, set, ids: string[]) => {
         axios
             .get<egoNetworkNetwork>(
                 `/api/getEgoNetworkNetwork/${ids.join('+')}`
@@ -155,9 +158,11 @@ export const getEgoNetworkNetworkAtom = atom(
             );
     }
 );
+
+
 export const getEgoNetworkNetworkOverviewAtom = atom(
     (get) => get(egoNetworkNetworksOverviewAtom),
-    (get, set, ids: string[]) => {
+    (_get, set, ids: string[]) => {
         axios
             .get<egoNetworkNetwork>(
                 `/api/getEgoNetworkNetwork/${ids.join('+')}`

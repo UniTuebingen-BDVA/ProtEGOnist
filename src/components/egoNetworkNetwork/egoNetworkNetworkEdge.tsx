@@ -2,7 +2,6 @@ import { animated } from '@react-spring/web';
 
 interface EgoNetworkNetworkEdgeProps {
     weight: number;
-
     animatedParams: {
         opacity: number;
         x1: number;
@@ -11,6 +10,7 @@ interface EgoNetworkNetworkEdgeProps {
         y2: number;
     };
 }
+
 
 const EgoNetworkNetworkEdge = (props: EgoNetworkNetworkEdgeProps) => {
     const { weight, animatedParams } = props;

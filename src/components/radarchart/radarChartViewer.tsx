@@ -4,7 +4,7 @@ import RadarChart from './radarChart.tsx';
 import { useAtom } from 'jotai';
 import { radarSVGSizeAtom } from './radarStore.ts';
 import { useDimensions } from '../../UtilityFunctions.ts';
-import { Paper, Typography } from '@mui/material';
+import { Paper} from '@mui/material';
 
 interface RadarChartViewerProps {
     intersectionData: { [name: string | number]: intersectionDatum };

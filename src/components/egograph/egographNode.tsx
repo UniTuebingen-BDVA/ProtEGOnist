@@ -1,6 +1,5 @@
 import { PrimitiveAtom, useAtom } from 'jotai';
 import { layoutNode } from './egolayout';
-import { Tooltip } from '@mui/material';
 import AdvancedTooltip from '../advancedTooltip/advancedTooltip';
 
 type egographNodeProps = {

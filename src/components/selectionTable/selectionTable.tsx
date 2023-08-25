@@ -1,5 +1,5 @@
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { useAtom } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import {
     selectedProteinsAtom,
     tableAtom,
@@ -11,7 +11,7 @@ const SelectionTable = () => {
     const [tableData] = useAtom(tableAtom);
     const [selectedProteins, setSelectedProteins] =
         useAtom(selectedProteinsAtom);
-    const [tableModel, setTableModel] = useAtom(tableModelAtom);
+    const tableModel = useAtomValue(tableModelAtom);
     const [columnVisibility, setColumnVisibility] =
         useAtom(columnVisibilityAtom);
     const rows = tableData.rows;
@@ -21,12 +21,6 @@ const SelectionTable = () => {
             <DataGrid
                 rows={rows}
                 columns={columns}
-                // initialState={{
-                //     pagination: {
-                //         paginationModel: { page: 0, pageSize: 5 }
-                //     }
-                // }}
-                // pageSizeOptions={[5]}
                 rowHeight={40}
                 checkboxSelection
                 disableRowSelectionOnClick
@@ -41,6 +35,9 @@ const SelectionTable = () => {
                     // when the model changes, we need to update the network data
                     // for this we call getEgoNetworkNetworkData with the IDs of the selected rows
                     const ids = selection.map(
+                        // FIXME ID is not a number
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-ignore ts2304
                         (id) => rows[id-1]['UniprotID_inString']
                     );
                     const selectedIDs = ids

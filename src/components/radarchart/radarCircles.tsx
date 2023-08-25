@@ -8,7 +8,7 @@ interface RadarCirclesProps {
     GUIDE_CIRCLE_RADIUS: number;
     CIRCLE_RADIUS: number;
     intersectionLengthScale: d3.ScaleLinear<number, number, never>;
-    colorScale: d3.ScaleOrdinal<string, string, never>;
+    colorScale: d3.ScaleOrdinal<string, any | string, never>;
 }
 
 const RadarCircles = (props: RadarCirclesProps) => {
@@ -45,13 +45,13 @@ const RadarCircles = (props: RadarCirclesProps) => {
                 1.5,
             fill: d3
                 .color(colorScale(intersectionDatum.classification))
-                .brighter(4.0)
+                ?.brighter(4.0)
                 .toString(),
             opacity: 0
         }),
         enter:
             ({ intersectionDatum, index }) =>
-            async (next, cancel) => {
+            async (next, _cancel) => {
                 await next({
                     cx:
                         Math.cos(
@@ -65,7 +65,7 @@ const RadarCircles = (props: RadarCirclesProps) => {
                         ) * GUIDE_CIRCLE_RADIUS,
                     fill: d3
                         .color(colorScale(intersectionDatum.classification))
-                        .brighter(4.0)
+                        ?.brighter(4.0)
                         .toString(),
                     opacity: 1
                 });
@@ -88,12 +88,12 @@ const RadarCircles = (props: RadarCirclesProps) => {
                 await next({
                     fill: d3
                         .color(colorScale(intersectionDatum.classification))
-                        .toString()
+                        ?.toString()
                 });
             },
         leave:
             ({ intersectionDatum, index }) =>
-            async (next, cancel) => {
+            async (next, _cancel) => {
                 await next({
                     cx:
                         Math.cos(
@@ -130,7 +130,7 @@ const RadarCircles = (props: RadarCirclesProps) => {
             },
         update:
             ({ intersectionDatum, index }) =>
-            async (next, cancel) => {
+            async (next, _cancel) => {
                 await next({
                     cx:
                         Math.cos(
@@ -148,7 +148,7 @@ const RadarCircles = (props: RadarCirclesProps) => {
                             intersectionDatum.jaccard * GUIDE_CIRCLE_RADIUS),
                     fill: d3
                         .color(colorScale(intersectionDatum.classification))
-                        .toString()
+                        ?.toString()
                 });
             },
         config: { duration: 2000 }

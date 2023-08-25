@@ -1,5 +1,5 @@
 import EgoNetworkNetworkOverview from './egoNetworkNetworkOverview.tsx';
-import { Paper, Typography } from '@mui/material';
+import { Paper } from '@mui/material';
 
 import { useAtom } from 'jotai';
 import { egoNetworkNetworkSizeAtom } from './egoNetworkNetworkOverviewStore.ts';

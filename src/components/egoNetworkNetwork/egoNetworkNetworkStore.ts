@@ -1,7 +1,6 @@
 import { atom } from 'jotai';
 import {
     egoNetworkNetwork,
-    egoNetworkNetworkEdge,
     egoNetworkNetworkNode,
     egoNetworkNetworkRenderedEdge
 } from '../../egoGraphSchema';
@@ -26,6 +25,7 @@ export const decollapsedSizeAtom = atom((get) => [
     300,
     300
 ]);
+
 export const decollapseIDsAtom = atom(
     (get) => get(decollapseIDsArrayAtom),
     (get, set, id: string) => {
@@ -68,6 +68,8 @@ export const egoNetworkNetworksAtom = atom<egoNetworkNetwork>({
     nodes: [],
     edges: []
 });
+
+// This code creates a dictionary that maps nodes to their neighbors.
 const nodeNeighborsAtom = atom((get) => {
     const neighborDict: { [key: string]: string[] } = {};
     get(egoNetworkNetworksAtom).edges.forEach((edge) => {
@@ -100,12 +102,15 @@ export const aggregateNetworkAtom = atom((get) => {
     const aggregateEgoNetworkNodeIDs = get(decollapseIDsAtom);
     const { outNodes, outEdges } = aggregateEgoNetworkNodes(
         egoNetworkNetwork.nodes,
+        // FIXME egoNetworkNodes.edges is not defined in TS
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore ts2304
         egoNetworkNetwork.edges,
         aggregateEgoNetworkNodeIDs,
         get(decollapsedSizeAtom),
         get(scaleNodeSizeAtom)
     );
-    console.log('Relayout');
+    // console.log('Relayout');
     // generate a deep copy for the force layout of outNodes and outEdges
     // const outEdgesInternal = JSON.parse(JSON.stringify(outEdges));
     // console.log('internalNodes', outNodesInternal);
@@ -116,12 +121,18 @@ export const aggregateNetworkAtom = atom((get) => {
         .force('center', d3.forceCenter(0, 0))
         .force(
             'collision',
+            // FIXME d.radius is not defined in TS
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore ts2304
             d3.forceCollide().radius((d) => d.radius + 10)
         )
         .force(
             'link',
             d3
                 .forceLink(outEdges)
+                // FIXME d.id is not defined in TS
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore ts2304
                 .id((d) => d.id)
                 .distance(50)
         );
@@ -189,7 +200,8 @@ function aggregateEgoNetworkNodes(
             size: decollapsedSize[aggregates.length - 1],
             x: 0,
             y: 0,
-            collapsed: false
+            collapsed: false,
+            neighbors: null
         });
     });
     return { outNodes: outNodes, outEdges: outEdges };
@@ -236,7 +248,7 @@ export const interEdgesAtom = atom((get) => {
         get(aggregateNetworkAtom).nodes.forEach(
             (node) => (nodeDict[node.id] = node)
         );
-        networkLayout.edges.forEach((edge: egoNetworkNetworkEdge) => {
+        networkLayout.edges.forEach((edge) => {
             if (
                 aggregateEgoNetworkNodeIDs.flat().includes(edge.source) ||
                 aggregateEgoNetworkNodeIDs.flat().includes(edge.target)

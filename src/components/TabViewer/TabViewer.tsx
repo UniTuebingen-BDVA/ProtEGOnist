@@ -2,8 +2,7 @@ import React from 'react';
 import { useAtom } from 'jotai';
 
 import { Box, Paper, Tab, Tabs } from '@mui/material';
-import { multiSelectionAtom, showedTabAtom } from './tabViewerStore.ts';
-import { getRadarAtom, getTableAtom } from '../../apiCalls.ts';
+import { showedTabAtom } from './tabViewerStore.ts';
 import SelectionTable from '../selectionTable/selectionTable.tsx';
 
 interface TabPanelProps {
@@ -43,9 +42,8 @@ function a11yProps(index: number) {
 
 function TabViewer() {
     const [value, setValue] = useAtom(showedTabAtom);
-    const [tableData, _getTableData] = useAtom(getTableAtom);
-    const [_intersectionData, getRadarData] = useAtom(getRadarAtom);
-    const [multiSelection, setMultiSelection] = useAtom(multiSelectionAtom);
+    // const [tableData, _getTableData] = useAtom(getTableAtom);
+    // const [_intersectionData] = useAtom(getRadarAtom);
 
     const handleChange = (_e: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);

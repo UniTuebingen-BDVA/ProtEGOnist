@@ -37,6 +37,7 @@ export type egoNetworkNetworkNode = baseNode & {
     x: number;
     y: number;
     collapsed: boolean;
+    neighbors: string[];
 };
 export type egoNetworkNetworkEdge = {
     source: string;
@@ -52,4 +53,9 @@ export type egoNetworkNetworkRenderedEdge = {
 export type egoNetworkNetwork = {
     nodes: egoNetworkNetworkNode[];
     edges: egoNetworkNetworkEdge[] | egoNetworkNetworkRenderedEdge[];
+};
+
+export type egoNetworkNetworkRendered = {
+    nodes: egoNetworkNetworkNode[];
+    edges: egoNetworkNetworkRenderedEdge[];
 };

@@ -5,7 +5,7 @@ export function polarToCartesian(
     centerY: number,
     radius: number,
     angleInRadians: number,
-    offset: number,
+    offset: number = 0,
 ) {
     return {
         x: centerX + radius * Math.cos(angleInRadians+offset),
@@ -13,7 +13,7 @@ export function polarToCartesian(
     };
 }
 
-export function getPartialRanges(numRanges) {
+export function getPartialRanges(numRanges: number) {
     const fullRange = 2 * Math.PI;
     const partialRange = fullRange / numRanges;
     const ranges = [];
