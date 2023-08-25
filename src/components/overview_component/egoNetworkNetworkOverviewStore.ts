@@ -1,5 +1,5 @@
 import { atom } from 'jotai';
-import { egoNetworkNetwork, egoNetworkNetworkNode } from '../../egoGraphSchema';
+import {  egoNetworkNetworkNode, egoNetworkNetworkRendered } from '../../egoGraphSchema';
 import * as d3 from 'd3';
 
 export const egoNetworkNetworkSizeAtom = atom({
@@ -29,7 +29,7 @@ export const scaleNodeSizeAtom = atom((get) => {
         ]);
 });
 
-export const egoNetworkNetworksOverviewAtom = atom<egoNetworkNetwork>({
+export const egoNetworkNetworksOverviewAtom = atom<egoNetworkNetworkRendered>({
     nodes: [],
     edges: []
 });
@@ -44,17 +44,16 @@ export const aggregateNetworkAtom = atom((get) => {
 
     const forceLayout = d3
         .forceSimulation(outNodes)
-        // .alpha(1).alphaDecay(0.01)
         .force('center', d3.forceCenter(svgSize.width / 2, svgSize.height / 2))
         .force(
             'charge',
-            d3.forceManyBody().strength((d) => -50)
+            d3.forceManyBody().strength(() => -50)
         )
         .force(
             'link',
             d3
                 .forceLink(outEdges)
-                .id((d) => d.id)
+                .id((d:egoNetworkNetworkNode) => d.id)
                 .distance(
                     (d) =>
                         10 *
@@ -72,7 +71,7 @@ export const aggregateNetworkAtom = atom((get) => {
             'collision',
             d3
                 .forceCollide()
-                .radius((d) => 1.75 * Math.sqrt(scaleSize(d.size) / Math.PI))
+                .radius((d: egoNetworkNetworkNode) => 1.75 * Math.sqrt(scaleSize(d.size) / Math.PI))
                 .iterations(10)
         )
         .tick(100);

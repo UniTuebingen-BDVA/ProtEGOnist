@@ -110,14 +110,14 @@ export const tableModelAtom = atom<number[]>([]);
 
 export const tableAtom = atom(
     (get) => get(tableAtomStore),
-    (get, set, update: { rows: GridRowsProp; columns: GridColDef[] }) => {
+    (_get, set, update: { rows: GridRowsProp; columns: GridColDef[] }) => {
         // add a Radar button to the columns when tableAtom is set
         // get all unique uniprot ids (UniprotID_inString)
         const uniprotIds = update.rows.map((row) => row['UniprotID_inString']);
         // generate set of unique uniprot ids
         const uniqueUniprotIds = [...new Set(uniprotIds)];
 
-        const drugsPerProtein = {};
+        const drugsPerProtein:{[key: string]: number} = {};
 
         for (const uniprotId of uniqueUniprotIds) {
             const filteredRows = update.rows.filter((row) => {

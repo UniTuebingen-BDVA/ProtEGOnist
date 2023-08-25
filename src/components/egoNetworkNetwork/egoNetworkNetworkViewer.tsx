@@ -1,6 +1,6 @@
 import { useGesture } from '@use-gesture/react';
 import EgoNetworkNetwork from './egoNetworkNetwork.tsx';
-import { Paper, Typography } from '@mui/material';
+import { Paper} from '@mui/material';
 import { useAtom } from 'jotai';
 import { egoNetworkNetworkSizeAtom } from './egoNetworkNetworkStore.ts';
 import { useRef } from 'react';
@@ -40,7 +40,7 @@ function EgoNetworkNetworkViewer() {
                     };
                 });
             },
-            onDrag: ({ event, movement: [mx, my] }) => {
+            onDrag: ({  movement: [mx, my] }) => {
                 const sensitivity = 0.2;
                 setSvgSize((prevSize) => {
                     const newX = prevSize.x - mx * sensitivity;

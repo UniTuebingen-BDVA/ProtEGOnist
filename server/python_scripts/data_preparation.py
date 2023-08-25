@@ -2,8 +2,8 @@
 
 import pickle
 import pathlib
-from egoGraph import EgoGraph
-from egoGraph import Intersection
+from server.python_scripts.egoGraph import EgoGraph
+from server.python_scripts.egoGraph import Intersection
 
 # set path to data
 path = pathlib.Path(__file__).parent.absolute()

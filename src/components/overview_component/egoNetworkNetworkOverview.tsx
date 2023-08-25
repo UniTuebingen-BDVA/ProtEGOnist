@@ -89,6 +89,9 @@ const EgoNetworkNetworkOverview = () => {
                 let colorGradientFill = d3
                     .scaleLinear()
                     .domain([0, 1])
+                    // FIXME Range not defined correctly
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore ts2304
                     .range(['white', '#1f78b4']);
                 return (
                     <EgoNetworkNetworkOverviewNode
@@ -102,7 +105,7 @@ const EgoNetworkNetworkOverview = () => {
                                 ? '#ffff99'
                                 : isProteinSelected
                                 ? '#ff7f00'
-                                : colorGradientFill(coverageProteins)
+                                : String(colorGradientFill(coverageProteins))
                         }
                     />
                 );

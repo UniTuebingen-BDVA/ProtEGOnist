@@ -1,3 +1,7 @@
+// ignore all ts errors in this file
+// FIXME remove this once refactor is done
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { ReactElement, useMemo } from 'react';
 import { useAtom } from 'jotai';
 
@@ -14,6 +18,7 @@ import { focusAtom } from 'jotai-optics';
 import { splitAtom } from 'jotai/utils';
 import * as d3 from 'd3';
 import { decollapseIDsAtom } from '../egoNetworkNetwork/egoNetworkNetworkStore.ts';
+
 
 const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
     const { x, y, nodeId } = props;
@@ -57,6 +62,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                         get(egoGraphBundleDefaultAtom)
                     );
                 },
+                
                 (_get, set, action) =>
                     set(egoGraphBundleOverwrittenAtom, action)
             ),

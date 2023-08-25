@@ -1,8 +1,7 @@
-import { useSpring, animated } from '@react-spring/web';
-import { Tooltip } from '@mui/material';
+import { animated } from '@react-spring/web';
 import { intersectionDatum } from '../../egoGraphSchema';
 import { getRadarAtom } from '../../apiCalls';
-import { useAtom } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import * as d3 from 'd3';
 import { selectedProteinsAtom } from '../selectionTable/tableStore';
 import AdvancedTooltip from '../advancedTooltip/advancedTooltip';
@@ -23,22 +22,21 @@ interface RadarCircleProps {
 const RadarCircle = (props: RadarCircleProps) => {
     const {
         id,
-        index,
+        // index,
         intersectionDatum,
-        arrayLength,
-        GUIDE_CIRCLE_RADIUS,
+        // arrayLength,
+        // GUIDE_CIRCLE_RADIUS,
         CIRCLE_RADIUS,
         colorScale,
         intersectionLengthScale,
         styleParam
     } = props;
     const [_intersectionData, getRadarData] = useAtom(getRadarAtom);
-    const [selectedProteins, setSelectedProteins] =
-        useAtom(selectedProteinsAtom);
+    const selectedProteins = useAtomValue(selectedProteinsAtom);
     const [lastSelectedNode] = useAtom(lastSelectedNodeAtom);
 
-    const color = colorScale(intersectionDatum.classification);
-    const strokeColor = selectedProteins.includes(id)
+    const color = String(colorScale(intersectionDatum.classification));
+    const strokeColor:string = selectedProteins.includes(id)
         ? 'orange'
         : id == lastSelectedNode
         ? 'red'
@@ -63,7 +61,7 @@ const RadarCircle = (props: RadarCircleProps) => {
                 style={{ ...styleParam }}
                 strokeOpacity={strokeOpacity}
                 strokeWidth={strokeWidth}
-                onClick={(event) => {
+                onClick={(_event) => {
                     getRadarData(id);
                 }}
             />

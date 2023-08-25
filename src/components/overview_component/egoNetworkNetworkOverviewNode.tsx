@@ -1,4 +1,4 @@
-import { useAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import { selectedProteinsAtom } from '../selectionTable/tableStore';
 import { getRadarAtom } from '../../apiCalls';
 import AdvancedTooltip from '../advancedTooltip/advancedTooltip';
@@ -7,16 +7,15 @@ import { highlightNodeAtom } from './egoNetworkNetworkOverviewStore';
 interface EgoNetworkNetworkNodeProps {
     id: string;
     size: number;
-    color: string | number;
+    color: string ;
     x: number;
     y: number;
 }
 
 const EgoNetworkNetworkNode = (props: EgoNetworkNetworkNodeProps) => {
-    const [selectedProteins, setSelectedProteins] =
-        useAtom(selectedProteinsAtom);
+    const setSelectedProteins = useSetAtom(selectedProteinsAtom);
     const [_intersectionData, getRadarData] = useAtom(getRadarAtom);
-    const [highlightNode, highlightNodeSet] = useAtom(highlightNodeAtom);
+    const  highlightNodeSet = useSetAtom(highlightNodeAtom);
     const { x, y, id, size, color } = props;
     const transform = `translate(${x}, ${y})`;
     return (
@@ -35,6 +34,7 @@ const EgoNetworkNetworkNode = (props: EgoNetworkNetworkNodeProps) => {
                     highlightNodeSet('');
                 }}
             >
+                
                 <circle r={size} fill={color} stroke="black" strokeWidth="1" />
                 <circle
                     r={(size * 2) / 3}

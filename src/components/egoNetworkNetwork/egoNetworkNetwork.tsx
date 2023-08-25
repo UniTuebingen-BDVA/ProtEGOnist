@@ -1,7 +1,7 @@
 import { useAtom } from 'jotai';
 import {
     aggregateNetworkAtom,
-    decollapsedSizeAtom, egoNetworkNetworkSizeAtom,
+    decollapsedSizeAtom,
     interEdgesAtom
 } from './egoNetworkNetworkStore';
 import EgoNetworkNetworkNode from './egoNetworkNetworkNode.tsx';
@@ -21,21 +21,21 @@ const EgoNetworkNetwork = () => {
             transform: `translate(${0},${0})`
         },
         enter:
-            ({ x, y, id }, index) =>
-            async (next, cancel) => {
+            ({ x, y }, _index) =>
+            async (next, _cancel) => {
                 await next({
                     transform: `translate(${x},${y})`
                 });
             },
-        leave: () => async (next, cancel) => {
+        leave: () => async (next, _cancel) => {
             await next({
                 opacity: 0,
                 transform: `translate(${0},${0})`
             });
         },
         update:
-            ({ x, y, id }, index) =>
-            async (next, cancel) => {
+            ({ x, y }, _index) =>
+            async (next, _cancel) => {
                 await next({
                     transform: `translate(${x},${y})`
                 });
@@ -51,7 +51,7 @@ const EgoNetworkNetwork = () => {
         },
         enter:
             ({ x1, x2, y1, y2 }) =>
-            async (next, cancel) => {
+            async (next, _cancel) => {
                 await next({
                     x1: x1,
                     x2: x2,
@@ -62,7 +62,7 @@ const EgoNetworkNetwork = () => {
             },
         leave:
             ({ x1, x2, y1, y2 }) =>
-            async (next, cancel) => {
+            async (next, _cancel) => {
                 await next({
                     x1: x1,
                     x2: x2,
@@ -73,7 +73,7 @@ const EgoNetworkNetwork = () => {
             },
         update:
             ({ x1, x2, y1, y2 }) =>
-            async (next, cancel) => {
+            async (next, _cancel) => {
                 await next({
                     x1: x1,
                     x2: x2,
@@ -82,7 +82,7 @@ const EgoNetworkNetwork = () => {
                     opacity: 1
                 });
             },
-        config: (item, state, phase) => {
+        config: (_item, _state, phase) => {
             switch (phase) {
                 case 'leave':
                     return { duration: 100 };
@@ -96,10 +96,15 @@ const EgoNetworkNetwork = () => {
 
     const otherEdges = edgesTransition((style, edge) => {
         return (
+            
+            
             <EgoNetworkNetworkEdge
                 key={edge.source + '_' + edge.target}
                 stroke="black"
                 weight={edge.weight}
+                // FIXME Edge misses opacity
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore ts2304
                 animatedParams={style}
             />
         );
@@ -129,6 +134,9 @@ const EgoNetworkNetwork = () => {
                     );
                 } else
                     return (
+                        // FIXME Node misses x,y
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-ignore ts2304
                         <EgoNetworkNetworkNode
                             key={node.id}
                             id={node.id}

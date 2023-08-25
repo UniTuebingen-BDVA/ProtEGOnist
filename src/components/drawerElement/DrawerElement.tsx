@@ -1,12 +1,8 @@
-import {useState} from 'react';
-import { Box, Drawer, IconButton, Paper, Typography } from '@mui/material';
+import { Box, Drawer, IconButton, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import TabViewer from '../TabViewer/TabViewer.tsx';
 import { useAtom } from 'jotai';
 import { drawerShownAtom } from './DrawerElementStore.ts';
-
-
-
 
 
 

@@ -1,6 +1,6 @@
 import { useAtom } from 'jotai';
 import { decollapseIDsAtom } from './egoNetworkNetworkStore';
-import { animated } from '@react-spring/web';
+import { SpringValue, animated } from '@react-spring/web';
 import AdvancedTooltip from '../advancedTooltip/advancedTooltip';
 import {
     drugsPerProteinAtom,
@@ -12,7 +12,7 @@ interface EgoNetworkNetworkNodeProps {
     size: number;
     x: number;
     y: number;
-    animatedParams: { opacity: number; transform: string };
+    animatedParams: { opacity: number | SpringValue<number>; transform: string| SpringValue<string> };
 }
 
 const EgoNetworkNetworkNode = (props: EgoNetworkNetworkNodeProps) => {
