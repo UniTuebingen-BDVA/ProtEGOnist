@@ -13,7 +13,7 @@ function ColorLegend(props) {
     let def = null;
     if (type === 'quantitative') {
         const id = uuidv4();
-        const height = 200;
+        const height = 100;
         def = (
             <linearGradient id={id} y1="0%" x1="0%" y2="100%" x2="0%">
                 <stop

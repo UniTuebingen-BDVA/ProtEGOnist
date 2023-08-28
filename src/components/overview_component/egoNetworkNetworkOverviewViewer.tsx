@@ -1,6 +1,5 @@
 import EgoNetworkNetworkOverview from './egoNetworkNetworkOverview.tsx';
 import { Paper } from '@mui/material';
-
 import { useAtom } from 'jotai';
 import { egoNetworkNetworkSizeAtom } from './egoNetworkNetworkOverviewStore.ts';
 import { useRef, useEffect } from 'react';
@@ -45,24 +44,26 @@ function EgoNetworkNetworkOverviewViewer() {
                     right: 0
                 }}
             >
-                <g transform={"translate(30,30)"}>
+                <g transform={"translate(50,30)"}>
                     <EgoNetworkNetworkOverview />
                 </g>
             </svg>
             <svg height={400} width={310}>
-                <ColorLegend
+            <ColorLegend
                     domain={[0,100]}
                     range={['white', '#1f78b4']}
                     type={'quantitative'}
                     transform={`translate(${10},${10})`}
                     title={'Percent of proteins represented in selected ego-graphs (right)'}
+                    render={true}
                 />
                 <ColorLegend
                     domain={["In ego-graph subnetwork","Radar center"]}
                     range={['#ff7f00', '#ffff99']}
                     type={'qualitative'}
-                    transform={`translate(${10},${215})`}
+                    transform={`translate(${10},${115})`}
                     title={''}
+                    render={true}
                 />
             </svg>
         </Paper>
