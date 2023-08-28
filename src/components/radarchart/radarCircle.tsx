@@ -16,7 +16,7 @@ interface RadarCircleProps {
     CIRCLE_RADIUS: number;
     colorScale: d3.ScaleOrdinal<string, unknown, never>;
     intersectionLengthScale: d3.ScaleLinear<number, number, never>;
-    styleParam: any;
+    styleParam: { [key: string]: number | string | undefined | null | boolean };
 }
 
 const RadarCircle = (props: RadarCircleProps) => {
@@ -36,7 +36,7 @@ const RadarCircle = (props: RadarCircleProps) => {
     const [lastSelectedNode] = useAtom(lastSelectedNodeAtom);
 
     const color = String(colorScale(intersectionDatum.classification));
-    const strokeColor:string = selectedProteins.includes(id)
+    const strokeColor: string = selectedProteins.includes(id)
         ? 'orange'
         : id == lastSelectedNode
         ? 'red'
@@ -57,6 +57,8 @@ const RadarCircle = (props: RadarCircleProps) => {
                 }
                 fill={color}
                 fillOpacity={0.7}
+                cx={styleParam.cx}
+                cy={styleParam.cy}
                 stroke={strokeColor}
                 style={{ ...styleParam }}
                 strokeOpacity={strokeOpacity}
