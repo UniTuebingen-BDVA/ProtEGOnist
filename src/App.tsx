@@ -16,6 +16,7 @@ import {
 import EgoNetworkNetworkOverviewViewer from './components/overview_component/egoNetworkNetworkOverviewViewer.tsx';
 import DrawerElement from './components/drawerElement/DrawerElement.tsx';
 import { drawerShownAtom } from './components/drawerElement/DrawerElementStore.ts';
+import LogoText from './assets/FontLogo.svg';
 
 function App() {
     const [tableData, getTableData] = useAtom(getTableAtom);
@@ -172,7 +173,11 @@ function App() {
                             {/* <!-- Content for the first row --> */}
                             <AppBar
                                 className="header-title"
-                                style={{ display: 'flex', height: '5%', backgroundColor: '#1f78b4' }}
+                                style={{
+                                    display: 'flex',
+                                    height: '5%',
+                                    backgroundColor: '#1f78b4'
+                                }}
                             >
                                 <Toolbar variant="dense">
                                     <IconButton
@@ -185,13 +190,13 @@ function App() {
                                     >
                                         <MenuIcon />
                                     </IconButton>
-                                    <Typography
-                                        variant="h6"
-                                        color="inherit"
-                                        component="div"
-                                    >
-                                        ProtEGOnist
-                                    </Typography>
+                                    <img
+                                        src={LogoText}
+                                        style={{
+                                            height: '60%',
+                                            top: '10%'
+                                        }}
+                                    />
                                 </Toolbar>
                             </AppBar>
                         </div>
@@ -212,8 +217,8 @@ function App() {
                             }}
                         >
                             <Typography style={{ color: 'black' }}>
-                                Network overview: 91 protein ego-graphs from top 108
-                                protein-drug associations
+                                Network overview: 91 protein ego-graphs from top
+                                108 protein-drug associations
                             </Typography>
                             <div
                                 style={{
@@ -226,7 +231,8 @@ function App() {
                                 <EgoNetworkNetworkOverviewViewer />
                             </div>
                             <Typography style={{ color: 'black' }}>
-                                Functional neighborhood of selected protein (radar center)
+                                Functional neighborhood of selected protein
+                                (radar center)
                             </Typography>
                             <div style={{ minWidth: '80%', width: '80%' }}>
                                 {/* <!-- Content for the first column, second row --> */}
