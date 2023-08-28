@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { isNumber } from '@mui/x-data-grid/internals';
 
 function ColorLegend(props) {
-    const { range, domain, type, transform, title } = props;
+    const { range, domain, type, transform, title, render } = props;
     const itemSize = 10;
     let colors, labels;
     let def = null;
@@ -37,11 +37,11 @@ function ColorLegend(props) {
             />
         );
         labels = domain.map((d, i) => {
-            let offset=itemSize*0.5;
-            if(i===0){
-                offset=itemSize*0.9;
-            } else if(i===domain.length-1){
-                offset=0
+            let offset = itemSize * 0.5;
+            if (i === 0) {
+                offset = itemSize * 0.9;
+            } else if (i === domain.length - 1) {
+                offset = 0;
             }
             return (
                 <text
@@ -50,38 +50,49 @@ function ColorLegend(props) {
                     y={(height / (domain.length - 1)) * i + offset}
                     fontSize={itemSize}
                 >
-                    {isNumber(d)?Math.round(d * 100) / 100:d}
+                    {isNumber(d) ? Math.round(d * 100) / 100 : d}
                 </text>
             );
         });
     } else {
         colors = range.map((d, i) => (
-            <rect key={d} x={0} y={(itemSize+4) * i} height={itemSize} width={itemSize} fill={d} stroke={'gray'}/>
+            <rect
+                key={d}
+                x={0}
+                y={(itemSize + 4) * i}
+                height={itemSize}
+                width={itemSize}
+                fill={d}
+                stroke={'gray'}
+            />
         ));
         labels = domain.map((d, i) => (
             <text
                 key={d}
                 x={itemSize + 2}
-                y={(itemSize+4) * i + itemSize*0.9}
+                y={(itemSize + 4) * i + itemSize * 0.9}
                 fontSize={itemSize}
             >
                 {d}
             </text>
         ));
     }
-
-    return (
-        <g transform={transform}>
-            <text fontSize={itemSize} y={itemSize / 2}>
-                {title}
-            </text>
-            <g transform={`translate(0,${itemSize})`}>
-                <defs>{def}</defs>
-                {colors}
-                {labels}
+    if (render) {
+        return (
+            <g transform={transform}>
+                <text fontSize={itemSize} y={itemSize / 2}>
+                    {title}
+                </text>
+                <g transform={`translate(0,${itemSize})`}>
+                    <defs>{def}</defs>
+                    {colors}
+                    {labels}
+                </g>
             </g>
-        </g>
-    );
+        );
+    } else {
+        return;
+    }
 }
 
 export default ColorLegend;
