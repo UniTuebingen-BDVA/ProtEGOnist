@@ -6,16 +6,22 @@ import {
     drugsPerProteinAtom,
     drugsPerProteinColorscaleAtom
 } from '../selectionTable/tableStore';
+import { memo } from 'react';
 
 interface EgoNetworkNetworkNodeProps {
     id: string;
     size: number;
     x: number;
     y: number;
-    animatedParams: { opacity: number | SpringValue<number>; transform: string| SpringValue<string> };
+    animatedParams: {
+        opacity: number | SpringValue<number>;
+        transform: string | SpringValue<string>;
+    };
 }
 
-const EgoNetworkNetworkNode = (props: EgoNetworkNetworkNodeProps) => {
+const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
+    props: EgoNetworkNetworkNodeProps
+) {
     const { id, size, animatedParams } = props;
     const [_, setDecollapseID] = useAtom(decollapseIDsAtom);
     const [colorscale] = useAtom(drugsPerProteinColorscaleAtom);
@@ -46,6 +52,6 @@ const EgoNetworkNetworkNode = (props: EgoNetworkNetworkNodeProps) => {
             </animated.g>
         </AdvancedTooltip>
     );
-};
+});
 
 export default EgoNetworkNetworkNode;

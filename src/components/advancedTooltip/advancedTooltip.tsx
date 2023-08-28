@@ -1,4 +1,3 @@
-
 // ignore all ts errors in this file
 // FIXME remove this once refactor is done
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -6,7 +5,7 @@
 import { useAtom } from 'jotai';
 import { tableAtom } from '../selectionTable/tableStore';
 import { Tooltip } from '@mui/material';
-import React from 'react';
+import React, { memo } from 'react';
 interface AdvancedTooltipProps {
     uniprotID: string;
     additionalData?: string;
@@ -19,7 +18,10 @@ interface TooltipContentProps {
 }
 
 //generate a custom content for the tooltip based on the uniprot ID
-const TooltipContent = ({ uniprotID, additionalData }: TooltipContentProps) => {
+const TooltipContent = memo(function TooltipContent({
+    uniprotID,
+    additionalData
+}: TooltipContentProps) {
     const [tableData] = useAtom(tableAtom);
 
     // find the rows in the table that match the uniprot ID
@@ -62,13 +64,13 @@ const TooltipContent = ({ uniprotID, additionalData }: TooltipContentProps) => {
             )}
         </div>
     );
-};
+});
 
-const AdvancedTooltip = ({
+const AdvancedTooltip = memo(function AdvancedTooltip({
     uniprotID,
     additionalData,
     children
-}: AdvancedTooltipProps) => {
+}: AdvancedTooltipProps) {
     return (
         <Tooltip
             title={
@@ -82,6 +84,6 @@ const AdvancedTooltip = ({
             {children}
         </Tooltip>
     );
-};
+});
 
 export default AdvancedTooltip;

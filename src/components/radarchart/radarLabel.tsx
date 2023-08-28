@@ -1,6 +1,7 @@
 // import { PrimitiveAtom, useAtom } from 'jotai';
-import {  useAtom } from 'jotai';
+import { useAtom } from 'jotai';
 import { labelsAtoms } from './radarStore';
+import { memo } from 'react';
 
 interface radarLabelProps {
     startAngle: number;
@@ -15,7 +16,7 @@ interface radarLabelProps {
 
 // given radarLabel props draw an arc and a text label along the arc
 // if the arc is on the bottom half of the circle, flip the text label upside down
-const RadarLabel = (props: radarLabelProps) => {
+const RadarLabel = memo(function RadarLabel(props: radarLabelProps) {
     const {
         startAngle,
         endAngle,
@@ -94,6 +95,6 @@ const RadarLabel = (props: radarLabelProps) => {
             </g>
         </g>
     );
-};
+});
 
 export default RadarLabel;

@@ -6,6 +6,7 @@ import * as d3 from 'd3';
 import { selectedProteinsAtom } from '../selectionTable/tableStore';
 import AdvancedTooltip from '../advancedTooltip/advancedTooltip';
 import { lastSelectedNodeAtom } from './radarStore';
+import { memo } from 'react';
 
 interface RadarCircleProps {
     id: string;
@@ -19,7 +20,7 @@ interface RadarCircleProps {
     styleParam: { [key: string]: number | string | undefined | null | boolean };
 }
 
-const RadarCircle = (props: RadarCircleProps) => {
+const RadarCircle = memo(function RadarCircle(props: RadarCircleProps) {
     const {
         id,
         // index,
@@ -69,6 +70,6 @@ const RadarCircle = (props: RadarCircleProps) => {
             />
         </AdvancedTooltip>
     );
-};
+});
 
 export default RadarCircle;

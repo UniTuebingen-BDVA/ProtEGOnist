@@ -42,8 +42,8 @@ const EgoNetworkNetworkOverview = () => {
                 unhighlightedEdges.push(edge);
             }
         }
-        return{highlightedEdges, unhighlightedEdges}
-    },[edges, highlightNode, setProteinSelected]);
+        return { highlightedEdges, unhighlightedEdges };
+    }, [edges, highlightNode, setProteinSelected]);
 
     return (
         <g>
@@ -77,16 +77,16 @@ const EgoNetworkNetworkOverview = () => {
             })}
 
             {nodes.map((node) => {
-                let sizeNode = Math.sqrt(scaleSize(node.size) / Math.PI);
-                let nodeNeighbors = node.neighbors ?? [];
+                const sizeNode = Math.sqrt(scaleSize(node.size) / Math.PI);
+                const nodeNeighbors = node.neighbors ?? [];
 
                 // Intersection between nodeNeighbors and accountedProteinsNeigborhood
-                let coverageProteins =
+                const coverageProteins =
                     nodeNeighbors.filter((value) =>
                         accountedProteinsNeigborhood.has(value)
                     ).length / nodeNeighbors.length ?? 0;
-                let isProteinSelected = setProteinSelected.has(node.id);
-                let colorGradientFill = d3
+                const isProteinSelected = setProteinSelected.has(node.id);
+                const colorGradientFill = d3
                     .scaleLinear()
                     .domain([0, 1])
                     // FIXME Range not defined correctly

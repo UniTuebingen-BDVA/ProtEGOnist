@@ -2,6 +2,7 @@ import { useTransition } from '@react-spring/web';
 import { intersectionDatum } from '../../egoGraphSchema';
 import RadarCircle from './radarCircle';
 import * as d3 from 'd3';
+import { memo } from 'react';
 
 interface RadarCirclesProps {
     intersectionData: [string, intersectionDatum][];
@@ -11,7 +12,7 @@ interface RadarCirclesProps {
     colorScale: d3.ScaleOrdinal<string, any | string, never>;
 }
 
-const RadarCircles = (props: RadarCirclesProps) => {
+const RadarCircles = memo(function RadarCircles(props: RadarCirclesProps) {
     const {
         intersectionData,
         GUIDE_CIRCLE_RADIUS,
@@ -172,6 +173,6 @@ const RadarCircles = (props: RadarCirclesProps) => {
             ))}
         </>
     );
-};
+});
 
 export default RadarCircles;

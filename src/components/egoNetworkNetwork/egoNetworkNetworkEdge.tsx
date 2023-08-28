@@ -1,4 +1,5 @@
 import { animated } from '@react-spring/web';
+import { memo } from 'react';
 
 interface EgoNetworkNetworkEdgeProps {
     weight: number;
@@ -11,8 +12,9 @@ interface EgoNetworkNetworkEdgeProps {
     };
 }
 
-
-const EgoNetworkNetworkEdge = (props: EgoNetworkNetworkEdgeProps) => {
+const EgoNetworkNetworkEdge = memo(function EgoNetworkNetworkEdge(
+    props: EgoNetworkNetworkEdgeProps
+) {
     const { weight, animatedParams } = props;
     return (
         <animated.line
@@ -25,6 +27,6 @@ const EgoNetworkNetworkEdge = (props: EgoNetworkNetworkEdgeProps) => {
             strokeWidth={weight * 40}
         />
     );
-};
+});
 
 export default EgoNetworkNetworkEdge;
