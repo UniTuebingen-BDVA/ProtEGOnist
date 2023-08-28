@@ -136,7 +136,8 @@ function App() {
             'P61421',
             'P52565',
             'P00568',
-            'Q9NRN7'
+            'Q9NRN7',
+            'P63279'
         ]);
         getEgoNetworkNetworkOverviewData(startDataOverview);
     }, [
@@ -193,21 +194,23 @@ function App() {
                                     </IconButton>
                                     <img
                                         src={LogoText}
-                                        
                                         style={{
                                             height: '60%',
                                             top: '10%'
                                         }}
                                     />
                                     <IconButton
-                                    size="large"
-                                    edge="start"
-                                    color="inherit"
-                                    style={{ marginLeft: 'auto' }}
-                                    onClick={() =>
-                                        window.open('https://github.com/UniTuebingen-BDVA/BiovisChallenge2023')}
+                                        size="large"
+                                        edge="start"
+                                        color="inherit"
+                                        style={{ marginLeft: 'auto' }}
+                                        onClick={() =>
+                                            window.open(
+                                                'https://github.com/UniTuebingen-BDVA/BiovisChallenge2023'
+                                            )
+                                        }
                                     >
-                                        <GitHub/>
+                                        <GitHub />
                                     </IconButton>
                                 </Toolbar>
                             </AppBar>
