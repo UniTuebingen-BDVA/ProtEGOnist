@@ -42,8 +42,6 @@ function a11yProps(index: number) {
 
 function TabViewer() {
     const [value, setValue] = useAtom(showedTabAtom);
-    // const [tableData, _getTableData] = useAtom(getTableAtom);
-    // const [_intersectionData] = useAtom(getRadarAtom);
 
     const handleChange = (_e: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
@@ -63,10 +61,8 @@ function TabViewer() {
                 <Tabs
                     value={value}
                     onChange={handleChange}
-                    aria-label="basic tabs example"
                 >
                     <Tab label="Selection" {...a11yProps(0)} />
-                    <Tab label="Examples" {...a11yProps(1)} />
                 </Tabs>
             </Box>
             <CustomTabPanel value={value} index={0}>
@@ -74,9 +70,7 @@ function TabViewer() {
                     <SelectionTable />
                 </div>
             </CustomTabPanel>
-            <CustomTabPanel value={value} index={1}>
-                HERE IS THE SPACE FOR THE EXAMPLES
-            </CustomTabPanel>
+            
         </Paper>
     );
 }
