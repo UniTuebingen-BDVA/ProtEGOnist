@@ -17,6 +17,7 @@ import EgoNetworkNetworkOverviewViewer from './components/overview_component/ego
 import DrawerElement from './components/drawerElement/DrawerElement.tsx';
 import { drawerShownAtom } from './components/drawerElement/DrawerElementStore.ts';
 import LogoText from './assets/LogoPath.svg';
+import { GitHub } from '@mui/icons-material';
 
 function App() {
     const [tableData, getTableData] = useAtom(getTableAtom);
@@ -192,11 +193,22 @@ function App() {
                                     </IconButton>
                                     <img
                                         src={LogoText}
+                                        
                                         style={{
                                             height: '60%',
                                             top: '10%'
                                         }}
                                     />
+                                    <IconButton
+                                    size="large"
+                                    edge="start"
+                                    color="inherit"
+                                    style={{ marginLeft: 'auto' }}
+                                    onClick={() =>
+                                        window.open('https://github.com/UniTuebingen-BDVA/BiovisChallenge2023')}
+                                    >
+                                        <GitHub/>
+                                    </IconButton>
                                 </Toolbar>
                             </AppBar>
                         </div>
