@@ -65,7 +65,11 @@ function EgoNetworkNetworkViewer() {
                     <EgoNetworkNetwork />
                 </animated.g>
             </animated.svg>
-            <svg height={450} width={200}>
+            <svg
+                height={450}
+                width={200}
+                style={{ left: 0, position: 'absolute' }}
+            >
                 <ColorLegend
                     domain={colorscale.domain()}
                     range={colorscale.range()}
