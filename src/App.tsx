@@ -16,7 +16,7 @@ import {
 import EgoNetworkNetworkOverviewViewer from './components/overview_component/egoNetworkNetworkOverviewViewer.tsx';
 import DrawerElement from './components/drawerElement/DrawerElement.tsx';
 import { drawerShownAtom } from './components/drawerElement/DrawerElementStore.ts';
-import LogoText from './assets/FontLogo.svg';
+import LogoText from './assets/LogoPath.svg';
 
 function App() {
     const [tableData, getTableData] = useAtom(getTableAtom);
