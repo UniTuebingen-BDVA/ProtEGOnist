@@ -26,7 +26,8 @@ function EgoNetworkNetworkViewer() {
         {
             onWheel: ({ delta: [, dy] }) => {
                 // todo: if we want to have a scrolling webpage: https://stackoverflow.com/questions/57358640/cancel-wheel-event-with-e-preventdefault-in-react-event-bubbling
-                api.start({ scale: style.scale.get() + dy * 0.001 });
+                const target = style.scale.get() - dy * 0.001;
+                api.start({ scale: target > 0 ? target : 0 });
             },
             onDrag: ({ offset: [x, y] }) => {
                 api.start({ x, y });
