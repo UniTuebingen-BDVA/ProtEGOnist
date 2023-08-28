@@ -24,6 +24,7 @@ function CustomTabPanel(props: TabPanelProps) {
             style={{
                 width: '100%',
                 height: '100%',
+                maxHeight: '100%',
                 alignItems: 'center',
                 justifyContent: 'center'
             }}
@@ -62,11 +63,11 @@ function TabViewer() {
                     value={value}
                     onChange={handleChange}
                 >
-                    <Tab label="Selection" {...a11yProps(0)} />
+                    <Tab label="Selection Table*" {...a11yProps(0)} />
                 </Tabs>
             </Box>
             <CustomTabPanel value={value} index={0}>
-                <div style={{ width: '100%', maxHeight: '100%' }}>
+                <div style={{ width: '100%', height:"90%",maxHeight: '100%' }}>
                     <SelectionTable />
                 </div>
             </CustomTabPanel>

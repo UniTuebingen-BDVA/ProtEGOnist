@@ -6,6 +6,7 @@ import {
     tableModelAtom,
     columnVisibilityAtom
 } from './tableStore';
+import { Box, Typography } from '@mui/material';
 
 const SelectionTable = () => {
     const [tableData] = useAtom(tableAtom);
@@ -17,7 +18,10 @@ const SelectionTable = () => {
     const rows = tableData.rows;
     const columns = tableData.columns;
     return (
-        <div style={{ maxWidth: '100%', width: '100%', maxHeight: '100%' }}>
+        <Box style={{ maxWidth: '100%', width: '100%', height: '100%' }}>
+            <Typography variant="subtitle2" component="div" style={{marginLeft:"1em"}}>
+                *The data from this table corresponds to the data presented by Goncalves et al. (2022) in their supplementary table S5 "All Drug-Protein associations".
+            </Typography>
             <DataGrid
                 rows={rows}
                 columns={columns}
@@ -58,8 +62,8 @@ const SelectionTable = () => {
                         csvOptions: { disableToolbarButton: true }
                     }
                 }}
-            />
-        </div>
+            ></DataGrid>
+        </Box>
     );
 };
 
