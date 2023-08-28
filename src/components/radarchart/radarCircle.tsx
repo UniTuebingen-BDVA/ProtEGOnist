@@ -58,7 +58,13 @@ const RadarCircle = memo(function RadarCircle(props: RadarCircleProps) {
                 }
                 fill={color}
                 fillOpacity={0.7}
+                // FIXME Type not fully correct
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore ts2304
                 cx={styleParam.cx}
+                // FIXME Type not fully correct
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore ts2304
                 cy={styleParam.cy}
                 stroke={strokeColor}
                 style={{ ...styleParam }}

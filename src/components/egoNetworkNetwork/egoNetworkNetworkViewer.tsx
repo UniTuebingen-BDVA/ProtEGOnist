@@ -1,19 +1,18 @@
 import { useGesture } from '@use-gesture/react';
 import EgoNetworkNetwork from './egoNetworkNetwork.tsx';
 import { Paper } from '@mui/material';
-import { useAtom } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import {
     decollapseIDsArrayAtom,
     egoNetworkNetworkSizeAtom
 } from './egoNetworkNetworkStore.ts';
-import { useRef } from 'react';
 import ColorLegend from '../ColorLegend.tsx';
 import { drugsPerProteinColorscaleAtom } from '../selectionTable/tableStore.tsx';
 import { animated, useSpring } from '@react-spring/web';
 import React from 'react';
 
 function EgoNetworkNetworkViewer() {
-    const [svgSize, setSvgSize] = useAtom(egoNetworkNetworkSizeAtom);
+    const svgSize = useAtomValue(egoNetworkNetworkSizeAtom);
     const [colorscale] = useAtom(drugsPerProteinColorscaleAtom);
     const [decollapseIDsArray] = useAtom(decollapseIDsArrayAtom);
     // prevent default pinch zoom
@@ -64,8 +63,17 @@ function EgoNetworkNetworkViewer() {
                 position: 'relative'
             }}
         >
-            <animated.svg ref={ref} width="100%" height="100%">
-                <animated.g ref={ref} style={style}>
+            
+            <animated.svg 
+                // FIXME Node misses x,y
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore ts2304
+                ref={ref} width="100%" height="100%">
+                <animated.g 
+                    // FIXME Node misses x,y
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore ts2304
+                    ref={ref} style={style}>
                     <EgoNetworkNetwork />
                 </animated.g>
             </animated.svg>
