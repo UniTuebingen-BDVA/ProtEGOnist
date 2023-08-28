@@ -10,7 +10,7 @@ from server.python_scripts.sampleGraph import (
     generate_string_intersections_top,
     generate_radar_data,
     generate_random_ego_graph_string,
-    generate_ego_graph_bundle
+    generate_ego_graph_bundle,
 )
 from server.python_scripts.egoNetworkNetwork import EgoNetworkNetwork
 from server.python_scripts.egoGraph import EgoGraph
@@ -24,8 +24,7 @@ app = Flask(__name__, static_folder="../dist", static_url_path="/")
 here: pathlib.Path = pathlib.Path(__file__).parent.absolute()
 
 try:
-    string_graph = nx.read_graphml(
-        here / "data" / "graphml_string_cleaned.graphml")
+    string_graph = nx.read_graphml(here / "data" / "graphml_string_cleaned.graphml")
 except FileNotFoundError:
     print(f"No graphml file found in {here / 'data'}. Make sure you added it.")
 
@@ -44,8 +43,7 @@ try:
         }
         print("Loaded uniprot_brite_dict ", len(uniprot_brite_dict))
 except FileNotFoundError:
-    print(
-        f"No uniprot_brite.csv found in {here / 'data'}. Make sure you added it.")
+    print(f"No uniprot_brite.csv found in {here / 'data'}. Make sure you added it.")
 
 
 # ROUTES
@@ -73,8 +71,8 @@ def index():
     return app.send_static_file("index.html")
 
 
-@app.route("/api/testEgoRadar/<targetNode>", methods=["GET"])
-def test_ego_radar(targetNode: str):
+@app.route("/api/EgoRadar/<targetNode>", methods=["GET"])
+def get_ego_radar(targetNode: str):
     """
     Generate a test ego radar plot using nx.gorogovtsev_goltsev_mendes_graph and generating 40 ego networks from it.
     """
@@ -95,8 +93,7 @@ def test_ego_radar(targetNode: str):
     intersection_dict = {
         i: rest_ego_graphs[i].get_intersection(tar_ego_graph) for i in ids
     }
-    intersection_dict[targetNode] = tar_ego_graph.get_intersection(
-        tar_ego_graph)
+    intersection_dict[targetNode] = tar_ego_graph.get_intersection(tar_ego_graph)
 
     return json.dumps(intersection_dict)
 
@@ -113,8 +110,7 @@ def get_ego_network_network(targetNodes: str):
     Generate a network of ego networks from the target nodes.
     """
     split_target = targetNodes.split("+")
-    ego_networks = [EgoGraph.from_string_network(
-        i, string_graph) for i in split_target]
+    ego_networks = [EgoGraph.from_string_network(i, string_graph) for i in split_target]
     ego_network_network = EgoNetworkNetwork(ego_networks)
 
     return ego_network_network.get_graph_json()

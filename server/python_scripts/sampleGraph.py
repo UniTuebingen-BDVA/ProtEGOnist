@@ -5,6 +5,7 @@ import networkx as nx
 from server.python_scripts.egoGraph import EgoGraph
 from server.python_scripts.egoGraph import Intersection
 from server.python_scripts.utility import create_intersections
+from multiprocessing.pool import ThreadPool
 
 
 # generate a dorogovtsev_goltsev_mendes_graph for the test data
@@ -81,11 +82,14 @@ def generate_ego_graph_bundle(string_graph: nx.Graph, target_nodes: [str]):
         ego_graphs.append(ego_graph)
         node_assignments[target_node] = ego_graph.get_node_set()
     intersections = create_intersections(node_assignments)
-    return {"intersections": intersections, "egoGraphs": [ego_graph.get_graph_JSON() for ego_graph in ego_graphs]}
+    return {
+        "intersections": intersections,
+        "egoGraphs": [ego_graph.get_graph_JSON() for ego_graph in ego_graphs],
+    }
 
 
 def generate_string_intersections_pickles(
-        ego_dicts: dict[str, EgoGraph], tar_node: str
+    ego_dicts: dict[str, EgoGraph], tar_node: str
 ):
     # add a random classifcation (A-E) to each node in the ego_dicts
     for i in ego_dicts:
@@ -119,12 +123,15 @@ def generate_string_intersections_top(
 ):
     # get the 40 nodes with the highest intersection by jaccard index
     highestProts = top_nodes
+
     # randomize the order of highestProts
     # random.shuffle(highestProts)
     # generate EgoGraphs from the highestProts
-    highestDict = {
-        i: EgoGraph.from_string_network(i, string_graph) for i in highestProts
-    }
+    def create_ego_graph(i):
+        return (i, EgoGraph.from_string_network(i, string_graph))
+
+    with ThreadPool() as pool:
+        highestDict = dict(pool.map(create_ego_graph, highestProts))
     # add a random classifcation (A-E) to each node in the ego_dicts
     for i in highestDict:
         for node in highestDict[i].nx_graph.nodes:
@@ -138,6 +145,7 @@ def generate_string_intersections_top(
     tar_ego_graph = EgoGraph.from_string_network(tar_node, string_graph)
 
     return tar_ego_graph, highestDict
+
 
 ## test the function
 # if __name__ == "__main__":

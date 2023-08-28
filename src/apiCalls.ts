@@ -13,7 +13,7 @@ import {
     intersectionAtom,
     leavingNodesAtom,
     changedNodesAtom,
-    tarNodeAtom,
+    tarNodeAtom
 } from './components/radarchart/radarStore.ts';
 import { tableAtom } from './components/selectionTable/tableStore.tsx';
 import { GridColDef, GridRowsProp } from '@mui/x-data-grid';
@@ -81,7 +81,7 @@ export const getRadarAtom = atom(
         axios
             .get<{
                 [name: string | number]: intersectionDatum;
-            }>(`/api/testEgoRadar/${id}`)
+            }>(`/api/EgoRadar/${id}`)
             .then(
                 (result) => {
                     // compare the keys of the new and old intersection atoms
@@ -105,7 +105,9 @@ export const getRadarAtom = atom(
             );
     }
 );
-export const accountedProteinsNeigborhoodStoreAtom = atom<Set<string>>(new Set([]));
+export const accountedProteinsNeigborhoodStoreAtom = atom<Set<string>>(
+    new Set([])
+);
 
 export const accountedProteinsNeigborhoodAtom = atom(
     (get) => {
@@ -158,7 +160,6 @@ export const getEgoNetworkNetworkAtom = atom(
             );
     }
 );
-
 
 export const getEgoNetworkNetworkOverviewAtom = atom(
     (get) => get(egoNetworkNetworksOverviewAtom),
