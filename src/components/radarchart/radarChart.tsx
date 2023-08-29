@@ -1,5 +1,5 @@
 import { intersectionDatum } from '../../egoGraphSchema';
-import { useAtom, useAtomValue, useSetAtom} from 'jotai';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import * as d3 from 'd3';
 import { tarNodeAtom } from './radarStore';
 import { getRadarAtom } from '../../apiCalls';
@@ -12,8 +12,6 @@ interface RadarChartProps {
     baseRadius: number;
     intersectionData: { [name: string | number]: intersectionDatum };
     tarNode: string;
-
-
 }
 
 const RadarChart = (props: RadarChartProps) => {
@@ -347,18 +345,7 @@ const RadarChart = (props: RadarChartProps) => {
                     colorScale={colorScale}
                 />
             }
-            <text
-                x={0}
-                y={-CIRCLE_RADIUS - 5}
-                textAnchor="middle"
-                fontSize="18px"
-                fontWeight="bold"
-            >
-                {getNodeName(tarNode)}
-            </text>
             <AdvancedTooltip uniprotID={tarNode} key={tarNode}>
-                {/* add text lable above the circle containing the protein name */}
-
                 <circle
                     cx={0}
                     cy={0}
@@ -374,6 +361,15 @@ const RadarChart = (props: RadarChartProps) => {
                     }}
                 />
             </AdvancedTooltip>
+            <text
+                x={0}
+                y={-CIRCLE_RADIUS - 5}
+                textAnchor="middle"
+                fontSize="18px"
+                fontWeight="bold"
+            >
+                {getNodeName(tarNode)}
+            </text>
         </g>
     );
 };

@@ -19,7 +19,6 @@ import { splitAtom } from 'jotai/utils';
 import * as d3 from 'd3';
 import { decollapseIDsAtom } from '../egoNetworkNetwork/egoNetworkNetworkStore.ts';
 
-
 const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
     const { x, y, nodeId } = props;
 
@@ -62,7 +61,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                         get(egoGraphBundleDefaultAtom)
                     );
                 },
-                
+
                 (_get, set, action) =>
                     set(egoGraphBundleOverwrittenAtom, action)
             ),
@@ -91,7 +90,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
             atom((get) => {
                 return d3
                     .scaleLinear<string, number>()
-                    .range(['#f7f4f9', '#67001f'])
+                    .range(['#bdbdbd', '#67001f'])
                     .domain(get(numEdgesMinMax));
             }),
         [numEdgesMinMax]
