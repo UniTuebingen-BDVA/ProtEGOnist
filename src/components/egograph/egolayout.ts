@@ -72,7 +72,7 @@ function createLayerNodes(
             center,
             center,
             radius,
-            x(node.id)!+x.bandwidth(),
+            x(node.id)! + x.bandwidth(),
             offset
         );
         nodes[node.id] = {
@@ -98,39 +98,45 @@ function assignToInnerNodes(
     nodeDict: { [key: string]: egoGraphNode },
     edges: egoGraphEdge[]
 ) {
-    const nodeAssignment: { [key: string]: string[] } = {};
-    edges.forEach((edge) => {
+    const nodeAssignment = new Map<string, string[]>();
+    const assignedNodes = new Set<string>();
+    for (let i = 0; i < edges.length; i++) {
+        const edge = edges[i];
         const sourceId = edge.source;
         const targetId = edge.target;
         if (
-            Object.keys(nodeDict).includes(sourceId) &&
-            Object.keys(nodeDict).includes(targetId)
+            Object.prototype.hasOwnProperty.call(nodeDict, sourceId) &&
+            Object.prototype.hasOwnProperty.call(nodeDict, targetId)
         ) {
             if (
                 nodeDict[sourceId].centerDist === 1 &&
-                !Object.keys(nodeAssignment).includes(sourceId)
+                !nodeAssignment.has(sourceId)
             ) {
-                nodeAssignment[sourceId] = [];
+                nodeAssignment.set(sourceId, []);
             }
             if (
                 nodeDict[targetId].centerDist === 1 &&
-                !Object.keys(nodeAssignment).includes(targetId)
+                !nodeAssignment.has(targetId)
             ) {
-                nodeAssignment[targetId] = [];
+                nodeAssignment.set(targetId, []);
             }
             if (
                 nodeDict[sourceId].centerDist === 2 &&
-                nodeDict[targetId].centerDist === 1
+                nodeDict[targetId].centerDist === 1 &&
+                !assignedNodes.has(sourceId)
             ) {
-                nodeAssignment[targetId].push(sourceId);
+                nodeAssignment.get(targetId)?.push(sourceId);
+                assignedNodes.add(sourceId);
             } else if (
                 nodeDict[targetId].centerDist === 2 &&
-                nodeDict[sourceId].centerDist === 1
+                nodeDict[sourceId].centerDist === 1 &&
+                !assignedNodes.has(targetId)
             ) {
-                nodeAssignment[sourceId].push(targetId);
+                nodeAssignment.get(sourceId)?.push(targetId);
+                assignedNodes.add(targetId);
             }
         }
-    });
+    }
     return nodeAssignment;
 }
 
@@ -372,22 +378,40 @@ export function calculateLayout(
         if (egoGraphs.length === 2) {
             graphCenters = [
                 {
-                    x: outerSize - nodeSize/2,
+                    x: outerSize - nodeSize / 2,
                     y: nodeSize / 2,
                     id: egoGraphs[0].centerNode.originalID
                 },
                 {
-                    x: nodeSize+nodeSize/2 - outerSize,
+                    x: nodeSize + nodeSize / 2 - outerSize,
                     y: nodeSize / 2,
                     id: egoGraphs[1].centerNode.originalID
                 }
             ];
         } else {
-            const points=[
-                polarToCartesian(nodeSize/2,nodeSize/2,nodeSize-outerSize,0,Math.PI),
-                polarToCartesian(nodeSize/2,nodeSize/2,nodeSize-outerSize,1/3*(2*Math.PI),Math.PI),
-                polarToCartesian(nodeSize/2,nodeSize/2,nodeSize-outerSize,2/3*(2*Math.PI),Math.PI),
-            ]
+            const points = [
+                polarToCartesian(
+                    nodeSize / 2,
+                    nodeSize / 2,
+                    nodeSize - outerSize,
+                    0,
+                    Math.PI
+                ),
+                polarToCartesian(
+                    nodeSize / 2,
+                    nodeSize / 2,
+                    nodeSize - outerSize,
+                    (1 / 3) * (2 * Math.PI),
+                    Math.PI
+                ),
+                polarToCartesian(
+                    nodeSize / 2,
+                    nodeSize / 2,
+                    nodeSize - outerSize,
+                    (2 / 3) * (2 * Math.PI),
+                    Math.PI
+                )
+            ];
             graphCenters = [
                 {
                     x: points[0].x,
@@ -485,10 +509,9 @@ export function calculateLayout(
             layoutNodeDict,
             egoGraphs.map((d) => d.edges).flat()
         );
-        layout.identityEdges = createIdentityEdges(
-            layoutNodeDict,
-            egoGraphs.map((d) => d.centerNode.originalID)
-        );
+
+        layout.identityEdges = createIdentityEdges(layoutNodeDict);
+
         layout.nodes = Object.values(layoutNodeDict);
         layout.centers = graphCenters;
         return layout;
@@ -681,21 +704,24 @@ function calculateLayoutUniqueNodes(
 /**
  * creates Identity edges
  * @param { [key: string]: layoutNode } nodeDict - dict of nodes with positions
- * @param {string[]} centerNodes - nodes in center of egographs, used to derive ids of nodes
  */
-function createIdentityEdges(
-    nodeDict: { [key: string]: layoutNode },
-    centerNodes: string[]
-): identityEdge[] {
-    const proteinIds = new Set(
-        Object.keys(nodeDict).map((d) => d.split('_')[1])
-    );
+
+function createIdentityEdges(nodeDict: {
+    [key: string]: layoutNode;
+}): identityEdge[] {
+    const proteinNodes = new Map<string, layoutNode[]>();
+    for (const node of Object.values(nodeDict)) {
+        const proteinId = node.id.split('_')[1];
+        if (!proteinNodes.has(proteinId)) {
+            proteinNodes.set(proteinId, []);
+        }
+        proteinNodes.get(proteinId)?.push(node);
+    }
     const edges: identityEdge[] = [];
-    [...proteinIds].forEach((proteinId) => {
-        const nodeIds = centerNodes
-            .map((d) => d + '_' + proteinId)
-            .filter((nodeId) => Object.keys(nodeDict).includes(nodeId));
-        nodeIds.forEach((nodeId) => {
+    const edgeIds = new Set<string>();
+    for (const nodes of proteinNodes.values()) {
+        const nodeIds = nodes.map((node) => node.id);
+        for (const nodeId of nodeIds) {
             nodeDict[nodeId].identityNodes = nodeIds
                 .map((d) => {
                     if (Object.keys(nodeDict).includes(d + '_pseudo')) {
@@ -707,7 +733,7 @@ function createIdentityEdges(
                     return [nodeDict[d].index];
                 })
                 .flat();
-        });
+        }
         const layer1Nodes = nodeIds.filter(
             (nodeId) => nodeDict[nodeId].centerDist === 1
         );
@@ -723,30 +749,41 @@ function createIdentityEdges(
                     if (Object.keys(nodeDict).includes(secondId + '_pseudo')) {
                         secondId = secondId + '_pseudo';
                     }
-                    edges.push({
-                        sourceIndex: nodeDict[firstId].index,
-                        targetIndex: nodeDict[secondId].index,
-                        id: firstId + '_' + secondId,
-                        x1: nodeDict[firstId].cx,
-                        y1: nodeDict[firstId].cy,
-                        x2: nodeDict[secondId].cx,
-                        y2: nodeDict[secondId].cy
-                    });
+                    if (firstId !== secondId) {
+                        // exclude self-edges
+                        const edgeId = firstId + '_' + secondId;
+                        if (!edgeIds.has(edgeId)) {
+                            edges.push({
+                                sourceIndex: nodeDict[firstId].index,
+                                targetIndex: nodeDict[secondId].index,
+                                id: edgeId,
+                                x1: nodeDict[firstId].cx,
+                                y1: nodeDict[firstId].cy,
+                                x2: nodeDict[secondId].cx,
+                                y2: nodeDict[secondId].cy
+                            });
+                            edgeIds.add(edgeId);
+                        }
+                    }
                 }
             }
-            layer1Nodes.forEach((nodeId) => {
-                edges.push({
-                    sourceIndex: nodeDict[nodeId].index,
-                    targetIndex: nodeDict[nodeId + '_pseudo'].index,
-                    id: nodeId + '_' + nodeId + '_pseudo',
-                    x1: nodeDict[nodeId].cx,
-                    y1: nodeDict[nodeId].cy,
-                    x2: nodeDict[nodeId + '_pseudo'].cx,
-                    y2: nodeDict[nodeId + '_pseudo'].cy
-                });
-            });
+            for (const nodeId of layer1Nodes) {
+                const edgeId = nodeId + '_' + nodeId + '_pseudo';
+                if (!edgeIds.has(edgeId)) {
+                    edges.push({
+                        sourceIndex: nodeDict[nodeId].index,
+                        targetIndex: nodeDict[nodeId + '_pseudo'].index,
+                        id: edgeId,
+                        x1: nodeDict[nodeId].cx,
+                        y1: nodeDict[nodeId].cy,
+                        x2: nodeDict[nodeId + '_pseudo'].cx,
+                        y2: nodeDict[nodeId + '_pseudo'].cy
+                    });
+                    edgeIds.add(edgeId);
+                }
+            }
         }
-    });
+    }
     return edges;
 }
 

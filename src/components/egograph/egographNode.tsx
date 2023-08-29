@@ -1,6 +1,7 @@
 import { PrimitiveAtom, useAtom } from 'jotai';
 import { layoutNode } from './egolayout';
 import AdvancedTooltip from '../advancedTooltip/advancedTooltip';
+import { memo } from 'react';
 
 type egographNodeProps = {
     nodeAtom: PrimitiveAtom<layoutNode>;
@@ -9,7 +10,9 @@ type egographNodeProps = {
     nodeRadius: number;
     fill: string;
 };
-export const EgographNode = (props: egographNodeProps) => {
+export const EgographNode = memo(function EgographNode(
+    props: egographNodeProps
+) {
     const {
         nodeAtom,
         highlightedNodeIndicesAtom,
@@ -47,4 +50,4 @@ export const EgographNode = (props: egographNodeProps) => {
             />
         </AdvancedTooltip>
     );
-};
+});

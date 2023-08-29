@@ -118,7 +118,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
 
     return useMemo(() => {
         if (isLoaded) {
-            let lines: ReactElement[];
+            let lines: ReactElement[] = [];
             const foregroundBands: ReactElement[] = [];
             const backgroundBands: ReactElement[] = [];
             const layoutCircles = layout.centers.map((center) => {
