@@ -40,13 +40,14 @@ const EgoNetworkNetwork = () => {
                     transform: `translate(${x},${y})`
                 });
             },
-        config: { duration: 2000 }
+        config: { duration: 1200 }
     });
 
     //animate the interEdges
     const edgesTransition = useTransition([...interEdges, ...edges], {
         keys: ({ source, target }) => source + '+' + target,
         from: {
+            x1:0, x2:0, y1:0, y2:0, 
             opacity: 0
         },
         enter:
@@ -64,10 +65,10 @@ const EgoNetworkNetwork = () => {
             ({ x1, x2, y1, y2 }) =>
             async (next, _cancel) => {
                 await next({
-                    x1: x1,
-                    x2: x2,
-                    y1: y1,
-                    y2: y2,
+                    x1: 0,
+                    x2: 0,
+                    y1: 0,
+                    y2: 0,
                     opacity: 0
                 });
             },
@@ -87,9 +88,9 @@ const EgoNetworkNetwork = () => {
                 case 'leave':
                     return { duration: 100 };
                 case 'update':
-                    return { duration: 2000 };
+                    return { duration: 1200 };
                 case 'enter':
-                    return { duration: 2000 };
+                    return { duration: 1200 };
             }
         }
     });

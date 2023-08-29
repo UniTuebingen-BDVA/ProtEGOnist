@@ -30,7 +30,9 @@ export const decollapseIDsAtom = atom(
     (get) => get(decollapseIDsArrayAtom),
     (get, set, id: string) => {
         const currentIdArray = get(decollapseIDsArrayAtom).slice();
+        console.log('currentIdArray', currentIdArray)
         const nodeNeighbors = get(nodeNeighborsAtom);
+        console.log('nodeNeighbors', nodeNeighbors)
         const idIndex = currentIdArray
             .map((bundleIds) => bundleIds.includes(id))
             .indexOf(true);
@@ -59,8 +61,8 @@ export const decollapseIDsAtom = atom(
                 currentIdArray.push([id]);
             }
         }
-        set(decollapseIDsArrayAtom, currentIdArray);
         set(getMultiEgographBundleAtom, currentIdArray);
+        set(decollapseIDsArrayAtom, currentIdArray);
     }
 );
 
@@ -73,21 +75,15 @@ export const egoNetworkNetworksAtom = atom<egoNetworkNetwork>({
 const nodeNeighborsAtom = atom((get) => {
     const neighborDict: { [key: string]: string[] } = {};
     get(egoNetworkNetworksAtom).edges.forEach((edge) => {
-        if (!Object.keys(neighborDict).includes(edge.source)) {
-            neighborDict[edge.source] = [edge.target];
-        } else {
-            neighborDict[edge.source].push(edge.target);
-        }
-        if (!Object.keys(neighborDict).includes(edge.target)) {
-            neighborDict[edge.target] = [edge.source];
-        } else {
-            neighborDict[edge.target].push(edge.source);
-        }
+        neighborDict[edge.source] = neighborDict[edge.source] || [];
+        neighborDict[edge.target] = neighborDict[edge.target] || [];
+        neighborDict[edge.source].push(edge.target);
+        neighborDict[edge.target].push(edge.source);
     });
     return neighborDict;
 });
 const egoNetworkNetworkDeepCopyAtom = atom<egoNetworkNetwork>((get) => {
-    let copy = JSON.parse(JSON.stringify(get(egoNetworkNetworksAtom)));
+    const copy = JSON.parse(JSON.stringify(get(egoNetworkNetworksAtom)));
     const nodeDict = {};
     copy.nodes.forEach((node) => (nodeDict[node.id] = node));
     copy.edges.forEach((edge) => {
@@ -142,19 +138,27 @@ export const aggregateNetworkAtom = atom((get) => {
     }
 
     // reshape the edges to contain a x1, x2, y1, y2 coordinate
-    const edgesWithCoordinates = outEdges.map((edge) => {
-        const source = outNodes.find((node) => node.id === edge.source.id);
-        const target = outNodes.find((node) => node.id === edge.target.id);
+    // Create a dictionary of nodes for faster lookup
+    const nodeDictionary = {};
+    outNodes.forEach(node => {
+        nodeDictionary[node.id] = node;
+    });
+
+    const edgesWithCoordinates = outEdges.map(edge => {
+        const sourceNode = nodeDictionary[edge.source.id];
+        const targetNode = nodeDictionary[edge.target.id];
         return {
             ...edge,
             source: edge.source.id,
             target: edge.target.id,
-            x1: source.x,
-            y1: source.y,
-            x2: target.x,
-            y2: target.y
+            x1: sourceNode.x,
+            y1: sourceNode.y,
+            x2: targetNode.x,
+            y2: targetNode.y,
+            opacity: 1
         };
     });
+
 
     return {
         nodes: outNodes,
@@ -185,12 +189,12 @@ function aggregateEgoNetworkNodes(
             });
         }
     }
-    const outEdges = egoNetworkNetworkEdges.filter(
-        (edge) =>
-            !aggregateNodeIDs.flat().includes(edge.source.id) &&
-            !aggregateNodeIDs.flat().includes(edge.target.id)
-    );
-
+    const outEdges = egoNetworkNetworkEdges.filter((edge) => {
+    if (!aggregateNodeIDs.flat().includes(edge.source.id)) {
+        return !aggregateNodeIDs.flat().includes(edge.target.id);
+    }
+    return false;
+});
     aggregateNodeIDs.forEach((aggregates) => {
         const aggregateID = aggregates.join(',');
         outNodes.push({
@@ -230,18 +234,20 @@ export const interEdgesAtom = atom((get) => {
         y1: number;
         y2: number;
         weight: number;
+        opacity: number;
     }[] = [];
+    // console.log( Object.keys(egoLayouts).toString())
+    // console.log( aggregateEgoNetworkNodeIDs.map((d) => d.join(',')).toString())
     if (
-        Object.keys(egoLayouts).toString() ===
-            aggregateEgoNetworkNodeIDs.map((d) => d.join(',')).toString() &&
+        Object.keys(egoLayouts).sort().toString() ===
+            aggregateEgoNetworkNodeIDs.map((d) => d.join(',')).sort().toString() &&
         !Object.values(egoLayouts).includes(null)
     ) {
         const centerPositions: {
             [key: string]: { x: number; y: number; id: string };
         } = {};
         Object.values(egoLayouts)
-            .map((d) => d?.centers)
-            .flat()
+            .flatMap((d) => d?.centers ?? [])
             .forEach((center) => (centerPositions[center.id] = center));
         const networkLayout = get(egoNetworkNetworksAtom);
         const nodeDict: { [key: string]: egoNetworkNetworkNode } = {};
@@ -292,13 +298,15 @@ export const interEdgesAtom = atom((get) => {
                             ] /
                                 2,
                         x2: nodeDict[edge.target].x,
-                        y2: nodeDict[edge.target].y
+                        y2: nodeDict[edge.target].y, 
+                        opacity: 1
                     });
                 } else if (!isSourceAggregate && isTargetAggregate) {
                     const targetIndex = aggregateEgoNetworkNodeIDs
                         .map((ids) => ids.includes(edge.target))
                         .indexOf(true);
                     interEdges.push({
+                        opacity: 1,
                         source: edge.source,
                         target: edge.target,
                         weight: edge.weight,
@@ -338,6 +346,7 @@ export const interEdgesAtom = atom((get) => {
                         .indexOf(true);
                     if (sourceIndex !== targetIndex) {
                         interEdges.push({
+                            opacity: 1,
                             source: edge.source,
                             target: edge.target,
                             weight: edge.weight,
