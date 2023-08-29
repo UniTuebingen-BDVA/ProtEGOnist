@@ -16,7 +16,7 @@ import {
 import EgoNetworkNetworkOverviewViewer from './components/overview_component/egoNetworkNetworkOverviewViewer.tsx';
 import DrawerElement from './components/drawerElement/DrawerElement.tsx';
 import { drawerShownAtom } from './components/drawerElement/DrawerElementStore.ts';
-import LogoText from './assets/LogoPath.svg';
+import LogoText from './assets/LogoPathWhite.svg';
 import { GitHub } from '@mui/icons-material';
 
 function App() {
