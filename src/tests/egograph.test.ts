@@ -5,12 +5,14 @@ import {
 import { expect } from 'chai';
 
 describe('Sort nodes', () => {
-    const nodeAssignment = {
+    let nodeAssignment = new Map < string, string[] > (Object.entries({
         a: ['e1', 'e2', 'e3', 'e6'],
         b: ['e3', 'e4', 'e5'],
         c: ['e1', 'e2', 'e5', 'e7'],
         d: ['e3', 'e2', 'e1', 'e8']
-    };
+    }));
+    // nodeAssignmet to Map
+    nodeAssignment = new Map(Object.entries(nodeAssignment));
     const innernodes = ['a', 'b', 'c', 'd'];
     const distanceMatrix = calculateOverlaps(nodeAssignment, innernodes);
     const sortedIndices = sortByOverlap(

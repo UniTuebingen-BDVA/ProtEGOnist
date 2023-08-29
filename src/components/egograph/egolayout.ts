@@ -142,11 +142,11 @@ function assignToInnerNodes(
 
 /**
  * calculates overlaps between inner nodes
- * @param { [key: string]: string[] } nodeAssignment - inner nodes with their assigned outer nodes
+ * @param { Map<string, string[]> } nodeAssignment - inner nodes with their assigned outer nodes
  * @param {string[]} keys: node ids
  */
 export function calculateOverlaps(
-    nodeAssignment: { [key: string]: string[] },
+    nodeAssignment: Map<string, string[]>,
     keys: string[]
 ) {
     const intersections: string[][][] = Array(keys.length)
@@ -183,12 +183,12 @@ export function getMaxIndex(matrix: number[][]) {
 /**
  * sorts nodes according to their intersections
  * @param {number[][]} intersectingNodes
- * @param { [key: string]: string[] } nodeAssignment
+ * @param { Map<string, string[]>} nodeAssignment
  * @param {string[]} innerNodes
  */
 export function sortByOverlap(
     intersectingNodes: string[][][],
-    nodeAssignment: { [key: string]: string[] },
+    nodeAssignment: Map<string, string[]>,
     innerNodes: string[]
 ) {
     const intersections = intersectingNodes.map((row, i) =>
