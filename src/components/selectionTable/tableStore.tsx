@@ -69,27 +69,28 @@ export const selectedProteinsAtom = atom(
     (get) => {
         return get(selectedProteinsStoreAtom);
     },
-    (get, set, ids: string[]) => {
-        const idCopy = get(selectedProteinsStoreAtom).slice();
-        const toDelete: number[] = [];
-        ids.forEach((id, i) => {
-            if (idCopy.includes(id)) {
-                toDelete.push(i);
-            } else {
-                idCopy.push(id);
-            }
-        });
-        toDelete.reverse();
-        toDelete.forEach((index) => idCopy.splice(index, 1));
-        set(selectedProteinsStoreAtom, idCopy);
-        set(getEgoNetworkNetworkAtom, idCopy);
-        const indices = idCopy.map((protein) => {
-            return get(tableAtomStore).rows.findIndex((row) => {
-                return row['UniprotID_inString'] === protein;
-            })+1;
-        });
+    ( get, set , ids: string[]) => {
+        const selectedProteinsStoreValue = get(selectedProteinsStoreAtom);
+      
+        // Remove duplicates from the incoming `ids` array
+        const uniqueIds = [...new Set(ids)];
+        
+        // Calculate proteins to delete and proteins to add
+        const proteinsToAdd = uniqueIds.filter(id => !selectedProteinsStoreValue.includes(id));
+        const proteinsToDelete = selectedProteinsStoreValue.filter(id => uniqueIds.includes(id));
+    
+        // Update selected proteins with optimized array operations
+        const updatedProteins = selectedProteinsStoreValue.filter(id => !proteinsToDelete.includes(id)).concat(proteinsToAdd);
+        set(selectedProteinsStoreAtom, updatedProteins);
+        set(getEgoNetworkNetworkAtom, updatedProteins);
+    
+        // Update table model with indices
+        const tableRows = get(tableAtomStore).rows;
+        const indices = updatedProteins
+          .map(protein => tableRows.findIndex(row => row['UniprotID_inString'] === protein) + 1)
+          .filter(index => index > 0); // Remove -1 indices
         set(tableModelAtom, indices);
-    }
+      }
 );
 
 export const drugsPerProteinColorscaleAtom = atom((get) => {

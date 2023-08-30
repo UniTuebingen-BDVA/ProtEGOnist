@@ -16,7 +16,7 @@ interface EgoNetworkNetworkNodeProps {
 const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
     props: EgoNetworkNetworkNodeProps
 ) {
-    const setSelectedProteins = useSetAtom(selectedProteinsAtom);
+    const [selectedProteins, setSelectedProteins] = useAtom(selectedProteinsAtom);
     const [_intersectionData, getRadarData] = useAtom(getRadarAtom);
     const highlightNodeSet = useSetAtom(highlightNodeAtom);
     const { x, y, id, size, color } = props;
@@ -27,7 +27,9 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                 key={id}
                 transform={transform}
                 onClick={() => {
-                    getRadarData(id);
+                    if (!selectedProteins.includes(id)) {
+                        getRadarData(id);
+                    }
                     setSelectedProteins([id]);
                 }}
                 onMouseEnter={() => {
