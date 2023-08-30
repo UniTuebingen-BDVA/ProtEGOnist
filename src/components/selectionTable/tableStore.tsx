@@ -38,7 +38,8 @@ export const columnVisibilityAtom = atom<{ [key: string]: boolean }>({
     ppi: false,
     skew: false,
     cancer_gene: false,
-    UniprotID_inString: true
+    UniprotID_inString: true, 
+    selected: true
 });
 
 const RadarButton = (params: rowData) => {

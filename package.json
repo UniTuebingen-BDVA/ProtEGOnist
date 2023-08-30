@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "server": "cd server && flask run --port=5002 --no-debugger",
+    "server": "cd server && flask --app ../wsgi.py run --port=5002",
     "dev": "concurrently \"yarn run server\" \"vite\"",
     "build": "tsc && vite build",
     "test": "NODE_OPTIONS=\"--loader ts-node/esm\" mocha src/tests",
