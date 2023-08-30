@@ -11,6 +11,10 @@
 # pycache
 __pycache__/
 
+# server
+*.egg-info
+
+
 # Data
 /data/*
 /server/data/*.pickle
