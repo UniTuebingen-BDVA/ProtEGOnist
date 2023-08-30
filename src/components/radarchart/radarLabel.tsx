@@ -35,7 +35,6 @@ const RadarLabel = memo(function RadarLabel(props: radarLabelProps) {
     const arcLength = endAltered - startAltered;
     const largeArcFlag =
         arcLength > Math.PI ? (flipLabel ? 0 : 1) : flipLabel ? 1 : 0;
-    const sweepFlag = arcLength > Math.PI ? 0 : 1;
     const [labelValue, labelValueWithID] = useAtom(labelsAtoms);
     // draw the arc from startAngle to endAngle clockwise
     // center the text label such that it is centered along the arc
@@ -49,7 +48,7 @@ const RadarLabel = memo(function RadarLabel(props: radarLabelProps) {
     } else {
         arc = `M ${Math.cos(startAltered - Math.PI) * radius} ${
             Math.sin(startAltered - Math.PI) * radius
-        } A ${radius} ${radius} 0 ${largeArcFlag} ${sweepFlag} ${
+        } A ${radius} ${radius} 0 ${largeArcFlag} 0 ${
             Math.cos(endAltered - Math.PI) * radius
         } ${Math.sin(endAltered - Math.PI) * radius}`;
     }
