@@ -290,7 +290,7 @@ function App() {
                             <Typography
                                 style={{ color: 'black', textAlign: 'center' }}
                             >
-                                Ego-grap subnetwork
+                                EGO-graph subnetwork
                             </Typography>
                             <div>
                                 {/* <!-- Content for the second column, first row --> */}
