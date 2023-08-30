@@ -1,7 +1,16 @@
 import { useEffect } from 'react';
 import './App.css';
 import { useAtom, useSetAtom } from 'jotai';
-import { AppBar, Toolbar, Typography, IconButton } from '@mui/material';
+import {
+    AppBar,
+    Toolbar,
+    Typography,
+    IconButton,
+    CircularProgress,
+    Box,
+    createTheme,
+    ThemeProvider
+} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import RadarChartViewer from './components/radarchart/radarChartViewer.tsx';
 import { tarNodeAtom } from './components/radarchart/radarStore.ts';
@@ -17,6 +26,8 @@ import EgoNetworkNetworkOverviewViewer from './components/overview_component/ego
 import DrawerElement from './components/drawerElement/DrawerElement.tsx';
 import { drawerShownAtom } from './components/drawerElement/DrawerElementStore.ts';
 import LogoText from './assets/LogoPathWhite.svg';
+import LogoBlue from './assets/LogoBlue.svg';
+
 import { GitHub } from '@mui/icons-material';
 
 function App() {
@@ -31,6 +42,17 @@ function App() {
         useAtom(getEgoNetworkNetworkOverviewAtom);
     const [tarNode, setTarNode] = useAtom(tarNodeAtom);
     const setStateDrawer = useSetAtom(drawerShownAtom);
+
+    const theme = createTheme({
+        palette: {
+            primary: {
+                main: '#1f78b4'
+            },
+            secondary: {
+                main: '#f44336'
+            }
+        }
+    });
 
     useEffect(() => {
         const startDataOverview = [
@@ -155,7 +177,7 @@ function App() {
         tarNode !== ''
     ) {
         return (
-            <>
+            <ThemeProvider theme={theme}>
                 <div className="container">
                     {/* <!-- First Row --> */}
                     <div
@@ -177,8 +199,7 @@ function App() {
                                 className="header-title"
                                 style={{
                                     display: 'flex',
-                                    height: '5%',
-                                    backgroundColor: '#1f78b4'
+                                    height: '5%'
                                 }}
                             >
                                 <Toolbar variant="dense">
@@ -279,9 +300,31 @@ function App() {
                         </div>
                     </div>
                 </div>
-            </>
+            </ThemeProvider>
         );
-    } else return null;
+    } else
+        return (
+            <ThemeProvider theme={theme}>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        height: '100vh'
+                    }}
+                >
+                    <img
+                        src={LogoBlue}
+                        style={{
+                            height: '18vh',
+                            top: '41vh',
+                            position: 'fixed'
+                        }}
+                    />
+                    <CircularProgress size={'30vh'} />
+                </Box>
+            </ThemeProvider>
+        );
 }
 
 export default App;
