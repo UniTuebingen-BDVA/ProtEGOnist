@@ -30,9 +30,7 @@ export const decollapseIDsAtom = atom(
     (get) => get(decollapseIDsArrayAtom),
     (get, set, id: string) => {
         const currentIdArray = get(decollapseIDsArrayAtom).slice();
-        console.log('currentIdArray', currentIdArray)
         const nodeNeighbors = get(nodeNeighborsAtom);
-        console.log('nodeNeighbors', nodeNeighbors)
         const idIndex = currentIdArray
             .map((bundleIds) => bundleIds.includes(id))
             .indexOf(true);
@@ -106,11 +104,8 @@ export const aggregateNetworkAtom = atom((get) => {
         get(decollapsedSizeAtom),
         get(scaleNodeSizeAtom)
     );
-    // console.log('Relayout');
     // generate a deep copy for the force layout of outNodes and outEdges
     // const outEdgesInternal = JSON.parse(JSON.stringify(outEdges));
-    // console.log('internalNodes', outNodesInternal);
-    // console.log('internalEdges', outEdgesInternal);
     const forceLayout = d3
         .forceSimulation(outNodes)
         .force('charge', d3.forceManyBody().strength(-50))
@@ -236,8 +231,6 @@ export const interEdgesAtom = atom((get) => {
         weight: number;
         opacity: number;
     }[] = [];
-    // console.log( Object.keys(egoLayouts).toString())
-    // console.log( aggregateEgoNetworkNodeIDs.map((d) => d.join(',')).toString())
     if (
         Object.keys(egoLayouts).sort().toString() ===
             aggregateEgoNetworkNodeIDs.map((d) => d.join(',')).sort().toString() &&

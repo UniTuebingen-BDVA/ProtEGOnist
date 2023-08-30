@@ -3,8 +3,8 @@ import { useAtom, useAtomValue } from 'jotai';
 import {
     selectedProteinsAtom,
     tableAtom,
-    tableModelAtom,
-    columnVisibilityAtom
+    columnVisibilityAtom,
+    tableModelSelectedAtom
 } from './tableStore';
 import { Box, Typography } from '@mui/material';
 
@@ -12,7 +12,7 @@ const SelectionTable = () => {
     const [tableData] = useAtom(tableAtom);
     const [selectedProteins, setSelectedProteins] =
         useAtom(selectedProteinsAtom);
-    const tableModel = useAtomValue(tableModelAtom);
+    const tableModel = useAtomValue(tableModelSelectedAtom);
     const [columnVisibility, setColumnVisibility] =
         useAtom(columnVisibilityAtom);
     const rows = tableData.rows;
