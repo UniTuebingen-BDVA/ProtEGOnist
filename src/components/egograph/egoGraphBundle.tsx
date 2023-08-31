@@ -90,7 +90,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
             atom((get) => {
                 return d3
                     .scaleLinear<string, number>()
-                    .range(['#bdbdbd', '#67001f'])
+                    .range(['#e9cfd7', '#860028'])
                     .domain(get(numEdgesMinMax));
             }),
         [numEdgesMinMax]

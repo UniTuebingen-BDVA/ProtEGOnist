@@ -63,17 +63,21 @@ function EgoNetworkNetworkViewer() {
                 position: 'relative'
             }}
         >
-            
-            <animated.svg 
+            <animated.svg
                 // FIXME Node misses x,y
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore ts2304
-                ref={ref} width="100%" height="100%">
-                <animated.g 
+                ref={ref}
+                width="100%"
+                height="100%"
+            >
+                <animated.g
                     // FIXME Node misses x,y
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-ignore ts2304
-                    ref={ref} style={style}>
+                    ref={ref}
+                    style={style}
+                >
                     <EgoNetworkNetwork />
                 </animated.g>
             </animated.svg>
@@ -92,7 +96,7 @@ function EgoNetworkNetworkViewer() {
                 />
                 <ColorLegend
                     domain={['few interactions', 'many interactions']}
-                    range={['#bdbdbd', '#67001f']}
+                    range={['#e9cfd7', '#860028']}
                     type={'quantitative'}
                     transform={`translate(${10},${135})`}
                     title={'Node connectivity within ego-graph'}
