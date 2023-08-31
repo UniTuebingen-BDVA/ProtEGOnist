@@ -7,6 +7,7 @@ import {
     tableModelSelectedAtom
 } from './tableStore';
 import { Box, Typography } from '@mui/material';
+import { startDataOverview } from '../../apiCalls';
 
 const SelectionTable = () => {
     const [tableData] = useAtom(tableAtom);
@@ -16,7 +17,13 @@ const SelectionTable = () => {
     const [columnVisibility, setColumnVisibility] =
         useAtom(columnVisibilityAtom);
     const rows = tableData.rows;
-    const columns = [...tableData.columns, {"field": "selected", "headerName": "Selected", "width": 100, "valueGetter": (params) =>  selectedProteins.includes(params.row.UniprotID_inString) ? "Yes" : "No"}];
+    
+    const columns = [...tableData.columns, 
+        {"field": "selected", "headerName": "Selected?", "width": 100, "valueGetter": (params) =>  selectedProteins.includes(params.row.UniprotID_inString) ? "Yes" : "No"},
+        {"field": "overview", "headerName": "Found in Overview?", "width": 100, "valueGetter": (params) =>  startDataOverview.includes(params.row.UniprotID_inString) ? "Yes" : "No"}];
+    // const aragProts = rows.filter((row) => row.drug_name === "Ara-G" && startDataOverview.includes(row.UniprotID_inString)).map((row) => row.UniprotID_inString);
+    // console.log(aragProts)
+
     return (
         <Box style={{ maxWidth: '100%', width: '100%', height: '100%' }}>
             <Typography variant="subtitle2" component="div" style={{marginLeft:"1em"}}>

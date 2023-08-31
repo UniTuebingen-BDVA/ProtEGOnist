@@ -44,27 +44,28 @@ function EgoNetworkNetworkOverviewViewer() {
                     right: 0
                 }}
             >
-                <g transform={"translate(50,30)"}>
+                <g transform={"translate(40,35)"}>
                     <EgoNetworkNetworkOverview />
                 </g>
             </svg>
-            <svg height={400} width={310}>
-            <ColorLegend
-                    domain={[0,100]}
-                    range={['white', '#1f78b4']}
-                    type={'quantitative'}
-                    transform={`translate(${10},${10})`}
-                    title={'Percent of proteins represented in selected ego-graphs (right)'}
-                    render={true}
-                />
+            <svg height={200} width={475}>
                 <ColorLegend
                     domain={["In ego-graph subnetwork","Radar center"]}
                     range={['#ff7f00', '#ffff99']}
                     type={'qualitative'}
-                    transform={`translate(${10},${115})`}
+                    transform={`translate(${340},${-7})`}
                     title={''}
                     render={true}
                 />
+                <ColorLegend
+                    domain={[0,100]}
+                    range={['white', '#1f78b4']}
+                    type={'quantitative'}
+                    transform={`translate(${10},${5})`}
+                    title={'Percent of proteins represented in selected ego-graphs (right)'}
+                    render={true}
+                />
+                
             </svg>
         </Paper>
     );
