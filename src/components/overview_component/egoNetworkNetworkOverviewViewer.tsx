@@ -5,6 +5,7 @@ import { egoNetworkNetworkSizeAtom } from './egoNetworkNetworkOverviewStore.ts';
 import { useRef, useEffect } from 'react';
 import { useDimensions } from '../../UtilityFunctions.ts';
 import ColorLegend from '../ColorLegend.tsx';
+import { Container, Stage } from '@pixi/react';
 
 function EgoNetworkNetworkOverviewViewer() {
     const ref = useRef(null);
@@ -30,27 +31,18 @@ function EgoNetworkNetworkOverviewViewer() {
                 position: 'relative'
             }}
         >
-            <svg
-                width="100%"
-                height="100%"
-                viewBox={`${svgSize.x} ${svgSize.y} ${svgSize.width+30 ?? 0} ${
-                    svgSize.height+30 ?? 0
-                }`}
-                style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    bottom: 0,
-                    right: 0
-                }}
-            >
-                <g transform={"translate(40,35)"}>
+            <Stage options={{ backgroundAlpha: 0, resizeTo: window.window }}>
+                <Container x={20} y={20} scale={0.94}>
                     <EgoNetworkNetworkOverview />
-                </g>
-            </svg>
-            <svg height={200} width={475}>
+                </Container>
+            </Stage>
+            <svg
+                height={200}
+                width={475}
+                style={{ position: 'absolute', left: 0 }}
+            >
                 <ColorLegend
-                    domain={["In ego-graph subnetwork","Radar center"]}
+                    domain={['In ego-graph subnetwork', 'Radar center']}
                     range={['#ff7f00', '#ffff99']}
                     type={'qualitative'}
                     transform={`translate(${340},${-7})`}
@@ -58,14 +50,15 @@ function EgoNetworkNetworkOverviewViewer() {
                     render={true}
                 />
                 <ColorLegend
-                    domain={[0,100]}
+                    domain={[0, 100]}
                     range={['white', '#1f78b4']}
                     type={'quantitative'}
                     transform={`translate(${10},${5})`}
-                    title={'Percent of proteins represented in selected ego-graphs (right)'}
+                    title={
+                        'Percent of proteins represented in selected ego-graphs (right)'
+                    }
                     render={true}
                 />
-                
             </svg>
         </Paper>
     );

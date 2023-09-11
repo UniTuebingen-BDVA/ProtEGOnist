@@ -46,7 +46,7 @@ const EgoNetworkNetworkOverview = () => {
     }, [edges, highlightNode, setProteinSelected]);
 
     return (
-        <g>
+        <>
             {edgeGroups.unhighlightedEdges.map((edge) => {
                 return (
                     <EgoNetworkNetworkOverviewEdge
@@ -110,7 +110,7 @@ const EgoNetworkNetworkOverview = () => {
                     />
                 );
             })}
-        </g>
+        </>
     );
 };
 

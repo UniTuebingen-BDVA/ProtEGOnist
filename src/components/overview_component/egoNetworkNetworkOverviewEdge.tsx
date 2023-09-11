@@ -1,7 +1,8 @@
 // import { useAtom } from 'jotai';
 // import { highlightNodeAtom } from './egoNetworkNetworkOverviewStore';
+import { Graphics } from '@pixi/react';
 
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 
 interface EgoNetworkNetworkEdgeProps {
     weight: number;
@@ -18,17 +19,16 @@ const EgoNetworkNetworkEdge = memo(function EgoNetworkNetworkEdge(
 ) {
     const { weight, x1, x2, y1, y2, color, opacity } = props;
     // const [highlightNode] = useAtom(highlightNodeAtom);
-    return (
-        <line
-            opacity={opacity}
-            x1={x1}
-            y1={y1}
-            x2={x2}
-            y2={y2}
-            stroke={color}
-            strokeWidth={weight * 10}
-        />
+    const draw = useCallback(
+        (g) => {
+            g.clear();
+            g.lineStyle(weight * 10, color, opacity);
+            g.moveTo(x1, y1);
+            g.lineTo(x2, y2);
+        },
+        [color, opacity, weight, x1, x2, y1, y2]
     );
+    return <Graphics draw={draw} />;
 });
 
 export default EgoNetworkNetworkEdge;

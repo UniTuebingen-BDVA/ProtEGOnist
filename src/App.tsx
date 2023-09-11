@@ -29,7 +29,6 @@ import { drawerShownAtom } from './components/drawerElement/DrawerElementStore.t
 import LogoText from './assets/LogoPathWhite.svg';
 import LogoBlue from './assets/LogoBlue.svg';
 
-
 import { GitHub } from '@mui/icons-material';
 
 function App() {
@@ -65,17 +64,17 @@ function App() {
         setTarNode('P63279');
         getRadarData('P63279');
         // TODO it seems like the http-get of the table atom leads to the problem that the initial set of the selectedProteinsAtom is not correctly selected in the table
-        setSelectedProteins([
-            'Q99459',
-            'Q01518',
-            'P61421',
-            'P52565',
-            'P00568',
-            'Q9NRN7',
-            'P63279'
-        ]);
+        // setSelectedProteins([
+        //     'Q99459',
+        //     'Q01518',
+        //     'P61421',
+        //     'P52565',
+        //     'P00568',
+        //     'Q9NRN7',
+        //     'P63279'
+        // ]);
         // For useCase
-        // setSelectedProteins(['P61978', 'O43447', 'Q14498', 'Q92922']);
+        setSelectedProteins(['P61978', 'O43447', 'Q14498', 'Q92922']);
         getEgoNetworkNetworkOverviewData(startDataOverview);
     }, [
         getTableData,
