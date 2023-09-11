@@ -116,12 +116,9 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
     const [highlightedNodeIndices] = useAtom(highlightedNodeIndicesAtom);
     const [_, setDecollapseID] = useAtom(decollapseIDsAtom);
 
-    return useMemo(() => {
-        if (isLoaded) {
-            let lines: ReactElement[] = [];
-            const foregroundBands: ReactElement[] = [];
-            const backgroundBands: ReactElement[] = [];
-            const layoutCircles = layout.centers.map((center) => {
+    const layoutCircles = useMemo(
+        () =>
+            layout.centers.map((center) => {
                 return (
                     <g
                         key={center.id}
@@ -143,96 +140,100 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                         />
                     </g>
                 );
-            });
-            const circles: ReactElement[] = [];
-            Object.values(layout.nodes).forEach((node, i) => {
-                if (!node.pseudo) {
-                    circles.push(
-                        <EgographNode
-                            key={node.id}
-                            centerPoint={{ x: node.cx, y: node.cy }}
-                            nodeRadius={node.centerDist === 0 ? 5 : nodeRadius}
-                            nodeAtom={nodeAtoms[i]}
-                            highlightedNodeIndicesAtom={
-                                highlightedNodeIndicesAtom
-                            }
-                            fill={String(colorScale(node.numEdges))}
+            }),
+        [innerRadius, layout.centers, outerRadius, setDecollapseID]
+    );
+    const circles = useMemo(() => {
+        const returnCircles: ReactElement[] = [];
+        Object.values(layout.nodes).forEach((node, i) => {
+            if (!node.pseudo)
+                returnCircles.push(
+                    <EgographNode
+                        key={node.id}
+                        centerPoint={{ x: node.cx, y: node.cy }}
+                        nodeRadius={node.centerDist === 0 ? 5 : nodeRadius}
+                        nodeAtom={nodeAtoms[i]}
+                        highlightedNodeIndicesAtom={highlightedNodeIndicesAtom}
+                        fill={String(colorScale(node.numEdges))}
+                    />
+                );
+        });
+        return returnCircles;
+    }, [
+        colorScale,
+        highlightedNodeIndicesAtom,
+        layout.nodes,
+        nodeAtoms,
+        nodeRadius
+    ]);
+
+    const lines = useMemo(
+        () =>
+            layout.edges
+                .filter(
+                    (edge) =>
+                        highlightedNodeIndices.includes(edge.sourceIndex) ||
+                        highlightedNodeIndices.includes(edge.targetIndex)
+                )
+                .map((edge) => {
+                    // show edge if any node with the same original ID as source/target is hovered
+                    return (
+                        <line
+                            key={String(edge.source) + String(edge.target)}
+                            x1={edge.x1}
+                            x2={edge.x2}
+                            y1={edge.y1}
+                            y2={edge.y2}
+                            stroke={'#67001f'}
                         />
                     );
-                }
-            });
-
-            lines = layout.edges.filter(edge=> highlightedNodeIndices.includes(edge.sourceIndex) ||
-                    highlightedNodeIndices.includes(edge.targetIndex)).map((edge) => {
-                // show edge if any node with the same original ID as source/target is hovered
-                return (
+                }),
+        [highlightedNodeIndices, layout.edges]
+    );
+    const [foregroundBands, backgroundBands] = useMemo(() => {
+        const foregroundBands: ReactElement[] = [];
+        const backgroundBands: ReactElement[] = [];
+        layout.identityEdges.forEach((edge) => {
+            const isHighlighted =
+                highlightedNodeIndices.includes(edge.sourceIndex) ||
+                highlightedNodeIndices.includes(edge.targetIndex);
+            if (isHighlighted) {
+                foregroundBands.push(
                     <line
-                        key={String(edge.source) + String(edge.target)}
+                        key={edge.id}
                         x1={edge.x1}
                         x2={edge.x2}
                         y1={edge.y1}
                         y2={edge.y2}
-                        stroke={'#67001f'}
+                        stroke={'black'}
+                        strokeWidth={nodeRadius * 2}
                     />
                 );
-            });
-            layout.identityEdges.forEach((edge) => {
-                const isHighlighted =
-                    highlightedNodeIndices.includes(edge.sourceIndex) ||
-                    highlightedNodeIndices.includes(edge.targetIndex);
-                if (isHighlighted) {
-                    foregroundBands.push(
-                        <line
-                            key={edge.id}
-                            x1={edge.x1}
-                            x2={edge.x2}
-                            y1={edge.y1}
-                            y2={edge.y2}
-                            stroke={'black'}
-                            strokeWidth={nodeRadius * 2}
-                        />
-                    );
-                } else {
-                    backgroundBands.push(
-                        <line
-                            key={edge.id}
-                            x1={edge.x1}
-                            x2={edge.x2}
-                            y1={edge.y1}
-                            y2={edge.y2}
-                            stroke={'gray'}
-                            opacity={0.2}
-                            strokeWidth={nodeRadius * 2}
-                        />
-                    );
-                }
-            });
-            return (
-                <g transform={`translate(${x},${y})`}>
-                    {layoutCircles}
-                    {lines}
-                    {backgroundBands}
-                    {foregroundBands}
-                    {circles}
-                </g>
-            );
-        } else return null;
-    }, [
-        isLoaded,
-        layout.centers,
-        layout.nodes,
-        layout.edges,
-        layout.identityEdges,
-        x,
-        y,
-        outerRadius,
-        innerRadius,
-        setDecollapseID,
-        nodeRadius,
-        nodeAtoms,
-        highlightedNodeIndicesAtom,
-        colorScale,
-        highlightedNodeIndices
-    ]);
+            } else {
+                backgroundBands.push(
+                    <line
+                        key={edge.id}
+                        x1={edge.x1}
+                        x2={edge.x2}
+                        y1={edge.y1}
+                        y2={edge.y2}
+                        stroke={'gray'}
+                        opacity={0.2}
+                        strokeWidth={nodeRadius * 2}
+                    />
+                );
+            }
+        });
+        return [foregroundBands, backgroundBands];
+    }, [highlightedNodeIndices, layout.identityEdges, nodeRadius]);
+    return isLoaded ? (
+        <g transform={`translate(${x},${y})`}>
+            {layoutCircles}
+            {lines}
+            {backgroundBands}
+            {foregroundBands}
+            {circles}
+        </g>
+    ) : null;
 };
 export default EgographBundle;
