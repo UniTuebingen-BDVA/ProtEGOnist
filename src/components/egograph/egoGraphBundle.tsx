@@ -162,11 +162,9 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                 }
             });
 
-            lines = layout.edges.map((edge) => {
+            lines = layout.edges.filter(edge=> highlightedNodeIndices.includes(edge.sourceIndex) ||
+                    highlightedNodeIndices.includes(edge.targetIndex)).map((edge) => {
                 // show edge if any node with the same original ID as source/target is hovered
-                const isVisible =
-                    highlightedNodeIndices.includes(edge.sourceIndex) ||
-                    highlightedNodeIndices.includes(edge.targetIndex);
                 return (
                     <line
                         key={String(edge.source) + String(edge.target)}
@@ -174,7 +172,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                         x2={edge.x2}
                         y1={edge.y1}
                         y2={edge.y2}
-                        stroke={isVisible ? '#67001f' : 'none'}
+                        stroke={'#67001f'}
                     />
                 );
             });
