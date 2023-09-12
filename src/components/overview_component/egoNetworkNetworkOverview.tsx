@@ -27,12 +27,17 @@ const EgoNetworkNetworkOverview = () => {
         () => new Set(selectedEgoCenters),
         [selectedEgoCenters]
     );
-    const highlightedEdges = useMemo(() => {
-        return(edges.filter(edge=> highlightNode == edge.source.id ||
-                highlightNode == edge.target.id ||
-                (setProteinSelected.has(edge.source.id) &&
-                    setProteinSelected.has(edge.target.id))));
-    }, [edges, highlightNode, setProteinSelected]);
+    const highlightedEdges = useMemo(
+        () =>
+            edges.filter(
+                (edge) =>
+                    highlightNode == edge.source.id ||
+                    highlightNode == edge.target.id ||
+                    (setProteinSelected.has(edge.source.id) &&
+                        setProteinSelected.has(edge.target.id))
+            ),
+        [edges, highlightNode, setProteinSelected]
+    );
 
     return (
         <g>
