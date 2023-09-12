@@ -27,27 +27,16 @@ const EgoNetworkNetworkOverview = () => {
         () => new Set(selectedEgoCenters),
         [selectedEgoCenters]
     );
-    const edgeGroups = useMemo(() => {
-        const highlightedEdges = [];
-        const unhighlightedEdges = [];
-        for (const edge of edges) {
-            if (
-                highlightNode == edge.source.id ||
+    const highlightedEdges = useMemo(() => {
+        return(edges.filter(edge=> highlightNode == edge.source.id ||
                 highlightNode == edge.target.id ||
                 (setProteinSelected.has(edge.source.id) &&
-                    setProteinSelected.has(edge.target.id))
-            ) {
-                highlightedEdges.push(edge);
-            } else {
-                unhighlightedEdges.push(edge);
-            }
-        }
-        return { highlightedEdges, unhighlightedEdges };
+                    setProteinSelected.has(edge.target.id))));
     }, [edges, highlightNode, setProteinSelected]);
 
     return (
         <g>
-            {edgeGroups.unhighlightedEdges.map((edge) => {
+            {edges.map((edge) => {
                 return (
                     <EgoNetworkNetworkOverviewEdge
                         key={edge.source.id + '+' + edge.target.id}
@@ -61,7 +50,7 @@ const EgoNetworkNetworkOverview = () => {
                     />
                 );
             })}
-            {edgeGroups.highlightedEdges.map((edge) => {
+            {highlightedEdges.map((edge) => {
                 return (
                     <EgoNetworkNetworkOverviewEdge
                         key={edge.source.id + '+' + edge.target.id}
