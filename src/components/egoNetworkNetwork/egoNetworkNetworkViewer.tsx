@@ -82,7 +82,7 @@ function EgoNetworkNetworkViewer() {
                 </animated.g>
             </animated.svg>
             <svg
-                height={235}
+                height={250}
                 width={200}
                 style={{ left: 0, position: 'absolute' }}
             >
