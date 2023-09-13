@@ -497,7 +497,8 @@ export function calculateLayout(
                         !intersections[
                             egoGraphs[i].centerNode.originalID
                         ].includes(id)
-                ).sort();
+                )
+                .sort();
             intersectingNodes.push(...pairwiseIntersections);
             intersectingNodes.push(...otherIntersections);
             intersectingNodes.push(...nextPairwiseIntersections);
@@ -523,15 +524,84 @@ export function calculateLayout(
             layoutNodeDict,
             egoGraphs.map((d) => d.edges).flat()
         );
-
-        layout.identityEdges = createIdentityEdges(layoutNodeDict);
+        console.log('intersections', intersections);
+        layout.identityEdges = createIdentityEdges(
+            layoutNodeDict,
+            intersections
+        );
 
         layout.nodes = Object.values(layoutNodeDict);
         layout.centers = graphCenters;
+        const firstAndLastNodes = firstAndLastNodeIntersection(
+            intersections,
+            layoutNodeDict,
+            graphCenters
+        );
+        console.log('faln', firstAndLastNodes);
         return layout;
     } else {
         return calculateEgoLayout(egoGraphs[0], innerSize, outerSize, nodeSize);
     }
+}
+
+function firstAndLastNodeIntersection(
+    intersections: { [key: string]: string[] },
+    nodeDict: { [key: string]: egoGraphNode },
+    graphCenters: { x: number; y: number; id: string }[]
+) {
+    // for each graphCenter and each associated intersection (key contains the graphCenter) get the first and last node in the intersection as sorted in the nodeDict
+    const firstAndLastNodes = {};
+    graphCenters.forEach((graphCenter) => {
+        const graphCenterId = graphCenter.id;
+        Object.keys(intersections).forEach((key) => {
+            if (key.includes(graphCenter.id)) {
+                const intersection = intersections[key];
+                const firstNode =
+                    nodeDict[
+                        graphCenterId +
+                            '_' +
+                            intersection.find(
+                                (id) => graphCenterId + '_' + id in nodeDict
+                            )
+                    ];
+                const lastNode =
+                    nodeDict[
+                        graphCenterId +
+                            '_' +
+                            intersection
+                                .slice()
+                                .reverse()
+                                .find(
+                                    (id) => graphCenterId + '_' + id in nodeDict
+                                )
+                    ];
+
+                if (!(graphCenter.id in firstAndLastNodes)) {
+                    firstAndLastNodes[graphCenter.id] = {};
+                }
+
+                // add firstLast=true property to firstNode and lastNode
+                let firstNodeId = firstNode.id;
+                let lastNodeId = lastNode.id;
+                // check if firstNode or lastNode have a center distance of 1 if so add the pseudo node instead
+                if (firstNode.centerDist === 1) {
+                    firstNodeId = firstNode.id + '_pseudo';
+                }
+                if (lastNode.centerDist === 1) {
+                    lastNodeId = lastNode.id + '_pseudo';
+                }
+                //add firstLast=true property to the nodes with the id firstNodeId and lastNodeId
+                nodeDict[firstNodeId].firstLast = true;
+                nodeDict[lastNodeId].firstLast = true;
+
+                firstAndLastNodes[graphCenter.id][key] = [
+                    firstNodeId,
+                    lastNodeId
+                ];
+            }
+        });
+    });
+    return firstAndLastNodes;
 }
 
 function calculateMultiLayout(
@@ -720,9 +790,12 @@ function calculateLayoutUniqueNodes(
  * @param { [key: string]: layoutNode } nodeDict - dict of nodes with positions
  */
 
-function createIdentityEdges(nodeDict: {
-    [key: string]: layoutNode;
-}): identityEdge[] {
+function createIdentityEdges(
+    nodeDict: {
+        [key: string]: layoutNode;
+    },
+    intersections: { [key: string]: string[] }
+): identityEdge[] {
     const proteinNodes = new Map<string, layoutNode[]>();
     for (const node of Object.values(nodeDict)) {
         const proteinId = node.id.split('_')[1];
@@ -731,6 +804,8 @@ function createIdentityEdges(nodeDict: {
         }
         proteinNodes.get(proteinId)?.push(node);
     }
+    console.log('nodeDict', proteinNodes);
+
     const edges: identityEdge[] = [];
     const edgeIds = new Set<string>();
     for (const nodes of proteinNodes.values()) {

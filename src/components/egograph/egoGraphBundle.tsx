@@ -154,7 +154,11 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                         nodeRadius={node.centerDist === 0 ? 5 : nodeRadius}
                         nodeAtom={nodeAtoms[i]}
                         highlightedNodeIndicesAtom={highlightedNodeIndicesAtom}
-                        fill={String(colorScale(node.numEdges))}
+                        fill={
+                            node.firstLast
+                                ? 'red'
+                                : String(colorScale(node.numEdges))
+                        }
                     />
                 );
         });
