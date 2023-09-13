@@ -343,11 +343,25 @@ function sortPairwiseIntersection(
     nodeDict: { [key: string]: egoGraphNode },
     graphID: string
 ) {
-    nodes.sort(
-        (a, b) =>
-            nodeDict[graphID + '_' + a].numEdges -
+    nodes.sort((a, b) => {
+        if (
+            nodeDict[graphID + '_' + a].numEdges >
             nodeDict[graphID + '_' + b].numEdges
-    );
+        ) {
+            return 1;
+        } else if (
+            nodeDict[graphID + '_' + a].numEdges <
+            nodeDict[graphID + '_' + b].numEdges
+        ) {
+            return -1;
+        } else {
+            if (a > b) {
+                return 1;
+            } else {
+                return -1;
+            }
+        }
+    });
     return nodes;
 }
 
@@ -483,7 +497,7 @@ export function calculateLayout(
                         !intersections[
                             egoGraphs[i].centerNode.originalID
                         ].includes(id)
-                );
+                ).sort();
             intersectingNodes.push(...pairwiseIntersections);
             intersectingNodes.push(...otherIntersections);
             intersectingNodes.push(...nextPairwiseIntersections);
