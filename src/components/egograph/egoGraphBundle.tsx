@@ -12,6 +12,7 @@ import {
     egoGraphBundlesLayoutAtom
 } from './egoGraphBundleStore';
 import { EgographNode } from './egographNode';
+import EgoGraphBand from './egoGraphBand.tsx';
 import { atom } from 'jotai';
 import { egoGraphLayout } from './egolayout.ts';
 import { focusAtom } from 'jotai-optics';
@@ -171,6 +172,18 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
         nodeRadius
     ]);
 
+    const bands = useMemo(() => {
+        const returnBands: ReactElement[] = [];
+        if (layout.bandData) {
+            Object.entries(layout.bandData).forEach((band, i) => {
+                console.log('bandData', i, band);
+
+                returnBands.push(<EgoGraphBand key={i} bandData={band} />);
+            });
+        }
+        return returnBands;
+    }, [layout.bandData]);
+
     const lines = useMemo(
         () =>
             layout.edges
@@ -234,6 +247,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
         <g transform={`translate(${x},${y})`}>
             {layoutCircles}
             {lines}
+            {bands}
             {backgroundBands}
             {foregroundBands}
             {circles}

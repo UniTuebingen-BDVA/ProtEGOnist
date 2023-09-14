@@ -30,9 +30,15 @@ type identityEdge = {
 };
 
 export interface egoGraphLayout {
+    bandData: {};
     nodes: layoutNode[];
     edges: layoutEdge[];
     identityEdges: identityEdge[];
+    firstAndLastNodes: {
+        [key: string]: {
+            [key: string]: string[];
+        };
+    };
     maxradius: number;
     centers: { x: number; y: number; id: string }[];
 }
@@ -383,6 +389,7 @@ export function calculateLayout(
     if (egoGraphs.length > 1) {
         let graphCenters: { x: number; y: number; id: string }[];
         const layout: egoGraphLayout = {
+            bandData: {},
             nodes: [],
             edges: [],
             identityEdges: [],
@@ -537,6 +544,7 @@ export function calculateLayout(
             layoutNodeDict,
             graphCenters
         );
+        layout.bandData = firstAndLastNodes;
         console.log('faln', firstAndLastNodes);
         return layout;
     } else {
@@ -546,7 +554,7 @@ export function calculateLayout(
 
 function firstAndLastNodeIntersection(
     intersections: { [key: string]: string[] },
-    nodeDict: { [key: string]: egoGraphNode },
+    nodeDict: { [key: string]: layoutNode },
     graphCenters: { x: number; y: number; id: string }[]
 ) {
     // for each graphCenter and each associated intersection (key contains the graphCenter) get the first and last node in the intersection as sorted in the nodeDict
@@ -576,8 +584,8 @@ function firstAndLastNodeIntersection(
                                 )
                     ];
 
-                if (!(graphCenter.id in firstAndLastNodes)) {
-                    firstAndLastNodes[graphCenter.id] = {};
+                if (!(key in firstAndLastNodes)) {
+                    firstAndLastNodes[key] = {};
                 }
 
                 // add firstLast=true property to firstNode and lastNode
@@ -594,9 +602,21 @@ function firstAndLastNodeIntersection(
                 nodeDict[firstNodeId].firstLast = true;
                 nodeDict[lastNodeId].firstLast = true;
 
-                firstAndLastNodes[graphCenter.id][key] = [
-                    firstNodeId,
-                    lastNodeId
+                firstAndLastNodes[key][graphCenter.id] = [
+                    {
+                        id: firstNodeId,
+                        pos: {
+                            x: nodeDict[firstNodeId].cx,
+                            y: nodeDict[firstNodeId].cy
+                        }
+                    },
+                    {
+                        id: lastNodeId,
+                        pos: {
+                            x: nodeDict[lastNodeId].cx,
+                            y: nodeDict[lastNodeId].cy
+                        }
+                    }
                 ];
             }
         });
