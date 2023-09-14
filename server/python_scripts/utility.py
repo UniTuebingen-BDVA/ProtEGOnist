@@ -32,7 +32,7 @@ def create_intersections(set_dict):
     """
     intersections = {}
     combinations = create_combinations(list(set_dict.keys()))
-    used_ids = set(set_dict.keys())
+    used_ids = set()
     for combination in combinations:
         intersection = list(set_dict[combination[0]].intersection(*(set_dict[id] for id in combination[1:len(combination)])))
         id=list(combination)

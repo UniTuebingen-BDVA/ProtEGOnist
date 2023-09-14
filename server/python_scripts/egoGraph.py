@@ -87,7 +87,7 @@ class EgoGraph:
         return cls(node, egoGraph)
 
     def get_node_set(self) -> set[str]:
-        #print(self.nxGraph.nodes)
+        #print(self.nx_graph.nodes)
         return set(self.nx_graph.nodes)
 
     def get_node_attributes(self, id) -> dict[str, str | int]:
