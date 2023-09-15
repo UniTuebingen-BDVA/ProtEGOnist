@@ -20,6 +20,7 @@ type layoutEdge = egoGraphEdge & {
     y2: number;
 };
 type identityEdge = {
+    alwaysDraw: boolean;
     id: string;
     sourceIndex: number;
     targetIndex: number;
@@ -562,7 +563,7 @@ function firstAndLastNodeIntersection(
     graphCenters.forEach((graphCenter) => {
         const graphCenterId = graphCenter.id;
         Object.keys(intersections).forEach((key) => {
-            if (key.includes(graphCenter.id)) {
+            if (key.includes(graphCenter.id) && key.split(',').length > 1) {
                 const intersection = intersections[key];
                 const firstNode =
                     nodeDict[
@@ -589,6 +590,7 @@ function firstAndLastNodeIntersection(
                 }
 
                 // add firstLast=true property to firstNode and lastNode
+
                 let firstNodeId = firstNode.id;
                 let lastNodeId = lastNode.id;
                 // check if firstNode or lastNode have a center distance of 1 if so add the pseudo node instead
@@ -852,17 +854,21 @@ function createIdentityEdges(
                     // don't draw an edge if the nodes are first layer nodes but not pseudo
                     let firstId = nodeIds[i];
                     let secondId = nodeIds[j];
+                    let drawEdge = firstId == secondId;
                     if (Object.keys(nodeDict).includes(firstId + '_pseudo')) {
                         firstId = firstId + '_pseudo';
                     }
                     if (Object.keys(nodeDict).includes(secondId + '_pseudo')) {
                         secondId = secondId + '_pseudo';
                     }
+                    //check if both nodes have centerDist 2
+
                     if (firstId !== secondId) {
                         // exclude self-edges
                         const edgeId = firstId + '_' + secondId;
                         if (!edgeIds.has(edgeId)) {
                             edges.push({
+                                alwaysDraw: drawEdge,
                                 sourceIndex: nodeDict[firstId].index,
                                 targetIndex: nodeDict[secondId].index,
                                 id: edgeId,
@@ -880,6 +886,7 @@ function createIdentityEdges(
                 const edgeId = nodeId + '_' + nodeId + '_pseudo';
                 if (!edgeIds.has(edgeId)) {
                     edges.push({
+                        alwaysDraw: false,
                         sourceIndex: nodeDict[nodeId].index,
                         targetIndex: nodeDict[nodeId + '_pseudo'].index,
                         id: edgeId,

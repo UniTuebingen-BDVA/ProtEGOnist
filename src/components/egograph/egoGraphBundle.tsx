@@ -227,27 +227,29 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                     />
                 );
             } else {
-                backgroundBands.push(
-                    <line
-                        key={edge.id}
-                        x1={edge.x1}
-                        x2={edge.x2}
-                        y1={edge.y1}
-                        y2={edge.y2}
-                        stroke={'gray'}
-                        opacity={0.2}
-                        strokeWidth={nodeRadius * 2}
-                    />
-                );
+                if (!edge.alwaysDraw) {
+                    backgroundBands.push(
+                        <line
+                            key={edge.id}
+                            x1={edge.x1}
+                            x2={edge.x2}
+                            y1={edge.y1}
+                            y2={edge.y2}
+                            stroke={'gray'}
+                            opacity={0.2}
+                            strokeWidth={nodeRadius * 2}
+                        />
+                    );
+                }
             }
         });
         return [foregroundBands, backgroundBands];
     }, [highlightedNodeIndices, layout.identityEdges, nodeRadius]);
     return isLoaded ? (
         <g transform={`translate(${x},${y})`}>
+            {bands}
             {layoutCircles}
             {lines}
-            {bands}
             {backgroundBands}
             {foregroundBands}
             {circles}
