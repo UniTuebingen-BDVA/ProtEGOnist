@@ -24,6 +24,17 @@ export const EgographNode = memo(function EgographNode(
     const [highlightedNodeIndices, setHighlightedNodeIndices] = useAtom(
         highlightedNodeIndicesAtom
     );
+    // if the string node.id contains P63244
+    // then the node is the center node
+    // and we want to highlight it
+    if (node.id.includes('Q07817_P63244') && !node.hovered) {
+        setNode((oldValue) => ({ ...oldValue, hovered: true }));
+        setHighlightedNodeIndices(node.identityNodes);
+    }
+
+    
+
+    
     return (
         <AdvancedTooltip
             uniprotID={node.originalID}
@@ -35,6 +46,9 @@ export const EgographNode = memo(function EgographNode(
                     setHighlightedNodeIndices(node.identityNodes);
                 }}
                 onMouseLeave={() => {
+                    if (node.id.includes('Q07817_P63244')){
+                        console.log("hovered")
+                    }
                     setNode((oldValue) => ({ ...oldValue, hovered: false }));
                     setHighlightedNodeIndices([]);
                 }}
