@@ -72,7 +72,7 @@ function createLayerNodes(
             center,
             center,
             radius,
-            x(node.id)! + x.bandwidth(),
+            x(node.id)! + x.bandwidth()/2,
             offset
         );
         nodes[node.id] = {
@@ -642,7 +642,7 @@ function calculateLayoutSharedNodes(
         offset
     );
     Object.keys(nodeLayout.nodes).forEach((nodeId) => {
-        if (nodeLayout.nodes[nodeId].centerDist === 1) {
+        if (nodeLayout.nodes[nodeId].centerDist < 2) {
             nodeLayout.nodes[`${nodeId}_pseudo`] = {
                 ...nodeLayout.nodes[nodeId],
                 pseudo: true
@@ -749,7 +749,7 @@ function createIdentityEdges(nodeDict: {
                 .flat();
         }
         const layer1Nodes = nodeIds.filter(
-            (nodeId) => nodeDict[nodeId].centerDist === 1
+            (nodeId) => nodeDict[nodeId].centerDist < 2
         );
         if (nodeIds.length > 1) {
             for (let i = 0; i < nodeIds.length; i++) {
