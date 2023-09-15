@@ -79,7 +79,7 @@ function createLayerNodes(
             center,
             center,
             radius,
-            x(node.id)! + x.bandwidth()/2,
+            x(node.id)! + x.bandwidth() / 2,
             offset
         );
         nodes[node.id] = {
@@ -474,6 +474,7 @@ export function calculateLayout(
             nodeDict,
             egoGraphs[egoGraphs.length - 1].centerNode.originalID
         ).reverse();
+        const firstAndLastNodesIDs = {};
         for (let i = 0; i < egoGraphs.length; i++) {
             nodeDict = {};
             egoGraphs[i].nodes.forEach((node) => (nodeDict[node.id] = node));
@@ -495,6 +496,13 @@ export function calculateLayout(
                     egoGraphs[i].centerNode.originalID
                 );
             }
+            const firstNodeId = nextPairwiseIntersections[0];
+            const lastNodeId =
+                nextPairwiseIntersections[nextPairwiseIntersections.length - 1];
+            const intersectionID = [firstGraphId, secondGraphId]
+                .sort()
+                .toString();
+            firstAndLastNodesIDs[intersectionID] = [firstNodeId, lastNodeId];
             // push all the other intersecting nodes
             const otherIntersections = egoGraphs[i].nodes
                 .map((d) => d.originalID)
@@ -507,6 +515,20 @@ export function calculateLayout(
                         ].includes(id)
                 )
                 .sort();
+            if (egoGraphs.length > 2) {
+                const firstNodeIdOther = otherIntersections[0];
+                const lastNodeIdOther =
+                    otherIntersections[otherIntersections.length - 1];
+                const intersectionIDOther = [
+                    ...egoGraphs.map((d) => d.centerNode.originalID)
+                ]
+                    .sort()
+                    .toString();
+                firstAndLastNodesIDs[intersectionIDOther] = [
+                    firstNodeIdOther,
+                    lastNodeIdOther
+                ];
+            }
             intersectingNodes.push(...pairwiseIntersections);
             intersectingNodes.push(...otherIntersections);
             intersectingNodes.push(...nextPairwiseIntersections);
@@ -540,13 +562,13 @@ export function calculateLayout(
 
         layout.nodes = Object.values(layoutNodeDict);
         layout.centers = graphCenters;
+        console.log('faln', firstAndLastNodesIDs);
+
         const firstAndLastNodes = firstAndLastNodeIntersection(
-            intersections,
-            layoutNodeDict,
-            graphCenters
+            firstAndLastNodesIDs,
+            layoutNodeDict
         );
         layout.bandData = firstAndLastNodes;
-        console.log('faln', firstAndLastNodes);
         return layout;
     } else {
         return calculateEgoLayout(egoGraphs[0], innerSize, outerSize, nodeSize);
@@ -554,73 +576,52 @@ export function calculateLayout(
 }
 
 function firstAndLastNodeIntersection(
-    intersections: { [key: string]: string[] },
-    nodeDict: { [key: string]: layoutNode },
-    graphCenters: { x: number; y: number; id: string }[]
+    firstAndLastNodeIds: { [key: string]: [string, string] },
+    nodeDict: { [key: string]: layoutNode }
 ) {
     // for each graphCenter and each associated intersection (key contains the graphCenter) get the first and last node in the intersection as sorted in the nodeDict
     const firstAndLastNodes = {};
-    graphCenters.forEach((graphCenter) => {
-        const graphCenterId = graphCenter.id;
-        Object.keys(intersections).forEach((key) => {
-            if (key.includes(graphCenter.id) && key.split(',').length > 1) {
-                const intersection = intersections[key];
-                const firstNode =
-                    nodeDict[
-                        graphCenterId +
-                            '_' +
-                            intersection.find(
-                                (id) => graphCenterId + '_' + id in nodeDict
-                            )
-                    ];
-                const lastNode =
-                    nodeDict[
-                        graphCenterId +
-                            '_' +
-                            intersection
-                                .slice()
-                                .reverse()
-                                .find(
-                                    (id) => graphCenterId + '_' + id in nodeDict
-                                )
-                    ];
-
-                if (!(key in firstAndLastNodes)) {
-                    firstAndLastNodes[key] = {};
-                }
-
-                // add firstLast=true property to firstNode and lastNode
-
-                let firstNodeId = firstNode.id;
-                let lastNodeId = lastNode.id;
-                // check if firstNode or lastNode have a center distance of 1 if so add the pseudo node instead
-                if (firstNode.centerDist === 1) {
-                    firstNodeId = firstNode.id + '_pseudo';
-                }
-                if (lastNode.centerDist === 1) {
-                    lastNodeId = lastNode.id + '_pseudo';
-                }
-                //add firstLast=true property to the nodes with the id firstNodeId and lastNodeId
-                nodeDict[firstNodeId].firstLast = true;
-                nodeDict[lastNodeId].firstLast = true;
-
-                firstAndLastNodes[key][graphCenter.id] = [
-                    {
-                        id: firstNodeId,
-                        pos: {
-                            x: nodeDict[firstNodeId].cx,
-                            y: nodeDict[firstNodeId].cy
-                        }
-                    },
-                    {
-                        id: lastNodeId,
-                        pos: {
-                            x: nodeDict[lastNodeId].cx,
-                            y: nodeDict[lastNodeId].cy
-                        }
-                    }
-                ];
+    Object.entries(firstAndLastNodeIds).forEach((entry) => {
+        const key = entry[0];
+        const firstNodeID = entry[1][0];
+        const lastNodeID = entry[1][1];
+        // add firstLast=true property to firstNode and lastNode
+        const graphCenterIds = key.split(',');
+        graphCenterIds.forEach((graphCenterId) => {
+            const firstNodeIdComp = graphCenterId + '_' + firstNodeID;
+            const lastNodeIdComp = graphCenterId + '_' + lastNodeID;
+            let firstNode = nodeDict[firstNodeIdComp];
+            let lastNode = nodeDict[lastNodeIdComp];
+            // check if firstNode or lastNode have a center distance of 1 if so add the pseudo node instead
+            if (firstNode.centerDist < 2) {
+                firstNode = nodeDict[firstNode.id + '_pseudo'];
             }
+            if (lastNode.centerDist < 2) {
+                lastNode = nodeDict[lastNode.id + '_pseudo'];
+            }
+            //add firstLast=true property to the nodes with the id firstNodeId and lastNodeId
+            firstNode.firstLast = true;
+            lastNode.firstLast = true;
+
+            if (!Object.prototype.hasOwnProperty.call(firstAndLastNodes, key)) {
+                firstAndLastNodes[key] = {};
+            }
+            firstAndLastNodes[key][graphCenterId] = [
+                {
+                    id: firstNode.id,
+                    pos: {
+                        x: firstNode.cx,
+                        y: firstNode.cy
+                    }
+                },
+                {
+                    id: lastNode.id,
+                    pos: {
+                        x: lastNode.cx,
+                        y: lastNode.cy
+                    }
+                }
+            ];
         });
     });
     return firstAndLastNodes;
@@ -854,7 +855,7 @@ function createIdentityEdges(
                     // don't draw an edge if the nodes are first layer nodes but not pseudo
                     let firstId = nodeIds[i];
                     let secondId = nodeIds[j];
-                    let drawEdge = firstId == secondId;
+                    const drawEdge = firstId != secondId;
                     if (Object.keys(nodeDict).includes(firstId + '_pseudo')) {
                         firstId = firstId + '_pseudo';
                     }
