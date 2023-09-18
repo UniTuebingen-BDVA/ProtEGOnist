@@ -178,7 +178,13 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
             Object.entries(layout.bandData).forEach((band, i) => {
                 console.log('bandData', i, band);
 
-                returnBands.push(<EgoGraphBand key={i} bandData={band} />);
+                returnBands.push(
+                    <EgoGraphBand
+                        key={i}
+                        bandData={band}
+                        radius={outerRadius}
+                    />
+                );
             });
         }
         return returnBands;

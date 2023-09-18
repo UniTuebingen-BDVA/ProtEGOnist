@@ -566,7 +566,8 @@ export function calculateLayout(
 
         const firstAndLastNodes = firstAndLastNodeIntersection(
             firstAndLastNodesIDs,
-            layoutNodeDict
+            layoutNodeDict,
+            layout.centers
         );
         layout.bandData = firstAndLastNodes;
         return layout;
@@ -577,7 +578,8 @@ export function calculateLayout(
 
 function firstAndLastNodeIntersection(
     firstAndLastNodeIds: { [key: string]: [string, string] },
-    nodeDict: { [key: string]: layoutNode }
+    nodeDict: { [key: string]: layoutNode },
+    centers: { x: number; y: number; id: string }[]
 ) {
     // for each graphCenter and each associated intersection (key contains the graphCenter) get the first and last node in the intersection as sorted in the nodeDict
     const firstAndLastNodes = {};
@@ -606,9 +608,14 @@ function firstAndLastNodeIntersection(
             if (!Object.prototype.hasOwnProperty.call(firstAndLastNodes, key)) {
                 firstAndLastNodes[key] = {};
             }
+            const currentGraphCenter = centers.find(
+                (elem) => elem.id == graphCenterId
+            );
+            console.log('CE', centers, graphCenterId);
             firstAndLastNodes[key][graphCenterId] = [
                 {
                     id: firstNode.id,
+                    graphCenterPos: currentGraphCenter,
                     pos: {
                         x: firstNode.cx,
                         y: firstNode.cy
@@ -616,6 +623,7 @@ function firstAndLastNodeIntersection(
                 },
                 {
                     id: lastNode.id,
+                    graphCenterPos: currentGraphCenter,
                     pos: {
                         x: lastNode.cx,
                         y: lastNode.cy
