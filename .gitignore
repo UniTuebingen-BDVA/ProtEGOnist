@@ -46,3 +46,4 @@ dist-ssr
 *.sln
 *.sw?
 server/data/graphml_string_cleaned.graphml
+/build/
