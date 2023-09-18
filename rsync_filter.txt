@@ -2,9 +2,6 @@
 + /dist/**
 + /server/
 + /server/**
-+ /public/
-+ /public/**
 + /requirements.yml
 + /setup.py
-+ /wsgi.py
 - /**
