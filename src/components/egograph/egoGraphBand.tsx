@@ -81,6 +81,14 @@ function getPath(
         firstSecondMidpoint[1] +
             (firstSecondMidpoint[1] - start[0].graphCenterPos.y) * factor
     ];
+
+    const firstSecondMidpointControl2: [number, number] = [
+        firstSecondMidpoint[0] +
+            (firstSecondMidpoint[0] - start[0].graphCenterPos.x) * factor * 2,
+        firstSecondMidpoint[1] +
+            (firstSecondMidpoint[1] - start[0].graphCenterPos.y) * factor * 2
+    ];
+
     const thirdFourthMidpointControl: [number, number] = [
         thirdFourthMidpoint[0] +
             (thirdFourthMidpoint[0] - end[0].graphCenterPos.x) * factor,
@@ -88,16 +96,37 @@ function getPath(
             (thirdFourthMidpoint[1] - end[0].graphCenterPos.y) * factor
     ];
 
+    const thirdFourthMidpointControl2: [number, number] = [
+        thirdFourthMidpoint[0] +
+            (thirdFourthMidpoint[0] - end[0].graphCenterPos.x) * factor * 2,
+        thirdFourthMidpoint[1] +
+            (thirdFourthMidpoint[1] - end[0].graphCenterPos.y) * factor * 2
+    ];
+
     // build the d attributes by calculating the cubic bezier curve
     const basisSpline = d3.line().curve(d3.curveBasis);
     const firstCurve = basisSpline([
-        firstSecondMidpoint,
         firstSecondMidpointControl,
-        thirdFourthMidpointControl,
-        thirdFourthMidpoint
+        firstSecondMidpointControl2,
+        thirdFourthMidpointControl2,
+        thirdFourthMidpointControl
     ]);
 
     const arcFactor = 1.05;
+    const arcFactor2 = 1.2;
+
+    firstSecondMidpoint[0] -= start[0].graphCenterPos.x;
+    firstSecondMidpoint[1] -= start[0].graphCenterPos.y;
+    firstSecondMidpoint[0] *= arcFactor2;
+    firstSecondMidpoint[1] *= arcFactor2;
+    firstSecondMidpoint[0] += start[0].graphCenterPos.x;
+    firstSecondMidpoint[1] += start[0].graphCenterPos.y;
+    thirdFourthMidpoint[0] -= end[0].graphCenterPos.x;
+    thirdFourthMidpoint[1] -= end[0].graphCenterPos.y;
+    thirdFourthMidpoint[0] *= arcFactor2;
+    thirdFourthMidpoint[1] *= arcFactor2;
+    thirdFourthMidpoint[0] += end[0].graphCenterPos.x;
+    thirdFourthMidpoint[1] += end[0].graphCenterPos.y;
 
     const firstArcPos: [number, number] = scaleVectorToLength(
         firstPos[0] - start[0].graphCenterPos.x,
@@ -106,6 +135,15 @@ function getPath(
     );
     firstArcPos[0] += start[0].graphCenterPos.x;
     firstArcPos[1] += start[0].graphCenterPos.y;
+
+    const firstArcPosControl: [number, number] = scaleVectorToLength(
+        firstPos[0] - start[0].graphCenterPos.x,
+        firstPos[1] - start[0].graphCenterPos.y,
+        radius * arcFactor * arcFactor2
+    );
+    firstArcPosControl[0] += start[0].graphCenterPos.x;
+    firstArcPosControl[1] += start[0].graphCenterPos.y;
+
     const secondArcPos: [number, number] = scaleVectorToLength(
         secondPos[0] - start[0].graphCenterPos.x,
         secondPos[1] - start[0].graphCenterPos.y,
@@ -113,6 +151,15 @@ function getPath(
     );
     secondArcPos[0] += start[0].graphCenterPos.x;
     secondArcPos[1] += start[0].graphCenterPos.y;
+
+    const secondArcPosControl: [number, number] = scaleVectorToLength(
+        secondPos[0] - start[0].graphCenterPos.x,
+        secondPos[1] - start[0].graphCenterPos.y,
+        radius * arcFactor * arcFactor2
+    );
+    secondArcPosControl[0] += start[0].graphCenterPos.x;
+    secondArcPosControl[1] += start[0].graphCenterPos.y;
+
     const thirdArcPos: [number, number] = scaleVectorToLength(
         thirdPos[0] - end[0].graphCenterPos.x,
         thirdPos[1] - end[0].graphCenterPos.y,
@@ -120,6 +167,15 @@ function getPath(
     );
     thirdArcPos[0] += end[0].graphCenterPos.x;
     thirdArcPos[1] += end[0].graphCenterPos.y;
+
+    const thirdArcPosControl: [number, number] = scaleVectorToLength(
+        thirdPos[0] - end[0].graphCenterPos.x,
+        thirdPos[1] - end[0].graphCenterPos.y,
+        radius * arcFactor * arcFactor2
+    );
+    thirdArcPosControl[0] += end[0].graphCenterPos.x;
+    thirdArcPosControl[1] += end[0].graphCenterPos.y;
+
     const fourthArcPos: [number, number] = scaleVectorToLength(
         fourthPos[0] - end[0].graphCenterPos.x,
         fourthPos[1] - end[0].graphCenterPos.y,
@@ -128,20 +184,28 @@ function getPath(
     fourthArcPos[0] += end[0].graphCenterPos.x;
     fourthArcPos[1] += end[0].graphCenterPos.y;
 
+    const fourthArcPosControl: [number, number] = scaleVectorToLength(
+        fourthPos[0] - end[0].graphCenterPos.x,
+        fourthPos[1] - end[0].graphCenterPos.y,
+        radius * arcFactor * arcFactor2
+    );
+    fourthArcPosControl[0] += end[0].graphCenterPos.x;
+    fourthArcPosControl[1] += end[0].graphCenterPos.y;
+
     return [
         `
         ${firstCurve}
-
         `,
-        `M${firstArcPos[0]}, ${firstArcPos[1]}
-    A${radius * arcFactor} ${radius * arcFactor} 0 0 1 ${secondArcPos[0]} ${
-        secondArcPos[1]
-    }
-
-    M${thirdArcPos[0]}, ${thirdArcPos[1]}
-    A${radius * arcFactor} ${radius * arcFactor} 0 0 1 ${fourthArcPos[0]} ${
-        fourthArcPos[1]
-    }
+        `M${firstArcPos[0]} ${firstArcPos[1]}
+        C ${firstArcPosControl[0]} ${firstArcPosControl[1]} ${firstSecondMidpoint[0]} ${firstSecondMidpoint[1]} ${firstSecondMidpointControl[0]} ${firstSecondMidpointControl[1]}
+        C ${firstSecondMidpoint[0]} ${firstSecondMidpoint[1]} ${secondArcPosControl[0]} ${secondArcPosControl[1]} ${secondArcPos[0]} ${secondArcPos[1]}
+        L ${start[0].graphCenterPos.x} ${start[0].graphCenterPos.y}
+        Z
+        M${thirdArcPos[0]} ${thirdArcPos[1]}
+        C ${thirdArcPosControl[0]} ${thirdArcPosControl[1]} ${thirdFourthMidpoint[0]} ${thirdFourthMidpoint[1]} ${thirdFourthMidpointControl[0]} ${thirdFourthMidpointControl[1]}
+        C ${thirdFourthMidpoint[0]} ${thirdFourthMidpoint[1]} ${fourthArcPosControl[0]} ${fourthArcPosControl[1]} ${fourthArcPos[0]} ${fourthArcPos[1]}
+        L ${end[0].graphCenterPos.x} ${end[0].graphCenterPos.y}
+        Z
     `
     ];
 
@@ -203,7 +267,7 @@ const EgoGraphBand = (props: EgoGraphBandProps) => {
                 className="band"
                 stroke={pathDatum.color}
                 opacity={0.7}
-                strokeWidth="2"
+                strokeWidth="5"
                 fill={pathDatum.color}
             />
             <path
