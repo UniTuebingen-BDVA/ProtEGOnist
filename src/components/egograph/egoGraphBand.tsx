@@ -35,18 +35,10 @@ function getPath(
     flip: boolean,
     radius: number
 ) {
-    const centerOfArea: [number, number] = [
-        (start[0]['pos']['x'] +
-            end[0]['pos']['x'] +
-            start[1]['pos']['x'] +
-            end[1]['pos']['x']) /
-            4,
-        (start[0]['pos']['y'] +
-            end[0]['pos']['y'] +
-            start[1]['pos']['y'] +
-            end[1]['pos']['y']) /
-            4
-    ];
+    const factor = 0.3;
+    const arcFactor = 1.05;
+    const arcFactor2 = 1.2;
+
     const firstPos: [number, number] = flip
         ? [start[0].pos.x, start[0].pos.y]
         : [start[1].pos.x, start[1].pos.y];
@@ -64,17 +56,6 @@ function getPath(
     );
     firstSecondMidpoint[0] += start[0].graphCenterPos.x;
     firstSecondMidpoint[1] += start[0].graphCenterPos.y;
-
-    const thirdFourthMidpoint: [number, number] = scaleVectorToLength(
-        (thirdPos[0] + fourthPos[0]) / 2 - end[0].graphCenterPos.x,
-        (thirdPos[1] + fourthPos[1]) / 2 - end[0].graphCenterPos.y,
-        radius
-    );
-    thirdFourthMidpoint[0] += end[0].graphCenterPos.x;
-    thirdFourthMidpoint[1] += end[0].graphCenterPos.y;
-
-    // build control points for the cubic bezier curve for each position by using (first,second,thid,fourth)Pos and the respective centerPos aswell as the radius such that the control point is on the vector from the centerPos to the respective position and the distance to the centerPos is radius * 1.2
-    const factor = 0.3;
     const firstSecondMidpointControl: [number, number] = [
         firstSecondMidpoint[0] +
             (firstSecondMidpoint[0] - start[0].graphCenterPos.x) * factor,
@@ -88,45 +69,12 @@ function getPath(
         firstSecondMidpoint[1] +
             (firstSecondMidpoint[1] - start[0].graphCenterPos.y) * factor * 2
     ];
-
-    const thirdFourthMidpointControl: [number, number] = [
-        thirdFourthMidpoint[0] +
-            (thirdFourthMidpoint[0] - end[0].graphCenterPos.x) * factor,
-        thirdFourthMidpoint[1] +
-            (thirdFourthMidpoint[1] - end[0].graphCenterPos.y) * factor
-    ];
-
-    const thirdFourthMidpointControl2: [number, number] = [
-        thirdFourthMidpoint[0] +
-            (thirdFourthMidpoint[0] - end[0].graphCenterPos.x) * factor * 2,
-        thirdFourthMidpoint[1] +
-            (thirdFourthMidpoint[1] - end[0].graphCenterPos.y) * factor * 2
-    ];
-
-    // build the d attributes by calculating the cubic bezier curve
-    const basisSpline = d3.line().curve(d3.curveBasis);
-    const firstCurve = basisSpline([
-        firstSecondMidpointControl,
-        firstSecondMidpointControl2,
-        thirdFourthMidpointControl2,
-        thirdFourthMidpointControl
-    ]);
-
-    const arcFactor = 1.05;
-    const arcFactor2 = 1.2;
-
     firstSecondMidpoint[0] -= start[0].graphCenterPos.x;
     firstSecondMidpoint[1] -= start[0].graphCenterPos.y;
     firstSecondMidpoint[0] *= arcFactor2;
     firstSecondMidpoint[1] *= arcFactor2;
     firstSecondMidpoint[0] += start[0].graphCenterPos.x;
     firstSecondMidpoint[1] += start[0].graphCenterPos.y;
-    thirdFourthMidpoint[0] -= end[0].graphCenterPos.x;
-    thirdFourthMidpoint[1] -= end[0].graphCenterPos.y;
-    thirdFourthMidpoint[0] *= arcFactor2;
-    thirdFourthMidpoint[1] *= arcFactor2;
-    thirdFourthMidpoint[0] += end[0].graphCenterPos.x;
-    thirdFourthMidpoint[1] += end[0].graphCenterPos.y;
 
     const firstArcPos: [number, number] = scaleVectorToLength(
         firstPos[0] - start[0].graphCenterPos.x,
@@ -160,6 +108,35 @@ function getPath(
     secondArcPosControl[0] += start[0].graphCenterPos.x;
     secondArcPosControl[1] += start[0].graphCenterPos.y;
 
+    const thirdFourthMidpoint: [number, number] = scaleVectorToLength(
+        (thirdPos[0] + fourthPos[0]) / 2 - end[0].graphCenterPos.x,
+        (thirdPos[1] + fourthPos[1]) / 2 - end[0].graphCenterPos.y,
+        radius
+    );
+    thirdFourthMidpoint[0] += end[0].graphCenterPos.x;
+    thirdFourthMidpoint[1] += end[0].graphCenterPos.y;
+
+    const thirdFourthMidpointControl: [number, number] = [
+        thirdFourthMidpoint[0] +
+            (thirdFourthMidpoint[0] - end[0].graphCenterPos.x) * factor,
+        thirdFourthMidpoint[1] +
+            (thirdFourthMidpoint[1] - end[0].graphCenterPos.y) * factor
+    ];
+
+    const thirdFourthMidpointControl2: [number, number] = [
+        thirdFourthMidpoint[0] +
+            (thirdFourthMidpoint[0] - end[0].graphCenterPos.x) * factor * 2,
+        thirdFourthMidpoint[1] +
+            (thirdFourthMidpoint[1] - end[0].graphCenterPos.y) * factor * 2
+    ];
+
+    thirdFourthMidpoint[0] -= end[0].graphCenterPos.x;
+    thirdFourthMidpoint[1] -= end[0].graphCenterPos.y;
+    thirdFourthMidpoint[0] *= arcFactor2;
+    thirdFourthMidpoint[1] *= arcFactor2;
+    thirdFourthMidpoint[0] += end[0].graphCenterPos.x;
+    thirdFourthMidpoint[1] += end[0].graphCenterPos.y;
+
     const thirdArcPos: [number, number] = scaleVectorToLength(
         thirdPos[0] - end[0].graphCenterPos.x,
         thirdPos[1] - end[0].graphCenterPos.y,
@@ -192,9 +169,18 @@ function getPath(
     fourthArcPosControl[0] += end[0].graphCenterPos.x;
     fourthArcPosControl[1] += end[0].graphCenterPos.y;
 
+    // build the d attributes by calculating the cubic bezier curve
+    const basisSpline = d3.line().curve(d3.curveBasis);
+    const curve = basisSpline([
+        firstSecondMidpointControl,
+        firstSecondMidpointControl2,
+        thirdFourthMidpointControl2,
+        thirdFourthMidpointControl
+    ]);
+
     return [
         `
-        ${firstCurve}
+        ${curve}
         `,
         `M${firstArcPos[0]} ${firstArcPos[1]}
         C ${firstArcPosControl[0]} ${firstArcPosControl[1]} ${firstSecondMidpoint[0]} ${firstSecondMidpoint[1]} ${firstSecondMidpointControl[0]} ${firstSecondMidpointControl[1]}
@@ -208,16 +194,6 @@ function getPath(
         Z
     `
     ];
-
-    //return `M${firstSecondMidpoint[0]},${firstSecondMidpoint[1]} L${firstSecondMidpointControl[0]},${firstSecondMidpointControl[1]} L${thirdFourthMidpointControl[0]},${thirdFourthMidpointControl[1]}L${thirdFourthMidpoint[0]},${thirdFourthMidpoint[1]}`;
-    // return [
-    //     '',
-    //     `M ${firstPos[0]} ${firstPos[1]}
-    //      L ${secondPos[0]} ${secondPos[1]}
-    //      Q ${centerOfArea[0]} ${centerOfArea[1]} ${thirdPos[0]} ${thirdPos[1]}
-    //      L ${fourthPos[0]} ${fourthPos[1]}
-    //      Q ${centerOfArea[0]} ${centerOfArea[1]} ${firstPos[0]} ${firstPos[1]}`
-    // ];
 }
 
 const EgoGraphBand = (props: EgoGraphBandProps) => {
