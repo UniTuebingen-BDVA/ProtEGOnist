@@ -14,58 +14,150 @@ interface EgoGraphBandProps {
     ];
 }
 
-function moveAlongCenter(x,y, radius, centerPos:{x:number, y:number}){
-    const resultingPoint: [number, number] = scaleVectorToLength(
-        x - centerPos.x,
-        y - centerPos.y,
-        radius
-    );
-    resultingPoint[0] += centerPos.x;
-    resultingPoint[1] += centerPos.y;
-    return resultingPoint
-}
-
-function scaleVectorToLength(
-    x: number,
-    y: number,
-    scale: number
+function globalToLocal(
+    point: [number, number],
+    center: { x: number; y: number }
 ): [number, number] {
-    const length = Math.sqrt(x * x + y * y);
-    return [(x / length) * scale, (y / length) * scale];
+    return [point[0] - center.x, point[1] - center.y];
 }
 
-function midPointControl(x:number,y:number, centerPos: {x:number, y: number}, factor:number){
-    const midPointControl: [number, number] = [
-        x +
-            (x - centerPos.x) * factor,
-        y +
-            (y - centerPos.y) * factor
+function cartesianToPolar(point: [number, number]) {
+    const r = Math.sqrt(point[0] * point[0] + point[1] * point[1]);
+    const theta = Math.atan2(point[1], point[0]);
+    return { r, theta };
+}
+function polarToCartesian(
+    radius: number,
+    angleInRadians: number
+): [number, number] {
+    return [
+        radius * Math.cos(angleInRadians),
+        radius * Math.sin(angleInRadians)
     ];
-    return midPointControl
 }
 
-function generateArcAndMidpoints(firstPos, secondPos, radius, centerPos){
-    const factor = 0.3;
-    const arcFactor = 1.05;
-    const arcFactor2 = 1.2;
+function localToGlobal(
+    point: [number, number],
+    center: { x: number; y: number }
+): [number, number] {
+    return [point[0] + center.x, point[1] + center.y];
+}
 
-    const firstSecondMidpoint = moveAlongCenter((firstPos[0] + secondPos[0]) / 2, (firstPos[1] + secondPos[1]) / 2, radius,centerPos)
-    const firstSecondMidpointControl: [number, number] = midPointControl(firstSecondMidpoint[0], firstSecondMidpoint[1], centerPos, factor)
-    const firstSecondMidpointControl2: [number, number] = midPointControl(firstSecondMidpoint[0], firstSecondMidpoint[1], centerPos, factor*2)
-    firstSecondMidpoint[0] -= centerPos.x;
-    firstSecondMidpoint[1] -= centerPos.y;
-    firstSecondMidpoint[0] *= arcFactor2;
-    firstSecondMidpoint[1] *= arcFactor2;
-    firstSecondMidpoint[0] += centerPos.x;
-    firstSecondMidpoint[1] += centerPos.y;
+function generatePath(
+    p1: [number, number],
+    p2: [number, number],
+    radius: number,
+    centerPos: { x: number; y: number }
+) {
+    const tipLength = 0.2; // TODO if we change the circles to have different radii, we probably need to change this as well to a fixes length
 
-    const firstArcPos = moveAlongCenter(firstPos[0], firstPos[1], radius*arcFactor, centerPos)
-    const firstArcPosControl = moveAlongCenter(firstPos[0], firstPos[1], radius*arcFactor*arcFactor2, centerPos)
+    const TIP_MAX_ANGLE = 0.7; //rad
 
-    const secondArcPos = moveAlongCenter(secondPos[0], secondPos[1], radius*arcFactor, centerPos)
-    const secondArcPosControl = moveAlongCenter(secondPos[0], secondPos[1], radius*arcFactor*arcFactor2, centerPos)
+    let p1Cartesian = structuredClone(p1);
+    let p2Cartesian = structuredClone(p2);
 
-    return [firstSecondMidpoint, firstSecondMidpointControl, firstSecondMidpointControl2, firstArcPos, firstArcPosControl, secondArcPos, secondArcPosControl]
+    let p1LocalPolar = cartesianToPolar(globalToLocal(p1Cartesian, centerPos));
+    let p2LocalPolar = cartesianToPolar(globalToLocal(p2Cartesian, centerPos));
+
+    // check if radius of p1 and p2 is the same within an epsilon and throw error if not
+    if (Math.abs(p1LocalPolar.r - p2LocalPolar.r) > 0.0001) {
+        throw new Error(
+            'The radius of p1 and p2 is not the same. Check your input'
+        );
+    } else {
+        p1LocalPolar.r = radius;
+        p2LocalPolar.r = radius;
+    }
+
+    //check the order of p1 and p2
+    if (p1LocalPolar.theta > p2LocalPolar.theta) {
+        const temp = p1LocalPolar;
+        p1LocalPolar = p2LocalPolar;
+        p2LocalPolar = temp;
+    }
+
+    p1Cartesian = localToGlobal(
+        polarToCartesian(p1LocalPolar.r, p1LocalPolar.theta),
+        centerPos
+    );
+    p2Cartesian = localToGlobal(
+        polarToCartesian(p2LocalPolar.r, p2LocalPolar.theta),
+        centerPos
+    );
+
+    // calculate the midpoint between p1LocalPolar and p2LocalPolar
+    const midpointP1P2Polar = {
+        r: radius,
+        theta:
+            p1LocalPolar.theta + (p2LocalPolar.theta - p1LocalPolar.theta) / 2
+    };
+
+    // calculate the beginning of the "tip" of the arc (the point where the arc starts to bend) such that the angle between the tip and the midpoint is TIP_MAX_ANGLE or the radius of the arc, whichever is smaller
+    const tipBaseP1Polar = {
+        r: radius,
+        theta: midpointP1P2Polar.theta - TIP_MAX_ANGLE / 2
+    };
+    const tipBaseP2Polar = {
+        r: radius,
+        theta: midpointP1P2Polar.theta + TIP_MAX_ANGLE / 2
+    };
+    //check if the tip is within the arc
+    if (tipBaseP1Polar.theta < p1LocalPolar.theta) {
+        tipBaseP1Polar.theta = p1LocalPolar.theta;
+    }
+    if (tipBaseP2Polar.theta > p2LocalPolar.theta) {
+        tipBaseP2Polar.theta = p2LocalPolar.theta;
+    }
+
+    // calculate the tip points from the tip polar coordinates
+    const tipPoint1Polar = {
+        r: midpointP1P2Polar.r * (1 + tipLength),
+        theta: midpointP1P2Polar.theta
+    };
+    const tipPoint2Polar = {
+        r: midpointP1P2Polar.r * (1 + tipLength * 2),
+        theta: midpointP1P2Polar.theta
+    };
+
+    //transform all points back to cartesian coordinates using polarToCartesian
+    const tipPoint1Cartesian = localToGlobal(
+        polarToCartesian(tipPoint1Polar.r, tipPoint1Polar.theta),
+        centerPos
+    );
+    const tipPoint2Cartesian = localToGlobal(
+        polarToCartesian(tipPoint2Polar.r, tipPoint2Polar.theta),
+        centerPos
+    );
+    const tipBaseP1Cartesian = localToGlobal(
+        polarToCartesian(tipBaseP1Polar.r, tipBaseP1Polar.theta),
+        centerPos
+    );
+    const tipBaseP2Cartesian = localToGlobal(
+        polarToCartesian(tipBaseP2Polar.r, tipBaseP2Polar.theta),
+        centerPos
+    );
+    const midpointP1P2Cartesian = localToGlobal(
+        polarToCartesian(midpointP1P2Polar.r, midpointP1P2Polar.theta),
+        centerPos
+    );
+
+    //generate an svg arc from p1Cartesian to tipBaseP1Cartesian
+    //const arc_P1_tipBase = `M${p2[0]} ${p2[1]}  A ${radius} ${radius} 0 0 1 ${p1[0]} ${p1[1]}`;
+    const arc_P1_tipBase = `M ${p1Cartesian[0]} ${p1Cartesian[1]} A ${radius} ${radius} 0 0 1 ${tipBaseP1Cartesian[0]} ${tipBaseP1Cartesian[1]}`;
+    // generate quadratic curve from tipBaseP1Cartesian to tipPoint1Cartesian with midpoinP1P2Cartesian as control point
+    const quadraticCurve_tipBaseP1_tipPoint1 = `Q ${midpointP1P2Cartesian[0]} ${midpointP1P2Cartesian[1]} ${tipPoint1Cartesian[0]} ${tipPoint1Cartesian[1]}`;
+    // generate svg quadratic curve from tipPoint1Cartesian to tipBaseP2Cartesian
+    const quadraticCurve_tipPoint1_tipBaseP2 = `Q ${midpointP1P2Cartesian[0]} ${midpointP1P2Cartesian[1]} ${tipBaseP2Cartesian[0]} ${tipBaseP2Cartesian[1]}`;
+    //generate an svg arc from tipBaseP2Cartesian to p2Cartesian
+    const arc_tipBaseP2_P2 = `A ${radius} ${radius} 0 0 1 ${p2Cartesian[0]} ${p2Cartesian[1]}`;
+    // draw a line from p2Cartesian to centerPos and close it
+    const line_P2_center = `L ${centerPos.x} ${centerPos.y} Z`;
+    // merge the paths
+    //return `${arc_P1_tipBase} ${line_P2_center}`;
+    return [
+        [tipPoint1Cartesian, tipPoint2Cartesian],
+        `${arc_P1_tipBase} ${quadraticCurve_tipBaseP1_tipPoint1} ${quadraticCurve_tipPoint1_tipBaseP2} ${arc_tipBaseP2_P2} ${line_P2_center}`
+    ];
 }
 
 function getPath(
@@ -77,50 +169,30 @@ function getPath(
         graphCenterPos: { x: number; y: number };
         pos: { x: number; y: number };
     }[],
-    flip: boolean,
     radius: number
 ) {
-    
-    const firstPos: [number, number] = flip
-        ? [start[0].pos.x, start[0].pos.y]
-        : [start[1].pos.x, start[1].pos.y];
-    const secondPos: [number, number] = flip
-        ? [start[1].pos.x, start[1].pos.y]
-        : [start[0].pos.x, start[0].pos.y];
+    const RADIUS_SCALE = 1.05;
+
+    const firstPos: [number, number] = [start[0].pos.x, start[0].pos.y];
+    const secondPos: [number, number] = [start[1].pos.x, start[1].pos.y];
 
     const thirdPos: [number, number] = [end[0].pos.x, end[0].pos.y];
     const fourthPos: [number, number] = [end[1].pos.x, end[1].pos.y];
 
-    const [firstSecondMidpoint, firstSecondMidpointControl, firstSecondMidpointControl2, firstArcPos, firstArcPosControl, secondArcPos, secondArcPosControl] = generateArcAndMidpoints(firstPos, secondPos,radius, start[0].graphCenterPos)
-
-    const [thirdFourthMidpoint, thirdFourthMidpointControl, thirdFourthMidpointControl2, thirdArcPos, thirdArcPosControl, fourthArcPos, fourthArcPosControl] = generateArcAndMidpoints(thirdPos, fourthPos,radius, end[0].graphCenterPos)
-
-
-    // build the d attributes by calculating the cubic bezier curve
-    const basisSpline = d3.line().curve(d3.curveBasis);
-    const curve = basisSpline([
-        firstSecondMidpointControl,
-        firstSecondMidpointControl2,
-        thirdFourthMidpointControl2,
-        thirdFourthMidpointControl
-    ]);
-
-    return [
-        `
-        ${curve}
-        `,
-        `M${firstArcPos[0]} ${firstArcPos[1]}
-        C ${firstArcPosControl[0]} ${firstArcPosControl[1]} ${firstSecondMidpoint[0]} ${firstSecondMidpoint[1]} ${firstSecondMidpointControl[0]} ${firstSecondMidpointControl[1]}
-        C ${firstSecondMidpoint[0]} ${firstSecondMidpoint[1]} ${secondArcPosControl[0]} ${secondArcPosControl[1]} ${secondArcPos[0]} ${secondArcPos[1]}
-        L ${start[0].graphCenterPos.x} ${start[0].graphCenterPos.y}
-        Z
-        M${thirdArcPos[0]} ${thirdArcPos[1]}
-        C ${thirdArcPosControl[0]} ${thirdArcPosControl[1]} ${thirdFourthMidpoint[0]} ${thirdFourthMidpoint[1]} ${thirdFourthMidpointControl[0]} ${thirdFourthMidpointControl[1]}
-        C ${thirdFourthMidpoint[0]} ${thirdFourthMidpoint[1]} ${fourthArcPosControl[0]} ${fourthArcPosControl[1]} ${fourthArcPos[0]} ${fourthArcPos[1]}
-        L ${end[0].graphCenterPos.x} ${end[0].graphCenterPos.y}
-        Z
-    `
-    ];
+    const [tippoints1, arc1] = generatePath(
+        firstPos,
+        secondPos,
+        radius * RADIUS_SCALE,
+        start[0].graphCenterPos
+    );
+    const [tippoints2, arc2] = generatePath(
+        thirdPos,
+        fourthPos,
+        radius * RADIUS_SCALE,
+        end[0].graphCenterPos
+    );
+    const connector = `M ${tippoints1[0][0]} ${tippoints1[0][1]} C ${tippoints1[1][0]} ${tippoints1[1][1]} ${tippoints2[1][0]} ${tippoints2[1][1]} ${tippoints2[0][0]} ${tippoints2[0][1]}`;
+    return [connector, arc1 + arc2];
 }
 
 const EgoGraphBand = (props: EgoGraphBandProps) => {
@@ -134,7 +206,7 @@ const EgoGraphBand = (props: EgoGraphBandProps) => {
         const end = Object.values(bandData[1])[1];
         pathData = [
             {
-                path: getPath(start, end, false, radius),
+                path: getPath(start, end, radius),
                 color: 'red'
             }
         ];
@@ -148,17 +220,17 @@ const EgoGraphBand = (props: EgoGraphBandProps) => {
         //start to mid, mid to end, end to start
         // push start to mid
         pathData.push({
-            path: getPath(start, mid, true, radius),
+            path: getPath(start, mid, radius),
             color: 'coral'
         });
         // push mid to end
         pathData.push({
-            path: getPath(mid, end, true, radius),
+            path: getPath(mid, end, radius),
             color: 'coral'
         });
         // push end to start
         pathData.push({
-            path: getPath(end, start, true, radius),
+            path: getPath(end, start, radius),
             color: 'coral'
         });
     }
