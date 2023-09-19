@@ -14,6 +14,17 @@ interface EgoGraphBandProps {
     ];
 }
 
+function moveAlongCenter(x,y, radius, centerPos:{x:number, y:number}){
+    const resultingPoint: [number, number] = scaleVectorToLength(
+        x - centerPos.x,
+        y - centerPos.y,
+        radius
+    );
+    resultingPoint[0] += centerPos.x;
+    resultingPoint[1] += centerPos.y;
+    return resultingPoint
+}
+
 function scaleVectorToLength(
     x: number,
     y: number,
@@ -21,6 +32,40 @@ function scaleVectorToLength(
 ): [number, number] {
     const length = Math.sqrt(x * x + y * y);
     return [(x / length) * scale, (y / length) * scale];
+}
+
+function midPointControl(x:number,y:number, centerPos: {x:number, y: number}, factor:number){
+    const midPointControl: [number, number] = [
+        x +
+            (x - centerPos.x) * factor,
+        y +
+            (y - centerPos.y) * factor
+    ];
+    return midPointControl
+}
+
+function generateArcAndMidpoints(firstPos, secondPos, radius, centerPos){
+    const factor = 0.3;
+    const arcFactor = 1.05;
+    const arcFactor2 = 1.2;
+
+    const firstSecondMidpoint = moveAlongCenter((firstPos[0] + secondPos[0]) / 2, (firstPos[1] + secondPos[1]) / 2, radius,centerPos)
+    const firstSecondMidpointControl: [number, number] = midPointControl(firstSecondMidpoint[0], firstSecondMidpoint[1], centerPos, factor)
+    const firstSecondMidpointControl2: [number, number] = midPointControl(firstSecondMidpoint[0], firstSecondMidpoint[1], centerPos, factor*2)
+    firstSecondMidpoint[0] -= centerPos.x;
+    firstSecondMidpoint[1] -= centerPos.y;
+    firstSecondMidpoint[0] *= arcFactor2;
+    firstSecondMidpoint[1] *= arcFactor2;
+    firstSecondMidpoint[0] += centerPos.x;
+    firstSecondMidpoint[1] += centerPos.y;
+
+    const firstArcPos = moveAlongCenter(firstPos[0], firstPos[1], radius*arcFactor, centerPos)
+    const firstArcPosControl = moveAlongCenter(firstPos[0], firstPos[1], radius*arcFactor*arcFactor2, centerPos)
+
+    const secondArcPos = moveAlongCenter(secondPos[0], secondPos[1], radius*arcFactor, centerPos)
+    const secondArcPosControl = moveAlongCenter(secondPos[0], secondPos[1], radius*arcFactor*arcFactor2, centerPos)
+
+    return [firstSecondMidpoint, firstSecondMidpointControl, firstSecondMidpointControl2, firstArcPos, firstArcPosControl, secondArcPos, secondArcPosControl]
 }
 
 function getPath(
@@ -35,10 +80,7 @@ function getPath(
     flip: boolean,
     radius: number
 ) {
-    const factor = 0.3;
-    const arcFactor = 1.05;
-    const arcFactor2 = 1.2;
-
+    
     const firstPos: [number, number] = flip
         ? [start[0].pos.x, start[0].pos.y]
         : [start[1].pos.x, start[1].pos.y];
@@ -49,125 +91,10 @@ function getPath(
     const thirdPos: [number, number] = [end[0].pos.x, end[0].pos.y];
     const fourthPos: [number, number] = [end[1].pos.x, end[1].pos.y];
 
-    const firstSecondMidpoint: [number, number] = scaleVectorToLength(
-        (firstPos[0] + secondPos[0]) / 2 - start[0].graphCenterPos.x,
-        (firstPos[1] + secondPos[1]) / 2 - start[0].graphCenterPos.y,
-        radius
-    );
-    firstSecondMidpoint[0] += start[0].graphCenterPos.x;
-    firstSecondMidpoint[1] += start[0].graphCenterPos.y;
-    const firstSecondMidpointControl: [number, number] = [
-        firstSecondMidpoint[0] +
-            (firstSecondMidpoint[0] - start[0].graphCenterPos.x) * factor,
-        firstSecondMidpoint[1] +
-            (firstSecondMidpoint[1] - start[0].graphCenterPos.y) * factor
-    ];
+    const [firstSecondMidpoint, firstSecondMidpointControl, firstSecondMidpointControl2, firstArcPos, firstArcPosControl, secondArcPos, secondArcPosControl] = generateArcAndMidpoints(firstPos, secondPos,radius, start[0].graphCenterPos)
 
-    const firstSecondMidpointControl2: [number, number] = [
-        firstSecondMidpoint[0] +
-            (firstSecondMidpoint[0] - start[0].graphCenterPos.x) * factor * 2,
-        firstSecondMidpoint[1] +
-            (firstSecondMidpoint[1] - start[0].graphCenterPos.y) * factor * 2
-    ];
-    firstSecondMidpoint[0] -= start[0].graphCenterPos.x;
-    firstSecondMidpoint[1] -= start[0].graphCenterPos.y;
-    firstSecondMidpoint[0] *= arcFactor2;
-    firstSecondMidpoint[1] *= arcFactor2;
-    firstSecondMidpoint[0] += start[0].graphCenterPos.x;
-    firstSecondMidpoint[1] += start[0].graphCenterPos.y;
+    const [thirdFourthMidpoint, thirdFourthMidpointControl, thirdFourthMidpointControl2, thirdArcPos, thirdArcPosControl, fourthArcPos, fourthArcPosControl] = generateArcAndMidpoints(thirdPos, fourthPos,radius, end[0].graphCenterPos)
 
-    const firstArcPos: [number, number] = scaleVectorToLength(
-        firstPos[0] - start[0].graphCenterPos.x,
-        firstPos[1] - start[0].graphCenterPos.y,
-        radius * arcFactor
-    );
-    firstArcPos[0] += start[0].graphCenterPos.x;
-    firstArcPos[1] += start[0].graphCenterPos.y;
-
-    const firstArcPosControl: [number, number] = scaleVectorToLength(
-        firstPos[0] - start[0].graphCenterPos.x,
-        firstPos[1] - start[0].graphCenterPos.y,
-        radius * arcFactor * arcFactor2
-    );
-    firstArcPosControl[0] += start[0].graphCenterPos.x;
-    firstArcPosControl[1] += start[0].graphCenterPos.y;
-
-    const secondArcPos: [number, number] = scaleVectorToLength(
-        secondPos[0] - start[0].graphCenterPos.x,
-        secondPos[1] - start[0].graphCenterPos.y,
-        radius * arcFactor
-    );
-    secondArcPos[0] += start[0].graphCenterPos.x;
-    secondArcPos[1] += start[0].graphCenterPos.y;
-
-    const secondArcPosControl: [number, number] = scaleVectorToLength(
-        secondPos[0] - start[0].graphCenterPos.x,
-        secondPos[1] - start[0].graphCenterPos.y,
-        radius * arcFactor * arcFactor2
-    );
-    secondArcPosControl[0] += start[0].graphCenterPos.x;
-    secondArcPosControl[1] += start[0].graphCenterPos.y;
-
-    const thirdFourthMidpoint: [number, number] = scaleVectorToLength(
-        (thirdPos[0] + fourthPos[0]) / 2 - end[0].graphCenterPos.x,
-        (thirdPos[1] + fourthPos[1]) / 2 - end[0].graphCenterPos.y,
-        radius
-    );
-    thirdFourthMidpoint[0] += end[0].graphCenterPos.x;
-    thirdFourthMidpoint[1] += end[0].graphCenterPos.y;
-
-    const thirdFourthMidpointControl: [number, number] = [
-        thirdFourthMidpoint[0] +
-            (thirdFourthMidpoint[0] - end[0].graphCenterPos.x) * factor,
-        thirdFourthMidpoint[1] +
-            (thirdFourthMidpoint[1] - end[0].graphCenterPos.y) * factor
-    ];
-
-    const thirdFourthMidpointControl2: [number, number] = [
-        thirdFourthMidpoint[0] +
-            (thirdFourthMidpoint[0] - end[0].graphCenterPos.x) * factor * 2,
-        thirdFourthMidpoint[1] +
-            (thirdFourthMidpoint[1] - end[0].graphCenterPos.y) * factor * 2
-    ];
-
-    thirdFourthMidpoint[0] -= end[0].graphCenterPos.x;
-    thirdFourthMidpoint[1] -= end[0].graphCenterPos.y;
-    thirdFourthMidpoint[0] *= arcFactor2;
-    thirdFourthMidpoint[1] *= arcFactor2;
-    thirdFourthMidpoint[0] += end[0].graphCenterPos.x;
-    thirdFourthMidpoint[1] += end[0].graphCenterPos.y;
-
-    const thirdArcPos: [number, number] = scaleVectorToLength(
-        thirdPos[0] - end[0].graphCenterPos.x,
-        thirdPos[1] - end[0].graphCenterPos.y,
-        radius * arcFactor
-    );
-    thirdArcPos[0] += end[0].graphCenterPos.x;
-    thirdArcPos[1] += end[0].graphCenterPos.y;
-
-    const thirdArcPosControl: [number, number] = scaleVectorToLength(
-        thirdPos[0] - end[0].graphCenterPos.x,
-        thirdPos[1] - end[0].graphCenterPos.y,
-        radius * arcFactor * arcFactor2
-    );
-    thirdArcPosControl[0] += end[0].graphCenterPos.x;
-    thirdArcPosControl[1] += end[0].graphCenterPos.y;
-
-    const fourthArcPos: [number, number] = scaleVectorToLength(
-        fourthPos[0] - end[0].graphCenterPos.x,
-        fourthPos[1] - end[0].graphCenterPos.y,
-        radius * arcFactor
-    );
-    fourthArcPos[0] += end[0].graphCenterPos.x;
-    fourthArcPos[1] += end[0].graphCenterPos.y;
-
-    const fourthArcPosControl: [number, number] = scaleVectorToLength(
-        fourthPos[0] - end[0].graphCenterPos.x,
-        fourthPos[1] - end[0].graphCenterPos.y,
-        radius * arcFactor * arcFactor2
-    );
-    fourthArcPosControl[0] += end[0].graphCenterPos.x;
-    fourthArcPosControl[1] += end[0].graphCenterPos.y;
 
     // build the d attributes by calculating the cubic bezier curve
     const basisSpline = d3.line().curve(d3.curveBasis);
