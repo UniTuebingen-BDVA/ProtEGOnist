@@ -91,7 +91,6 @@ function positionTips(
 
     //adjust p1 and p2 such that the stroke doesnt overlap with neighboring bands
     p1LocalPolar.theta += 0.02;
-
     p2LocalPolar.theta -= 0.02;
 
     p1Cartesian = localToGlobal(
