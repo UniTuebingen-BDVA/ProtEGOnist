@@ -12,6 +12,7 @@ interface EgoGraphBandProps {
             }[];
         }
     ];
+    color: string;
 }
 
 function globalToLocal(
@@ -46,18 +47,27 @@ function localToGlobal(
 function generatePath(
     p1: [number, number],
     p2: [number, number],
+    p3: [number, number],
+    p4: [number, number],
     radius: number,
     centerPos: { x: number; y: number }
 ) {
-    const tipLength = 0.2; // TODO if we change the circles to have different radii, we probably need to change this as well to a fixes length
-
+    const TIP_LENGTH = 0.2; // TODO if we change the circles to have different radii, we probably need to change this as well to a fixes length
     const TIP_MAX_ANGLE = 0.7; //rad
 
     let p1Cartesian = structuredClone(p1);
     let p2Cartesian = structuredClone(p2);
+    const p3Cartesian = structuredClone(p3);
+    const p4Cartesian = structuredClone(p4);
 
     let p1LocalPolar = cartesianToPolar(globalToLocal(p1Cartesian, centerPos));
     let p2LocalPolar = cartesianToPolar(globalToLocal(p2Cartesian, centerPos));
+    const p3LocalPolar = cartesianToPolar(
+        globalToLocal(p3Cartesian, centerPos)
+    );
+    const p4LocalPolar = cartesianToPolar(
+        globalToLocal(p4Cartesian, centerPos)
+    );
 
     // check if radius of p1 and p2 is the same within an epsilon and throw error if not
     if (Math.abs(p1LocalPolar.r - p2LocalPolar.r) > 0.0001) {
@@ -75,6 +85,13 @@ function generatePath(
         p1LocalPolar = p2LocalPolar;
         p2LocalPolar = temp;
     }
+    //check the order of p1 and p2
+    if (p2LocalPolar.theta - p1LocalPolar.theta > Math.PI) {
+        const temp = p1LocalPolar;
+        p1LocalPolar = p2LocalPolar;
+        p2LocalPolar = temp;
+        p2LocalPolar.theta = 2 * Math.PI + temp.theta;
+    }
 
     p1Cartesian = localToGlobal(
         polarToCartesian(p1LocalPolar.r, p1LocalPolar.theta),
@@ -91,32 +108,75 @@ function generatePath(
         theta:
             p1LocalPolar.theta + (p2LocalPolar.theta - p1LocalPolar.theta) / 2
     };
+    const midpointP3P4Polar = {
+        r: p3LocalPolar.r,
+        theta:
+            p3LocalPolar.theta + (p4LocalPolar.theta - p3LocalPolar.theta) / 2
+    };
+
+    const adjustedTipPosition1 = {
+        r: radius,
+        theta:
+            midpointP1P2Polar.theta +
+            (midpointP3P4Polar.theta - midpointP1P2Polar.theta)
+    };
+
+    const adjustedTipPosition2 = {
+        r: radius,
+        theta:
+            midpointP3P4Polar.theta -
+            (midpointP1P2Polar.theta - midpointP3P4Polar.theta)
+    };
+
+    const tipPosition1 =
+        p1LocalPolar.theta < adjustedTipPosition1.theta &&
+        adjustedTipPosition1.theta < p2LocalPolar.theta
+            ? adjustedTipPosition1
+            : midpointP1P2Polar;
+    const tipPosition2 =
+        p1LocalPolar.theta < adjustedTipPosition1.theta &&
+        adjustedTipPosition1.theta < p2LocalPolar.theta
+            ? adjustedTipPosition2
+            : midpointP3P4Polar;
 
     // calculate the beginning of the "tip" of the arc (the point where the arc starts to bend) such that the angle between the tip and the midpoint is TIP_MAX_ANGLE or the radius of the arc, whichever is smaller
     const tipBaseP1Polar = {
         r: radius,
-        theta: midpointP1P2Polar.theta - TIP_MAX_ANGLE / 2
+        theta: tipPosition1.theta - TIP_MAX_ANGLE / 2
     };
     const tipBaseP2Polar = {
         r: radius,
-        theta: midpointP1P2Polar.theta + TIP_MAX_ANGLE / 2
+        theta: tipPosition1.theta + TIP_MAX_ANGLE / 2
     };
     //check if the tip is within the arc
     if (tipBaseP1Polar.theta < p1LocalPolar.theta) {
         tipBaseP1Polar.theta = p1LocalPolar.theta;
+        //tipPosition1 = midpointP1P2Polar;
     }
     if (tipBaseP2Polar.theta > p2LocalPolar.theta) {
         tipBaseP2Polar.theta = p2LocalPolar.theta;
+        //tipPosition1 = midpointP1P2Polar;
     }
 
+    const angleDifference = tipPosition1.theta - tipPosition2.theta;
+
     // calculate the tip points from the tip polar coordinates
+
     const tipPoint1Polar = {
-        r: midpointP1P2Polar.r * (1 + tipLength),
-        theta: midpointP1P2Polar.theta
+        r: tipPosition1.r * (1 + TIP_LENGTH),
+        theta:
+            tipPosition1.theta +
+            (Math.abs(angleDifference) > 100
+                ? -0.1 * Math.sign(angleDifference)
+                : 0)
     };
     const tipPoint2Polar = {
-        r: midpointP1P2Polar.r * (1 + tipLength * 2),
-        theta: midpointP1P2Polar.theta
+        r: tipPoint1Polar.r * (1 + TIP_LENGTH * 2),
+        theta: tipPoint1Polar.theta
+    };
+    const tipPointControlPolar = {
+        r: tipPosition1.r * 1.05,
+        theta: tipPoint1Polar.theta
     };
 
     //transform all points back to cartesian coordinates using polarToCartesian
@@ -128,6 +188,12 @@ function generatePath(
         polarToCartesian(tipPoint2Polar.r, tipPoint2Polar.theta),
         centerPos
     );
+
+    const tipPointControlCartesian = localToGlobal(
+        polarToCartesian(tipPointControlPolar.r, tipPointControlPolar.theta),
+        centerPos
+    );
+
     const tipBaseP1Cartesian = localToGlobal(
         polarToCartesian(tipBaseP1Polar.r, tipBaseP1Polar.theta),
         centerPos
@@ -137,7 +203,7 @@ function generatePath(
         centerPos
     );
     const midpointP1P2Cartesian = localToGlobal(
-        polarToCartesian(midpointP1P2Polar.r, midpointP1P2Polar.theta),
+        polarToCartesian(tipPosition1.r, tipPosition1.theta),
         centerPos
     );
 
@@ -145,9 +211,9 @@ function generatePath(
     //const arc_P1_tipBase = `M${p2[0]} ${p2[1]}  A ${radius} ${radius} 0 0 1 ${p1[0]} ${p1[1]}`;
     const arc_P1_tipBase = `M ${p1Cartesian[0]} ${p1Cartesian[1]} A ${radius} ${radius} 0 0 1 ${tipBaseP1Cartesian[0]} ${tipBaseP1Cartesian[1]}`;
     // generate quadratic curve from tipBaseP1Cartesian to tipPoint1Cartesian with midpoinP1P2Cartesian as control point
-    const quadraticCurve_tipBaseP1_tipPoint1 = `Q ${midpointP1P2Cartesian[0]} ${midpointP1P2Cartesian[1]} ${tipPoint1Cartesian[0]} ${tipPoint1Cartesian[1]}`;
+    const quadraticCurve_tipBaseP1_tipPoint1 = `Q ${tipPointControlCartesian[0]} ${tipPointControlCartesian[1]} ${tipPoint1Cartesian[0]} ${tipPoint1Cartesian[1]}`;
     // generate svg quadratic curve from tipPoint1Cartesian to tipBaseP2Cartesian
-    const quadraticCurve_tipPoint1_tipBaseP2 = `Q ${midpointP1P2Cartesian[0]} ${midpointP1P2Cartesian[1]} ${tipBaseP2Cartesian[0]} ${tipBaseP2Cartesian[1]}`;
+    const quadraticCurve_tipPoint1_tipBaseP2 = `Q ${tipPointControlCartesian[0]} ${tipPointControlCartesian[1]} ${tipBaseP2Cartesian[0]} ${tipBaseP2Cartesian[1]}`;
     //generate an svg arc from tipBaseP2Cartesian to p2Cartesian
     const arc_tipBaseP2_P2 = `A ${radius} ${radius} 0 0 1 ${p2Cartesian[0]} ${p2Cartesian[1]}`;
     // draw a line from p2Cartesian to centerPos and close it
@@ -169,9 +235,10 @@ function getPath(
         graphCenterPos: { x: number; y: number };
         pos: { x: number; y: number };
     }[],
-    radius: number
+    radius: number,
+    adjustTip: boolean
 ) {
-    const RADIUS_SCALE = 1.05;
+    const RADIUS_SCALE = 1.075;
 
     const firstPos: [number, number] = [start[0].pos.x, start[0].pos.y];
     const secondPos: [number, number] = [start[1].pos.x, start[1].pos.y];
@@ -182,12 +249,16 @@ function getPath(
     const [tippoints1, arc1] = generatePath(
         firstPos,
         secondPos,
+        thirdPos,
+        fourthPos,
         radius * RADIUS_SCALE,
         start[0].graphCenterPos
     );
     const [tippoints2, arc2] = generatePath(
         thirdPos,
         fourthPos,
+        firstPos,
+        secondPos,
         radius * RADIUS_SCALE,
         end[0].graphCenterPos
     );
@@ -196,7 +267,7 @@ function getPath(
 }
 
 const EgoGraphBand = (props: EgoGraphBandProps) => {
-    const { bandData, radius } = props;
+    const { bandData, radius, color } = props;
     let pathData: { path: string[]; color: string }[] = [];
     console.log('BD', bandData);
     if (Object.values(bandData[1]).length === 0) return null;
@@ -207,7 +278,7 @@ const EgoGraphBand = (props: EgoGraphBandProps) => {
         pathData = [
             {
                 path: getPath(start, end, radius),
-                color: 'red'
+                color: color
             }
         ];
     }
@@ -221,17 +292,17 @@ const EgoGraphBand = (props: EgoGraphBandProps) => {
         // push start to mid
         pathData.push({
             path: getPath(start, mid, radius),
-            color: 'coral'
+            color: color
         });
         // push mid to end
         pathData.push({
             path: getPath(mid, end, radius),
-            color: 'coral'
+            color: color
         });
         // push end to start
         pathData.push({
             path: getPath(end, start, radius),
-            color: 'coral'
+            color: color
         });
     }
 
@@ -243,6 +314,7 @@ const EgoGraphBand = (props: EgoGraphBandProps) => {
                 stroke={pathDatum.color}
                 opacity={0.7}
                 strokeWidth="5"
+                stroke-linejoin="arcs"
                 fill={pathDatum.color}
             />
             <path
@@ -251,6 +323,7 @@ const EgoGraphBand = (props: EgoGraphBandProps) => {
                 stroke={pathDatum.color}
                 opacity={0.7}
                 strokeWidth="5"
+                stroke-linejoin="arcs"
                 fill={'None'}
             />
         </>

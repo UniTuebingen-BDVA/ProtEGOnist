@@ -96,6 +96,14 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
             }),
         [numEdgesMinMax]
     );
+    const bundleColorScaleAtom = useMemo(
+        () =>
+            atom((get) => {
+                return d3.scaleOrdinal(d3.schemeTableau10);
+            }),
+        [egoGraphBundleAtom]
+    );
+
     const nodeRadiusAtom = useMemo(
         () =>
             atom((get) => {
@@ -116,6 +124,8 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
     const [outerRadius] = useAtom(outerRadiusAtom);
     const [highlightedNodeIndices] = useAtom(highlightedNodeIndicesAtom);
     const [_, setDecollapseID] = useAtom(decollapseIDsAtom);
+    // generate a d3 categorcal color scale with 20 colors
+    const [bandColorScale] = useAtom(bundleColorScaleAtom);
 
     const layoutCircles = useMemo(
         () =>
@@ -183,6 +193,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                         key={i}
                         bandData={band}
                         radius={outerRadius}
+                        color={bandColorScale(i)}
                     />
                 );
             });
