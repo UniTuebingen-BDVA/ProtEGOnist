@@ -502,6 +502,7 @@ export function calculateLayout(
             const intersectionID = [firstGraphId, secondGraphId]
                 .sort()
                 .toString();
+            console.log('FAL filling', intersectionID, firstNodeId, lastNodeId);
             firstAndLastNodesIDs[intersectionID] = [firstNodeId, lastNodeId];
             // push all the other intersecting nodes
             const otherIntersections = egoGraphs[i].nodes
@@ -524,6 +525,13 @@ export function calculateLayout(
                 ]
                     .sort()
                     .toString();
+                console.log(
+                    'FAL filling other',
+                    intersectionIDOther,
+                    firstNodeIdOther,
+                    lastNodeIdOther
+                );
+
                 firstAndLastNodesIDs[intersectionIDOther] = [
                     firstNodeIdOther,
                     lastNodeIdOther
@@ -585,52 +593,61 @@ function firstAndLastNodeIntersection(
     const firstAndLastNodes = {};
     Object.entries(firstAndLastNodeIds).forEach((entry) => {
         const key = entry[0];
+        console.log('FirstLastEntry', entry);
         const firstNodeID = entry[1][0];
         const lastNodeID = entry[1][1];
         // add firstLast=true property to firstNode and lastNode
         const graphCenterIds = key.split(',');
-        graphCenterIds.forEach((graphCenterId) => {
-            const firstNodeIdComp = graphCenterId + '_' + firstNodeID;
-            const lastNodeIdComp = graphCenterId + '_' + lastNodeID;
-            let firstNode = nodeDict[firstNodeIdComp];
-            let lastNode = nodeDict[lastNodeIdComp];
-            // check if firstNode or lastNode have a center distance of 1 if so add the pseudo node instead
-            if (firstNode.centerDist < 2) {
-                firstNode = nodeDict[firstNode.id + '_pseudo'];
-            }
-            if (lastNode.centerDist < 2) {
-                lastNode = nodeDict[lastNode.id + '_pseudo'];
-            }
-            //add firstLast=true property to the nodes with the id firstNodeId and lastNodeId
-            firstNode.firstLast = true;
-            lastNode.firstLast = true;
-
-            if (!Object.prototype.hasOwnProperty.call(firstAndLastNodes, key)) {
-                firstAndLastNodes[key] = {};
-            }
-            const currentGraphCenter = centers.find(
-                (elem) => elem.id == graphCenterId
-            );
-            console.log('CE', centers, graphCenterId);
-            firstAndLastNodes[key][graphCenterId] = [
-                {
-                    id: firstNode.id,
-                    graphCenterPos: currentGraphCenter,
-                    pos: {
-                        x: firstNode.cx,
-                        y: firstNode.cy
-                    }
-                },
-                {
-                    id: lastNode.id,
-                    graphCenterPos: currentGraphCenter,
-                    pos: {
-                        x: lastNode.cx,
-                        y: lastNode.cy
-                    }
+        if (firstNodeID && lastNodeID) {
+            graphCenterIds.forEach((graphCenterId) => {
+                const firstNodeIdComp = graphCenterId + '_' + firstNodeID;
+                const lastNodeIdComp = graphCenterId + '_' + lastNodeID;
+                console.log('firstNodeIdComp', firstNodeIdComp);
+                let firstNode = nodeDict[firstNodeIdComp];
+                let lastNode = nodeDict[lastNodeIdComp];
+                // check if firstNode or lastNode have a center distance of 1 if so add the pseudo node instead
+                console.log('firstNode', firstNode);
+                if (firstNode.centerDist < 2) {
+                    firstNode = nodeDict[firstNode.id + '_pseudo'];
                 }
-            ];
-        });
+                if (lastNode.centerDist < 2) {
+                    lastNode = nodeDict[lastNode.id + '_pseudo'];
+                }
+                //add firstLast=true property to the nodes with the id firstNodeId and lastNodeId
+                firstNode.firstLast = true;
+                lastNode.firstLast = true;
+
+                if (
+                    !Object.prototype.hasOwnProperty.call(
+                        firstAndLastNodes,
+                        key
+                    )
+                ) {
+                    firstAndLastNodes[key] = {};
+                }
+                const currentGraphCenter = centers.find(
+                    (elem) => elem.id == graphCenterId
+                );
+                firstAndLastNodes[key][graphCenterId] = [
+                    {
+                        id: firstNode.id,
+                        graphCenterPos: currentGraphCenter,
+                        pos: {
+                            x: firstNode.cx,
+                            y: firstNode.cy
+                        }
+                    },
+                    {
+                        id: lastNode.id,
+                        graphCenterPos: currentGraphCenter,
+                        pos: {
+                            x: lastNode.cx,
+                            y: lastNode.cy
+                        }
+                    }
+                ];
+            });
+        }
     });
     return firstAndLastNodes;
 }

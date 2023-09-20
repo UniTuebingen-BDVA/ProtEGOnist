@@ -189,7 +189,7 @@ function orientTips(
         theta:
             tipPosition1Polar.theta +
             (Math.abs(angleDifference) > 0.1
-                ? -0.05 * Math.sign(angleDifference)
+                ? -0.02 * Math.sign(angleDifference)
                 : 0)
     };
     const tipPoint2Polar = {
