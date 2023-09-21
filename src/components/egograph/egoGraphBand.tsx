@@ -90,8 +90,8 @@ function positionTips(
     }
 
     //adjust p1 and p2 such that the stroke doesnt overlap with neighboring bands
-    p1LocalPolar.theta += 0.02;
-    p2LocalPolar.theta -= 0.02;
+    p1LocalPolar.theta -= 0.02;
+    p2LocalPolar.theta += 0.02;
 
     p1Cartesian = localToGlobal(
         polarToCartesian(p1LocalPolar.r, p1LocalPolar.theta),
@@ -165,6 +165,81 @@ function positionTips(
     ];
 }
 
+function offsetTips(
+    offsetPointMain: [number, number],
+    vectorAssist: [number, number],
+    tipPointControl: [number, number],
+    offsetDistance: number
+): [number, number][] {
+    const offsetAngle = Math.PI / 2; // 90 degrees
+
+    // calculate the vector between the two tip points
+    const tipVector = [
+        offsetPointMain[0] - vectorAssist[0],
+        offsetPointMain[1] - vectorAssist[1]
+    ];
+
+    // calculate the length of the tip vector
+    const tipVectorLength = Math.sqrt(
+        tipVector[0] * tipVector[0] + tipVector[1] * tipVector[1]
+    );
+
+    // normalize the tip vector
+    const tipVectorNormalized = [
+        tipVector[0] / tipVectorLength,
+        tipVector[1] / tipVectorLength
+    ];
+
+    // calculate the offset vector
+    const offsetVector = [
+        tipVectorNormalized[1] * offsetDistance,
+        -tipVectorNormalized[0] * offsetDistance
+    ];
+
+    // calculate the offset points
+    const tipPoint1OffsetCartesian: [number, number] = [
+        offsetPointMain[0] -
+            offsetVector[0] * Math.cos(offsetAngle) -
+            offsetVector[1] * Math.sin(offsetAngle),
+        offsetPointMain[1] -
+            offsetVector[0] * Math.sin(offsetAngle) +
+            offsetVector[1] * Math.cos(offsetAngle)
+    ];
+
+    const tipPoint2OffsetCartesian: [number, number] = [
+        offsetPointMain[0] +
+            offsetVector[0] * Math.cos(offsetAngle) -
+            offsetVector[1] * Math.sin(offsetAngle),
+        offsetPointMain[1] +
+            offsetVector[0] * Math.sin(offsetAngle) +
+            offsetVector[1] * Math.cos(offsetAngle)
+    ];
+    const tipPoint1ControlOffsetCartesian: [number, number] = [
+        tipPointControl[0] -
+            offsetVector[0] * Math.cos(offsetAngle) -
+            offsetVector[1] * Math.sin(offsetAngle),
+        tipPointControl[1] -
+            offsetVector[0] * Math.sin(offsetAngle) +
+            offsetVector[1] * Math.cos(offsetAngle)
+    ];
+
+    const tipPoint2ControlOffsetCartesian: [number, number] = [
+        tipPointControl[0] +
+            offsetVector[0] * Math.cos(offsetAngle) -
+            offsetVector[1] * Math.sin(offsetAngle),
+        tipPointControl[1] +
+            offsetVector[0] * Math.sin(offsetAngle) +
+            offsetVector[1] * Math.cos(offsetAngle)
+    ];
+
+    return [
+        tipPoint1OffsetCartesian,
+        tipPoint2OffsetCartesian,
+        tipPoint1ControlOffsetCartesian,
+        tipPoint2ControlOffsetCartesian
+    ];
+}
+
 function orientTips(
     tipPosition1Cartesian: [number, number],
     tipPosition2Cartesia: [number, number],
@@ -224,7 +299,8 @@ function drawTip(
     tipBaseP2Cartesian: [number, number],
     tipPoint1Cartesian: [number, number],
     tipPoint2Cartesian: [number, number],
-    tipPointControlCartesian: [number, number],
+    tipPointControlCartesian1: [number, number],
+    tipPointControlCartesian2: [number, number],
     centerPos: { x: number; y: number },
     radius: number
 ) {
@@ -232,16 +308,19 @@ function drawTip(
     //const arc_P1_tipBase = `M${p2[0]} ${p2[1]}  A ${radius} ${radius} 0 0 1 ${p1[0]} ${p1[1]}`;
     const arc_P1_tipBase = `M ${p1Cartesian[0]} ${p1Cartesian[1]} A ${radius} ${radius} 0 0 1 ${tipBaseP1Cartesian[0]} ${tipBaseP1Cartesian[1]}`;
     // generate quadratic curve from tipBaseP1Cartesian to tipPoint1Cartesian with midpoinP1P2Cartesian as control point
-    const quadraticCurve_tipBaseP1_tipPoint1 = `Q ${tipPointControlCartesian[0]} ${tipPointControlCartesian[1]} ${tipPoint1Cartesian[0]} ${tipPoint1Cartesian[1]}`;
+    const quadraticCurve_tipBaseP1_tipPoint1 = `Q ${tipPointControlCartesian1[0]} ${tipPointControlCartesian1[1]} ${tipPoint1Cartesian[0]} ${tipPoint1Cartesian[1]}`;
+
+    const connector = `L${tipPoint2Cartesian[0]} ${tipPoint2Cartesian[1]}`;
+
     // generate svg quadratic curve from tipPoint1Cartesian to tipBaseP2Cartesian
-    const quadraticCurve_tipPoint1_tipBaseP2 = `Q ${tipPointControlCartesian[0]} ${tipPointControlCartesian[1]} ${tipBaseP2Cartesian[0]} ${tipBaseP2Cartesian[1]}`;
+    const quadraticCurve_tipPoint1_tipBaseP2 = `Q ${tipPointControlCartesian2[0]} ${tipPointControlCartesian2[1]} ${tipBaseP2Cartesian[0]} ${tipBaseP2Cartesian[1]}`;
     //generate an svg arc from tipBaseP2Cartesian to p2Cartesian
     const arc_tipBaseP2_P2 = `A ${radius} ${radius} 0 0 1 ${p2Cartesian[0]} ${p2Cartesian[1]}`;
     // draw a line from p2Cartesian to centerPos and close it
     const line_P2_center = `L ${centerPos.x} ${centerPos.y} Z`;
     // merge the paths
     //return `${arc_P1_tipBase} ${line_P2_center}`;
-    return `${arc_P1_tipBase} ${quadraticCurve_tipBaseP1_tipPoint1} ${quadraticCurve_tipPoint1_tipBaseP2} ${arc_tipBaseP2_P2} ${line_P2_center}`;
+    return `${arc_P1_tipBase} ${quadraticCurve_tipBaseP1_tipPoint1} ${connector} ${quadraticCurve_tipPoint1_tipBaseP2} ${arc_tipBaseP2_P2} ${line_P2_center}`;
 }
 
 function getPath(
@@ -306,15 +385,37 @@ function getPath(
             tipPosition1Cartesian,
             end[0].graphCenterPos
         );
-
+    const [
+        tipPoint1OffsetCartesianNeg,
+        tipPoint1OffsetCartesianPos,
+        tipPoint1ControlOffsetCartesianNeg,
+        tipPoint1ControlOffsetCartesianPos
+    ] = offsetTips(
+        tipPoint1Cartesian,
+        tipPoint3Cartesian,
+        tipPointControlCartesian,
+        radius * 0.05
+    );
+    const [
+        tipPoint2OffsetCartesianNeg,
+        tipPoint2OffsetCartesianPos,
+        tipPoint2ControlOffsetCartesianNeg,
+        tipPoint2ControlOffsetCartesianPos
+    ] = offsetTips(
+        tipPoint3Cartesian,
+        tipPoint1Cartesian,
+        tipPointControlCartesian2,
+        radius * 0.05
+    );
     const arc1 = drawTip(
         p1Cartesian,
         p2Cartesian,
         tipBaseP1Cartesian,
         tipBaseP2Cartesian,
-        tipPoint1Cartesian,
-        tipPoint2Cartesian,
-        tipPointControlCartesian,
+        tipPoint1OffsetCartesianNeg,
+        tipPoint1OffsetCartesianPos,
+        tipPoint1ControlOffsetCartesianNeg,
+        tipPoint1ControlOffsetCartesianPos,
         start[0].graphCenterPos,
         radius * RADIUS_SCALE
     );
@@ -323,14 +424,20 @@ function getPath(
         p4Cartesian,
         tipBaseP3Cartesian,
         tipBaseP4Cartesian,
-        tipPoint3Cartesian,
-        tipPoint4Cartesian,
-        tipPointControlCartesian2,
+        tipPoint2OffsetCartesianNeg,
+        tipPoint2OffsetCartesianPos,
+        tipPoint2ControlOffsetCartesianNeg,
+        tipPoint2ControlOffsetCartesianPos,
         end[0].graphCenterPos,
         radius * RADIUS_SCALE
     );
 
-    const connector = `M ${tipPoint1Cartesian[0]} ${tipPoint1Cartesian[1]} C ${tipPoint2Cartesian[0]} ${tipPoint2Cartesian[1]} ${tipPoint4Cartesian[0]} ${tipPoint4Cartesian[1]} ${tipPoint3Cartesian[0]} ${tipPoint3Cartesian[1]}`;
+    const connector = `
+    M ${tipPoint1OffsetCartesianNeg[0]} ${tipPoint1OffsetCartesianNeg[1]}
+    C ${tipPoint2Cartesian[0]} ${tipPoint2Cartesian[1]} ${tipPoint4Cartesian[0]} ${tipPoint4Cartesian[1]} ${tipPoint2OffsetCartesianPos[0]} ${tipPoint2OffsetCartesianPos[1]}
+    L ${tipPoint2OffsetCartesianNeg[0]} ${tipPoint2OffsetCartesianNeg[1]}
+    C ${tipPoint4Cartesian[0]} ${tipPoint4Cartesian[1]} ${tipPoint2Cartesian[0]} ${tipPoint2Cartesian[1]} ${tipPoint1OffsetCartesianPos[0]} ${tipPoint1OffsetCartesianPos[1]}
+    Z`;
     return [connector, arc1 + arc2];
 }
 
@@ -381,7 +488,7 @@ const EgoGraphBand = (props: EgoGraphBandProps) => {
                 className="band"
                 stroke={pathDatum.color}
                 opacity={0.7}
-                strokeWidth="5"
+                strokeWidth="0"
                 strokeLinejoin="arc"
                 fill={pathDatum.color}
             />
@@ -390,9 +497,9 @@ const EgoGraphBand = (props: EgoGraphBandProps) => {
                 className="band"
                 stroke={pathDatum.color}
                 opacity={0.7}
-                strokeWidth="5"
+                strokeWidth="0"
                 strokeLinejoin="arc"
-                fill={'None'}
+                fill={pathDatum.color}
             />
         </>
     ));
