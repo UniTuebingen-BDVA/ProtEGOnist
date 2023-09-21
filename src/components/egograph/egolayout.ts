@@ -555,9 +555,15 @@ export function calculateLayout(
                     lastNodeIdOther
                 ];
             }
-            intersectingNodes.push(pairwiseIntersections.reverse());
-            intersectingNodes.push(otherIntersections.reverse());
-            intersectingNodes.push(nextPairwiseIntersections.reverse());
+            if(pairwiseIntersections.length>0) {
+                intersectingNodes.push(pairwiseIntersections.reverse());
+            }
+            if(otherIntersections.length>0) {
+                intersectingNodes.push(otherIntersections.reverse());
+            }
+            if(nextPairwiseIntersections.length>0) {
+                intersectingNodes.push(nextPairwiseIntersections.reverse());
+            }
             pairwiseIntersections = nextPairwiseIntersections.reverse();
             const currLayout = calculateMultiLayout(
                 egoGraphs[i],
