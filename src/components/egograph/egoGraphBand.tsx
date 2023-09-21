@@ -66,6 +66,7 @@ function positionTips(
     );
 
     // check if radius of p1 and p2 is the same within an epsilon and throw error if not
+    console.log('RADIUS', p1LocalPolar.r, p2LocalPolar.r);
     if (Math.abs(p1LocalPolar.r - p2LocalPolar.r) > 0.0001) {
         throw new Error(
             'The radius of p1 and p2 is not the same. Check your input'
