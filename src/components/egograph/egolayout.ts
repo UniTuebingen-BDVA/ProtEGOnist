@@ -561,7 +561,7 @@ export function calculateLayout(
                 intersectingNodes.push(pairwiseIntersections.reverse());
             }
             if (otherIntersections.length > 0) {
-                intersectingNodes.push(otherIntersections.reverse());
+                intersectingNodes.push(otherIntersections);
             }
             if (nextPairwiseIntersections.length > 0 && egoGraphs.length > 2) {
                 intersectingNodes.push(nextPairwiseIntersections.reverse());

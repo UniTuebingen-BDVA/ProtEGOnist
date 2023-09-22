@@ -66,7 +66,6 @@ function positionTips(
     );
 
     // check if radius of p1 and p2 is the same within an epsilon and throw error if not
-    console.log('RADIUS', p1LocalPolar.r, p2LocalPolar.r);
     if (Math.abs(p1LocalPolar.r - p2LocalPolar.r) > 0.0001) {
         throw new Error(
             'The radius of p1 and p2 is not the same. Check your input'
@@ -91,8 +90,8 @@ function positionTips(
     }
 
     //adjust p1 and p2 such that the stroke doesnt overlap with neighboring bands
-    p1LocalPolar.theta -= 0.02;
-    p2LocalPolar.theta += 0.02;
+    // p1LocalPolar.theta -= 0.02;
+    // p2LocalPolar.theta += 0.02;
 
     p1Cartesian = localToGlobal(
         polarToCartesian(p1LocalPolar.r, p1LocalPolar.theta),
@@ -157,12 +156,28 @@ function positionTips(
         centerPos
     );
 
+    // check in which quadrant tipPosition1 is and return the quadrant as a number
+    let angleCase = 0;
+    const tipPos1Abs = (tipPosition1.theta + 2 * Math.PI) % (2 * Math.PI);
+    console.log(tipPos1Abs);
+    if (tipPos1Abs >= 0 && tipPos1Abs < Math.PI / 2) {
+        angleCase = 1;
+    } else if (tipPos1Abs >= Math.PI / 2 && tipPos1Abs < Math.PI) {
+        angleCase = 2;
+    } else if (tipPos1Abs >= Math.PI && tipPos1Abs < (3 * Math.PI) / 2) {
+        angleCase = 3;
+    } else if (tipPos1Abs >= (3 * Math.PI) / 2 && tipPos1Abs < 2 * Math.PI) {
+        console.log('ELLO ITS ME');
+        angleCase = 4;
+    }
+
     return [
         p1Cartesian,
         p2Cartesian,
         tipBaseP1Cartesian,
         tipBaseP2Cartesian,
-        tipPositionCartesian
+        tipPositionCartesian,
+        angleCase
     ];
 }
 
@@ -170,7 +185,9 @@ function offsetTips(
     offsetPointMain: [number, number],
     vectorAssist: [number, number],
     tipPointControl: [number, number],
-    offsetDistance: number
+    connectorControl: [number, number],
+    offsetDistance: [number, number],
+    angleCase: number
 ): [number, number][] {
     const offsetAngle = Math.PI / 2; // 90 degrees
 
@@ -194,20 +211,26 @@ function offsetTips(
     // calculate the offset vector
     const offsetVector = [
         tipVectorNormalized[1] * offsetDistance,
-        -tipVectorNormalized[0] * offsetDistance
+        tipVectorNormalized[0] * offsetDistance
     ];
+
+    // use the angleCase to determine the direction of the offset vector
+    if (angleCase === 1) {
+        offsetVector[0] = offsetVector[0];
+        offsetVector[1] = -offsetVector[1];
+    } else if (angleCase === 2) {
+        offsetVector[0] = -offsetVector[0];
+        offsetVector[1] = offsetVector[1];
+    } else if (angleCase === 3) {
+        offsetVector[0] = offsetVector[0];
+        offsetVector[1] = offsetVector[1];
+    } else if (angleCase === 4) {
+        offsetVector[0] = -offsetVector[0];
+        offsetVector[1] = offsetVector[1];
+    }
 
     // calculate the offset points
     const tipPoint1OffsetCartesian: [number, number] = [
-        offsetPointMain[0] -
-            offsetVector[0] * Math.cos(offsetAngle) -
-            offsetVector[1] * Math.sin(offsetAngle),
-        offsetPointMain[1] -
-            offsetVector[0] * Math.sin(offsetAngle) +
-            offsetVector[1] * Math.cos(offsetAngle)
-    ];
-
-    const tipPoint2OffsetCartesian: [number, number] = [
         offsetPointMain[0] +
             offsetVector[0] * Math.cos(offsetAngle) -
             offsetVector[1] * Math.sin(offsetAngle),
@@ -215,16 +238,16 @@ function offsetTips(
             offsetVector[0] * Math.sin(offsetAngle) +
             offsetVector[1] * Math.cos(offsetAngle)
     ];
-    const tipPoint1ControlOffsetCartesian: [number, number] = [
-        tipPointControl[0] -
+
+    const tipPoint2OffsetCartesian: [number, number] = [
+        offsetPointMain[0] -
             offsetVector[0] * Math.cos(offsetAngle) -
             offsetVector[1] * Math.sin(offsetAngle),
-        tipPointControl[1] -
+        offsetPointMain[1] -
             offsetVector[0] * Math.sin(offsetAngle) +
             offsetVector[1] * Math.cos(offsetAngle)
     ];
-
-    const tipPoint2ControlOffsetCartesian: [number, number] = [
+    const tipPoint1ControlOffsetCartesian: [number, number] = [
         tipPointControl[0] +
             offsetVector[0] * Math.cos(offsetAngle) -
             offsetVector[1] * Math.sin(offsetAngle),
@@ -233,17 +256,45 @@ function offsetTips(
             offsetVector[1] * Math.cos(offsetAngle)
     ];
 
+    const tipPoint2ControlOffsetCartesian: [number, number] = [
+        tipPointControl[0] -
+            offsetVector[0] * Math.cos(offsetAngle) -
+            offsetVector[1] * Math.sin(offsetAngle),
+        tipPointControl[1] -
+            offsetVector[0] * Math.sin(offsetAngle) +
+            offsetVector[1] * Math.cos(offsetAngle)
+    ];
+    const connectorControl1OffsetCartesian: [number, number] = [
+        connectorControl[0] +
+            offsetVector[0] * Math.cos(offsetAngle) -
+            offsetVector[1] * Math.sin(offsetAngle),
+        connectorControl[1] +
+            offsetVector[0] * Math.sin(offsetAngle) +
+            offsetVector[1] * Math.cos(offsetAngle)
+    ];
+
+    const connectorControl2OffsetCartesian: [number, number] = [
+        connectorControl[0] -
+            offsetVector[0] * Math.cos(offsetAngle) -
+            offsetVector[1] * Math.sin(offsetAngle),
+        connectorControl[1] -
+            offsetVector[0] * Math.sin(offsetAngle) +
+            offsetVector[1] * Math.cos(offsetAngle)
+    ];
+
     return [
         tipPoint1OffsetCartesian,
         tipPoint2OffsetCartesian,
         tipPoint1ControlOffsetCartesian,
-        tipPoint2ControlOffsetCartesian
+        tipPoint2ControlOffsetCartesian,
+        connectorControl1OffsetCartesian,
+        connectorControl2OffsetCartesian
     ];
 }
 
 function orientTips(
     tipPosition1Cartesian: [number, number],
-    tipPosition2Cartesia: [number, number],
+    tipPosition2Cartesian: [number, number],
     centerPos: { x: number; y: number }
 ) {
     const TIP_LENGTH = 0.2;
@@ -253,7 +304,7 @@ function orientTips(
     );
 
     const tipPosition2Polar = cartesianToPolar(
-        globalToLocal(tipPosition2Cartesia, centerPos)
+        globalToLocal(tipPosition2Cartesian, centerPos)
     );
 
     const angleDifference = tipPosition1Polar.theta - tipPosition2Polar.theta;
@@ -348,7 +399,8 @@ function getPath(
         p2Cartesian,
         tipBaseP1Cartesian,
         tipBaseP2Cartesian,
-        tipPosition1Cartesian
+        tipPosition1Cartesian,
+        angleCase1
     ] = positionTips(
         firstPos,
         secondPos,
@@ -363,7 +415,8 @@ function getPath(
         p4Cartesian,
         tipBaseP3Cartesian,
         tipBaseP4Cartesian,
-        tipPosition2Cartesian
+        tipPosition2Cartesian,
+        angleCase2
     ] = positionTips(
         thirdPos,
         fourthPos,
@@ -390,23 +443,31 @@ function getPath(
         tipPoint1OffsetCartesianNeg,
         tipPoint1OffsetCartesianPos,
         tipPoint1ControlOffsetCartesianNeg,
-        tipPoint1ControlOffsetCartesianPos
+        tipPoint1ControlOffsetCartesianPos,
+        connectorControl1OffsetCartesianNeg,
+        connectorControl1OffsetCartesianPos
     ] = offsetTips(
         tipPoint1Cartesian,
         tipPoint3Cartesian,
         tipPointControlCartesian,
-        radius * 0.05
+        tipPoint2Cartesian,
+        radius * 0.05,
+        angleCase1
     );
     const [
         tipPoint2OffsetCartesianNeg,
         tipPoint2OffsetCartesianPos,
         tipPoint2ControlOffsetCartesianNeg,
-        tipPoint2ControlOffsetCartesianPos
+        tipPoint2ControlOffsetCartesianPos,
+        connectorControl2OffsetCartesianNeg,
+        connectorControl2OffsetCartesianPos
     ] = offsetTips(
         tipPoint3Cartesian,
         tipPoint1Cartesian,
         tipPointControlCartesian2,
-        radius * 0.05
+        tipPoint4Cartesian,
+        radius * 0.05,
+        angleCase2
     );
     const arc1 = drawTip(
         p1Cartesian,
@@ -435,9 +496,9 @@ function getPath(
 
     const connector = `
     M ${tipPoint1OffsetCartesianNeg[0]} ${tipPoint1OffsetCartesianNeg[1]}
-    C ${tipPoint2Cartesian[0]} ${tipPoint2Cartesian[1]} ${tipPoint4Cartesian[0]} ${tipPoint4Cartesian[1]} ${tipPoint2OffsetCartesianPos[0]} ${tipPoint2OffsetCartesianPos[1]}
+    C ${connectorControl1OffsetCartesianNeg[0]} ${connectorControl1OffsetCartesianNeg[1]} ${connectorControl2OffsetCartesianPos[0]} ${connectorControl2OffsetCartesianPos[1]} ${tipPoint2OffsetCartesianPos[0]} ${tipPoint2OffsetCartesianPos[1]}
     L ${tipPoint2OffsetCartesianNeg[0]} ${tipPoint2OffsetCartesianNeg[1]}
-    C ${tipPoint4Cartesian[0]} ${tipPoint4Cartesian[1]} ${tipPoint2Cartesian[0]} ${tipPoint2Cartesian[1]} ${tipPoint1OffsetCartesianPos[0]} ${tipPoint1OffsetCartesianPos[1]}
+    C ${connectorControl2OffsetCartesianNeg[0]} ${connectorControl2OffsetCartesianNeg[1]} ${connectorControl1OffsetCartesianPos[0]} ${connectorControl1OffsetCartesianPos[1]} ${tipPoint1OffsetCartesianPos[0]} ${tipPoint1OffsetCartesianPos[1]}
     Z`;
     return [connector, arc1 + arc2];
 }
@@ -445,7 +506,6 @@ function getPath(
 const EgoGraphBand = (props: EgoGraphBandProps) => {
     const { bandData, radius, color } = props;
     let pathData: { path: string[]; color: string }[] = [];
-    console.log('BD', bandData);
     if (Object.values(bandData[1]).length === 0) return null;
     if (Object.values(bandData[1]).length === 1) return null;
     if (Object.values(bandData[1]).length === 2) {
@@ -498,9 +558,9 @@ const EgoGraphBand = (props: EgoGraphBandProps) => {
                 className="band"
                 stroke={pathDatum.color}
                 opacity={0.7}
-                strokeWidth="0"
+                strokeWidth="1"
                 strokeLinejoin="arc"
-                fill={pathDatum.color}
+                fill={'none'}
             />
         </>
     ));
