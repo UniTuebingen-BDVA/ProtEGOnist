@@ -60,7 +60,7 @@ function createLayerNodes(
     center: number,
     radius: number,
     xRange: [number, number], // full circle: 0, 2PI
-    transformVector: { x: number; y: number },
+    transformVector: { graphId: string; x: number; y: number },
     offset: number
 ) {
     const nodes: { [key: string]: layoutNode } = {};
@@ -74,7 +74,11 @@ function createLayerNodes(
     } else {
         maxradius = radius;
     }
-    const bands: [{ x: number; y: number }, { x: number; y: number }][] = [];
+    const bands: [
+        { x: number; y: number },
+        { x: number; y: number },
+        string
+    ][] = [];
     for (let i = 0; i < sortOrder.length; i++) {
         const start = polarToCartesian(
             center,
@@ -94,7 +98,7 @@ function createLayerNodes(
         );
         end.x += transformVector.x;
         end.y += transformVector.y;
-        bands.push([start, end]);
+        bands.push([start, end, transformVector.graphId, transformVector]);
     }
     layerNodes.forEach((node) => {
         const nodeCoords = polarToCartesian(
@@ -115,6 +119,7 @@ function createLayerNodes(
             identityNodes: []
         };
     });
+    bands.reverse();
     return { nodes, maxradius, bands };
 }
 
@@ -409,6 +414,17 @@ export function calculateLayout(
     innerSize: number,
     outerSize: number
 ) {
+    // sort each array in egoGraphs alphabetically by centerNode originalId
+    egoGraphs.sort((a, b) => {
+        if (a.centerNode.originalID > b.centerNode.originalID) {
+            return 1;
+        } else if (a.centerNode.originalID < b.centerNode.originalID) {
+            return -1;
+        } else {
+            return 0;
+        }
+    });
+
     if (egoGraphs.length > 1) {
         let graphCenters: { x: number; y: number; id: string }[];
         const layout: egoGraphLayout = {
@@ -535,20 +551,11 @@ export function calculateLayout(
                 .sort();
             let otherIntersectionsId = '';
             if (egoGraphs.length > 2) {
-                const firstNodeIdOther = otherIntersections[0];
-                const lastNodeIdOther =
-                    otherIntersections[otherIntersections.length - 1];
                 otherIntersectionsId = [
                     ...egoGraphs.map((d) => d.centerNode.originalID)
                 ]
                     .sort()
                     .toString();
-                console.log(
-                    'FAL filling other',
-                    otherIntersectionsId,
-                    firstNodeIdOther,
-                    lastNodeIdOther
-                );
             }
             if (pairwiseIntersections.length > 0) {
                 intersectingNodes.push(pairwiseIntersections.reverse());
@@ -559,8 +566,9 @@ export function calculateLayout(
             if (nextPairwiseIntersections.length > 0 && egoGraphs.length > 2) {
                 intersectingNodes.push(nextPairwiseIntersections.reverse());
             }
-            pairwiseIntersectionId = nextPairwiseIntersectionsId;
             pairwiseIntersections = nextPairwiseIntersections.reverse();
+            console.log('graphCentersPRE', graphCenters);
+
             const currLayout = calculateMultiLayout(
                 egoGraphs[i],
                 innerSize,
@@ -572,6 +580,9 @@ export function calculateLayout(
                 -fullRange / egoGraphs.length / 2 +
                     (fullRange / egoGraphs.length) * i
             );
+            console.log('graphCentersPOST', graphCenters);
+
+            console.log('CURRENT BANDS', currLayout.bands);
             let accessCounter = 0;
             if (pairwiseIntersections.length > 0) {
                 //check if key is in firstAndLastNodes
@@ -587,6 +598,8 @@ export function calculateLayout(
                 );
                 accessCounter += 1;
             }
+            pairwiseIntersectionId = nextPairwiseIntersectionsId;
+
             if (otherIntersections.length > 0) {
                 //check if key is in firstAndLastNodes
                 if (
@@ -633,7 +646,7 @@ export function calculateLayout(
 
         layout.nodes = Object.values(layoutNodeDict);
         layout.centers = graphCenters;
-
+        console.log('FAL IDs', firstAndLastNodesIDs);
         const firstAndLastNodes = firstAndLastNodeIntersection(
             firstAndLastNodesIDs,
             layoutNodeDict,
@@ -660,9 +673,16 @@ function firstAndLastNodeIntersection(
         const entryValue = entry[1];
         // add firstLast=true property to firstNode and lastNode
         const graphCenterIds = key.split(',');
+        const anyUndefined = entryValue.some((elem) => elem === undefined);
         if (entryValue) {
             graphCenterIds.forEach((graphCenterId, idx) => {
-                console.log('FAL LOOP', entryValue, idx);
+                console.log('FAL LOOP', entryValue);
+                //find correct entry in entryValue
+                const bandData = entryValue.find(
+                    (elem) => elem[2] === graphCenterId
+                );
+                console.log('FAL search ID', graphCenterId);
+                console.log('FAL bandData', bandData);
                 const currentGraphCenter = centers.find(
                     (elem) => elem.id == graphCenterId
                 );
@@ -675,16 +695,16 @@ function firstAndLastNodeIntersection(
                         //id: firstNode.id,
                         graphCenterPos: currentGraphCenter,
                         pos: {
-                            x: entryValue[idx][0].x,
-                            y: entryValue[idx][0].y
+                            x: bandData[0].x,
+                            y: bandData[0].y
                         }
                     },
                     {
                         //id: lastNode.id,
                         graphCenterPos: currentGraphCenter,
                         pos: {
-                            x: entryValue[idx][1].x,
-                            y: entryValue[idx][1].y
+                            x: bandData[1].x,
+                            y: bandData[1].y
                         }
                     }
                 ];
@@ -700,11 +720,12 @@ function calculateMultiLayout(
     outerSize: number,
     uniqueNodeIds: string[],
     sharedNodeIds: string[][],
-    graphCenter: { x: number; y: number },
+    graphCenter: { x: number; y: number; id: string },
     xRanges: [[number, number], [number, number]],
     offset: number
 ) {
     const transformVector = {
+        graphId: graphCenter.id,
         x: graphCenter.x - outerSize,
         y: graphCenter.y - outerSize
     };
@@ -792,7 +813,7 @@ function calculateLayoutSharedNodes(
     radius: number,
     xRange: [number, number],
     factor: number,
-    graphCenter: { x: number; y: number },
+    graphCenter: { graphId: string; x: number; y: number },
     offset: number
 ) {
     const nodeLayout = createLayerNodes(
