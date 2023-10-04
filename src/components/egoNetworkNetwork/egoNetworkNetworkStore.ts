@@ -108,7 +108,7 @@ export const aggregateNetworkAtom = atom((get) => {
     // const outEdgesInternal = JSON.parse(JSON.stringify(outEdges));
     const forceLayout = d3
         .forceSimulation(outNodes)
-        .force('charge', d3.forceManyBody().strength(-50))
+        .force('charge', d3.forceManyBody().strength(15))
         .force('center', d3.forceCenter(0, 0))
         .force(
             'collision',
