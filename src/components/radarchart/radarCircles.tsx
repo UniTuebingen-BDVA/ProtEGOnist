@@ -152,7 +152,7 @@ const RadarCircles = memo(function RadarCircles(props: RadarCirclesProps) {
                         ?.toString()
                 });
             },
-        config: { duration: 2000 }
+        config: { duration: 1200 }
     });
 
     return (
