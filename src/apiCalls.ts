@@ -13,7 +13,7 @@ import {
     intersectionAtom,
     leavingNodesAtom,
     changedNodesAtom,
-    tarNodeAtom, 
+    tarNodeAtom,
     radarNodesAtom
 } from './components/radarchart/radarStore.ts';
 import { tableAtom } from './components/selectionTable/tableStore.tsx';
@@ -76,6 +76,22 @@ export const getMultiEgographBundleAtom = atom(
     }
 );
 
+const compareIntersections = (
+    oldIntersections: {
+        [p: string]: intersectionDatum;
+        [p: number]: intersectionDatum;
+    },
+    newIntersections: {
+        [p: string]: intersectionDatum;
+        [p: number]: intersectionDatum;
+    }
+) => {
+    const oldKeys = Object.keys(oldIntersections);
+    const newKeys = Object.keys(newIntersections);
+    const changedNodes = newKeys.filter((x) => !oldKeys.includes(x));
+    const leavingNodes = oldKeys.filter((x) => !newKeys.includes(x));
+    return { changedNodes, leavingNodes };
+};
 export const getRadarAtom = atom(
     (get) => get(intersectionAtom),
     (get, set, id: string) => {
@@ -86,23 +102,15 @@ export const getRadarAtom = atom(
             .then(
                 (result) => {
                     // compare the keys of the new and old intersection atoms
-                    const oldKeys = Object.keys(get(intersectionAtom));
-                    const newKeys = Object.keys(result.data);
-                    const changedNodes = newKeys.filter(
-                        (x) => !oldKeys.includes(x)
-                    );
-                    const leavingNodes = oldKeys.filter(
-                        (x) => !newKeys.includes(x)
+                    const { changedNodes, leavingNodes } = compareIntersections(
+                        get(intersectionAtom), result.data
                     );
                     // Changed to object in order to have less set calls
-                    set( radarNodesAtom, {
+                    set(radarNodesAtom, {
                         changed: changedNodes,
-                        leaving: leavingNodes, 
-                        intersection:  result.data
-                    })
-                    // set(leavingNodesAtom, leavingNodes);
-                    // set(changedNodesAtom, changedNodes);
-                    // set(intersectionAtom, result.data);
+                        leaving: leavingNodes,
+                        intersection: result.data
+                    });
                     set(tarNodeAtom, id);
                 },
                 () => {
@@ -168,6 +176,42 @@ export const getEgoNetworkNetworkAtom = atom(
     }
 );
 
+export const getEgoNetworkAndRadar = atom(
+    (get) => get(egoNetworkNetworksAtom),
+    (get, set, ids: string[], id:string) => {
+        axios
+            .all([
+                axios.get<{
+                    [name: string | number]: intersectionDatum;
+                }>(`/api/EgoRadar/${id}`),
+                axios.get<egoNetworkNetwork>(
+                `/api/getEgoNetworkNetwork/${ids.join('+')}`
+            )
+            ])
+            .then(
+                axios.spread((radarResponse, networkResponse) => {
+                    const { changedNodes, leavingNodes } = compareIntersections(
+                        get(intersectionAtom), radarResponse.data);
+                    // Changed to object in order to have less set calls
+                    set(radarNodesAtom, {
+                        changed: changedNodes,
+                        leaving: leavingNodes,
+                        intersection: radarResponse.data
+                    });
+                    set(tarNodeAtom, id);
+                    set(accountedProteinsNeigborhoodAtom,
+                        networkResponse.data.nodes.map((node) => node.neighbors)
+                    );
+                    set(egoNetworkNetworksAtom, networkResponse.data);
+                })
+            ).catch(() => {
+                console.error,
+                    console.log(
+                        `couldn't get egographswith ID ${ids.join(';')}`
+                    );
+            });
+    }
+);
 export const getEgoNetworkNetworkOverviewAtom = atom(
     (get) => get(egoNetworkNetworksOverviewAtom),
     (_get, set, ids: string[]) => {

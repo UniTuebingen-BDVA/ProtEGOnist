@@ -1,9 +1,15 @@
 import { useAtom, useSetAtom } from 'jotai';
-import { selectedProteinsAtom } from '../selectionTable/tableStore';
-import { getRadarAtom } from '../../apiCalls';
+import {
+    selectedProteinsAtom,
+    selectedProteinsStoreAtom
+} from '../selectionTable/tableStore';
+import {
+    getEgoNetworkAndRadar,
+    getEgoNetworkNetworkAtom,
+} from '../../apiCalls';
 import AdvancedTooltip from '../advancedTooltip/advancedTooltip';
 import { highlightNodeAtom } from './egoNetworkNetworkOverviewStore';
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 
 interface EgoNetworkNetworkNodeProps {
     id: string;
@@ -16,22 +22,37 @@ interface EgoNetworkNetworkNodeProps {
 const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
     props: EgoNetworkNetworkNodeProps
 ) {
-    const [selectedProteins, setSelectedProteins] = useAtom(selectedProteinsAtom);
-    const [_intersectionData, getRadarData] = useAtom(getRadarAtom);
+    const [selectedProteins] =
+        useAtom(selectedProteinsAtom);
+    const setSelectedProteins=useSetAtom(selectedProteinsStoreAtom)
+    const getNetworkAndRadar = useSetAtom(getEgoNetworkAndRadar);
+    const getEgoNetworkNetwork=useSetAtom(getEgoNetworkNetworkAtom)
     const highlightNodeSet = useSetAtom(highlightNodeAtom);
     const { x, y, id, size, color } = props;
+    const handleClick = useCallback(
+        (id: string) => {
+            // Remove duplicates from the incoming `ids` array
+            const updatedProteins = selectedProteins.slice();
+            // Calculate proteins to delete and proteins to add
+            if (updatedProteins.includes(id)) {
+                updatedProteins.splice(updatedProteins.indexOf(id), 1);
+                setSelectedProteins(updatedProteins);
+                getEgoNetworkNetwork(updatedProteins)
+            } else {
+                updatedProteins.push(id);
+                setSelectedProteins(updatedProteins);
+                getNetworkAndRadar(updatedProteins, id);
+            }
+        },
+        [getEgoNetworkNetwork, getNetworkAndRadar, selectedProteins, setSelectedProteins]
+    );
     const transform = `translate(${x}, ${y})`;
     return (
         <AdvancedTooltip uniprotID={id} key={id}>
             <g
                 key={id}
                 transform={transform}
-                onClick={() => {
-                    if (!selectedProteins.includes(id)) {
-                        getRadarData(id);
-                    }
-                    setSelectedProteins([id]);
-                }}
+                onClick={() => handleClick(id)}
                 onMouseEnter={() => {
                     highlightNodeSet(id);
                 }}

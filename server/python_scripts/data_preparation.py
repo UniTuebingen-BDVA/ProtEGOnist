@@ -48,7 +48,7 @@ def generate_intersections_pickle():
         top_50_keys = list(intersections[ego].keys())[:50]
         # save only the top 50 intersections for each ego graph and for those only save the ID and the corresponding jaccard index
         intersections[ego] = {
-            k: v["jaccard"] for k, v in intersections[ego].items() if k in top_50_keys
+            k: v["jaccard"] for k, v in intersections[ego].items() if k in top_50_keys and v["jaccard"]>0
         }
 
     # save the intersections dictionary as pickle file
