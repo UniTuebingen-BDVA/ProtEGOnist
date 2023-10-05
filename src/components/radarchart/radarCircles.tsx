@@ -109,7 +109,8 @@ const RadarCircles = memo(function RadarCircles(props: RadarCirclesProps) {
                                 intersectionData.length
                         ) *
                         (GUIDE_CIRCLE_RADIUS -
-                            intersectionDatum.jaccard * GUIDE_CIRCLE_RADIUS)
+                            intersectionDatum.jaccard * GUIDE_CIRCLE_RADIUS),
+                    opacity: 0
                 });
                 await next({
                     cx:
@@ -126,7 +127,6 @@ const RadarCircles = memo(function RadarCircles(props: RadarCirclesProps) {
                         ) *
                         GUIDE_CIRCLE_RADIUS *
                         1.5,
-                    opacity: 0
                 });
             },
         update:

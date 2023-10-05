@@ -4,7 +4,8 @@ import RadarChart from './radarChart.tsx';
 import { useAtom } from 'jotai';
 import { radarSVGSizeAtom } from './radarStore.ts';
 import { useDimensions } from '../../UtilityFunctions.ts';
-import { Paper} from '@mui/material';
+import { Backdrop, CircularProgress, Paper } from '@mui/material';
+import { radarChartBusyAtom } from '../../apiCalls.ts';
 
 interface RadarChartViewerProps {
     intersectionData: { [name: string | number]: intersectionDatum };
@@ -15,6 +16,7 @@ function RadarChartViewer(props: RadarChartViewerProps) {
     const ref = useRef(null);
     const { width, height } = useDimensions(ref);
     const [svgSize, setSVGSize] = useAtom(radarSVGSizeAtom);
+    const [radarBusy] = useAtom(radarChartBusyAtom);
     useEffect(() => {
         setSVGSize({ width: width, height: height });
     }, [height, width]);
@@ -28,9 +30,20 @@ function RadarChartViewer(props: RadarChartViewerProps) {
                 display: 'flex',
                 textAlign: 'center',
                 alignItems: 'center',
-                justifyContent: 'center'
+                justifyContent: 'center',
+                position: 'relative'
             }}
         >
+            <Backdrop
+                sx={{
+                    color: '#fff',
+                    zIndex: (theme) => theme.zIndex.drawer + 1,
+                    position: 'absolute'
+                }}
+                open={radarBusy}
+            >
+                <CircularProgress color="inherit" />
+            </Backdrop>
             <svg
                 width={svgSize.width}
                 height={svgSize.height}
@@ -55,4 +68,5 @@ function RadarChartViewer(props: RadarChartViewerProps) {
         </Paper>
     );
 }
+
 export default RadarChartViewer;

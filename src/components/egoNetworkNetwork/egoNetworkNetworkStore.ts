@@ -60,7 +60,6 @@ export const decollapseIDsAtom = atom(
             }
         }
         set(getMultiEgographBundleAtom, currentIdArray);
-        set(decollapseIDsArrayAtom, currentIdArray);
     }
 );
 
@@ -135,11 +134,11 @@ export const aggregateNetworkAtom = atom((get) => {
     // reshape the edges to contain a x1, x2, y1, y2 coordinate
     // Create a dictionary of nodes for faster lookup
     const nodeDictionary = {};
-    outNodes.forEach(node => {
+    outNodes.forEach((node) => {
         nodeDictionary[node.id] = node;
     });
 
-    const edgesWithCoordinates = outEdges.map(edge => {
+    const edgesWithCoordinates = outEdges.map((edge) => {
         const sourceNode = nodeDictionary[edge.source.id];
         const targetNode = nodeDictionary[edge.target.id];
         return {
@@ -153,7 +152,6 @@ export const aggregateNetworkAtom = atom((get) => {
             opacity: 1
         };
     });
-
 
     return {
         nodes: outNodes,
@@ -185,11 +183,11 @@ function aggregateEgoNetworkNodes(
         }
     }
     const outEdges = egoNetworkNetworkEdges.filter((edge) => {
-    if (!aggregateNodeIDs.flat().includes(edge.source.id)) {
-        return !aggregateNodeIDs.flat().includes(edge.target.id);
-    }
-    return false;
-});
+        if (!aggregateNodeIDs.flat().includes(edge.source.id)) {
+            return !aggregateNodeIDs.flat().includes(edge.target.id);
+        }
+        return false;
+    });
     aggregateNodeIDs.forEach((aggregates) => {
         const aggregateID = aggregates.join(',');
         outNodes.push({
@@ -233,7 +231,10 @@ export const interEdgesAtom = atom((get) => {
     }[] = [];
     if (
         Object.keys(egoLayouts).sort().toString() ===
-            aggregateEgoNetworkNodeIDs.map((d) => d.join(',')).sort().toString() &&
+            aggregateEgoNetworkNodeIDs
+                .map((d) => d.join(','))
+                .sort()
+                .toString() &&
         !Object.values(egoLayouts).includes(null)
     ) {
         const centerPositions: {
@@ -291,7 +292,7 @@ export const interEdgesAtom = atom((get) => {
                             ] /
                                 2,
                         x2: nodeDict[edge.target].x,
-                        y2: nodeDict[edge.target].y, 
+                        y2: nodeDict[edge.target].y,
                         opacity: 1
                     });
                 } else if (!isSourceAggregate && isTargetAggregate) {

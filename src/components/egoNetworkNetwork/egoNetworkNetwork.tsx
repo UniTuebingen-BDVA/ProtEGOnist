@@ -115,7 +115,6 @@ const EgoNetworkNetwork = () => {
     return (
         <g>
             {otherEdges}
-
             {transitionsNodes((style, node) => {
                 if (!node.collapsed) {
                     return (
