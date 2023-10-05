@@ -1,6 +1,6 @@
 import { useGesture } from '@use-gesture/react';
 import EgoNetworkNetwork from './egoNetworkNetwork.tsx';
-import { Paper } from '@mui/material';
+import { Backdrop, CircularProgress, Paper } from '@mui/material';
 import { useAtom, useAtomValue } from 'jotai';
 import {
     decollapseIDsArrayAtom,
@@ -10,8 +10,10 @@ import ColorLegend from '../ColorLegend.tsx';
 import { drugsPerProteinColorscaleAtom } from '../selectionTable/tableStore.tsx';
 import { animated, useSpring } from '@react-spring/web';
 import React from 'react';
+import { egoNetworkNetworkBusyAtom } from '../../apiCalls.ts';
 
 function EgoNetworkNetworkViewer() {
+    const [egoNetworkNetworkBusy]=useAtom(egoNetworkNetworkBusyAtom);
     const svgSize = useAtomValue(egoNetworkNetworkSizeAtom);
     const [colorscale] = useAtom(drugsPerProteinColorscaleAtom);
     const [decollapseIDsArray] = useAtom(decollapseIDsArrayAtom);
@@ -63,6 +65,16 @@ function EgoNetworkNetworkViewer() {
                 position: 'relative'
             }}
         >
+             <Backdrop
+                sx={{
+                    color: '#fff',
+                    zIndex: (theme) => theme.zIndex.drawer + 1,
+                    position: 'absolute'
+                }}
+                open={egoNetworkNetworkBusy}
+            >
+                <CircularProgress color="inherit" />
+            </Backdrop>
             <animated.svg
                 // FIXME Node misses x,y
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
