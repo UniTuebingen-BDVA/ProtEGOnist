@@ -558,15 +558,15 @@ export function calculateLayout(
                     .toString();
             }
             if (pairwiseIntersections.length > 0) {
-                intersectingNodes.push(pairwiseIntersections.reverse());
+                intersectingNodes.push(pairwiseIntersections);
             }
             if (otherIntersections.length > 0) {
                 intersectingNodes.push(otherIntersections);
             }
             if (nextPairwiseIntersections.length > 0 && egoGraphs.length > 2) {
-                intersectingNodes.push(nextPairwiseIntersections.reverse());
+                intersectingNodes.push(nextPairwiseIntersections);
             }
-            pairwiseIntersections = nextPairwiseIntersections.reverse();
+            pairwiseIntersections = nextPairwiseIntersections;
             console.log('graphCentersPRE', graphCenters);
 
             const currLayout = calculateMultiLayout(

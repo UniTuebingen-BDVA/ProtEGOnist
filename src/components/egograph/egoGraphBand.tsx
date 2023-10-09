@@ -186,11 +186,8 @@ function offsetTips(
     vectorAssist: [number, number],
     tipPointControl: [number, number],
     connectorControl: [number, number],
-    offsetDistance: [number, number],
-    angleCase: number
+    offsetDistance: [number, number]
 ): [number, number][] {
-    const offsetAngle = Math.PI / 2; // 90 degrees
-
     // calculate the vector between the two tip points
     const tipVector = [
         offsetPointMain[0] - vectorAssist[0],
@@ -210,76 +207,37 @@ function offsetTips(
 
     // calculate the offset vector
     const offsetVector = [
-        tipVectorNormalized[1] * offsetDistance,
+        tipVectorNormalized[1] * -offsetDistance,
         tipVectorNormalized[0] * offsetDistance
     ];
 
-    // use the angleCase to determine the direction of the offset vector
-    if (angleCase === 1) {
-        offsetVector[0] = offsetVector[0];
-        offsetVector[1] = -offsetVector[1];
-    } else if (angleCase === 2) {
-        offsetVector[0] = -offsetVector[0];
-        offsetVector[1] = offsetVector[1];
-    } else if (angleCase === 3) {
-        offsetVector[0] = offsetVector[0];
-        offsetVector[1] = offsetVector[1];
-    } else if (angleCase === 4) {
-        offsetVector[0] = -offsetVector[0];
-        offsetVector[1] = offsetVector[1];
-    }
-
     // calculate the offset points
     const tipPoint1OffsetCartesian: [number, number] = [
-        offsetPointMain[0] +
-            offsetVector[0] * Math.cos(offsetAngle) -
-            offsetVector[1] * Math.sin(offsetAngle),
-        offsetPointMain[1] +
-            offsetVector[0] * Math.sin(offsetAngle) +
-            offsetVector[1] * Math.cos(offsetAngle)
+        offsetPointMain[0] + offsetVector[0],
+        offsetPointMain[1] + offsetVector[1]
     ];
 
     const tipPoint2OffsetCartesian: [number, number] = [
-        offsetPointMain[0] -
-            offsetVector[0] * Math.cos(offsetAngle) -
-            offsetVector[1] * Math.sin(offsetAngle),
-        offsetPointMain[1] -
-            offsetVector[0] * Math.sin(offsetAngle) +
-            offsetVector[1] * Math.cos(offsetAngle)
+        offsetPointMain[0] - offsetVector[0],
+        offsetPointMain[1] - offsetVector[1]
     ];
     const tipPoint1ControlOffsetCartesian: [number, number] = [
-        tipPointControl[0] +
-            offsetVector[0] * Math.cos(offsetAngle) -
-            offsetVector[1] * Math.sin(offsetAngle),
-        tipPointControl[1] +
-            offsetVector[0] * Math.sin(offsetAngle) +
-            offsetVector[1] * Math.cos(offsetAngle)
+        tipPointControl[0] + offsetVector[0],
+        tipPointControl[1] + offsetVector[1]
     ];
 
     const tipPoint2ControlOffsetCartesian: [number, number] = [
-        tipPointControl[0] -
-            offsetVector[0] * Math.cos(offsetAngle) -
-            offsetVector[1] * Math.sin(offsetAngle),
-        tipPointControl[1] -
-            offsetVector[0] * Math.sin(offsetAngle) +
-            offsetVector[1] * Math.cos(offsetAngle)
+        tipPointControl[0] - offsetVector[0],
+        tipPointControl[1] - offsetVector[1]
     ];
     const connectorControl1OffsetCartesian: [number, number] = [
-        connectorControl[0] +
-            offsetVector[0] * Math.cos(offsetAngle) -
-            offsetVector[1] * Math.sin(offsetAngle),
-        connectorControl[1] +
-            offsetVector[0] * Math.sin(offsetAngle) +
-            offsetVector[1] * Math.cos(offsetAngle)
+        connectorControl[0] + offsetVector[0],
+        connectorControl[1] + offsetVector[1]
     ];
 
     const connectorControl2OffsetCartesian: [number, number] = [
-        connectorControl[0] -
-            offsetVector[0] * Math.cos(offsetAngle) -
-            offsetVector[1] * Math.sin(offsetAngle),
-        connectorControl[1] -
-            offsetVector[0] * Math.sin(offsetAngle) +
-            offsetVector[1] * Math.cos(offsetAngle)
+        connectorControl[0] - offsetVector[0],
+        connectorControl[1] - offsetVector[1]
     ];
 
     return [
@@ -320,11 +278,11 @@ function orientTips(
                 : 0)
     };
     const tipPoint2Polar = {
-        r: tipPoint1Polar.r * (1 + TIP_LENGTH * 2),
+        r: tipPoint1Polar.r * (1 + TIP_LENGTH * 1.05),
         theta: tipPoint1Polar.theta
     };
     const tipPointControlPolar = {
-        r: tipPosition1Polar.r * 1.05,
+        r: tipPosition1Polar.r * 1.04,
         theta: tipPoint1Polar.theta
     };
 
@@ -386,21 +344,34 @@ function getPath(
     }[],
     radius: number
 ) {
-    const RADIUS_SCALE = 1.075;
+    const RADIUS_SCALE = 1.07;
 
     const firstPos: [number, number] = [start[0].pos.x, start[0].pos.y];
     const secondPos: [number, number] = [start[1].pos.x, start[1].pos.y];
+    const OFFSET_SCALE_1 = Math.min(
+        0.05 * radius,
+        Math.sqrt(
+            (firstPos[0] - secondPos[0]) ** 2 +
+                (firstPos[1] - secondPos[1]) ** 2
+        ) / 2
+    );
 
     const thirdPos: [number, number] = [end[0].pos.x, end[0].pos.y];
     const fourthPos: [number, number] = [end[1].pos.x, end[1].pos.y];
+    const OFFSET_SCALE_2 = Math.min(
+        0.05 * radius,
+        Math.sqrt(
+            (thirdPos[0] - fourthPos[0]) ** 2 +
+                (thirdPos[1] - fourthPos[1]) ** 2
+        ) / 2
+    );
 
     const [
         p1Cartesian,
         p2Cartesian,
         tipBaseP1Cartesian,
         tipBaseP2Cartesian,
-        tipPosition1Cartesian,
-        angleCase1
+        tipPosition1Cartesian
     ] = positionTips(
         firstPos,
         secondPos,
@@ -415,8 +386,7 @@ function getPath(
         p4Cartesian,
         tipBaseP3Cartesian,
         tipBaseP4Cartesian,
-        tipPosition2Cartesian,
-        angleCase2
+        tipPosition2Cartesian
     ] = positionTips(
         thirdPos,
         fourthPos,
@@ -451,8 +421,7 @@ function getPath(
         tipPoint3Cartesian,
         tipPointControlCartesian,
         tipPoint2Cartesian,
-        radius * 0.05,
-        angleCase1
+        OFFSET_SCALE_1
     );
     const [
         tipPoint2OffsetCartesianNeg,
@@ -466,8 +435,7 @@ function getPath(
         tipPoint1Cartesian,
         tipPointControlCartesian2,
         tipPoint4Cartesian,
-        radius * 0.05,
-        angleCase2
+        OFFSET_SCALE_2
     );
     const arc1 = drawTip(
         p1Cartesian,
@@ -558,9 +526,9 @@ const EgoGraphBand = (props: EgoGraphBandProps) => {
                 className="band"
                 stroke={pathDatum.color}
                 opacity={0.7}
-                strokeWidth="1"
+                strokeWidth="0"
                 strokeLinejoin="arc"
-                fill={'none'}
+                fill={pathDatum.color}
             />
         </>
     ));
