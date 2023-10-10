@@ -59,10 +59,9 @@ export const aggregateNetworkAtom = atom((get) => {
                         10 *
                             (Math.sqrt(scaleSize(d.source.size) / Math.PI) +
                                 Math.sqrt(scaleSize(d.target.size) / Math.PI)) +
-                        70 * (1 - d.weight)
+                        100 * (1 - d.weight)
                 )
         )
-
         .stop();
     forceLayout.tick(100);
     forceLayout
@@ -78,7 +77,8 @@ export const aggregateNetworkAtom = atom((get) => {
 
     function boxingForce() {
         outNodes.forEach((node) => {
-            node = blockNodeCoordinates(scaleSize, node, svgSize);
+            //node = blockNodeCoordinates(scaleSize, node, svgSize);
+            blockNodeCoordinates(scaleSize, node, svgSize);
         });
     }
 
@@ -107,5 +107,5 @@ function blockNodeCoordinates(
 
     node.x = Math.max(radius, Math.min(blockX, node.x));
     node.y = Math.max(radius, Math.min(blockY, node.y));
-    return node;
+    //return node;
 }
