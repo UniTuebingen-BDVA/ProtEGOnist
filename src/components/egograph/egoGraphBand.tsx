@@ -155,29 +155,12 @@ function positionTips(
         polarToCartesian(tipPosition1.r, tipPosition1.theta),
         centerPos
     );
-
-    // check in which quadrant tipPosition1 is and return the quadrant as a number
-    let angleCase = 0;
-    const tipPos1Abs = (tipPosition1.theta + 2 * Math.PI) % (2 * Math.PI);
-    console.log(tipPos1Abs);
-    if (tipPos1Abs >= 0 && tipPos1Abs < Math.PI / 2) {
-        angleCase = 1;
-    } else if (tipPos1Abs >= Math.PI / 2 && tipPos1Abs < Math.PI) {
-        angleCase = 2;
-    } else if (tipPos1Abs >= Math.PI && tipPos1Abs < (3 * Math.PI) / 2) {
-        angleCase = 3;
-    } else if (tipPos1Abs >= (3 * Math.PI) / 2 && tipPos1Abs < 2 * Math.PI) {
-        console.log('ELLO ITS ME');
-        angleCase = 4;
-    }
-
     return [
         p1Cartesian,
         p2Cartesian,
         tipBaseP1Cartesian,
         tipBaseP2Cartesian,
-        tipPositionCartesian,
-        angleCase
+        tipPositionCartesian
     ];
 }
 

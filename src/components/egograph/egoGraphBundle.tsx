@@ -186,8 +186,6 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
         const returnBands: ReactElement[] = [];
         if (layout.bandData) {
             Object.entries(layout.bandData).forEach((band, i) => {
-                console.log('bandData', i, band);
-
                 returnBands.push(
                     <EgoGraphBand
                         key={i}
