@@ -58,6 +58,8 @@ function positionTips(
 
     let p1LocalPolar = cartesianToPolar(globalToLocal(p1Cartesian, centerPos));
     let p2LocalPolar = cartesianToPolar(globalToLocal(p2Cartesian, centerPos));
+    console.log('start', p1LocalPolar, centerPos);
+    console.log('start', p2LocalPolar, centerPos);
     const p3LocalPolar = cartesianToPolar(
         globalToLocal(p3Cartesian, centerPos)
     );
@@ -75,6 +77,14 @@ function positionTips(
         p2LocalPolar.r = radius;
     }
 
+    const halfcircleCondition =
+        Math.abs(p1LocalPolar.theta) === Math.abs(p2LocalPolar.theta);
+    const flipCondition = halfcircleCondition && p2LocalPolar.theta < 0;
+    if (flipCondition) {
+        p1LocalPolar.theta = p1LocalPolar.theta + Math.PI;
+        p2LocalPolar.theta = p2LocalPolar.theta + Math.PI;
+    }
+
     //check the order of p1 and p2
     if (p1LocalPolar.theta > p2LocalPolar.theta) {
         const temp = p1LocalPolar;
@@ -82,7 +92,10 @@ function positionTips(
         p2LocalPolar = temp;
     }
     //check the order of p1 and p2
-    if (p2LocalPolar.theta - p1LocalPolar.theta > Math.PI) {
+    if (
+        p2LocalPolar.theta - p1LocalPolar.theta > Math.PI &&
+        !halfcircleCondition
+    ) {
         const temp = p1LocalPolar;
         p1LocalPolar = p2LocalPolar;
         p2LocalPolar = temp;
@@ -92,6 +105,9 @@ function positionTips(
     //adjust p1 and p2 such that the stroke doesnt overlap with neighboring bands
     // p1LocalPolar.theta -= 0.02;
     // p2LocalPolar.theta += 0.02;
+
+    console.log('post', p1LocalPolar, centerPos);
+    console.log('post', p2LocalPolar, centerPos);
 
     p1Cartesian = localToGlobal(
         polarToCartesian(p1LocalPolar.r, p1LocalPolar.theta),
@@ -105,13 +121,12 @@ function positionTips(
     // calculate the midpoint between p1LocalPolar and p2LocalPolar
     const midpointP1P2Polar = {
         r: radius,
-        theta:
-            p1LocalPolar.theta + (p2LocalPolar.theta - p1LocalPolar.theta) / 2
+        theta: (p1LocalPolar.theta + p2LocalPolar.theta) / 2
     };
+    console.log('midpoint', midpointP1P2Polar, centerPos);
     const midpointP3P4Polar = {
         r: p3LocalPolar.r,
-        theta:
-            p3LocalPolar.theta + (p4LocalPolar.theta - p3LocalPolar.theta) / 2
+        theta: (p3LocalPolar.theta + p4LocalPolar.theta) / 2
     };
 
     const adjustedTipPosition1 = {
