@@ -113,31 +113,24 @@ export const aggregateNetworkAtom = atom((get) => {
     );
     // generate a deep copy for the force layout of outNodes and outEdges
     // const outEdgesInternal = JSON.parse(JSON.stringify(outEdges));
-    const forceLayout = d3
-        .forceSimulation(outNodes)
+    d3.forceSimulation(outNodes)
         .force('center', d3.forceCenter(0, 0))
         .force(
             'charge',
-            d3.forceManyBody().strength(() => -15)
-        )
-        .force(
+            d3.forceManyBody().strength(() => -10)
+        ).force(
             'link',
             d3
                 .forceLink(outEdges)
                 .id((d: egoNetworkNetworkNode) => d.id)
-                .distance((d) => 100 * (1 - d.weight))
+                .distance((d) => 500 * (1 - d.weight))
         )
-        .stop();
-    forceLayout.tick(100);
-    forceLayout
         .force(
             'collision',
             d3
                 .forceCollide()
-                .radius((d: egoNetworkNetworkNode) => d.radius + 10)
-                .iterations(10)
-        )
-        .tick(100);
+                .radius((d: egoNetworkNetworkNode) => d.radius+5)
+        ).stop().tick(100);
 
     // reshape the edges to contain a x1, x2, y1, y2 coordinate
     // Create a dictionary of nodes for faster lookup
@@ -147,20 +140,22 @@ export const aggregateNetworkAtom = atom((get) => {
         nodeDictionary[node.id] = node;
     });
 
-    const edgesWithCoordinates = outEdges.map((edge) => {
-        const sourceNode = nodeDictionary[edge.source.id];
-        const targetNode = nodeDictionary[edge.target.id];
-        return {
-            ...edge,
-            source: edge.source.id,
-            target: edge.target.id,
-            x1: sourceNode.x,
-            y1: sourceNode.y,
-            x2: targetNode.x,
-            y2: targetNode.y,
-            opacity: 1
-        };
-    }).filter(d=>d.visible);
+    const edgesWithCoordinates = outEdges
+        .map((edge) => {
+            const sourceNode = nodeDictionary[edge.source.id];
+            const targetNode = nodeDictionary[edge.target.id];
+            return {
+                ...edge,
+                source: edge.source.id,
+                target: edge.target.id,
+                x1: sourceNode.x,
+                y1: sourceNode.y,
+                x2: targetNode.x,
+                y2: targetNode.y,
+                opacity: 1
+            };
+        })
+        .filter((d) => d.visible);
     return {
         nodes: outNodes,
         edges: edgesWithCoordinates
@@ -205,7 +200,7 @@ function aggregateEgoNetworkNodes(
             neighbors: null
         };
     });
-    const outEdges: egoNetworkNetworkRenderedEdge[] = [];
+    let outEdges: egoNetworkNetworkRenderedEdge[] = [];
     const aggregatesDict: { [key: string]: egoNetworkNetworkRenderedEdge[] } =
         {};
     const aggregateIndex = (id: string) => {
@@ -266,8 +261,15 @@ function aggregateEgoNetworkNodes(
             };
         })
     );
-
-    return { outNodes: Object.values(nodeDict), outEdges: outEdges };
+    //outEdges= outEdges.sort((a,b)=>a.weight-b.weight)
+    const outNodes=Object.values(nodeDict).sort((a,b)=>{
+        if(a.id<b.id){
+            return -1;
+        }else{
+            return 1
+        }
+    })
+    return { outNodes: outNodes, outEdges: outEdges };
 }
 
 export const scaleNodeSizeAtom = atom((get) => {

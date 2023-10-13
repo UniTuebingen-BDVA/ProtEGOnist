@@ -21,7 +21,7 @@ import {
     getRadarAtom,
     getTableAtom,
     getEgoNetworkNetworkOverviewAtom,
-    startDataOverview, serverBusyAtom
+    startDataOverview, serverBusyAtom, initialDataLoadedAtom, radarChartBusyAtom, egoNetworkNetworkBusyAtom
 } from './apiCalls.ts';
 import EgoNetworkNetworkOverviewViewer from './components/overview_component/egoNetworkNetworkOverviewViewer.tsx';
 import DrawerElement from './components/drawerElement/DrawerElement.tsx';
@@ -30,6 +30,7 @@ import LogoText from './assets/LogoPathWhite.svg';
 import LogoBlue from './assets/LogoBlue.svg';
 
 import { GitHub } from '@mui/icons-material';
+import { aggregateNetworkAtom } from './components/egoNetworkNetwork/egoNetworkNetworkStore.ts';
 
 function App() {
     const [serverBusy]=useAtom(serverBusyAtom);
@@ -40,6 +41,7 @@ function App() {
     const [_egoNetworkNetworkData, getEgoNetworkNetworkData] = useAtom(
         getEgoNetworkNetworkAtom
     );
+    const [aggregateNetwork]=useAtom(aggregateNetworkAtom);
     const [_egoNetworkNetworkOverviewData, getEgoNetworkNetworkOverviewData] =
         useAtom(getEgoNetworkNetworkOverviewAtom);
     const [tarNode, setTarNode] = useAtom(tarNodeAtom);

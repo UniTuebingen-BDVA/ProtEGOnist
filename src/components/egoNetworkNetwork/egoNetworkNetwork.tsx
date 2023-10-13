@@ -13,7 +13,6 @@ const EgoNetworkNetwork = () => {
     const [{ nodes, edges }] = useAtom(aggregateNetworkAtom);
     const [decollapsedSize] = useAtom(decollapsedSizeAtom);
     const [interEdges] = useAtom(interEdgesAtom);
-
     const transitionsNodes = useTransition(nodes, {
         keys: ({ id }) => id,
         from: {
