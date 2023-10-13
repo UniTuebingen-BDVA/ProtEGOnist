@@ -1,6 +1,7 @@
 import * as d3 from 'd3';
 import { polarToCartesian } from '../../UtilityFunctions';
 import { egoGraph, egoGraphEdge, egoGraphNode } from '../../egoGraphSchema';
+import { midPointPolar } from '../../UtilityFunctions';
 
 export type layoutNode = egoGraphNode & {
     index: number;
@@ -66,6 +67,7 @@ function createLayerNodes(
     transformVector: { graphId: string; x: number; y: number },
     offset: number
 ) {
+    let internalOffset = offset;
     const nodes: { [key: string]: layoutNode } = {};
     const x = d3
         .scaleBand()
@@ -79,6 +81,24 @@ function createLayerNodes(
             2;
     } else {
         maxradius = radius;
+    }
+
+    // check if any element in sortOrder has an id sortOrder[i].id.split(',').length > 2
+    const tripleIntersection = sortOrder.find(
+        (d) => d.id.split(',').length > 2
+    );
+    // if such an element is found calculate the midpoint of the two outer nodes
+    if (tripleIntersection) {
+        const firstNode = tripleIntersection.intersections[0];
+        const lastNode =
+            tripleIntersection.intersections[
+                tripleIntersection.intersections.length - 1
+            ];
+        const firstNodeTheta = x(firstNode);
+        const lastNodeTheta = x(lastNode) + x.bandwidth();
+        internalOffset -= midPointPolar(firstNodeTheta, lastNodeTheta);
+    } else {
+        internalOffset += 0;
     }
     const bands: {
         [key: string]: [
@@ -94,7 +114,7 @@ function createLayerNodes(
             center,
             radius,
             x(sortOrder[i].intersections[0]),
-            offset
+            internalOffset
         );
         start.x += transformVector.x;
         start.y += transformVector.y;
@@ -107,7 +127,7 @@ function createLayerNodes(
                     sortOrder[i].intersections.length - 1
                 ]
             ) + x.bandwidth(),
-            offset
+            internalOffset
         );
         end.x += transformVector.x;
         end.y += transformVector.y;
@@ -115,7 +135,13 @@ function createLayerNodes(
             start,
             end,
             transformVector.graphId,
-            transformVector
+            transformVector,
+            x(sortOrder[i].intersections[0]),
+            x(
+                sortOrder[i].intersections[
+                    sortOrder[i].intersections.length - 1
+                ]
+            ) + x.bandwidth()
         ];
     }
     layerNodes.forEach((node) => {
@@ -124,7 +150,7 @@ function createLayerNodes(
             center,
             radius,
             x(node.id)! + x.bandwidth() / 2,
-            offset
+            internalOffset
         );
         nodes[node.id] = {
             ...node,
@@ -510,8 +536,8 @@ export function calculateLayout(
         }
         const fullRange = 2 * Math.PI;
         const xRanges: [[number, number], [number, number]] = [
-            [0, fullRange / egoGraphs.length],
-            [fullRange / egoGraphs.length, fullRange]
+            [0, fullRange - 0.0001],
+            [fullRange - 0.0001, fullRange]
         ];
         let layoutNodeDict: { [key: string]: layoutNode } = {};
         let nodeDict: { [key: string]: egoGraphNode } = {};
@@ -605,8 +631,8 @@ export function calculateLayout(
                 intersectingNodes.reverse(),
                 graphCenters[i],
                 xRanges,
-                -fullRange / egoGraphs.length / 2 +
-                    (fullRange / egoGraphs.length) * i
+                //-fullRange / egoGraphs.length / 2 +
+                (fullRange / egoGraphs.length) * i
             );
 
             console.log('CURRENT BANDS', currLayout.bands);

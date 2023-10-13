@@ -1,3 +1,4 @@
+import { midPointPolar } from '../../UtilityFunctions';
 interface EgoGraphBandProps {
     radius: number;
     bandData: [
@@ -58,13 +59,12 @@ function positionTips(
 
     let p1LocalPolar = cartesianToPolar(globalToLocal(p1Cartesian, centerPos));
     let p2LocalPolar = cartesianToPolar(globalToLocal(p2Cartesian, centerPos));
-    console.log('start', p1LocalPolar, centerPos);
-    console.log('start', p2LocalPolar, centerPos);
+    //console.log('start', p1LocalPolar.theta, p2LocalPolar.theta, centerPos);
     const p3LocalPolar = cartesianToPolar(
-        globalToLocal(p3Cartesian, centerPos)
+        globalToLocal(p4Cartesian, centerPos)
     );
     const p4LocalPolar = cartesianToPolar(
-        globalToLocal(p4Cartesian, centerPos)
+        globalToLocal(p3Cartesian, centerPos)
     );
 
     // check if radius of p1 and p2 is the same within an epsilon and throw error if not
@@ -86,28 +86,25 @@ function positionTips(
     }
 
     //check the order of p1 and p2
-    if (p1LocalPolar.theta > p2LocalPolar.theta) {
-        const temp = p1LocalPolar;
-        p1LocalPolar = p2LocalPolar;
-        p2LocalPolar = temp;
-    }
-    //check the order of p1 and p2
-    if (
-        p2LocalPolar.theta - p1LocalPolar.theta > Math.PI &&
-        !halfcircleCondition
-    ) {
-        const temp = p1LocalPolar;
-        p1LocalPolar = p2LocalPolar;
-        p2LocalPolar = temp;
-        p2LocalPolar.theta = 2 * Math.PI + temp.theta;
-    }
+    // if (p1LocalPolar.theta > p2LocalPolar.theta) {
+    //     const temp = structuredClone(p1LocalPolar);
+    //     p1LocalPolar = structuredClone(p2LocalPolar);
+    //     p2LocalPolar = temp;
+    // }
+    // //check the order of p1 and p2
+    // if (
+    //     p2LocalPolar.theta - p1LocalPolar.theta > Math.PI &&
+    //     !halfcircleCondition
+    // ) {
+    //     const temp = p1LocalPolar;
+    //     p1LocalPolar = structuredClone(p2LocalPolar);
+    //     p2LocalPolar = structuredClone(temp);
+    //     p2LocalPolar.theta = 2 * Math.PI + temp.theta;
+    // }
 
     //adjust p1 and p2 such that the stroke doesnt overlap with neighboring bands
     // p1LocalPolar.theta -= 0.02;
     // p2LocalPolar.theta += 0.02;
-
-    console.log('post', p1LocalPolar, centerPos);
-    console.log('post', p2LocalPolar, centerPos);
 
     p1Cartesian = localToGlobal(
         polarToCartesian(p1LocalPolar.r, p1LocalPolar.theta),
@@ -118,30 +115,52 @@ function positionTips(
         centerPos
     );
 
-    // calculate the midpoint between p1LocalPolar and p2LocalPolar
+    // calculate the midpoint between p1LocalPolar and p2LocalPolar consider that the midpoint of 3/2 pi and 1/2 pi is 0
     const midpointP1P2Polar = {
         r: radius,
-        theta: (p1LocalPolar.theta + p2LocalPolar.theta) / 2
+        theta: midPointPolar(p1LocalPolar.theta, p2LocalPolar.theta)
     };
-    console.log('midpoint', midpointP1P2Polar, centerPos);
     const midpointP3P4Polar = {
         r: p3LocalPolar.r,
-        theta: (p3LocalPolar.theta + p4LocalPolar.theta) / 2
+        theta: midPointPolar(p3LocalPolar.theta, p4LocalPolar.theta)
     };
 
     const adjustedTipPosition1 = {
         r: radius,
         theta:
-            midpointP1P2Polar.theta +
-            (midpointP3P4Polar.theta - midpointP1P2Polar.theta)
+            midpointP1P2Polar.theta < midpointP3P4Polar.theta
+                ? midPointPolar(
+                      midpointP1P2Polar.theta,
+                      midpointP3P4Polar.theta
+                  )
+                : midPointPolar(
+                      midpointP3P4Polar.theta,
+                      midpointP1P2Polar.theta
+                  )
     };
 
-    const tipPosition1 =
-        p1LocalPolar.theta < adjustedTipPosition1.theta &&
-        adjustedTipPosition1.theta < p2LocalPolar.theta
-            ? adjustedTipPosition1
-            : midpointP1P2Polar;
+    const conditionSmaller =
+        Math.abs(p1LocalPolar.theta) > Math.abs(adjustedTipPosition1.theta) &&
+        Math.abs(p2LocalPolar.theta) > Math.abs(adjustedTipPosition1.theta);
+    const conditionBigger =
+        Math.abs(p1LocalPolar.theta) < Math.abs(adjustedTipPosition1.theta) &&
+        Math.abs(p2LocalPolar.theta) < Math.abs(adjustedTipPosition1.theta);
 
+    let tipPosition1 = conditionSmaller //|| conditionBigger
+        ? adjustedTipPosition1
+        : midpointP1P2Polar;
+
+    tipPosition1 = midpointP1P2Polar;
+
+    console.log(
+        'post',
+        centerPos,
+        p1LocalPolar.theta / Math.PI,
+        p2LocalPolar.theta / Math.PI,
+        midpointP1P2Polar.theta / Math.PI,
+        midpointP3P4Polar.theta / Math.PI,
+        adjustedTipPosition1.theta / Math.PI
+    );
     // calculate the beginning of the "tip" of the arc (the point where the arc starts to bend) such that the angle between the tip and the midpoint is TIP_MAX_ANGLE or the radius of the arc, whichever is smaller
     const tipBaseP1Polar = {
         r: radius,
