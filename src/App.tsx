@@ -41,8 +41,7 @@ function App() {
     const [_egoNetworkNetworkData, getEgoNetworkNetworkData] = useAtom(
         getEgoNetworkNetworkAtom
     );
-    const [aggregateNetwork]=useAtom(aggregateNetworkAtom);
-    const [_egoNetworkNetworkOverviewData, getEgoNetworkNetworkOverviewData] =
+    const [egoNetworkNetworkOverviewData, getEgoNetworkNetworkOverviewData] =
         useAtom(getEgoNetworkNetworkOverviewAtom);
     const [tarNode, setTarNode] = useAtom(tarNodeAtom);
     const setStateDrawer = useSetAtom(drawerShownAtom);
@@ -91,7 +90,7 @@ function App() {
         // check if all data is loaded (not empty)
         tableData.rows.length > 0 && // tableData
         Object.keys(intersectionData).length > 0 && // radarData
-        tarNode !== ''
+        tarNode !== '' && egoNetworkNetworkOverviewData.nodes.length>0
     ) {
         return (
             <ThemeProvider theme={theme}>

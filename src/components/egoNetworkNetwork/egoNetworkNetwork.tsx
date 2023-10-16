@@ -23,7 +23,8 @@ const EgoNetworkNetwork = () => {
             ({ x, y }, _index) =>
             async (next, _cancel) => {
                 await next({
-                    transform: `translate(${x},${y})`
+                    transform: `translate(${x},${y})`,
+                    delay: 100
                 });
             },
         leave: () => async (next, _cancel) => {
@@ -36,32 +37,32 @@ const EgoNetworkNetwork = () => {
             ({ x, y }, _index) =>
             async (next, _cancel) => {
                 await next({
-                    transform: `translate(${x},${y})`
+                    transform: `translate(${x},${y})`,
+                    delay:100
                 });
             },
-        config: { duration: 1200 }
+        config: (_item, _state, phase) => {
+            switch (phase) {
+                case 'leave':
+                    return { duration: 100 };
+                case 'update':
+                    return { duration: 1000 };
+                case 'enter':
+                    return { duration: 1000 };
+            }
+        }
     });
 
     //animate the interEdges
     const edgesTransition = useTransition([...interEdges, ...edges], {
         keys: ({ source, target }) => source + '+' + target,
-        from:  ({ x1, x2, y1, y2 }) => ({
-                x1: x1,
-                x2: x2,
-                y1: y1,
-                y2: y2,
-            opacity: 0 }),
-        enter:
-            ({ x1, x2, y1, y2 }) =>
-            async (next, _cancel) => {
-                await next({
-                    x1: x1,
-                    x2: x2,
-                    y1: y1,
-                    y2: y2,
-                    opacity: 1
-                });
-            },
+        from: ({ x1, x2, y1, y2 }) => ({
+            x1: x1,
+            x2: x2,
+            y1: y1,
+            y2: y2,
+            opacity: 0
+        }),
         leave:
             ({ x1, x2, y1, y2 }) =>
             async (next, _cancel) => {
@@ -73,6 +74,18 @@ const EgoNetworkNetwork = () => {
                     opacity: 0
                 });
             },
+        enter:
+            ({ x1, x2, y1, y2 }) =>
+            async (next, _cancel) => {
+                await next({
+                    x1: x1,
+                    x2: x2,
+                    y1: y1,
+                    y2: y2,
+                    opacity: 0.7,
+                    delay: 1150
+                });
+            },
         update:
             ({ x1, x2, y1, y2 }) =>
             async (next, _cancel) => {
@@ -81,7 +94,8 @@ const EgoNetworkNetwork = () => {
                     x2: x2,
                     y1: y1,
                     y2: y2,
-                    opacity: 1
+                    opacity: 0.7,
+                    delay:100
                 });
             },
         config: (_item, _state, phase) => {
@@ -89,17 +103,15 @@ const EgoNetworkNetwork = () => {
                 case 'leave':
                     return { duration: 100 };
                 case 'update':
-                    return { duration: 1200 };
+                    return { duration: 1000 };
                 case 'enter':
-                    return { duration: 1200 };
+                    return { duration: 50 };
             }
         }
     });
 
     const otherEdges = edgesTransition((style, edge) => {
         return (
-            
-            
             <EgoNetworkNetworkEdge
                 key={edge.source + '_' + edge.target}
                 stroke="black"

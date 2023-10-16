@@ -47,7 +47,7 @@ export const aggregateNetworkAtom = atom((get) => {
         .force('center', d3.forceCenter(svgSize.width / 2, svgSize.height / 2))
         .force(
             'charge',
-            d3.forceManyBody().strength(() => -50)
+            d3.forceManyBody().strength(() => -10)
         )
         .force(
             'link',

@@ -18,7 +18,7 @@ const EgoNetworkNetworkEdge = memo(function EgoNetworkNetworkEdge(
     const { weight, animatedParams } = props;
     return (
         <animated.line
-            opacity={0.7}
+            opacity={animatedParams.opacity}
             x1={animatedParams.x1}
             y1={animatedParams.y1}
             x2={animatedParams.x2}
