@@ -2,6 +2,7 @@ import { atom } from 'jotai';
 import {
     egoNetworkNetwork,
     egoNetworkNetworkNode,
+    egoNetworkNetworkRendered,
     egoNetworkNetworkRenderedEdge
 } from '../../egoGraphSchema';
 import { getMultiEgographBundleAtom } from '../../apiCalls.ts';
@@ -79,15 +80,25 @@ const nodeNeighborsAtom = atom((get) => {
     });
     return neighborDict;
 });
-const egoNetworkNetworkDeepCopyAtom = atom<egoNetworkNetwork>((get) => {
-    const copy = JSON.parse(JSON.stringify(get(egoNetworkNetworksAtom)));
-    const nodeDict = {};
+const egoNetworkNetworkDeepCopyAtom = atom<egoNetworkNetworkRendered>((get) => {
+    const copy: egoNetworkNetwork = JSON.parse(
+        JSON.stringify(get(egoNetworkNetworksAtom))
+    );
+    const nodeDict: { [key: string]: egoNetworkNetworkNode } = {};
     copy.nodes.forEach((node) => (nodeDict[node.id] = node));
-    copy.edges.forEach((edge) => {
-        edge.source = nodeDict[edge.source];
-        edge.target = nodeDict[edge.target];
+    const renderedNetwork: egoNetworkNetworkRendered = { nodes: [], edges: [] };
+    renderedNetwork.nodes = copy.nodes.map((node) => {
+        return { ...node, x: 0, y: 0, vx: 0, vy: 0 };
     });
-    return copy;
+    renderedNetwork.edges = copy.edges.map((edge) => {
+        return {
+            ...edge,
+            source: nodeDict[edge.source],
+            target: nodeDict[edge.target],
+            visible: true
+        };
+    });
+    return renderedNetwork;
 });
 
 export const aggregateNetworkAtom = atom((get) => {
@@ -95,9 +106,6 @@ export const aggregateNetworkAtom = atom((get) => {
     const aggregateEgoNetworkNodeIDs = get(decollapseIDsAtom);
     const { outNodes, outEdges } = aggregateEgoNetworkNodes(
         egoNetworkNetwork.nodes,
-        // FIXME egoNetworkNodes.edges is not defined in TS
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore ts2304
         egoNetworkNetwork.edges,
         aggregateEgoNetworkNodeIDs,
         get(decollapsedSizeAtom),
@@ -105,54 +113,49 @@ export const aggregateNetworkAtom = atom((get) => {
     );
     // generate a deep copy for the force layout of outNodes and outEdges
     // const outEdgesInternal = JSON.parse(JSON.stringify(outEdges));
-    const forceLayout = d3
-        .forceSimulation(outNodes)
-        .force('charge', d3.forceManyBody().strength(15))
+    d3.forceSimulation(outNodes)
         .force('center', d3.forceCenter(0, 0))
         .force(
-            'collision',
-            // FIXME d.radius is not defined in TS
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore ts2304
-            d3.forceCollide().radius((d) => d.radius + 10)
-        )
-        .force(
+            'charge',
+            d3.forceManyBody().strength(() => -10)
+        ).force(
             'link',
             d3
                 .forceLink(outEdges)
-                // FIXME d.id is not defined in TS
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore ts2304
-                .id((d) => d.id)
-                .distance(50)
-        );
-    forceLayout.stop();
-    for (let i = 0; i < 1000; i++) {
-        forceLayout.tick();
-    }
+                .id((d: egoNetworkNetworkNode) => d.id)
+                .distance((d) => 500 * (1 - d.weight))
+        )
+        .force(
+            'collision',
+            d3
+                .forceCollide()
+                .radius((d: egoNetworkNetworkNode) => d.radius+5)
+        ).stop().tick(100);
 
     // reshape the edges to contain a x1, x2, y1, y2 coordinate
     // Create a dictionary of nodes for faster lookup
-    const nodeDictionary = {};
+
+    const nodeDictionary: { [key: string]: egoNetworkNetworkNode } = {};
     outNodes.forEach((node) => {
         nodeDictionary[node.id] = node;
     });
 
-    const edgesWithCoordinates = outEdges.map((edge) => {
-        const sourceNode = nodeDictionary[edge.source.id];
-        const targetNode = nodeDictionary[edge.target.id];
-        return {
-            ...edge,
-            source: edge.source.id,
-            target: edge.target.id,
-            x1: sourceNode.x,
-            y1: sourceNode.y,
-            x2: targetNode.x,
-            y2: targetNode.y,
-            opacity: 1
-        };
-    });
-
+    const edgesWithCoordinates = outEdges
+        .map((edge) => {
+            const sourceNode = nodeDictionary[edge.source.id];
+            const targetNode = nodeDictionary[edge.target.id];
+            return {
+                ...edge,
+                source: edge.source.id,
+                target: edge.target.id,
+                x1: sourceNode.x,
+                y1: sourceNode.y,
+                x2: targetNode.x,
+                y2: targetNode.y,
+                opacity: 1
+            };
+        })
+        .filter((d) => d.visible);
     return {
         nodes: outNodes,
         edges: edgesWithCoordinates
@@ -169,38 +172,103 @@ function aggregateEgoNetworkNodes(
     outNodes: egoNetworkNetworkNode[];
     outEdges: egoNetworkNetworkRenderedEdge[];
 } {
-    const outNodes: egoNetworkNetworkNode[] = [];
+    const nodeDict: { [key: string]: egoNetworkNetworkNode } = {};
     for (const node of egoNetworkNodesNodes) {
         // check if any of the arrays in aggregateNodeIDs includes node.id
         if (
             !aggregateNodeIDs.some((aggregate) => aggregate.includes(node.id))
         ) {
-            outNodes.push({
+            nodeDict[node.id] = {
                 ...node,
                 radius: Math.sqrt(radiusScale(node.size) / Math.PI),
                 collapsed: true
-            });
+            };
         }
     }
-    const outEdges = egoNetworkNetworkEdges.filter((edge) => {
-        if (!aggregateNodeIDs.flat().includes(edge.source.id)) {
-            return !aggregateNodeIDs.flat().includes(edge.target.id);
-        }
-        return false;
-    });
     aggregateNodeIDs.forEach((aggregates) => {
         const aggregateID = aggregates.join(',');
-        outNodes.push({
+        nodeDict[aggregateID] = {
             id: aggregateID,
             name: aggregateID,
             radius: decollapsedSize[aggregates.length - 1],
             size: decollapsedSize[aggregates.length - 1],
             x: 0,
             y: 0,
+            vx: 0,
+            vy: 0,
             collapsed: false,
             neighbors: null
-        });
+        };
     });
+    let outEdges: egoNetworkNetworkRenderedEdge[] = [];
+    const aggregatesDict: { [key: string]: egoNetworkNetworkRenderedEdge[] } =
+        {};
+    const aggregateIndex = (id: string) => {
+        let index = -1;
+        for (let i = 0; i < aggregateNodeIDs.length; i++) {
+            if (aggregateNodeIDs[i].includes(id)) {
+                index = i;
+                break;
+            }
+        }
+        return index;
+    };
+    egoNetworkNetworkEdges.forEach((edge) => {
+        const sourceIndex = aggregateIndex(edge.source.id);
+        const targetIndex = aggregateIndex(edge.target.id);
+        let fullID = '';
+        if (sourceIndex === -1) {
+            if (targetIndex === -1) {
+                outEdges.push(edge);
+            } else {
+                fullID = [aggregateNodeIDs[targetIndex], edge.source.id].join(
+                    '_'
+                );
+            }
+        } else {
+            if (targetIndex === -1) {
+                fullID = [aggregateNodeIDs[sourceIndex], edge.target.id].join(
+                    '_'
+                );
+            } else if (targetIndex !== sourceIndex) {
+                fullID = [
+                    aggregateNodeIDs[sourceIndex],
+                    aggregateNodeIDs[targetIndex]
+                ]
+                    .sort()
+                    .join('_');
+            }
+        }
+        if (fullID != '') {
+            if (!Object.keys(aggregatesDict).includes(fullID)) {
+                aggregatesDict[fullID] = [];
+            }
+            aggregatesDict[fullID].push(edge);
+        }
+    });
+    outEdges.push(
+        ...Object.keys(aggregatesDict).map((fullID) => {
+            const sourceTarget = fullID.split('_');
+            return {
+                source: nodeDict[sourceTarget[0]],
+                target: nodeDict[sourceTarget[1]],
+                weight:
+                    aggregatesDict[fullID]
+                        .map((d) => d.weight)
+                        .reduce((a, b) => a + b, 0) /
+                    aggregatesDict[fullID].length,
+                visible: false
+            };
+        })
+    );
+    //outEdges= outEdges.sort((a,b)=>a.weight-b.weight)
+    const outNodes=Object.values(nodeDict).sort((a,b)=>{
+        if(a.id<b.id){
+            return -1;
+        }else{
+            return 1
+        }
+    })
     return { outNodes: outNodes, outEdges: outEdges };
 }
 

@@ -23,7 +23,7 @@ const EgoNetworkNetworkEdge = memo(function EgoNetworkNetworkEdge(
             y1={animatedParams.y1}
             x2={animatedParams.x2}
             y2={animatedParams.y2}
-            stroke="gray"
+            stroke="lightgray"
             strokeWidth={0.5 + 2 * weight * 30}
         />
     );
