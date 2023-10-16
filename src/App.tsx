@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import './App.css';
+import InputPage from './components/HomePage/LandingPage.tsx';
 import { useAtom, useSetAtom } from 'jotai';
 import {
     AppBar,
@@ -30,8 +31,11 @@ import LogoText from './assets/LogoPathWhite.svg';
 import LogoBlue from './assets/LogoBlue.svg';
 
 import { GitHub } from '@mui/icons-material';
+import LandingPage from './components/HomePage/LandingPage.tsx';
 
 function App() {
+    let dataSent = false;
+
     const [serverBusy]=useAtom(serverBusyAtom);
     const [tableData, getTableData] = useAtom(getTableAtom);
     const [intersectionData, getRadarData] = useAtom(getRadarAtom);
@@ -77,6 +81,7 @@ function App() {
         // For useCase
         // setSelectedProteins(['P61978', 'O43447', 'Q14498', 'Q92922']);
         getEgoNetworkNetworkOverviewData(startDataOverview);
+        dataSent = true;
     }, [
         getTableData,
         getRadarData,
@@ -86,6 +91,7 @@ function App() {
         setSelectedProteins
     ]);
     if (
+        dataSent &&
         // check if all data is loaded (not empty)
         tableData.rows.length > 0 && // tableData
         Object.keys(intersectionData).length > 0 && // radarData
@@ -226,7 +232,7 @@ function App() {
                 </div>
             </ThemeProvider>
         );
-    } else
+    } else if (dataSent) {
         return (
             <ThemeProvider theme={theme}>
                 <Box
@@ -249,6 +255,12 @@ function App() {
                 </Box>
             </ThemeProvider>
         );
+                    } else {
+                        return (
+                            <LandingPage />
+                            )
+
+}
 }
 
 export default App;
