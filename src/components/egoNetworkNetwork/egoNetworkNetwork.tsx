@@ -38,7 +38,7 @@ const EgoNetworkNetwork = () => {
             async (next, _cancel) => {
                 await next({
                     transform: `translate(${x},${y})`,
-                    delay:100
+                    delay: 100
                 });
             },
         config: (_item, _state, phase) => {
@@ -95,7 +95,7 @@ const EgoNetworkNetwork = () => {
                     y1: y1,
                     y2: y2,
                     opacity: 0.7,
-                    delay:100
+                    delay: 100
                 });
             },
         config: (_item, _state, phase) => {
@@ -120,6 +120,12 @@ const EgoNetworkNetwork = () => {
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore ts2304
                 animatedParams={style}
+                notAnimatedParams={{
+                    x1: edge.x1,
+                    x2: edge.x2,
+                    y1: edge.y1,
+                    y2: edge.y2
+                }}
                 nodeIds={[edge.source, edge.target]}
             />
         );
