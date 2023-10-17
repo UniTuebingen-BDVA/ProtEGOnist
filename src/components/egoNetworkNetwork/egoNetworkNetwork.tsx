@@ -120,6 +120,7 @@ const EgoNetworkNetwork = () => {
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore ts2304
                 animatedParams={style}
+                nodeIds={[edge.source, edge.target]}
             />
         );
     });
