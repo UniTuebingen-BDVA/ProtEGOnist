@@ -13,7 +13,7 @@ export function polarToCartesian(
     };
 }
 
-export function midPointPolar(p1Theta: number, p2Theta: number) {
+export function midPointPolar2PI(p1Theta: number, p2Theta: number) {
     if (p1Theta > p2Theta) {
         const p1To2PI = 2 * Math.PI - p1Theta;
         const p2To0PI = p2Theta;
@@ -22,6 +22,19 @@ export function midPointPolar(p1Theta: number, p2Theta: number) {
     } else {
         const offsetFromP1 = (p2Theta - p1Theta) / 2;
         return p1Theta + offsetFromP1;
+    }
+}
+export function midPointPolar(p1Theta: number, p2Theta: number) {
+    if (p1Theta < p2Theta) {
+        const p1TominusPi = Math.abs(-Math.PI - p1Theta);
+        const p2ToPi = Math.abs(Math.PI - p2Theta);
+        if (p1TominusPi > p2ToPi) {
+            return -Math.PI + (p1TominusPi - p2ToPi) / 2;
+        } else {
+            return Math.PI - (p2ToPi - p1TominusPi) / 2;
+        }
+    } else {
+        return (p1Theta + p2Theta) / 2;
     }
 }
 

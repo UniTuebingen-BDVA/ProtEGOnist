@@ -66,7 +66,7 @@ function positionTips(
     centerPosC1: { x: number; y: number },
     centerPosC2: { x: number; y: number }
 ) {
-    const TIP_MAX_ANGLE = 0.7; //rad
+    const TIP_MAX_ANGLE = 0.4; //rad
     let p1Cartesian = structuredClone(p1);
     let p2Cartesian = structuredClone(p2);
     const p3Cartesian = structuredClone(p3);
@@ -93,6 +93,9 @@ function positionTips(
         globalToLocal(p4Cartesian, centerPosC2)
     );
 
+    const centerPosC2PolarC1 = cartesianToPolar(
+        globalToLocal([centerPosC2.x, centerPosC2.y], centerPosC1)
+    );
     // check if radius of p1 and p2 is the same within an epsilon and throw error if not
     if (Math.abs(p1LocalPolarC1.r - p2LocalPolarC1.r) > 0.0001) {
         throw new Error(
@@ -103,13 +106,13 @@ function positionTips(
         p2LocalPolarC1.r = radius;
     }
 
-    const halfcircleCondition =
-        Math.abs(p1LocalPolarC1.theta) === Math.abs(p2LocalPolarC1.theta);
-    const flipCondition = halfcircleCondition && p2LocalPolarC1.theta < 0;
-    if (flipCondition) {
-        p1LocalPolarC1.theta = p1LocalPolarC1.theta + Math.PI;
-        p2LocalPolarC1.theta = p2LocalPolarC1.theta + Math.PI;
-    }
+    // const halfcircleCondition =
+    //     Math.abs(p1LocalPolarC1.theta) === Math.abs(p2LocalPolarC1.theta);
+    // const flipCondition = halfcircleCondition && p2LocalPolarC1.theta < 0;
+    // if (flipCondition) {
+    //     p1LocalPolarC1.theta = p1LocalPolarC1.theta + Math.PI;
+    //     p2LocalPolarC1.theta = p2LocalPolarC1.theta + Math.PI;
+    // }
 
     //check the order of p1 and p2
     // if (p1LocalPolar.theta > p2LocalPolar.theta) {
@@ -144,7 +147,7 @@ function positionTips(
     // calculate the midpoint between p1LocalPolar and p2LocalPolar consider that the midpoint of 3/2 pi and 1/2 pi is 0
     const midpointP1P2PolarC1 = {
         r: radius,
-        theta: midPointPolar(p1LocalPolarC1.theta, p2LocalPolarC1.theta)
+        theta: midPointPolar(p2LocalPolarC1.theta, p1LocalPolarC1.theta)
     };
     // const midpointP3P4PolarC1 = {
     //     r: p3LocalPolarC1.r,
@@ -165,20 +168,76 @@ function positionTips(
         globalToLocal(midpointP3P4cartesianC2, centerPosC1)
     );
 
-    console.log('midpointsP34', midpointP3P4PolarC1, midpointP3P4PolarC2);
+    console.log(
+        'midpointsP34',
+        midpointP3P4PolarC1.theta / Math.PI,
+        midpointP3P4PolarC2.theta / Math.PI
+    );
+
+    const bothSmaller0 =
+        midpointP1P2PolarC1.theta < 0 && midpointP3P4PolarC1.theta < 0;
+    const midpointp1p2smaller0 =
+        midpointP1P2PolarC1.theta < 0 && midpointP3P4PolarC1.theta > 0;
+    const midpointp3p4smaller0 =
+        midpointP1P2PolarC1.theta > 0 && midpointP3P4PolarC1.theta < 0;
+    const p12largerp34 = midpointP1P2PolarC1.theta > midpointP3P4PolarC1.theta;
+    const centerPos2Right =
+        centerPosC2PolarC1.theta > -Math.PI / 2 &&
+        centerPosC2PolarC1.theta < Math.PI / 2;
 
     const adjustedTipPosition1 = {
         r: radius,
-        theta:
-            midpointP1P2PolarC1.theta < midpointP3P4PolarC1.theta
-                ? midPointPolar(
-                      midpointP1P2PolarC1.theta,
-                      midpointP3P4PolarC1.theta
-                  )
-                : midPointPolar(
-                      midpointP3P4PolarC1.theta,
-                      midpointP1P2PolarC1.theta
-                  )
+        theta: (() => {
+            if (bothSmaller0) {
+                if (p12largerp34) {
+                    return midPointPolar(
+                        midpointP1P2PolarC1.theta,
+                        midpointP3P4PolarC1.theta
+                    );
+                } else {
+                    return midPointPolar(
+                        midpointP3P4PolarC1.theta,
+                        midpointP1P2PolarC1.theta
+                    );
+                }
+            } else if (midpointp1p2smaller0) {
+                if (centerPos2Right) {
+                    return midPointPolar(
+                        midpointP3P4PolarC1.theta,
+                        midpointP1P2PolarC1.theta
+                    );
+                } else {
+                    return midPointPolar(
+                        midpointP1P2PolarC1.theta,
+                        midpointP3P4PolarC1.theta
+                    );
+                }
+            } else if (midpointp3p4smaller0) {
+                if (centerPos2Right) {
+                    return midPointPolar(
+                        midpointP3P4PolarC1.theta,
+                        midpointP1P2PolarC1.theta
+                    );
+                } else {
+                    return midPointPolar(
+                        midpointP1P2PolarC1.theta,
+                        midpointP3P4PolarC1.theta
+                    );
+                }
+            } else {
+                if (p12largerp34) {
+                    return midPointPolar(
+                        midpointP1P2PolarC1.theta,
+                        midpointP3P4PolarC1.theta
+                    );
+                } else {
+                    return midPointPolar(
+                        midpointP3P4PolarC1.theta,
+                        midpointP1P2PolarC1.theta
+                    );
+                }
+            }
+        })()
     };
 
     const conditionSmaller =
@@ -194,15 +253,6 @@ function positionTips(
 
     tipPosition1 = adjustedTipPosition1;
 
-    console.log(
-        'post',
-        centerPosC1,
-        p1LocalPolarC1.theta / Math.PI,
-        p2LocalPolarC1.theta / Math.PI,
-        midpointP1P2PolarC1.theta / Math.PI,
-        midpointP3P4PolarC1.theta / Math.PI,
-        adjustedTipPosition1.theta / Math.PI
-    );
     // calculate the beginning of the "tip" of the arc (the point where the arc starts to bend) such that the angle between the tip and the midpoint is TIP_MAX_ANGLE or the radius of the arc, whichever is smaller
 
     const tipBaseP1Polar = {
@@ -213,13 +263,13 @@ function positionTips(
         r: radius,
         theta: baseAdjustAdd(tipPosition1.theta, TIP_MAX_ANGLE / 2)
     };
-    //check if the tip is within the arc
-    if (tipBaseP1Polar.theta < p1LocalPolarC1.theta) {
-        tipBaseP1Polar.theta = p1LocalPolarC1.theta;
-    }
-    if (tipBaseP2Polar.theta > p2LocalPolarC1.theta) {
-        tipBaseP2Polar.theta = p2LocalPolarC1.theta;
-    }
+    //check if the tip is within the arc TODO HERE BE DRAGONS
+    // if (tipBaseP1Polar.theta < p1LocalPolarC1.theta) {
+    //     tipBaseP1Polar.theta = p1LocalPolarC1.theta;
+    // }
+    // if (tipBaseP2Polar.theta > p2LocalPolarC1.theta) {
+    //     tipBaseP2Polar.theta = p2LocalPolarC1.theta;
+    // }
     const tipBaseP1Cartesian = localToGlobal(
         polarToCartesian(tipBaseP1Polar.r, tipBaseP1Polar.theta),
         centerPosC1
@@ -246,24 +296,63 @@ function offsetTips(
     vectorAssist: [number, number],
     tipPointControl: [number, number],
     connectorControl: [number, number],
-    offsetDistance: [number, number]
+    offsetDistance: [number, number],
+    ownCenter: [number, number]
 ): [number, number][] {
     // calculate the vector between the two tip points
+    const fromCenterToOffsetPointMain = [
+        offsetPointMain[0] - ownCenter[0],
+        offsetPointMain[1] - ownCenter[1]
+    ];
     const tipVector = [
         offsetPointMain[0] - vectorAssist[0],
         offsetPointMain[1] - vectorAssist[1]
     ];
-
-    // calculate the length of the tip vector
-    const tipVectorLength = Math.sqrt(
-        tipVector[0] * tipVector[0] + tipVector[1] * tipVector[1]
+    //check if the abs of the dot product of the two vectors is < 1/3 Pi
+    const dotProduct =
+        fromCenterToOffsetPointMain[0] * tipVector[0] +
+        fromCenterToOffsetPointMain[1] * tipVector[1];
+    const angle = Math.acos(
+        dotProduct /
+            Math.sqrt(
+                fromCenterToOffsetPointMain[0] *
+                    fromCenterToOffsetPointMain[0] +
+                    fromCenterToOffsetPointMain[1] *
+                        fromCenterToOffsetPointMain[1]
+            ) /
+            Math.sqrt(tipVector[0] * tipVector[0] + tipVector[1] * tipVector[1])
     );
+    let tipVectorNormalized = [0, 0];
+    if (angle < (Math.PI * 2) / 3) {
+        // set the vector such that angles with 1/3 Pi
+        const rot = (Math.sign(dotProduct) * -2 * Math.PI) / 3;
+        const fromCenterToOffsetPointMainLength = Math.sqrt(
+            fromCenterToOffsetPointMain[0] * fromCenterToOffsetPointMain[0] +
+                fromCenterToOffsetPointMain[1] * fromCenterToOffsetPointMain[1]
+        );
+        const fromCenterToOffsetPointMainNormalized = [
+            fromCenterToOffsetPointMain[0] / fromCenterToOffsetPointMainLength,
+            fromCenterToOffsetPointMain[1] / fromCenterToOffsetPointMainLength
+        ];
 
-    // normalize the tip vector
-    const tipVectorNormalized = [
-        tipVector[0] / tipVectorLength,
-        tipVector[1] / tipVectorLength
-    ];
+        tipVectorNormalized = [
+            fromCenterToOffsetPointMainNormalized[0] * Math.cos(rot) -
+                fromCenterToOffsetPointMainNormalized[1] * Math.sin(rot),
+            fromCenterToOffsetPointMainNormalized[0] * Math.sin(rot) +
+                fromCenterToOffsetPointMainNormalized[1] * Math.cos(rot)
+        ];
+    } else {
+        // calculate the length of the tip vector
+        const tipVectorLength = Math.sqrt(
+            tipVector[0] * tipVector[0] + tipVector[1] * tipVector[1]
+        );
+
+        // normalize the tip vector
+        tipVectorNormalized = [
+            tipVector[0] / tipVectorLength,
+            tipVector[1] / tipVectorLength
+        ];
+    }
 
     // calculate the offset vector
     const offsetVector = [
@@ -483,7 +572,8 @@ function getPath(
         tipPoint3Cartesian,
         tipPointControlCartesian,
         tipPoint2Cartesian,
-        OFFSET_SCALE_1
+        OFFSET_SCALE_1,
+        [start[0].graphCenterPos.x, start[0].graphCenterPos.y]
     );
     const [
         tipPoint2OffsetCartesianNeg,
@@ -497,7 +587,8 @@ function getPath(
         tipPoint1Cartesian,
         tipPointControlCartesian2,
         tipPoint4Cartesian,
-        OFFSET_SCALE_2
+        OFFSET_SCALE_2,
+        [end[0].graphCenterPos.x, end[0].graphCenterPos.y]
     );
     const arc1 = drawTip(
         p1Cartesian,

@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
 import { polarToCartesian } from '../../UtilityFunctions';
 import { egoGraph, egoGraphEdge, egoGraphNode } from '../../egoGraphSchema';
-import { midPointPolar } from '../../UtilityFunctions';
+import { midPointPolar2PI } from '../../UtilityFunctions';
 
 export type layoutNode = egoGraphNode & {
     index: number;
@@ -96,7 +96,7 @@ function createLayerNodes(
             ];
         const firstNodeTheta = x(firstNode);
         const lastNodeTheta = x(lastNode) + x.bandwidth();
-        internalOffset -= midPointPolar(firstNodeTheta, lastNodeTheta);
+        internalOffset -= midPointPolar2PI(firstNodeTheta, lastNodeTheta);
     } else {
         internalOffset += 0;
     }
