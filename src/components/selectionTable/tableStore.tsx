@@ -21,23 +21,8 @@ interface rowData {
 
 export const columnVisibilityAtom = atom<{ [key: string]: boolean }>({
     Radar: true,
-    ID: false,
     drug_name: true,
-    GDSC: false,
-    y_id: false,
     x_id: true,
-    n: false,
-    beta: false,
-    pval: false,
-    fdr: false,
-    nc_beta: false,
-    nc_pval: false,
-    nc_fdr: false,
-    r2: false,
-    target: true,
-    ppi: false,
-    skew: false,
-    cancer_gene: false,
     nodeID: true,
     selected: true
 });
@@ -109,10 +94,9 @@ export const drugsPerProteinAtom = atom<{ [key: string]: number }>({});
 export const tableModelSelectedAtom = atom<number[]>((get) => {
     const selectedProteins = get(selectedProteinsAtom);
     const tableRows = get(tableAtomStore).rows;
+    const indexSelectedProts = Object.keys(tableRows).map((key, index) => selectedProteins.includes(key) ? index : -1).filter(index => index > 0)
 
-    return selectedProteins
-        .map(protein => tableRows.findIndex(row => row['nodeID'] === protein) + 1)
-        .filter(index => index > 0); // Remove -1 indices
+    return indexSelectedProts
 }
 );
 
@@ -120,18 +104,16 @@ export const tableAtom = atom(
     (get) => get(tableAtomStore),
     (_get, set, update: { rows: GridRowsProp; columns: GridColDef[] }) => {
         // add a Radar button to the columns when tableAtom is set
-        // get all unique uniprot ids (nodeID)
-        const nodeIDs = update.rows.map((row) => row['nodeID']);
+        // get all unique keys (nodeID) from dictionary and put them in an array
+        const nodeIDs = Object.keys(update.rows)
         // generate set of unique uniprot ids
         const uniquenodeIDs = [...new Set(nodeIDs)];
 
         const drugsPerProtein: { [key: string]: number } = {};
 
         for (const nodeID of uniquenodeIDs) {
-            const filteredRows = update.rows.filter((row) => {
-                return row['nodeID'] === nodeID;
-            });
-            const drugNames = filteredRows.map((row) => row['drug_name']);
+            const rowProtein = update.rows[nodeID];
+            const drugNames = rowProtein["drug_name"].split(';');
             const uniqueDrugNames = [...new Set(drugNames)];
             drugsPerProtein[nodeID] = uniqueDrugNames.length;
         }

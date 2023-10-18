@@ -1,7 +1,6 @@
 import json
 import pathlib
 import pickle
-
 import networkx as nx
 from flask import Flask, request
 
@@ -26,43 +25,75 @@ here: pathlib.Path = pathlib.Path(__file__).parent.absolute()
 
 EXAMPLES = {}
 
-def read_example_string(): 
+
+def read_example_string():
     # Read the STRING network from the input file
     try:
-        network = nx.read_graphml(here / "data" / "graphml_string_cleaned.graphml")
+        network = nx.read_graphml(
+            here / "data" / "graphml_string_cleaned.graphml")
+        print("Loaded string graph ", len(network.nodes))
     except FileNotFoundError:
-        print(f"No graphml file found in {here / 'data'}. Make sure you added it.")
+        print(
+            f"No graphml file found in {here / 'data'}. Make sure you added it.")
     # Read the top intersections from the input file
     try:
         with open(here / "data" / "intersections_ego_deg2.pickle", "rb") as f:
             top_intersections = pickle.load(f)
             print("Loaded intersections ", len(top_intersections))
     except FileNotFoundError:
-        print(f"No json file found in {here / 'data'}. Make sure you added it.")
+        print(
+            f"No json file found in {here / 'data'}. Make sure you added it.")
     # Read the classification file
+    # try:
+    #     with open(here / "data" / "uniprot_brite.csv", "r") as f:
+    #         # read the uniprot_brite_dict csv file into a dictionary, the key is the uniprot id(col0) and the value is the brite id(col1)
+    #         classification_dict = {
+    #             line.strip().split(",")[0]: line.strip().split(",")[1] for line in f
+    #         }
+    #         print("Loaded uniprot_brite_dict ", len(classification_dict))
+    # except FileNotFoundError:
+    #     print(
+    #         f"No uniprot_brite.csv found in {here / 'data'}. Make sure you added it.")
+    # Read the metadata table
+    # try:
+    #     table_data = read_excel_sheet(
+    #         here / "data" / "s5_with_uniprot.xlsx", 0)
+    #     print("Loaded table_data ", len(table_data))
+    # except FileNotFoundError:
+    #     print(
+    #         f"No s5_with_uniprot.xlsx found in {here / 'data'}. Make sure you added it.")
+
     try:
-        with open(here / "data" / "uniprot_brite.csv", "r") as f:
-            # read the uniprot_brite_dict csv file into a dictionary, the key is the uniprot id(col0) and the value is the brite id(col1)
-            uniprot_brite_dict = {
-                line.strip().split(",")[0]: line.strip().split(",")[1] for line in f
+        with open(here / "data" / "metadata_proteins.csv", "r") as f:
+            # read the metadata table into a dictionary,
+            # the key is the node id(col0) and the value is the metadata in a dictionary with the key from header
+            table_data = {"columns": f.readline().strip().split(",")}
+            # print(table_data["columns"])
+            table_data_temp = {
+                line.strip().split(",")[0]: {name: value for name, value in zip(table_data["columns"], line.strip().split(","))} for line in f
             }
-            print("Loaded uniprot_brite_dict ", len(uniprot_brite_dict))
+            table_data["rows"] = table_data_temp
+            table_data["columns"] = [
+                {"field": field, "headerName": field, "width": 150} for field in table_data["columns"]]
+            print(table_data["rows"])
+            print("Loaded table_data ", len(table_data))
+        classification_dict = {
+            key: value["brite"] for key, value in table_data["rows"].items()
+        }
+
     except FileNotFoundError:
         print(
-            f"No uniprot_brite.csv found in {here / 'data'}. Make sure you added it.")
-    # Read the metadata table
-    try:
-        table_data = read_excel_sheet(here / "data" / "s5_with_uniprot.xlsx", 0)
-    except FileNotFoundError:
-        print(f"No s5_with_uniprot.xlsx found in {here / 'data'}. Make sure you added it.")
+            f"No metadata file found in {here / 'data'}. Make sure you added it.")
 
     EXAMPLES["string"] = {
         "network": network,
         "top_intersections": top_intersections,
-        "classification": uniprot_brite_dict,
+        "classification": classification_dict,
         "metadata": table_data,
         "relevant_proteins": list(network.nodes),
     }
+    print("Loaded string examsple")
+
 
 read_example_string()
 
@@ -126,7 +157,7 @@ def index():
 #     input_file = request.files["nodesInterest"]
 #     header = False
 #     for line in input_file.stream.read().decode().splitlines():
-#         if not header: 
+#         if not header:
 #             header = True
 #             names_cols = line.strip().split("\t")[1:]
 #             continue
@@ -140,9 +171,8 @@ def index():
 #     return json.dumps(list(subset_nodes.keys()))
 
 
-
 @app.route("/api/EgoRadar/<example>/<targetNode>", methods=["GET"])
-def get_ego_radar(example:str, targetNode: str):
+def get_ego_radar(example: str, targetNode: str):
     """
     Generate a test ego radar plot using nx.gorogovtsev_goltsev_mendes_graph and generating 40 ego networks from it.
     """
@@ -165,24 +195,26 @@ def get_ego_radar(example:str, targetNode: str):
     intersection_dict = {
         i: rest_ego_graphs[i].get_intersection(tar_ego_graph) for i in ids
     }
-    intersection_dict[targetNode] = tar_ego_graph.get_intersection(tar_ego_graph)
+    intersection_dict[targetNode] = tar_ego_graph.get_intersection(
+        tar_ego_graph)
 
     return json.dumps(intersection_dict)
 
 
 @app.route("/api/getTableData/<type>", methods=["GET"])
 def get_table_data(type: str):
-    return EXAMPLES[type]["metadata"]
+    return json.dumps(EXAMPLES[type]["metadata"])
 
 
 @app.route("/api/getEgoNetworkNetwork/<example>/<targetNodes>", methods=["GET"])
-def get_ego_network_network(example:str, targetNodes: str):
+def get_ego_network_network(example: str, targetNodes: str):
     """
     Generate a network of ego networks from the target nodes.
     """
     string_graph = EXAMPLES[example]["network"]
     split_target = targetNodes.split("+")
-    ego_networks = [EgoGraph.from_string_network(i, string_graph) for i in split_target]
+    ego_networks = [EgoGraph.from_string_network(
+        i, string_graph) for i in split_target]
     ego_network_network = EgoNetworkNetwork(ego_networks)
 
     return ego_network_network.get_graph_json()

@@ -46,6 +46,7 @@ def read_excel_sheet(path: pathlib.Path, sheet_name: str | int):
     # add a field ("id") to each row that contains the index+1 of the row
     for i in range(len(rows_as_dict)):
         rows_as_dict[i]["id"] = i + 1
-    cols = [{"field": field, "headerName": field, "width": 150} for field in columns]
+    cols = [{"field": field, "headerName": field, "width": 150}
+            for field in columns]
 
-    return json.dumps({"rows": rows_as_dict, "columns": cols})
+    return {"rows": rows_as_dict, "columns": cols}

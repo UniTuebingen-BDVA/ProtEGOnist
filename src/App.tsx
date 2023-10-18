@@ -96,7 +96,7 @@ function App() {
     if (
         selectedExample &&
         // check if all data is loaded (not empty)
-        tableData.rows.length > 0 && // tableData
+        Object.keys(tableData.rows).length > 0 && // tableData
         Object.keys(intersectionData).length > 0 && // radarData
         tarNode !== ''
     ) {

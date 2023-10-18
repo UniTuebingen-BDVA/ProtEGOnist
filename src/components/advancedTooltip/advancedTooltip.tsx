@@ -24,16 +24,14 @@ const TooltipContent = memo(function TooltipContent({
 }: TooltipContentProps) {
     const [tableData] = useAtom(tableAtom);
 
-    // find the rows in the table that match the uniprot ID
-    const filteredRows = tableData.rows.filter((row) => {
-        return row['nodeID'] === nodeID;
-    });
+    const nodeData = tableData.rows[nodeID]
 
-    const proteinNames = filteredRows.map((row) => row['x_id']);
+    // split data if available
+    const proteinNames = nodeData?.["x_id"].split(';') ?? [];
+    const drugNames = nodeData?.["drug_name"].split(';') ?? [];
+
     // generate set of unique protein names
     const uniqueProteinNames = [...new Set(proteinNames)];
-
-    const drugNames = filteredRows.map((row) => row['drug_name']);
     // generate set of unique drug names
     const uniqueDrugNames = [...new Set(drugNames)];
 

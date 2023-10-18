@@ -245,11 +245,12 @@ const RadarChart = (props: RadarChartProps) => {
     // @ts-ignore ts2304
     const getNodeName = (id) => {
         // find the rows in the table that match the uniprot ID
-        const filteredRows = tableData.rows.filter((row) => {
-            return row['nodeID'] === id;
-        });
+        // const filteredRows = tableData.rows.filter((row) => {
+        //     return row['nodeID'] === id;
+        // });
+        const nodeData = tableData.rows[id]
 
-        const proteinNames = filteredRows.map((row) => row['x_id']);
+        const proteinNames = nodeData["x_id"].split(';');
         // generate set of unique protein names
         const uniqueProteinNames = [...new Set(proteinNames)];
         // join the protein names with a comma
