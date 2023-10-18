@@ -94,8 +94,7 @@ export const drugsPerProteinAtom = atom<{ [key: string]: number }>({});
 export const tableModelSelectedAtom = atom<number[]>((get) => {
     const selectedProteins = get(selectedProteinsAtom);
     const tableRows = get(tableAtomStore).rows;
-    const indexSelectedProts = Object.keys(tableRows).map((key, index) => selectedProteins.includes(key) ? index : -1).filter(index => index > 0)
-
+    const indexSelectedProts = Object.keys(tableRows).map((key, index) => selectedProteins.includes(key) ? index : -1).filter(index => index !== -1);
     return indexSelectedProts
 }
 );

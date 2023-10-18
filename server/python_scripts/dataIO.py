@@ -50,3 +50,24 @@ def read_excel_sheet(path: pathlib.Path, sheet_name: str | int):
             for field in columns]
 
     return {"rows": rows_as_dict, "columns": cols}
+
+
+def read_metadata(path, classification):
+    with open(path, "r") as f:
+        # read the metadata table into a dictionary,
+        # the key is the node id(col0) and the value is the metadata in a dictionary with the key from header
+        table_data = {"columns": f.readline().strip().split(",")}
+        table_data_temp = {
+            line.strip().split(",")[0]: {name: value for name, value in zip(table_data["columns"], line.strip().split(","))} for line in f
+        }
+        table_data["rows"] = table_data_temp
+        table_data["columns"] = [
+            {"field": field, "headerName": field, "width": 150} for field in table_data["columns"]]
+        print(table_data["rows"])
+        print("Loaded table_data ", len(table_data))
+
+    classification_dict = {
+        key: value[classification] for key, value in table_data["rows"].items()
+    }
+
+    return table_data, classification_dict

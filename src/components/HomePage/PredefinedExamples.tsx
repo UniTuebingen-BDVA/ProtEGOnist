@@ -23,6 +23,17 @@ const ExamplesPage = (_props) => {
                         Example One: Visualizing PPIs
                     </Button>
                 </ListItem>
+                <ListItem>
+                    <Button
+                        variant="contained"
+                        size="small"
+                        onClick={(e) => {
+                            setExampleChosen("string_modified")
+                        }}
+                    >
+                        Example Two: Jaksdklaslkfj
+                    </Button>
+                </ListItem>
             </List>
         </Container>
     );

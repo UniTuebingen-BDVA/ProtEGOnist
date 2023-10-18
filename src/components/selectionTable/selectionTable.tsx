@@ -22,8 +22,6 @@ const SelectionTable = () => {
     const columns = [...tableData.columns,
     { "field": "selected", "headerName": "Selected?", "width": 100, "valueGetter": (params) => selectedProteins.includes(params.row.nodeID) ? "Yes" : "No" },
     { "field": "overview", "headerName": "Found in Overview?", "width": 100, "valueGetter": (params) => startDataOverview.includes(params.row.nodeID) ? "Yes" : "No" }];
-    // const aragProts = rows.filter((row) => row.drug_name === "Ara-G" && startDataOverview.includes(row.nodeID)).map((row) => row.nodeID);
-    // console.log(aragProts)
 
     return (
         <Box style={{ maxWidth: '100%', width: '100%', height: '100%' }}>
@@ -48,7 +46,7 @@ const SelectionTable = () => {
                     // when the model changes, we need to update the network data
                     // for this we call getEgoNetworkNetworkData with the IDs of the selected rows
                     const ids = selection.map(
-                        (id: number) => rows[id - 1]['nodeID']
+                        (id: number) => rows[id]['nodeID']
                     );
                     const selectedIDs = ids
                         .filter((id) => !selectedProteins.includes(id));

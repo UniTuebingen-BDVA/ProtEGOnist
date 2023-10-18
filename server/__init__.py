@@ -1,11 +1,12 @@
 import json
 import pathlib
 import pickle
+from matplotlib.pyplot import table
 import networkx as nx
 from flask import Flask, request
 
 
-from server.python_scripts.dataIO import read_ego_pickles, read_excel_sheet
+from server.python_scripts.dataIO import read_metadata
 from server.python_scripts.sampleGraph import (
     generate_string_intersections_top,
     generate_radar_data,
@@ -30,56 +31,31 @@ def read_example_string():
     # Read the STRING network from the input file
     try:
         network = nx.read_graphml(
-            here / "data" / "graphml_string_cleaned.graphml")
+            here / "data" / "example_PPIs" / "graphml_string_cleaned.graphml")
         print("Loaded string graph ", len(network.nodes))
     except FileNotFoundError:
         print(
             f"No graphml file found in {here / 'data'}. Make sure you added it.")
     # Read the top intersections from the input file
     try:
-        with open(here / "data" / "intersections_ego_deg2.pickle", "rb") as f:
+        with open(here / "data" / "example_PPIs" / "intersections_ego_deg2.pickle", "rb") as f:
             top_intersections = pickle.load(f)
             print("Loaded intersections ", len(top_intersections))
     except FileNotFoundError:
         print(
             f"No json file found in {here / 'data'}. Make sure you added it.")
-    # Read the classification file
-    # try:
-    #     with open(here / "data" / "uniprot_brite.csv", "r") as f:
-    #         # read the uniprot_brite_dict csv file into a dictionary, the key is the uniprot id(col0) and the value is the brite id(col1)
-    #         classification_dict = {
-    #             line.strip().split(",")[0]: line.strip().split(",")[1] for line in f
-    #         }
-    #         print("Loaded uniprot_brite_dict ", len(classification_dict))
-    # except FileNotFoundError:
-    #     print(
-    #         f"No uniprot_brite.csv found in {here / 'data'}. Make sure you added it.")
-    # Read the metadata table
-    # try:
-    #     table_data = read_excel_sheet(
-    #         here / "data" / "s5_with_uniprot.xlsx", 0)
-    #     print("Loaded table_data ", len(table_data))
-    # except FileNotFoundError:
-    #     print(
-    #         f"No s5_with_uniprot.xlsx found in {here / 'data'}. Make sure you added it.")
+    try:
+        table_data, classification_dict = read_metadata(
+            here / "data" / "example_PPIs" / "metadata_proteins.csv", "brite")
+
+    except FileNotFoundError:
+        print(
+            f"No metadata file found in {here / 'data'}. Make sure you added it.")
 
     try:
-        with open(here / "data" / "metadata_proteins.csv", "r") as f:
-            # read the metadata table into a dictionary,
-            # the key is the node id(col0) and the value is the metadata in a dictionary with the key from header
-            table_data = {"columns": f.readline().strip().split(",")}
-            # print(table_data["columns"])
-            table_data_temp = {
-                line.strip().split(",")[0]: {name: value for name, value in zip(table_data["columns"], line.strip().split(","))} for line in f
-            }
-            table_data["rows"] = table_data_temp
-            table_data["columns"] = [
-                {"field": field, "headerName": field, "width": 150} for field in table_data["columns"]]
-            print(table_data["rows"])
-            print("Loaded table_data ", len(table_data))
-        classification_dict = {
-            key: value["brite"] for key, value in table_data["rows"].items()
-        }
+        with open(here / "data" / "example_PPIs" / "important_nodes.txt", "r") as f:
+            important_nodes = [line.strip() for line in f]
+            print("Loaded relevant_proteins ", len(important_nodes))
 
     except FileNotFoundError:
         print(
@@ -90,12 +66,55 @@ def read_example_string():
         "top_intersections": top_intersections,
         "classification": classification_dict,
         "metadata": table_data,
-        "relevant_proteins": list(network.nodes),
+        "overview_nodes": important_nodes,
     }
-    print("Loaded string examsple")
+
+
+def read_example_string_modified():
+    # Read the STRING network from the input file
+    try:
+        network = nx.read_graphml(
+            here / "data" / "example_PPIs2" / "graphml_string_cleaned.graphml")
+        print("Loaded string graph ", len(network.nodes))
+    except FileNotFoundError:
+        print(
+            f"No graphml file found in {here / 'data'}. Make sure you added it.")
+    # Read the top intersections from the input file
+    try:
+        with open(here / "data" / "example_PPIs2" / "intersections_ego_deg2.pickle", "rb") as f:
+            top_intersections = pickle.load(f)
+            print("Loaded intersections ", len(top_intersections))
+    except FileNotFoundError:
+        print(
+            f"No json file found in {here / 'data'}. Make sure you added it.")
+    try:
+        table_data, classification_dict = read_metadata(
+            here / "data" / "example_PPIs2" / "metadata_proteins.csv", "x_id")
+
+    except FileNotFoundError:
+        print(
+            f"No metadata file found in {here / 'data'}. Make sure you added it.")
+
+    try:
+        with open(here / "data" / "example_PPIs2" / "important_nodes.txt", "r") as f:
+            important_nodes = [line.strip() for line in f]
+            print("Loaded relevant_proteins ", len(important_nodes))
+
+    except FileNotFoundError:
+        print(
+            f"No metadata file found in {here / 'data'}. Make sure you added it.")
+
+    EXAMPLES["string_modified"] = {
+        "network": network,
+        "top_intersections": top_intersections,
+        "classification": classification_dict,
+        "metadata": table_data,
+        "overview_nodes": important_nodes,
+    }
 
 
 read_example_string()
+read_example_string_modified()
 
 
 # @app.route("/api/getExample/<case>", methods=["GET"])
@@ -213,8 +232,23 @@ def get_ego_network_network(example: str, targetNodes: str):
     """
     string_graph = EXAMPLES[example]["network"]
     split_target = targetNodes.split("+")
+    ego_network_network = get_ego_network(string_graph, split_target)
+    return ego_network_network.get_graph_json()
+
+
+@app.route("/api/getEgoNetworkNetworkOverview/<example>", methods=["GET"])
+def get_ego_network_network_overview(example: str):
+    """
+    Generate a network of ego networks from the target nodes.
+    """
+    string_graph = EXAMPLES[example]["network"]
+    overview_nodes = EXAMPLES[example]["overview_nodes"]
+    return json.dumps({"network": get_ego_network(string_graph, overview_nodes).get_graph_json(),
+                       "overviewNodes": overview_nodes})
+
+
+def get_ego_network(string_graph, split_target):
     ego_networks = [EgoGraph.from_string_network(
         i, string_graph) for i in split_target]
     ego_network_network = EgoNetworkNetwork(ego_networks)
-
-    return ego_network_network.get_graph_json()
+    return ego_network_network
