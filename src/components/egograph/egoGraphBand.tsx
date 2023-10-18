@@ -130,7 +130,7 @@ function positionTips(
     // calculate the midpoint between p1LocalPolar and p2LocalPolar consider that the midpoint of 3/2 pi and 1/2 pi is 0
     const midpointP1P2PolarC1 = {
         r: radius,
-        theta: midPointPolar(p2LocalPolarC1.theta, p1LocalPolarC1.theta)
+        theta: midPointPolar(p1LocalPolarC1.theta, p2LocalPolarC1.theta)
     };
     // const midpointP3P4PolarC1 = {
     //     r: p3LocalPolarC1.r,
@@ -139,7 +139,7 @@ function positionTips(
 
     const midpointP3P4PolarC2 = {
         r: p3LocalPolarC2.r,
-        theta: midPointPolar(p4LocalPolarC2.theta, p3LocalPolarC2.theta)
+        theta: midPointPolar(p3LocalPolarC2.theta, p4LocalPolarC2.theta)
     };
 
     const midpointP3P4cartesianC2 = localToGlobal(
@@ -151,71 +151,6 @@ function positionTips(
         globalToLocal(midpointP3P4cartesianC2, centerPosC1)
     );
 
-    const bothSmaller0 =
-        midpointP1P2PolarC1.theta < 0 && midpointP3P4PolarC1.theta < 0;
-    const midpointp1p2smaller0 =
-        midpointP1P2PolarC1.theta < 0 && midpointP3P4PolarC1.theta > 0;
-    const midpointp3p4smaller0 =
-        midpointP1P2PolarC1.theta > 0 && midpointP3P4PolarC1.theta < 0;
-    const p12largerp34 = midpointP1P2PolarC1.theta > midpointP3P4PolarC1.theta;
-    const centerPos2Right =
-        centerPosC2PolarC1.theta > -Math.PI / 2 &&
-        centerPosC2PolarC1.theta < Math.PI / 2;
-
-    // const adjustedTipPosition1 = {
-    //     r: radius,
-    //     theta: (() => {
-    //         if (bothSmaller0) {
-    //             if (p12largerp34) {
-    //                 return midPointPolar(
-    //                     midpointP1P2PolarC1.theta,
-    //                     midpointP3P4PolarC1.theta
-    //                 );
-    //             } else {
-    //                 return midPointPolar(
-    //                     midpointP3P4PolarC1.theta,
-    //                     midpointP1P2PolarC1.theta
-    //                 );
-    //             }
-    //         } else if (midpointp1p2smaller0) {
-    //             if (centerPos2Right) {
-    //                 return midPointPolar(
-    //                     midpointP3P4PolarC1.theta,
-    //                     midpointP1P2PolarC1.theta
-    //                 );
-    //             } else {
-    //                 return midPointPolar(
-    //                     midpointP1P2PolarC1.theta,
-    //                     midpointP3P4PolarC1.theta
-    //                 );
-    //             }
-    //         } else if (midpointp3p4smaller0) {
-    //             if (centerPos2Right) {
-    //                 return midPointPolar(
-    //                     midpointP3P4PolarC1.theta,
-    //                     midpointP1P2PolarC1.theta
-    //                 );
-    //             } else {
-    //                 return midPointPolar(
-    //                     midpointP1P2PolarC1.theta,
-    //                     midpointP3P4PolarC1.theta
-    //                 );
-    //             }
-    //         } else {
-    //             if (p12largerp34) {
-    //                 return midPointPolar(
-    //                     midpointP1P2PolarC1.theta,
-    //                     midpointP3P4PolarC1.theta
-    //                 );
-    //             } else {
-    //                 return midPointPolar(
-    //                     midpointP3P4PolarC1.theta,
-    //                     midpointP1P2PolarC1.theta
-    //                 );
-    //             }
-    //         }
-    //     })()
-    // };
     const adjustedTipPosition1 = {
         r: radius,
         theta: midpointP3P4PolarC1.theta
@@ -225,69 +160,51 @@ function positionTips(
 
     // calculate the beginning of the "tip" of the arc (the point where the arc starts to bend) such that the angle between the tip and the midpoint is TIP_MAX_ANGLE or the radius of the arc, whichever is smaller
 
-    const tipBaseP1Polar = {
-        r: radius,
-        theta: subtractAngle(tipPosition1.theta, TIP_MAX_ANGLE / 2)
-    };
     const tipBaseP2Polar = {
         r: radius,
         theta: addAngle(tipPosition1.theta, TIP_MAX_ANGLE / 2)
     };
-
+    const tipBaseP1Polar = {
+        r: radius,
+        theta: subtractAngle(tipPosition1.theta, TIP_MAX_ANGLE / 2)
+    };
+    const correctionAngle = 0; //TIP_MAX_ANGLE / 10;
     //check if the tip is within the arc TODO HERE BE DRAGONS
     if (
         !polarIsBetween(
             p1LocalPolarC1.theta,
             p2LocalPolarC1.theta,
-            tipBaseP1Polar.theta
+            tipBaseP2Polar.theta
         ) &&
         !polarIsBetween(
             p1LocalPolarC1.theta,
             p2LocalPolarC1.theta,
-            tipBaseP2Polar.theta
+            tipBaseP1Polar.theta
         )
     ) {
         const p1DistTip = distancePolar(
-            tipPosition1.theta,
-            p1LocalPolarC1.theta
+            p1LocalPolarC1.theta,
+            tipPosition1.theta
         );
         const p2DistTip = distancePolar(
             tipPosition1.theta,
             p2LocalPolarC1.theta
         );
-        if (p1DistTip < p2DistTip) {
+        if (p1DistTip > p2DistTip) {
             tipPosition1 = p1LocalPolarC1;
-            tipBaseP2Polar.theta = addAngle(
+            tipBaseP1Polar.theta = subtractAngle(
                 p1LocalPolarC1.theta,
                 TIP_MAX_ANGLE / 2
             );
         } else {
             tipPosition1 = p2LocalPolarC1;
-            tipBaseP1Polar.theta = subtractAngle(
+            tipBaseP2Polar.theta = addAngle(
                 p2LocalPolarC1.theta,
                 TIP_MAX_ANGLE / 2
             );
         }
     }
 
-    if (
-        !polarIsBetween(
-            p1LocalPolarC1.theta,
-            p2LocalPolarC1.theta,
-            tipBaseP1Polar.theta
-        )
-    ) {
-        tipBaseP1Polar.theta = p1LocalPolarC1.theta;
-        if (
-            !polarIsBetween(
-                p1LocalPolarC1.theta,
-                p2LocalPolarC1.theta,
-                tipPosition1.theta
-            )
-        ) {
-            tipPosition1 = p1LocalPolarC1;
-        }
-    }
     if (
         !polarIsBetween(
             p1LocalPolarC1.theta,
@@ -295,7 +212,7 @@ function positionTips(
             tipBaseP2Polar.theta
         )
     ) {
-        tipBaseP2Polar.theta = p2LocalPolarC1.theta;
+        tipBaseP2Polar.theta = addAngle(p1LocalPolarC1.theta, correctionAngle);
         if (
             !polarIsBetween(
                 p1LocalPolarC1.theta,
@@ -303,25 +220,53 @@ function positionTips(
                 tipPosition1.theta
             )
         ) {
-            tipPosition1 = p2LocalPolarC1;
+            tipPosition1.theta = addAngle(
+                p1LocalPolarC1.theta,
+                correctionAngle
+            );
+        }
+    }
+    if (
+        !polarIsBetween(
+            p1LocalPolarC1.theta,
+            p2LocalPolarC1.theta,
+            tipBaseP1Polar.theta
+        )
+    ) {
+        tipBaseP1Polar.theta = subtractAngle(
+            p2LocalPolarC1.theta,
+            correctionAngle
+        );
+
+        if (
+            !polarIsBetween(
+                p1LocalPolarC1.theta,
+                p2LocalPolarC1.theta,
+                tipPosition1.theta
+            )
+        ) {
+            tipPosition1.theta = subtractAngle(
+                p2LocalPolarC1.theta,
+                correctionAngle
+            );
         }
     }
 
     console.log('coords', p1LocalPolarC1.theta, p2LocalPolarC1.theta);
     const p1tipbaseAngle = Math.abs(
-        distancePolar(tipBaseP1Polar.theta, p1LocalPolarC1.theta)
+        distancePolar(p1LocalPolarC1.theta, tipBaseP2Polar.theta)
     );
     const p2tipbaseAngle = Math.abs(
-        distancePolar(p2LocalPolarC1.theta, tipBaseP2Polar.theta)
+        distancePolar(tipBaseP1Polar.theta, p2LocalPolarC1.theta)
     );
     console.log('p1p2', p1tipbaseAngle, p2tipbaseAngle);
 
     const tipBaseP1Cartesian = localToGlobal(
-        polarToCartesian(tipBaseP1Polar.r, tipBaseP1Polar.theta),
+        polarToCartesian(tipBaseP2Polar.r, tipBaseP2Polar.theta),
         centerPosC1
     );
     const tipBaseP2Cartesian = localToGlobal(
-        polarToCartesian(tipBaseP2Polar.r, tipBaseP2Polar.theta),
+        polarToCartesian(tipBaseP1Polar.r, tipBaseP1Polar.theta),
         centerPosC1
     );
     const tipPositionCartesian = localToGlobal(
@@ -462,7 +407,10 @@ function orientTips(
         globalToLocal(tipPosition2Cartesian, centerPos)
     );
 
-    const angleDifference = tipPosition1Polar.theta - tipPosition2Polar.theta;
+    const angleDifference = distancePolar(
+        tipPosition1Polar.theta,
+        tipPosition2Polar.theta
+    );
 
     // calculate the tip points from the tip polar coordinates
 
@@ -519,20 +467,20 @@ function drawTip(
     //const arc_P1_tipBase = `M${p2[0]} ${p2[1]}  A ${radius} ${radius} 0 0 1 ${p1[0]} ${p1[1]}`;
     const arc_P1_tipBase = `M ${p1Cartesian[0]} ${
         p1Cartesian[1]
-    } A ${radius} ${radius} 0 ${p1BaseAngle >= Math.PI ? 1 : 0} 1 ${
-        tipBaseP1Cartesian[0]
-    } ${tipBaseP1Cartesian[1]}`;
+    } A ${radius} ${radius} 0 ${p1BaseAngle >= Math.PI ? 1 : 0} 0 ${
+        tipBaseP2Cartesian[0]
+    } ${tipBaseP2Cartesian[1]}`;
     // generate quadratic curve from tipBaseP1Cartesian to tipPoint1Cartesian with midpoinP1P2Cartesian as control point
     const quadraticCurve_tipBaseP1_tipPoint1 = `Q ${tipPointControlCartesian1[0]} ${tipPointControlCartesian1[1]} ${tipPoint1Cartesian[0]} ${tipPoint1Cartesian[1]}`;
 
     const connector = `L${tipPoint2Cartesian[0]} ${tipPoint2Cartesian[1]}`;
 
     // generate svg quadratic curve from tipPoint1Cartesian to tipBaseP2Cartesian
-    const quadraticCurve_tipPoint1_tipBaseP2 = `Q ${tipPointControlCartesian2[0]} ${tipPointControlCartesian2[1]} ${tipBaseP2Cartesian[0]} ${tipBaseP2Cartesian[1]}`;
+    const quadraticCurve_tipPoint1_tipBaseP2 = `Q ${tipPointControlCartesian2[0]} ${tipPointControlCartesian2[1]} ${tipBaseP1Cartesian[0]} ${tipBaseP1Cartesian[1]}`;
     //generate an svg arc from tipBaseP2Cartesian to p2Cartesian
     const arc_tipBaseP2_P2 = `A ${radius} ${radius} 0 ${
         p2BaseAngle >= Math.PI ? 1 : 0
-    } 1 ${p2Cartesian[0]} ${p2Cartesian[1]}`;
+    } 0 ${p2Cartesian[0]} ${p2Cartesian[1]}`;
     // draw a line from p2Cartesian to centerPos and close it
     const line_P2_center = `L ${centerPos.x} ${centerPos.y} Z`;
     // merge the paths
@@ -553,8 +501,8 @@ function getPath(
 ) {
     const RADIUS_SCALE = 1.07;
 
-    const firstPos: [number, number] = [start[0].pos.x, start[0].pos.y];
-    const secondPos: [number, number] = [start[1].pos.x, start[1].pos.y];
+    const firstPos: [number, number] = [start[1].pos.x, start[1].pos.y];
+    const secondPos: [number, number] = [start[0].pos.x, start[0].pos.y];
     const OFFSET_SCALE_1 = Math.min(
         0.05 * radius,
         Math.sqrt(
@@ -563,8 +511,8 @@ function getPath(
         ) / 2
     );
 
-    const thirdPos: [number, number] = [end[0].pos.x, end[0].pos.y];
-    const fourthPos: [number, number] = [end[1].pos.x, end[1].pos.y];
+    const thirdPos: [number, number] = [end[1].pos.x, end[1].pos.y];
+    const fourthPos: [number, number] = [end[0].pos.x, end[0].pos.y];
     const OFFSET_SCALE_2 = Math.min(
         0.05 * radius,
         Math.sqrt(

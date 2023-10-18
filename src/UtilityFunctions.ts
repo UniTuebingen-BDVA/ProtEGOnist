@@ -52,10 +52,25 @@ export function polarIsBetween(
     p2Theta: number,
     theta: number
 ) {
-    if (p1Theta < p2Theta) {
-        return theta > p1Theta && theta < p2Theta;
+    if (p1Theta < 0) {
+        if (p2Theta < 0) {
+            if (p2Theta < p1Theta) {
+                return theta <= p1Theta && theta >= p2Theta;
+            }
+            return theta <= p1Theta || theta >= p2Theta;
+        } else {
+            return theta <= p1Theta || theta >= p2Theta;
+        }
     } else {
-        return theta > p1Theta || theta < p2Theta;
+        if (p2Theta < 0) {
+            return theta <= p1Theta && theta >= p2Theta;
+        } else {
+            if (p2Theta < p1Theta) {
+                return theta <= p1Theta && theta >= p2Theta;
+            } else {
+                return theta <= p1Theta || theta >= p2Theta;
+            }
+        }
     }
 }
 
