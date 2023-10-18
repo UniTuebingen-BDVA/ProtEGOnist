@@ -262,12 +262,12 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
     }, [highlightedNodeIndices, layout.identityEdges, nodeRadius]);
     return isLoaded ? (
         <g transform={`translate(${x},${y})`}>
+            {bands}
             {layoutCircles}
             {lines}
             {backgroundBands}
             {foregroundBands}
             {circles}
-            {bands}
         </g>
     ) : null;
 };

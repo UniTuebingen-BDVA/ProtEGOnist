@@ -47,14 +47,14 @@ function polarToCartesian(
     ];
 }
 
-function baseAdjustSubtract(theta: number, epsilon: number) {
+function subtractAngle(theta: number, epsilon: number) {
     if (theta - epsilon < -Math.PI) {
         const remainder = theta - epsilon + Math.PI;
         return Math.PI + remainder;
     } else return theta - epsilon;
 }
 
-function baseAdjustAdd(theta: number, epsilon: number) {
+function addAngle(theta: number, epsilon: number) {
     if (theta + epsilon > Math.PI) {
         const remainder = theta + epsilon - Math.PI;
         return -Math.PI + remainder;
@@ -118,27 +118,6 @@ function positionTips(
     //     p2LocalPolarC1.theta = p2LocalPolarC1.theta + Math.PI;
     // }
 
-    //check the order of p1 and p2
-    // if (p1LocalPolar.theta > p2LocalPolar.theta) {
-    //     const temp = structuredClone(p1LocalPolar);
-    //     p1LocalPolar = structuredClone(p2LocalPolar);
-    //     p2LocalPolar = temp;
-    // }
-    // //check the order of p1 and p2
-    // if (
-    //     p2LocalPolar.theta - p1LocalPolar.theta > Math.PI &&
-    //     !halfcircleCondition
-    // ) {
-    //     const temp = p1LocalPolar;
-    //     p1LocalPolar = structuredClone(p2LocalPolar);
-    //     p2LocalPolar = structuredClone(temp);
-    //     p2LocalPolar.theta = 2 * Math.PI + temp.theta;
-    // }
-
-    //adjust p1 and p2 such that the stroke doesnt overlap with neighboring bands
-    // p1LocalPolar.theta -= 0.02;
-    // p2LocalPolar.theta += 0.02;
-
     p1Cartesian = localToGlobal(
         polarToCartesian(p1LocalPolarC1.r, p1LocalPolarC1.theta),
         centerPosC1
@@ -183,83 +162,76 @@ function positionTips(
         centerPosC2PolarC1.theta > -Math.PI / 2 &&
         centerPosC2PolarC1.theta < Math.PI / 2;
 
+    // const adjustedTipPosition1 = {
+    //     r: radius,
+    //     theta: (() => {
+    //         if (bothSmaller0) {
+    //             if (p12largerp34) {
+    //                 return midPointPolar(
+    //                     midpointP1P2PolarC1.theta,
+    //                     midpointP3P4PolarC1.theta
+    //                 );
+    //             } else {
+    //                 return midPointPolar(
+    //                     midpointP3P4PolarC1.theta,
+    //                     midpointP1P2PolarC1.theta
+    //                 );
+    //             }
+    //         } else if (midpointp1p2smaller0) {
+    //             if (centerPos2Right) {
+    //                 return midPointPolar(
+    //                     midpointP3P4PolarC1.theta,
+    //                     midpointP1P2PolarC1.theta
+    //                 );
+    //             } else {
+    //                 return midPointPolar(
+    //                     midpointP1P2PolarC1.theta,
+    //                     midpointP3P4PolarC1.theta
+    //                 );
+    //             }
+    //         } else if (midpointp3p4smaller0) {
+    //             if (centerPos2Right) {
+    //                 return midPointPolar(
+    //                     midpointP3P4PolarC1.theta,
+    //                     midpointP1P2PolarC1.theta
+    //                 );
+    //             } else {
+    //                 return midPointPolar(
+    //                     midpointP1P2PolarC1.theta,
+    //                     midpointP3P4PolarC1.theta
+    //                 );
+    //             }
+    //         } else {
+    //             if (p12largerp34) {
+    //                 return midPointPolar(
+    //                     midpointP1P2PolarC1.theta,
+    //                     midpointP3P4PolarC1.theta
+    //                 );
+    //             } else {
+    //                 return midPointPolar(
+    //                     midpointP3P4PolarC1.theta,
+    //                     midpointP1P2PolarC1.theta
+    //                 );
+    //             }
+    //         }
+    //     })()
+    // };
     const adjustedTipPosition1 = {
         r: radius,
-        theta: (() => {
-            if (bothSmaller0) {
-                if (p12largerp34) {
-                    return midPointPolar(
-                        midpointP1P2PolarC1.theta,
-                        midpointP3P4PolarC1.theta
-                    );
-                } else {
-                    return midPointPolar(
-                        midpointP3P4PolarC1.theta,
-                        midpointP1P2PolarC1.theta
-                    );
-                }
-            } else if (midpointp1p2smaller0) {
-                if (centerPos2Right) {
-                    return midPointPolar(
-                        midpointP3P4PolarC1.theta,
-                        midpointP1P2PolarC1.theta
-                    );
-                } else {
-                    return midPointPolar(
-                        midpointP1P2PolarC1.theta,
-                        midpointP3P4PolarC1.theta
-                    );
-                }
-            } else if (midpointp3p4smaller0) {
-                if (centerPos2Right) {
-                    return midPointPolar(
-                        midpointP3P4PolarC1.theta,
-                        midpointP1P2PolarC1.theta
-                    );
-                } else {
-                    return midPointPolar(
-                        midpointP1P2PolarC1.theta,
-                        midpointP3P4PolarC1.theta
-                    );
-                }
-            } else {
-                if (p12largerp34) {
-                    return midPointPolar(
-                        midpointP1P2PolarC1.theta,
-                        midpointP3P4PolarC1.theta
-                    );
-                } else {
-                    return midPointPolar(
-                        midpointP3P4PolarC1.theta,
-                        midpointP1P2PolarC1.theta
-                    );
-                }
-            }
-        })()
+        theta: midpointP3P4PolarC1.theta
     };
 
-    const conditionSmaller =
-        Math.abs(p1LocalPolarC1.theta) > Math.abs(adjustedTipPosition1.theta) &&
-        Math.abs(p2LocalPolarC1.theta) > Math.abs(adjustedTipPosition1.theta);
-    const conditionBigger =
-        Math.abs(p1LocalPolarC1.theta) < Math.abs(adjustedTipPosition1.theta) &&
-        Math.abs(p2LocalPolarC1.theta) < Math.abs(adjustedTipPosition1.theta);
-
-    let tipPosition1 = conditionSmaller //|| conditionBigger
-        ? adjustedTipPosition1
-        : midpointP1P2PolarC1;
-
-    tipPosition1 = adjustedTipPosition1;
+    let tipPosition1 = adjustedTipPosition1;
 
     // calculate the beginning of the "tip" of the arc (the point where the arc starts to bend) such that the angle between the tip and the midpoint is TIP_MAX_ANGLE or the radius of the arc, whichever is smaller
 
     const tipBaseP1Polar = {
         r: radius,
-        theta: baseAdjustSubtract(tipPosition1.theta, TIP_MAX_ANGLE / 2)
+        theta: subtractAngle(tipPosition1.theta, TIP_MAX_ANGLE / 2)
     };
     const tipBaseP2Polar = {
         r: radius,
-        theta: baseAdjustAdd(tipPosition1.theta, TIP_MAX_ANGLE / 2)
+        theta: addAngle(tipPosition1.theta, TIP_MAX_ANGLE / 2)
     };
 
     //check if the tip is within the arc TODO HERE BE DRAGONS
@@ -268,10 +240,53 @@ function positionTips(
             p1LocalPolarC1.theta,
             p2LocalPolarC1.theta,
             tipBaseP1Polar.theta
+        ) &&
+        !polarIsBetween(
+            p1LocalPolarC1.theta,
+            p2LocalPolarC1.theta,
+            tipBaseP2Polar.theta
+        )
+    ) {
+        const p1DistTip = distancePolar(
+            tipPosition1.theta,
+            p1LocalPolarC1.theta
+        );
+        const p2DistTip = distancePolar(
+            tipPosition1.theta,
+            p2LocalPolarC1.theta
+        );
+        if (p1DistTip < p2DistTip) {
+            tipPosition1 = p1LocalPolarC1;
+            tipBaseP2Polar.theta = addAngle(
+                p1LocalPolarC1.theta,
+                TIP_MAX_ANGLE / 2
+            );
+        } else {
+            tipPosition1 = p2LocalPolarC1;
+            tipBaseP1Polar.theta = subtractAngle(
+                p2LocalPolarC1.theta,
+                TIP_MAX_ANGLE / 2
+            );
+        }
+    }
+
+    if (
+        !polarIsBetween(
+            p1LocalPolarC1.theta,
+            p2LocalPolarC1.theta,
+            tipBaseP1Polar.theta
         )
     ) {
         tipBaseP1Polar.theta = p1LocalPolarC1.theta;
-        tipPosition1 = p1LocalPolarC1;
+        if (
+            !polarIsBetween(
+                p1LocalPolarC1.theta,
+                p2LocalPolarC1.theta,
+                tipPosition1.theta
+            )
+        ) {
+            tipPosition1 = p1LocalPolarC1;
+        }
     }
     if (
         !polarIsBetween(
@@ -281,16 +296,23 @@ function positionTips(
         )
     ) {
         tipBaseP2Polar.theta = p2LocalPolarC1.theta;
-        tipPosition1 = p2LocalPolarC1;
+        if (
+            !polarIsBetween(
+                p1LocalPolarC1.theta,
+                p2LocalPolarC1.theta,
+                tipPosition1.theta
+            )
+        ) {
+            tipPosition1 = p2LocalPolarC1;
+        }
     }
+
     console.log('coords', p1LocalPolarC1.theta, p2LocalPolarC1.theta);
-    const p1tipbaseAngle = distancePolar(
-        tipBaseP1Polar.theta,
-        p1LocalPolarC1.theta
+    const p1tipbaseAngle = Math.abs(
+        distancePolar(tipBaseP1Polar.theta, p1LocalPolarC1.theta)
     );
-    const p2tipbaseAngle = distancePolar(
-        p2LocalPolarC1.theta,
-        tipBaseP2Polar.theta
+    const p2tipbaseAngle = Math.abs(
+        distancePolar(p2LocalPolarC1.theta, tipBaseP2Polar.theta)
     );
     console.log('p1p2', p1tipbaseAngle, p2tipbaseAngle);
 
