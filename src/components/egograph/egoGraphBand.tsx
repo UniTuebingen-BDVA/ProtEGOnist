@@ -160,113 +160,119 @@ function positionTips(
 
     // calculate the beginning of the "tip" of the arc (the point where the arc starts to bend) such that the angle between the tip and the midpoint is TIP_MAX_ANGLE or the radius of the arc, whichever is smaller
 
-    const tipBaseP2Polar = {
+    const tipBaseP1Polar = {
         r: radius,
         theta: addAngle(tipPosition1.theta, TIP_MAX_ANGLE / 2)
     };
-    const tipBaseP1Polar = {
+    const tipBaseP2Polar = {
         r: radius,
         theta: subtractAngle(tipPosition1.theta, TIP_MAX_ANGLE / 2)
     };
-    const correctionAngle = 0; //TIP_MAX_ANGLE / 10;
+    const correctionAngle = TIP_MAX_ANGLE / 5;
     //check if the tip is within the arc TODO HERE BE DRAGONS
     if (
-        !polarIsBetween(
-            p1LocalPolarC1.theta,
-            p2LocalPolarC1.theta,
-            tipBaseP2Polar.theta
-        ) &&
-        !polarIsBetween(
-            p1LocalPolarC1.theta,
-            p2LocalPolarC1.theta,
-            tipBaseP1Polar.theta
-        )
+        distancePolar(p1LocalPolarC1.theta, p2LocalPolarC1.theta) <
+        TIP_MAX_ANGLE
     ) {
-        const p1DistTip = distancePolar(
-            p1LocalPolarC1.theta,
-            tipPosition1.theta
-        );
-        const p2DistTip = distancePolar(
-            tipPosition1.theta,
-            p2LocalPolarC1.theta
-        );
-        if (p1DistTip > p2DistTip) {
-            tipPosition1 = p1LocalPolarC1;
-            tipBaseP1Polar.theta = subtractAngle(
+        tipPosition1.theta = midpointP1P2PolarC1.theta;
+        tipBaseP1Polar.theta = p1LocalPolarC1.theta;
+        tipBaseP2Polar.theta = p2LocalPolarC1.theta;
+    } else {
+        if (
+            !polarIsBetween(
                 p1LocalPolarC1.theta,
-                TIP_MAX_ANGLE / 2
+                p2LocalPolarC1.theta,
+                tipBaseP1Polar.theta
+            ) &&
+            !polarIsBetween(
+                p1LocalPolarC1.theta,
+                p2LocalPolarC1.theta,
+                tipBaseP2Polar.theta
+            )
+        ) {
+            const p1DistTip = distancePolar(
+                tipPosition1.theta,
+                p1LocalPolarC1.theta
             );
+            const p2DistTip = distancePolar(
+                p2LocalPolarC1.theta,
+                tipPosition1.theta
+            );
+            if (p1DistTip < p2DistTip) {
+                tipPosition1.theta = subtractAngle(
+                    p1LocalPolarC1.theta,
+                    correctionAngle
+                );
+                tipBaseP1Polar.theta = subtractAngle(p1LocalPolarC1.theta, 0);
+                tipBaseP2Polar.theta = subtractAngle(
+                    p1LocalPolarC1.theta,
+                    TIP_MAX_ANGLE
+                );
+            } else {
+                tipPosition1.theta = subtractAngle(
+                    p2LocalPolarC1.theta,
+                    correctionAngle
+                );
+                tipBaseP2Polar.theta = addAngle(p2LocalPolarC1.theta, 0);
+                tipBaseP1Polar.theta = addAngle(
+                    p2LocalPolarC1.theta,
+                    TIP_MAX_ANGLE
+                );
+            }
         } else {
-            tipPosition1 = p2LocalPolarC1;
-            tipBaseP2Polar.theta = addAngle(
-                p2LocalPolarC1.theta,
-                TIP_MAX_ANGLE / 2
-            );
+            if (
+                !polarIsBetween(
+                    p1LocalPolarC1.theta,
+                    p2LocalPolarC1.theta,
+                    tipBaseP1Polar.theta
+                )
+            ) {
+                tipBaseP1Polar.theta = subtractAngle(p1LocalPolarC1.theta, 0);
+                tipBaseP2Polar.theta = subtractAngle(
+                    tipBaseP2Polar.theta,
+                    correctionAngle
+                );
+
+                tipPosition1.theta = subtractAngle(
+                    p1LocalPolarC1.theta,
+                    correctionAngle
+                );
+            }
+            if (
+                !polarIsBetween(
+                    p1LocalPolarC1.theta,
+                    p2LocalPolarC1.theta,
+                    tipBaseP2Polar.theta
+                )
+            ) {
+                tipBaseP2Polar.theta = addAngle(p2LocalPolarC1.theta, 0);
+                tipBaseP1Polar.theta = addAngle(
+                    tipBaseP1Polar.theta,
+                    correctionAngle
+                );
+
+                tipPosition1.theta = addAngle(
+                    p2LocalPolarC1.theta,
+                    correctionAngle
+                );
+            }
         }
     }
-
-    if (
-        !polarIsBetween(
-            p1LocalPolarC1.theta,
-            p2LocalPolarC1.theta,
-            tipBaseP2Polar.theta
-        )
-    ) {
-        tipBaseP2Polar.theta = addAngle(p1LocalPolarC1.theta, correctionAngle);
-        if (
-            !polarIsBetween(
-                p1LocalPolarC1.theta,
-                p2LocalPolarC1.theta,
-                tipPosition1.theta
-            )
-        ) {
-            tipPosition1.theta = addAngle(
-                p1LocalPolarC1.theta,
-                correctionAngle
-            );
-        }
-    }
-    if (
-        !polarIsBetween(
-            p1LocalPolarC1.theta,
-            p2LocalPolarC1.theta,
-            tipBaseP1Polar.theta
-        )
-    ) {
-        tipBaseP1Polar.theta = subtractAngle(
-            p2LocalPolarC1.theta,
-            correctionAngle
-        );
-
-        if (
-            !polarIsBetween(
-                p1LocalPolarC1.theta,
-                p2LocalPolarC1.theta,
-                tipPosition1.theta
-            )
-        ) {
-            tipPosition1.theta = subtractAngle(
-                p2LocalPolarC1.theta,
-                correctionAngle
-            );
-        }
-    }
-
     console.log('coords', p1LocalPolarC1.theta, p2LocalPolarC1.theta);
     const p1tipbaseAngle = Math.abs(
-        distancePolar(p1LocalPolarC1.theta, tipBaseP2Polar.theta)
+        distancePolar(p1LocalPolarC1.theta, tipBaseP1Polar.theta)
     );
     const p2tipbaseAngle = Math.abs(
-        distancePolar(tipBaseP1Polar.theta, p2LocalPolarC1.theta)
+        distancePolar(tipBaseP2Polar.theta, p2LocalPolarC1.theta)
     );
     console.log('p1p2', p1tipbaseAngle, p2tipbaseAngle);
 
     const tipBaseP1Cartesian = localToGlobal(
-        polarToCartesian(tipBaseP2Polar.r, tipBaseP2Polar.theta),
+        polarToCartesian(tipBaseP1Polar.r, tipBaseP1Polar.theta),
         centerPosC1
     );
     const tipBaseP2Cartesian = localToGlobal(
-        polarToCartesian(tipBaseP1Polar.r, tipBaseP1Polar.theta),
+        polarToCartesian(tipBaseP2Polar.r, tipBaseP2Polar.theta),
         centerPosC1
     );
     const tipPositionCartesian = localToGlobal(
@@ -349,8 +355,8 @@ function offsetTips(
 
     // calculate the offset vector
     const offsetVector = [
-        tipVectorNormalized[1] * -offsetDistance,
-        tipVectorNormalized[0] * offsetDistance
+        tipVectorNormalized[1] * offsetDistance,
+        tipVectorNormalized[0] * -offsetDistance
     ];
 
     // calculate the offset points
@@ -468,24 +474,24 @@ function drawTip(
     const arc_P1_tipBase = `M ${p1Cartesian[0]} ${
         p1Cartesian[1]
     } A ${radius} ${radius} 0 ${p1BaseAngle >= Math.PI ? 1 : 0} 0 ${
-        tipBaseP2Cartesian[0]
-    } ${tipBaseP2Cartesian[1]}`;
+        tipBaseP1Cartesian[0]
+    } ${tipBaseP1Cartesian[1]}`;
     // generate quadratic curve from tipBaseP1Cartesian to tipPoint1Cartesian with midpoinP1P2Cartesian as control point
     const quadraticCurve_tipBaseP1_tipPoint1 = `Q ${tipPointControlCartesian1[0]} ${tipPointControlCartesian1[1]} ${tipPoint1Cartesian[0]} ${tipPoint1Cartesian[1]}`;
 
     const connector = `L${tipPoint2Cartesian[0]} ${tipPoint2Cartesian[1]}`;
 
     // generate svg quadratic curve from tipPoint1Cartesian to tipBaseP2Cartesian
-    const quadraticCurve_tipPoint1_tipBaseP2 = `Q ${tipPointControlCartesian2[0]} ${tipPointControlCartesian2[1]} ${tipBaseP1Cartesian[0]} ${tipBaseP1Cartesian[1]}`;
+    const quadraticCurve_tipPoint1_tipBaseP2 = `Q ${tipPointControlCartesian2[0]} ${tipPointControlCartesian2[1]} ${tipBaseP2Cartesian[0]} ${tipBaseP2Cartesian[1]}`;
     //generate an svg arc from tipBaseP2Cartesian to p2Cartesian
     const arc_tipBaseP2_P2 = `A ${radius} ${radius} 0 ${
         p2BaseAngle >= Math.PI ? 1 : 0
     } 0 ${p2Cartesian[0]} ${p2Cartesian[1]}`;
     // draw a line from p2Cartesian to centerPos and close it
-    const line_P2_center = `L ${centerPos.x} ${centerPos.y} Z`;
+    const line_P2_center = `L ${centerPos.x} ${centerPos.y}`;
     // merge the paths
     //return `${arc_P1_tipBase} ${line_P2_center}`;
-    return `${arc_P1_tipBase} ${quadraticCurve_tipBaseP1_tipPoint1} ${connector} ${quadraticCurve_tipPoint1_tipBaseP2} ${arc_tipBaseP2_P2} ${line_P2_center}`;
+    return `${arc_P1_tipBase} ${quadraticCurve_tipBaseP1_tipPoint1} ${connector} ${quadraticCurve_tipPoint1_tipBaseP2} ${arc_tipBaseP2_P2} ${line_P2_center} Z`;
 }
 
 function getPath(
@@ -635,7 +641,17 @@ function getPath(
     L ${tipPoint2OffsetCartesianNeg[0]} ${tipPoint2OffsetCartesianNeg[1]}
     C ${connectorControl2OffsetCartesianNeg[0]} ${connectorControl2OffsetCartesianNeg[1]} ${connectorControl1OffsetCartesianPos[0]} ${connectorControl1OffsetCartesianPos[1]} ${tipPoint1OffsetCartesianPos[0]} ${tipPoint1OffsetCartesianPos[1]}
     Z`;
-    return [connector, arc1 + arc2];
+    return [
+        connector,
+        arc1 + arc2,
+        p1Cartesian,
+        tipBaseP1Cartesian,
+
+        p2Cartesian,
+        tipBaseP2Cartesian,
+        tipPoint1OffsetCartesianNeg,
+        tipPoint2OffsetCartesianNeg
+    ];
 }
 
 const EgoGraphBand = (props: EgoGraphBandProps) => {
@@ -679,6 +695,42 @@ const EgoGraphBand = (props: EgoGraphBandProps) => {
 
     return pathData.map((pathDatum) => (
         <>
+            <circle
+                cx={pathDatum.path[2][0]}
+                cy={pathDatum.path[2][1]}
+                r={3}
+                fill="red"
+            ></circle>
+            <circle
+                cx={pathDatum.path[3][0]}
+                cy={pathDatum.path[3][1]}
+                r={3}
+                fill="pink"
+            ></circle>
+            {/* <circle
+                cx={pathDatum.path[4][0]}
+                cy={pathDatum.path[4][1]}
+                r={3}
+                fill="blue"
+            ></circle>
+            <circle
+                cx={pathDatum.path[5][0]}
+                cy={pathDatum.path[5][1]}
+                r={3}
+                fill="cyan"
+            ></circle>
+            <circle
+                cx={pathDatum.path[6][0]}
+                cy={pathDatum.path[6][1]}
+                r={3}
+                fill="green"
+            ></circle>
+            <circle
+                cx={pathDatum.path[7][0]}
+                cy={pathDatum.path[7][1]}
+                r={3}
+                fill="orange"
+            ></circle> */}
             <path
                 d={pathDatum.path[1]}
                 className="band"

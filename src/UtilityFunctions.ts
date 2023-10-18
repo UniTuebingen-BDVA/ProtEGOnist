@@ -43,7 +43,7 @@ export function distancePolar(p1Theta: number, p2Theta: number) {
         const p2ToPi = Math.abs(Math.PI - p2Theta);
         return p1TominusPi + p2ToPi;
     } else {
-        return p2Theta - p1Theta;
+        return p1Theta - p2Theta;
     }
 }
 
