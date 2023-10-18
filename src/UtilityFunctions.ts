@@ -37,6 +37,27 @@ export function midPointPolar(p1Theta: number, p2Theta: number) {
         return (p1Theta + p2Theta) / 2;
     }
 }
+export function distancePolar(p1Theta: number, p2Theta: number) {
+    if (p1Theta < p2Theta) {
+        const p1TominusPi = Math.abs(-Math.PI - p1Theta);
+        const p2ToPi = Math.abs(Math.PI - p2Theta);
+        return p1TominusPi + p2ToPi;
+    } else {
+        return p2Theta - p1Theta;
+    }
+}
+
+export function polarIsBetween(
+    p1Theta: number,
+    p2Theta: number,
+    theta: number
+) {
+    if (p1Theta < p2Theta) {
+        return theta > p1Theta && theta < p2Theta;
+    } else {
+        return theta > p1Theta || theta < p2Theta;
+    }
+}
 
 export function getPartialRanges(numRanges: number) {
     const fullRange = 2 * Math.PI;

@@ -1,4 +1,8 @@
-import { midPointPolar } from '../../UtilityFunctions';
+import {
+    midPointPolar,
+    distancePolar,
+    polarIsBetween
+} from '../../UtilityFunctions';
 interface EgoGraphBandProps {
     radius: number;
     bandData: [
@@ -168,12 +172,6 @@ function positionTips(
         globalToLocal(midpointP3P4cartesianC2, centerPosC1)
     );
 
-    console.log(
-        'midpointsP34',
-        midpointP3P4PolarC1.theta / Math.PI,
-        midpointP3P4PolarC2.theta / Math.PI
-    );
-
     const bothSmaller0 =
         midpointP1P2PolarC1.theta < 0 && midpointP3P4PolarC1.theta < 0;
     const midpointp1p2smaller0 =
@@ -263,13 +261,39 @@ function positionTips(
         r: radius,
         theta: baseAdjustAdd(tipPosition1.theta, TIP_MAX_ANGLE / 2)
     };
+
     //check if the tip is within the arc TODO HERE BE DRAGONS
-    // if (tipBaseP1Polar.theta < p1LocalPolarC1.theta) {
-    //     tipBaseP1Polar.theta = p1LocalPolarC1.theta;
-    // }
-    // if (tipBaseP2Polar.theta > p2LocalPolarC1.theta) {
-    //     tipBaseP2Polar.theta = p2LocalPolarC1.theta;
-    // }
+    if (
+        !polarIsBetween(
+            p1LocalPolarC1.theta,
+            p2LocalPolarC1.theta,
+            tipBaseP1Polar.theta
+        )
+    ) {
+        tipBaseP1Polar.theta = p1LocalPolarC1.theta;
+        tipPosition1 = p1LocalPolarC1;
+    }
+    if (
+        !polarIsBetween(
+            p1LocalPolarC1.theta,
+            p2LocalPolarC1.theta,
+            tipBaseP2Polar.theta
+        )
+    ) {
+        tipBaseP2Polar.theta = p2LocalPolarC1.theta;
+        tipPosition1 = p2LocalPolarC1;
+    }
+    console.log('coords', p1LocalPolarC1.theta, p2LocalPolarC1.theta);
+    const p1tipbaseAngle = distancePolar(
+        tipBaseP1Polar.theta,
+        p1LocalPolarC1.theta
+    );
+    const p2tipbaseAngle = distancePolar(
+        p2LocalPolarC1.theta,
+        tipBaseP2Polar.theta
+    );
+    console.log('p1p2', p1tipbaseAngle, p2tipbaseAngle);
+
     const tipBaseP1Cartesian = localToGlobal(
         polarToCartesian(tipBaseP1Polar.r, tipBaseP1Polar.theta),
         centerPosC1
@@ -287,7 +311,9 @@ function positionTips(
         p2Cartesian,
         tipBaseP1Cartesian,
         tipBaseP2Cartesian,
-        tipPositionCartesian
+        tipPositionCartesian,
+        p1tipbaseAngle,
+        p2tipbaseAngle
     ];
 }
 
@@ -323,9 +349,9 @@ function offsetTips(
             Math.sqrt(tipVector[0] * tipVector[0] + tipVector[1] * tipVector[1])
     );
     let tipVectorNormalized = [0, 0];
-    if (angle < (Math.PI * 2) / 3) {
+    if (angle < (Math.PI * 2) / 2) {
         // set the vector such that angles with 1/3 Pi
-        const rot = (Math.sign(dotProduct) * -2 * Math.PI) / 3;
+        const rot = (Math.sign(dotProduct) * -2 * Math.PI) / 2;
         const fromCenterToOffsetPointMainLength = Math.sqrt(
             fromCenterToOffsetPointMain[0] * fromCenterToOffsetPointMain[0] +
                 fromCenterToOffsetPointMain[1] * fromCenterToOffsetPointMain[1]
@@ -456,6 +482,8 @@ function drawTip(
     p2Cartesian: [number, number],
     tipBaseP1Cartesian: [number, number],
     tipBaseP2Cartesian: [number, number],
+    p1BaseAngle: number,
+    p2BaseAngle: number,
     tipPoint1Cartesian: [number, number],
     tipPoint2Cartesian: [number, number],
     tipPointControlCartesian1: [number, number],
@@ -463,9 +491,15 @@ function drawTip(
     centerPos: { x: number; y: number },
     radius: number
 ) {
+    console.log('p1p2dras', p1BaseAngle, p2BaseAngle);
+
     //generate an svg arc from p1Cartesian to tipBaseP1Cartesian
     //const arc_P1_tipBase = `M${p2[0]} ${p2[1]}  A ${radius} ${radius} 0 0 1 ${p1[0]} ${p1[1]}`;
-    const arc_P1_tipBase = `M ${p1Cartesian[0]} ${p1Cartesian[1]} A ${radius} ${radius} 0 0 1 ${tipBaseP1Cartesian[0]} ${tipBaseP1Cartesian[1]}`;
+    const arc_P1_tipBase = `M ${p1Cartesian[0]} ${
+        p1Cartesian[1]
+    } A ${radius} ${radius} 0 ${p1BaseAngle >= Math.PI ? 1 : 0} 1 ${
+        tipBaseP1Cartesian[0]
+    } ${tipBaseP1Cartesian[1]}`;
     // generate quadratic curve from tipBaseP1Cartesian to tipPoint1Cartesian with midpoinP1P2Cartesian as control point
     const quadraticCurve_tipBaseP1_tipPoint1 = `Q ${tipPointControlCartesian1[0]} ${tipPointControlCartesian1[1]} ${tipPoint1Cartesian[0]} ${tipPoint1Cartesian[1]}`;
 
@@ -474,7 +508,9 @@ function drawTip(
     // generate svg quadratic curve from tipPoint1Cartesian to tipBaseP2Cartesian
     const quadraticCurve_tipPoint1_tipBaseP2 = `Q ${tipPointControlCartesian2[0]} ${tipPointControlCartesian2[1]} ${tipBaseP2Cartesian[0]} ${tipBaseP2Cartesian[1]}`;
     //generate an svg arc from tipBaseP2Cartesian to p2Cartesian
-    const arc_tipBaseP2_P2 = `A ${radius} ${radius} 0 0 1 ${p2Cartesian[0]} ${p2Cartesian[1]}`;
+    const arc_tipBaseP2_P2 = `A ${radius} ${radius} 0 ${
+        p2BaseAngle >= Math.PI ? 1 : 0
+    } 1 ${p2Cartesian[0]} ${p2Cartesian[1]}`;
     // draw a line from p2Cartesian to centerPos and close it
     const line_P2_center = `L ${centerPos.x} ${centerPos.y} Z`;
     // merge the paths
@@ -520,7 +556,9 @@ function getPath(
         p2Cartesian,
         tipBaseP1Cartesian,
         tipBaseP2Cartesian,
-        tipPosition1Cartesian
+        tipPosition1Cartesian,
+        p1BaseAngle,
+        p2BaseAngle
     ] = positionTips(
         firstPos,
         secondPos,
@@ -536,7 +574,9 @@ function getPath(
         p4Cartesian,
         tipBaseP3Cartesian,
         tipBaseP4Cartesian,
-        tipPosition2Cartesian
+        tipPosition2Cartesian,
+        p3BaseAngle,
+        p4BaseAngle
     ] = positionTips(
         thirdPos,
         fourthPos,
@@ -595,6 +635,8 @@ function getPath(
         p2Cartesian,
         tipBaseP1Cartesian,
         tipBaseP2Cartesian,
+        p1BaseAngle,
+        p2BaseAngle,
         tipPoint1OffsetCartesianNeg,
         tipPoint1OffsetCartesianPos,
         tipPoint1ControlOffsetCartesianNeg,
@@ -607,6 +649,8 @@ function getPath(
         p4Cartesian,
         tipBaseP3Cartesian,
         tipBaseP4Cartesian,
+        p3BaseAngle,
+        p4BaseAngle,
         tipPoint2OffsetCartesianNeg,
         tipPoint2OffsetCartesianPos,
         tipPoint2ControlOffsetCartesianNeg,
