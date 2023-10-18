@@ -63,7 +63,6 @@ def read_metadata(path, classification):
         table_data["rows"] = table_data_temp
         table_data["columns"] = [
             {"field": field, "headerName": field, "width": 150} for field in table_data["columns"]]
-        print(table_data["rows"])
         print("Loaded table_data ", len(table_data))
 
     classification_dict = {

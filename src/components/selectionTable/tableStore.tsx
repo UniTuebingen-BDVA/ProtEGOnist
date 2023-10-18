@@ -19,14 +19,6 @@ interface rowData {
     };
 }
 
-export const columnVisibilityAtom = atom<{ [key: string]: boolean }>({
-    Radar: true,
-    drug_name: true,
-    x_id: true,
-    nodeID: true,
-    selected: true
-});
-
 const RadarButton = (params: rowData) => {
     const [_intersectionData, getRadarData] = useAtom(getRadarAtom);
     const [multiSelection, setMultiSelection] = useAtom(multiSelectionAtom);

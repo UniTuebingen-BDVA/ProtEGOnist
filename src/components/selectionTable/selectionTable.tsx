@@ -1,9 +1,8 @@
-import { DataGrid, GridToolbar, GridRowParams } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useAtom, useAtomValue } from 'jotai';
 import {
     selectedProteinsAtom,
     tableAtom,
-    columnVisibilityAtom,
     tableModelSelectedAtom
 } from './tableStore';
 import { Box, Typography } from '@mui/material';
@@ -14,8 +13,6 @@ const SelectionTable = () => {
     const [selectedProteins, setSelectedProteins] =
         useAtom(selectedProteinsAtom);
     const tableModel = useAtomValue(tableModelSelectedAtom);
-    const [columnVisibility, setColumnVisibility] =
-        useAtom(columnVisibilityAtom);
     const rows = Object.entries(tableData.rows).map(([key, value], index) => {
         return { ...value, nodeID: key, ID: index };
     });
@@ -36,10 +33,6 @@ const SelectionTable = () => {
                 checkboxSelection
                 disableRowSelectionOnClick
                 disableDensitySelector
-                columnVisibilityModel={columnVisibility}
-                onColumnVisibilityModelChange={(newModel) =>
-                    setColumnVisibility(newModel)
-                }
                 rowSelectionModel={tableModel}
                 // isRowSelectable={(params: GridRowParams) => params.row.nodeID !== "not found"}
                 onRowSelectionModelChange={(selection) => {
