@@ -14,7 +14,7 @@ export const tableAtomStore = atom<{
 
 interface rowData {
     row: {
-        UniprotID_inString: string;
+        nodeID: string;
         // other properties of the row object
     };
 }
@@ -38,7 +38,7 @@ export const columnVisibilityAtom = atom<{ [key: string]: boolean }>({
     ppi: false,
     skew: false,
     cancer_gene: false,
-    UniprotID_inString: true,
+    nodeID: true,
     selected: true
 });
 
@@ -49,7 +49,7 @@ const RadarButton = (params: rowData) => {
         <button
             type="button"
             onClick={() => {
-                const selectedName = params.row['UniprotID_inString'];
+                const selectedName = params.row['nodeID'];
                 const multiSelectionLocal = multiSelection.slice();
                 multiSelectionLocal.push(selectedName);
                 if (multiSelectionLocal.length > 3) {
@@ -111,7 +111,7 @@ export const tableModelSelectedAtom = atom<number[]>((get) => {
     const tableRows = get(tableAtomStore).rows;
 
     return selectedProteins
-        .map(protein => tableRows.findIndex(row => row['UniprotID_inString'] === protein) + 1)
+        .map(protein => tableRows.findIndex(row => row['nodeID'] === protein) + 1)
         .filter(index => index > 0); // Remove -1 indices
 }
 );
@@ -120,20 +120,20 @@ export const tableAtom = atom(
     (get) => get(tableAtomStore),
     (_get, set, update: { rows: GridRowsProp; columns: GridColDef[] }) => {
         // add a Radar button to the columns when tableAtom is set
-        // get all unique uniprot ids (UniprotID_inString)
-        const uniprotIds = update.rows.map((row) => row['UniprotID_inString']);
+        // get all unique uniprot ids (nodeID)
+        const nodeIDs = update.rows.map((row) => row['nodeID']);
         // generate set of unique uniprot ids
-        const uniqueUniprotIds = [...new Set(uniprotIds)];
+        const uniquenodeIDs = [...new Set(nodeIDs)];
 
         const drugsPerProtein: { [key: string]: number } = {};
 
-        for (const uniprotId of uniqueUniprotIds) {
+        for (const nodeID of uniquenodeIDs) {
             const filteredRows = update.rows.filter((row) => {
-                return row['UniprotID_inString'] === uniprotId;
+                return row['nodeID'] === nodeID;
             });
             const drugNames = filteredRows.map((row) => row['drug_name']);
             const uniqueDrugNames = [...new Set(drugNames)];
-            drugsPerProtein[uniprotId] = uniqueDrugNames.length;
+            drugsPerProtein[nodeID] = uniqueDrugNames.length;
         }
         set(drugsPerProteinAtom, drugsPerProtein);
         // generate set of unique drug names

@@ -76,7 +76,7 @@ const RadarChart = (props: RadarChartProps) => {
     ) {
         classificationProportionsalternating.push(
             classificationProportionsSorted[
-                classificationProportionsSorted.length - 1 - i
+            classificationProportionsSorted.length - 1 - i
             ]
         );
         classificationProportionsalternating.push(
@@ -86,7 +86,7 @@ const RadarChart = (props: RadarChartProps) => {
     if (classificationProportionsSorted.length % 2 !== 0) {
         classificationProportionsalternating.push(
             classificationProportionsSorted[
-                Math.floor(classificationProportionsSorted.length / 2)
+            Math.floor(classificationProportionsSorted.length / 2)
             ]
         );
     }
@@ -181,7 +181,7 @@ const RadarChart = (props: RadarChartProps) => {
             if (
                 segment.midAngle - segment.labelAngleWidth / 2 >
                 segmentWithRingIndex.midAngle +
-                    segmentWithRingIndex.labelAngleWidth / 2
+                segmentWithRingIndex.labelAngleWidth / 2
             ) {
                 // remove the ringIndex from unavailableRingIndices and add it to availableRingIndices
                 unavailableRingIndices.splice(
@@ -246,7 +246,7 @@ const RadarChart = (props: RadarChartProps) => {
     const getNodeName = (id) => {
         // find the rows in the table that match the uniprot ID
         const filteredRows = tableData.rows.filter((row) => {
-            return row['UniprotID_inString'] === id;
+            return row['nodeID'] === id;
         });
 
         const proteinNames = filteredRows.map((row) => row['x_id']);
@@ -345,14 +345,14 @@ const RadarChart = (props: RadarChartProps) => {
                     colorScale={colorScale}
                 />
             }
-            <AdvancedTooltip uniprotID={tarNode} key={tarNode}>
+            <AdvancedTooltip nodeID={tarNode} key={tarNode}>
                 <circle
                     cx={0}
                     cy={0}
                     r={
                         CIRCLE_RADIUS +
                         intersectionLengthScale(tarNodeData.setSize) *
-                            CIRCLE_RADIUS
+                        CIRCLE_RADIUS
                     }
                     stroke={'black'}
                     fill={'#ffff99'}

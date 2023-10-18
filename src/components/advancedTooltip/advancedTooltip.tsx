@@ -7,26 +7,26 @@ import { tableAtom } from '../selectionTable/tableStore';
 import { Tooltip } from '@mui/material';
 import React, { memo } from 'react';
 interface AdvancedTooltipProps {
-    uniprotID: string;
+    nodeID: string;
     additionalData?: string;
     children: React.ReactNode;
 }
 
 interface TooltipContentProps {
-    uniprotID: string;
+    nodeID: string;
     additionalData?: string;
 }
 
 //generate a custom content for the tooltip based on the uniprot ID
 const TooltipContent = memo(function TooltipContent({
-    uniprotID,
+    nodeID,
     additionalData
 }: TooltipContentProps) {
     const [tableData] = useAtom(tableAtom);
 
     // find the rows in the table that match the uniprot ID
     const filteredRows = tableData.rows.filter((row) => {
-        return row['UniprotID_inString'] === uniprotID;
+        return row['nodeID'] === nodeID;
     });
 
     const proteinNames = filteredRows.map((row) => row['x_id']);
@@ -38,13 +38,13 @@ const TooltipContent = memo(function TooltipContent({
     const uniqueDrugNames = [...new Set(drugNames)];
 
     return (
-        <div key={uniprotID}>
+        <div key={nodeID}>
             {uniqueProteinNames.length > 0 && (
                 <>
                     <h2>{uniqueProteinNames.join(' ')}</h2>
                 </>
             )}
-            UniprotID: {uniprotID}
+            nodeID: {nodeID}
             <br />
             {additionalData && (
                 <>
@@ -67,7 +67,7 @@ const TooltipContent = memo(function TooltipContent({
 });
 
 const AdvancedTooltip = memo(function AdvancedTooltip({
-    uniprotID,
+    nodeID,
     additionalData,
     children
 }: AdvancedTooltipProps) {
@@ -75,9 +75,9 @@ const AdvancedTooltip = memo(function AdvancedTooltip({
         <Tooltip
             title={
                 <TooltipContent
-                    uniprotID={uniprotID}
+                    nodeID={nodeID}
                     additionalData={additionalData}
-                    key={uniprotID}
+                    key={nodeID}
                 />
             }
         >

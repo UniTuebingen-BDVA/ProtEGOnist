@@ -48,7 +48,7 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
     );
     const transform = `translate(${x}, ${y})`;
     return (
-        <AdvancedTooltip uniprotID={id} key={id}>
+        <AdvancedTooltip nodeID={id} key={id}>
             <g
                 key={id}
                 transform={transform}
