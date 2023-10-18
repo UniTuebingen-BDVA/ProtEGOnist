@@ -5,6 +5,7 @@ import pickle
 import networkx as nx
 from flask import Flask, request
 
+
 from server.python_scripts.dataIO import read_ego_pickles, read_excel_sheet
 from server.python_scripts.sampleGraph import (
     generate_string_intersections_top,
@@ -23,27 +24,56 @@ dev_Flag = True
 app = Flask(__name__, static_folder="../dist", static_url_path="/")
 here: pathlib.Path = pathlib.Path(__file__).parent.absolute()
 
-try:
-    string_graph = nx.read_graphml(here / "data" / "graphml_string_cleaned.graphml")
-except FileNotFoundError:
-    print(f"No graphml file found in {here / 'data'}. Make sure you added it.")
+EXAMPLES = {}
 
-try:
-    with open(here / "data" / "intersections_ego_deg2.pickle", "rb") as f:
-        top_intersections = pickle.load(f)
-        print("Loaded intersections ", len(top_intersections))
-except FileNotFoundError:
-    print(f"No json file found in {here / 'data'}. Make sure you added it.")
+def read_example_string(): 
+    # Read the STRING network from the input file
+    try:
+        network = nx.read_graphml(here / "data" / "graphml_string_cleaned.graphml")
+    except FileNotFoundError:
+        print(f"No graphml file found in {here / 'data'}. Make sure you added it.")
+    # Read the top intersections from the input file
+    try:
+        with open(here / "data" / "intersections_ego_deg2.pickle", "rb") as f:
+            top_intersections = pickle.load(f)
+            print("Loaded intersections ", len(top_intersections))
+    except FileNotFoundError:
+        print(f"No json file found in {here / 'data'}. Make sure you added it.")
+    # Read the classification file
+    try:
+        with open(here / "data" / "uniprot_brite.csv", "r") as f:
+            # read the uniprot_brite_dict csv file into a dictionary, the key is the uniprot id(col0) and the value is the brite id(col1)
+            uniprot_brite_dict = {
+                line.strip().split(",")[0]: line.strip().split(",")[1] for line in f
+            }
+            print("Loaded uniprot_brite_dict ", len(uniprot_brite_dict))
+    except FileNotFoundError:
+        print(
+            f"No uniprot_brite.csv found in {here / 'data'}. Make sure you added it.")
+    # Read the metadata table
+    try:
+        table_data = read_excel_sheet(here / "data" / "s5_with_uniprot.xlsx", 0)
+    except FileNotFoundError:
+        print(f"No s5_with_uniprot.xlsx found in {here / 'data'}. Make sure you added it.")
 
-try:
-    with open(here / "data" / "uniprot_brite.csv", "r") as f:
-        # read the uniprot_brite_dict csv file into a dictionary, the key is the uniprot id(col0) and the value is the brite id(col1)
-        uniprot_brite_dict = {
-            line.strip().split(",")[0]: line.strip().split(",")[1] for line in f
-        }
-        print("Loaded uniprot_brite_dict ", len(uniprot_brite_dict))
-except FileNotFoundError:
-    print(f"No uniprot_brite.csv found in {here / 'data'}. Make sure you added it.")
+    EXAMPLES["string"] = {
+        "network": network,
+        "top_intersections": top_intersections,
+        "classification": uniprot_brite_dict,
+        "metadata": table_data,
+        "relevant_proteins": list(network.nodes),
+    }
+
+read_example_string()
+
+
+# @app.route("/api/getExample/<case>", methods=["GET"])
+# def read_example(case: str):
+#     print("Reading example data")
+#     if case == "string":
+#         print("Reading string data")
+#         print("Loaded string graph ", len(string_graph.nodes))
+#     return json.dumps(True)
 
 
 # ROUTES
@@ -61,6 +91,8 @@ def test_data_egograph(targetNode: str):
 
 @app.route("/api/egograph_bundle", methods=["POST"])
 def test_data_egograph_bundle():
+    example = request.json["example"]
+    string_graph = EXAMPLES[example]["network"]
     target_nodes = request.json["ids"]
     json_data = generate_ego_graph_bundle(string_graph, target_nodes)
     return json_data
@@ -70,13 +102,53 @@ def test_data_egograph_bundle():
 def index():
     return app.send_static_file("index.html")
 
+# @app.route("/api/ParseNetwork/", methods=["POST"])
+# def parse_network():
+#     """
+#     Parse the network from the input file.
+#     """
+#     # Read the network from the input file
+#     # TODO: different file formats (graphml, tsv, csv, ...)
+#     network = nx.read_weighted_edgelist(request.files["network"].stream, delimiter="\t")
+#     # TODO: Set string_graph variable from network
+#     # string_graph = network
+#     # TODO: compute all interactions of egographs
+#     # TODO: start with the computation of the intersection of the egographs with each other
+#     return json.dumps(list(network.nodes))
 
-@app.route("/api/EgoRadar/<targetNode>", methods=["GET"])
-def get_ego_radar(targetNode: str):
+# @app.route("/api/ParseNodesInterest/", methods=["POST"])
+# def parse_nodes_interest():
+#     """
+#     Parse the nodes of interest from the input file.
+#     """
+#     # Read the nodes of interest from the input file
+#     subset_nodes = {}
+#     input_file = request.files["nodesInterest"]
+#     header = False
+#     for line in input_file.stream.read().decode().splitlines():
+#         if not header: 
+#             header = True
+#             names_cols = line.strip().split("\t")[1:]
+#             continue
+#         parsed_line = line.strip().split("\t")
+#         if len(parsed_line) > 1:
+#             key, values = parsed_line[0], parsed_line[1:]
+#             subset_nodes[key] = {name: value for name, value in zip(names_cols, values)}
+#         else:
+#             key = parsed_line[0]
+#             subset_nodes[key] = {}
+#     return json.dumps(list(subset_nodes.keys()))
+
+
+
+@app.route("/api/EgoRadar/<example>/<targetNode>", methods=["GET"])
+def get_ego_radar(example:str, targetNode: str):
     """
     Generate a test ego radar plot using nx.gorogovtsev_goltsev_mendes_graph and generating 40 ego networks from it.
     """
-
+    top_intersections = EXAMPLES[example]["top_intersections"]
+    uniprot_brite_dict = EXAMPLES[example]["classification"]
+    string_graph = EXAMPLES[example]["network"]
     if dev_Flag:
         # get top intersections for target node
         intersections = top_intersections[targetNode]
@@ -98,17 +170,17 @@ def get_ego_radar(targetNode: str):
     return json.dumps(intersection_dict)
 
 
-@app.route("/api/getTableData", methods=["GET"])
-def get_table_data():
-    table_data = read_excel_sheet(here / "data" / "s5_with_uniprot.xlsx", 0)
-    return table_data
+@app.route("/api/getTableData/<type>", methods=["GET"])
+def get_table_data(type: str):
+    return EXAMPLES[type]["metadata"]
 
 
-@app.route("/api/getEgoNetworkNetwork/<targetNodes>", methods=["GET"])
-def get_ego_network_network(targetNodes: str):
+@app.route("/api/getEgoNetworkNetwork/<example>/<targetNodes>", methods=["GET"])
+def get_ego_network_network(example:str, targetNodes: str):
     """
     Generate a network of ego networks from the target nodes.
     """
+    string_graph = EXAMPLES[example]["network"]
     split_target = targetNodes.split("+")
     ego_networks = [EgoGraph.from_string_network(i, string_graph) for i in split_target]
     ego_network_network = EgoNetworkNetwork(ego_networks)

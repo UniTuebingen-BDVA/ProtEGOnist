@@ -3,7 +3,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import axios from 'axios';
-import { atom } from 'jotai';
+import { atom, useAtom } from 'jotai';
 import {
     egoGraph,
     intersectionDatum,
@@ -30,8 +30,19 @@ import { calculateLayout } from './components/egograph/egolayout.ts';
 import { egoNetworkNetworksOverviewAtom } from './components/overview_component/egoNetworkNetworkOverviewStore.ts';
 
 export const serverBusyAtom = atom(false);
+export const chosenSetAtom = atom(null);
+
+export const selectedExampleAtom = atom(
+    (get) => get(chosenSetAtom),
+    (get, set, example:string)  => {
+            set(chosenSetAtom, example);
+        
+    }
+
+);
 export const radarChartBusyAtom = atom(false);
 export const egoNetworkNetworkBusyAtom = atom(false);
+
 export const getMultiEgographBundleAtom = atom(
     (get) => get(egoGraphBundlesLayoutAtom),
     (get, set, bundleIds: string[][]) => {
@@ -43,13 +54,14 @@ export const getMultiEgographBundleAtom = atom(
                 )
         );
         let requestCounter = 0;
+        const example = get(selectedExampleAtom);
         newBundlesIds.forEach((ids) => {
             const jointID = ids.join(',');
             axios
                 .post<{
                     egoGraphs: egoGraph[];
                     intersections: { [key: string]: string[] };
-                }>('/api/egograph_bundle', { ids: ids })
+                }>(`/api/egograph_bundle`, { ids: ids, example: example })
                 .then(
                     (result) => {
                         const { egoGraphs, intersections } = result.data;
@@ -107,10 +119,11 @@ export const getRadarAtom = atom(
     (get) => get(intersectionAtom),
     (get, set, id: string) => {
         set(radarChartBusyAtom, true);
+        let example = get(selectedExampleAtom);
         axios
             .get<{
                 [name: string | number]: intersectionDatum;
-            }>(`/api/EgoRadar/${id}`)
+            }>(`/api/EgoRadar/${example}/${id}`)
             .then(
                 (result) => {
                     // compare the keys of the new and old intersection atoms
@@ -153,12 +166,13 @@ export const accountedProteinsNeigborhoodAtom = atom(
 
 export const getTableAtom = atom(
     (get) => get(tableAtom),
-    (_get, set) => {
+    (get, set) => {
+        let example = get(selectedExampleAtom);
         axios
             .get<{
                 rows: GridRowsProp;
                 columns: GridColDef[];
-            }>('/api/getTableData')
+            }>(`/api/getTableData/${example}`)
             .then((result) => {
                 set(tableAtom, result.data);
             }, console.error);
@@ -167,11 +181,12 @@ export const getTableAtom = atom(
 
 export const getEgoNetworkNetworkAtom = atom(
     (get) => get(egoNetworkNetworksAtom),
-    (_get, set, ids: string[]) => {
+    (get, set, ids: string[]) => {
+        let example = get(selectedExampleAtom);
         set(egoNetworkNetworkBusyAtom, true);
         axios
             .get<egoNetworkNetwork>(
-                `/api/getEgoNetworkNetwork/${ids.join('+')}`
+                `/api/getEgoNetworkNetwork/${example}/${ids.join('+')}`
             )
             .then(
                 (result) => {
@@ -196,13 +211,14 @@ export const getEgoNetworkAndRadar = atom(
     (get) => get(egoNetworkNetworksAtom),
     (get, set, ids: string[], id: string) => {
         set(serverBusyAtom, true);
+        let example = get(selectedExampleAtom);
         axios
             .all([
                 axios.get<{
                     [name: string | number]: intersectionDatum;
-                }>(`/api/EgoRadar/${id}`),
+                }>(`/api/EgoRadar/${example}/${id}`),
                 axios.get<egoNetworkNetwork>(
-                    `/api/getEgoNetworkNetwork/${ids.join('+')}`
+                    `/api/getEgoNetworkNetwork/${example}/${ids.join('+')}`
                 )
             ])
             .then(
@@ -236,10 +252,11 @@ export const getEgoNetworkAndRadar = atom(
 );
 export const getEgoNetworkNetworkOverviewAtom = atom(
     (get) => get(egoNetworkNetworksOverviewAtom),
-    (_get, set, ids: string[]) => {
+    (get, set,  ids: string[]) => {
+        let example = get(selectedExampleAtom);
         axios
             .get<egoNetworkNetwork>(
-                `/api/getEgoNetworkNetwork/${ids.join('+')}`
+                `/api/getEgoNetworkNetwork/${example}/${ids.join('+')}`
             )
             .then(
                 (result) => {

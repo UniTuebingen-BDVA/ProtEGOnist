@@ -22,7 +22,8 @@ import {
     getRadarAtom,
     getTableAtom,
     getEgoNetworkNetworkOverviewAtom,
-    startDataOverview, serverBusyAtom
+    startDataOverview, serverBusyAtom,
+    selectedExampleAtom
 } from './apiCalls.ts';
 import EgoNetworkNetworkOverviewViewer from './components/overview_component/egoNetworkNetworkOverviewViewer.tsx';
 import DrawerElement from './components/drawerElement/DrawerElement.tsx';
@@ -34,9 +35,8 @@ import { GitHub } from '@mui/icons-material';
 import LandingPage from './components/HomePage/LandingPage.tsx';
 
 function App() {
-    let dataSent = false;
-
-    const [serverBusy]=useAtom(serverBusyAtom);
+    const [selectedExample] = useAtom(selectedExampleAtom);
+    const [serverBusy] = useAtom(serverBusyAtom);
     const [tableData, getTableData] = useAtom(getTableAtom);
     const [intersectionData, getRadarData] = useAtom(getRadarAtom);
     const [_selectedProteins, setSelectedProteins] =
@@ -61,28 +61,31 @@ function App() {
     });
 
     useEffect(() => {
-        getTableData();
-        //ForUseCase
-        // setTarNode('P61978');
-        // getRadarData('P61978');
-        // Chosen starts
-        setTarNode('P63279');
-        getRadarData('P63279');
-        // TODO it seems like the http-get of the table atom leads to the problem that the initial set of the selectedProteinsAtom is not correctly selected in the table
-        setSelectedProteins([
-            'Q99459',
-            'Q01518',
-            'P61421',
-            'P52565',
-            'P00568',
-            'Q9NRN7',
-            'P63279'
-        ]);
-        // For useCase
-        // setSelectedProteins(['P61978', 'O43447', 'Q14498', 'Q92922']);
-        getEgoNetworkNetworkOverviewData(startDataOverview);
-        dataSent = true;
+        if (selectedExample) {
+            getTableData();
+            //ForUseCase
+            // setTarNode('P61978');
+            // getRadarData('P61978');
+            // Chosen starts
+            setTarNode('P63279');
+            getRadarData('P63279');
+            // TODO it seems like the http-get of the table atom leads to the problem that the initial set of the selectedProteinsAtom is not correctly selected in the table
+            setSelectedProteins([
+                'Q99459',
+                'Q01518',
+                'P61421',
+                'P52565',
+                'P00568',
+                'Q9NRN7',
+                'P63279'
+            ]);
+            // For useCase
+            // setSelectedProteins(['P61978', 'O43447', 'Q14498', 'Q92922']);
+            getEgoNetworkNetworkOverviewData(startDataOverview);
+        }
+
     }, [
+        selectedExample,
         getTableData,
         getRadarData,
         setTarNode,
@@ -91,7 +94,7 @@ function App() {
         setSelectedProteins
     ]);
     if (
-        dataSent &&
+        selectedExample &&
         // check if all data is loaded (not empty)
         tableData.rows.length > 0 && // tableData
         Object.keys(intersectionData).length > 0 && // radarData
@@ -232,7 +235,7 @@ function App() {
                 </div>
             </ThemeProvider>
         );
-    } else if (dataSent) {
+    } else if (selectedExample) {
         return (
             <ThemeProvider theme={theme}>
                 <Box
@@ -255,12 +258,12 @@ function App() {
                 </Box>
             </ThemeProvider>
         );
-                    } else {
-                        return (
-                            <LandingPage />
-                            )
+    } else {
+        return (
+            <LandingPage />
+        )
 
-}
+    }
 }
 
 export default App;

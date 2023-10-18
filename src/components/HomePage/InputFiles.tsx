@@ -26,19 +26,24 @@ import {
     Theme,
     createTheme
 } from '@mui/material';
-import { GitHub, Help } from '@mui/icons-material';
+import { Help } from '@mui/icons-material';
 import React from 'react';
+import axios from 'axios';
+import { selectedExampleAtom } from '../../apiCalls';
+import { useAtom } from 'jotai';
+
 const InputFilesForm = (props) => {
     let allFilesChosen = true;
-    let notFoundNodes = ['BAD', 'BAD2'];
+    const [dataProcess, setDataProcess] = useAtom(selectedExampleAtom);
     const [networkFile, setNetworkFile] = React.useState(null);
     const [allNodes, setAllNodes] = React.useState(new Set());
     const [nodesOfInterestFile, setNodesOfInterestFile] = React.useState(
         null
     );
+    const [notFoundNodes, setNotFoundNodes] = React.useState(new Set());
     const [metadataFile, setMetadataFile] = React.useState(null);
     const [isLoading, setIsLoading] = React.useState(false);
-    const [isError, setError] = React.useState(false);
+    const [error, setError] = React.useState('');
     // TODO 1. Check if all files are provided
     // TODO 2. Check if all files are in the correct format
     // TODO 3. Check if all nodes provided in the nodes of interest are in the network
@@ -47,12 +52,11 @@ const InputFilesForm = (props) => {
     return (
         <Container>
             <List>
-                {isError ? (
+                {error.length > 1 ? (
                     <ListItem>
                         <Alert severity={'warning'}>
-                            Something went wrong. The following nodes were not
-                            found in the given network.
-                            <Box>{notFoundNodes.join(', ')}</Box>
+                            Something went wrong.
+                            <Box>{error}</Box>
                             Please check your input files!
                         </Alert>
                     </ListItem>
@@ -82,7 +86,31 @@ const InputFilesForm = (props) => {
                                 multiple
                                 style={{ display: 'none' }}
                                 onChange={(event) => {
-                                    console.log(event);
+                                    const formData = new FormData();
+                                    let filePath = event.target.files[0]
+                                    formData.append('network', filePath);
+                                    axios.post("/api/ParseNetwork/", formData).then((response) => {
+                                        let allNodesTemp = new Set(response.data)
+                                        setAllNodes(allNodesTemp)
+                                        if (nodesOfInterestFile !== null) {
+                                            // Get intersection with all nodes
+                                            let notFound = new Set([...nodesOfInterestFile].filter(x => !allNodesTemp.has(x)));
+                                            if (notFound.size > 0) {
+                                                // Raise error
+                                                // setNotFoundNodes(notFound)
+                                                let notFoundNodesString = Array.from(notFound).reduce((node, curr) => curr + ', ' + node, '')
+                                                let erroMessage = `The following nodes were not found in the given network: ${notFoundNodesString}`
+                                                setError(erroMessage)
+                                            }
+                                            else {
+                                                setError('')
+                                            }
+                                        }
+                                    }).catch((error) => {
+                                        console.error(error)
+                                        setError(error)
+                                    }
+                                    )
                                 }}
                             />
                         </Button>
@@ -113,10 +141,32 @@ const InputFilesForm = (props) => {
                                 type="file"
                                 style={{ display: 'none' }}
                                 onChange={(event) => {
+                                    const formData = new FormData();
                                     let filePath = event.target.files[0]
+                                    formData.append('nodesInterest', filePath);
+                                    axios.post("/api/ParseNodesInterest/", formData).then((response) => {
+                                        let nodesParsed = response.data
+                                        setNodesOfInterestFile(nodesParsed)
+                                        // Get intersection with all nodes
+                                        if (allNodes.size > 0) {
+                                            let notFound = new Set([...nodesParsed].filter(x => !allNodes.has(x)));
+                                            if (notFound.size > 0) {
+                                                // Raise error
+                                                let notFoundNodesString = Array.from(notFound).reduce((node, curr) => curr + ', ' + node, '')
+                                                let erroMessage = `The following nodes were not found in the given network: ${notFoundNodesString}`
+                                                setError(erroMessage)
+                                            }
+                                            else {
+                                                setError('')
+                                            }
+                                        }
 
-                                    setAllNodes(responseNodes)
+                                    }).catch((error) => {
+                                        console.error(error)
+                                        setError(error)
 
+                                    }
+                                    )
                                 }
                                 }
                             />
@@ -148,7 +198,7 @@ const InputFilesForm = (props) => {
                                 multiple
                                 style={{ display: 'none' }}
                                 onChange={(event) => {
-                                    console.log(event);
+
                                 }}
                             />
                         </Button>
@@ -156,12 +206,13 @@ const InputFilesForm = (props) => {
                 </ListItem>
             </List>
 
-            {allFilesChosen && !isError ?
+            {allFilesChosen && error.length == 0 ?
                 <Button
                     variant="contained"
                     size="small"
                     onClick={(e) => {
                         console.log('Start');
+                        setDataProcess("string")
 
                     }}
                 >

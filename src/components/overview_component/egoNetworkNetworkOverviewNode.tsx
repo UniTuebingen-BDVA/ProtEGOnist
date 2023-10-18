@@ -5,7 +5,7 @@ import {
 } from '../selectionTable/tableStore';
 import {
     getEgoNetworkAndRadar,
-    getEgoNetworkNetworkAtom,
+    getEgoNetworkNetworkAtom
 } from '../../apiCalls';
 import AdvancedTooltip from '../advancedTooltip/advancedTooltip';
 import { highlightNodeAtom } from './egoNetworkNetworkOverviewStore';
@@ -24,9 +24,9 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
 ) {
     const [selectedProteins] =
         useAtom(selectedProteinsAtom);
-    const setSelectedProteins=useSetAtom(selectedProteinsStoreAtom)
+    const setSelectedProteins = useSetAtom(selectedProteinsStoreAtom)
     const getNetworkAndRadar = useSetAtom(getEgoNetworkAndRadar);
-    const getEgoNetworkNetwork=useSetAtom(getEgoNetworkNetworkAtom)
+    const getEgoNetworkNetwork = useSetAtom(getEgoNetworkNetworkAtom)
     const highlightNodeSet = useSetAtom(highlightNodeAtom);
     const { x, y, id, size, color } = props;
     const handleClick = useCallback(

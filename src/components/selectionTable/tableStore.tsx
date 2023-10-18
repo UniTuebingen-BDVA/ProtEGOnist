@@ -38,7 +38,7 @@ export const columnVisibilityAtom = atom<{ [key: string]: boolean }>({
     ppi: false,
     skew: false,
     cancer_gene: false,
-    UniprotID_inString: true, 
+    UniprotID_inString: true,
     selected: true
 });
 
@@ -70,26 +70,26 @@ export const selectedProteinsAtom = atom(
     (get) => {
         return get(selectedProteinsStoreAtom);
     },
-    ( get, set , ids: string[]) => {
+    (get, set, ids: string[]) => {
         const selectedProteinsStoreValue = get(selectedProteinsStoreAtom);
-      
+
         // Remove duplicates from the incoming `ids` array
         const uniqueIds = [...new Set(ids)];
-        
+
         // Calculate proteins to delete and proteins to add
 
         // Which prots are not there yet
         const proteinsToAdd = uniqueIds.filter(id => !selectedProteinsStoreValue.includes(id));
-    
+
         // Which prots are already there and should be deleted
         const proteinsToDelete = selectedProteinsStoreValue.filter(id => uniqueIds.includes(id));
-    
+
         // Update selected proteins with optimized array operations
         const updatedProteins = selectedProteinsStoreValue.filter(id => !proteinsToDelete.includes(id)).concat(proteinsToAdd);
 
         set(selectedProteinsStoreAtom, updatedProteins);
         set(getEgoNetworkNetworkAtom, updatedProteins);
-      }
+    }
 );
 
 export const drugsPerProteinColorscaleAtom = atom((get) => {
@@ -111,10 +111,10 @@ export const tableModelSelectedAtom = atom<number[]>((get) => {
     const tableRows = get(tableAtomStore).rows;
 
     return selectedProteins
-          .map(protein => tableRows.findIndex(row => row['UniprotID_inString'] === protein) + 1)
-          .filter(index => index > 0); // Remove -1 indices
+        .map(protein => tableRows.findIndex(row => row['UniprotID_inString'] === protein) + 1)
+        .filter(index => index > 0); // Remove -1 indices
 }
-    );
+);
 
 export const tableAtom = atom(
     (get) => get(tableAtomStore),
@@ -125,7 +125,7 @@ export const tableAtom = atom(
         // generate set of unique uniprot ids
         const uniqueUniprotIds = [...new Set(uniprotIds)];
 
-        const drugsPerProtein:{[key: string]: number} = {};
+        const drugsPerProtein: { [key: string]: number } = {};
 
         for (const uniprotId of uniqueUniprotIds) {
             const filteredRows = update.rows.filter((row) => {
