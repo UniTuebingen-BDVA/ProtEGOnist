@@ -12,6 +12,7 @@ import {
     egoGraphBundlesLayoutAtom
 } from './egoGraphBundleStore';
 import { EgographNode } from './egographNode';
+import EgoGraphBand from './egoGraphBand.tsx';
 import { atom } from 'jotai';
 import { egoGraphLayout } from './egolayout.ts';
 import { focusAtom } from 'jotai-optics';
@@ -95,6 +96,15 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
             }),
         [numEdgesMinMax]
     );
+    const bundleColorScaleAtom = useMemo(
+        () =>
+            atom((get) => {
+                //return d3.scaleOrdinal(d3.schemeTableau10);
+                return d3.scaleOrdinal(d3.schemeGreys[7].slice(2, 6));
+            }),
+        [egoGraphBundleAtom]
+    );
+
     const nodeRadiusAtom = useMemo(
         () =>
             atom((get) => {
@@ -116,6 +126,10 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
     const [highlightedNodeIndices] = useAtom(highlightedNodeIndicesAtom);
     const [highlightedEdges] = useAtom(highlightedEdgesAtom);
     const [_, setDecollapseID] = useAtom(decollapseIDsAtom);
+
+    // generate a d3 categorcal color scale with 20 colors
+    const [bandColorScale] = useAtom(bundleColorScaleAtom);
+
     const layoutCircles = useMemo(
         () =>
             layout.centers.map((center) => {
@@ -163,7 +177,11 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                         nodeRadius={node.centerDist === 0 ? 5 : nodeRadius}
                         nodeAtom={nodeAtoms[i]}
                         highlightedNodeIndicesAtom={highlightedNodeIndicesAtom}
-                        fill={String(colorScale(node.numEdges))}
+                        fill={
+                            node.firstLast
+                                ? 'red'
+                                : String(colorScale(node.numEdges))
+                        }
                     />
                 );
         });
@@ -175,6 +193,23 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
         nodeAtoms,
         nodeRadius
     ]);
+
+    const bands = useMemo(() => {
+        const returnBands: ReactElement[] = [];
+        if (layout.bandData) {
+            Object.entries(layout.bandData).forEach((band, i) => {
+                returnBands.push(
+                    <EgoGraphBand
+                        key={i}
+                        bandData={band}
+                        radius={outerRadius}
+                        color={bandColorScale(i)}
+                    />
+                );
+            });
+        }
+        return returnBands;
+    }, [layout.bandData]);
 
     const lines = useMemo(
         () =>
@@ -219,24 +254,27 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                     />
                 );
             } else {
-                backgroundBands.push(
-                    <line
-                        key={edge.id}
-                        x1={edge.x1}
-                        x2={edge.x2}
-                        y1={edge.y1}
-                        y2={edge.y2}
-                        stroke={'gray'}
-                        opacity={0.2}
-                        strokeWidth={nodeRadius * 2}
-                    />
-                );
+                if (!edge.alwaysDraw) {
+                    backgroundBands.push(
+                        <line
+                            key={edge.id}
+                            x1={edge.x1}
+                            x2={edge.x2}
+                            y1={edge.y1}
+                            y2={edge.y2}
+                            stroke={'gray'}
+                            opacity={0.2}
+                            strokeWidth={nodeRadius * 2}
+                        />
+                    );
+                }
             }
         });
         return [foregroundBands, backgroundBands];
     }, [highlightedNodeIndices, layout.identityEdges, nodeRadius]);
     return isLoaded ? (
         <g transform={`translate(${x},${y})`}>
+            {bands}
             {layoutCircles}
             {lines}
             {backgroundBands}
