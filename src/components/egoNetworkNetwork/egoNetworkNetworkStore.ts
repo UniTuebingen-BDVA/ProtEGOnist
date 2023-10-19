@@ -355,6 +355,7 @@ export const interEdgesAtom = atom((get) => {
     const aggregateEgoNetworkNodeIDs = get(decollapseIDsAtom);
     const egoLayouts = get(egoGraphBundlesLayoutAtom);
     const decollapsedSize = get(decollapsedSizeAtom);
+    const networkLayout = get(egoNetworkNetworksAtom);
     const interEdges: {
         source: string;
         target: string;
@@ -379,7 +380,6 @@ export const interEdgesAtom = atom((get) => {
         Object.values(egoLayouts)
             .flatMap((d) => d?.centers ?? [])
             .forEach((center) => (centerPositions[center.id] = center));
-        const networkLayout = get(egoNetworkNetworksAtom);
         const nodeDict: { [key: string]: egoNetworkNetworkNode } = {};
         get(aggregateNetworkAtom).nodes.forEach(
             (node) => (nodeDict[node.id] = node)

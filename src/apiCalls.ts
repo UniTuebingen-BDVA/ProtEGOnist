@@ -35,14 +35,22 @@ export const egoNetworkNetworkBusyAtom = atom(false);
 export const getMultiEgographBundleAtom = atom(
     (get) => get(egoGraphBundlesLayoutAtom),
     (get, set, bundleIds: string[][]) => {
-        if(bundleIds.length>0) {
+        Object.keys(get(egoGraphBundlesLayoutAtom))
+            .filter((id) => !bundleIds.map((ids) => ids.join(',')).includes(id))
+            .forEach((id) => {
+                const egographBundleLayout = get(egoGraphBundlesLayoutAtom);
+                delete egographBundleLayout[id];
+                console.log(id);
+                set(egoGraphBundlesLayoutAtom, egographBundleLayout);
+            });
+        const newBundlesIds = bundleIds.filter(
+            (ids) =>
+                !Object.keys(get(egoGraphBundlesLayoutAtom)).includes(
+                    ids.join(',')
+                )
+        );
+        if (newBundlesIds.length > 0) {
             set(egoNetworkNetworkBusyAtom, true);
-            const newBundlesIds = bundleIds.filter(
-                (ids) =>
-                    !Object.keys(get(egoGraphBundlesLayoutAtom)).includes(
-                        ids.join(',')
-                    )
-            );
             let requestCounter = 0;
             newBundlesIds.forEach((ids) => {
                 const jointID = ids.join(',');
@@ -78,16 +86,9 @@ export const getMultiEgographBundleAtom = atom(
                         }
                     );
             });
-        } else{
+        } else {
             set(decollapseIDsArrayAtom, bundleIds);
         }
-        Object.keys(get(egoGraphBundlesLayoutAtom))
-            .filter((id) => !bundleIds.map((ids) => ids.join(',')).includes(id))
-            .forEach((id) => {
-                const egographBundleLayout = get(egoGraphBundlesLayoutAtom);
-                delete egographBundleLayout[id];
-                set(egoGraphBundlesLayoutAtom, egographBundleLayout);
-            });
     }
 );
 
