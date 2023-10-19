@@ -11,9 +11,7 @@ import {
 } from './egoGraphSchema.ts';
 import {
     intersectionAtom,
-    leavingNodesAtom,
-    changedNodesAtom,
-    tarNodeAtom, 
+    tarNodeAtom,
     radarNodesAtom
 } from './components/radarchart/radarStore.ts';
 import { tableAtom } from './components/selectionTable/tableStore.tsx';
@@ -25,19 +23,37 @@ import {
 } from './components/egograph/egoGraphBundleStore.ts';
 import {
     decollapsedSizeAtom,
+    decollapseIDsArrayAtom,
     egoNetworkNetworksAtom
 } from './components/egoNetworkNetwork/egoNetworkNetworkStore.ts';
 import { calculateLayout } from './components/egograph/egolayout.ts';
 import { egoNetworkNetworksOverviewAtom } from './components/overview_component/egoNetworkNetworkOverviewStore.ts';
 
+export const serverBusyAtom = atom(false);
+export const radarChartBusyAtom = atom(false);
+export const egoNetworkNetworkBusyAtom = atom(false);
 export const getMultiEgographBundleAtom = atom(
     (get) => get(egoGraphBundlesLayoutAtom),
     (get, set, bundleIds: string[][]) => {
-        bundleIds.forEach((ids) => {
-            const jointID = ids.join(',');
-            if (
-                !Object.keys(get(egoGraphBundlesLayoutAtom)).includes(jointID)
-            ) {
+        Object.keys(get(egoGraphBundlesLayoutAtom))
+            .filter((id) => !bundleIds.map((ids) => ids.join(',')).includes(id))
+            .forEach((id) => {
+                const egographBundleLayout = get(egoGraphBundlesLayoutAtom);
+                delete egographBundleLayout[id];
+                console.log(id);
+                set(egoGraphBundlesLayoutAtom, egographBundleLayout);
+            });
+        const newBundlesIds = bundleIds.filter(
+            (ids) =>
+                !Object.keys(get(egoGraphBundlesLayoutAtom)).includes(
+                    ids.join(',')
+                )
+        );
+        if (newBundlesIds.length > 0) {
+            set(egoNetworkNetworkBusyAtom, true);
+            let requestCounter = 0;
+            newBundlesIds.forEach((ids) => {
+                const jointID = ids.join(',');
                 axios
                     .post<{
                         egoGraphs: egoGraph[];
@@ -56,6 +72,11 @@ export const getMultiEgographBundleAtom = atom(
                                     get(outerRadiusAtom)
                                 )
                             });
+                            requestCounter += 1;
+                            if (requestCounter === newBundlesIds.length) {
+                                set(egoNetworkNetworkBusyAtom, false);
+                                set(decollapseIDsArrayAtom, bundleIds);
+                            }
                         },
                         () => {
                             console.error,
@@ -64,21 +85,33 @@ export const getMultiEgographBundleAtom = atom(
                                 );
                         }
                     );
-            }
-        });
-        Object.keys(get(egoGraphBundlesLayoutAtom))
-            .filter((id) => !bundleIds.map((ids) => ids.join(',')).includes(id))
-            .forEach((id) => {
-                const egographBundleLayout = get(egoGraphBundlesLayoutAtom);
-                delete egographBundleLayout[id];
-                set(egoGraphBundlesLayoutAtom, egographBundleLayout);
             });
+        } else {
+            set(decollapseIDsArrayAtom, bundleIds);
+        }
     }
 );
 
+const compareIntersections = (
+    oldIntersections: {
+        [p: string]: intersectionDatum;
+        [p: number]: intersectionDatum;
+    },
+    newIntersections: {
+        [p: string]: intersectionDatum;
+        [p: number]: intersectionDatum;
+    }
+) => {
+    const oldKeys = Object.keys(oldIntersections);
+    const newKeys = Object.keys(newIntersections);
+    const changedNodes = newKeys.filter((x) => !oldKeys.includes(x));
+    const leavingNodes = oldKeys.filter((x) => !newKeys.includes(x));
+    return { changedNodes, leavingNodes };
+};
 export const getRadarAtom = atom(
     (get) => get(intersectionAtom),
     (get, set, id: string) => {
+        set(radarChartBusyAtom, true);
         axios
             .get<{
                 [name: string | number]: intersectionDatum;
@@ -86,24 +119,18 @@ export const getRadarAtom = atom(
             .then(
                 (result) => {
                     // compare the keys of the new and old intersection atoms
-                    const oldKeys = Object.keys(get(intersectionAtom));
-                    const newKeys = Object.keys(result.data);
-                    const changedNodes = newKeys.filter(
-                        (x) => !oldKeys.includes(x)
-                    );
-                    const leavingNodes = oldKeys.filter(
-                        (x) => !newKeys.includes(x)
+                    const { changedNodes, leavingNodes } = compareIntersections(
+                        get(intersectionAtom),
+                        result.data
                     );
                     // Changed to object in order to have less set calls
-                    set( radarNodesAtom, {
+                    set(radarNodesAtom, {
                         changed: changedNodes,
-                        leaving: leavingNodes, 
-                        intersection:  result.data
-                    })
-                    // set(leavingNodesAtom, leavingNodes);
-                    // set(changedNodesAtom, changedNodes);
-                    // set(intersectionAtom, result.data);
+                        leaving: leavingNodes,
+                        intersection: result.data
+                    });
                     set(tarNodeAtom, id);
+                    set(radarChartBusyAtom, false);
                 },
                 () => {
                     console.error,
@@ -146,6 +173,7 @@ export const getTableAtom = atom(
 export const getEgoNetworkNetworkAtom = atom(
     (get) => get(egoNetworkNetworksAtom),
     (_get, set, ids: string[]) => {
+        set(egoNetworkNetworkBusyAtom, true);
         axios
             .get<egoNetworkNetwork>(
                 `/api/getEgoNetworkNetwork/${ids.join('+')}`
@@ -157,6 +185,7 @@ export const getEgoNetworkNetworkAtom = atom(
                         result.data.nodes.map((node) => node.neighbors)
                     );
                     set(egoNetworkNetworksAtom, result.data);
+                    set(egoNetworkNetworkBusyAtom, false);
                 },
                 () => {
                     console.error,
@@ -168,6 +197,48 @@ export const getEgoNetworkNetworkAtom = atom(
     }
 );
 
+export const getEgoNetworkAndRadar = atom(
+    (get) => get(egoNetworkNetworksAtom),
+    (get, set, ids: string[], id: string) => {
+        set(serverBusyAtom, true);
+        axios
+            .all([
+                axios.get<{
+                    [name: string | number]: intersectionDatum;
+                }>(`/api/EgoRadar/${id}`),
+                axios.get<egoNetworkNetwork>(
+                    `/api/getEgoNetworkNetwork/${ids.join('+')}`
+                )
+            ])
+            .then(
+                axios.spread((radarResponse, networkResponse) => {
+                    const { changedNodes, leavingNodes } = compareIntersections(
+                        get(intersectionAtom),
+                        radarResponse.data
+                    );
+                    // Changed to object in order to have less set calls
+                    set(radarNodesAtom, {
+                        changed: changedNodes,
+                        leaving: leavingNodes,
+                        intersection: radarResponse.data
+                    });
+                    set(tarNodeAtom, id);
+                    set(
+                        accountedProteinsNeigborhoodAtom,
+                        networkResponse.data.nodes.map((node) => node.neighbors)
+                    );
+                    set(egoNetworkNetworksAtom, networkResponse.data);
+                    set(serverBusyAtom, false);
+                })
+            )
+            .catch(() => {
+                console.error,
+                    console.log(
+                        `couldn't get egographswith ID ${ids.join(';')}`
+                    );
+            });
+    }
+);
 export const getEgoNetworkNetworkOverviewAtom = atom(
     (get) => get(egoNetworkNetworksOverviewAtom),
     (_get, set, ids: string[]) => {

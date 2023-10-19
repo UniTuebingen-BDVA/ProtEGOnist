@@ -9,7 +9,7 @@ import {
     CircularProgress,
     Box,
     createTheme,
-    ThemeProvider
+    ThemeProvider, Backdrop
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import RadarChartViewer from './components/radarchart/radarChartViewer.tsx';
@@ -21,7 +21,7 @@ import {
     getRadarAtom,
     getTableAtom,
     getEgoNetworkNetworkOverviewAtom,
-    startDataOverview
+    startDataOverview, serverBusyAtom
 } from './apiCalls.ts';
 import EgoNetworkNetworkOverviewViewer from './components/overview_component/egoNetworkNetworkOverviewViewer.tsx';
 import DrawerElement from './components/drawerElement/DrawerElement.tsx';
@@ -29,10 +29,10 @@ import { drawerShownAtom } from './components/drawerElement/DrawerElementStore.t
 import LogoText from './assets/LogoPathWhite.svg';
 import LogoBlue from './assets/LogoBlue.svg';
 
-
 import { GitHub } from '@mui/icons-material';
 
 function App() {
+    const [serverBusy]=useAtom(serverBusyAtom);
     const [tableData, getTableData] = useAtom(getTableAtom);
     const [intersectionData, getRadarData] = useAtom(getRadarAtom);
     const [_selectedProteins, setSelectedProteins] =
@@ -40,7 +40,7 @@ function App() {
     const [_egoNetworkNetworkData, getEgoNetworkNetworkData] = useAtom(
         getEgoNetworkNetworkAtom
     );
-    const [_egoNetworkNetworkOverviewData, getEgoNetworkNetworkOverviewData] =
+    const [egoNetworkNetworkOverviewData, getEgoNetworkNetworkOverviewData] =
         useAtom(getEgoNetworkNetworkOverviewAtom);
     const [tarNode, setTarNode] = useAtom(tarNodeAtom);
     const setStateDrawer = useSetAtom(drawerShownAtom);
@@ -89,10 +89,19 @@ function App() {
         // check if all data is loaded (not empty)
         tableData.rows.length > 0 && // tableData
         Object.keys(intersectionData).length > 0 && // radarData
-        tarNode !== ''
+        tarNode !== '' && egoNetworkNetworkOverviewData.nodes.length>0
     ) {
         return (
             <ThemeProvider theme={theme}>
+                <Backdrop
+                    sx={{
+                        color: '#fff',
+                        zIndex: (theme) => theme.zIndex.drawer + 1
+                    }}
+                    open={serverBusy}
+                >
+                    <CircularProgress color="inherit" />
+                </Backdrop>
                 <div className="container">
                     {/* <!-- First Row --> */}
                     <div

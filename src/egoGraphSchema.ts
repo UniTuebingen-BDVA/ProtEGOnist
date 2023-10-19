@@ -36,6 +36,8 @@ export type egoNetworkNetworkNode = baseNode & {
     radius: number;
     x: number;
     y: number;
+    vx:number; // for force layout
+    vy:number; // for force layout
     collapsed: boolean;
     neighbors: string[];
 };
@@ -47,13 +49,15 @@ export type egoNetworkNetworkEdge = {
 export type egoNetworkNetworkRenderedEdge = {
     source: egoNetworkNetworkNode;
     target: egoNetworkNetworkNode;
+    visible: boolean;
     weight: number;
 };
 
 export type egoNetworkNetwork = {
     nodes: egoNetworkNetworkNode[];
-    edges: egoNetworkNetworkEdge[] | egoNetworkNetworkRenderedEdge[];
+    edges: egoNetworkNetworkEdge[];
 };
+
 
 export type egoNetworkNetworkRendered = {
     nodes: egoNetworkNetworkNode[];

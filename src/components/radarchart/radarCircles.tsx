@@ -36,96 +36,24 @@ const RadarCircles = memo(function RadarCircles(props: RadarCirclesProps) {
                 Math.cos(
                     ((index + 0.5) * 2 * Math.PI) / intersectionData.length
                 ) *
-                GUIDE_CIRCLE_RADIUS *
-                1.5,
+                (GUIDE_CIRCLE_RADIUS -
+                    intersectionDatum.jaccard * GUIDE_CIRCLE_RADIUS),
             cy:
                 Math.sin(
                     ((index + 0.5) * 2 * Math.PI) / intersectionData.length
                 ) *
-                GUIDE_CIRCLE_RADIUS *
-                1.5,
+                (GUIDE_CIRCLE_RADIUS -
+                    intersectionDatum.jaccard * GUIDE_CIRCLE_RADIUS),
             fill: d3
                 .color(colorScale(intersectionDatum.classification))
                 ?.brighter(4.0)
                 .toString(),
             opacity: 0
         }),
-        enter:
-            ({ intersectionDatum, index }) =>
-            async (next, _cancel) => {
-                await next({
-                    cx:
-                        Math.cos(
-                            ((index + 0.5) * 2 * Math.PI) /
-                                intersectionData.length
-                        ) * GUIDE_CIRCLE_RADIUS,
-                    cy:
-                        Math.sin(
-                            ((index + 0.5) * 2 * Math.PI) /
-                                intersectionData.length
-                        ) * GUIDE_CIRCLE_RADIUS,
-                    fill: d3
-                        .color(colorScale(intersectionDatum.classification))
-                        ?.brighter(4.0)
-                        .toString(),
-                    opacity: 1
-                });
-                await next({
-                    cx:
-                        Math.cos(
-                            ((index + 0.5) * 2 * Math.PI) /
-                                intersectionData.length
-                        ) *
-                        (GUIDE_CIRCLE_RADIUS -
-                            intersectionDatum.jaccard * GUIDE_CIRCLE_RADIUS),
-                    cy:
-                        Math.sin(
-                            ((index + 0.5) * 2 * Math.PI) /
-                                intersectionData.length
-                        ) *
-                        (GUIDE_CIRCLE_RADIUS -
-                            intersectionDatum.jaccard * GUIDE_CIRCLE_RADIUS)
-                });
-                await next({
-                    fill: d3
-                        .color(colorScale(intersectionDatum.classification))
-                        ?.toString()
-                });
-            },
         leave:
-            ({ intersectionDatum, index }) =>
+            () =>
             async (next, _cancel) => {
                 await next({
-                    cx:
-                        Math.cos(
-                            ((index + 0.5) * 2 * Math.PI) /
-                                intersectionData.length
-                        ) *
-                        (GUIDE_CIRCLE_RADIUS -
-                            intersectionDatum.jaccard * GUIDE_CIRCLE_RADIUS),
-                    cy:
-                        Math.sin(
-                            ((index + 0.5) * 2 * Math.PI) /
-                                intersectionData.length
-                        ) *
-                        (GUIDE_CIRCLE_RADIUS -
-                            intersectionDatum.jaccard * GUIDE_CIRCLE_RADIUS)
-                });
-                await next({
-                    cx:
-                        Math.cos(
-                            ((index + 0.5) * 2 * Math.PI) /
-                                intersectionData.length
-                        ) *
-                        GUIDE_CIRCLE_RADIUS *
-                        1.5,
-                    cy:
-                        Math.sin(
-                            ((index + 0.5) * 2 * Math.PI) /
-                                intersectionData.length
-                        ) *
-                        GUIDE_CIRCLE_RADIUS *
-                        1.5,
                     opacity: 0
                 });
             },
@@ -152,7 +80,33 @@ const RadarCircles = memo(function RadarCircles(props: RadarCirclesProps) {
                         ?.toString()
                 });
             },
-        config: { duration: 2000 }
+                enter:
+            ({ intersectionDatum, index }) =>
+            async (next, _cancel) => {
+                await next({
+                    cx:
+                        Math.cos(
+                            ((index + 0.5) * 2 * Math.PI) /
+                                intersectionData.length
+                        ) *
+                        (GUIDE_CIRCLE_RADIUS -
+                            intersectionDatum.jaccard * GUIDE_CIRCLE_RADIUS),
+                    cy:
+                        Math.sin(
+                            ((index + 0.5) * 2 * Math.PI) /
+                                intersectionData.length
+                        ) *
+                        (GUIDE_CIRCLE_RADIUS -
+                            intersectionDatum.jaccard * GUIDE_CIRCLE_RADIUS),
+                    opacity: 1
+                });
+                await next({
+                    fill: d3
+                        .color(colorScale(intersectionDatum.classification))
+                        ?.toString()
+                });
+            },
+        config: { duration: 1200 }
     });
 
     return (
