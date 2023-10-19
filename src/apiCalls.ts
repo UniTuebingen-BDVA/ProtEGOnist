@@ -35,48 +35,52 @@ export const egoNetworkNetworkBusyAtom = atom(false);
 export const getMultiEgographBundleAtom = atom(
     (get) => get(egoGraphBundlesLayoutAtom),
     (get, set, bundleIds: string[][]) => {
-        set(egoNetworkNetworkBusyAtom, true);
-        const newBundlesIds = bundleIds.filter(
-            (ids) =>
-                !Object.keys(get(egoGraphBundlesLayoutAtom)).includes(
-                    ids.join(',')
-                )
-        );
-        let requestCounter = 0;
-        newBundlesIds.forEach((ids) => {
-            const jointID = ids.join(',');
-            axios
-                .post<{
-                    egoGraphs: egoGraph[];
-                    intersections: { [key: string]: string[] };
-                }>('/api/egograph_bundle', { ids: ids })
-                .then(
-                    (result) => {
-                        const { egoGraphs, intersections } = result.data;
-                        set(egoGraphBundlesLayoutAtom, {
-                            ...get(egoGraphBundlesLayoutAtom),
-                            [jointID]: calculateLayout(
-                                egoGraphs,
-                                intersections,
-                                get(decollapsedSizeAtom)[ids.length - 1],
-                                get(innerRadiusAtom),
-                                get(outerRadiusAtom)
-                            )
-                        });
-                        set(decollapseIDsArrayAtom, bundleIds);
-                        requestCounter += 1;
-                        if (requestCounter === newBundlesIds.length) {
-                            set(egoNetworkNetworkBusyAtom, false);
+        if(bundleIds.length>0) {
+            set(egoNetworkNetworkBusyAtom, true);
+            const newBundlesIds = bundleIds.filter(
+                (ids) =>
+                    !Object.keys(get(egoGraphBundlesLayoutAtom)).includes(
+                        ids.join(',')
+                    )
+            );
+            let requestCounter = 0;
+            newBundlesIds.forEach((ids) => {
+                const jointID = ids.join(',');
+                axios
+                    .post<{
+                        egoGraphs: egoGraph[];
+                        intersections: { [key: string]: string[] };
+                    }>('/api/egograph_bundle', { ids: ids })
+                    .then(
+                        (result) => {
+                            const { egoGraphs, intersections } = result.data;
+                            set(egoGraphBundlesLayoutAtom, {
+                                ...get(egoGraphBundlesLayoutAtom),
+                                [jointID]: calculateLayout(
+                                    egoGraphs,
+                                    intersections,
+                                    get(decollapsedSizeAtom)[ids.length - 1],
+                                    get(innerRadiusAtom),
+                                    get(outerRadiusAtom)
+                                )
+                            });
+                            requestCounter += 1;
+                            if (requestCounter === newBundlesIds.length) {
+                                set(egoNetworkNetworkBusyAtom, false);
+                                set(decollapseIDsArrayAtom, bundleIds);
+                            }
+                        },
+                        () => {
+                            console.error,
+                                console.log(
+                                    `couldn't get egograph with IDs ${ids}`
+                                );
                         }
-                    },
-                    () => {
-                        console.error,
-                            console.log(
-                                `couldn't get egograph with IDs ${ids}`
-                            );
-                    }
-                );
-        });
+                    );
+            });
+        } else{
+            set(decollapseIDsArrayAtom, bundleIds);
+        }
         Object.keys(get(egoGraphBundlesLayoutAtom))
             .filter((id) => !bundleIds.map((ids) => ids.join(',')).includes(id))
             .forEach((id) => {

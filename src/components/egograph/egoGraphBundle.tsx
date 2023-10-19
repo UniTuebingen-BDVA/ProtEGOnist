@@ -17,7 +17,7 @@ import { egoGraphLayout } from './egolayout.ts';
 import { focusAtom } from 'jotai-optics';
 import { splitAtom } from 'jotai/utils';
 import * as d3 from 'd3';
-import { decollapseIDsAtom } from '../egoNetworkNetwork/egoNetworkNetworkStore.ts';
+import { decollapseIDsAtom, highlightedEdgesAtom } from '../egoNetworkNetwork/egoNetworkNetworkStore.ts';
 
 const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
     const { x, y, nodeId } = props;
@@ -114,8 +114,8 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
     const [innerRadius] = useAtom(innerRadiusAtom);
     const [outerRadius] = useAtom(outerRadiusAtom);
     const [highlightedNodeIndices] = useAtom(highlightedNodeIndicesAtom);
+    const [highlightedEdges] = useAtom(highlightedEdgesAtom);
     const [_, setDecollapseID] = useAtom(decollapseIDsAtom);
-
     const layoutCircles = useMemo(
         () =>
             layout.centers.map((center) => {
@@ -127,9 +127,18 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                         <circle
                             cx={center.x}
                             cy={center.y}
-                            r={outerRadius}
                             stroke={'lightgray'}
+                            strokeWidth={1}
+                            r={outerRadius}
                             fill={'white'}
+                        />
+                        <circle
+                            cx={center.x}
+                            cy={center.y}
+                            r={outerRadius+2}
+                            stroke={highlightedEdges.ids.includes(center.id)?'black':'transparent'}
+                            strokeWidth={7}
+                            fill={'none'}
                         />
                         <circle
                             cx={center.x}
@@ -141,7 +150,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                     </g>
                 );
             }),
-        [innerRadius, layout.centers, outerRadius, setDecollapseID]
+        [highlightedEdges, innerRadius, layout.centers, outerRadius, setDecollapseID]
     );
     const circles = useMemo(() => {
         const returnCircles: ReactElement[] = [];

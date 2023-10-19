@@ -26,12 +26,106 @@ export const decollapsedSizeAtom = atom((get) => [
     300,
     300
 ]);
+// indices stores indices in decollapsedIDsArray that are affected if the edges are selected for a bundle
+const highlightedEdgesStoreAtom = atom<{ indices: number[]; ids: string[] }>({
+    indices: [],
+    ids: []
+});
+export const highlightedEdgesAtom = atom(
+    (get) => get(highlightedEdgesStoreAtom),
+    (get, set, ids: string[]) => {
+        if (ids.length === 0) {
+            set(highlightedEdgesStoreAtom, { indices: [], ids: [] });
+        } else {
+            const currentIdArray = get(decollapseIDsArrayAtom).slice();
+            const aggregateIndex = (id: string) => {
+                let index = -1;
+                for (let i = 0; i < currentIdArray.length; i++) {
+                    if (currentIdArray[i].includes(id)) {
+                        index = i;
+                        break;
+                    }
+                }
+                return index;
+            };
+            const nodeDict: { [key: string]: egoNetworkNetworkNode } = {};
+            get(aggregateNetworkAtom).nodes.forEach(
+                (node) => (nodeDict[node.id] = node)
+            );
+            const sourceIndex = aggregateIndex(ids[0]);
+            const targetIndex = aggregateIndex(ids[1]);
+            if (sourceIndex !== -1 && currentIdArray[sourceIndex].length < 3) {
+                // case: add to existing bundle
+                if (targetIndex === -1) {
+                    set(highlightedEdgesStoreAtom, {
+                        indices: [sourceIndex],
+                        ids: [...currentIdArray[sourceIndex], ids[1]]
+                    });
+                    //case: merge two bundles
+                } else if (
+                    sourceIndex !== -1 &&
+                    targetIndex !== -1 &&
+                    currentIdArray[sourceIndex].length +
+                        currentIdArray[targetIndex].length <=
+                        3
+                ) {
+                    set(highlightedEdgesStoreAtom, {
+                        indices: [sourceIndex, targetIndex],
+                        ids: [
+                            ...currentIdArray[targetIndex],
+                            ...currentIdArray[sourceIndex]
+                        ]
+                    });
+                }
+            } else {
+                // case: add to existing bundles
+                if (
+                    sourceIndex === -1 &&
+                    targetIndex !== -1 &&
+                    currentIdArray[targetIndex].length < 3
+                ) {
+                    set(highlightedEdgesStoreAtom, {
+                        indices: [targetIndex],
+                        ids: [...currentIdArray[targetIndex], ids[0]]
+                    });
+                    // case create new bundle from two nodes
+                } else if (sourceIndex === -1 && targetIndex === -1) {
+                    set(highlightedEdgesStoreAtom, { indices: [], ids: ids });
+                }
+            }
+        }
+    }
+);
 
+export const decollapseEdgeAtom = atom(
+    (get) => get(decollapseIDsArrayAtom),
+    (get, set) => {
+        const currentIdArray = get(decollapseIDsArrayAtom).slice();
+        const highlightedEdges = get(highlightedEdgesAtom);
+        if (
+            highlightedEdges.ids.length > 0
+        ) {
+            // case: two bundles are merged
+            if (highlightedEdges.indices.length === 2) {
+                currentIdArray[highlightedEdges.indices[0]] =
+                    highlightedEdges.ids;
+                currentIdArray.splice(highlightedEdges.indices[1],1);
+                // case: node is added to bundle
+            } else if (highlightedEdges.indices.length === 1) {
+                currentIdArray[highlightedEdges.indices[0]] =
+                    highlightedEdges.ids;
+                // case: new bundle created
+            } else {
+                currentIdArray.push(highlightedEdges.ids);
+            }
+            set(getMultiEgographBundleAtom, currentIdArray);
+        }
+    }
+);
 export const decollapseIDsAtom = atom(
     (get) => get(decollapseIDsArrayAtom),
     (get, set, id: string) => {
         const currentIdArray = get(decollapseIDsArrayAtom).slice();
-        const nodeNeighbors = get(nodeNeighborsAtom);
         const idIndex = currentIdArray
             .map((bundleIds) => bundleIds.includes(id))
             .indexOf(true);
@@ -42,23 +136,7 @@ export const decollapseIDsAtom = atom(
                 currentIdArray[idIndex] = subArray;
             } else currentIdArray.splice(idIndex, 1);
         } else {
-            let idAdded = false;
-            for (let i = currentIdArray.length - 1; i >= 0; i--) {
-                const subArray = currentIdArray[i];
-                if (
-                    subArray.length < 3 &&
-                    subArray.some((currid) =>
-                        nodeNeighbors[currid].includes(id)
-                    )
-                ) {
-                    currentIdArray[i].push(id);
-                    idAdded = true;
-                    break;
-                }
-            }
-            if (!idAdded) {
-                currentIdArray.push([id]);
-            }
+            currentIdArray.push([id]);
         }
         set(getMultiEgographBundleAtom, currentIdArray);
     }
@@ -69,17 +147,6 @@ export const egoNetworkNetworksAtom = atom<egoNetworkNetwork>({
     edges: []
 });
 
-// This code creates a dictionary that maps nodes to their neighbors.
-const nodeNeighborsAtom = atom((get) => {
-    const neighborDict: { [key: string]: string[] } = {};
-    get(egoNetworkNetworksAtom).edges.forEach((edge) => {
-        neighborDict[edge.source] = neighborDict[edge.source] || [];
-        neighborDict[edge.target] = neighborDict[edge.target] || [];
-        neighborDict[edge.source].push(edge.target);
-        neighborDict[edge.target].push(edge.source);
-    });
-    return neighborDict;
-});
 const egoNetworkNetworkDeepCopyAtom = atom<egoNetworkNetworkRendered>((get) => {
     const copy: egoNetworkNetwork = JSON.parse(
         JSON.stringify(get(egoNetworkNetworksAtom))
@@ -118,7 +185,8 @@ export const aggregateNetworkAtom = atom((get) => {
         .force(
             'charge',
             d3.forceManyBody().strength(() => -10)
-        ).force(
+        )
+        .force(
             'link',
             d3
                 .forceLink(outEdges)
@@ -127,10 +195,10 @@ export const aggregateNetworkAtom = atom((get) => {
         )
         .force(
             'collision',
-            d3
-                .forceCollide()
-                .radius((d: egoNetworkNetworkNode) => d.radius+5)
-        ).stop().tick(100);
+            d3.forceCollide().radius((d: egoNetworkNetworkNode) => d.radius + 5)
+        )
+        .stop()
+        .tick(100);
 
     // reshape the edges to contain a x1, x2, y1, y2 coordinate
     // Create a dictionary of nodes for faster lookup
@@ -200,7 +268,7 @@ function aggregateEgoNetworkNodes(
             neighbors: null
         };
     });
-    let outEdges: egoNetworkNetworkRenderedEdge[] = [];
+    const outEdges: egoNetworkNetworkRenderedEdge[] = [];
     const aggregatesDict: { [key: string]: egoNetworkNetworkRenderedEdge[] } =
         {};
     const aggregateIndex = (id: string) => {
@@ -262,13 +330,13 @@ function aggregateEgoNetworkNodes(
         })
     );
     //outEdges= outEdges.sort((a,b)=>a.weight-b.weight)
-    const outNodes=Object.values(nodeDict).sort((a,b)=>{
-        if(a.id<b.id){
+    const outNodes = Object.values(nodeDict).sort((a, b) => {
+        if (a.id < b.id) {
             return -1;
-        }else{
-            return 1
+        } else {
+            return 1;
         }
-    })
+    });
     return { outNodes: outNodes, outEdges: outEdges };
 }
 
