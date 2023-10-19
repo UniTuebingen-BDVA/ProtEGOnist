@@ -526,23 +526,23 @@ function getPath(
 
     const firstPos: [number, number] = [start[1].pos.x, start[1].pos.y];
     const secondPos: [number, number] = [start[0].pos.x, start[0].pos.y];
-    const OFFSET_SCALE_1 = Math.min(
-        0.05 * radius,
-        Math.sqrt(
-            (firstPos[0] - secondPos[0]) ** 2 +
-                (firstPos[1] - secondPos[1]) ** 2
-        ) / 2
+    const distanceBetweenStartPoints = Math.sqrt(
+        (firstPos[0] - secondPos[0]) ** 2 + (firstPos[1] - secondPos[1]) ** 2
     );
+    const OFFSET_SCALE_1 =
+        distanceBetweenStartPoints < 0.05
+            ? 0.05 * radius
+            : Math.min(0.05 * radius, distanceBetweenStartPoints);
 
     const thirdPos: [number, number] = [end[1].pos.x, end[1].pos.y];
     const fourthPos: [number, number] = [end[0].pos.x, end[0].pos.y];
-    const OFFSET_SCALE_2 = Math.min(
-        0.05 * radius,
-        Math.sqrt(
-            (thirdPos[0] - fourthPos[0]) ** 2 +
-                (thirdPos[1] - fourthPos[1]) ** 2
-        ) / 2
+    const distanceBetweenEndPoints = Math.sqrt(
+        (thirdPos[0] - fourthPos[0]) ** 2 + (thirdPos[1] - fourthPos[1]) ** 2
     );
+    const OFFSET_SCALE_2 =
+        distanceBetweenEndPoints < 0.05
+            ? 0.05 * radius
+            : Math.min(0.05 * radius, distanceBetweenEndPoints);
 
     const [
         p1Cartesian,
