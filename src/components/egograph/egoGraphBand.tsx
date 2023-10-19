@@ -258,14 +258,12 @@ function positionTips(
             }
         }
     }
-    console.log('coords', p1LocalPolarC1.theta, p2LocalPolarC1.theta);
     const p1tipbaseAngle = Math.abs(
         distancePolar(p1LocalPolarC1.theta, tipBaseP1Polar.theta)
     );
     const p2tipbaseAngle = Math.abs(
         distancePolar(tipBaseP2Polar.theta, p2LocalPolarC1.theta)
     );
-    console.log('p1p2', p1tipbaseAngle, p2tipbaseAngle);
 
     const tipBaseP1Cartesian = localToGlobal(
         polarToCartesian(tipBaseP1Polar.r, tipBaseP1Polar.theta),
@@ -322,7 +320,9 @@ function offsetTips(
             Math.sqrt(tipVector[0] * tipVector[0] + tipVector[1] * tipVector[1])
     );
     let tipVectorNormalized = [0, 0];
-    if (angle < (Math.PI * 2) / 2) {
+    if (false && angle < (Math.PI * 2) / 2) {
+        //mabye change back it seems that this case is not very prevalent
+        console.log('angleCase', angle);
         // set the vector such that angles with 1/3 Pi
         const rot = (Math.sign(dotProduct) * -2 * Math.PI) / 2;
         const fromCenterToOffsetPointMainLength = Math.sqrt(
@@ -358,7 +358,6 @@ function offsetTips(
         tipVectorNormalized[1] * offsetDistance,
         tipVectorNormalized[0] * -offsetDistance
     ];
-
     // calculate the offset points
     const tipPoint1OffsetCartesian: [number, number] = [
         offsetPointMain[0] + offsetVector[0],
@@ -403,7 +402,7 @@ function orientTips(
     tipPosition2Cartesian: [number, number],
     centerPos: { x: number; y: number }
 ) {
-    const TIP_LENGTH = 0.2;
+    const TIP_LENGTH = 0.13;
 
     const tipPosition1Polar = cartesianToPolar(
         globalToLocal(tipPosition1Cartesian, centerPos)
@@ -413,9 +412,27 @@ function orientTips(
         globalToLocal(tipPosition2Cartesian, centerPos)
     );
 
-    const angleDifference = distancePolar(
+    // check if tipPosition2Polar in the semicircle right of tipPosition1Polar
+    const pos1PlusHalfPi = addAngle(tipPosition1Polar.theta, Math.PI / 2);
+    const isClockwise = polarIsBetween(
         tipPosition1Polar.theta,
+        pos1PlusHalfPi,
         tipPosition2Polar.theta
+    );
+
+    const midTipPointPolarTheta = midPointPolar(
+        isClockwise ? tipPosition1Polar.theta : tipPosition2Polar.theta,
+        isClockwise ? tipPosition2Polar.theta : tipPosition1Polar.theta
+    );
+
+    const midTheta2 = midPointPolar(
+        isClockwise ? tipPosition1Polar.theta : midTipPointPolarTheta,
+        isClockwise ? midTipPointPolarTheta : tipPosition1Polar.theta
+    );
+
+    const angleDifference = distancePolar(
+        isClockwise ? tipPosition1Polar.theta : tipPosition2Polar.theta,
+        isClockwise ? tipPosition2Polar.theta : tipPosition1Polar.theta
     );
 
     // calculate the tip points from the tip polar coordinates
@@ -425,12 +442,14 @@ function orientTips(
         theta:
             tipPosition1Polar.theta +
             (Math.abs(angleDifference) > 0.1
-                ? -0.02 * Math.sign(angleDifference)
+                ? isClockwise
+                    ? -angleDifference / 20
+                    : angleDifference / 20
                 : 0)
     };
     const tipPoint2Polar = {
-        r: tipPoint1Polar.r * (1 + TIP_LENGTH * 1.05),
-        theta: tipPoint1Polar.theta
+        r: tipPoint1Polar.r * (1 + TIP_LENGTH * 2),
+        theta: midTheta2
     };
     const tipPointControlPolar = {
         r: tipPosition1Polar.r * 1.04,
@@ -467,8 +486,6 @@ function drawTip(
     centerPos: { x: number; y: number },
     radius: number
 ) {
-    console.log('p1p2dras', p1BaseAngle, p2BaseAngle);
-
     //generate an svg arc from p1Cartesian to tipBaseP1Cartesian
     //const arc_P1_tipBase = `M${p2[0]} ${p2[1]}  A ${radius} ${radius} 0 0 1 ${p1[0]} ${p1[1]}`;
     const arc_P1_tipBase = `M ${p1Cartesian[0]} ${
@@ -505,7 +522,7 @@ function getPath(
     }[],
     radius: number
 ) {
-    const RADIUS_SCALE = 1.07;
+    const RADIUS_SCALE = 1.1;
 
     const firstPos: [number, number] = [start[1].pos.x, start[1].pos.y];
     const secondPos: [number, number] = [start[0].pos.x, start[0].pos.y];
@@ -644,13 +661,12 @@ function getPath(
     return [
         connector,
         arc1 + arc2,
-        p1Cartesian,
-        tipBaseP1Cartesian,
-
-        p2Cartesian,
-        tipBaseP2Cartesian,
-        tipPoint1OffsetCartesianNeg,
-        tipPoint2OffsetCartesianNeg
+        tipPoint1Cartesian,
+        tipPoint2Cartesian,
+        tipPoint3Cartesian,
+        tipPoint4Cartesian,
+        connectorControl1OffsetCartesianNeg,
+        connectorControl2OffsetCartesianPos
     ];
 }
 
@@ -695,7 +711,7 @@ const EgoGraphBand = (props: EgoGraphBandProps) => {
 
     return pathData.map((pathDatum) => (
         <>
-            <circle
+            {/* <circle
                 cx={pathDatum.path[2][0]}
                 cy={pathDatum.path[2][1]}
                 r={3}
@@ -707,7 +723,7 @@ const EgoGraphBand = (props: EgoGraphBandProps) => {
                 r={3}
                 fill="pink"
             ></circle>
-            {/* <circle
+            <circle
                 cx={pathDatum.path[4][0]}
                 cy={pathDatum.path[4][1]}
                 r={3}
@@ -734,8 +750,8 @@ const EgoGraphBand = (props: EgoGraphBandProps) => {
             <path
                 d={pathDatum.path[1]}
                 className="band"
-                stroke={pathDatum.color}
-                opacity={0.7}
+                stroke={'white'}
+                opacity={1}
                 strokeWidth="0"
                 strokeLinejoin="arc"
                 fill={pathDatum.color}
@@ -743,8 +759,8 @@ const EgoGraphBand = (props: EgoGraphBandProps) => {
             <path
                 d={pathDatum.path[0]}
                 className="band"
-                stroke={pathDatum.color}
-                opacity={0.7}
+                stroke={'white'}
+                opacity={1}
                 strokeWidth="0"
                 strokeLinejoin="arc"
                 fill={pathDatum.color}
