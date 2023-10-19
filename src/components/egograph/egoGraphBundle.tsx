@@ -18,7 +18,10 @@ import { egoGraphLayout } from './egolayout.ts';
 import { focusAtom } from 'jotai-optics';
 import { splitAtom } from 'jotai/utils';
 import * as d3 from 'd3';
-import { decollapseIDsAtom, highlightedEdgesAtom } from '../egoNetworkNetwork/egoNetworkNetworkStore.ts';
+import {
+    decollapseIDsAtom,
+    highlightedEdgesAtom
+} from '../egoNetworkNetwork/egoNetworkNetworkStore.ts';
 
 const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
     const { x, y, nodeId } = props;
@@ -143,14 +146,18 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                             cy={center.y}
                             stroke={'lightgray'}
                             strokeWidth={1}
-                            r={outerRadius}
+                            r={center.outerSize}
                             fill={'white'}
                         />
                         <circle
                             cx={center.x}
                             cy={center.y}
-                            r={outerRadius+2}
-                            stroke={highlightedEdges.ids.includes(center.id)?'black':'transparent'}
+                            r={outerRadius + 2}
+                            stroke={
+                                highlightedEdges.ids.includes(center.id)
+                                    ? 'black'
+                                    : 'transparent'
+                            }
                             strokeWidth={7}
                             fill={'none'}
                         />
@@ -164,7 +171,13 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                     </g>
                 );
             }),
-        [highlightedEdges, innerRadius, layout.centers, outerRadius, setDecollapseID]
+        [
+            highlightedEdges,
+            innerRadius,
+            layout.centers,
+            outerRadius,
+            setDecollapseID
+        ]
     );
     const circles = useMemo(() => {
         const returnCircles: ReactElement[] = [];
@@ -202,7 +215,6 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                     <EgoGraphBand
                         key={i}
                         bandData={band}
-                        radius={outerRadius}
                         color={bandColorScale(i)}
                     />
                 );

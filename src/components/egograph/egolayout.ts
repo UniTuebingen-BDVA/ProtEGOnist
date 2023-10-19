@@ -470,7 +470,12 @@ export function calculateLayout(
     });
 
     if (egoGraphs.length > 1) {
-        let graphCenters: { x: number; y: number; id: string }[];
+        let graphCenters: {
+            x: number;
+            y: number;
+            id: string;
+            outerSize: number;
+        }[];
         const layout: egoGraphLayout = {
             bandData: {},
             nodes: [],
@@ -480,38 +485,49 @@ export function calculateLayout(
             centers: []
         };
         if (egoGraphs.length === 2) {
+            const scaledOuterSize0 = egoGraphs[0].nodes.length;
+            const scaledOuterSize1 = egoGraphs[1].nodes.length;
+
             graphCenters = [
                 {
-                    x: outerSize - nodeSize / 2,
+                    x: scaledOuterSize0 - nodeSize / 2,
                     y: nodeSize / 2,
-                    id: egoGraphs[0].centerNode.originalID
+                    id: egoGraphs[0].centerNode.originalID,
+                    outerSize: scaledOuterSize0
                 },
                 {
-                    x: nodeSize + nodeSize / 2 - outerSize,
+                    x:
+                        nodeSize +
+                        nodeSize / 2 -
+                        (scaledOuterSize1 + scaledOuterSize0),
                     y: nodeSize / 2,
-                    id: egoGraphs[1].centerNode.originalID
+                    id: egoGraphs[1].centerNode.originalID,
+                    outerSize: scaledOuterSize1
                 }
             ];
         } else {
+            const scaledOuterSize0 = egoGraphs[0].nodes.length;
+            const scaledOuterSize1 = egoGraphs[1].nodes.length;
+            const scaledOuterSize2 = egoGraphs[2].nodes.length;
             const points = [
                 polarToCartesian(
                     nodeSize / 2,
                     nodeSize / 2,
-                    nodeSize - outerSize,
+                    nodeSize - scaledOuterSize0,
                     0,
                     Math.PI
                 ),
                 polarToCartesian(
                     nodeSize / 2,
                     nodeSize / 2,
-                    nodeSize - outerSize,
+                    nodeSize - scaledOuterSize1,
                     (1 / 3) * (2 * Math.PI),
                     Math.PI
                 ),
                 polarToCartesian(
                     nodeSize / 2,
                     nodeSize / 2,
-                    nodeSize - outerSize,
+                    nodeSize - scaledOuterSize2,
                     (2 / 3) * (2 * Math.PI),
                     Math.PI
                 )
@@ -520,17 +536,20 @@ export function calculateLayout(
                 {
                     x: points[0].x,
                     y: points[0].y,
-                    id: egoGraphs[0].centerNode.originalID
+                    id: egoGraphs[0].centerNode.originalID,
+                    outerSize: scaledOuterSize0
                 },
                 {
                     x: points[1].x,
                     y: points[1].y,
-                    id: egoGraphs[1].centerNode.originalID
+                    id: egoGraphs[1].centerNode.originalID,
+                    outerSize: scaledOuterSize1
                 },
                 {
                     x: points[2].x,
                     y: points[2].y,
-                    id: egoGraphs[2].centerNode.originalID
+                    id: egoGraphs[2].centerNode.originalID,
+                    outerSize: scaledOuterSize2
                 }
             ];
         }
@@ -626,7 +645,7 @@ export function calculateLayout(
             const currLayout = calculateMultiLayout(
                 egoGraphs[i],
                 innerSize,
-                outerSize,
+                egoGraphs[i].nodes.length,
                 intersections[egoGraphs[i].centerNode.originalID],
                 intersectingNodes.reverse(),
                 graphCenters[i],
@@ -696,7 +715,7 @@ function addCenterNodeId(
 
 function firstAndLastNodeIntersection(
     firstAndLastNodeIds: { [key: string]: [string, string] },
-    centers: { x: number; y: number; id: string }[]
+    centers: { x: number; y: number; id: string; outerSize: number }[]
 ) {
     // for each graphCenter and each associated intersection (key contains the graphCenter) get the first and last node in the intersection as sorted in the nodeDict
     const firstAndLastNodes = {};

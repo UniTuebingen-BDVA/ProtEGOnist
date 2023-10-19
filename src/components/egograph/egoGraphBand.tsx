@@ -4,13 +4,17 @@ import {
     polarIsBetween
 } from '../../UtilityFunctions';
 interface EgoGraphBandProps {
-    radius: number;
     bandData: [
         string,
         {
             [key: string]: {
                 id: string;
-                graphCenterPos: { x: number; y: number };
+                graphCenterPos: {
+                    x: number;
+                    y: number;
+                    id: string;
+                    outerSize: number;
+                };
                 pos: { x: number; y: number };
             }[];
         }
@@ -67,8 +71,8 @@ function positionTips(
     p3: [number, number],
     p4: [number, number],
     radius: number,
-    centerPosC1: { x: number; y: number },
-    centerPosC2: { x: number; y: number }
+    centerPosC1: { x: number; y: number; id: string; outerSize: number },
+    centerPosC2: { x: number; y: number; id: string; outerSize: number }
 ) {
     const TIP_MAX_ANGLE = 0.4; //rad
     let p1Cartesian = structuredClone(p1);
@@ -106,8 +110,8 @@ function positionTips(
             'The radius of p1 and p2 is not the same. Check your input'
         );
     } else {
-        p1LocalPolarC1.r = radius;
-        p2LocalPolarC1.r = radius;
+        p1LocalPolarC1.r = centerPosC1.outerSize;
+        p2LocalPolarC1.r = centerPosC1.outerSize;
     }
 
     // const halfcircleCondition =
@@ -129,7 +133,7 @@ function positionTips(
 
     // calculate the midpoint between p1LocalPolar and p2LocalPolar consider that the midpoint of 3/2 pi and 1/2 pi is 0
     const midpointP1P2PolarC1 = {
-        r: radius,
+        r: centerPosC1.outerSize,
         theta: midPointPolar(p1LocalPolarC1.theta, p2LocalPolarC1.theta)
     };
     // const midpointP3P4PolarC1 = {
@@ -152,7 +156,7 @@ function positionTips(
     );
 
     const adjustedTipPosition1 = {
-        r: radius,
+        r: centerPosC1.outerSize,
         theta: midpointP3P4PolarC1.theta
     };
 
@@ -161,11 +165,11 @@ function positionTips(
     // calculate the beginning of the "tip" of the arc (the point where the arc starts to bend) such that the angle between the tip and the midpoint is TIP_MAX_ANGLE or the radius of the arc, whichever is smaller
 
     const tipBaseP1Polar = {
-        r: radius,
+        r: centerPosC1.outerSize,
         theta: addAngle(tipPosition1.theta, TIP_MAX_ANGLE / 2)
     };
     const tipBaseP2Polar = {
-        r: radius,
+        r: centerPosC1.outerSize,
         theta: subtractAngle(tipPosition1.theta, TIP_MAX_ANGLE / 2)
     };
     const correctionAngle = TIP_MAX_ANGLE / 5;
@@ -513,14 +517,13 @@ function drawTip(
 
 function getPath(
     start: {
-        graphCenterPos: { x: number; y: number };
+        graphCenterPos: { x: number; y: number; id: string; outerSize: number };
         pos: { x: number; y: number };
     }[],
     end: {
-        graphCenterPos: { x: number; y: number };
+        graphCenterPos: { x: number; y: number; id: string; outerSize: number };
         pos: { x: number; y: number };
-    }[],
-    radius: number
+    }[]
 ) {
     const RADIUS_SCALE = 1.1;
 
@@ -531,8 +534,11 @@ function getPath(
     );
     const OFFSET_SCALE_1 =
         distanceBetweenStartPoints < 0.05
-            ? 0.05 * radius
-            : Math.min(0.05 * radius, distanceBetweenStartPoints);
+            ? 0.05 * start[1].graphCenterPos.outerSize
+            : Math.min(
+                  0.05 * start[1].graphCenterPos.outerSize,
+                  distanceBetweenStartPoints
+              );
 
     const thirdPos: [number, number] = [end[1].pos.x, end[1].pos.y];
     const fourthPos: [number, number] = [end[0].pos.x, end[0].pos.y];
@@ -541,8 +547,11 @@ function getPath(
     );
     const OFFSET_SCALE_2 =
         distanceBetweenEndPoints < 0.05
-            ? 0.05 * radius
-            : Math.min(0.05 * radius, distanceBetweenEndPoints);
+            ? 0.05 * start[0].graphCenterPos.outerSize
+            : Math.min(
+                  0.05 * start[0].graphCenterPos.outerSize,
+                  distanceBetweenEndPoints
+              );
 
     const [
         p1Cartesian,
@@ -557,7 +566,7 @@ function getPath(
         secondPos,
         thirdPos,
         fourthPos,
-        radius * RADIUS_SCALE,
+        start[1].graphCenterPos.outerSize * RADIUS_SCALE,
         start[0].graphCenterPos,
         end[0].graphCenterPos
     );
@@ -575,7 +584,7 @@ function getPath(
         fourthPos,
         firstPos,
         secondPos,
-        radius * RADIUS_SCALE,
+        start[0].graphCenterPos.outerSize * RADIUS_SCALE,
         end[0].graphCenterPos,
         start[0].graphCenterPos
     );
@@ -635,7 +644,7 @@ function getPath(
         tipPoint1ControlOffsetCartesianNeg,
         tipPoint1ControlOffsetCartesianPos,
         start[0].graphCenterPos,
-        radius * RADIUS_SCALE
+        start[0].graphCenterPos.outerSize * RADIUS_SCALE
     );
     const arc2 = drawTip(
         p3Cartesian,
@@ -649,7 +658,7 @@ function getPath(
         tipPoint2ControlOffsetCartesianNeg,
         tipPoint2ControlOffsetCartesianPos,
         end[0].graphCenterPos,
-        radius * RADIUS_SCALE
+        end[0].graphCenterPos.outerSize * RADIUS_SCALE
     );
 
     const connector = `
@@ -671,7 +680,7 @@ function getPath(
 }
 
 const EgoGraphBand = (props: EgoGraphBandProps) => {
-    const { bandData, radius, color } = props;
+    const { bandData, color } = props;
     let pathData: { path: string[]; color: string }[] = [];
     if (Object.values(bandData[1]).length === 0) return null;
     if (Object.values(bandData[1]).length === 1) return null;
@@ -680,7 +689,7 @@ const EgoGraphBand = (props: EgoGraphBandProps) => {
         const end = Object.values(bandData[1])[1];
         pathData = [
             {
-                path: getPath(start, end, radius),
+                path: getPath(start, end),
                 color: color
             }
         ];
@@ -694,17 +703,17 @@ const EgoGraphBand = (props: EgoGraphBandProps) => {
         //start to mid, mid to end, end to start
         // push start to mid
         pathData.push({
-            path: getPath(start, mid, radius),
+            path: getPath(start, mid),
             color: color
         });
         // push mid to end
         pathData.push({
-            path: getPath(mid, end, radius),
+            path: getPath(mid, end),
             color: color
         });
         // push end to start
         pathData.push({
-            path: getPath(end, start, radius),
+            path: getPath(end, start),
             color: color
         });
     }
