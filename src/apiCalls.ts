@@ -30,12 +30,31 @@ import { calculateLayout } from './components/egograph/egolayout.ts';
 import { egoNetworkNetworksOverviewAtom } from './components/overview_component/egoNetworkNetworkOverviewStore.ts';
 
 export const serverBusyAtom = atom(false);
+export const showOnTooltipAtom = atom([]);
+export const nameNodesByAtom = atom("nodeID");
+export const quantifyNodesByAtom = atom({});
+export const classifyByAtom = atom("");
 export const chosenSetAtom = atom(null);
 
 export const selectedExampleAtom = atom(
     (get) => get(chosenSetAtom),
     (get, set, example:string)  => {
             set(chosenSetAtom, example);
+            axios
+                .get(`/api/get_labelling_keys/${example}`)
+                .then(
+                    (response) =>{
+                        const {nameNodesBy, showOnTooltip, quantifyBy, classifyBy} = response.data;
+                        set(nameNodesByAtom, nameNodesBy);
+                        set(showOnTooltipAtom, showOnTooltip);
+                        set(quantifyNodesByAtom, quantifyBy);
+                        set(classifyByAtom,classifyBy);
+                    },
+                    (e) => {
+                    console.error(e)
+                    }
+
+                )
         
     }
 
@@ -240,6 +259,7 @@ export const getEgoNetworkAndRadar = atom(
                     );
                     set(egoNetworkNetworksAtom, networkResponse.data);
                     set(serverBusyAtom, false);
+
                 })
             )
             .catch(() => {

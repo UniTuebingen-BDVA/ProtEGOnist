@@ -40,7 +40,6 @@ def read_example_string():
     try:
         top_intersections_dist = parse_distance_matrix(
             here / "data" / "example_PPIs" / "distance_matrix.txt.gz")
-        print("Loaded distance matrix ", len(top_intersections_dist))
     except FileNotFoundError:
         print(
             f"No json file found in {here / 'data'}. Make sure you added it.")
@@ -67,6 +66,11 @@ def read_example_string():
         "classification": classification_dict,
         "metadata": table_data,
         "overview_nodes": important_nodes,
+        "quantify_by": "drug_name",
+        "quantify_type": "categorical",
+        "classify_by": "brite",
+        "name_nodes": "x_id",
+        "show_tooltip": ["drug_name", "brite"]
 
     }
 
@@ -82,9 +86,8 @@ def read_example_string_modified():
             f"No graphml file found in {here / 'data'}. Make sure you added it.")
     # Read the top intersections from the input file
     try:
-        with open(here / "data" / "example_PPIs2" / "intersections_ego_deg2.pickle", "rb") as f:
-            top_intersections = pickle.load(f)
-            print("Loaded intersections ", len(top_intersections))
+        top_intersections = parse_distance_matrix(
+            here / "data" / "example_PPIs2" / "distance_matrix.txt.gz")
     except FileNotFoundError:
         print(
             f"No json file found in {here / 'data'}. Make sure you added it.")
@@ -111,6 +114,11 @@ def read_example_string_modified():
         "classification": classification_dict,
         "metadata": table_data,
         "overview_nodes": important_nodes,
+        "quantify_by": "drug_name",
+        "quantify_type": "categorical",
+        "classify_by": "brite",
+        "name_nodes": "x_id",
+        "show_tooltip": ["drug_name"]
     }
 
 
@@ -126,8 +134,29 @@ read_example_string_modified()
 #         print("Loaded string graph ", len(string_graph.nodes))
 #     return json.dumps(True)
 
+@app.route("/api/get_labelling_keys/<example>", methods=["GET"])
+def get_labelling_keys(example: str):
+    try:
+        example_data = EXAMPLES[example]
+        labelling_keys = {
+            "nameNodesBy": example_data["name_nodes"],
+            "classifyBy": example_data["classify_by"],
+            "showOnTooltip": example_data["show_tooltip"],
+            "quantifyBy": {"label": example_data["quantify_by"],
+                           "type": example_data["quantify_type"]}
+
+
+        }
+    except KeyError:
+        print(f"Example {example} not found")
+    except Exception as e:
+        print(e)
+
+    return json.dumps(labelling_keys)
 
 # ROUTES
+
+
 @app.route("/api/backendcounter", methods=["POST"])
 def test():
     counter = int(request.form.to_dict()["counter"])

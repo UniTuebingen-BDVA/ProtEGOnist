@@ -4,6 +4,7 @@
 // @ts-nocheck
 import { useAtom } from 'jotai';
 import { tableAtom } from '../selectionTable/tableStore';
+import { nameNodesByAtom, showOnTooltipAtom } from '../../apiCalls';
 import { Tooltip } from '@mui/material';
 import React, { memo } from 'react';
 interface AdvancedTooltipProps {
@@ -23,17 +24,22 @@ const TooltipContent = memo(function TooltipContent({
     additionalData
 }: TooltipContentProps) {
     const [tableData] = useAtom(tableAtom);
+    const [nameNodesBy] = useAtom(nameNodesByAtom)
+    const [showOnTooltip] = useAtom(showOnTooltipAtom)
 
     const nodeData = tableData.rows[nodeID]
+    console.log(nodeData)
 
     // split data if available
-    const proteinNames = (nodeData?.["x_id"] ?? "").split(';').filter((x) => x !== "");
-    const drugNames = (nodeData?.["drug_name"] ?? "").split(';').filter((x) => x !== "");
+    const proteinNames = (nodeData?.[nameNodesBy] ?? "").split(';').filter((x) => x !== "");
+    let tooltipData = {}
+    for (let showTooltip of showOnTooltip) {
+        tooltipData[showTooltip] = [... new Set((nodeData?.[showTooltip] ?? "").split(';').filter((x) => x !== ""))];
 
+    }
+    console.log(tooltipData)
     // generate set of unique protein names
     const uniqueProteinNames = [...new Set(proteinNames)];
-    // generate set of unique drug names
-    const uniqueDrugNames = [...new Set(drugNames)];
 
     return (
         <div key={nodeID}>
@@ -44,20 +50,23 @@ const TooltipContent = memo(function TooltipContent({
             )}
             nodeID: {nodeID}
             <br />
-            {additionalData && (
+            {Object.keys(tooltipData).length > 0 && (
                 <>
-                    {additionalData}
-                    <br />{' '}
-                </>
-            )}
-            {uniqueDrugNames.length > 0 && (
-                <>
-                    Drugs that target this protein:
-                    <ul>
-                        {uniqueDrugNames.map((drug) => (
-                            <li key={drug}>{drug}</li>
-                        ))}
-                    </ul>
+                    {Object.entries(tooltipData).map(([key, iter]) => (
+                        <>
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                <span style={{ fontWeight: 'bold', textTransform: 'uppercase' }}>{key} </span>
+                                <ul>
+                                    {iter.map((ele) => (
+                                        <li key={ele}>{ele}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </>
+
+
+                    ))
+                    }
                 </>
             )}
         </div>
