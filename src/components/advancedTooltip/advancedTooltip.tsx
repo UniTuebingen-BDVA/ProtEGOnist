@@ -27,8 +27,8 @@ const TooltipContent = memo(function TooltipContent({
     const nodeData = tableData.rows[nodeID]
 
     // split data if available
-    const proteinNames = nodeData?.["x_id"].split(';') ?? [];
-    const drugNames = nodeData?.["drug_name"].split(';') ?? [];
+    const proteinNames = (nodeData?.["x_id"] ?? "").split(';').filter((x) => x !== "");
+    const drugNames = (nodeData?.["drug_name"] ?? "").split(';').filter((x) => x !== "");
 
     // generate set of unique protein names
     const uniqueProteinNames = [...new Set(proteinNames)];

@@ -91,6 +91,10 @@ export const tableModelSelectedAtom = atom<number[]>((get) => {
     return indexSelectedProts
 }
 );
+export const columnVisibilityAtom = atom<{ [key: string]: boolean }>({
+    with_metadata: false,
+});
+
 
 export const tableAtom = atom(
     (get) => get(tableAtomStore),
@@ -105,7 +109,11 @@ export const tableAtom = atom(
 
         for (const nodeID of uniquenodeIDs) {
             const rowProtein = update.rows[nodeID];
-            const drugNames = rowProtein["drug_name"].split(';');
+            if (!rowProtein || !rowProtein["with_metadata"]) {
+                drugsPerProtein[nodeID] = null;
+                continue;
+            }
+            const drugNames = rowProtein["drug_name"].split(';') ?? [nodeID];
             const uniqueDrugNames = [...new Set(drugNames)];
             drugsPerProtein[nodeID] = uniqueDrugNames.length;
         }

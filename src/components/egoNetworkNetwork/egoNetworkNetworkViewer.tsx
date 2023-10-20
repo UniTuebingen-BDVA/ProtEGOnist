@@ -13,7 +13,7 @@ import React from 'react';
 import { egoNetworkNetworkBusyAtom } from '../../apiCalls.ts';
 
 function EgoNetworkNetworkViewer() {
-    const [egoNetworkNetworkBusy]=useAtom(egoNetworkNetworkBusyAtom);
+    const [egoNetworkNetworkBusy] = useAtom(egoNetworkNetworkBusyAtom);
     const svgSize = useAtomValue(egoNetworkNetworkSizeAtom);
     const [colorscale] = useAtom(drugsPerProteinColorscaleAtom);
     const [decollapseIDsArray] = useAtom(decollapseIDsArrayAtom);
@@ -65,7 +65,7 @@ function EgoNetworkNetworkViewer() {
                 position: 'relative'
             }}
         >
-             <Backdrop
+            <Backdrop
                 sx={{
                     color: '#fff',
                     zIndex: (theme) => theme.zIndex.drawer + 1,
@@ -101,6 +101,7 @@ function EgoNetworkNetworkViewer() {
                 <ColorLegend
                     domain={colorscale.domain()}
                     range={colorscale.range()}
+                    unknown={colorscale.unknown()}
                     type={'quantitative'}
                     transform={`translate(${10},${10})`}
                     title={'#Drugs associated with protein'}

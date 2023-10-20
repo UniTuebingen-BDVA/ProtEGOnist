@@ -50,7 +50,7 @@ def main():
         "--output",
         type=str,
         help="Path to the output distance matrix.",
-        default="distance_matrix.txt",
+        default="distance_matrix.txt.gz",
     )
     # Parse the arguments
     args = parser.parse_args()

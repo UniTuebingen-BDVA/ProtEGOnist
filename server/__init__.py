@@ -6,7 +6,7 @@ import networkx as nx
 from flask import Flask, request
 
 
-from server.python_scripts.dataIO import read_metadata
+from server.python_scripts.dataIO import read_metadata, parse_distance_matrix
 from server.python_scripts.sampleGraph import (
     generate_string_intersections_top,
     generate_radar_data,
@@ -38,15 +38,15 @@ def read_example_string():
             f"No graphml file found in {here / 'data'}. Make sure you added it.")
     # Read the top intersections from the input file
     try:
-        with open(here / "data" / "example_PPIs" / "intersections_ego_deg2.pickle", "rb") as f:
-            top_intersections = pickle.load(f)
-            print("Loaded intersections ", len(top_intersections))
+        top_intersections_dist = parse_distance_matrix(
+            here / "data" / "example_PPIs" / "distance_matrix.txt.gz")
+        print("Loaded distance matrix ", len(top_intersections_dist))
     except FileNotFoundError:
         print(
             f"No json file found in {here / 'data'}. Make sure you added it.")
     try:
         table_data, classification_dict = read_metadata(
-            here / "data" / "example_PPIs" / "metadata_proteins.csv", "brite")
+            here / "data" / "example_PPIs" / "metadata_proteins.csv", "brite", network.nodes)
 
     except FileNotFoundError:
         print(
@@ -63,10 +63,11 @@ def read_example_string():
 
     EXAMPLES["string"] = {
         "network": network,
-        "top_intersections": top_intersections,
+        "top_intersections": top_intersections_dist,
         "classification": classification_dict,
         "metadata": table_data,
         "overview_nodes": important_nodes,
+
     }
 
 
@@ -89,7 +90,7 @@ def read_example_string_modified():
             f"No json file found in {here / 'data'}. Make sure you added it.")
     try:
         table_data, classification_dict = read_metadata(
-            here / "data" / "example_PPIs2" / "metadata_proteins.csv", "x_id")
+            here / "data" / "example_PPIs2" / "metadata_proteins.csv", "x_id", network.nodes)
 
     except FileNotFoundError:
         print(
