@@ -20,12 +20,14 @@ export const egoNetworkNetworkSizeAtom = atom({
     y: 0
 });
 
-export const decollapseIDsArrayAtom = atom<string[][]>([]);
-export const decollapsedSizeAtom = atom((get) => [
-    get(outerRadiusAtom),
-    300,
-    300
-]);
+export const decollapseIDsArrayAtom = atom<string[]>([]);
+const decollapsedSizeStoreAtom = atom<number[]>([]);
+export const decollapsedSizeAtom = atom(
+    (get) => get(decollapsedSizeStoreAtom),
+    (get, set, newSizes: number[]) => {
+        set(decollapsedSizeStoreAtom, newSizes);
+    }
+);
 // indices stores indices in decollapsedIDsArray that are affected if the edges are selected for a bundle
 const highlightedEdgesStoreAtom = atom<{ indices: number[]; ids: string[] }>({
     indices: [],
@@ -102,14 +104,12 @@ export const decollapseEdgeAtom = atom(
     (get, set) => {
         const currentIdArray = get(decollapseIDsArrayAtom).slice();
         const highlightedEdges = get(highlightedEdgesAtom);
-        if (
-            highlightedEdges.ids.length > 0
-        ) {
+        if (highlightedEdges.ids.length > 0) {
             // case: two bundles are merged
             if (highlightedEdges.indices.length === 2) {
                 currentIdArray[highlightedEdges.indices[0]] =
                     highlightedEdges.ids;
-                currentIdArray.splice(highlightedEdges.indices[1],1);
+                currentIdArray.splice(highlightedEdges.indices[1], 1);
                 // case: node is added to bundle
             } else if (highlightedEdges.indices.length === 1) {
                 currentIdArray[highlightedEdges.indices[0]] =

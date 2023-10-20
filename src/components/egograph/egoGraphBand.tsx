@@ -70,7 +70,7 @@ function positionTips(
     p2: [number, number],
     p3: [number, number],
     p4: [number, number],
-    radius: number,
+    radiusScale: number,
     centerPosC1: { x: number; y: number; id: string; outerSize: number },
     centerPosC2: { x: number; y: number; id: string; outerSize: number }
 ) {
@@ -79,6 +79,8 @@ function positionTips(
     let p2Cartesian = structuredClone(p2);
     const p3Cartesian = structuredClone(p3);
     const p4Cartesian = structuredClone(p4);
+    const scaledOuterSizeC1 = centerPosC1.outerSize * radiusScale;
+    const scaledOuterSizeC2 = centerPosC2.outerSize * radiusScale;
 
     let p1LocalPolarC1 = cartesianToPolar(
         globalToLocal(p1Cartesian, centerPosC1)
@@ -110,8 +112,8 @@ function positionTips(
             'The radius of p1 and p2 is not the same. Check your input'
         );
     } else {
-        p1LocalPolarC1.r = centerPosC1.outerSize;
-        p2LocalPolarC1.r = centerPosC1.outerSize;
+        p1LocalPolarC1.r = scaledOuterSizeC1;
+        p2LocalPolarC1.r = scaledOuterSizeC1;
     }
 
     // const halfcircleCondition =
@@ -133,7 +135,7 @@ function positionTips(
 
     // calculate the midpoint between p1LocalPolar and p2LocalPolar consider that the midpoint of 3/2 pi and 1/2 pi is 0
     const midpointP1P2PolarC1 = {
-        r: centerPosC1.outerSize,
+        r: scaledOuterSizeC1,
         theta: midPointPolar(p1LocalPolarC1.theta, p2LocalPolarC1.theta)
     };
     // const midpointP3P4PolarC1 = {
@@ -156,7 +158,7 @@ function positionTips(
     );
 
     const adjustedTipPosition1 = {
-        r: centerPosC1.outerSize,
+        r: scaledOuterSizeC1,
         theta: midpointP3P4PolarC1.theta
     };
 
@@ -165,11 +167,11 @@ function positionTips(
     // calculate the beginning of the "tip" of the arc (the point where the arc starts to bend) such that the angle between the tip and the midpoint is TIP_MAX_ANGLE or the radius of the arc, whichever is smaller
 
     const tipBaseP1Polar = {
-        r: centerPosC1.outerSize,
+        r: scaledOuterSizeC1,
         theta: addAngle(tipPosition1.theta, TIP_MAX_ANGLE / 2)
     };
     const tipBaseP2Polar = {
-        r: centerPosC1.outerSize,
+        r: scaledOuterSizeC1,
         theta: subtractAngle(tipPosition1.theta, TIP_MAX_ANGLE / 2)
     };
     const correctionAngle = TIP_MAX_ANGLE / 5;
@@ -533,7 +535,8 @@ function getPath(
         (firstPos[0] - secondPos[0]) ** 2 + (firstPos[1] - secondPos[1]) ** 2
     );
     const OFFSET_SCALE_1 =
-        distanceBetweenStartPoints < 0.05
+        distanceBetweenStartPoints <
+        (start[1].graphCenterPos.outerSize * 2 * Math.PI) / 20
             ? 0.05 * start[1].graphCenterPos.outerSize
             : Math.min(
                   0.05 * start[1].graphCenterPos.outerSize,
@@ -546,10 +549,11 @@ function getPath(
         (thirdPos[0] - fourthPos[0]) ** 2 + (thirdPos[1] - fourthPos[1]) ** 2
     );
     const OFFSET_SCALE_2 =
-        distanceBetweenEndPoints < 0.05
-            ? 0.05 * start[0].graphCenterPos.outerSize
+        distanceBetweenEndPoints <
+        (end[1].graphCenterPos.outerSize * 2 * Math.PI) / 20
+            ? 0.05 * end[1].graphCenterPos.outerSize
             : Math.min(
-                  0.05 * start[0].graphCenterPos.outerSize,
+                  0.05 * end[1].graphCenterPos.outerSize,
                   distanceBetweenEndPoints
               );
 
@@ -566,7 +570,7 @@ function getPath(
         secondPos,
         thirdPos,
         fourthPos,
-        start[1].graphCenterPos.outerSize * RADIUS_SCALE,
+        RADIUS_SCALE,
         start[0].graphCenterPos,
         end[0].graphCenterPos
     );
@@ -584,7 +588,7 @@ function getPath(
         fourthPos,
         firstPos,
         secondPos,
-        start[0].graphCenterPos.outerSize * RADIUS_SCALE,
+        RADIUS_SCALE,
         end[0].graphCenterPos,
         start[0].graphCenterPos
     );

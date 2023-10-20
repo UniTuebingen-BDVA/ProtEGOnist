@@ -67,7 +67,6 @@ export const getMultiEgographBundleAtom = atom(
                                 [jointID]: calculateLayout(
                                     egoGraphs,
                                     intersections,
-                                    get(decollapsedSizeAtom)[ids.length - 1],
                                     get(innerRadiusAtom),
                                     get(outerRadiusAtom)
                                 )

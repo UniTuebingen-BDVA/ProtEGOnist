@@ -8,7 +8,9 @@ type egographNodeProps = {
     highlightedNodeIndicesAtom: PrimitiveAtom<number[]>;
     centerPoint: { x: number; y: number };
     nodeRadius: number;
+    egoRadius: number;
     fill: string;
+    centerNode: { x: number; y: number };
 };
 export const EgographNode = memo(function EgographNode(
     props: egographNodeProps
@@ -18,7 +20,9 @@ export const EgographNode = memo(function EgographNode(
         highlightedNodeIndicesAtom,
         centerPoint,
         nodeRadius,
-        fill
+        fill,
+        egoRadius,
+        centerNode
     } = props;
     const [node, setNode] = useAtom(nodeAtom);
     const [highlightedNodeIndices, setHighlightedNodeIndices] = useAtom(
@@ -40,7 +44,7 @@ export const EgographNode = memo(function EgographNode(
                 }}
                 cx={centerPoint.x}
                 cy={centerPoint.y}
-                r={nodeRadius}
+                r={2.5}
                 fill={fill}
                 stroke={
                     highlightedNodeIndices.includes(node.index)

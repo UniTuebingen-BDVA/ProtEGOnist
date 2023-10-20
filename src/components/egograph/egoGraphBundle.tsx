@@ -146,13 +146,13 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                             cy={center.y}
                             stroke={'lightgray'}
                             strokeWidth={1}
-                            r={center.outerSize}
+                            r={center.outerSize - 2}
                             fill={'white'}
                         />
                         <circle
                             cx={center.x}
                             cy={center.y}
-                            r={outerRadius + 2}
+                            r={center.outerSize}
                             stroke={
                                 highlightedEdges.ids.includes(center.id)
                                     ? 'black'
@@ -164,7 +164,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                         <circle
                             cx={center.x}
                             cy={center.y}
-                            r={innerRadius}
+                            r={center.outerSize / 2}
                             stroke={'lightgray'}
                             fill={'none'}
                         />
@@ -182,12 +182,17 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
     const circles = useMemo(() => {
         const returnCircles: ReactElement[] = [];
         Object.values(layout.nodes).forEach((node, i) => {
-            if (!node.pseudo)
+            if (!node.pseudo) {
+                const egoID = node.id.split('_')[0];
                 returnCircles.push(
                     <EgographNode
                         key={node.id}
                         centerPoint={{ x: node.cx, y: node.cy }}
                         nodeRadius={node.centerDist === 0 ? 5 : nodeRadius}
+                        egoRadius={layout.radii[egoID]}
+                        centerNode={layout.centers.find(
+                            (center) => center.id === egoID
+                        )}
                         nodeAtom={nodeAtoms[i]}
                         highlightedNodeIndicesAtom={highlightedNodeIndicesAtom}
                         fill={
@@ -197,6 +202,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                         }
                     />
                 );
+            }
         });
         return returnCircles;
     }, [
