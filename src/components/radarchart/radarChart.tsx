@@ -250,7 +250,7 @@ const RadarChart = (props: RadarChartProps) => {
         // });
         const nodeData = tableData.rows[id]
 
-        const proteinNames = nodeData["x_id"].split(';');
+        const proteinNames = nodeData?.["x_id"].split(';') ?? [id];
         // generate set of unique protein names
         const uniqueProteinNames = [...new Set(proteinNames)];
         // join the protein names with a comma

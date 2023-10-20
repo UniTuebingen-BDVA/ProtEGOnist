@@ -77,7 +77,8 @@ export const drugsPerProteinColorscaleAtom = atom((get) => {
     const colorScale = d3
         .scaleLinear<string>()
         .domain([min, max])
-        .range(['#ffffff', '#ff7f00']);
+        .range(['#ffffff', '#ff7f00'])
+        .unknown('lightgray');
     return colorScale;
 });
 
