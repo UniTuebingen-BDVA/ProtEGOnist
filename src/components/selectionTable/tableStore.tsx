@@ -1,6 +1,6 @@
 import { atom, useAtom } from 'jotai';
 import { GridRowsProp, GridColDef } from '@mui/x-data-grid';
-import { getEgoNetworkNetworkAtom, getRadarAtom } from '../../apiCalls';
+import { getEgoNetworkNetworkAtom, getRadarAtom, quantifyNodesByAtom } from '../../apiCalls';
 import { multiSelectionAtom } from '../TabViewer/tabViewerStore';
 import RadarIcon from '@mui/icons-material/Radar';
 import * as d3 from 'd3';
@@ -71,6 +71,7 @@ export const selectedProteinsAtom = atom(
 
 export const drugsPerProteinColorscaleAtom = atom((get) => {
     const drugsPerProtein = get(drugsPerProteinAtom);
+    console.log(drugsPerProtein);
     const max = Math.max(...Object.values(drugsPerProtein));
     const min = Math.min(...Object.values(drugsPerProtein));
     // generate a colorscale based on the number of drugs per protein with d3 from white to #ff7f00
@@ -98,26 +99,37 @@ export const columnVisibilityAtom = atom<{ [key: string]: boolean }>({
 
 export const tableAtom = atom(
     (get) => get(tableAtomStore),
-    (_get, set, update: { rows: GridRowsProp; columns: GridColDef[] }) => {
+    (get, set, update: { rows: GridRowsProp; columns: GridColDef[] }) => {
         // add a Radar button to the columns when tableAtom is set
         // get all unique keys (nodeID) from dictionary and put them in an array
+        const quantifyNodesBy = get(quantifyNodesByAtom);
         const nodeIDs = Object.keys(update.rows)
         // generate set of unique uniprot ids
         const uniquenodeIDs = [...new Set(nodeIDs)];
 
-        const drugsPerProtein: { [key: string]: number } = {};
+
+        const nodeQuantification: { [key: string]: number } = {};
 
         for (const nodeID of uniquenodeIDs) {
-            const rowProtein = update.rows[nodeID];
-            if (!rowProtein || !rowProtein["with_metadata"]) {
-                drugsPerProtein[nodeID] = null;
+            const rowNode = update.rows[nodeID];
+            if (!rowNode || !rowNode["with_metadata"]) {
+                nodeQuantification[nodeID] = null;
                 continue;
             }
-            const drugNames = rowProtein["drug_name"].split(';') ?? [nodeID];
-            const uniqueDrugNames = [...new Set(drugNames)];
-            drugsPerProtein[nodeID] = uniqueDrugNames.length;
+            if (quantifyNodesBy["type"] === "quantitative") {
+                nodeQuantification[nodeID] = rowNode[quantifyNodesBy["label"]] ?? null;
+                console.log(nodeQuantification[nodeID])
+            }
+            else if (quantifyNodesBy["type"] === "categorical") {
+                const elementsNode = rowNode[quantifyNodesBy["label"]].split(';') ?? [nodeID];
+                const uniqueElementNode = [...new Set(elementsNode)];
+                nodeQuantification[nodeID] = uniqueElementNode.length;
+            }
+
+
+
         }
-        set(drugsPerProteinAtom, drugsPerProtein);
+        set(drugsPerProteinAtom, nodeQuantification);
         // generate set of unique drug names
         update.columns.unshift({
             field: 'Radar',

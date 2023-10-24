@@ -9,6 +9,7 @@ import { GitHub, Help, Home } from '@mui/icons-material';
 import AboutPage from './AboutPage';
 import InputFilesForm from './InputFiles';
 import ExamplesPage from './PredefinedExamples';
+import { Alert, Link } from '@mui/material';
 
 
 interface TabPanelProps {
@@ -77,7 +78,21 @@ export default function TabsElements() {
           <AboutPage setTab={setValue} />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          <InputFilesForm />
+          <Alert severity="error">This page is still under construction. <br />
+            Please check back later for updates or check our provided examples. <br />
+            <Link
+              component="button"
+              variant="body2"
+              onClick={() => {
+                setValue(2);
+              }}
+            >
+              See examples
+            </Link>
+
+          </Alert>
+
+          {/* <InputFilesForm /> */}
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           <ExamplesPage />

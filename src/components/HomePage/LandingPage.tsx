@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import TabsElements from './TabsElements';
 import { GitHub, Help, Home } from '@mui/icons-material';
 import {
@@ -21,7 +21,7 @@ import {
     TextField,
     Tooltip,
     Box,
-    Typography, 
+    Typography,
     AppBar,
     createTheme,
     ThemeProvider,
@@ -44,65 +44,64 @@ const LandingPage = () => {
     return (
         <ThemeProvider theme={theme}>
 
-        <div className="container">
-                    {/* <!-- First Row --> */}
+            <div className="container">
+                {/* <!-- First Row --> */}
+                <div
+                    className="row"
+                    style={{ minHeight: '5%', maxHeight: '5%' }}
+                >
                     <div
-                        className="row"
-                        style={{  minHeight: '5%', maxHeight: '5%' }}
+                        className="column"
+                        style={{
+                            flex: '1 1 0px',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            maxHeight: '5%',
+                        }}
                     >
-                        <div
-                            className="column"
+                        {/* <!-- Content for the first row --> */}
+                        <AppBar
+                            className="header-title"
                             style={{
-                                flex: '1 1 0px',
                                 display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
+                                height: '5%',
                                 maxHeight: '5%',
                             }}
                         >
-                            {/* <!-- Content for the first row --> */}
-                            <AppBar
-                                className="header-title"
-                                style={{
-                                    display: 'flex',
-                                    height: '5%', 
-                                    maxHeight: '5%',
-                                }}
-                            >
-                                <Toolbar variant="dense">
+                            <Toolbar variant="dense">
 
-                                    <img
-                                        src={LogoText}
-                                        style={{
-                                            height: '60%',
-                                            top: '10%'
-                                        }}
-                                    />
-                                    <IconButton
-                                        size="large"
-                                        edge="start"
-                                        color="inherit"
-                                        style={{ marginLeft: 'auto' }}
-                                        onClick={() =>
-                                            window.open(
-                                                'https://github.com/UniTuebingen-BDVA/BiovisChallenge2023'
-                                            )
-                                        }
-                                    >
-                                        <GitHub />
-                                    </IconButton>
-                                </Toolbar>
-                            </AppBar>
-                        </div>
+                                <img
+                                    src={LogoText}
+                                    style={{
+                                        height: '60%',
+                                        top: '10%'
+                                    }}
+                                />
+                                <IconButton
+                                    size="large"
+                                    edge="start"
+                                    color="inherit"
+                                    style={{ marginLeft: 'auto' }}
+                                    onClick={() =>
+                                        window.open(
+                                            'https://github.com/UniTuebingen-BDVA/BiovisChallenge2023'
+                                        )
+                                    }
+                                >
+                                    <GitHub />
+                                </IconButton>
+                            </Toolbar>
+                        </AppBar>
                     </div>
-                    {/* <!-- Second Row --> */}
-                    <TabsElements/>
-
-
-
-    
                 </div>
-            </ThemeProvider>
+                <TabsElements />
+
+
+
+
+            </div>
+        </ThemeProvider>
     )
 }
 export default LandingPage;

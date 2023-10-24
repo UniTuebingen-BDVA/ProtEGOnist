@@ -2,7 +2,7 @@ import { intersectionDatum } from '../../egoGraphSchema';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import * as d3 from 'd3';
 import { tarNodeAtom } from './radarStore';
-import { getRadarAtom } from '../../apiCalls';
+import { getRadarAtom, nameNodesByAtom } from '../../apiCalls';
 import RadarCircles from './radarCircles';
 import RadarLabel from './radarLabel';
 import { selectedProteinsAtom, tableAtom } from '../selectionTable/tableStore';
@@ -20,6 +20,7 @@ const RadarChart = (props: RadarChartProps) => {
     const intersectionData = useAtomValue(getRadarAtom);
     const setSelectedProteins = useSetAtom(selectedProteinsAtom);
     const [tableData] = useAtom(tableAtom);
+    const [nameNodesBy] = useAtom(nameNodesByAtom)
 
     const intersectionDataClone = structuredClone(intersectionData);
     //generate a linear scale for the size of the intersection property in each intersectionDatum
@@ -250,7 +251,7 @@ const RadarChart = (props: RadarChartProps) => {
         // });
         const nodeData = tableData.rows[id]
 
-        const proteinNames = (nodeData?.["x_id"] ?? nodeData.nodeID).split(';');
+        const proteinNames = (nodeData?.[nameNodesBy] ?? nodeData.nodeID).split(';');
         // generate set of unique protein names
         const uniqueProteinNames = [...new Set(proteinNames)];
         // join the protein names with a comma

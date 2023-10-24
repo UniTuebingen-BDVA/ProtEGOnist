@@ -31,7 +31,7 @@ const ExamplesPage = (_props) => {
                             setExampleChosen("string_modified")
                         }}
                     >
-                        Example Two: Jaksdklaslkfj
+                        Example Two: Modified example of PPIs
                     </Button>
                 </ListItem>
             </List>

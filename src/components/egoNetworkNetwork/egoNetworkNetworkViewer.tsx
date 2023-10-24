@@ -10,13 +10,14 @@ import ColorLegend from '../ColorLegend.tsx';
 import { drugsPerProteinColorscaleAtom } from '../selectionTable/tableStore.tsx';
 import { animated, useSpring } from '@react-spring/web';
 import React from 'react';
-import { egoNetworkNetworkBusyAtom } from '../../apiCalls.ts';
+import { egoNetworkNetworkBusyAtom, quantifyNodesByAtom } from '../../apiCalls.ts';
 
 function EgoNetworkNetworkViewer() {
     const [egoNetworkNetworkBusy] = useAtom(egoNetworkNetworkBusyAtom);
     const svgSize = useAtomValue(egoNetworkNetworkSizeAtom);
     const [colorscale] = useAtom(drugsPerProteinColorscaleAtom);
     const [decollapseIDsArray] = useAtom(decollapseIDsArrayAtom);
+    const [quantifyBy] = useAtom(quantifyNodesByAtom);
     // prevent default pinch zoom
     document.addEventListener('gesturestart', (e) => e.preventDefault());
     document.addEventListener('gesturechange', (e) => e.preventDefault());
@@ -104,7 +105,7 @@ function EgoNetworkNetworkViewer() {
                     unknown={colorscale.unknown()}
                     type={'quantitative'}
                     transform={`translate(${10},${10})`}
-                    title={'#Drugs associated with protein'}
+                    title={`Quantification via ${quantifyBy["label"]}`}
                     render={true}
                 />
                 <ColorLegend

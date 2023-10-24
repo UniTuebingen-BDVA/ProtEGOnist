@@ -14,7 +14,7 @@ import {
     tarNodeAtom,
     radarNodesAtom
 } from './components/radarchart/radarStore.ts';
-import { tableAtom } from './components/selectionTable/tableStore.tsx';
+import { tableAtom,selectedProteinsAtom  } from './components/selectionTable/tableStore.tsx';
 import { GridColDef, GridRowsProp } from '@mui/x-data-grid';
 import {
     egoGraphBundlesLayoutAtom,
@@ -44,11 +44,14 @@ export const selectedExampleAtom = atom(
                 .get(`/api/get_labelling_keys/${example}`)
                 .then(
                     (response) =>{
-                        const {nameNodesBy, showOnTooltip, quantifyBy, classifyBy} = response.data;
+                        const {nameNodesBy, showOnTooltip, quantifyBy, classifyBy, startRadarNode, startSelectedNodes} = response.data;
                         set(nameNodesByAtom, nameNodesBy);
                         set(showOnTooltipAtom, showOnTooltip);
                         set(quantifyNodesByAtom, quantifyBy);
                         set(classifyByAtom,classifyBy);
+                        set(tarNodeAtom, startRadarNode);
+                        set(getRadarAtom,startRadarNode);
+                        set(selectedProteinsAtom, startSelectedNodes);
                     },
                     (e) => {
                     console.error(e)

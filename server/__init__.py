@@ -70,7 +70,9 @@ def read_example_string():
         "quantify_type": "categorical",
         "classify_by": "brite",
         "name_nodes": "x_id",
-        "show_tooltip": ["drug_name", "brite"]
+        "show_tooltip": ["drug_name", "brite"],
+        "start_radar": 'P63279',
+        "start_selected": ['Q99459', 'Q01518', 'P61421', 'P52565', 'P00568', 'Q9NRN7', 'P63279']
 
     }
 
@@ -114,11 +116,13 @@ def read_example_string_modified():
         "classification": classification_dict,
         "metadata": table_data,
         "overview_nodes": important_nodes,
-        "quantify_by": "drug_name",
-        "quantify_type": "categorical",
-        "classify_by": "brite",
+        "quantify_by": "mySamplingNumber",
+        "quantify_type": "quantitative",
+        "classify_by": "x_id",
         "name_nodes": "x_id",
-        "show_tooltip": ["drug_name"]
+        "show_tooltip": ["drug_name"],
+        "start_radar": 'Q9NRX2',
+        "start_selected": ["P07900", "P62304", "P05412", "Q9NRX2", "P35222"]
     }
 
 
@@ -143,8 +147,9 @@ def get_labelling_keys(example: str):
             "classifyBy": example_data["classify_by"],
             "showOnTooltip": example_data["show_tooltip"],
             "quantifyBy": {"label": example_data["quantify_by"],
-                           "type": example_data["quantify_type"]}
-
+                           "type": example_data["quantify_type"]},
+            "startRadarNode": example_data["start_radar"],
+            "startSelectedNodes": example_data["start_selected"]
 
         }
     except KeyError:
