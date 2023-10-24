@@ -510,90 +510,6 @@ export function calculateLayout(
             radii: decollapsedRadii,
             centers: []
         };
-        // if (egoGraphs.length === 2) {
-        //     const scaledOuterSize0 = calculateRadius(
-        //         egoGraphs[0].nodes.length,
-        //         nodeSize
-        //     );
-        //     const scaledOuterSize1 = calculateRadius(
-        //         egoGraphs[1].nodes.length,
-        //         nodeSize
-        //     );
-
-        //     graphCenters = [
-        //         {
-        //             x: scaledOuterSize0 - nodeSize / 2,
-        //             y: nodeSize / 2,
-        //             id: egoGraphs[0].centerNode.originalID,
-        //             outerSize: scaledOuterSize0
-        //         },
-        //         {
-        //             x:
-        //                 nodeSize +
-        //                 nodeSize / 2 -
-        //                 (scaledOuterSize1 + scaledOuterSize0),
-        //             y: nodeSize / 2,
-        //             id: egoGraphs[1].centerNode.originalID,
-        //             outerSize: scaledOuterSize1
-        //         }
-        //     ];
-        // } else {
-        //     const scaledOuterSize0 = calculateRadius(
-        //         egoGraphs[0].nodes.length,
-        //         nodeSize
-        //     );
-        //     const scaledOuterSize1 = calculateRadius(
-        //         egoGraphs[1].nodes.length,
-        //         nodeSize
-        //     );
-        //     const scaledOuterSize2 = calculateRadius(
-        //         egoGraphs[2].nodes.length,
-        //         nodeSize
-        //     );
-        //     const points = [
-        //         polarToCartesian(
-        //             nodeSize / 2,
-        //             nodeSize / 2,
-        //             nodeSize - scaledOuterSize0,
-        //             0,
-        //             Math.PI
-        //         ),
-        //         polarToCartesian(
-        //             nodeSize / 2,
-        //             nodeSize / 2,
-        //             nodeSize - scaledOuterSize1,
-        //             (1 / 3) * (2 * Math.PI),
-        //             Math.PI
-        //         ),
-        //         polarToCartesian(
-        //             nodeSize / 2,
-        //             nodeSize / 2,
-        //             nodeSize - scaledOuterSize2,
-        //             (2 / 3) * (2 * Math.PI),
-        //             Math.PI
-        //         )
-        //     ];
-        //     graphCenters = [
-        //         {
-        //             x: points[0].x,
-        //             y: points[0].y,
-        //             id: egoGraphs[0].centerNode.originalID,
-        //             outerSize: scaledOuterSize0
-        //         },
-        //         {
-        //             x: points[1].x,
-        //             y: points[1].y,
-        //             id: egoGraphs[1].centerNode.originalID,
-        //             outerSize: scaledOuterSize1
-        //         },
-        //         {
-        //             x: points[2].x,
-        //             y: points[2].y,
-        //             id: egoGraphs[2].centerNode.originalID,
-        //             outerSize: scaledOuterSize2
-        //         }
-        //     ];
-        // }
         const fullRange = 2 * Math.PI;
         const xRanges: [[number, number], [number, number]] = [
             [0, fullRange - 0.0001],
@@ -742,7 +658,7 @@ export function calculateLayout(
                 egoGraphs[i],
                 scaledOuterSize / 2,
                 scaledOuterSize,
-                intersections[egoGraphs[i].centerNode.originalID],
+                [], //intersections[egoGraphs[i].centerNode.originalID], //todo need switching
                 intersectingNodes.reverse(),
                 graphCenters[i],
                 xRanges,
@@ -1157,18 +1073,24 @@ function createEgoEdges(
     Object.values(nodeDict).forEach((elem, index) => (elem.index = index));
     const layoutEdges: layoutEdge[] = [];
     edges.forEach((edge) => {
-        const sourceId = edge.source;
+        const sourceId = edge.sources;
         const targetId = edge.target;
-        const currEdge: layoutEdge = {
-            ...edge,
-            sourceIndex: nodeDict[sourceId].index,
-            targetIndex: nodeDict[targetId].index,
-            x1: nodeDict[sourceId].cx,
-            x2: nodeDict[targetId].cx,
-            y1: nodeDict[sourceId].cy,
-            y2: nodeDict[targetId].cy
-        };
-        layoutEdges.push(currEdge);
+        //check if both source and target are in nodeDict
+        if (
+            Object.keys(nodeDict).includes(sourceId) &&
+            Object.keys(nodeDict).includes(targetId)
+        ) {
+            const currEdge: layoutEdge = {
+                ...edge,
+                sourceIndex: nodeDict[sourceId].index,
+                targetIndex: nodeDict[targetId].index,
+                x1: nodeDict[sourceId].cx,
+                x2: nodeDict[targetId].cx,
+                y1: nodeDict[sourceId].cy,
+                y2: nodeDict[targetId].cy
+            };
+            layoutEdges.push(currEdge);
+        }
     });
     return layoutEdges;
 }
