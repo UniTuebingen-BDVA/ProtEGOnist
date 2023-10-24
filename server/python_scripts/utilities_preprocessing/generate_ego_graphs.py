@@ -65,7 +65,10 @@ def main():
     # parse the arguments
     args = parser.parse_args()
     # read the network
-    network = read_graphml_to_network(args.input)
+    if args.input.endswith(".tsv"):
+        network = read_tsv_to_network(args.input)
+    elif args.input.endswith(".graphml"):
+        network = read_graphml_to_network(args.input)
     print(len(network.nodes))
     # create the ego graphs
     ego_graphs = create_ego_graphs_for_network(network)

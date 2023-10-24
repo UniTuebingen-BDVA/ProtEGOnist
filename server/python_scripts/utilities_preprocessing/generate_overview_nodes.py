@@ -90,7 +90,7 @@ def heuristic_set_cover(dict: dict, network_edges: set, account: array = None):
     print("Elapsed time all edges creation", time.time() - start_time)
     i = 0
     whole_network_edges = network_edges
-    while len(found_edges)/len(whole_network_edges) < 0.95 or len(keys_to_choose) < 100:
+    while len(found_edges)/len(whole_network_edges) < 0.99 and len(keys_to_choose) < 100:
         keys_by_length = sorted(
             keys_to_account, key=lambda x: len(dict_copy[x]) if x in dict_copy.keys() else 0)
         best_key = keys_by_length.pop()
@@ -129,6 +129,13 @@ def parse_nodes_to_account(path) -> array:
     return nodes_to_account
 
 
+def read_tsv_to_network(path: str) -> Graph:
+    """
+    Read a tsv file into a networkX element.
+    """
+    return read_weighted_edgelist(path, delimiter="\t")
+
+
 def read_graphml_to_network(path: str) -> Graph:
     """
     Read a graphml file into a networkX element.
@@ -138,21 +145,55 @@ def read_graphml_to_network(path: str) -> Graph:
 
 def main():
     # create parser
-    parser = argparse.ArgumentParser("Create set of ")
+    parser = argparse.ArgumentParser(
+        "Create set of overviews nodes for the network.")
+    parser.add_argument(
+        "-i",
+        "--input",
+        type=str,
+        help="Path to the ego dict.",
+        default="ego_dict_as_pickle.npy",
+    )
+    parser.add_argument(
+        "-n",
+        "--network",
+        type=str,
+        help="Path to the network file.",
+        default="/Users/pacha/Documents/github_projects/Biovis-Challenge23/BiovisChallenge2023/server/data/example_PPIs/graphml_string_cleaned.graphml",
+    )
+    parser.add_argument(
+        "-m",
+        "--metadata",
+        type=str,
+        help="Path to the metadata file.",
+        default="all_proteins_metadata.txt",
+    )
+    parser.add_argument(
+        "-o",
+        "--output",
+        type=str,
+        help="Path to the output distance matrix.",
+        default="important_nodes.txt.gz",
+    )
+    # parse the arguments
+    args = parser.parse_args()
+
     # Parse File with ego graphs
-    ego_dict = parse_ego_dict("ego_dict_as_pickle.npy")
+    ego_dict = parse_ego_dict(args.input)
     # Parse File with network
-    network = read_graphml_to_network(
-        "/Users/pacha/Documents/github_projects/Biovis-Challenge23/BiovisChallenge2023/server/data/example_PPIs/graphml_string_cleaned.graphml")
+    if args.network.endswith(".tsv"):
+        network = read_tsv_to_network(args.network)
+    elif args.network.endswith(".graphml"):
+        network = read_graphml_to_network(args.network)
     print(len(network.edges))
     network_edges = set([tuple(sorted(edge))
                         for edge in list(set(network.edges))])
     print(len(network_edges))
     # Parse File with nodes to account
-    keys_to_account = parse_nodes_to_account("all_proteins_metadata.txt")
+    keys_to_account = parse_nodes_to_account(args.metadata)
     subset_opt = heuristic_set_cover(ego_dict, network_edges, keys_to_account)
     # Write subset to a txt file
-    with open("subset_opt.txt", "w") as f:
+    with open(args.output, "w") as f:
         for s in subset_opt:
             f.write(str(s) + "\n")
 
