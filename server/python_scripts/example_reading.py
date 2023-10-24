@@ -148,3 +148,65 @@ def read_example_metagenome(here):
         "start_radar": important_nodes[0],
         "start_selected": important_nodes[:5] if len(important_nodes) > 5 else important_nodes
     }
+
+
+def read_example_metagenome_2(here):
+    # Read the network from the input file
+    try:
+        network = nx.read_weighted_edgelist(
+            here / "data" / "metagenome_three" / "edge_list_network.tsv", delimiter="\t")
+        print("Loaded string graph ", len(network.nodes))
+    except Exception as e:
+        print(e)
+
+    # Read the top intersections from the input file
+    try:
+        top_intersections = parse_distance_matrix(
+            here / "data" / "metagenome_three" / "metagenome_distance.txt.gz")
+    except FileNotFoundError:
+        print(
+            f"No json file found in {here / 'data'}. Make sure you added it.")
+    try:
+        table_data, classification_dict = read_metadata(
+            here / "data" / "metagenome_three" / "metadata_metagenome.csv", "taxa", network.nodes)
+
+    except FileNotFoundError:
+        print(
+            f"No metadata file found in {here / 'data'}. Make sure you added it.")
+
+    try:
+        with open(here / "data" / "metagenome_three" / "metagenome_important_nodes.txt", "r") as f:
+            important_nodes = [line.strip() for line in f]
+            print("Loaded relevant_proteins ", len(important_nodes))
+
+    except FileNotFoundError:
+        print(
+            f"No metadata file found in {here / 'metagenome_three'}. Make sure you added it.")
+    try:
+        with open(here / "data" / "metagenome_three" / "edges_classification.tsv", "r") as f:
+            edges_classes = [line.strip().split("\t") for line in f]
+            print("Loaded relevant_proteins ", len(edges_classes))
+        edges_dictionary = {}
+        for edge in edges_classes:
+            tuple_key = tuple(sorted([edge[0], edge[1]]))
+            edges_dictionary[f"{tuple_key[0]}_{tuple_key[1]}"] = edge[2]
+
+    except FileNotFoundError:
+        print(
+            f"No metadata file found in {here / 'metagenome_three'}. Make sure you added it.")
+
+    return {
+        "network": network,
+        "top_intersections": top_intersections,
+        "classification": classification_dict,
+        "metadata": table_data,
+        "overview_nodes": important_nodes,
+        "quantify_by": "median",
+        "quantify_type": "quantitative",
+        "classify_by": "taxa",
+        "name_nodes": "nodeName",
+        "show_tooltip": ["taxa", "median"],
+        "start_radar": important_nodes[0],
+        "edges_classification": edges_dictionary,
+        "start_selected": important_nodes[:5] if len(important_nodes) > 5 else important_nodes
+    }

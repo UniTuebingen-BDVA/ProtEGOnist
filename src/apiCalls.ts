@@ -35,6 +35,7 @@ export const nameNodesByAtom = atom("nodeID");
 export const quantifyNodesByAtom = atom({});
 export const classifyByAtom = atom("");
 export const chosenSetAtom = atom(null);
+export const edgesClassificationAtom = atom(null);
 
 export const selectedExampleAtom = atom(
     (get) => get(chosenSetAtom),
@@ -52,6 +53,10 @@ export const selectedExampleAtom = atom(
                         set(tarNodeAtom, startRadarNode);
                         set(getRadarAtom,startRadarNode);
                         set(selectedProteinsAtom, startSelectedNodes);
+                        let edgesClassification = response.data?.edgesClassification ?? null;
+                        if (edgesClassification !== null) {
+                            set(edgesClassificationAtom, edgesClassification);
+                        }
                     },
                     (e) => {
                     console.error(e)

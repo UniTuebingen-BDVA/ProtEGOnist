@@ -90,7 +90,7 @@ def heuristic_set_cover(dict: dict, network_edges: set, account: array = None):
     print("Elapsed time all edges creation", time.time() - start_time)
     i = 0
     whole_network_edges = network_edges
-    while len(found_edges)/len(whole_network_edges) < 0.99 and len(keys_to_choose) < 100:
+    while len(found_edges)/len(whole_network_edges) < 0.99 and len(keys_to_choose) < 100 and len(keys_to_account) > 0:
         keys_by_length = sorted(
             keys_to_account, key=lambda x: len(dict_copy[x]) if x in dict_copy.keys() else 0)
         best_key = keys_by_length.pop()

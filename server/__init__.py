@@ -48,6 +48,9 @@ def get_labelling_keys(example: str):
             "startSelectedNodes": example_data["start_selected"]
 
         }
+        # check if example_data has the key "edges_classification"
+        if "edges_classification" in example_data:
+            labelling_keys["edgesClassification"] = example_data["edges_classification"]
     except KeyError:
         print(f"Example {example} not found")
     except Exception as e:
