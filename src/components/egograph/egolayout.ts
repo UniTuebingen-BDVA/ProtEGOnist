@@ -52,7 +52,7 @@ function calculateRadius(amount: number, nodeSize = 5) {
 
     console.log(amount);
     console.log(radius);
-    return Math.max(radius, 25);
+    return Math.max(radius, 50);
 }
 
 /**

@@ -188,7 +188,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                     <EgographNode
                         key={node.id}
                         centerPoint={{ x: node.cx, y: node.cy }}
-                        nodeRadius={node.centerDist === 0 ? 5 : nodeRadius}
+                        nodeRadius={node.centerDist === 0 ? 5 : 2.5}
                         egoRadius={layout.radii[egoID]}
                         centerNode={layout.centers.find(
                             (center) => center.id === egoID
