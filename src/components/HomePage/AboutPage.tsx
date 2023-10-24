@@ -32,7 +32,7 @@ const AboutPage = (props) => {
                 <GitHub/>
             </Link>
         </Typography>
-        <Alert severity={"info"}>Looking for examples? Get started 
+        <Alert severity={"info"}>Looking for examples? Get started&nbsp;
             <Link
                 component="button"
                 variant="body2"
