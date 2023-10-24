@@ -12,12 +12,13 @@ import {
     egoGraphBundlesLayoutAtom
 } from './egoGraphBundleStore';
 import { EgographNode } from './egographNode';
+import EgoGraphBand from './egoGraphBand.tsx';
 import { atom } from 'jotai';
 import { egoGraphLayout } from './egolayout.ts';
 import { focusAtom } from 'jotai-optics';
 import { splitAtom } from 'jotai/utils';
 import * as d3 from 'd3';
-import { decollapseIDsAtom } from '../egoNetworkNetwork/egoNetworkNetworkStore.ts';
+import { decollapseIDsAtom, highlightedEdgesAtom } from '../egoNetworkNetwork/egoNetworkNetworkStore.ts';
 
 const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
     const { x, y, nodeId } = props;
@@ -95,6 +96,15 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
             }),
         [numEdgesMinMax]
     );
+    const bundleColorScaleAtom = useMemo(
+        () =>
+            atom((get) => {
+                //return d3.scaleOrdinal(d3.schemeTableau10);
+                return d3.scaleOrdinal(d3.schemeGreys[7].slice(2, 6));
+            }),
+        [egoGraphBundleAtom]
+    );
+
     const nodeRadiusAtom = useMemo(
         () =>
             atom((get) => {
@@ -114,7 +124,11 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
     const [innerRadius] = useAtom(innerRadiusAtom);
     const [outerRadius] = useAtom(outerRadiusAtom);
     const [highlightedNodeIndices] = useAtom(highlightedNodeIndicesAtom);
+    const [highlightedEdges] = useAtom(highlightedEdgesAtom);
     const [_, setDecollapseID] = useAtom(decollapseIDsAtom);
+
+    // generate a d3 categorcal color scale with 20 colors
+    const [bandColorScale] = useAtom(bundleColorScaleAtom);
 
     const layoutCircles = useMemo(
         () =>
@@ -127,9 +141,18 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                         <circle
                             cx={center.x}
                             cy={center.y}
-                            r={outerRadius}
                             stroke={'lightgray'}
+                            strokeWidth={1}
+                            r={outerRadius}
                             fill={'white'}
+                        />
+                        <circle
+                            cx={center.x}
+                            cy={center.y}
+                            r={outerRadius+2}
+                            stroke={highlightedEdges.ids.includes(center.id)?'black':'transparent'}
+                            strokeWidth={7}
+                            fill={'none'}
                         />
                         <circle
                             cx={center.x}
@@ -141,7 +164,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                     </g>
                 );
             }),
-        [innerRadius, layout.centers, outerRadius, setDecollapseID]
+        [highlightedEdges, innerRadius, layout.centers, outerRadius, setDecollapseID]
     );
     const circles = useMemo(() => {
         const returnCircles: ReactElement[] = [];
@@ -154,7 +177,11 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                         nodeRadius={node.centerDist === 0 ? 5 : nodeRadius}
                         nodeAtom={nodeAtoms[i]}
                         highlightedNodeIndicesAtom={highlightedNodeIndicesAtom}
-                        fill={String(colorScale(node.numEdges))}
+                        fill={
+                            node.firstLast
+                                ? 'red'
+                                : String(colorScale(node.numEdges))
+                        }
                     />
                 );
         });
@@ -166,6 +193,23 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
         nodeAtoms,
         nodeRadius
     ]);
+
+    const bands = useMemo(() => {
+        const returnBands: ReactElement[] = [];
+        if (layout.bandData) {
+            Object.entries(layout.bandData).forEach((band, i) => {
+                returnBands.push(
+                    <EgoGraphBand
+                        key={i}
+                        bandData={band}
+                        radius={outerRadius}
+                        color={bandColorScale(i)}
+                    />
+                );
+            });
+        }
+        return returnBands;
+    }, [layout.bandData]);
 
     const lines = useMemo(
         () =>
@@ -210,24 +254,27 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                     />
                 );
             } else {
-                backgroundBands.push(
-                    <line
-                        key={edge.id}
-                        x1={edge.x1}
-                        x2={edge.x2}
-                        y1={edge.y1}
-                        y2={edge.y2}
-                        stroke={'gray'}
-                        opacity={0.2}
-                        strokeWidth={nodeRadius * 2}
-                    />
-                );
+                if (!edge.alwaysDraw) {
+                    backgroundBands.push(
+                        <line
+                            key={edge.id}
+                            x1={edge.x1}
+                            x2={edge.x2}
+                            y1={edge.y1}
+                            y2={edge.y2}
+                            stroke={'gray'}
+                            opacity={0.2}
+                            strokeWidth={nodeRadius * 2}
+                        />
+                    );
+                }
             }
         });
         return [foregroundBands, backgroundBands];
     }, [highlightedNodeIndices, layout.identityEdges, nodeRadius]);
     return isLoaded ? (
         <g transform={`translate(${x},${y})`}>
+            {bands}
             {layoutCircles}
             {lines}
             {backgroundBands}

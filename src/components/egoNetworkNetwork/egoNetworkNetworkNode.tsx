@@ -1,12 +1,15 @@
 import { useAtom } from 'jotai';
-import { decollapseIDsAtom } from './egoNetworkNetworkStore';
+import {
+    decollapseIDsAtom,
+    highlightedEdgesAtom
+} from './egoNetworkNetworkStore';
 import { SpringValue, animated } from '@react-spring/web';
 import AdvancedTooltip from '../advancedTooltip/advancedTooltip';
 import {
     drugsPerProteinAtom,
     drugsPerProteinColorscaleAtom
 } from '../selectionTable/tableStore';
-import { memo } from 'react';
+import { memo, useState } from 'react';
 
 interface EgoNetworkNetworkNodeProps {
     id: string;
@@ -26,6 +29,8 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
     const [_, setDecollapseID] = useAtom(decollapseIDsAtom);
     const [colorscale] = useAtom(drugsPerProteinColorscaleAtom);
     const [drugsPerProtein] = useAtom(drugsPerProteinAtom);
+    const [highlightedEdges] = useAtom(highlightedEdgesAtom);
+    const [isHovered, setIsHovered] = useState(false);
     const color = colorscale(drugsPerProtein[id]);
     return (
         <AdvancedTooltip nodeID={id} key={id}>
@@ -34,8 +39,18 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                 transform={animatedParams.transform}
                 opacity={animatedParams.opacity}
                 onClick={() => setDecollapseID(id)}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+                style={{ cursor: 'pointer' }}
             >
-                <circle r={size} fill={color} stroke="black" strokeWidth="1" />
+                <circle
+                    r={size}
+                    fill={color}
+                    stroke="black"
+                    strokeWidth={
+                        highlightedEdges.ids.includes(id) || isHovered ? 3 : 1
+                    }
+                />
                 <circle
                     r={(size * 2) / 3}
                     fill={'none'}

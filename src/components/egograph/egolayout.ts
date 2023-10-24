@@ -1,6 +1,7 @@
 import * as d3 from 'd3';
 import { polarToCartesian } from '../../UtilityFunctions';
 import { egoGraph, egoGraphEdge, egoGraphNode } from '../../egoGraphSchema';
+import { midPointPolar2PI } from '../../UtilityFunctions';
 
 export type layoutNode = egoGraphNode & {
     index: number;
@@ -20,6 +21,7 @@ type layoutEdge = egoGraphEdge & {
     y2: number;
 };
 type identityEdge = {
+    alwaysDraw: boolean;
     id: string;
     sourceIndex: number;
     targetIndex: number;
@@ -30,9 +32,15 @@ type identityEdge = {
 };
 
 export interface egoGraphLayout {
+    bandData: {};
     nodes: layoutNode[];
     edges: layoutEdge[];
     identityEdges: identityEdge[];
+    firstAndLastNodes: {
+        [key: string]: {
+            [key: string]: string[];
+        };
+    };
     maxradius: number;
     centers: { x: number; y: number; id: string }[];
 }
@@ -49,15 +57,22 @@ export interface egoGraphLayout {
  */
 function createLayerNodes(
     layerNodes: egoGraphNode[],
-    sortOrder: string[],
+    sortOrder: {
+        id: string;
+        intersections: string[];
+    }[],
     center: number,
     radius: number,
     xRange: [number, number], // full circle: 0, 2PI
-    transformVector: { x: number; y: number },
+    transformVector: { graphId: string; x: number; y: number },
     offset: number
 ) {
+    let internalOffset = offset;
     const nodes: { [key: string]: layoutNode } = {};
-    const x = d3.scaleBand().range(xRange).domain(sortOrder);
+    const x = d3
+        .scaleBand()
+        .range(xRange)
+        .domain(sortOrder.map((d) => d.intersections).flat());
     let maxradius: number;
     if (layerNodes.length > 1) {
         maxradius =
@@ -67,13 +82,75 @@ function createLayerNodes(
     } else {
         maxradius = radius;
     }
+
+    // check if any element in sortOrder has an id sortOrder[i].id.split(',').length > 2
+    const tripleIntersection = sortOrder.find(
+        (d) => d.id.split(',').length > 2
+    );
+    // if such an element is found calculate the midpoint of the two outer nodes
+    if (tripleIntersection) {
+        const firstNode = tripleIntersection.intersections[0];
+        const lastNode =
+            tripleIntersection.intersections[
+                tripleIntersection.intersections.length - 1
+            ];
+        const firstNodeTheta = x(firstNode);
+        const lastNodeTheta = x(lastNode) + x.bandwidth();
+        internalOffset -= midPointPolar2PI(firstNodeTheta, lastNodeTheta);
+    } else {
+        internalOffset += 0;
+    }
+    const bands: {
+        [key: string]: [
+            { x: number; y: number },
+            { x: number; y: number },
+            string,
+            { graphId: string; x: number; y: number }
+        ];
+    } = {};
+    for (let i = 0; i < sortOrder.length; i++) {
+        const start = polarToCartesian(
+            center,
+            center,
+            radius,
+            x(sortOrder[i].intersections[0]),
+            internalOffset
+        );
+        start.x += transformVector.x;
+        start.y += transformVector.y;
+        const end = polarToCartesian(
+            center,
+            center,
+            radius,
+            x(
+                sortOrder[i].intersections[
+                    sortOrder[i].intersections.length - 1
+                ]
+            ) + x.bandwidth(),
+            internalOffset
+        );
+        end.x += transformVector.x;
+        end.y += transformVector.y;
+        bands[sortOrder[i].id] = [
+            start,
+            end,
+            transformVector.graphId,
+            transformVector,
+            x(sortOrder[i].intersections[0]),
+            x(
+                sortOrder[i].intersections[
+                    sortOrder[i].intersections.length - 1
+                ]
+            ) + x.bandwidth()
+        ];
+    }
     layerNodes.forEach((node) => {
         const nodeCoords = polarToCartesian(
             center,
             center,
             radius,
-            x(node.id)! + x.bandwidth()/2,
-            offset
+            x(node.id)! + x.bandwidth() / 2,
+            internalOffset
         );
         nodes[node.id] = {
             ...node,
@@ -86,7 +163,8 @@ function createLayerNodes(
             identityNodes: []
         };
     });
-    return { nodes, maxradius };
+
+    return { nodes, maxradius, bands };
 }
 
 /**
@@ -380,9 +458,21 @@ export function calculateLayout(
     innerSize: number,
     outerSize: number
 ) {
+    // sort each array in egoGraphs alphabetically by centerNode originalId
+    egoGraphs.sort((a, b) => {
+        if (a.centerNode.originalID > b.centerNode.originalID) {
+            return 1;
+        } else if (a.centerNode.originalID < b.centerNode.originalID) {
+            return -1;
+        } else {
+            return 0;
+        }
+    });
+
     if (egoGraphs.length > 1) {
         let graphCenters: { x: number; y: number; id: string }[];
         const layout: egoGraphLayout = {
+            bandData: {},
             nodes: [],
             edges: [],
             identityEdges: [],
@@ -446,29 +536,30 @@ export function calculateLayout(
         }
         const fullRange = 2 * Math.PI;
         const xRanges: [[number, number], [number, number]] = [
-            [0, fullRange / egoGraphs.length],
-            [fullRange / egoGraphs.length, fullRange]
+            [0, fullRange - 0.0001],
+            [fullRange - 0.0001, fullRange]
         ];
         let layoutNodeDict: { [key: string]: layoutNode } = {};
         let nodeDict: { [key: string]: egoGraphNode } = {};
         egoGraphs[egoGraphs.length - 1].nodes.forEach(
             (node) => (nodeDict[node.id] = node)
         );
+        let pairwiseIntersectionId = [
+            egoGraphs[egoGraphs.length - 1].centerNode.originalID,
+            egoGraphs[0].centerNode.originalID
+        ]
+            .sort()
+            .toString();
         let pairwiseIntersections = sortPairwiseIntersection(
-            intersections[
-                [
-                    egoGraphs[egoGraphs.length - 1].centerNode.originalID,
-                    egoGraphs[0].centerNode.originalID
-                ]
-                    .sort()
-                    .toString()
-            ],
+            intersections[pairwiseIntersectionId],
             nodeDict,
             egoGraphs[egoGraphs.length - 1].centerNode.originalID
-        ).reverse();
+        ); //.reverse();
+        const firstAndLastNodesIDs = {};
         for (let i = 0; i < egoGraphs.length; i++) {
             nodeDict = {};
             egoGraphs[i].nodes.forEach((node) => (nodeDict[node.id] = node));
+            console.log('id', egoGraphs[i].centerNode.originalID);
             const firstGraphId = egoGraphs[i].centerNode.originalID;
             let secondGraphId;
             if (i === egoGraphs.length - 1) {
@@ -476,9 +567,13 @@ export function calculateLayout(
             } else {
                 secondGraphId = egoGraphs[i + 1].centerNode.originalID;
             }
-            const intersectingNodes = [];
+            const intersectingNodes: { id: string; intersections: string[] }[] =
+                [];
+            const nextPairwiseIntersectionsId = [firstGraphId, secondGraphId]
+                .sort()
+                .toString();
             let nextPairwiseIntersections =
-                intersections[[firstGraphId, secondGraphId].sort().toString()];
+                intersections[nextPairwiseIntersectionsId];
             // if we only have selected two egographs we don't sort both of them to prevent crossing edges.
             if (egoGraphs.length > 2) {
                 nextPairwiseIntersections = sortPairwiseIntersection(
@@ -487,6 +582,7 @@ export function calculateLayout(
                     egoGraphs[i].centerNode.originalID
                 );
             }
+
             // push all the other intersecting nodes
             const otherIntersections = egoGraphs[i].nodes
                 .map((d) => d.originalID)
@@ -497,11 +593,36 @@ export function calculateLayout(
                         !intersections[
                             egoGraphs[i].centerNode.originalID
                         ].includes(id)
-                ).sort();
-            intersectingNodes.push(...pairwiseIntersections);
-            intersectingNodes.push(...otherIntersections);
-            intersectingNodes.push(...nextPairwiseIntersections);
-            pairwiseIntersections = nextPairwiseIntersections.reverse();
+                )
+                .sort();
+            let otherIntersectionsId = '';
+            if (egoGraphs.length > 2) {
+                otherIntersectionsId = [
+                    ...egoGraphs.map((d) => d.centerNode.originalID)
+                ]
+                    .sort()
+                    .toString();
+            }
+            if (pairwiseIntersections.length > 0) {
+                intersectingNodes.push({
+                    id: pairwiseIntersectionId,
+                    intersections: pairwiseIntersections
+                });
+            }
+            if (otherIntersections.length > 0) {
+                intersectingNodes.push({
+                    id: otherIntersectionsId,
+                    intersections: otherIntersections
+                });
+            }
+            if (nextPairwiseIntersections.length > 0 && egoGraphs.length > 2) {
+                intersectingNodes.push({
+                    id: nextPairwiseIntersectionsId,
+                    intersections: nextPairwiseIntersections
+                });
+            }
+            pairwiseIntersections = nextPairwiseIntersections;
+
             const currLayout = calculateMultiLayout(
                 egoGraphs[i],
                 innerSize,
@@ -510,9 +631,24 @@ export function calculateLayout(
                 intersectingNodes.reverse(),
                 graphCenters[i],
                 xRanges,
-                -fullRange / egoGraphs.length / 2 +
-                    (fullRange / egoGraphs.length) * i
+                //-fullRange / egoGraphs.length / 2 +
+                (fullRange / egoGraphs.length) * i
             );
+
+            console.log('CURRENT BANDS', currLayout.bands);
+            Object.entries(currLayout.bands).forEach((entry) => {
+                const key = entry[0];
+                const entryValue = entry[1];
+                if (key.includes(egoGraphs[i].centerNode.originalID)) {
+                    if (!Object.keys(firstAndLastNodesIDs).includes(key)) {
+                        firstAndLastNodesIDs[key] = [];
+                    }
+                    firstAndLastNodesIDs[key].push(entryValue);
+                }
+            });
+
+            pairwiseIntersectionId = nextPairwiseIntersectionsId;
+
             layoutNodeDict = { ...currLayout.nodes, ...layoutNodeDict };
             layout.maxradius = Math.max(
                 Math.min(currLayout.maxradius, layout.maxradius),
@@ -523,15 +659,87 @@ export function calculateLayout(
             layoutNodeDict,
             egoGraphs.map((d) => d.edges).flat()
         );
-
         layout.identityEdges = createIdentityEdges(layoutNodeDict);
 
         layout.nodes = Object.values(layoutNodeDict);
         layout.centers = graphCenters;
+        const firstAndLastNodes = firstAndLastNodeIntersection(
+            firstAndLastNodesIDs,
+            layout.centers
+        );
+        layout.bandData = firstAndLastNodes;
         return layout;
     } else {
         return calculateEgoLayout(egoGraphs[0], innerSize, outerSize, nodeSize);
     }
+}
+
+function addCenterNodeId(
+    centerId: string,
+    intersectionNodes: {
+        id: string;
+        intersections: string[];
+    }[]
+): {
+    id: string;
+    intersections: string[];
+}[] {
+    const intersecionNodesClone = structuredClone(intersectionNodes);
+    // add centerId to each intersections entry of each entry in intersectionNodes
+    intersecionNodesClone.forEach((entry) => {
+        entry.intersections = entry.intersections.map((intersection) => {
+            return centerId + '_' + intersection;
+        });
+    });
+    return intersecionNodesClone;
+}
+
+function firstAndLastNodeIntersection(
+    firstAndLastNodeIds: { [key: string]: [string, string] },
+    centers: { x: number; y: number; id: string }[]
+) {
+    // for each graphCenter and each associated intersection (key contains the graphCenter) get the first and last node in the intersection as sorted in the nodeDict
+    const firstAndLastNodes = {};
+    Object.entries(firstAndLastNodeIds).forEach((entry) => {
+        const key = entry[0];
+        const entryValue = entry[1];
+        // add firstLast=true property to firstNode and lastNode
+        const graphCenterIds = key.split(',');
+        if (entryValue) {
+            graphCenterIds.forEach((graphCenterId, idx) => {
+                //find correct entry in entryValue
+                const bandData = entryValue.find(
+                    (elem) => elem[2] === graphCenterId
+                );
+                const currentGraphCenter = centers.find(
+                    (elem) => elem.id == graphCenterId
+                );
+                //check if key is in firstAndLastNodes
+                if (!Object.keys(firstAndLastNodes).includes(key)) {
+                    firstAndLastNodes[key] = {};
+                }
+                firstAndLastNodes[key][graphCenterId] = [
+                    {
+                        //id: firstNode.id,
+                        graphCenterPos: currentGraphCenter,
+                        pos: {
+                            x: bandData[0].x,
+                            y: bandData[0].y
+                        }
+                    },
+                    {
+                        //id: lastNode.id,
+                        graphCenterPos: currentGraphCenter,
+                        pos: {
+                            x: bandData[1].x,
+                            y: bandData[1].y
+                        }
+                    }
+                ];
+            });
+        }
+    });
+    return firstAndLastNodes;
 }
 
 function calculateMultiLayout(
@@ -539,25 +747,32 @@ function calculateMultiLayout(
     innerSize: number,
     outerSize: number,
     uniqueNodeIds: string[],
-    sharedNodeIds: string[],
-    graphCenter: { x: number; y: number },
+    sharedNodeIds: {
+        id: string;
+        intersections: string[];
+    }[],
+    graphCenter: { x: number; y: number; id: string },
     xRanges: [[number, number], [number, number]],
     offset: number
 ) {
     const transformVector = {
+        graphId: graphCenter.id,
         x: graphCenter.x - outerSize,
         y: graphCenter.y - outerSize
     };
     const nodeDict: { [key: string]: egoGraphNode } = {};
     graph.nodes.forEach((node) => (nodeDict[node.id] = node));
     let nodes: { [key: string]: layoutNode };
+    const nodeIdsFlat = sharedNodeIds
+        .map((d) =>
+            d.intersections.map(
+                (nodeId) => nodeDict[graph.centerNode.originalID + '_' + nodeId]
+            )
+        )
+        .flat();
     const sharedNodesLayout = calculateLayoutSharedNodes(
-        sharedNodeIds.map(
-            (nodeId) => nodeDict[graph.centerNode.originalID + '_' + nodeId]
-        ),
-        sharedNodeIds.map(
-            (nodeId) => graph.centerNode.originalID + '_' + nodeId
-        ),
+        nodeIdsFlat,
+        addCenterNodeId(graph.centerNode.originalID, sharedNodeIds),
         outerSize,
         outerSize,
         xRanges[0],
@@ -597,7 +812,8 @@ function calculateMultiLayout(
     );
     return {
         nodes: nodes,
-        maxradius: maxRadius
+        maxradius: maxRadius,
+        bands: sharedNodesLayout.bands
     };
 }
 
@@ -624,12 +840,15 @@ function moveToCenter(
  */
 function calculateLayoutSharedNodes(
     nodes: egoGraphNode[],
-    sortOrder: string[],
+    sortOrder: {
+        id: string;
+        intersections: string[];
+    }[],
     center: number,
     radius: number,
     xRange: [number, number],
     factor: number,
-    graphCenter: { x: number; y: number },
+    graphCenter: { graphId: string; x: number; y: number },
     offset: number
 ) {
     const nodeLayout = createLayerNodes(
@@ -696,7 +915,7 @@ function calculateLayoutUniqueNodes(
     });
     const nodesLayer1Layout = createLayerNodes(
         nodesLayer1,
-        innerNodeOrder,
+        [{ id: 'layer1', intersections: innerNodeOrder }],
         outerSize,
         innerSize,
         xRange,
@@ -705,7 +924,7 @@ function calculateLayoutUniqueNodes(
     );
     const nodesLayer2Layout = createLayerNodes(
         nodesLayer2,
-        outerNodeOrder,
+        [{ id: 'layer2', intersections: outerNodeOrder }],
         outerSize,
         outerSize,
         xRange,
@@ -757,17 +976,21 @@ function createIdentityEdges(nodeDict: {
                     // don't draw an edge if the nodes are first layer nodes but not pseudo
                     let firstId = nodeIds[i];
                     let secondId = nodeIds[j];
+                    const drawEdge = firstId != secondId;
                     if (Object.keys(nodeDict).includes(firstId + '_pseudo')) {
                         firstId = firstId + '_pseudo';
                     }
                     if (Object.keys(nodeDict).includes(secondId + '_pseudo')) {
                         secondId = secondId + '_pseudo';
                     }
+                    //check if both nodes have centerDist 2
+
                     if (firstId !== secondId) {
                         // exclude self-edges
                         const edgeId = firstId + '_' + secondId;
                         if (!edgeIds.has(edgeId)) {
                             edges.push({
+                                alwaysDraw: drawEdge,
                                 sourceIndex: nodeDict[firstId].index,
                                 targetIndex: nodeDict[secondId].index,
                                 id: edgeId,
@@ -785,6 +1008,7 @@ function createIdentityEdges(nodeDict: {
                 const edgeId = nodeId + '_' + nodeId + '_pseudo';
                 if (!edgeIds.has(edgeId)) {
                     edges.push({
+                        alwaysDraw: false,
                         sourceIndex: nodeDict[nodeId].index,
                         targetIndex: nodeDict[nodeId + '_pseudo'].index,
                         id: edgeId,
