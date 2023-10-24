@@ -78,13 +78,14 @@ def parse_distance_matrix(path: pathlib.Path, top_intersections: int = 25):
 
 
 def read_metadata(path, classification, all_nodes):
+    all_nodes = set(all_nodes)
     with open(path, "r") as f:
         # read the metadata table into a dictionary,
         # the key is the node id(col0) and the value is the metadata in a dictionary with the key from header
         table_data = {"columns": f.readline().strip().split(
-            ",") + ["with_metadata"]}
+            ",") + ["with_metadata", "found_in_network"]}
         table_data_temp = {
-            line.strip().split(",")[0]: {name: value for name, value in zip(table_data["columns"], line.strip().split(",") + [True])} for line in f
+            line.strip().split(",")[0]: {name: value for name, value in zip(table_data["columns"], line.strip().split(",") + [True, line.strip().split(",")[0] in all_nodes])} for line in f
         }
     table_data["columns"] = [
         {"field": field, "headerName": field, "width": 150} for field in table_data["columns"]]
@@ -94,7 +95,7 @@ def read_metadata(path, classification, all_nodes):
     }
     nodes_with_metadata = set(table_data_temp.keys())
     # get the nodes without metadata
-    nodes_without_metadata = set(all_nodes).difference(nodes_with_metadata)
+    nodes_without_metadata = all_nodes.difference(nodes_with_metadata)
     # add the nodes without metadata to the table
     for node in nodes_without_metadata:
         # none_data = {name: None for name in table_data["columns"][1:-1]}
@@ -102,4 +103,5 @@ def read_metadata(path, classification, all_nodes):
             "with_metadata": False, "nodeID": node}
 
     table_data["rows"] = table_data_temp
+
     return table_data, classification_dict

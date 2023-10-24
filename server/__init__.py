@@ -1,6 +1,7 @@
 import json
 import pathlib
 import pickle
+from tkinter import E
 from matplotlib.pyplot import table
 import networkx as nx
 from flask import Flask, request
@@ -126,8 +127,58 @@ def read_example_string_modified():
     }
 
 
+def read_example_metagenome():
+    # Read the network from the input file
+    try:
+        network = nx.read_weighted_edgelist(
+            here / "data" / "metagenome_data" / "edge_list_network.tsv", delimiter="\t")
+        print("Loaded string graph ", len(network.nodes))
+    except Exception as e:
+        print(e)
+
+    # Read the top intersections from the input file
+    try:
+        top_intersections = parse_distance_matrix(
+            here / "data" / "metagenome_data" / "metagenome_distance.txt.gz")
+    except FileNotFoundError:
+        print(
+            f"No json file found in {here / 'data'}. Make sure you added it.")
+    try:
+        table_data, classification_dict = read_metadata(
+            here / "data" / "metagenome_data" / "metadata_metagenome.csv", "taxa", network.nodes)
+
+    except FileNotFoundError:
+        print(
+            f"No metadata file found in {here / 'data'}. Make sure you added it.")
+
+    try:
+        with open(here / "data" / "metagenome_data" / "metagenome_important_nodes.txt", "r") as f:
+            important_nodes = [line.strip() for line in f]
+            print("Loaded relevant_proteins ", len(important_nodes))
+
+    except FileNotFoundError:
+        print(
+            f"No metadata file found in {here / 'metagenome_data'}. Make sure you added it.")
+
+    EXAMPLES["metagenome"] = {
+        "network": network,
+        "top_intersections": top_intersections,
+        "classification": classification_dict,
+        "metadata": table_data,
+        "overview_nodes": important_nodes,
+        "quantify_by": "median",
+        "quantify_type": "quantitative",
+        "classify_by": "taxa",
+        "name_nodes": "nodeName",
+        "show_tooltip": ["taxa", "median"],
+        "start_radar": important_nodes[0],
+        "start_selected": important_nodes[:5] if len(important_nodes) > 5 else important_nodes
+    }
+
+
 read_example_string()
 read_example_string_modified()
+read_example_metagenome()
 
 
 # @app.route("/api/getExample/<case>", methods=["GET"])

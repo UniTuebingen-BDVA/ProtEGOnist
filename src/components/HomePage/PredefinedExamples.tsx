@@ -34,6 +34,17 @@ const ExamplesPage = (_props) => {
                         Example Two: Modified example of PPIs
                     </Button>
                 </ListItem>
+                <ListItem>
+                    <Button
+                        variant="contained"
+                        size="small"
+                        onClick={(e) => {
+                            setExampleChosen("metagenome")
+                        }}
+                    >
+                        Example Three: Correlation Network Metagenome
+                    </Button>
+                </ListItem>
             </List>
         </Container>
     );

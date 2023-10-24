@@ -95,7 +95,7 @@ function EgoNetworkNetworkViewer() {
                 </animated.g>
             </animated.svg>
             <svg
-                height={250}
+                height={275}
                 width={200}
                 style={{ left: 0, position: 'absolute' }}
             >
@@ -112,7 +112,7 @@ function EgoNetworkNetworkViewer() {
                     domain={['few interactions', 'many interactions']}
                     range={['#e9cfd7', '#860028']}
                     type={'quantitative'}
-                    transform={`translate(${10},${135})`}
+                    transform={`translate(${10},${150})`}
                     title={'Node connectivity within ego-graph'}
                     render={renderSecondLegend}
                 />

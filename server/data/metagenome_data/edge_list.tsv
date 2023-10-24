@@ -1,0 +1,1044 @@
+taxa1	taxa2	rhoCut
+Archaea;Archaea;Crenarchaeota;Nitrososphaeria	Bacteria;Bacteria;Bacteroidota;Kapabacteria	-1
+Archaea;Archaea;Crenarchaeota;Nitrososphaeria	Bacteria;Bacteria;Chloroflexi;AD3	-1
+Archaea;Archaea;Crenarchaeota;Nitrososphaeria	Bacteria;Bacteria;Chloroflexi;Dehalococcoidia	-1
+Archaea;Archaea;Crenarchaeota;Nitrososphaeria	Bacteria;Bacteria;Dependentiae;Babeliae	-1
+Archaea;Archaea;Crenarchaeota;Nitrososphaeria	Bacteria;Bacteria;Latescibacterota;Latescibacteria	-1
+Archaea;Archaea;Thermoplasmatota;Thermoplasmata	Bacteria;Bacteria;Dependentiae;Babeliae	-1
+Bacteria;Bacteria;Acidobacteriota;Acidobacteriae	Bacteria;Bacteria;Acidobacteriota;Subgroup 25	-1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 11	Bacteria;Bacteria;Planctomycetota;BD7-11	-1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 25	Bacteria;Bacteria;Bacteroidota;Kapabacteria	-1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 25	Bacteria;Bacteria;Latescibacterota;Latescibacteria	-1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Bacteria;Bacteria;Acidobacteriota;Subgroup 25	-1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Bacteria;Bacteria;Actinobacteriota;Actinobacteria	-1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Bacteria;Bacteria;Actinobacteriota;MB-A2-108	-1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	-1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	-1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Bacteria;Bacteria;Chloroflexi;SHA-26	-1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Bacteria;Bacteria;Chloroflexi;TK10	-1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	-1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	-1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	-1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Bacteria;Bacteria;Planctomycetota;Pla3 lineage	-1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	-1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Bacteroidota;Kapabacteria	-1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Chloroflexi;AD3	-1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Dependentiae;Babeliae	-1
+Bacteria;Bacteria;Actinobacteriota;MB-A2-108	Bacteria;Bacteria;Bacteroidota;Kapabacteria	-1
+Bacteria;Bacteria;Actinobacteriota;MB-A2-108	Bacteria;Bacteria;Chloroflexi;AD3	-1
+Bacteria;Bacteria;Actinobacteriota;MB-A2-108	Bacteria;Bacteria;Chloroflexi;Dehalococcoidia	-1
+Bacteria;Bacteria;Actinobacteriota;MB-A2-108	Bacteria;Bacteria;Latescibacterota;Latescibacteria	-1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Chloroflexi;AD3	-1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Acidobacteriota;Subgroup 5	-1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Desulfobacterota;Desulfuromonadia	-1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Myxococcota;Myxococcia	-1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Nitrospirota;4-29-1	-1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Planctomycetota;OM190	-1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	-1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	-1
+Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	Bacteria;Bacteria;Chloroflexi;AD3	-1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Archaea;Archaea;Crenarchaeota;Nitrososphaeria	-1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Archaea;Archaea;Thermoplasmatota;Thermoplasmata	-1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Acidobacteriota;Blastocatellia	-1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Actinobacteriota;Actinobacteria	-1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	-1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Chloroflexi;TK10	-1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	-1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Gemmatimonadota;Gemmatimonadetes	-1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	-1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	-1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Myxococcota;bacteriap25	-1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Planctomycetota;Pla3 lineage	-1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	-1
+Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	Bacteria;Bacteria;Bacteroidota;Kapabacteria	-1
+Bacteria;Bacteria;Desulfobacterota;Desulfuromonadia	Bacteria;Bacteria;Chloroflexi;SHA-26	-1
+Bacteria;Bacteria;Desulfobacterota;Desulfuromonadia	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	-1
+Bacteria;Bacteria;Gemmatimonadota;Gemmatimonadetes	Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	-1
+Bacteria;Bacteria;Gemmatimonadota;Gemmatimonadetes	Bacteria;Bacteria;Dependentiae;Babeliae	-1
+Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	Bacteria;Bacteria;Dependentiae;Babeliae	-1
+Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	Bacteria;Bacteria;Firmicutes;Desulfitobacteriia	-1
+Bacteria;Bacteria;Myxococcota;bacteriap25	Bacteria;Bacteria;Bacteroidota;Kapabacteria	-1
+Bacteria;Bacteria;Myxococcota;bacteriap25	Bacteria;Bacteria;Chloroflexi;AD3	-1
+Bacteria;Bacteria;Myxococcota;bacteriap25	Bacteria;Bacteria;Dependentiae;Babeliae	-1
+Bacteria;Bacteria;Myxococcota;Myxococcia	Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	-1
+Bacteria;Bacteria;Myxococcota;Myxococcia	Bacteria;Bacteria;Chloroflexi;SHA-26	-1
+Bacteria;Bacteria;Myxococcota;Myxococcia	Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	-1
+Bacteria;Bacteria;Myxococcota;Myxococcia	Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	-1
+Bacteria;Bacteria;Myxococcota;Myxococcia	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	-1
+Bacteria;Bacteria;Myxococcota;Myxococcia	Bacteria;Bacteria;Nitrospirota;Nitrospiria	-1
+Bacteria;Bacteria;Myxococcota;Myxococcia	Bacteria;Bacteria;Planctomycetota;Pla3 lineage	-1
+Bacteria;Bacteria;Planctomycetota;OM190	Bacteria;Bacteria;Acidobacteriota;Subgroup 25	-1
+Bacteria;Bacteria;Planctomycetota;OM190	Bacteria;Bacteria;Actinobacteriota;MB-A2-108	-1
+Bacteria;Bacteria;Planctomycetota;OM190	Bacteria;Bacteria;Chloroflexi;SHA-26	-1
+Bacteria;Bacteria;Planctomycetota;OM190	Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	-1
+Bacteria;Bacteria;Planctomycetota;OM190	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	-1
+Bacteria;Bacteria;Planctomycetota;OM190	Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	-1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Archaea;Archaea;Crenarchaeota;Nitrososphaeria	-1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Archaea;Archaea;Thermoplasmatota;Thermoplasmata	-1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Acidobacteriota;Vicinamibacteria	-1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Actinobacteriota;Actinobacteria	-1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Actinobacteriota;MB-A2-108	-1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	-1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	-1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Chloroflexi;SHA-26	-1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Chloroflexi;TK10	-1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	-1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	-1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	-1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	-1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	-1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Myxococcota;bacteriap25	-1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Nitrospirota;Nitrospiria	-1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	-1
+Bacteria;Bacteria;Proteobacteria;Gammaproteobacteria	Bacteria;Bacteria;Firmicutes;Bacilli	-1
+Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	Bacteria;Bacteria;Bacteroidota;Kapabacteria	-1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Archaea;Archaea;Crenarchaeota;Nitrososphaeria	-1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Acidobacteriota;Subgroup 25	-1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Actinobacteriota;Actinobacteria	-1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Actinobacteriota;MB-A2-108	-1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Chloroflexi;SHA-26	-1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Chloroflexi;TK10	-1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	-1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	-1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	-1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	-1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Myxococcota;bacteriap25	-1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	-1
+Archaea;Archaea;Crenarchaeota;Nitrososphaeria	Bacteria;Bacteria;Bacteroidota;Kapabacteria	-1
+Archaea;Archaea;Crenarchaeota;Nitrososphaeria	Bacteria;Bacteria;Bacteroidota;Kryptonia	-1
+Archaea;Archaea;Crenarchaeota;Nitrososphaeria	Bacteria;Bacteria;Chloroflexi;AD3	-1
+Archaea;Archaea;Crenarchaeota;Nitrososphaeria	Bacteria;Bacteria;Chloroflexi;Dehalococcoidia	-1
+Archaea;Archaea;Crenarchaeota;Nitrososphaeria	Bacteria;Bacteria;Dependentiae;Babeliae	-1
+Archaea;Archaea;Crenarchaeota;Nitrososphaeria	Bacteria;Bacteria;Desulfobacterota;Desulfuromonadia	-1
+Archaea;Archaea;Crenarchaeota;Nitrososphaeria	Bacteria;Bacteria;Firmicutes;Desulfitobacteriia	-1
+Archaea;Archaea;Crenarchaeota;Nitrososphaeria	Bacteria;Bacteria;Latescibacterota;Latescibacteria	-1
+Archaea;Archaea;Crenarchaeota;Nitrososphaeria	Bacteria;Bacteria;Myxococcota;Myxococcia	-1
+Archaea;Archaea;Crenarchaeota;Nitrososphaeria	Bacteria;Bacteria;Nitrospirota;4-29-1	-1
+Archaea;Archaea;Crenarchaeota;Nitrososphaeria	Bacteria;Bacteria;Patescibacteria;Berkelbacteria	-1
+Archaea;Archaea;Crenarchaeota;Nitrososphaeria	Bacteria;Bacteria;Planctomycetota;OM190	-1
+Archaea;Archaea;Thermoplasmatota;Thermoplasmata	Bacteria;Bacteria;Bacteroidota;Kryptonia	-1
+Bacteria;Bacteria;Acidobacteriota;Acidobacteriae	Archaea;Archaea;Thermoplasmatota;Thermoplasmata	-1
+Bacteria;Bacteria;Acidobacteriota;Acidobacteriae	Bacteria;Bacteria;Acidobacteriota;FFCH5909	-1
+Bacteria;Bacteria;Acidobacteriota;Acidobacteriae	Bacteria;Bacteria;Acidobacteriota;Vicinamibacteria	-1
+Bacteria;Bacteria;Acidobacteriota;Acidobacteriae	Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	-1
+Bacteria;Bacteria;Acidobacteriota;Acidobacteriae	Bacteria;Bacteria;Chloroflexi;SHA-26	-1
+Bacteria;Bacteria;Acidobacteriota;Acidobacteriae	Bacteria;Bacteria;Chloroflexi;TK10	-1
+Bacteria;Bacteria;Acidobacteriota;Acidobacteriae	Bacteria;Bacteria;Gemmatimonadota;Gemmatimonadetes	-1
+Bacteria;Bacteria;Acidobacteriota;Acidobacteriae	Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	-1
+Bacteria;Bacteria;Acidobacteriota;Acidobacteriae	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	-1
+Bacteria;Bacteria;Acidobacteriota;Acidobacteriae	Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	-1
+Bacteria;Bacteria;Acidobacteriota;Acidobacteriae	Bacteria;Bacteria;Nitrospirota;Nitrospiria	-1
+Bacteria;Bacteria;Acidobacteriota;Acidobacteriae	Bacteria;Bacteria;Planctomycetota;Pla3 lineage	-1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 11	Bacteria;Bacteria;Bacteroidota;Ignavibacteria	-1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 11	Bacteria;Bacteria;Planctomycetota;BD7-11	-1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 20	Bacteria;Bacteria;Chloroflexi;Dehalococcoidia	-1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 25	Bacteria;Bacteria;Bacteroidota;Kapabacteria	-1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 25	Bacteria;Bacteria;Desulfobacterota;Desulfuromonadia	-1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 25	Bacteria;Bacteria;Latescibacterota;Latescibacteria	-1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 25	Bacteria;Bacteria;Nitrospirota;4-29-1	-1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Archaea;Archaea;Thermoplasmatota;Thermoplasmata	-1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Bacteria;Bacteria;Acidobacteriota;FFCH5909	-1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Bacteria;Bacteria;Armatimonadota;Chthonomonadetes	-1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	-1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Bacteria;Bacteria;Chloroflexi;SHA-26	-1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Bacteria;Bacteria;Chloroflexi;TK10	-1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Bacteria;Bacteria;Firmicutes;Negativicutes	-1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	-1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	-1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	-1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Bacteria;Bacteria;Nitrospirota;Nitrospiria	-1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Bacteria;Bacteria;Planctomycetota;Pla3 lineage	-1
+Bacteria;Bacteria;Acidobacteriota;Vicinamibacteria	Bacteria;Bacteria;Bacteroidota;Kryptonia	-1
+Bacteria;Bacteria;Acidobacteriota;Vicinamibacteria	Bacteria;Bacteria;Proteobacteria;Gammaproteobacteria	-1
+Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	Archaea;Archaea;Thermoplasmatota;Thermoplasmata	-1
+Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	Bacteria;Bacteria;Acidobacteriota;FFCH5909	-1
+Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	Bacteria;Bacteria;Armatimonadota;Chthonomonadetes	-1
+Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	-1
+Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	Bacteria;Bacteria;Chloroflexi;SHA-26	-1
+Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	Bacteria;Bacteria;Chloroflexi;TK10	-1
+Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	Bacteria;Bacteria;Deinococcota;Deinococci	-1
+Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	Bacteria;Bacteria;Firmicutes;Negativicutes	-1
+Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	-1
+Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	-1
+Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	-1
+Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	Bacteria;Bacteria;Nitrospirota;Nitrospiria	-1
+Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	Bacteria;Bacteria;Patescibacteria;Microgenomatia	-1
+Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	Bacteria;Bacteria;Planctomycetota;Pla3 lineage	-1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	-1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Bacteroidota;Kapabacteria	-1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Chloroflexi;AD3	-1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Chloroflexi;Dehalococcoidia	-1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Dependentiae;Babeliae	-1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Desulfobacterota;Desulfuromonadia	-1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Firmicutes;Desulfitobacteriia	-1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Latescibacterota;Latescibacteria	-1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Myxococcota;Myxococcia	-1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Nitrospirota;4-29-1	-1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Planctomycetota;OM190	-1
+Bacteria;Bacteria;Actinobacteriota;MB-A2-108	Bacteria;Bacteria;Bacteroidota;Kapabacteria	-1
+Bacteria;Bacteria;Actinobacteriota;MB-A2-108	Bacteria;Bacteria;Bacteroidota;Kryptonia	-1
+Bacteria;Bacteria;Actinobacteriota;MB-A2-108	Bacteria;Bacteria;Chloroflexi;AD3	-1
+Bacteria;Bacteria;Actinobacteriota;MB-A2-108	Bacteria;Bacteria;Chloroflexi;Dehalococcoidia	-1
+Bacteria;Bacteria;Actinobacteriota;MB-A2-108	Bacteria;Bacteria;Desulfobacterota;Desulfuromonadia	-1
+Bacteria;Bacteria;Actinobacteriota;MB-A2-108	Bacteria;Bacteria;Latescibacterota;Latescibacteria	-1
+Bacteria;Bacteria;Actinobacteriota;MB-A2-108	Bacteria;Bacteria;Nitrospirota;4-29-1	-1
+Bacteria;Bacteria;Actinobacteriota;MB-A2-108	Bacteria;Bacteria;Patescibacteria;Berkelbacteria	-1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Bacteroidota;Kapabacteria	-1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Chloroflexi;AD3	-1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Chloroflexi;Dehalococcoidia	-1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Dependentiae;Babeliae	-1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Desulfobacterota;Desulfuromonadia	-1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Firmicutes;Desulfitobacteriia	-1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Latescibacterota;Latescibacteria	-1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Myxococcota;Myxococcia	-1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Nitrospirota;4-29-1	-1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Planctomycetota;OM190	-1
+Bacteria;Bacteria;Actinobacteriota;Thermoleophilia	Archaea;Archaea;Halobacterota;Methanosarcinia	-1
+Bacteria;Bacteria;Actinobacteriota;Thermoleophilia	Bacteria;Bacteria;Bacteroidota;Kryptonia	-1
+Bacteria;Bacteria;Actinobacteriota;Thermoleophilia	Bacteria;Bacteria;Elusimicrobiota;Lineage IIa	-1
+Bacteria;Bacteria;Armatimonadota;Armatimonadia	Bacteria;Bacteria;Actinobacteriota;Coriobacteriia	-1
+Bacteria;Bacteria;Bacteroidota;Bacteroidia	Archaea;Archaea;Crenarchaeota;Nitrososphaeria	-1
+Bacteria;Bacteria;Bacteroidota;Bacteroidia	Bacteria;Bacteria;Acidobacteriota;Subgroup 25	-1
+Bacteria;Bacteria;Bacteroidota;Bacteroidia	Bacteria;Bacteria;Actinobacteriota;Actinobacteria	-1
+Bacteria;Bacteria;Bacteroidota;Bacteroidia	Bacteria;Bacteria;Actinobacteriota;MB-A2-108	-1
+Bacteria;Bacteria;Bacteroidota;Bacteroidia	Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	-1
+Bacteria;Bacteria;Bacteroidota;Bacteroidia	Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	-1
+Bacteria;Bacteria;Bacteroidota;Bacteroidia	Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	-1
+Bacteria;Bacteria;Bacteroidota;Bacteroidia	Bacteria;Bacteria;Firmicutes;Bacilli	-1
+Bacteria;Bacteria;Bacteroidota;Bacteroidia	Bacteria;Bacteria;Firmicutes;Symbiobacteriia	-1
+Bacteria;Bacteria;Bacteroidota;Bacteroidia	Bacteria;Bacteria;Myxococcota;bacteriap25	-1
+Bacteria;Bacteria;Bacteroidota;Bacteroidia	Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	-1
+Bacteria;Bacteria;Bacteroidota;Kapabacteria	Bacteria;Bacteria;Chloroflexi;SHA-26	-1
+Bacteria;Bacteria;Bacteroidota;Kapabacteria	Bacteria;Bacteria;Deinococcota;Deinococci	-1
+Bacteria;Bacteria;Bacteroidota;Kapabacteria	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	-1
+Bacteria;Bacteria;Bdellovibrionota;Oligoflexia	Bacteria;Bacteria;Hydrogenedentes;Hydrogenedentia	-1
+Bacteria;Bacteria;Chloroflexi;AD3	Bacteria;Bacteria;Acidobacteriota;FFCH5909	-1
+Bacteria;Bacteria;Chloroflexi;AD3	Bacteria;Bacteria;Chloroflexi;SHA-26	-1
+Bacteria;Bacteria;Chloroflexi;AD3	Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	-1
+Bacteria;Bacteria;Chloroflexi;AD3	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	-1
+Bacteria;Bacteria;Chloroflexi;AD3	Bacteria;Bacteria;Nitrospirota;Nitrospiria	-1
+Bacteria;Bacteria;Chloroflexi;AD3	Bacteria;Bacteria;Planctomycetota;Pla3 lineage	-1
+Bacteria;Bacteria;Chloroflexi;Anaerolineae	Bacteria;Bacteria;Bacteroidota;Ignavibacteria	-1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Acidobacteriota;Acidobacteriae	-1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Acidobacteriota;Subgroup 5	-1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	-1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Bacteroidota;Kapabacteria	-1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Chloroflexi;AD3	-1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Chloroflexi;KD4-96	-1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	-1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Cyanobacteria;Vampirivibrionia	-1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Dependentiae;Babeliae	-1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Desulfobacterota;Desulfuromonadia	-1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Firmicutes;Desulfitobacteriia	-1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Latescibacterota;Latescibacteria	-1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Myxococcota;Myxococcia	-1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Nitrospirota;4-29-1	-1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Planctomycetota;OM190	-1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Planctomycetota;Phycisphaerae	-1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	-1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	-1
+Bacteria;Bacteria;Chloroflexi;KD4-96	Archaea;Archaea;Thermoplasmatota;Thermoplasmata	-1
+Bacteria;Bacteria;Chloroflexi;KD4-96	Bacteria;Bacteria;Acidobacteriota;Blastocatellia	-1
+Bacteria;Bacteria;Chloroflexi;KD4-96	Bacteria;Bacteria;Acidobacteriota;FFCH5909	-1
+Bacteria;Bacteria;Chloroflexi;KD4-96	Bacteria;Bacteria;Armatimonadota;Chthonomonadetes	-1
+Bacteria;Bacteria;Chloroflexi;KD4-96	Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	-1
+Bacteria;Bacteria;Chloroflexi;KD4-96	Bacteria;Bacteria;Chloroflexi;SHA-26	-1
+Bacteria;Bacteria;Chloroflexi;KD4-96	Bacteria;Bacteria;Chloroflexi;TK10	-1
+Bacteria;Bacteria;Chloroflexi;KD4-96	Bacteria;Bacteria;Firmicutes;Negativicutes	-1
+Bacteria;Bacteria;Chloroflexi;KD4-96	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	-1
+Bacteria;Bacteria;Chloroflexi;KD4-96	Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	-1
+Bacteria;Bacteria;Chloroflexi;KD4-96	Bacteria;Bacteria;Nitrospirota;Nitrospiria	-1
+Bacteria;Bacteria;Chloroflexi;KD4-96	Bacteria;Bacteria;Patescibacteria;Microgenomatia	-1
+Bacteria;Bacteria;Chloroflexi;KD4-96	Bacteria;Bacteria;Planctomycetota;Pla3 lineage	-1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Archaea;Archaea;Thermoplasmatota;Thermoplasmata	-1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Acidobacteriota;Blastocatellia	-1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Acidobacteriota;Vicinamibacteria	-1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Armatimonadota;Chthonomonadetes	-1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	-1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Chloroflexi;SHA-26	-1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Chloroflexi;TK10	-1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Firmicutes;Negativicutes	-1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Gemmatimonadota;Gemmatimonadetes	-1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	-1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	-1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	-1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Nitrospirota;Leptospirillia	-1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Nitrospirota;Nitrospiria	-1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Patescibacteria;Microgenomatia	-1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Planctomycetota;Pla3 lineage	-1
+Bacteria;Bacteria;Chloroflexi;P2-11E	Bacteria;Bacteria;Chloroflexi;OLB14	-1
+Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	Bacteria;Bacteria;Desulfobacterota;Desulfuromonadia	-1
+Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	Bacteria;Bacteria;Latescibacterota;Latescibacteria	-1
+Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	Bacteria;Bacteria;Nitrospirota;4-29-1	-1
+Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	Bacteria;Bacteria;Bacteroidota;Kapabacteria	-1
+Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	Bacteria;Bacteria;Desulfobacterota;Desulfuromonadia	-1
+Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	Bacteria;Bacteria;Latescibacterota;Latescibacteria	-1
+Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	Bacteria;Bacteria;Nitrospirota;4-29-1	-1
+Bacteria;Bacteria;Cyanobacteria;Vampirivibrionia	Bacteria;Bacteria;Chloroflexi;Gitt-GS-136	-1
+Bacteria;Bacteria;Cyanobacteria;Vampirivibrionia	Bacteria;Bacteria;Elusimicrobiota;Elusimicrobia	-1
+Bacteria;Bacteria;Cyanobacteria;Vampirivibrionia	Bacteria;Bacteria;Fibrobacterota;Fibrobacteria	-1
+Bacteria;Bacteria;Cyanobacteria;Vampirivibrionia	Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	-1
+Bacteria;Bacteria;Dependentiae;Babeliae	Bacteria;Bacteria;Acidobacteriota;FFCH5909	-1
+Bacteria;Bacteria;Dependentiae;Babeliae	Bacteria;Bacteria;Chloroflexi;SHA-26	-1
+Bacteria;Bacteria;Dependentiae;Babeliae	Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	-1
+Bacteria;Bacteria;Dependentiae;Babeliae	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	-1
+Bacteria;Bacteria;Dependentiae;Babeliae	Bacteria;Bacteria;Nitrospirota;Nitrospiria	-1
+Bacteria;Bacteria;Dependentiae;Babeliae	Bacteria;Bacteria;Patescibacteria;Microgenomatia	-1
+Bacteria;Bacteria;Dependentiae;Babeliae	Bacteria;Bacteria;Planctomycetota;Pla3 lineage	-1
+Bacteria;Bacteria;Desulfobacterota;Desulfuromonadia	Bacteria;Bacteria;Chloroflexi;SHA-26	-1
+Bacteria;Bacteria;Desulfobacterota;Desulfuromonadia	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	-1
+Bacteria;Bacteria;Desulfobacterota;Desulfuromonadia	Bacteria;Bacteria;Patescibacteria;Microgenomatia	-1
+Bacteria;Bacteria;Firmicutes;Bacilli	Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	-1
+Bacteria;Bacteria;Firmicutes;Bacilli	Bacteria;Bacteria;Bacteroidota;Kapabacteria	-1
+Bacteria;Bacteria;Firmicutes;Bacilli	Bacteria;Bacteria;Bacteroidota;Kryptonia	-1
+Bacteria;Bacteria;Firmicutes;Bacilli	Bacteria;Bacteria;Chloroflexi;AD3	-1
+Bacteria;Bacteria;Firmicutes;Bacilli	Bacteria;Bacteria;Chloroflexi;Dehalococcoidia	-1
+Bacteria;Bacteria;Firmicutes;Bacilli	Bacteria;Bacteria;Dependentiae;Babeliae	-1
+Bacteria;Bacteria;Firmicutes;Bacilli	Bacteria;Bacteria;Latescibacterota;Latescibacteria	-1
+Bacteria;Bacteria;Firmicutes;Bacilli	Bacteria;Bacteria;Myxococcota;Myxococcia	-1
+Bacteria;Bacteria;Firmicutes;Bacilli	Bacteria;Bacteria;Nitrospirota;4-29-1	-1
+Bacteria;Bacteria;Firmicutes;Bacilli	Bacteria;Bacteria;Patescibacteria;Berkelbacteria	-1
+Bacteria;Bacteria;Firmicutes;Bacilli	Bacteria;Bacteria;Planctomycetota;OM190	-1
+Bacteria;Bacteria;Firmicutes;Clostridia	Bacteria;Bacteria;Armatimonadota;Armatimonadia	-1
+Bacteria;Bacteria;Firmicutes;Desulfitobacteriia	Bacteria;Bacteria;Acidobacteriota;Holophagae	-1
+Bacteria;Bacteria;Firmicutes;Desulfitobacteriia	Bacteria;Bacteria;Armatimonadota;Fimbriimonadia	-1
+Bacteria;Bacteria;Firmicutes;Desulfitobacteriia	Bacteria;Bacteria;Bdellovibrionota;Bdellovibrionia	-1
+Bacteria;Bacteria;Firmicutes;Desulfitobacteriia	Bacteria;Bacteria;Chloroflexi;SHA-26	-1
+Bacteria;Bacteria;Firmicutes;Desulfitobacteriia	Bacteria;Bacteria;Deinococcota;Deinococci	-1
+Bacteria;Bacteria;Firmicutes;Desulfitobacteriia	Bacteria;Bacteria;Elusimicrobiota;Elusimicrobia	-1
+Bacteria;Bacteria;Firmicutes;Desulfitobacteriia	Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	-1
+Bacteria;Bacteria;Firmicutes;Desulfitobacteriia	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	-1
+Bacteria;Bacteria;Firmicutes;Desulfitobacteriia	Bacteria;Bacteria;Nitrospirota;Nitrospiria	-1
+Bacteria;Bacteria;Firmicutes;Desulfitobacteriia	Bacteria;Bacteria;Planctomycetota;Pla3 lineage	-1
+Bacteria;Bacteria;Firmicutes;Negativicutes	Bacteria;Bacteria;Bacteroidota;Ignavibacteria	-1
+Bacteria;Bacteria;Firmicutes;Symbiobacteriia	Bacteria;Bacteria;Acidobacteriota;AT-s3-28	-1
+Bacteria;Bacteria;Firmicutes;Symbiobacteriia	Bacteria;Bacteria;Acidobacteriota;Holophagae	-1
+Bacteria;Bacteria;Firmicutes;Symbiobacteriia	Bacteria;Bacteria;Armatimonadota;Fimbriimonadia	-1
+Bacteria;Bacteria;Firmicutes;Symbiobacteriia	Bacteria;Bacteria;Bacteroidota;Kapabacteria	-1
+Bacteria;Bacteria;Firmicutes;Symbiobacteriia	Bacteria;Bacteria;Chloroflexi;AD3	-1
+Bacteria;Bacteria;Firmicutes;Symbiobacteriia	Bacteria;Bacteria;Chloroflexi;Dehalococcoidia	-1
+Bacteria;Bacteria;Gemmatimonadota;Gemmatimonadetes	Bacteria;Bacteria;Planctomycetota;BD7-11	-1
+Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	Bacteria;Bacteria;Bacteroidota;Kryptonia	-1
+Bacteria;Bacteria;Myxococcota;bacteriap25	Bacteria;Bacteria;Bacteroidota;Kapabacteria	-1
+Bacteria;Bacteria;Myxococcota;bacteriap25	Bacteria;Bacteria;Bacteroidota;Kryptonia	-1
+Bacteria;Bacteria;Myxococcota;bacteriap25	Bacteria;Bacteria;Chloroflexi;AD3	-1
+Bacteria;Bacteria;Myxococcota;bacteriap25	Bacteria;Bacteria;Chloroflexi;Dehalococcoidia	-1
+Bacteria;Bacteria;Myxococcota;bacteriap25	Bacteria;Bacteria;Dependentiae;Babeliae	-1
+Bacteria;Bacteria;Myxococcota;bacteriap25	Bacteria;Bacteria;Desulfobacterota;Desulfuromonadia	-1
+Bacteria;Bacteria;Myxococcota;bacteriap25	Bacteria;Bacteria;Firmicutes;Desulfitobacteriia	-1
+Bacteria;Bacteria;Myxococcota;bacteriap25	Bacteria;Bacteria;Latescibacterota;Latescibacteria	-1
+Bacteria;Bacteria;Myxococcota;bacteriap25	Bacteria;Bacteria;Myxococcota;Myxococcia	-1
+Bacteria;Bacteria;Myxococcota;bacteriap25	Bacteria;Bacteria;Nitrospirota;4-29-1	-1
+Bacteria;Bacteria;Myxococcota;bacteriap25	Bacteria;Bacteria;Planctomycetota;OM190	-1
+Bacteria;Bacteria;Myxococcota;Myxococcia	Bacteria;Bacteria;Armatimonadota;Chthonomonadetes	-1
+Bacteria;Bacteria;Myxococcota;Myxococcia	Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	-1
+Bacteria;Bacteria;Myxococcota;Myxococcia	Bacteria;Bacteria;Chloroflexi;SHA-26	-1
+Bacteria;Bacteria;Myxococcota;Myxococcia	Bacteria;Bacteria;Firmicutes;Negativicutes	-1
+Bacteria;Bacteria;Myxococcota;Myxococcia	Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	-1
+Bacteria;Bacteria;Myxococcota;Myxococcia	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	-1
+Bacteria;Bacteria;Myxococcota;Myxococcia	Bacteria;Bacteria;Nitrospirota;Leptospirillia	-1
+Bacteria;Bacteria;Myxococcota;Myxococcia	Bacteria;Bacteria;Nitrospirota;Nitrospiria	-1
+Bacteria;Bacteria;Myxococcota;Myxococcia	Bacteria;Bacteria;Patescibacteria;Microgenomatia	-1
+Bacteria;Bacteria;Myxococcota;Myxococcia	Bacteria;Bacteria;Planctomycetota;Pla3 lineage	-1
+Bacteria;Bacteria;Patescibacteria;Saccharimonadia	Bacteria;Bacteria;Firmicutes;Limnochordia	-1
+Bacteria;Bacteria;Planctomycetota;OM190	Bacteria;Bacteria;Armatimonadota;Chthonomonadetes	-1
+Bacteria;Bacteria;Planctomycetota;OM190	Bacteria;Bacteria;Chloroflexi;SHA-26	-1
+Bacteria;Bacteria;Planctomycetota;OM190	Bacteria;Bacteria;Deinococcota;Deinococci	-1
+Bacteria;Bacteria;Planctomycetota;OM190	Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	-1
+Bacteria;Bacteria;Planctomycetota;OM190	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	-1
+Bacteria;Bacteria;Planctomycetota;OM190	Bacteria;Bacteria;Nitrospirota;Nitrospiria	-1
+Bacteria;Bacteria;Planctomycetota;OM190	Bacteria;Bacteria;Planctomycetota;Pla3 lineage	-1
+Bacteria;Bacteria;Planctomycetota;Phycisphaerae	Archaea;Archaea;Thermoplasmatota;Thermoplasmata	-1
+Bacteria;Bacteria;Planctomycetota;Phycisphaerae	Bacteria;Bacteria;Acidobacteriota;FFCH5909	-1
+Bacteria;Bacteria;Planctomycetota;Phycisphaerae	Bacteria;Bacteria;Armatimonadota;Chthonomonadetes	-1
+Bacteria;Bacteria;Planctomycetota;Phycisphaerae	Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	-1
+Bacteria;Bacteria;Planctomycetota;Phycisphaerae	Bacteria;Bacteria;Chloroflexi;SHA-26	-1
+Bacteria;Bacteria;Planctomycetota;Phycisphaerae	Bacteria;Bacteria;Chloroflexi;TK10	-1
+Bacteria;Bacteria;Planctomycetota;Phycisphaerae	Bacteria;Bacteria;Deinococcota;Deinococci	-1
+Bacteria;Bacteria;Planctomycetota;Phycisphaerae	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	-1
+Bacteria;Bacteria;Planctomycetota;Phycisphaerae	Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	-1
+Bacteria;Bacteria;Planctomycetota;Phycisphaerae	Bacteria;Bacteria;Nitrospirota;Nitrospiria	-1
+Bacteria;Bacteria;Planctomycetota;Phycisphaerae	Bacteria;Bacteria;Patescibacteria;Microgenomatia	-1
+Bacteria;Bacteria;Planctomycetota;Phycisphaerae	Bacteria;Bacteria;Planctomycetota;Pla3 lineage	-1
+Bacteria;Bacteria;Planctomycetota;Planctomycetes	Bacteria;Bacteria;Acidobacteriota;Subgroup 11	-1
+Bacteria;Bacteria;Planctomycetota;Planctomycetes	Bacteria;Bacteria;Acidobacteriota;Subgroup 22	-1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Archaea;Archaea;Thermoplasmatota;Thermoplasmata	-1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Acidobacteriota;Vicinamibacteria	-1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Actinobacteriota;Thermoleophilia	-1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Armatimonadota;Chthonomonadetes	-1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	-1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Chloroflexi;SHA-26	-1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Chloroflexi;TK10	-1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Firmicutes;Negativicutes	-1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Gemmatimonadota;Gemmatimonadetes	-1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	-1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	-1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	-1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Nitrospirota;Nitrospiria	-1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Patescibacteria;Microgenomatia	-1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Planctomycetota;Pla3 lineage	-1
+Bacteria;Bacteria;Proteobacteria;Gammaproteobacteria	Bacteria;Bacteria;Fibrobacterota;Fibrobacteria	-1
+Bacteria;Bacteria;Verrucomicrobiota;Chlamydiae	Bacteria;Bacteria;Armatimonadota;Fimbriimonadia	-1
+Bacteria;Bacteria;Verrucomicrobiota;Chlamydiae	Bacteria;Bacteria;Chloroflexi;Anaerolineae	-1
+Bacteria;Bacteria;Verrucomicrobiota;Chlamydiae	Bacteria;Bacteria;Patescibacteria;Saccharimonadia	-1
+Bacteria;Bacteria;Verrucomicrobiota;Chlamydiae	Bacteria;Bacteria;Sumerlaeota;Sumerlaeia	-1
+Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	Bacteria;Bacteria;Bacteroidota;Kapabacteria	-1
+Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	Bacteria;Bacteria;Desulfobacterota;Desulfuromonadia	-1
+Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	Bacteria;Bacteria;Latescibacterota;Latescibacteria	-1
+Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	Bacteria;Bacteria;Nitrospirota;4-29-1	-1
+Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	Bacteria;Bacteria;Planctomycetota;BD7-11	-1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Archaea;Archaea;Thermoplasmatota;Thermoplasmata	-1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Acidobacteriota;Blastocatellia	-1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Acidobacteriota;FFCH5909	-1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Acidobacteriota;Subgroup 20	-1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Armatimonadota;Chthonomonadetes	-1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	-1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Chloroflexi;SHA-26	-1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Chloroflexi;TK10	-1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Deinococcota;Deinococci	-1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Firmicutes;Negativicutes	-1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	-1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	-1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	-1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Nitrospirota;Nitrospiria	-1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Patescibacteria;Microgenomatia	-1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Planctomycetota;Pla3 lineage	-1
+Archaea;Archaea;Crenarchaeota;Nitrososphaeria	Bacteria;Bacteria;Acidobacteriota;FFCH5909	1
+Archaea;Archaea;Crenarchaeota;Nitrososphaeria	Bacteria;Bacteria;Acidobacteriota;Subgroup 20	1
+Archaea;Archaea;Crenarchaeota;Nitrososphaeria	Bacteria;Bacteria;Acidobacteriota;Subgroup 25	1
+Archaea;Archaea;Crenarchaeota;Nitrososphaeria	Bacteria;Bacteria;Actinobacteriota;MB-A2-108	1
+Archaea;Archaea;Crenarchaeota;Nitrososphaeria	Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	1
+Archaea;Archaea;Crenarchaeota;Nitrososphaeria	Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	1
+Archaea;Archaea;Crenarchaeota;Nitrososphaeria	Bacteria;Bacteria;Chloroflexi;SHA-26	1
+Archaea;Archaea;Crenarchaeota;Nitrososphaeria	Bacteria;Bacteria;Chloroflexi;TK10	1
+Archaea;Archaea;Crenarchaeota;Nitrososphaeria	Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	1
+Archaea;Archaea;Crenarchaeota;Nitrososphaeria	Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	1
+Archaea;Archaea;Crenarchaeota;Nitrososphaeria	Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	1
+Archaea;Archaea;Crenarchaeota;Nitrososphaeria	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	1
+Archaea;Archaea;Crenarchaeota;Nitrososphaeria	Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	1
+Archaea;Archaea;Crenarchaeota;Nitrososphaeria	Bacteria;Bacteria;Myxococcota;bacteriap25	1
+Archaea;Archaea;Crenarchaeota;Nitrososphaeria	Bacteria;Bacteria;Nitrospirota;Nitrospiria	1
+Archaea;Archaea;Crenarchaeota;Nitrososphaeria	Bacteria;Bacteria;Patescibacteria;Microgenomatia	1
+Archaea;Archaea;Crenarchaeota;Nitrososphaeria	Bacteria;Bacteria;Planctomycetota;Pla3 lineage	1
+Archaea;Archaea;Crenarchaeota;Nitrososphaeria	Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	1
+Archaea;Archaea;Nanoarchaeota;Nanoarchaeia	Archaea;Archaea;Halobacterota;Methanosarcinia	1
+Archaea;Archaea;Nanoarchaeota;Nanoarchaeia	Bacteria;Bacteria;Acidobacteriota;Subgroup 19	1
+Archaea;Archaea;Thermoplasmatota;Thermoplasmata	Archaea;Archaea;Crenarchaeota;Nitrososphaeria	1
+Archaea;Archaea;Thermoplasmatota;Thermoplasmata	Bacteria;Bacteria;Acidobacteriota;Subgroup 25	1
+Archaea;Archaea;Thermoplasmatota;Thermoplasmata	Bacteria;Bacteria;Actinobacteriota;MB-A2-108	1
+Archaea;Archaea;Thermoplasmatota;Thermoplasmata	Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	1
+Archaea;Archaea;Thermoplasmatota;Thermoplasmata	Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	1
+Archaea;Archaea;Thermoplasmatota;Thermoplasmata	Bacteria;Bacteria;Chloroflexi;SHA-26	1
+Archaea;Archaea;Thermoplasmatota;Thermoplasmata	Bacteria;Bacteria;Chloroflexi;TK10	1
+Archaea;Archaea;Thermoplasmatota;Thermoplasmata	Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	1
+Archaea;Archaea;Thermoplasmatota;Thermoplasmata	Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	1
+Archaea;Archaea;Thermoplasmatota;Thermoplasmata	Bacteria;Bacteria;Firmicutes;Negativicutes	1
+Archaea;Archaea;Thermoplasmatota;Thermoplasmata	Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	1
+Archaea;Archaea;Thermoplasmatota;Thermoplasmata	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	1
+Archaea;Archaea;Thermoplasmatota;Thermoplasmata	Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	1
+Archaea;Archaea;Thermoplasmatota;Thermoplasmata	Bacteria;Bacteria;Myxococcota;bacteriap25	1
+Archaea;Archaea;Thermoplasmatota;Thermoplasmata	Bacteria;Bacteria;Nitrospirota;Nitrospiria	1
+Archaea;Archaea;Thermoplasmatota;Thermoplasmata	Bacteria;Bacteria;Planctomycetota;Pla3 lineage	1
+Archaea;Archaea;Thermoplasmatota;Thermoplasmata	Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	1
+Bacteria;Bacteria;Acidobacteriota;Acidobacteriae	Bacteria;Bacteria;Acidobacteriota;Subgroup 5	1
+Bacteria;Bacteria;Acidobacteriota;Acidobacteriae	Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	1
+Bacteria;Bacteria;Acidobacteriota;Acidobacteriae	Bacteria;Bacteria;Bacteroidota;Kapabacteria	1
+Bacteria;Bacteria;Acidobacteriota;Acidobacteriae	Bacteria;Bacteria;Chloroflexi;AD3	1
+Bacteria;Bacteria;Acidobacteriota;Acidobacteriae	Bacteria;Bacteria;Chloroflexi;Dehalococcoidia	1
+Bacteria;Bacteria;Acidobacteriota;Acidobacteriae	Bacteria;Bacteria;Chloroflexi;KD4-96	1
+Bacteria;Bacteria;Acidobacteriota;Acidobacteriae	Bacteria;Bacteria;Dependentiae;Babeliae	1
+Bacteria;Bacteria;Acidobacteriota;Acidobacteriae	Bacteria;Bacteria;Desulfobacterota;Desulfuromonadia	1
+Bacteria;Bacteria;Acidobacteriota;Acidobacteriae	Bacteria;Bacteria;Latescibacterota;Latescibacteria	1
+Bacteria;Bacteria;Acidobacteriota;Acidobacteriae	Bacteria;Bacteria;Myxococcota;Myxococcia	1
+Bacteria;Bacteria;Acidobacteriota;Acidobacteriae	Bacteria;Bacteria;Nitrospirota;4-29-1	1
+Bacteria;Bacteria;Acidobacteriota;Acidobacteriae	Bacteria;Bacteria;Planctomycetota;OM190	1
+Bacteria;Bacteria;Acidobacteriota;Acidobacteriae	Bacteria;Bacteria;Planctomycetota;Phycisphaerae	1
+Bacteria;Bacteria;Acidobacteriota;Acidobacteriae	Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	1
+Bacteria;Bacteria;Acidobacteriota;AT-s3-28	Archaea;Archaea;Halobacterota;Methanosarcinia	1
+Bacteria;Bacteria;Acidobacteriota;Blastocatellia	Archaea;Archaea;Thermoplasmatota;Thermoplasmata	1
+Bacteria;Bacteria;Acidobacteriota;Blastocatellia	Bacteria;Bacteria;Acidobacteriota;Holophagae	1
+Bacteria;Bacteria;Acidobacteriota;Blastocatellia	Bacteria;Bacteria;Acidobacteriota;Subgroup 11	1
+Bacteria;Bacteria;Acidobacteriota;Blastocatellia	Bacteria;Bacteria;Actinobacteriota;Actinobacteria	1
+Bacteria;Bacteria;Acidobacteriota;Blastocatellia	Bacteria;Bacteria;Armatimonadota;Chthonomonadetes	1
+Bacteria;Bacteria;Acidobacteriota;Blastocatellia	Bacteria;Bacteria;Chloroflexi;Anaerolineae	1
+Bacteria;Bacteria;Acidobacteriota;Blastocatellia	Bacteria;Bacteria;Chloroflexi;TK10	1
+Bacteria;Bacteria;Acidobacteriota;Blastocatellia	Bacteria;Bacteria;Firmicutes;Negativicutes	1
+Bacteria;Bacteria;Acidobacteriota;Blastocatellia	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	1
+Bacteria;Bacteria;Acidobacteriota;Blastocatellia	Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	1
+Bacteria;Bacteria;Acidobacteriota;Blastocatellia	Bacteria;Bacteria;Nitrospirota;Nitrospiria	1
+Bacteria;Bacteria;Acidobacteriota;Blastocatellia	Bacteria;Bacteria;Patescibacteria;Microgenomatia	1
+Bacteria;Bacteria;Acidobacteriota;Blastocatellia	Bacteria;Bacteria;Planctomycetota;Pla3 lineage	1
+Bacteria;Bacteria;Acidobacteriota;FFCH5909	Bacteria;Bacteria;Patescibacteria;Microgenomatia	1
+Bacteria;Bacteria;Acidobacteriota;Holophagae	Bacteria;Bacteria;Armatimonadota;Fimbriimonadia	1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 11	Bacteria;Bacteria;Patescibacteria;Microgenomatia	1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 18	Bacteria;Bacteria;Acidobacteriota;Thermoanaerobaculia	1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 18	Bacteria;Bacteria;Bdellovibrionota;Bdellovibrionia	1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 20	Bacteria;Bacteria;Abditibacteriota;Abditibacteria	1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 25	Bacteria;Bacteria;Chloroflexi;SHA-26	1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 25	Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 25	Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 25	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 25	Bacteria;Bacteria;Nitrospirota;Nitrospiria	1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Bacteria;Bacteria;Acidobacteriota;Subgroup 22	1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Bacteria;Bacteria;Bacteroidota;Kapabacteria	1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Bacteria;Bacteria;Chloroflexi;AD3	1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Bacteria;Bacteria;Dependentiae;Babeliae	1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Bacteria;Bacteria;Desulfobacterota;Desulfuromonadia	1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Bacteria;Bacteria;Latescibacterota;Latescibacteria	1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Bacteria;Bacteria;Myxococcota;Myxococcia	1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Bacteria;Bacteria;Nitrospirota;4-29-1	1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Bacteria;Bacteria;Planctomycetota;OM190	1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	1
+Bacteria;Bacteria;Acidobacteriota;Thermoanaerobaculia	Bacteria;Bacteria;Bdellovibrionota;Bdellovibrionia	1
+Bacteria;Bacteria;Acidobacteriota;Thermoanaerobaculia	Bacteria;Bacteria;Deinococcota;Deinococci	1
+Bacteria;Bacteria;Acidobacteriota;Vicinamibacteria	Archaea;Archaea;Crenarchaeota;Nitrososphaeria	1
+Bacteria;Bacteria;Acidobacteriota;Vicinamibacteria	Archaea;Archaea;Thermoplasmatota;Thermoplasmata	1
+Bacteria;Bacteria;Acidobacteriota;Vicinamibacteria	Bacteria;Bacteria;Acidobacteriota;Blastocatellia	1
+Bacteria;Bacteria;Acidobacteriota;Vicinamibacteria	Bacteria;Bacteria;Acidobacteriota;Subgroup 18	1
+Bacteria;Bacteria;Acidobacteriota;Vicinamibacteria	Bacteria;Bacteria;Acidobacteriota;Subgroup 25	1
+Bacteria;Bacteria;Acidobacteriota;Vicinamibacteria	Bacteria;Bacteria;Acidobacteriota;Thermoanaerobaculia	1
+Bacteria;Bacteria;Acidobacteriota;Vicinamibacteria	Bacteria;Bacteria;Actinobacteriota;Actinobacteria	1
+Bacteria;Bacteria;Acidobacteriota;Vicinamibacteria	Bacteria;Bacteria;Actinobacteriota;MB-A2-108	1
+Bacteria;Bacteria;Acidobacteriota;Vicinamibacteria	Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	1
+Bacteria;Bacteria;Acidobacteriota;Vicinamibacteria	Bacteria;Bacteria;Actinobacteriota;Thermoleophilia	1
+Bacteria;Bacteria;Acidobacteriota;Vicinamibacteria	Bacteria;Bacteria;Armatimonadota;Armatimonadia	1
+Bacteria;Bacteria;Acidobacteriota;Vicinamibacteria	Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	1
+Bacteria;Bacteria;Acidobacteriota;Vicinamibacteria	Bacteria;Bacteria;Chloroflexi;SHA-26	1
+Bacteria;Bacteria;Acidobacteriota;Vicinamibacteria	Bacteria;Bacteria;Chloroflexi;TK10	1
+Bacteria;Bacteria;Acidobacteriota;Vicinamibacteria	Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	1
+Bacteria;Bacteria;Acidobacteriota;Vicinamibacteria	Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	1
+Bacteria;Bacteria;Acidobacteriota;Vicinamibacteria	Bacteria;Bacteria;Firmicutes;Bacilli	1
+Bacteria;Bacteria;Acidobacteriota;Vicinamibacteria	Bacteria;Bacteria;Gemmatimonadota;Gemmatimonadetes	1
+Bacteria;Bacteria;Acidobacteriota;Vicinamibacteria	Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	1
+Bacteria;Bacteria;Acidobacteriota;Vicinamibacteria	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	1
+Bacteria;Bacteria;Acidobacteriota;Vicinamibacteria	Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	1
+Bacteria;Bacteria;Acidobacteriota;Vicinamibacteria	Bacteria;Bacteria;Myxococcota;bacteriap25	1
+Bacteria;Bacteria;Acidobacteriota;Vicinamibacteria	Bacteria;Bacteria;Myxococcota;Polyangia	1
+Bacteria;Bacteria;Acidobacteriota;Vicinamibacteria	Bacteria;Bacteria;Nitrospirota;Nitrospiria	1
+Bacteria;Bacteria;Acidobacteriota;Vicinamibacteria	Bacteria;Bacteria;Planctomycetota;Pla3 lineage	1
+Bacteria;Bacteria;Acidobacteriota;Vicinamibacteria	Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	1
+Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	Bacteria;Bacteria;Bacteroidota;Kapabacteria	1
+Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	Bacteria;Bacteria;Chloroflexi;AD3	1
+Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	Bacteria;Bacteria;Chloroflexi;Dehalococcoidia	1
+Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	Bacteria;Bacteria;Dependentiae;Babeliae	1
+Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	Bacteria;Bacteria;Desulfobacterota;Desulfuromonadia	1
+Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	Bacteria;Bacteria;Firmicutes;Desulfitobacteriia	1
+Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	Bacteria;Bacteria;Latescibacterota;Latescibacteria	1
+Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	Bacteria;Bacteria;Myxococcota;Myxococcia	1
+Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	Bacteria;Bacteria;Nitrospirota;4-29-1	1
+Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	Bacteria;Bacteria;Planctomycetota;OM190	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Archaea;Archaea;Crenarchaeota;Nitrososphaeria	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Archaea;Archaea;Thermoplasmatota;Thermoplasmata	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Acidobacteriota;FFCH5909	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Acidobacteriota;Subgroup 25	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Actinobacteriota;MB-A2-108	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Armatimonadota;Chthonomonadetes	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Chloroflexi;SHA-26	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Chloroflexi;TK10	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Firmicutes;Bacilli	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Firmicutes;Negativicutes	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Myxococcota;bacteriap25	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Nitrospirota;Nitrospiria	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Patescibacteria;Microgenomatia	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Planctomycetota;Pla3 lineage	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	1
+Bacteria;Bacteria;Actinobacteriota;Coriobacteriia	Bacteria;Bacteria;Firmicutes;Limnochordia	1
+Bacteria;Bacteria;Actinobacteriota;Coriobacteriia	Bacteria;Bacteria;Firmicutes;Symbiobacteriia	1
+Bacteria;Bacteria;Actinobacteriota;MB-A2-108	Bacteria;Bacteria;Acidobacteriota;FFCH5909	1
+Bacteria;Bacteria;Actinobacteriota;MB-A2-108	Bacteria;Bacteria;Acidobacteriota;Subgroup 25	1
+Bacteria;Bacteria;Actinobacteriota;MB-A2-108	Bacteria;Bacteria;Chloroflexi;SHA-26	1
+Bacteria;Bacteria;Actinobacteriota;MB-A2-108	Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	1
+Bacteria;Bacteria;Actinobacteriota;MB-A2-108	Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	1
+Bacteria;Bacteria;Actinobacteriota;MB-A2-108	Bacteria;Bacteria;Deinococcota;Deinococci	1
+Bacteria;Bacteria;Actinobacteriota;MB-A2-108	Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	1
+Bacteria;Bacteria;Actinobacteriota;MB-A2-108	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	1
+Bacteria;Bacteria;Actinobacteriota;MB-A2-108	Bacteria;Bacteria;Nitrospirota;Nitrospiria	1
+Bacteria;Bacteria;Actinobacteriota;MB-A2-108	Bacteria;Bacteria;Patescibacteria;Microgenomatia	1
+Bacteria;Bacteria;Actinobacteriota;MB-A2-108	Bacteria;Bacteria;Planctomycetota;Pla3 lineage	1
+Bacteria;Bacteria;Actinobacteriota;MB-A2-108	Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Acidobacteriota;FFCH5909	1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Acidobacteriota;Subgroup 25	1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Acidobacteriota;Thermoanaerobaculia	1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Actinobacteriota;MB-A2-108	1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Chloroflexi;SHA-26	1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Myxococcota;bacteriap25	1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Nitrospirota;Nitrospiria	1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Planctomycetota;Pla3 lineage	1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	1
+Bacteria;Bacteria;Actinobacteriota;Thermoleophilia	Bacteria;Bacteria;Armatimonadota;Armatimonadia	1
+Bacteria;Bacteria;Actinobacteriota;Thermoleophilia	Bacteria;Bacteria;Bdellovibrionota;Oligoflexia	1
+Bacteria;Bacteria;Armatimonadota;Armatimonadia	Bacteria;Bacteria;Acidobacteriota;Subgroup 18	1
+Bacteria;Bacteria;Armatimonadota;Armatimonadia	Bacteria;Bacteria;Acidobacteriota;Thermoanaerobaculia	1
+Bacteria;Bacteria;Armatimonadota;Armatimonadia	Bacteria;Bacteria;Bdellovibrionota;Bdellovibrionia	1
+Bacteria;Bacteria;Armatimonadota;Chthonomonadetes	Bacteria;Bacteria;Acidobacteriota;AT-s3-28	1
+Bacteria;Bacteria;Armatimonadota;Chthonomonadetes	Bacteria;Bacteria;Acidobacteriota;Holophagae	1
+Bacteria;Bacteria;Armatimonadota;Chthonomonadetes	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	1
+Bacteria;Bacteria;Armatimonadota;Chthonomonadetes	Bacteria;Bacteria;Patescibacteria;Microgenomatia	1
+Bacteria;Bacteria;Bacteroidota;Bacteroidia	Bacteria;Bacteria;Acidobacteriota;Acidobacteriae	1
+Bacteria;Bacteria;Bacteroidota;Bacteroidia	Bacteria;Bacteria;Acidobacteriota;Subgroup 5	1
+Bacteria;Bacteria;Bacteroidota;Bacteroidia	Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	1
+Bacteria;Bacteria;Bacteroidota;Bacteroidia	Bacteria;Bacteria;Bacteroidota;Kapabacteria	1
+Bacteria;Bacteria;Bacteroidota;Bacteroidia	Bacteria;Bacteria;Chloroflexi;AD3	1
+Bacteria;Bacteria;Bacteroidota;Bacteroidia	Bacteria;Bacteria;Chloroflexi;Gitt-GS-136	1
+Bacteria;Bacteria;Bacteroidota;Bacteroidia	Bacteria;Bacteria;Entotheonellaeota;Entotheonellia	1
+Bacteria;Bacteria;Bacteroidota;Bacteroidia	Bacteria;Bacteria;Latescibacterota;Latescibacteria	1
+Bacteria;Bacteria;Bacteroidota;Bacteroidia	Bacteria;Bacteria;Planctomycetota;Phycisphaerae	1
+Bacteria;Bacteria;Bacteroidota;Bacteroidia	Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	1
+Bacteria;Bacteria;Bacteroidota;Bacteroidia	Bacteria;Bacteria;Proteobacteria;Gammaproteobacteria	1
+Bacteria;Bacteria;Bacteroidota;Kapabacteria	Bacteria;Bacteria;Bacteroidota;Kryptonia	1
+Bacteria;Bacteria;Bacteroidota;Kapabacteria	Bacteria;Bacteria;Desulfobacterota;Desulfuromonadia	1
+Bacteria;Bacteria;Bacteroidota;Kapabacteria	Bacteria;Bacteria;Latescibacterota;Latescibacteria	1
+Bacteria;Bacteria;Bacteroidota;Kryptonia	Bacteria;Bacteria;Acidobacteriota;AT-s3-28	1
+Bacteria;Bacteria;Bdellovibrionota;Oligoflexia	Bacteria;Bacteria;Bdellovibrionota;Bdellovibrionia	1
+Bacteria;Bacteria;Chloroflexi;AD3	Bacteria;Bacteria;Bacteroidota;Kapabacteria	1
+Bacteria;Bacteria;Chloroflexi;AD3	Bacteria;Bacteria;Bacteroidota;Kryptonia	1
+Bacteria;Bacteria;Chloroflexi;AD3	Bacteria;Bacteria;Chloroflexi;Dehalococcoidia	1
+Bacteria;Bacteria;Chloroflexi;AD3	Bacteria;Bacteria;Desulfobacterota;Desulfuromonadia	1
+Bacteria;Bacteria;Chloroflexi;AD3	Bacteria;Bacteria;Latescibacterota;Latescibacteria	1
+Bacteria;Bacteria;Chloroflexi;AD3	Bacteria;Bacteria;Nitrospirota;4-29-1	1
+Bacteria;Bacteria;Chloroflexi;Anaerolineae	Bacteria;Bacteria;Acidobacteriota;AT-s3-28	1
+Bacteria;Bacteria;Chloroflexi;Anaerolineae	Bacteria;Bacteria;Armatimonadota;Chthonomonadetes	1
+Bacteria;Bacteria;Chloroflexi;Anaerolineae	Bacteria;Bacteria;Armatimonadota;Fimbriimonadia	1
+Bacteria;Bacteria;Chloroflexi;Anaerolineae	Bacteria;Bacteria;Chloroflexi;OLB14	1
+Bacteria;Bacteria;Chloroflexi;Anaerolineae	Bacteria;Bacteria;Firmicutes;Negativicutes	1
+Bacteria;Bacteria;Chloroflexi;Anaerolineae	Bacteria;Bacteria;Hydrogenedentes;Hydrogenedentia	1
+Bacteria;Bacteria;Chloroflexi;Anaerolineae	Bacteria;Bacteria;Patescibacteria;Berkelbacteria	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Archaea;Archaea;Crenarchaeota;Nitrososphaeria	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Archaea;Archaea;Thermoplasmatota;Thermoplasmata	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Acidobacteriota;Blastocatellia	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Acidobacteriota;Subgroup 25	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Acidobacteriota;Vicinamibacteria	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Actinobacteriota;Actinobacteria	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Actinobacteriota;MB-A2-108	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Armatimonadota;Chthonomonadetes	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Chloroflexi;Anaerolineae	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Chloroflexi;SHA-26	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Chloroflexi;TK10	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Firmicutes;Negativicutes	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Gemmatimonadota;Gemmatimonadetes	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Myxococcota;bacteriap25	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Nitrospirota;Leptospirillia	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Nitrospirota;Nitrospiria	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Planctomycetota;Pla3 lineage	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	1
+Bacteria;Bacteria;Chloroflexi;Dehalococcoidia	Bacteria;Bacteria;Patescibacteria;Berkelbacteria	1
+Bacteria;Bacteria;Chloroflexi;Gitt-GS-136	Bacteria;Bacteria;Acidobacteriota;Subgroup 22	1
+Bacteria;Bacteria;Chloroflexi;Gitt-GS-136	Bacteria;Bacteria;Latescibacterota;Latescibacteria	1
+Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	Bacteria;Bacteria;Acidobacteriota;Subgroup 25	1
+Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	Bacteria;Bacteria;Actinobacteriota;MB-A2-108	1
+Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	Bacteria;Bacteria;Armatimonadota;Chthonomonadetes	1
+Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	Bacteria;Bacteria;Chloroflexi;SHA-26	1
+Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	1
+Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	1
+Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	1
+Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	1
+Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	Bacteria;Bacteria;Nitrospirota;Nitrospiria	1
+Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	Bacteria;Bacteria;Patescibacteria;Microgenomatia	1
+Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	Bacteria;Bacteria;Planctomycetota;Pla3 lineage	1
+Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	1
+Bacteria;Bacteria;Chloroflexi;KD4-96	Bacteria;Bacteria;Bdellovibrionota;Oligoflexia	1
+Bacteria;Bacteria;Chloroflexi;KD4-96	Bacteria;Bacteria;Chloroflexi;Dehalococcoidia	1
+Bacteria;Bacteria;Chloroflexi;KD4-96	Bacteria;Bacteria;Dependentiae;Babeliae	1
+Bacteria;Bacteria;Chloroflexi;KD4-96	Bacteria;Bacteria;Desulfobacterota;Desulfuromonadia	1
+Bacteria;Bacteria;Chloroflexi;KD4-96	Bacteria;Bacteria;Fibrobacterota;Fibrobacteria	1
+Bacteria;Bacteria;Chloroflexi;KD4-96	Bacteria;Bacteria;Firmicutes;Desulfitobacteriia	1
+Bacteria;Bacteria;Chloroflexi;KD4-96	Bacteria;Bacteria;Myxococcota;Myxococcia	1
+Bacteria;Bacteria;Chloroflexi;KD4-96	Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Chloroflexi;KD4-96	1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Dependentiae;Babeliae	1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Desulfobacterota;Desulfuromonadia	1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Firmicutes;Desulfitobacteriia	1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Myxococcota;Myxococcia	1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Nitrospirota;4-29-1	1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Planctomycetota;OM190	1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	1
+Bacteria;Bacteria;Chloroflexi;OLB14	Bacteria;Bacteria;Acidobacteriota;AT-s3-28	1
+Bacteria;Bacteria;Chloroflexi;TK10	Bacteria;Bacteria;Acidobacteriota;FFCH5909	1
+Bacteria;Bacteria;Chloroflexi;TK10	Bacteria;Bacteria;Acidobacteriota;Subgroup 25	1
+Bacteria;Bacteria;Chloroflexi;TK10	Bacteria;Bacteria;Actinobacteriota;MB-A2-108	1
+Bacteria;Bacteria;Chloroflexi;TK10	Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	1
+Bacteria;Bacteria;Chloroflexi;TK10	Bacteria;Bacteria;Armatimonadota;Chthonomonadetes	1
+Bacteria;Bacteria;Chloroflexi;TK10	Bacteria;Bacteria;Chloroflexi;Anaerolineae	1
+Bacteria;Bacteria;Chloroflexi;TK10	Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	1
+Bacteria;Bacteria;Chloroflexi;TK10	Bacteria;Bacteria;Chloroflexi;SHA-26	1
+Bacteria;Bacteria;Chloroflexi;TK10	Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	1
+Bacteria;Bacteria;Chloroflexi;TK10	Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	1
+Bacteria;Bacteria;Chloroflexi;TK10	Bacteria;Bacteria;Firmicutes;Negativicutes	1
+Bacteria;Bacteria;Chloroflexi;TK10	Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	1
+Bacteria;Bacteria;Chloroflexi;TK10	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	1
+Bacteria;Bacteria;Chloroflexi;TK10	Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	1
+Bacteria;Bacteria;Chloroflexi;TK10	Bacteria;Bacteria;Myxococcota;bacteriap25	1
+Bacteria;Bacteria;Chloroflexi;TK10	Bacteria;Bacteria;Nitrospirota;Nitrospiria	1
+Bacteria;Bacteria;Chloroflexi;TK10	Bacteria;Bacteria;Patescibacteria;Microgenomatia	1
+Bacteria;Bacteria;Chloroflexi;TK10	Bacteria;Bacteria;Planctomycetota;Pla3 lineage	1
+Bacteria;Bacteria;Chloroflexi;TK10	Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	1
+Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	Bacteria;Bacteria;Chloroflexi;SHA-26	1
+Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	1
+Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	Bacteria;Bacteria;Acidobacteriota;FFCH5909	1
+Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	Bacteria;Bacteria;Acidobacteriota;Subgroup 25	1
+Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	Bacteria;Bacteria;Chloroflexi;SHA-26	1
+Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	1
+Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	1
+Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	1
+Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	Bacteria;Bacteria;Nitrospirota;Nitrospiria	1
+Bacteria;Bacteria;Deinococcota;Deinococci	Bacteria;Bacteria;Acidobacteriota;Subgroup 19	1
+Bacteria;Bacteria;Dependentiae;Babeliae	Bacteria;Bacteria;Bacteroidota;Kryptonia	1
+Bacteria;Bacteria;Dependentiae;Babeliae	Bacteria;Bacteria;Chloroflexi;Dehalococcoidia	1
+Bacteria;Bacteria;Dependentiae;Babeliae	Bacteria;Bacteria;Desulfobacterota;Desulfuromonadia	1
+Bacteria;Bacteria;Dependentiae;Babeliae	Bacteria;Bacteria;Nitrospirota;4-29-1	1
+Bacteria;Bacteria;Dependentiae;Babeliae	Bacteria;Bacteria;Planctomycetota;OM190	1
+Bacteria;Bacteria;Desulfobacterota;Desulfuromonadia	Bacteria;Bacteria;Nitrospirota;4-29-1	1
+Bacteria;Bacteria;Elusimicrobiota;Elusimicrobia	Archaea;Archaea;Nanoarchaeota;Nanoarchaeia	1
+Bacteria;Bacteria;Elusimicrobiota;Lineage IIa	Archaea;Archaea;Halobacterota;Methanosarcinia	1
+Bacteria;Bacteria;Elusimicrobiota;Lineage IIa	Bacteria;Bacteria;Hydrogenedentes;Hydrogenedentia	1
+Bacteria;Bacteria;Entotheonellaeota;Entotheonellia	Bacteria;Bacteria;Acidobacteriota;Subgroup 22	1
+Bacteria;Bacteria;Entotheonellaeota;Entotheonellia	Bacteria;Bacteria;Acidobacteriota;Subgroup 5	1
+Bacteria;Bacteria;Entotheonellaeota;Entotheonellia	Bacteria;Bacteria;Chloroflexi;Dehalococcoidia	1
+Bacteria;Bacteria;Entotheonellaeota;Entotheonellia	Bacteria;Bacteria;Chloroflexi;Gitt-GS-136	1
+Bacteria;Bacteria;Entotheonellaeota;Entotheonellia	Bacteria;Bacteria;Latescibacterota;Latescibacteria	1
+Bacteria;Bacteria;Firmicutes;Bacilli	Bacteria;Bacteria;Acidobacteriota;Subgroup 18	1
+Bacteria;Bacteria;Firmicutes;Bacilli	Bacteria;Bacteria;Acidobacteriota;Thermoanaerobaculia	1
+Bacteria;Bacteria;Firmicutes;Bacilli	Bacteria;Bacteria;Armatimonadota;Armatimonadia	1
+Bacteria;Bacteria;Firmicutes;Bacilli	Bacteria;Bacteria;Bdellovibrionota;Bdellovibrionia	1
+Bacteria;Bacteria;Firmicutes;Clostridia	Bacteria;Bacteria;Acidobacteriota;FFCH5909	1
+Bacteria;Bacteria;Firmicutes;Clostridia	Bacteria;Bacteria;Actinobacteriota;Coriobacteriia	1
+Bacteria;Bacteria;Firmicutes;Clostridia	Bacteria;Bacteria;Firmicutes;Limnochordia	1
+Bacteria;Bacteria;Firmicutes;Clostridia	Bacteria;Bacteria;Firmicutes;Symbiobacteriia	1
+Bacteria;Bacteria;Firmicutes;Desulfitobacteriia	Bacteria;Bacteria;Dependentiae;Babeliae	1
+Bacteria;Bacteria;Firmicutes;Desulfitobacteriia	Bacteria;Bacteria;Desulfobacterota;Desulfuromonadia	1
+Bacteria;Bacteria;Firmicutes;Desulfitobacteriia	Bacteria;Bacteria;Nitrospirota;4-29-1	1
+Bacteria;Bacteria;Firmicutes;Desulfitobacteriia	Bacteria;Bacteria;Planctomycetota;OM190	1
+Bacteria;Bacteria;Firmicutes;Negativicutes	Bacteria;Bacteria;Acidobacteriota;Subgroup 11	1
+Bacteria;Bacteria;Firmicutes;Negativicutes	Bacteria;Bacteria;Armatimonadota;Chthonomonadetes	1
+Bacteria;Bacteria;Firmicutes;Negativicutes	Bacteria;Bacteria;Chloroflexi;SHA-26	1
+Bacteria;Bacteria;Firmicutes;Negativicutes	Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	1
+Bacteria;Bacteria;Firmicutes;Negativicutes	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	1
+Bacteria;Bacteria;Firmicutes;Negativicutes	Bacteria;Bacteria;Planctomycetota;Pla3 lineage	1
+Bacteria;Bacteria;Gemmatimonadota;Gemmatimonadetes	Archaea;Archaea;Crenarchaeota;Nitrososphaeria	1
+Bacteria;Bacteria;Gemmatimonadota;Gemmatimonadetes	Archaea;Archaea;Thermoplasmatota;Thermoplasmata	1
+Bacteria;Bacteria;Gemmatimonadota;Gemmatimonadetes	Bacteria;Bacteria;Acidobacteriota;Blastocatellia	1
+Bacteria;Bacteria;Gemmatimonadota;Gemmatimonadetes	Bacteria;Bacteria;Acidobacteriota;Holophagae	1
+Bacteria;Bacteria;Gemmatimonadota;Gemmatimonadetes	Bacteria;Bacteria;Acidobacteriota;Subgroup 11	1
+Bacteria;Bacteria;Gemmatimonadota;Gemmatimonadetes	Bacteria;Bacteria;Acidobacteriota;Subgroup 25	1
+Bacteria;Bacteria;Gemmatimonadota;Gemmatimonadetes	Bacteria;Bacteria;Actinobacteriota;Actinobacteria	1
+Bacteria;Bacteria;Gemmatimonadota;Gemmatimonadetes	Bacteria;Bacteria;Actinobacteriota;MB-A2-108	1
+Bacteria;Bacteria;Gemmatimonadota;Gemmatimonadetes	Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	1
+Bacteria;Bacteria;Gemmatimonadota;Gemmatimonadetes	Bacteria;Bacteria;Armatimonadota;Chthonomonadetes	1
+Bacteria;Bacteria;Gemmatimonadota;Gemmatimonadetes	Bacteria;Bacteria;Chloroflexi;Anaerolineae	1
+Bacteria;Bacteria;Gemmatimonadota;Gemmatimonadetes	Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	1
+Bacteria;Bacteria;Gemmatimonadota;Gemmatimonadetes	Bacteria;Bacteria;Chloroflexi;SHA-26	1
+Bacteria;Bacteria;Gemmatimonadota;Gemmatimonadetes	Bacteria;Bacteria;Chloroflexi;TK10	1
+Bacteria;Bacteria;Gemmatimonadota;Gemmatimonadetes	Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	1
+Bacteria;Bacteria;Gemmatimonadota;Gemmatimonadetes	Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	1
+Bacteria;Bacteria;Gemmatimonadota;Gemmatimonadetes	Bacteria;Bacteria;Firmicutes;Negativicutes	1
+Bacteria;Bacteria;Gemmatimonadota;Gemmatimonadetes	Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	1
+Bacteria;Bacteria;Gemmatimonadota;Gemmatimonadetes	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	1
+Bacteria;Bacteria;Gemmatimonadota;Gemmatimonadetes	Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	1
+Bacteria;Bacteria;Gemmatimonadota;Gemmatimonadetes	Bacteria;Bacteria;Myxococcota;bacteriap25	1
+Bacteria;Bacteria;Gemmatimonadota;Gemmatimonadetes	Bacteria;Bacteria;Nitrospirota;Nitrospiria	1
+Bacteria;Bacteria;Gemmatimonadota;Gemmatimonadetes	Bacteria;Bacteria;Planctomycetota;Pla3 lineage	1
+Bacteria;Bacteria;Gemmatimonadota;Gemmatimonadetes	Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	1
+Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	Bacteria;Bacteria;Chloroflexi;SHA-26	1
+Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	1
+Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	1
+Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	Bacteria;Bacteria;Nitrospirota;Nitrospiria	1
+Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	Bacteria;Bacteria;Chloroflexi;SHA-26	1
+Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	Bacteria;Bacteria;Deinococcota;Deinococci	1
+Bacteria;Bacteria;Hydrogenedentes;Hydrogenedentia	Archaea;Archaea;Halobacterota;Methanosarcinia	1
+Bacteria;Bacteria;Hydrogenedentes;Hydrogenedentia	Bacteria;Bacteria;Acidobacteriota;Subgroup 19	1
+Bacteria;Bacteria;Latescibacterota;Latescibacteria	Archaea;Archaea;Halobacterota;Methanosarcinia	1
+Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	Bacteria;Bacteria;Acidobacteriota;Subgroup 25	1
+Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	Bacteria;Bacteria;Actinobacteriota;MB-A2-108	1
+Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	Bacteria;Bacteria;Armatimonadota;Chthonomonadetes	1
+Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	Bacteria;Bacteria;Chloroflexi;Anaerolineae	1
+Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	1
+Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	Bacteria;Bacteria;Chloroflexi;SHA-26	1
+Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	1
+Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	1
+Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	Bacteria;Bacteria;Firmicutes;Negativicutes	1
+Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	1
+Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	1
+Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	Bacteria;Bacteria;Nitrospirota;Nitrospiria	1
+Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	Bacteria;Bacteria;Patescibacteria;Microgenomatia	1
+Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	Bacteria;Bacteria;Planctomycetota;Pla3 lineage	1
+Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	1
+Bacteria;Bacteria;Myxococcota;bacteriap25	Bacteria;Bacteria;Acidobacteriota;Subgroup 25	1
+Bacteria;Bacteria;Myxococcota;bacteriap25	Bacteria;Bacteria;Actinobacteriota;MB-A2-108	1
+Bacteria;Bacteria;Myxococcota;bacteriap25	Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	1
+Bacteria;Bacteria;Myxococcota;bacteriap25	Bacteria;Bacteria;Chloroflexi;SHA-26	1
+Bacteria;Bacteria;Myxococcota;bacteriap25	Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	1
+Bacteria;Bacteria;Myxococcota;bacteriap25	Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	1
+Bacteria;Bacteria;Myxococcota;bacteriap25	Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	1
+Bacteria;Bacteria;Myxococcota;bacteriap25	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	1
+Bacteria;Bacteria;Myxococcota;bacteriap25	Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	1
+Bacteria;Bacteria;Myxococcota;bacteriap25	Bacteria;Bacteria;Nitrospirota;Nitrospiria	1
+Bacteria;Bacteria;Myxococcota;bacteriap25	Bacteria;Bacteria;Patescibacteria;Microgenomatia	1
+Bacteria;Bacteria;Myxococcota;bacteriap25	Bacteria;Bacteria;Planctomycetota;Pla3 lineage	1
+Bacteria;Bacteria;Myxococcota;bacteriap25	Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	1
+Bacteria;Bacteria;Myxococcota;Myxococcia	Bacteria;Bacteria;Cyanobacteria;Vampirivibrionia	1
+Bacteria;Bacteria;Myxococcota;Myxococcia	Bacteria;Bacteria;Dependentiae;Babeliae	1
+Bacteria;Bacteria;Myxococcota;Myxococcia	Bacteria;Bacteria;Desulfobacterota;Desulfuromonadia	1
+Bacteria;Bacteria;Myxococcota;Myxococcia	Bacteria;Bacteria;Firmicutes;Desulfitobacteriia	1
+Bacteria;Bacteria;Myxococcota;Myxococcia	Bacteria;Bacteria;Nitrospirota;4-29-1	1
+Bacteria;Bacteria;Myxococcota;Myxococcia	Bacteria;Bacteria;Planctomycetota;OM190	1
+Bacteria;Bacteria;Myxococcota;Polyangia	Bacteria;Bacteria;Acidobacteriota;Subgroup 18	1
+Bacteria;Bacteria;Myxococcota;Polyangia	Bacteria;Bacteria;Acidobacteriota;Thermoanaerobaculia	1
+Bacteria;Bacteria;Myxococcota;Polyangia	Bacteria;Bacteria;Armatimonadota;Armatimonadia	1
+Bacteria;Bacteria;Myxococcota;Polyangia	Bacteria;Bacteria;Firmicutes;Bacilli	1
+Bacteria;Bacteria;Nitrospirota;Leptospirillia	Bacteria;Bacteria;Abditibacteriota;Abditibacteria	1
+Bacteria;Bacteria;Nitrospirota;Leptospirillia	Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	1
+Bacteria;Bacteria;Nitrospirota;Leptospirillia	Bacteria;Bacteria;Firmicutes;Negativicutes	1
+Bacteria;Bacteria;Nitrospirota;Leptospirillia	Bacteria;Bacteria;Planctomycetota;Pla3 lineage	1
+Bacteria;Bacteria;Nitrospirota;Nitrospiria	Bacteria;Bacteria;Chloroflexi;SHA-26	1
+Bacteria;Bacteria;Nitrospirota;Nitrospiria	Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	1
+Bacteria;Bacteria;Nitrospirota;Nitrospiria	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	1
+Bacteria;Bacteria;Patescibacteria;Berkelbacteria	Archaea;Archaea;Halobacterota;Methanosarcinia	1
+Bacteria;Bacteria;Patescibacteria;Berkelbacteria	Bacteria;Bacteria;Sumerlaeota;Sumerlaeia	1
+Bacteria;Bacteria;Patescibacteria;Saccharimonadia	Archaea;Archaea;Nanoarchaeota;Nanoarchaeia	1
+Bacteria;Bacteria;Patescibacteria;Saccharimonadia	Bacteria;Bacteria;Acidobacteriota;AT-s3-28	1
+Bacteria;Bacteria;Patescibacteria;Saccharimonadia	Bacteria;Bacteria;Armatimonadota;Fimbriimonadia	1
+Bacteria;Bacteria;Patescibacteria;Saccharimonadia	Bacteria;Bacteria;Chloroflexi;OLB14	1
+Bacteria;Bacteria;Planctomycetota;BD7-11	Bacteria;Bacteria;Bacteroidota;Ignavibacteria	1
+Bacteria;Bacteria;Planctomycetota;OM190	Bacteria;Bacteria;Desulfobacterota;Desulfuromonadia	1
+Bacteria;Bacteria;Planctomycetota;OM190	Bacteria;Bacteria;Nitrospirota;4-29-1	1
+Bacteria;Bacteria;Planctomycetota;Phycisphaerae	Bacteria;Bacteria;Acidobacteriota;Subgroup 5	1
+Bacteria;Bacteria;Planctomycetota;Phycisphaerae	Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	1
+Bacteria;Bacteria;Planctomycetota;Phycisphaerae	Bacteria;Bacteria;Bacteroidota;Kapabacteria	1
+Bacteria;Bacteria;Planctomycetota;Phycisphaerae	Bacteria;Bacteria;Chloroflexi;AD3	1
+Bacteria;Bacteria;Planctomycetota;Phycisphaerae	Bacteria;Bacteria;Chloroflexi;Dehalococcoidia	1
+Bacteria;Bacteria;Planctomycetota;Phycisphaerae	Bacteria;Bacteria;Dependentiae;Babeliae	1
+Bacteria;Bacteria;Planctomycetota;Phycisphaerae	Bacteria;Bacteria;Desulfobacterota;Desulfuromonadia	1
+Bacteria;Bacteria;Planctomycetota;Phycisphaerae	Bacteria;Bacteria;Firmicutes;Desulfitobacteriia	1
+Bacteria;Bacteria;Planctomycetota;Phycisphaerae	Bacteria;Bacteria;Latescibacterota;Latescibacteria	1
+Bacteria;Bacteria;Planctomycetota;Phycisphaerae	Bacteria;Bacteria;Myxococcota;Myxococcia	1
+Bacteria;Bacteria;Planctomycetota;Phycisphaerae	Bacteria;Bacteria;Nitrospirota;4-29-1	1
+Bacteria;Bacteria;Planctomycetota;Phycisphaerae	Bacteria;Bacteria;Planctomycetota;OM190	1
+Bacteria;Bacteria;Planctomycetota;Phycisphaerae	Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	1
+Bacteria;Bacteria;Planctomycetota;Pla3 lineage	Bacteria;Bacteria;Acidobacteriota;FFCH5909	1
+Bacteria;Bacteria;Planctomycetota;Pla3 lineage	Bacteria;Bacteria;Acidobacteriota;Subgroup 25	1
+Bacteria;Bacteria;Planctomycetota;Pla3 lineage	Bacteria;Bacteria;Armatimonadota;Chthonomonadetes	1
+Bacteria;Bacteria;Planctomycetota;Pla3 lineage	Bacteria;Bacteria;Chloroflexi;SHA-26	1
+Bacteria;Bacteria;Planctomycetota;Pla3 lineage	Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	1
+Bacteria;Bacteria;Planctomycetota;Pla3 lineage	Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	1
+Bacteria;Bacteria;Planctomycetota;Pla3 lineage	Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	1
+Bacteria;Bacteria;Planctomycetota;Pla3 lineage	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	1
+Bacteria;Bacteria;Planctomycetota;Pla3 lineage	Bacteria;Bacteria;Nitrospirota;Nitrospiria	1
+Bacteria;Bacteria;Planctomycetota;Pla3 lineage	Bacteria;Bacteria;Patescibacteria;Microgenomatia	1
+Bacteria;Bacteria;Planctomycetota;Pla3 lineage	Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	1
+Bacteria;Bacteria;Planctomycetota;Planctomycetes	Bacteria;Bacteria;Bacteroidota;Ignavibacteria	1
+Bacteria;Bacteria;Planctomycetota;Planctomycetes	Bacteria;Bacteria;Elusimicrobiota;Elusimicrobia	1
+Bacteria;Bacteria;Planctomycetota;Planctomycetes	Bacteria;Bacteria;Planctomycetota;BD7-11	1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Acidobacteriota;Acidobacteriae	1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Acidobacteriota;Subgroup 5	1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Bacteroidota;Kapabacteria	1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Bacteroidota;Kryptonia	1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Chloroflexi;AD3	1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Chloroflexi;Dehalococcoidia	1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Chloroflexi;KD4-96	1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Cyanobacteria;Vampirivibrionia	1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Dependentiae;Babeliae	1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Desulfobacterota;Desulfuromonadia	1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Firmicutes;Desulfitobacteriia	1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Latescibacterota;Latescibacteria	1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Myxococcota;Myxococcia	1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Nitrospirota;4-29-1	1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Planctomycetota;OM190	1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Planctomycetota;Phycisphaerae	1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	1
+Bacteria;Bacteria;Proteobacteria;Gammaproteobacteria	Bacteria;Bacteria;Bacteroidota;Kryptonia	1
+Bacteria;Bacteria;Proteobacteria;Gammaproteobacteria	Bacteria;Bacteria;Patescibacteria;Berkelbacteria	1
+Bacteria;Bacteria;Proteobacteria;Gammaproteobacteria	Bacteria;Bacteria;Sumerlaeota;Sumerlaeia	1
+Bacteria;Bacteria;Verrucomicrobiota;Chlamydiae	Bacteria;Bacteria;Acidobacteriota;Subgroup 22	1
+Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	Bacteria;Bacteria;Acidobacteriota;FFCH5909	1
+Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	Bacteria;Bacteria;Acidobacteriota;Subgroup 25	1
+Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	Bacteria;Bacteria;Chloroflexi;SHA-26	1
+Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	1
+Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	1
+Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	1
+Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	1
+Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	Bacteria;Bacteria;Nitrospirota;Nitrospiria	1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Chloroflexi;Dehalococcoidia	1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Dependentiae;Babeliae	1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Desulfobacterota;Desulfuromonadia	1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Firmicutes;Desulfitobacteriia	1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Myxococcota;Myxococcia	1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Nitrospirota;4-29-1	1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Planctomycetota;OM190	1
+Archaea;Archaea;Crenarchaeota;Nitrososphaeria	Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	1
+Archaea;Archaea;Thermoplasmatota;Thermoplasmata	Bacteria;Bacteria;Acidobacteriota;Subgroup 25	1
+Archaea;Archaea;Thermoplasmatota;Thermoplasmata	Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	1
+Archaea;Archaea;Thermoplasmatota;Thermoplasmata	Bacteria;Bacteria;Chloroflexi;TK10	1
+Archaea;Archaea;Thermoplasmatota;Thermoplasmata	Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	1
+Archaea;Archaea;Thermoplasmatota;Thermoplasmata	Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	1
+Archaea;Archaea;Thermoplasmatota;Thermoplasmata	Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	1
+Archaea;Archaea;Thermoplasmatota;Thermoplasmata	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	1
+Archaea;Archaea;Thermoplasmatota;Thermoplasmata	Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	1
+Archaea;Archaea;Thermoplasmatota;Thermoplasmata	Bacteria;Bacteria;Myxococcota;bacteriap25	1
+Archaea;Archaea;Thermoplasmatota;Thermoplasmata	Bacteria;Bacteria;Nitrospirota;Nitrospiria	1
+Archaea;Archaea;Thermoplasmatota;Thermoplasmata	Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	1
+Bacteria;Bacteria;Acidobacteriota;Acidobacteriae	Bacteria;Bacteria;Acidobacteriota;Subgroup 5	1
+Bacteria;Bacteria;Acidobacteriota;Acidobacteriae	Bacteria;Bacteria;Bacteroidota;Kapabacteria	1
+Bacteria;Bacteria;Acidobacteriota;Acidobacteriae	Bacteria;Bacteria;Chloroflexi;AD3	1
+Bacteria;Bacteria;Acidobacteriota;Acidobacteriae	Bacteria;Bacteria;Planctomycetota;Phycisphaerae	1
+Bacteria;Bacteria;Acidobacteriota;Holophagae	Bacteria;Bacteria;Armatimonadota;Fimbriimonadia	1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Bacteria;Bacteria;Chloroflexi;AD3	1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Bacteria;Bacteria;Latescibacterota;Latescibacteria	1
+Bacteria;Bacteria;Acidobacteriota;Subgroup 5	Bacteria;Bacteria;Planctomycetota;OM190	1
+Bacteria;Bacteria;Acidobacteriota;Vicinamibacteria	Bacteria;Bacteria;Actinobacteriota;MB-A2-108	1
+Bacteria;Bacteria;Acidobacteriota;Vicinamibacteria	Bacteria;Bacteria;Firmicutes;Bacilli	1
+Bacteria;Bacteria;Acidobacteriota;Vicinamibacteria	Bacteria;Bacteria;Myxococcota;bacteriap25	1
+Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	Bacteria;Bacteria;Bacteroidota;Kapabacteria	1
+Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	Bacteria;Bacteria;Dependentiae;Babeliae	1
+Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	Bacteria;Bacteria;Planctomycetota;OM190	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Archaea;Archaea;Crenarchaeota;Nitrososphaeria	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Archaea;Archaea;Thermoplasmatota;Thermoplasmata	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Acidobacteriota;Subgroup 25	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Actinobacteriota;MB-A2-108	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Chloroflexi;SHA-26	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Chloroflexi;TK10	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Myxococcota;bacteriap25	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Nitrospirota;Nitrospiria	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Planctomycetota;Pla3 lineage	1
+Bacteria;Bacteria;Actinobacteriota;Actinobacteria	Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	1
+Bacteria;Bacteria;Actinobacteriota;MB-A2-108	Bacteria;Bacteria;Acidobacteriota;Subgroup 25	1
+Bacteria;Bacteria;Actinobacteriota;MB-A2-108	Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Acidobacteriota;Subgroup 25	1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Actinobacteriota;MB-A2-108	1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Chloroflexi;SHA-26	1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Myxococcota;bacteriap25	1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Nitrospirota;Nitrospiria	1
+Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	1
+Bacteria;Bacteria;Armatimonadota;Armatimonadia	Bacteria;Bacteria;Acidobacteriota;Subgroup 18	1
+Bacteria;Bacteria;Chloroflexi;AD3	Bacteria;Bacteria;Bacteroidota;Kapabacteria	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Archaea;Archaea;Thermoplasmatota;Thermoplasmata	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Actinobacteriota;Actinobacteria	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Actinobacteriota;Rubrobacteria	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Chloroflexi;SHA-26	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Chloroflexi;TK10	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Nitrospirota;Nitrospiria	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Planctomycetota;Pla3 lineage	1
+Bacteria;Bacteria;Chloroflexi;Chloroflexia	Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	1
+Bacteria;Bacteria;Chloroflexi;Dehalococcoidia	Bacteria;Bacteria;Latescibacterota;Latescibacteria	1
+Bacteria;Bacteria;Chloroflexi;Dehalococcoidia	Bacteria;Bacteria;Patescibacteria;Berkelbacteria	1
+Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	Bacteria;Bacteria;Actinobacteriota;MB-A2-108	1
+Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	Bacteria;Bacteria;Chloroflexi;SHA-26	1
+Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	Bacteria;Bacteria;Nitrospirota;Nitrospiria	1
+Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	Bacteria;Bacteria;Planctomycetota;Pla3 lineage	1
+Bacteria;Bacteria;Chloroflexi;KD4-96	Bacteria;Bacteria;Dependentiae;Babeliae	1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Chloroflexi;KD4-96	1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Dependentiae;Babeliae	1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Desulfobacterota;Desulfuromonadia	1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Myxococcota;Myxococcia	1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	1
+Bacteria;Bacteria;Chloroflexi;Ktedonobacteria	Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	1
+Bacteria;Bacteria;Chloroflexi;TK10	Bacteria;Bacteria;Armatimonadota;Chthonomonadetes	1
+Bacteria;Bacteria;Chloroflexi;TK10	Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	1
+Bacteria;Bacteria;Chloroflexi;TK10	Bacteria;Bacteria;Chloroflexi;SHA-26	1
+Bacteria;Bacteria;Chloroflexi;TK10	Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	1
+Bacteria;Bacteria;Chloroflexi;TK10	Bacteria;Bacteria;Firmicutes;Negativicutes	1
+Bacteria;Bacteria;Chloroflexi;TK10	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	1
+Bacteria;Bacteria;Chloroflexi;TK10	Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	1
+Bacteria;Bacteria;Chloroflexi;TK10	Bacteria;Bacteria;Planctomycetota;Pla3 lineage	1
+Bacteria;Bacteria;Chloroflexi;TK10	Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	1
+Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	Bacteria;Bacteria;Chloroflexi;SHA-26	1
+Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	1
+Bacteria;Bacteria;Dependentiae;Babeliae	Bacteria;Bacteria;Bacteroidota;Kapabacteria	1
+Bacteria;Bacteria;Dependentiae;Babeliae	Bacteria;Bacteria;Chloroflexi;AD3	1
+Bacteria;Bacteria;Desulfobacterota;Desulfuromonadia	Bacteria;Bacteria;Nitrospirota;4-29-1	1
+Bacteria;Bacteria;Elusimicrobiota;Lineage IIa	Archaea;Archaea;Halobacterota;Methanosarcinia	1
+Bacteria;Bacteria;Entotheonellaeota;Entotheonellia	Bacteria;Bacteria;Latescibacterota;Latescibacteria	1
+Bacteria;Bacteria;Firmicutes;Bacilli	Bacteria;Bacteria;Actinobacteriota;MB-A2-108	1
+Bacteria;Bacteria;Firmicutes;Bacilli	Bacteria;Bacteria;Myxococcota;bacteriap25	1
+Bacteria;Bacteria;Firmicutes;Clostridia	Bacteria;Bacteria;Actinobacteriota;Coriobacteriia	1
+Bacteria;Bacteria;Gemmatimonadota;Gemmatimonadetes	Bacteria;Bacteria;Acidobacteriota;Subgroup 25	1
+Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	1
+Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	1
+Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	Bacteria;Bacteria;Nitrospirota;Nitrospiria	1
+Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	Bacteria;Bacteria;Chloroflexi;SHA-26	1
+Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	Bacteria;Bacteria;Acidobacteriota;Subgroup 25	1
+Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	Bacteria;Bacteria;Actinobacteriota;MB-A2-108	1
+Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	Bacteria;Bacteria;Chloroflexi;JG30-KF-CM66	1
+Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	Bacteria;Bacteria;Chloroflexi;SHA-26	1
+Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	1
+Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	1
+Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	1
+Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	1
+Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	Bacteria;Bacteria;Nitrospirota;Nitrospiria	1
+Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	Bacteria;Bacteria;Planctomycetota;Pla3 lineage	1
+Bacteria;Bacteria;Methylomirabilota;Methylomirabilia	Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	1
+Bacteria;Bacteria;Myxococcota;bacteriap25	Bacteria;Bacteria;Acidobacteriota;Subgroup 25	1
+Bacteria;Bacteria;Myxococcota;bacteriap25	Bacteria;Bacteria;Actinobacteriota;MB-A2-108	1
+Bacteria;Bacteria;Myxococcota;bacteriap25	Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	1
+Bacteria;Bacteria;Myxococcota;Myxococcia	Bacteria;Bacteria;Desulfobacterota;Desulfuromonadia	1
+Bacteria;Bacteria;Myxococcota;Myxococcia	Bacteria;Bacteria;Nitrospirota;4-29-1	1
+Bacteria;Bacteria;Myxococcota;Myxococcia	Bacteria;Bacteria;Planctomycetota;OM190	1
+Bacteria;Bacteria;Nitrospirota;Nitrospiria	Bacteria;Bacteria;Chloroflexi;SHA-26	1
+Bacteria;Bacteria;Nitrospirota;Nitrospiria	Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	1
+Bacteria;Bacteria;Nitrospirota;Nitrospiria	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	1
+Bacteria;Bacteria;Planctomycetota;Phycisphaerae	Bacteria;Bacteria;Acidobacteriota;Subgroup 5	1
+Bacteria;Bacteria;Planctomycetota;Phycisphaerae	Bacteria;Bacteria;Bacteroidota;Kapabacteria	1
+Bacteria;Bacteria;Planctomycetota;Phycisphaerae	Bacteria;Bacteria;Chloroflexi;AD3	1
+Bacteria;Bacteria;Planctomycetota;Phycisphaerae	Bacteria;Bacteria;Chloroflexi;Dehalococcoidia	1
+Bacteria;Bacteria;Planctomycetota;Pla3 lineage	Bacteria;Bacteria;Nitrospirota;Nitrospiria	1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Acidobacteriota;Acidobacteriae	1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Acidobacteriota;Subgroup 5	1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Bacteroidota;Kapabacteria	1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Chloroflexi;AD3	1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Desulfobacterota;Desulfuromonadia	1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Myxococcota;Myxococcia	1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Nitrospirota;4-29-1	1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Planctomycetota;OM190	1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Planctomycetota;Phycisphaerae	1
+Bacteria;Bacteria;Proteobacteria;Alphaproteobacteria	Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	1
+Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	Bacteria;Bacteria;Acidobacteriota;Subgroup 25	1
+Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	Bacteria;Bacteria;Chloroflexi;SHA-26	1
+Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	Bacteria;Bacteria;Cyanobacteria;Cyanobacteriia	1
+Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	Bacteria;Bacteria;Cyanobacteria;Sericytochromatia	1
+Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	Bacteria;Bacteria;Gemmatimonadota;Longimicrobia	1
+Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	Bacteria;Bacteria;Gemmatimonadota;S0134 terrestrial group	1
+Bacteria;Bacteria;Verrucomicrobiota;Omnitrophia	Bacteria;Bacteria;Nitrospirota;Nitrospiria	1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Actinobacteriota;Acidimicrobiia	1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Bacteroidota;Kapabacteria	1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Dependentiae;Babeliae	1
+Bacteria;Bacteria;Verrucomicrobiota;Verrucomicrobiae	Bacteria;Bacteria;Planctomycetota;OM190	1

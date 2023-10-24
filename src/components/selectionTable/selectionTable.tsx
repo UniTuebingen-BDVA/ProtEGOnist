@@ -45,7 +45,7 @@ const SelectionTable = () => {
                 rowHeight={40}
                 checkboxSelection
                 columnVisibilityModel={columnVisibility}
-
+                isRowSelectable={(params) => params.row.found_in_network}
                 onColumnVisibilityModelChange={(newModel) =>
                     setColumnVisibility(newModel)
                 }
