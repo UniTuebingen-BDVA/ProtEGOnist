@@ -1,7 +1,7 @@
 import json
 import pathlib
 from flask import Flask, request
-from server.python_scripts.example_reading import read_example_string, read_example_string_modified, read_example_metagenome
+from server.python_scripts.example_reading import read_example_string, read_example_string_modified, read_example_metagenome_2
 from server.python_scripts.sampleGraph import (
     generate_string_intersections_top,
     generate_radar_data,
@@ -22,7 +22,7 @@ here: pathlib.Path = pathlib.Path(__file__).parent.absolute()
 EXAMPLES = {
     "string": read_example_string(here),
     "string_modified": read_example_string_modified(here),
-    "metagenome": read_example_metagenome(here)
+    "metagenome": read_example_metagenome_2(here)
 }
 
 
