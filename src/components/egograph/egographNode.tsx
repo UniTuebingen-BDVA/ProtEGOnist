@@ -26,7 +26,7 @@ export const EgographNode = memo(function EgographNode(
     );
     return (
         <AdvancedTooltip
-            uniprotID={node.originalID}
+            nodeID={node.originalID}
             additionalData={`Num edges ${node.numEdges}`}
         >
             <circle

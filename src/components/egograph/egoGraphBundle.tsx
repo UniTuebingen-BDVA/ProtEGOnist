@@ -19,6 +19,7 @@ import { focusAtom } from 'jotai-optics';
 import { splitAtom } from 'jotai/utils';
 import * as d3 from 'd3';
 import { decollapseIDsAtom, highlightedEdgesAtom } from '../egoNetworkNetwork/egoNetworkNetworkStore.ts';
+import { edgesClassificationAtom } from '../../apiCalls.ts';
 
 const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
     const { x, y, nodeId } = props;
@@ -91,8 +92,8 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
             atom((get) => {
                 return d3
                     .scaleLinear<string, number>()
-                    .range(['#e9cfd7', '#860028'])
-                    .domain(get(numEdgesMinMax));
+                    .domain(get(numEdgesMinMax))
+                    .range(['#e9cfd7', '#860028']);
             }),
         [numEdgesMinMax]
     );
@@ -129,6 +130,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
 
     // generate a d3 categorcal color scale with 20 colors
     const [bandColorScale] = useAtom(bundleColorScaleAtom);
+    const [edgesClassification] = useAtom(edgesClassificationAtom);
 
     const layoutCircles = useMemo(
         () =>
@@ -149,8 +151,8 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                         <circle
                             cx={center.x}
                             cy={center.y}
-                            r={outerRadius+2}
-                            stroke={highlightedEdges.ids.includes(center.id)?'black':'transparent'}
+                            r={outerRadius + 2}
+                            stroke={highlightedEdges.ids.includes(center.id) ? 'black' : 'transparent'}
                             strokeWidth={7}
                             fill={'none'}
                         />
@@ -220,7 +222,26 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                         highlightedNodeIndices.includes(edge.targetIndex)
                 )
                 .map((edge) => {
+                    let colorEdge
                     // show edge if any node with the same original ID as source/target is hovered
+                    if (edgesClassification === null) {
+                        colorEdge = '#67001f'
+                    }
+                    else {
+                        const temp_edge_source = edge.source.split('_')[1]
+                        const temp_edge_target = edge.target.split('_')[1]
+                        const sortedEdges = d3.sort([temp_edge_source, temp_edge_target]);
+                        const keyEdges = `${sortedEdges[0]}_${sortedEdges[1]}`
+                        // console.log(edgesClassification[keyEdges])
+                        const edgeValue = edgesClassification?.[keyEdges] ?? null
+                        if (edgeValue !== null) {
+                            colorEdge = edgeValue === "-1" ? "red" : "blue"
+                            // TODO make a color scale
+                        }
+                        else {
+                            colorEdge = '#67001f'
+                        }
+                    }
                     return (
                         <line
                             key={String(edge.source) + String(edge.target)}
@@ -228,7 +249,8 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                             x2={edge.x2}
                             y1={edge.y1}
                             y2={edge.y2}
-                            stroke={'#67001f'}
+                            stroke={colorEdge}
+
                         />
                     );
                 }),

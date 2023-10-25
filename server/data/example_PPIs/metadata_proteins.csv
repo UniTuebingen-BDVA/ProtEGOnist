@@ -1,0 +1,2354 @@
+nodeID,drug_name,x_id,cancer_gene,brite
+A0A087WYR3,Dabrafenib,TPD52L2,False,none
+A0A0C4DGU3,Venetoclax,HM13,False,none
+A0AV96,WEHI-539,RBM47,False,Domain-containing proteins not elsewhere classified
+A1L0T0,AC220;Savolitinib,ILVBL,False,Enzymes
+A3KMH1,Afatinib;PF-06747775,VWA8,False,Domain-containing proteins not elsewhere classified
+A3KN83,AC220,SBNO1,False,Chromosome and associated proteins
+A5YKK6,Afatinib;Venetoclax;AZD5582,CNOT1,True,Messenger RNA biogenesis
+A6NHR9,Venetoclax,SMCHD1,False,Chromosome and associated proteins
+C9J0E9,Afatinib;Savolitinib,PSMD6,False,none
+C9J9W1,SB590885;GDC-0879;Dabrafenib;PLX-4720,IL1RAP,False,none
+C9JLW8,AC220;Afatinib,MCRIP1,False,none
+C9JNT3,Afatinib;PF-06747775;Savolitinib,GSTK1,False,none
+D3YTI2,Afatinib;IAP_5620;AZD5582;TGX221;SB590885;IAP_7638;Crizotinib,ACP1,False,none
+E9PAV3,Afatinib;AZD5582;PLX-4720;WEHI-539;Crizotinib,NACA,False,none
+G3V4M1,PF-06747775;Dabrafenib;PLX-4720,MIA2,False,none
+H0Y4K8,Afatinib;GSK269962A;TGX221;PF-06747775;GSK429286A,FN1,True,none
+H0Y6T8,SB590885;Dabrafenib,RAB18,False,none
+H0YCD9,Afatinib;Dabrafenib;PF-06747775,CTTN,False,none
+H0YKX5,WH-4-023;TGX221,TPM1,False,none
+J3QKM9,Afatinib;IAP_5620;IAP_7638;AZD5582,VAPA,False,none
+K7ENT6,Afatinib;AZD5582;TGX221;IAP_7638;GSK429286A,TPM4,False,none
+O00116,SB590885;Afatinib,AGPS,False,Enzymes
+O00139,Afatinib;TGX221,KIF2A,False,Chromosome and associated proteins
+O00151,SB590885;IAP_7638;AZD5582,PDLIM1,False,Domain-containing proteins not elsewhere classified
+O00159,GDC-0879;WH-4-023;Savolitinib;AZD5582;TGX221;Venetoclax;SB590885;Crizotinib,MYO1C,False,Protein phosphatases and associated proteins
+O00161,BIX-02188,SNAP23,False,Membrane trafficking
+O00165,Ponatinib,HAX1,False,Messenger RNA biogenesis
+O00170,GDC-0879,AIP,False,Mitochondrial biogenesis
+O00178,SB590885;Afatinib;Lapatinib;Venetoclax,GTPBP1,False,Messenger RNA biogenesis
+O00186,SB590885;Ara-G,STXBP3,False,Membrane trafficking
+O00203,Dabrafenib;Savolitinib,AP3B1,False,Membrane trafficking
+O00217,SB590885;WEHI-539;PF-06747775,NDUFS8,False,Enzymes
+O00231,Afatinib;LIMK1 inhibitor BMS4;Savolitinib,PSMD11,False,Proteasome
+O00232,Afatinib;PF-06747775;LIMK1 inhibitor BMS4,PSMD12,False,Proteasome
+O00233,Afatinib;IAP_7638;AZD5582,PSMD9,False,Proteasome
+O00244,GDC-0879;PLX-4720;Dabrafenib;SB590885;LIMK1 inhibitor BMS4,ATOX1,False,none
+O00264,SB590885;Dabrafenib;PF-06747775,PGRMC1,False,Exosome
+O00273,Savolitinib,DFFA,False,none
+O00299,Afatinib;LIMK1 inhibitor BMS4;Dabrafenib;PLX-4720,CLIC1,False,Exosome
+O00303,Afatinib;AZD5582;PLX-4720;Dabrafenib;PF-06747775,EIF3F,False,Translation factors
+O00330,PF-06747775,PDHX,False,none
+O00401,SB590885;GDC-0879;Dabrafenib;PLX-4720,WASL,False,Membrane trafficking
+O00410,Afatinib;PF-06747775;GSK429286A,IPO5,False,Ribosome biogenesis
+O00418,JQ1,EEF2K,False,Protein kinases
+O00422,Dabrafenib;PLX-4720,SAP18,False,Messenger RNA biogenesis
+O00423,AZD5582,EML1,False,Cytoskeleton proteins
+O00442,Afatinib;PF-06747775,RTCA,False,Enzymes
+O00443,Ruxolitinib,PIK3C2A,False,Enzymes
+O00469,GSK269962A;TGX221;PF-06747775;SB590885;GSK429286A,PLOD2,False,Enzymes
+O00483,WEHI-539;Nilotinib,NDUFA4,False,none
+O00487,Afatinib;PLX-4720;Dabrafenib;PF-06747775;LIMK1 inhibitor BMS4,PSMD14,False,Peptidases and inhibitors
+O00515,Afatinib,LAD1,False,none
+O00534,Nilotinib,VWA5A,False,Domain-containing proteins not elsewhere classified
+O00541,SB590885,PES1,False,Ribosome biogenesis
+O00560,SB590885;GDC-0879;Dabrafenib;PLX-4720,SDCBP,False,Exosome
+O00567,SB590885;Savolitinib,NOP56,False,Ribosome biogenesis
+O00571,Afatinib;AZD5582,DDX3X,True,Messenger RNA biogenesis
+O00592,SB590885,PODXL,False,none
+O00625,SB590885;GDC-0879;Dabrafenib;PLX-4720,PIR,False,Enzymes
+O00629,PD173074;Savolitinib,KPNA4,False,none
+O00754,WEHI-539;Dabrafenib,MAN2B1,False,Enzymes
+O14578,Dabrafenib;PLX-4720,CIT,False,Protein kinases
+O14579,Afatinib,COPE,False,Membrane trafficking
+O14617,Afatinib;Savolitinib,AP3D1,False,Membrane trafficking
+O14656,SB590885;GDC-0879,TOR1A,False,Chaperones and folding catalysts
+O14672,Afatinib,ADAM10,False,Peptidases and inhibitors
+O14681,Afatinib,EI24,False,none
+O14686,Dabrafenib,KMT2D,True,Chromosome and associated proteins
+O14737,Afatinib;Savolitinib,PDCD5,False,none
+O14745,Afatinib;PF-06747775;Savolitinib,SLC9A3R1,False,Transporters
+O14773,SB590885;GDC-0879;Dabrafenib;PLX-4720,TPP1,False,Peptidases and inhibitors
+O14776,TGX221,TCERG1,False,Spliceosome
+O14786,Afatinib,NRP1,False,CD molecules
+O14802,Savolitinib,POLR3A,False,Transcription machinery
+O14818,Afatinib;Crizotinib,PSMA7,False,Peptidases and inhibitors
+O14828,Dabrafenib;A-1155463;Crizotinib,SCAMP3,False,Membrane trafficking
+O14874,AZD5582;IAP_7638;Savolitinib,BCKDK,False,Protein kinases
+O14908,Dabrafenib;PLX-4720,GIPC1,False,Membrane trafficking
+O14920,Crizotinib,IKBKB,False,Protein kinases
+O14964,Afatinib;Dabrafenib;PLX-4720;Crizotinib,HGS,False,Membrane trafficking
+O14974,GSK429286A,PPP1R12A,False,Protein phosphatases and associated proteins
+O14979,Dabrafenib,HNRNPDL,False,Spliceosome
+O14980,Afatinib;IAP_7638,XPO1,True,Messenger RNA biogenesis
+O15020,Afatinib;Crizotinib,SPTBN2,False,Cytoskeleton proteins
+O15027,Afatinib;PLX-4720;Dabrafenib;PF-06747775;IAP_7638,SEC16A,False,Membrane trafficking
+O15031,Afatinib;Dabrafenib;Cetuximab;Nilotinib;PF-06747775;SB590885;Lapatinib,PLXNB2,False,none
+O15042,SB590885;GDC-0879;Dabrafenib;PLX-4720,U2SURP,False,Spliceosome
+O15047,PF-06747775,SETD1A,False,Chromosome and associated proteins
+O15061,GDC-0879;CAY10566;Dabrafenib;SB590885;Ara-G,SYNM,False,Cytoskeleton proteins
+O15067,Afatinib;PF-06747775,PFAS,False,Enzymes
+O15085,Dabrafenib,ARHGEF11,False,Membrane trafficking
+O15116,Afatinib,LSM1,False,Messenger RNA biogenesis
+O15127,Afatinib;Savolitinib,SCAMP2,False,Membrane trafficking
+O15143,AZD5582;TGX221;PLX-4720;Dabrafenib;Crizotinib,ARPC1B,False,Membrane trafficking
+O15144,Crizotinib;Dabrafenib;IAP_7638;AZD5582,ARPC2,False,Membrane trafficking
+O15145,Crizotinib;Dabrafenib;IAP_7638;AZD5582,ARPC3,False,Membrane trafficking
+O15160,SB590885,POLR1C,False,Transcription machinery
+O15164,Ara-G,TRIM24,False,Protein kinases
+O15173,SB590885;AZD5582,PGRMC2,False,Exosome
+O15212,Afatinib;Savolitinib,PFDN6,False,Chaperones and folding catalysts
+O15226,Afatinib;PF-06747775,NKRF,False,Transcription factors
+O15228,Capmatinib,GNPAT,False,Enzymes
+O15230,Afatinib,LAMA5,False,none
+O15269,GDC-0879;Afatinib;PLX-4720;Cetuximab;Dabrafenib;PF-06747775;SB590885,SPTLC1,False,Amino acid related enzymes
+O15270,Afatinib,SPTLC2,False,Amino acid related enzymes
+O15294,Afatinib,OGT,False,Glycosyltransferases
+O15347,AC220;TGX221;Crizotinib,HMGB3,False,Chromosome and associated proteins
+O15355,Afatinib;IAP_5620;Savolitinib;AZD5582;IAP_7638,PPM1G,False,Protein phosphatases and associated proteins
+O15357,AC220,INPPL1,True,Membrane trafficking
+O15371,Afatinib;AZD5582;Dabrafenib;PF-06747775;IAP_7638,EIF3D,False,Translation factors
+O15372,Afatinib;Dabrafenib;PLX-4720;AZD5582,EIF3H,False,Translation factors
+O15381,Dabrafenib,NVL,False,Ribosome biogenesis
+O15382,SB590885;Dabrafenib;PLX-4720,BCAT2,False,Amino acid related enzymes
+O15400,GDC-0879;Savolitinib;PLX-4720;Dabrafenib;SB590885,STX7,False,Membrane trafficking
+O15460,WH-4-023;GSK269962A;TGX221;PD173074;PF-06747775;AZD4547;GSK429286A,P4HA2,False,Enzymes
+O15511,Dabrafenib;Crizotinib,ARPC5,False,Membrane trafficking
+O15541,AC220,RNF113A,False,Spliceosome
+O43148,Dabrafenib;AZD5582,RNMT,False,Messenger RNA biogenesis
+O43159,Savolitinib,RRP8,False,Ribosome biogenesis
+O43169,AC220,CYB5B,False,none
+O43172,Dabrafenib,PRPF4,False,Spliceosome
+O43175,Afatinib;AZD5582;Venetoclax;IAP_7638;Crizotinib,PHGDH,False,Exosome
+O43181,SB590885;WEHI-539,NDUFS4,False,none
+O43242,Afatinib;Savolitinib,PSMD3,False,Proteasome
+O43264,Savolitinib,ZW10,False,Membrane trafficking
+O43278,Afatinib;PF-06747775,SPINT1,False,Peptidases and inhibitors
+O43290,Dabrafenib,SART1,False,Spliceosome
+O43291,GSK429286A,SPINT2,False,Peptidases and inhibitors
+O43390,Dabrafenib,HNRNPR,False,Spliceosome
+O43395,Dabrafenib,PRPF3,False,Spliceosome
+O43396,Afatinib;Venetoclax,TXNL1,False,none
+O43402,Afatinib;IAP_5620;IAP_7638;AZD5582,EMC8,False,Membrane trafficking
+O43414,NVP-BHG712,ERI3,False,Chromosome and associated proteins
+O43432,Crizotinib;Afatinib;AZD5582,EIF4G3,False,Messenger RNA biogenesis
+O43447,Afatinib;GSK1070916;TGX221;Ara-G,PPIH,False,Spliceosome
+O43464,Savolitinib;Ara-G,HTRA2,False,Peptidases and inhibitors
+O43491,Afatinib,EPB41L2,False,Domain-containing proteins not elsewhere classified
+O43566,Savolitinib,RGS14,False,none
+O43583,Crizotinib;IAP_5620;IAP_7638;AZD5582,DENR,False,Messenger RNA biogenesis
+O43598,IAP_7638,DNPH1,False,Enzymes
+O43615,Ruxolitinib,TIMM44,False,Mitochondrial biogenesis
+O43617,Afatinib;Savolitinib;Crizotinib,TRAPPC3,False,Membrane trafficking
+O43660,IAP_5620;AZD5582;Dabrafenib;SB590885;IAP_7638,PLRG1,False,Spliceosome
+O43665,Dabrafenib,RGS10,False,none
+O43670,AC220;Crizotinib;AZD5582,ZNF207,False,none
+O43678,AC220;WEHI-539,NDUFA2,False,none
+O43684,Afatinib;AZD5582,BUB3,False,Spliceosome
+O43707,WH-4-023;TGX221;Venetoclax,ACTN4,False,Membrane trafficking
+O43719,Dabrafenib,HTATSF1,False,Spliceosome
+O43752,Afatinib;PF-06747775,STX6,False,Membrane trafficking
+O43759,Dabrafenib,SYNGR1,False,none
+O43760,Afatinib,SYNGR2,False,none
+O43765,Afatinib;IAP_7638,SGTA,False,Chaperones and folding catalysts
+O43795,Afatinib;Cetuximab;PF-06747775,MYO1B,False,Protein phosphatases and associated proteins
+O43818,SB590885;AZD5582,RRP9,False,Ribosome biogenesis
+O43824,WEHI-539,GTPBP6,False,none
+O43920,AC220;SB590885,NDUFS5,False,none
+O60216,Dabrafenib;Venetoclax;Ara-G,RAD21,True,Chromosome and associated proteins
+O60218,Dabrafenib,AKR1B10,False,Enzymes
+O60231,Afatinib,DHX16,False,Spliceosome
+O60245,Venetoclax,PCDH7,False,Protein phosphatases and associated proteins
+O60256,IAP_5620;IAP_7638;AZD5582,PRPSAP2,False,none
+O60264,Dabrafenib;PLX-4720;Savolitinib,SMARCA5,False,Transcription machinery
+O60313,Afatinib;Savolitinib,OPA1,False,Mitochondrial biogenesis
+O60341,Savolitinib;Venetoclax;Ara-G,KDM1A,False,Chromosome and associated proteins
+O60462,Afatinib,NRP2,False,Membrane trafficking
+O60488,Dabrafenib;Venetoclax,ACSL4,False,Lipid biosynthesis proteins
+O60502,Savolitinib,OGA,False,Enzymes
+O60507,WEHI-539,TPST1,False,Enzymes
+O60508,Dabrafenib;PLX-4720,CDC40,False,Spliceosome
+O60568,Savolitinib;AZD5582;TGX221;PLX-4720;Dabrafenib;Venetoclax,PLOD3,False,Glycosyltransferases
+O60610,Savolitinib;Nilotinib;AZD5582,DIAPH1,False,Cytoskeleton proteins
+O60645,TL-2-105,EXOC3,False,Membrane trafficking
+O60664,LIMK1 inhibitor BMS4;Dabrafenib;PF-06747775,PLIN3,False,Membrane trafficking
+O60678,Savolitinib,PRMT3,False,Chromosome and associated proteins
+O60684,Afatinib;PF-06747775,KPNA6,False,Chromosome and associated proteins
+O60701,IAP_7638;AZD5582,UGDH,False,Enzymes
+O60749,Afatinib;Crizotinib,SNX2,False,Membrane trafficking
+O60762,BIX-02188,DPM1,False,Glycosyltransferases
+O60763,Dabrafenib;WEHI-539,USO1,False,none
+O60784,SB590885;Dabrafenib;PLX-4720,TOM1,False,Membrane trafficking
+O60826,Dabrafenib,CCDC22,False,Membrane trafficking
+O60831,Afatinib;PF-06747775,PRAF2,False,Membrane trafficking
+O60832,Afatinib;Dabrafenib;PLX-4720;Savolitinib,DKC1,False,Ribosome biogenesis
+O60841,Afatinib;AZD5582,EIF5B,False,Translation factors
+O60869,Afatinib,EDF1,False,none
+O60884,IAP_7638;AZD5582,DNAJA2,False,Chaperones and folding catalysts
+O60885,Afatinib,BRD4,False,Protein kinases
+O60888,Afatinib;PF-06747775,CUTA,False,none
+O60925,Afatinib;Dabrafenib;Savolitinib,PFDN1,False,Chaperones and folding catalysts
+O75054,SB590885,IGSF3,False,Exosome
+O75083,Afatinib;AZD5582;PLX-4720;IAP_7638;Dabrafenib;LIMK1 inhibitor BMS4,WDR1,False,Domain-containing proteins not elsewhere classified
+O75152,Ara-G,ZC3H11A,True,Messenger RNA biogenesis
+O75165,Dabrafenib;Crizotinib,DNAJC13,False,Spliceosome
+O75175,Afatinib;AZD5582,CNOT3,True,Messenger RNA biogenesis
+O75208,PF-06747775,COQ9,False,none
+O75223,PF-06747775;Savolitinib,GGCT,False,Enzymes
+O75251,Savolitinib,NDUFS7,False,Enzymes
+O75306,SB590885;WEHI-539;Savolitinib,NDUFS2,False,Enzymes
+O75312,Afatinib;Savolitinib,ZPR1,False,none
+O75323,Afatinib;CAY10566;PF-06747775,NIPSNAP2,False,none
+O75347,Afatinib;GDC-0879;Savolitinib;PLX-4720;Dabrafenib;SB590885;IAP_7638;Crizotinib,TBCA,False,Cytoskeleton proteins
+O75348,Afatinib;GDC-0879;PLX-4720;Dabrafenib;SB590885,ATP6V1G1,False,none
+O75351,Venetoclax;IAP_7638;AZD5582,VPS4B,False,Membrane trafficking
+O75368,SB590885;Dabrafenib,SH3BGRL,False,Domain-containing proteins not elsewhere classified
+O75380,AC220;WEHI-539;PF-06747775,NDUFS6,False,none
+O75381,IAP_7638;AZD5582,PEX14,False,Membrane trafficking
+O75382,PF-06747775,TRIM3,False,Ubiquitin system
+O75396,Afatinib;TGX221;Savolitinib,SEC22B,False,Membrane trafficking
+O75400,SB590885;GDC-0879;Dabrafenib;PLX-4720,PRPF40A,False,Spliceosome
+O75431,Savolitinib,MTX2,False,Mitochondrial biogenesis
+O75436,IAP_7638;AZD5582,VPS26A,False,Membrane trafficking
+O75438,PF-06747775,NDUFB1,False,none
+O75439,Afatinib,PMPCB,False,Peptidases and inhibitors
+O75449,IAP_7638,KATNA1,False,Cytoskeleton proteins
+O75475,Afatinib;Venetoclax;Lapatinib;PF-06747775,PSIP1,True,Spliceosome
+O75477,IAP_5620;AZD5582;Linifanib;IAP_7638;Crizotinib,ERLIN1,False,Ubiquitin system
+O75489,WEHI-539;Savolitinib,NDUFS3,False,Enzymes
+O75525,Venetoclax;Savolitinib,KHDRBS3,False,Spliceosome
+O75531,Savolitinib,BANF1,False,Chromosome and associated proteins
+O75533,Dabrafenib;Savolitinib,SF3B1,True,Spliceosome
+O75569,Afatinib;Venetoclax;IAP_7638;AZD5582,PRKRA,False,Chromosome and associated proteins
+O75608,AZD5582,LYPLA1,False,Enzymes
+O75616,Afatinib,ERAL1,False,Ribosome biogenesis
+O75643,SB590885;Dabrafenib;PLX-4720;Savolitinib,SNRNP200,False,Spliceosome
+O75663,GDC-0879;Afatinib;SB590885,TIPRL,False,Protein phosphatases and associated proteins
+O75683,Afatinib;PF-06747775,SURF6,False,none
+O75688,AC220;Savolitinib,PPM1B,False,Protein phosphatases and associated proteins
+O75694,IAP_5620;Savolitinib;AZD5582;Dabrafenib;SB590885;IAP_7638,NUP155,False,Messenger RNA biogenesis
+O75695,Savolitinib,RP2,False,Cilium and associated proteins
+O75718,Afatinib;GSK269962A;TGX221;Ponatinib;Dabrafenib;PF-06747775;AZD4547;GSK429286A,CRTAP,False,Chaperones and folding catalysts
+O75746,Crizotinib,SLC25A12,False,Transporters
+O75781,Imatinib,PALM,False,none
+O75792,Afatinib;Venetoclax;IAP_7638,RNASEH2A,False,DNA replication proteins
+O75821,Afatinib;PLX-4720;PF-06747775;AZD5582,EIF3G,False,Translation factors
+O75822,IAP_7638;AZD5582,EIF3J,False,Ribosome biogenesis
+O75828,SB590885;Dabrafenib;PLX-4720;AZD5582,CBR3,False,Enzymes
+O75832,Crizotinib,PSMD10,False,Proteasome
+O75874,Crizotinib;SB590885;IAP_7638;AZD5582,IDH1,True,Enzymes
+O75880,Afatinib;CAY10566;AZD5582,SCO1,False,Mitochondrial biogenesis
+O75886,PLX-4720,STAM2,False,Membrane trafficking
+O75891,SB590885;Cabozantinib,ALDH1L1,False,Enzymes
+O75911,IAP_7638,DHRS3,False,Enzymes
+O75915,Savolitinib,ARL6IP5,False,Membrane trafficking
+O75934,Dabrafenib;IAP_7638;AZD5582,BCAS2,False,Spliceosome
+O75935,Afatinib;PF-06747775,DCTN3,False,Chromosome and associated proteins
+O75937,Crizotinib;Afatinib;PF-06747775;AZD5582,DNAJC8,False,Spliceosome
+O75940,Venetoclax,SMNDC1,False,Spliceosome
+O75955,SB590885;WEHI-539;Ara-G,FLOT1,False,Membrane trafficking
+O75976,WEHI-539;Savolitinib,CPD,False,Peptidases and inhibitors
+O76003,Afatinib,GLRX3,False,none
+O76021,SB590885;Afatinib,RSL1D1,False,Ribosome biogenesis
+O76031,Afatinib,CLPX,False,Chaperones and folding catalysts
+O76070,AZD5582,SNCG,False,Transporters
+O76080,IAP_7638,ZFAND5,False,Domain-containing proteins not elsewhere classified
+O76094,Afatinib;IAP_7638;AZD5582,SRP72,False,Secretion system
+O94763,AZD5582,URI1,False,Protein phosphatases and associated proteins
+O94766,Afatinib;AZD5582,B3GAT3,False,Glycosyltransferases
+O94776,Ara-G,MTA2,False,Transcription factors
+O94804,SB590885;GDC-0879;Dabrafenib;PLX-4720,STK10,False,Protein kinases
+O94819,Temozolomide,KBTBD11,False,Ubiquitin system
+O94851,GSK429286A,MICAL2,False,Membrane trafficking
+O94874,Afatinib;PF-06747775,UFL1,False,Ubiquitin system
+O94880,Savolitinib;Afatinib;Ara-G,PHF14,False,none
+O94888,WH-4-023;TGX221,UBXN7,False,Ubiquitin system
+O94905,WEHI-539;AZD5582,ERLIN2,False,Ubiquitin system
+O94906,SB590885;Savolitinib,PRPF6,False,Spliceosome
+O94919,SB590885;AZD4547;Dabrafenib;PLX-4720,ENDOD1,False,none
+O94925,WH-4-023;Savolitinib;TGX221;Dabrafenib;PF-06747775,GLS,False,Enzymes
+O95104,Dabrafenib,SCAF4,False,Transcription machinery
+O95155,Ara-G,UBE4B,False,Ubiquitin system
+O95159,Afatinib;IAP_5620;AZD5582;Savolitinib;IAP_7638,ZFPL1,False,none
+O95168,AC220;Afatinib;WEHI-539;SB590885,NDUFB4,False,none
+O95169,SB590885;Nilotinib;WEHI-539,NDUFB8,False,none
+O95182,AC220;WEHI-539;A-1155463,NDUFA7,False,none
+O95218,Afatinib;Linifanib;Crizotinib,ZRANB2,False,Spliceosome
+O95219,Afatinib,SNX4,False,Membrane trafficking
+O95232,Venetoclax;IAP_7638;AZD5582,LUC7L3,False,none
+O95239,Afatinib;PF-06747775,KIF4A,False,Cytoskeleton proteins
+O95248,Afatinib,SBF1,False,Protein phosphatases and associated proteins
+O95292,Afatinib;Axitinib;PF-06747775,VAPB,False,Membrane trafficking
+O95297,SB590885,MPZL1,False,Cell adhesion molecules
+O95299,SB590885;WEHI-539,NDUFA10,False,none
+O95347,Afatinib,SMC2,False,Chromosome and associated proteins
+O95372,Crizotinib,LYPLA2,False,Enzymes
+O95373,Afatinib;PF-06747775;GSK429286A,IPO7,False,Ribosome biogenesis
+O95400,Afatinib;Ara-G,CD2BP2,False,Protein phosphatases and associated proteins
+O95425,Afatinib,SVIL,False,Cytoskeleton proteins
+O95433,Afatinib;AZD5582,AHSA1,False,Chaperones and folding catalysts
+O95487,SB590885,SEC24B,False,Membrane trafficking
+O95571,Afatinib;PF-06747775;Savolitinib,ETHE1,False,Mitochondrial biogenesis
+O95573,SB590885;GDC-0879;Dabrafenib;PLX-4720,ACSL3,False,Lipid biosynthesis proteins
+O95613,Savolitinib,PCNT,False,Chromosome and associated proteins
+O95630,Savolitinib,STAMBP,False,Peptidases and inhibitors
+O95639,AZD5582,CPSF4,False,Transcription machinery
+O95671,Crizotinib,ASMTL,False,Enzymes
+O95696,Savolitinib,BRD1,False,Chromosome and associated proteins
+O95721,Dabrafenib,SNAP29,False,Membrane trafficking
+O95747,Afatinib;AZD5582;PLX-4720;Dabrafenib;PF-06747775;Lapatinib;GSK429286A,OXSR1,False,Protein kinases
+O95757,AZD5582,HSPA4L,False,Chaperones and folding catalysts
+O95758,Afatinib;PF-06747775;PLX-4720,PTBP3,False,Spliceosome
+O95782,WH-4-023;Capmatinib;TGX221;Ponatinib;Venetoclax;SB590885;AZD4547;Linifanib,AP2A1,False,Membrane trafficking
+O95793,AZD5582,STAU1,False,Protein phosphatases and associated proteins
+O95816,AZD5582;Ruxolitinib,BAG2,False,Chaperones and folding catalysts
+O95817,Savolitinib;AZD5582,BAG3,False,Chaperones and folding catalysts
+O95825,AC220;Imatinib,CRYZL1,False,none
+O95861,SB590885;GDC-0879;Dabrafenib,BPNT1,False,Transfer RNA biogenesis
+O95865,Ara-G,DDAH2,False,Exosome
+O95870,Savolitinib,ABHD16A,False,Peptidases and inhibitors
+O95881,IAP_5620;AZD5582,TXNDC12,False,Membrane trafficking
+O95983,Ara-G,MBD3,False,Chromosome and associated proteins
+O96000,WEHI-539,NDUFB10,False,none
+O96005,AZD5582,CLPTM1,False,none
+O96019,Venetoclax;Ara-G;AZD5582,ACTL6A,False,Transcription machinery
+P00167,Dabrafenib;PF-06747775,CYB5A,False,none
+P00367,Afatinib;Pemetrexed;Cetuximab;PF-06747775;Lapatinib,GLUD1,False,Exosome
+P00374,Savolitinib,DHFR,False,Enzymes
+P00390,Crizotinib;IAP_7638;AZD5582,GSR,False,Enzymes
+P00403,Afatinib;WEHI-539;Savolitinib,MT-CO2,False,Mitochondrial biogenesis
+P00441,AZD5582,SOD1,False,Enzymes
+P00492,Afatinib;Savolitinib,HPRT1,False,Enzymes
+P00505,Afatinib;Dabrafenib;PF-06747775,GOT2,False,Amino acid related enzymes
+P00558,Afatinib;GDC-0879;AZD5582;Savolitinib;LIMK1 inhibitor BMS4;PLX-4720;Dabrafenib;SB590885;IAP_7638,PGK1,False,Exosome
+P00568,Afatinib;IAP_5620;Savolitinib;Venetoclax;IAP_7638,AK1,False,Exosome
+P00749,IAP_7638;AZD5582,PLAU,False,Peptidases and inhibitors
+P00813,Ara-G,ADA,False,Enzymes
+P01111,Savolitinib,NRAS,True,Membrane trafficking
+P02533,Afatinib,KRT14,False,Cytoskeleton proteins
+P02538,Afatinib,KRT6A,False,Cytoskeleton proteins
+P02765,SB590885,AHSG,False,Peptidases and inhibitors
+P02786,SB590885;IAP_5620;IAP_7638;AZD5582,TFRC,False,Peptidases and inhibitors
+P04004,Afatinib;Dabrafenib,VTN,False,Exosome
+P04035,Axitinib,HMGCR,False,Enzymes
+P04075,Afatinib;AZD5582;Savolitinib;PLX-4720;Dabrafenib;LIMK1 inhibitor BMS4,ALDOA,False,Membrane trafficking
+P04080,GDC-0879;Savolitinib;PLX-4720;Dabrafenib;SB590885,CSTB,False,Peptidases and inhibitors
+P04083,WEHI-539,ANXA1,False,Membrane trafficking
+P04181,Crizotinib;Afatinib;Savolitinib,OAT,False,Amino acid related enzymes
+P04264,SB590885;CAY10566,KRT1,False,Cytoskeleton proteins
+P04406,Afatinib;GDC-0879;Savolitinib;PLX-4720;Dabrafenib;SB590885;LIMK1 inhibitor BMS4,GAPDH,False,Membrane trafficking
+P04626,Afatinib;PF-06747775,ERBB2,True,Protein kinases
+P04632,Dabrafenib;IAP_7638;AZD5582,CAPNS1,False,Peptidases and inhibitors
+P04843,IAP_7638;IAP_5620;Venetoclax;AZD5582,RPN1,False,none
+P04844,AC220;IAP_5620;IAP_7638;AZD5582,RPN2,False,none
+P04899,Ponatinib;PLX-4720;TGX221;PLK4_0066;Dabrafenib;PF-06747775;GSK429286A,GNAI2,False,Exosome
+P05026,Afatinib;PF-06747775;LIMK1 inhibitor BMS4;Crizotinib,ATP1B1,False,CD molecules
+P05141,Afatinib;IAP_7638;Venetoclax;AZD5582,SLC25A5,False,Mitochondrial biogenesis
+P05165,Afatinib;PF-06747775,PCCA,False,Enzymes
+P05166,Afatinib;PF-06747775;PLX-4720;Savolitinib,PCCB,False,Enzymes
+P05198,Afatinib;AZD5582,EIF2S1,False,Translation factors
+P05204,Savolitinib,HMGN2,False,Chromosome and associated proteins
+P05362,WEHI-539;IAP_7638;AZD5582,ICAM1,False,Exosome
+P05386,Savolitinib;Motesanib;PLX-4720;PDGFR_0615;Dabrafenib,RPLP1,False,Ribosome
+P05387,Afatinib;PLX-4720;CAY10566;Dabrafenib;WEHI-539;SB590885,RPLP2,False,Ribosome
+P05388,Afatinib;PD173074;PLX-4720;AZD5582,RPLP0,False,Ribosome
+P05412,Afatinib,JUN,False,Transcription factors
+P05413,Afatinib,FABP3,False,Exosome
+P05455,Afatinib;IAP_5620;AZD5582;Venetoclax;IAP_7638,SSB,False,none
+P05783,Afatinib;GDC-0879;Savolitinib;PLX-4720;Cetuximab;Dabrafenib;PF-06747775;SB590885;LIMK1 inhibitor BMS4,KRT18,False,Cytoskeleton proteins
+P06132,Afatinib;Dabrafenib;PF-06747775,UROD,False,Enzymes
+P06213,Dabrafenib,INSR,False,Protein kinases
+P06280,Dabrafenib;A-1155463,GLA,False,Enzymes
+P06396,GDC-0879;PLX-4720;Dabrafenib;SB590885;LIMK1 inhibitor BMS4,GSN,False,Cytoskeleton proteins
+P06400,Ara-G,RB1,True,Protein phosphatases and associated proteins
+P06454,Afatinib;IAP_5620;AZD5582;Savolitinib;IAP_7638;Crizotinib,PTMA,False,none
+P06493,Afatinib;Venetoclax,CDK1,False,Protein kinases
+P06703,Venetoclax,S100A6,False,Domain-containing proteins not elsewhere classified
+P06744,Afatinib;Savolitinib;AZD5582;WEHI-539;IAP_7638,GPI,False,Exosome
+P06865,GDC-0879;PLX-4720;Dabrafenib;Venetoclax;SB590885;A-1155463,HEXA,False,Chaperones and folding catalysts
+P07093,GDC-0879;Afatinib;PLX-4720;Dabrafenib;SB590885,SERPINE2,False,Peptidases and inhibitors
+P07108,GDC-0879;Savolitinib;CAY10566;Dabrafenib;SB590885;Crizotinib,DBI,False,none
+P07195,Afatinib;GDC-0879;AZD5582;PLX-4720;Dabrafenib;SB590885;IAP_7638;Crizotinib,LDHB,False,Exosome
+P07199,AZD5582,CENPB,False,Chromosome and associated proteins
+P07203,GDC-0879;Dabrafenib;PLX-4720,GPX1,False,Enzymes
+P07237,Venetoclax;AZD5582,P4HB,False,Chaperones and folding catalysts
+P07339,PLX-4720;Afatinib;Dabrafenib;PF-06747775,CTSD,False,Peptidases and inhibitors
+P07355,WH-4-023;Afatinib;TGX221;AZD1152-HQPA;Venetoclax;SB590885,ANXA2,False,Membrane trafficking
+P07384,Afatinib;PF-06747775,CAPN1,False,Peptidases and inhibitors
+P07686,GDC-0879;PLX-4720;WEHI-539;Dabrafenib;SB590885,HEXB,False,Chaperones and folding catalysts
+P07711,Dabrafenib;PLX-4720,CTSL,False,Peptidases and inhibitors
+P07737,Afatinib;AZD5582;Savolitinib;PLX-4720;Dabrafenib;PF-06747775;LIMK1 inhibitor BMS4;Crizotinib,PFN1,False,Membrane trafficking
+P07741,Savolitinib;IAP_7638;AZD5582,APRT,False,Exosome
+P07858,PLX-4720;Dabrafenib;Venetoclax,CTSB,False,Peptidases and inhibitors
+P07900,Afatinib;IAP_7638,HSP90AA1,False,Protein phosphatases and associated proteins
+P07942,TGX221;PF-06747775,LAMB1,False,none
+P07948,Afatinib,LYN,False,Protein kinases
+P07954,PF-06747775,FH,False,Enzymes
+P07996,Venotoclax;Venetoclax,THBS1,False,Membrane trafficking
+P08069,Afatinib,IGF1R,False,Protein kinases
+P08133,Afatinib;PF-06747775,ANXA6,False,Membrane trafficking
+P08134,PLX-4720;WH-4-023;TGX221;PF-06747775,RHOC,False,Membrane trafficking
+P08183,IAP_7638;Savolitinib,ABCB1,True,Transporters
+P08195,Afatinib;Cetuximab;PF-06747775,SLC3A2,False,Transporters
+P08237,GDC-0879;Afatinib,PFKM,False,Protein phosphatases and associated proteins
+P08238,Afatinib;Savolitinib,HSP90AB1,False,Protein phosphatases and associated proteins
+P08240,IAP_7638;Venetoclax;AZD5582,SRPRA,False,Secretion system
+P08397,AC220;Savolitinib,HMBS,False,Enzymes
+P08574,SB590885,CYC1,False,none
+P08581,Cabozantinib;Capmatinib;AZD6094;Savolitinib,MET,True,Protein kinases
+P08582,SB590885;Dabrafenib;PLX-4720,MELTF,False,CD molecules
+P08648,Afatinib;AZD4547;PF-06747775;GSK429286A,ITGA5,False,Exosome
+P08708,Afatinib;AZD5582;PLX-4720;IAP_7638;Crizotinib,RPS17,False,Ribosome
+P08727,Afatinib;Lapatinib;PF-06747775;GSK429286A,KRT19,False,Cytoskeleton proteins
+P08729,Afatinib;PF-06747775,KRT7,False,Cytoskeleton proteins
+P08754,SB590885;IAP_7638;AZD5582,GNAI3,False,Exosome
+P08758,GDC-0879;Afatinib;AZD5582;LIMK1 inhibitor BMS4;PLX-4720;Dabrafenib;WEHI-539;PF-06747775;SB590885;A-1155463,ANXA5,False,Exosome
+P08779,Afatinib,KRT16,False,Cytoskeleton proteins
+P08865,Afatinib;AZD5582;PLX-4720;IAP_7638;WEHI-539;LIMK1 inhibitor BMS4,RPSA,False,Ribosome
+P09012,AC220,SNRPA,False,Spliceosome
+P09104,Afatinib;WEHI-539,ENO2,False,Messenger RNA biogenesis
+P09110,Afatinib;PF-06747775;Venetoclax,ACAA1,False,Enzymes
+P09211,Crizotinib;IAP_7638;AZD5582,GSTP1,False,Transporters
+P09382,Afatinib;PLX-4720;Dabrafenib;PF-06747775;Venetoclax;Linifanib;LIMK1 inhibitor BMS4;GSK429286A,LGALS1,False,Exosome
+P09417,Afatinib;GDC-0879;PLX-4720;Dabrafenib;SB590885;IAP_7638,QDPR,False,Enzymes
+P09429,Crizotinib;Venetoclax;IAP_7638;AZD5582,HMGB1,False,Chromosome and associated proteins
+P09467,A-1155463,FBP1,False,Exosome
+P09471,Venetoclax,GNAO1,False,Exosome
+P09496,Afatinib;AZD5582,CLTA,False,Membrane trafficking
+P09497,Afatinib;Lapatinib,CLTB,False,Membrane trafficking
+P09543,GDC-0879;Savolitinib;PLX-4720;Dabrafenib;Crizotinib,CNP,False,Exosome
+P09651,Dabrafenib,HNRNPA1,False,Messenger RNA biogenesis
+P09661,Dabrafenib;WEHI-539;Savolitinib,SNRPA1,False,Spliceosome
+P09668,IAP_7638,CTSH,False,Peptidases and inhibitors
+P09669,Afatinib;AZD4547;WEHI-539;PF-06747775,COX6C,False,none
+P09758,Afatinib;AZD5582,TACSTD2,False,Exosome
+P09874,IAP_5620;Venetoclax;IAP_7638;AZD5582,PARP1,False,DNA replication proteins
+P09936,Afatinib;Venetoclax;AZD5582,UCHL1,False,Peptidases and inhibitors
+P09960,IAP_5620;IAP_7638;AZD5582,LTA4H,False,Peptidases and inhibitors
+P09972,Afatinib;PLX-4720;Savolitinib,ALDOC,False,Membrane trafficking
+P0DPB6,SB590885,POLR1D,False,Transcription machinery
+P10155,SB590885;Afatinib;Dabrafenib;AZD5582,RO60,False,none
+P10301,GDC-0879;WH-4-023;TGX221;SB590885;GSK429286A,RRAS,False,GTP-binding proteins
+P10451,WEHI-539,SPP1,False,none
+P10515,PD173074,DLAT,False,Enzymes
+P10599,Savolitinib;AZD5582,TXN,False,Chaperones and folding catalysts
+P10606,Afatinib;AZD4547;WEHI-539;PF-06747775,COX5B,False,none
+P10619,GDC-0879;TGX221;PLX-4720;Dabrafenib;Venetoclax;SB590885,CTSA,False,Peptidases and inhibitors
+P10620,Afatinib;PF-06747775,MGST1,False,Transporters
+P10644,Afatinib;PLX-4720;Dabrafenib;PF-06747775;SB590885;Ara-G,PRKAR1A,False,none
+P10768,Dabrafenib;Afatinib;Savolitinib;Crizotinib,ESD,False,Enzymes
+P10809,PD173074;PF-06747775,HSPD1,False,Messenger RNA biogenesis
+P10909,Crizotinib,CLU,False,Chaperones and folding catalysts
+P11021,AZD5582;Venetoclax;GSK1070916;IAP_7638;Ara-G,HSPA5,False,Chaperones and folding catalysts
+P11047,WH-4-023;TGX221,LAMC1,False,none
+P11142,GDC-0879;Afatinib;Savolitinib;PLX-4720;Dabrafenib;SB590885;Crizotinib,HSPA8,True,Protein phosphatases and associated proteins
+P11166,SB590885;TL-2-105;TGX221;AZD5582,SLC2A1,False,Transporters
+P11216,GDC-0879;Afatinib;NVP-BHG712;LIMK1 inhibitor BMS4;PLX-4720;Dabrafenib;SB590885;IAP_7638,PYGB,False,Enzymes
+P11233,Afatinib;PF-06747775;AZD5582,RALA,False,Membrane trafficking
+P11234,Afatinib,RALB,False,Membrane trafficking
+P11279,Afatinib;Savolitinib,LAMP1,False,Membrane trafficking
+P11388,SB590885;Dabrafenib;AZD5582;Crizotinib,TOP2A,False,DNA replication proteins
+P11413,IAP_7638;AZD5582,G6PD,False,Exosome
+P11441,SB590885;Dabrafenib,UBL4A,False,Membrane trafficking
+P11586,Afatinib,MTHFD1,False,Exosome
+P11717,Afatinib;Dabrafenib;PF-06747775,IGF2R,False,Exosome
+P11766,Afatinib,ADH5,False,Enzymes
+P11940,Afatinib;LIMK1 inhibitor BMS4,PABPC1,False,Messenger RNA biogenesis
+P12004,Afatinib;IAP_7638,PCNA,False,DNA replication proteins
+P12109,Afatinib;GSK269962A;TGX221,COL6A1,False,Exosome
+P12235,CAY10566;Dabrafenib;Savolitinib,SLC25A4,False,Mitochondrial biogenesis
+P12259,AC220;BIX-02188,F5,False,none
+P12268,Afatinib;LIMK1 inhibitor BMS4,IMPDH2,False,Exosome
+P12270,BIX-02188;AZD5582;IAP_7638;Savolitinib,TPR,False,Messenger RNA biogenesis
+P12277,Venetoclax;TGX221;IAP_7638;AZD5582,CKB,False,Exosome
+P12532,Dabrafenib,CKMT1A,False,Exosome
+P12694,PLX-4720,BCKDHA,False,Enzymes
+P12814,WH-4-023;Ponatinib;PLX-4720;TGX221;Dabrafenib;Venetoclax;LIMK1 inhibitor BMS4,ACTN1,False,Membrane trafficking
+P12830,Afatinib,CDH1,True,Chromosome and associated proteins
+P12956,Afatinib,XRCC6,False,Spliceosome
+P13010,Afatinib,XRCC5,False,DNA repair and recombination proteins
+P13073,Afatinib;WEHI-539,COX4I1,False,none
+P13473,Savolitinib;AZD5582;TGX221;PLX-4720;Dabrafenib,LAMP2,False,Membrane trafficking
+P13489,Afatinib;AZD5582;PLX-4720;Dabrafenib;PF-06747775;IAP_7638;Crizotinib,RNH1,False,none
+P13611,Cabozantinib,VCAN,False,Proteoglycans
+P13639,Afatinib;AZD5582;Savolitinib;IAP_7638;LIMK1 inhibitor BMS4;Crizotinib,EEF2,False,Translation factors
+P13645,SB590885,KRT10,False,Cytoskeleton proteins
+P13647,Afatinib;PF-06747775,KRT5,False,Cytoskeleton proteins
+P13667,AC220;AZD5582;Venetoclax;Ara-G,PDIA4,False,Chaperones and folding catalysts
+P13674,PD173074;TGX221;PF-06747775;AZD4547;GSK429286A,P4HA1,False,Enzymes
+P13693,Dabrafenib;PLX-4720;Savolitinib,TPT1,False,none
+P13747,Linifanib,HLA-E,False,Exosome
+P13797,WH-4-023;TGX221;Savolitinib,PLS3,False,DNA repair and recombination proteins
+P13798,AZD5582;PLX-4720;Dabrafenib;SB590885;IAP_7638,APEH,False,Peptidases and inhibitors
+P13804,Afatinib;PF-06747775;AZD5582,ETFA,False,Exosome
+P13807,Savolitinib,GYS1,False,Glycosyltransferases
+P13861,IAP_7638,PRKAR2A,False,none
+P13929,WEHI-539;Savolitinib,ENO3,False,Messenger RNA biogenesis
+P13984,AZD5582,GTF2F2,False,Transcription machinery
+P13987,Venetoclax;Ara-G,CD59,False,Exosome
+P13995,Dabrafenib;PLX-4720,MTHFD2,False,Enzymes
+P14174,SB590885;Afatinib;Savolitinib,MIF,False,Exosome
+P14314,IAP_5620;IAP_7638;AZD5582,PRKCSH,False,Lectins
+P14317,Alectinib;Axitinib;Crizotinib,HCLS1,False,Membrane trafficking
+P14324,SB590885;Afatinib;Crizotinib,FDPS,False,Prenyltransferases
+P14384,Imatinib;WEHI-539,CPM,False,Peptidases and inhibitors
+P14406,Nilotinib;Afatinib;WEHI-539;Savolitinib,COX7A2,False,none
+P14550,Venetoclax;IAP_7638;AZD5582,AKR1A1,False,Exosome
+P14625,AZD5582,HSP90B1,False,Chaperones and folding catalysts
+P14735,Savolitinib,IDE,False,Peptidases and inhibitors
+P14854,WEHI-539;PF-06747775;GSK429286A,COX6B1,False,none
+P14859,SB590885,POU2F1,False,Transcription factors
+P14866,SB590885;Dabrafenib;Savolitinib,HNRNPL,False,Spliceosome
+P14923,Afatinib;Cetuximab;PF-06747775;AZD4547;GSK429286A,JUP,False,Exosome
+P14927,AZD4547;PD173074;Ara-G,UQCRB,False,none
+P15121,IAP_7638;AZD5582,AKR1B1,False,Enzymes
+P15170,Afatinib;Savolitinib;AZD5582,GSPT1,False,Messenger RNA biogenesis
+P15311,GDC-0879;Afatinib;Savolitinib;AZD5582;WEHI-539;SB590885,EZR,False,Cytoskeleton proteins
+P15531,Afatinib;IAP_5620;AZD5582;TGX221;SB590885;IAP_7638,NME1,False,Membrane trafficking
+P15586,Afatinib;Dabrafenib;PLX-4720,GNS,False,Enzymes
+P15848,AZD5582,ARSB,False,Enzymes
+P15880,Afatinib;AZD5582;PLX-4720;Dabrafenib;LIMK1 inhibitor BMS4;Crizotinib,RPS2,False,Ribosome
+P15924,Afatinib;PLX-4720;Dabrafenib;Cetuximab;PF-06747775;GSK429286A,DSP,False,Cytoskeleton proteins
+P15927,Afatinib;Ara-G,RPA2,False,DNA replication proteins
+P15954,Afatinib;WEHI-539;PF-06747775,COX7C,False,none
+P16144,Afatinib;PF-06747775;GSK429286A,ITGB4,False,Exosome
+P16150,AMG900,SPN,False,CD molecules
+P16152,Afatinib;GDC-0879;AZD5582;PLX-4720;Dabrafenib;SB590885;IAP_7638,CBR1,False,Enzymes
+P16383,Imatinib;Nilotinib,GCFC2,False,Transcription factors
+P16435,Afatinib;PF-06747775,POR,False,none
+P16455,Savolitinib,MGMT,False,DNA repair and recombination proteins
+P16615,Afatinib;PF-06747775,ATP2A2,False,Enzymes
+P16885,WEHI-539,PLCG2,False,Membrane trafficking
+P16930,SB590885;GDC-0879;Dabrafenib;PLX-4720,FAH,False,Exosome
+P16949,Afatinib;Savolitinib;PF-06747775;Venetoclax;Lapatinib;IAP_7638;Crizotinib,STMN1,False,Cytoskeleton proteins
+P17028,Afatinib,ZNF24,False,Transcription factors
+P17050,SB590885;Dabrafenib,NAGA,False,Enzymes
+P17252,AZD5582,PRKCA,False,Protein kinases
+P17275,Afatinib,JUNB,False,Transcription factors
+P17301,Afatinib,ITGA2,False,Exosome
+P17655,TGX221,CAPN2,False,Peptidases and inhibitors
+P17676,AZD5582,CEBPB,False,Transcription factors
+P17812,Afatinib;Venetoclax;PF-06747775,CTPS1,False,Enzymes
+P17900,GDC-0879;Afatinib;PLX-4720;Dabrafenib;SB590885,GM2A,False,Exosome
+P17931,GDC-0879;Savolitinib;PLX-4720;Dabrafenib;SB590885;GSK429286A,LGALS3,False,Exosome
+P17980,Afatinib;Savolitinib,PSMC3,False,Proteasome
+P17987,Afatinib;IAP_7638;AZD5582,TCP1,False,Chaperones and folding catalysts
+P18031,PLK4_0066;WH-4-023;Dabrafenib;PLX-4720,PTPN1,False,Protein phosphatases and associated proteins
+P18077,Afatinib,RPL35A,False,Ribosome
+P18084,Afatinib,ITGB5,False,Membrane trafficking
+P18085,Afatinib;Dabrafenib,ARF4,False,Membrane trafficking
+P18124,SB590885;Afatinib;AZD5582,RPL7,False,Ribosome
+P18206,TGX221,VCL,False,Cytoskeleton proteins
+P18283,Tretinoin;IAP_7638,GPX2,False,Enzymes
+P18621,Afatinib;AZD5582;PLX-4720;Dabrafenib;WEHI-539;PF-06747775,RPL17,False,Ribosome
+P18669,Afatinib;AZD5582;Savolitinib;PLX-4720;Dabrafenib;IAP_7638,PGAM1,False,Membrane trafficking
+P18754,Afatinib;Dabrafenib,RCC1,False,Messenger RNA biogenesis
+P18827,Afatinib,SDC1,False,Membrane trafficking
+P18887,Venetoclax;IAP_7638;AZD5582,XRCC1,False,DNA repair and recombination proteins
+P19022,GSK429286A,CDH2,False,Chromosome and associated proteins
+P19367,Crizotinib,HK1,False,Membrane trafficking
+P19387,Venetoclax,POLR2C,False,Transcription machinery
+P19404,SB590885;WEHI-539,NDUFV2,False,Enzymes
+P19525,AZD5582;Ara-G,EIF2AK2,False,Protein kinases
+P19623,Afatinib;GDC-0879;Savolitinib;PLX-4720;Cetuximab;Dabrafenib;PF-06747775;SB590885,SRM,False,Enzymes
+P19823,AC220;BIX-02188,ITIH2,False,Glycosaminoglycan binding proteins
+P20042,AZD5582,EIF2S2,False,Protein phosphatases and associated proteins
+P20073,AZD5582,ANXA7,False,Secretion system
+P20290,Afatinib;Dabrafenib;PLX-4720;Savolitinib,BTF3,False,none
+P20340,Afatinib;PF-06747775,RAB6A,False,Membrane trafficking
+P20591,Venetoclax,MX1,False,none
+P20618,Afatinib;Crizotinib,PSMB1,False,Peptidases and inhibitors
+P20645,Dabrafenib;PLX-4720,M6PR,False,Exosome
+P20674,Afatinib;PF-06747775;GSK429286A,COX5A,False,none
+P20700,PLX-4720;Dabrafenib;PF-06747775;AZD5582,LMNB1,False,Cytoskeleton proteins
+P20810,Venetoclax;AZD5582,CAST,False,Peptidases and inhibitors
+P20908,Afatinib,COL5A1,False,Glycosaminoglycan binding proteins
+P20962,Afatinib;Axitinib;AZD5582;Savolitinib;GSK429286A;WEHI-539;PF-06747775;Crizotinib,PTMS,False,none
+P21266,AZD5582,GSTM3,False,Transporters
+P21281,GDC-0879;Afatinib;PLX-4720;IAP_7638;Dabrafenib;PF-06747775;SB590885;LIMK1 inhibitor BMS4,ATP6V1B2,False,Exosome
+P21283,Afatinib;GDC-0879;PLX-4720;Dabrafenib;SB590885,ATP6V1C1,False,none
+P21291,Afatinib;PLX-4720,CSRP1,False,Transcription factors
+P21333,TGX221;Venetoclax;PF-06747775;SB590885;GSK429286A,FLNA,False,Cytoskeleton proteins
+P21579,SB590885,SYT1,False,Membrane trafficking
+P21589,Venetoclax;GSK429286A,NT5E,False,CD molecules
+P21796,Dabrafenib;Venetoclax;Crizotinib,VDAC1,False,Mitochondrial biogenesis
+P21926,Afatinib;PF-06747775;PLX-4720,CD9,False,Cilium and associated proteins
+P21980,Dabrafenib,TGM2,False,Enzymes
+P22033,AZD5582,MMUT,False,Enzymes
+P22087,Savolitinib,FBL,False,Ribosome biogenesis
+P22102,Afatinib,GART,False,Enzymes
+P22223,Afatinib,CDH3,False,Cell adhesion molecules
+P22234,Afatinib;IAP_7638;AZD5582,PAICS,False,Enzymes
+P22314,Afatinib;IAP_5620;AZD5582;PF-06747775;IAP_7638;Crizotinib,UBA1,False,Ubiquitin system
+P22626,Dabrafenib,HNRNPA2B1,False,Messenger RNA biogenesis
+P22695,SB590885;Afatinib;PD173074;Crizotinib,UQCRC2,False,Peptidases and inhibitors
+P23193,AC220;Crizotinib;Venetoclax;AZD5582,TCEA1,False,Transcription machinery
+P23246,Dabrafenib;WEHI-539,SFPQ,False,Protein phosphatases and associated proteins
+P23284,Dabrafenib;WEHI-539;Venetoclax;A-1155463;Ara-G,PPIB,False,Chaperones and folding catalysts
+P23368,Savolitinib,ME2,False,Enzymes
+P23396,Afatinib;AZD5582;WEHI-539;PF-06747775;LIMK1 inhibitor BMS4,RPS3,False,Ribosome
+P23508,Savolitinib,MCC,False,none
+P23526,GDC-0879;IAP_5620;AZD5582;SB590885;IAP_7638,AHCY,False,Protein phosphatases and associated proteins
+P23528,Afatinib;AZD5582;LIMK1 inhibitor BMS4;Dabrafenib;IAP_7638;Crizotinib,CFL1,False,Membrane trafficking
+P23588,Afatinib;Savolitinib;IAP_7638;AZD5582,EIF4B,False,Messenger RNA biogenesis
+P23786,Afatinib;PF-06747775,CPT2,False,Enzymes
+P23919,Afatinib;IAP_5620;IAP_7638;AZD5582,DTYMK,False,Enzymes
+P24534,Afatinib;Savolitinib,EEF1B2,False,Translation factors
+P24941,GDC-0879;Afatinib;PLX-4720;Dabrafenib;SB590885,CDK2,False,Protein kinases
+P25205,Afatinib;Venetoclax,MCM3,True,DNA replication proteins
+P25325,Venetoclax;IAP_7638,MPST,False,Enzymes
+P25398,Crizotinib;Afatinib;PLX-4720;AZD5582,RPS12,False,Ribosome
+P25685,SB590885;IAP_7638;AZD5582,DNAJB1,False,Chaperones and folding catalysts
+P25786,AC220;Afatinib;Savolitinib,PSMA1,False,Peptidases and inhibitors
+P25787,Afatinib;Savolitinib;Crizotinib,PSMA2,False,Peptidases and inhibitors
+P25788,Afatinib;Savolitinib;Crizotinib,PSMA3,False,Peptidases and inhibitors
+P25789,Afatinib;Savolitinib;Crizotinib,PSMA4,False,Peptidases and inhibitors
+P26006,GDC-0879;WH-4-023;KIT_5808;PLK4_0066;S63845;Nilotinib;Venetoclax;SB590885;GSK429286A,ITGA3,False,Exosome
+P26038,Afatinib;PLX-4720;Dabrafenib;PF-06747775;LIMK1 inhibitor BMS4,MSN,False,Cytoskeleton proteins
+P26196,Afatinib;IAP_7638;AZD5582,DDX6,False,Messenger RNA biogenesis
+P26368,Dabrafenib,U2AF2,False,Spliceosome
+P26373,Afatinib;AZD5582;PLX-4720;Dabrafenib;WEHI-539;A-1155463,RPL13,False,Ribosome
+P26440,Afatinib;PF-06747775,IVD,False,Enzymes
+P26583,Afatinib;AZD5582;TGX221;Venetoclax;IAP_7638;Crizotinib,HMGB2,False,Chromosome and associated proteins
+P26599,SB590885;GDC-0879;Dabrafenib,PTBP1,False,Messenger RNA biogenesis
+P26885,IAP_5620;IAP_7638;AZD5582,FKBP2,False,Chaperones and folding catalysts
+P27144,Afatinib,AK4,False,Exosome
+P27338,Ara-G,MAOB,False,Enzymes
+P27348,Afatinib;IAP_5620;IAP_7638;AZD5582,YWHAQ,False,DNA repair and recombination proteins
+P27635,Afatinib;AZD5582;LIMK1 inhibitor BMS4;WEHI-539;IAP_7638;Crizotinib,RPL10,False,Ribosome
+P27694,Afatinib,RPA1,False,Transcription factors
+P27695,Afatinib;IAP_5620;AZD5582;Cetuximab;Venetoclax;IAP_7638;Crizotinib,APEX1,False,DNA repair and recombination proteins
+P27707,Afatinib;Venetoclax,DCK,False,Enzymes
+P27708,Afatinib;IAP_7638;AZD5582,CAD,True,Peptidases and inhibitors
+P27797,AC220;IAP_7638;Venetoclax;AZD5582,CALR,False,Chaperones and folding catalysts
+P27816,Afatinib;Savolitinib;PLX-4720;Dabrafenib;PF-06747775;LIMK1 inhibitor BMS4,MAP4,False,Cytoskeleton proteins
+P27824,IAP_7638;AZD5582;Venetoclax;Crizotinib,CANX,False,Chaperones and folding catalysts
+P28066,Afatinib;Savolitinib,PSMA5,False,Peptidases and inhibitors
+P28070,AC220;Afatinib,PSMB4,False,Peptidases and inhibitors
+P28072,Afatinib;GSK269962A;Crizotinib,PSMB6,False,Peptidases and inhibitors
+P28300,Afatinib,LOX,False,Enzymes
+P28331,AC220;WEHI-539;SB590885,NDUFS1,False,Enzymes
+P28340,WEHI-539;AZD5582,POLD1,False,DNA replication proteins
+P28370,CAY10566,SMARCA1,True,Chromosome and associated proteins
+P28482,Afatinib;GDC-0879;LIMK1 inhibitor BMS4;PLX-4720;Dabrafenib;SB590885;IAP_7638,MAPK1,False,Protein kinases
+P28838,SB590885;Savolitinib,LAP3,False,Peptidases and inhibitors
+P29034,Afatinib;PF-06747775,S100A2,False,Domain-containing proteins not elsewhere classified
+P29144,IAP_7638;AZD5582,TPP2,False,Peptidases and inhibitors
+P29218,Afatinib;GDC-0879;Savolitinib;PLX-4720;Dabrafenib;SB590885,IMPA1,False,Enzymes
+P29350,WEHI-539,PTPN6,False,Protein phosphatases and associated proteins
+P29372,Dabrafenib;WEHI-539,MPG,False,DNA repair and recombination proteins
+P29373,WEHI-539,CRABP2,False,Exosome
+P29401,Savolitinib;IAP_7638;AZD5582,TKT,False,Enzymes
+P29692,Savolitinib,EEF1D,False,Translation factors
+P29728,Cabozantinib;NVP-BHG712,OAS2,False,Enzymes
+P29992,SB590885,GNA11,True,Exosome
+P30040,AZD5582,ERP29,False,Membrane trafficking
+P30041,Afatinib;IAP_7638;AZD5582,PRDX6,False,Enzymes
+P30046,SB590885;GDC-0879;Dabrafenib;PLX-4720,DDT,False,Enzymes
+P30050,Afatinib;PLX-4720;WEHI-539;Dabrafenib;A-1155463,RPL12,False,Ribosome
+P30084,Afatinib;PF-06747775,ECHS1,False,Enzymes
+P30085,Afatinib;Savolitinib;Dabrafenib;SB590885;Crizotinib,CMPK1,False,Enzymes
+P30086,Afatinib;GDC-0879;IAP_5620;AZD5582;Dabrafenib;Venetoclax;SB590885;IAP_7638,PEBP1,False,Peptidases and inhibitors
+P30101,Afatinib;AZD5582,PDIA3,False,Chaperones and folding catalysts
+P30153,Afatinib;IAP_7638;AZD5582,PPP2R1A,True,Protein phosphatases and associated proteins
+P30405,Afatinib,PPIF,False,Chaperones and folding catalysts
+P30519,Afatinib;Venetoclax;PF-06747775;Crizotinib,HMOX2,False,Enzymes
+P30530,PD173074;GSK429286A,AXL,False,Protein kinases
+P30533,Dabrafenib;PLX-4720,LRPAP1,False,none
+P30566,Afatinib;PLX-4720;Dabrafenib;PF-06747775;SB590885,ADSL,False,Enzymes
+P30622,Savolitinib,CLIP1,False,Chromosome and associated proteins
+P30626,SB590885;PLX-4720;Dabrafenib;IAP_7638,SRI,False,Domain-containing proteins not elsewhere classified
+P31040,Afatinib;IAP_7638;Venetoclax,SDHA,False,Enzymes
+P31146,Crizotinib,CORO1A,False,Membrane trafficking
+P31150,Afatinib;Venetoclax,GDI1,False,Exosome
+P31153,Afatinib;Dabrafenib;Savolitinib,MAT2A,False,Enzymes
+P31327,Venetoclax;Savolitinib,CPS1,False,Peptidases and inhibitors
+P31350,Afatinib,RRM2,False,DNA repair and recombination proteins
+P31431,SB590885;Dabrafenib;Savolitinib,SDC4,False,Proteoglycans
+P31483,Afatinib;IAP_5620;Cetuximab;Venetoclax;IAP_7638,TIA1,False,Messenger RNA biogenesis
+P31689,Afatinib,DNAJA1,False,Chaperones and folding catalysts
+P31930,SB590885;Afatinib,UQCRC1,False,Peptidases and inhibitors
+P31937,Afatinib;Dabrafenib;TGX221;Savolitinib,HIBADH,False,Enzymes
+P31939,Afatinib;IAP_5620;AZD5582;SB590885;IAP_7638,ATIC,False,Exosome
+P31943,Afatinib;PF-06747775,HNRNPH1,False,Spliceosome
+P31946,GDC-0879;AZD5582;Dabrafenib;SB590885;IAP_7638;Crizotinib,YWHAB,False,DNA repair and recombination proteins
+P31947,Savolitinib;IAP_7638;AZD5582,SFN,False,Exosome
+P31948,Afatinib;AZD5582,STIP1,True,Chaperones and folding catalysts
+P31949,Afatinib;WEHI-539;Venetoclax;AZD5582,S100A11,False,Domain-containing proteins not elsewhere classified
+P32119,WH-4-023;Afatinib;IAP_5620;AZD5582;IAP_7638,PRDX2,False,Exosome
+P32322,Ara-G,PYCR1,False,Enzymes
+P32455,Crizotinib,GBP1,False,none
+P32519,AC220;Temozolomide,ELF1,True,Transcription factors
+P32926,AZD4547,DSG3,False,Cell adhesion molecules
+P32942,Savolitinib,ICAM3,False,CD molecules
+P32969,Afatinib;PLX-4720;AZD5582,RPL9,False,Ribosome
+P33121,GDC-0879;PLX-4720;Dabrafenib;PF-06747775;SB590885;GSK429286A,ACSL1,False,Lipid biosynthesis proteins
+P33176,Afatinib;Crizotinib,KIF5B,False,Membrane trafficking
+P33316,Afatinib;IAP_7638;AZD5582,DUT,False,DNA repair and recombination proteins
+P33897,Dabrafenib,ABCD1,False,Transporters
+P33991,Afatinib,MCM4,False,DNA replication proteins
+P33992,Afatinib,MCM5,False,DNA replication proteins
+P33993,Afatinib,MCM7,False,Protein phosphatases and associated proteins
+P34897,Savolitinib,SHMT2,False,Enzymes
+P34932,Afatinib;AZD5582;PLX-4720;Dabrafenib;IAP_7638,HSPA4,False,Chaperones and folding catalysts
+P35052,SB590885;Afatinib,GPC1,False,Proteoglycans
+P35080,Afatinib;Savolitinib;AZD5582;Venetoclax;Crizotinib,PFN2,False,Membrane trafficking
+P35221,Afatinib;PF-06747775;TL-2-105;IAP_7638;GSK429286A,CTNNA1,False,Cytoskeleton proteins
+P35222,Afatinib,CTNNB1,True,none
+P35232,AC220,PHB,False,Mitochondrial biogenesis
+P35236,TGX221,PTPN7,False,Protein phosphatases and associated proteins
+P35237,Afatinib;PD173074;PF-06747775,SERPINB6,False,Peptidases and inhibitors
+P35241,Afatinib;AZD5582;PLX-4720;Dabrafenib;PF-06747775;IAP_7638,RDX,False,Cytoskeleton proteins
+P35244,Afatinib;Savolitinib,RPA3,False,DNA replication proteins
+P35251,AZD5582,RFC1,False,DNA replication proteins
+P35268,Afatinib;PLX-4720;Savolitinib,RPL22,False,Ribosome
+P35269,AC220;Dabrafenib;Crizotinib,GTF2F1,False,Transcription machinery
+P35270,Afatinib;PF-06747775;IAP_7638,SPR,False,Exosome
+P35573,IAP_7638;AZD5582,AGL,False,Enzymes
+P35579,WH-4-023;TGX221;IC-87114,MYH9,True,Cytoskeleton proteins
+P35606,Afatinib;LIMK1 inhibitor BMS4,COPB2,False,Membrane trafficking
+P35613,SB590885;Afatinib,BSG,False,Exosome
+P35637,Afatinib,FUS,False,Spliceosome
+P35659,GDC-0879;Dabrafenib;Savolitinib,DEK,False,Chromosome and associated proteins
+P35754,SB590885;Crizotinib,GLRX,False,Chaperones and folding catalysts
+P35998,Afatinib;PLX-4720;Savolitinib,PSMC2,False,Proteasome
+P36404,Dabrafenib,ARL2,False,Chromosome and associated proteins
+P36405,Afatinib,ARL3,False,Cilium and associated proteins
+P36507,Crizotinib,MAP2K2,False,Protein kinases
+P36543,Afatinib;GDC-0879;PLX-4720;Dabrafenib;SB590885,ATP6V1E1,False,none
+P36551,SB590885;PLX-4720;Dabrafenib;Venetoclax,CPOX,False,Enzymes
+P36578,Afatinib;Savolitinib;AZD5582;WEHI-539;PF-06747775;SB590885,RPL4,False,Ribosome
+P36639,Afatinib,NUDT1,False,DNA repair and recombination proteins
+P36776,Afatinib,LONP1,False,Peptidases and inhibitors
+P36873,Afatinib;PF-06747775,PPP1CC,False,Protein phosphatases and associated proteins
+P36915,Afatinib,GNL1,False,none
+P36952,Savolitinib,SERPINB5,False,Peptidases and inhibitors
+P36957,Afatinib;AZD5582;PF-06747775;Ara-G,DLST,False,Enzymes
+P36969,Venotoclax,GPX4,False,Enzymes
+P37108,IAP_5620;AZD5582;TGX221;Venetoclax;AC220;IAP_7638,SRP14,False,Secretion system
+P37198,Savolitinib,NUP62,False,Messenger RNA biogenesis
+P37802,WEHI-539,TAGLN2,False,Membrane trafficking
+P37837,Crizotinib;Dabrafenib;IAP_7638;AZD5582,TALDO1,False,Enzymes
+P37840,SB590885;GDC-0879;Dabrafenib;PLX-4720,SNCA,False,Membrane trafficking
+P38117,Afatinib;PF-06747775,ETFB,False,none
+P38159,SB590885;GDC-0879;Dabrafenib;PLX-4720,RBMX,False,Spliceosome
+P38432,Dabrafenib;Savolitinib,COIL,False,Spliceosome
+P38606,Afatinib;GDC-0879;IAP_5620;PLX-4720;Dabrafenib;SB590885;IAP_7638,ATP6V1A,False,Enzymes
+P38919,SB590885;Dabrafenib;PLX-4720,EIF4A3,False,Messenger RNA biogenesis
+P39019,Afatinib;AZD5582;PLX-4720;WEHI-539;Dabrafenib;Crizotinib,RPS19,False,Ribosome
+P39023,SB590885;Afatinib;GSK429286A;AZD5582,RPL3,False,Ribosome
+P39656,IAP_5620;AZD5582;Savolitinib;AC220;IAP_7638;Crizotinib,DDOST,False,none
+P39687,WH-4-023;Afatinib;IAP_5620;AZD5582;TGX221;SB590885;IAP_7638;Crizotinib,ANP32A,False,Messenger RNA biogenesis
+P39748,Afatinib;IAP_7638;AZD5582,FEN1,False,DNA replication proteins
+P39880,Imatinib,CUX1,True,none
+P40121,SB590885;Dabrafenib;PLX-4720,CAPG,False,Cytoskeleton proteins
+P40189,Savolitinib,IL6ST,False,Cytokine receptors
+P40227,Afatinib;IAP_5620;IAP_7638;AZD5582,CCT6A,False,Chaperones and folding catalysts
+P40429,Savolitinib;AZD5582,RPL13A,False,Ribosome
+P40855,SB590885;GDC-0879,PEX19,False,none
+P40925,Afatinib;GDC-0879;AZD5582;Savolitinib;PLX-4720;Dabrafenib;SB590885;IAP_7638;Crizotinib,MDH1,False,Enzymes
+P40926,SB590885;AZD4547;PF-06747775,MDH2,False,Enzymes
+P40938,Savolitinib;Ara-G,RFC3,False,DNA replication proteins
+P40939,Savolitinib,HADHA,False,Enzymes
+P41214,Savolitinib,EIF2D,False,Translation factors
+P41219,Savolitinib,PRPH,False,Cytoskeleton proteins
+P41227,Afatinib,NAA10,False,Chromosome and associated proteins
+P41240,SB590885;Afatinib;Dabrafenib;PLX-4720,CSK,False,Protein kinases
+P42126,Afatinib;PLX-4720;Dabrafenib;Nilotinib;PF-06747775;LIMK1 inhibitor BMS4,ECI1,False,Enzymes
+P42166,Dabrafenib;PLX-4720,TMPO,False,none
+P42285,SB590885,MTREX,False,Messenger RNA biogenesis
+P42574,AZD5582,CASP3,False,Peptidases and inhibitors
+P42677,AZD5582,RPS27,False,Ribosome
+P42704,Afatinib;PF-06747775;Savolitinib,LRPPRC,True,Mitochondrial biogenesis
+P42765,Afatinib;Venetoclax,ACAA2,False,Enzymes
+P42766,Afatinib;CAY10566;WEHI-539;AZD5582,RPL35,False,Ribosome
+P43007,SB590885;GDC-0879;Dabrafenib;PLX-4720,SLC1A4,False,Transporters
+P43034,Afatinib,PAFAH1B1,False,Chromosome and associated proteins
+P43155,CAY10566,CRAT,False,none
+P43243,Dabrafenib,MATR3,False,Spliceosome
+P43246,Afatinib;Venetoclax,MSH2,False,DNA repair and recombination proteins
+P43304,Afatinib;Axitinib;Pemetrexed;GSK429286A;CAY10566;PF-06747775;AZD4547;Ara-G,GPD2,False,Enzymes
+P43358,AZD5582,MAGEA4,False,Domain-containing proteins not elsewhere classified
+P43363,Afatinib,MAGEA10,False,Domain-containing proteins not elsewhere classified
+P43487,Afatinib;AZD5582;Savolitinib;TGX221;SB590885;IAP_7638,RANBP1,False,none
+P43490,GDC-0879;Dabrafenib;PLX-4720,NAMPT,False,Enzymes
+P43686,Afatinib;PLX-4720;LIMK1 inhibitor BMS4;Savolitinib,PSMC4,False,Proteasome
+P45877,SB590885;A-1155463,PPIC,False,Chaperones and folding catalysts
+P45973,GDC-0879;Dabrafenib;Venetoclax;PLX-4720,CBX5,False,Chromosome and associated proteins
+P45974,Afatinib;IAP_5620;IAP_7638;AZD5582,USP5,False,Peptidases and inhibitors
+P45985,Savolitinib,MAP2K4,True,Protein kinases
+P46013,PF-06747775;AZD5582,MKI67,False,Protein phosphatases and associated proteins
+P46063,Afatinib;Dabrafenib;PLX-4720,RECQL,False,DNA repair and recombination proteins
+P46087,Afatinib,NOP2,False,Ribosome biogenesis
+P46109,SB590885;Afatinib,CRKL,False,none
+P46199,Afatinib;AZD4547;PD173074;PF-06747775,MTIF2,False,Translation factors
+P46459,Afatinib;Cetuximab,NSF,False,Membrane trafficking
+P46776,Afatinib;WEHI-539;AZD5582,RPL27A,False,Ribosome
+P46777,Afatinib;AZD5582;PLX-4720;Dabrafenib;WEHI-539;LIMK1 inhibitor BMS4,RPL5,False,Protein phosphatases and associated proteins
+P46778,Afatinib;AZD5582;PLX-4720;Dabrafenib;LIMK1 inhibitor BMS4,RPL21,False,Ribosome
+P46779,Afatinib;IAP_7638;AZD5582,RPL28,False,Ribosome
+P46781,Afatinib,RPS9,False,Ribosome
+P46782,Afatinib;AZD5582;PLX-4720;Dabrafenib;WEHI-539;A-1155463;Crizotinib,RPS5,False,Ribosome
+P46783,Afatinib;AZD5582,RPS10,False,Ribosome
+P46821,Afatinib,MAP1B,False,Protein phosphatases and associated proteins
+P46940,TGX221;IAP_7638;AZD5582,IQGAP1,False,Cytoskeleton proteins
+P46976,Dabrafenib,GYG1,False,Glycosyltransferases
+P46977,AC220;AZD5582;Savolitinib,STT3A,False,Glycosyltransferases
+P47755,WEHI-539;Dabrafenib;Crizotinib,CAPZA2,False,Membrane trafficking
+P47914,Afatinib;AZD5582;PLX-4720;Dabrafenib;WEHI-539,RPL29,False,Ribosome
+P48059,Afatinib;Dabrafenib;PF-06747775,LIMS1,False,Domain-containing proteins not elsewhere classified
+P48147,Savolitinib,PREP,False,Peptidases and inhibitors
+P48444,Afatinib;LIMK1 inhibitor BMS4;IAP_7638;AZD5582,ARCN1,False,Membrane trafficking
+P48449,Savolitinib,LSS,False,Enzymes
+P48507,AZD5582,GCLM,False,none
+P48556,Afatinib;LIMK1 inhibitor BMS4;Savolitinib,PSMD8,False,Proteasome
+P48637,SB590885;GDC-0879;Dabrafenib;Savolitinib,GSS,False,Exosome
+P48643,Afatinib;IAP_7638;AZD5582,CCT5,False,Chaperones and folding catalysts
+P48681,GDC-0879,NES,False,Cytoskeleton proteins
+P48723,Afatinib,HSPA13,False,Chaperones and folding catalysts
+P48735,Venetoclax;Ara-G,IDH2,True,Enzymes
+P48739,SB590885;Afatinib;Savolitinib,PITPNB,False,none
+P49006,SB590885;Afatinib;IAP_7638,MARCKSL1,False,none
+P49023,Dabrafenib;PLX-4720,PXN,False,Domain-containing proteins not elsewhere classified
+P49116,Ara-G,NR2C2,False,Transcription factors
+P49207,IAP_7638;AZD5582,RPL34,False,Ribosome
+P49247,Savolitinib,RPIA,False,Enzymes
+P49327,SB590885;IAP_7638;AZD5582,FASN,False,Lipid biosynthesis proteins
+P49368,Afatinib;IAP_5620;IAP_7638;AZD5582,CCT3,False,Chaperones and folding catalysts
+P49406,SB590885;Savolitinib;Afatinib;Ara-G,MRPL19,False,Ribosome
+P49458,IAP_5620;TGX221;IAP_7638;AZD5582,SRP9,False,Secretion system
+P49593,SB590885;Afatinib;Dabrafenib;PLX-4720,PPM1F,False,Protein phosphatases and associated proteins
+P49643,Afatinib,PRIM2,False,DNA replication proteins
+P49711,Dabrafenib;TGX221;Venetoclax,CTCF,True,Transcription factors
+P49720,AC220;Afatinib,PSMB3,False,Peptidases and inhibitors
+P49721,Afatinib,PSMB2,False,Peptidases and inhibitors
+P49736,Afatinib,MCM2,False,DNA replication proteins
+P49748,Afatinib;IAP_5620;Savolitinib;AZD5582;SB590885;IAP_7638,ACADVL,False,Enzymes
+P49750,Dabrafenib;Savolitinib,YLPM1,False,Protein phosphatases and associated proteins
+P49755,Afatinib;IAP_5620;AZD5582;PF-06747775;IAP_7638;Crizotinib,TMED10,False,Membrane trafficking
+P49770,Capmatinib,EIF2B2,False,Translation factors
+P49773,Afatinib;Savolitinib;AZD5582;IAP_7638;Crizotinib,HINT1,False,Exosome
+P49790,IAP_5620;Savolitinib;AZD5582;BIX-02188;IAP_7638,NUP153,False,Messenger RNA biogenesis
+P49821,SB590885;AC220;WEHI-539;Savolitinib,NDUFV1,False,Enzymes
+P49848,Ara-G,TAF6,False,Transcription machinery
+P49903,SB590885,SEPHS1,False,Transfer RNA biogenesis
+P49916,Venetoclax;TGX221;IAP_7638;Savolitinib,LIG3,False,DNA repair and recombination proteins
+P49959,AZD5582,MRE11,False,DNA replication proteins
+P50151,Afatinib;IAP_7638;AZD5582,GNG10,False,GTP-binding proteins
+P50213,Afatinib;Dabrafenib;Venetoclax,IDH3A,False,Enzymes
+P50395,Crizotinib;Afatinib;IAP_7638;AZD5582,GDI2,False,Exosome
+P50402,SB590885;AZD5582,EMD,False,none
+P50416,PF-06747775;PLX-4720,CPT1A,False,Mitochondrial biogenesis
+P50454,WH-4-023;AZD5582;Ponatinib;TGX221;SB590885,SERPINH1,False,Peptidases and inhibitors
+P50479,A-1155463,PDLIM4,False,Domain-containing proteins not elsewhere classified
+P50552,AZD5582,VASP,False,Cytoskeleton proteins
+P50570,IAP_7638;AZD5582,DNM2,False,Membrane trafficking
+P50895,Afatinib;Dabrafenib;PF-06747775;GSK429286A,BCAM,False,CD molecules
+P50897,AC220,PPT1,False,Lipid biosynthesis proteins
+P50990,Afatinib;IAP_7638;AZD5582,CCT8,False,Chaperones and folding catalysts
+P50991,Afatinib;IAP_7638;AZD5582,CCT4,False,Chaperones and folding catalysts
+P50995,WEHI-539;IAP_7638;AZD5582,ANXA11,False,Secretion system
+P51116,Afatinib;PF-06747775;GSK429286A,FXR2,False,Messenger RNA biogenesis
+P51148,CAY10566;Dabrafenib;Venetoclax;Crizotinib,RAB5C,False,Membrane trafficking
+P51149,GDC-0879;Dabrafenib;PLX-4720;Savolitinib,RAB7A,False,Membrane trafficking
+P51159,Afatinib;GDC-0879;AZD5582;PLX-4720;Dabrafenib;SB590885;Ruxolitinib,RAB27A,False,Membrane trafficking
+P51397,Savolitinib,DAP,False,none
+P51398,SB590885;Afatinib;Savolitinib,DAP3,False,Ribosome
+P51452,SB590885;GDC-0879;Dabrafenib;PLX-4720,DUSP3,False,Protein phosphatases and associated proteins
+P51532,Dabrafenib;Venetoclax;Ara-G,SMARCA4,True,Transcription machinery
+P51553,Dabrafenib,IDH3G,False,Enzymes
+P51571,IAP_5620;AZD5582;TGX221;Venetoclax;IAP_7638,SSR4,False,Membrane trafficking
+P51572,Afatinib;IAP_5620;AZD5582;Venetoclax;IAP_7638,BCAP31,False,none
+P51608,CAY10566,MECP2,False,Chromosome and associated proteins
+P51636,AC220,CAV2,False,Membrane trafficking
+P51648,Afatinib;Dabrafenib;PF-06747775,ALDH3A2,False,Enzymes
+P51649,Dabrafenib;PLX-4720,ALDH5A1,False,Enzymes
+P51665,Afatinib;Savolitinib,PSMD7,False,Proteasome
+P51688,Dabrafenib,SGSH,False,Enzymes
+P51798,Dabrafenib,CLCN7,False,Protein phosphatases and associated proteins
+P51858,Crizotinib;IAP_7638;AZD5582,HDGF,False,Glycosaminoglycan binding proteins
+P51970,Savolitinib,NDUFA8,False,none
+P51991,Dabrafenib;Venetoclax,HNRNPA3,False,Messenger RNA biogenesis
+P52209,Savolitinib;Crizotinib,PGD,False,Enzymes
+P52272,Dabrafenib;PLX-4720,HNRNPM,False,Spliceosome
+P52292,Afatinib;PF-06747775;Temozolomide,KPNA2,False,Chromosome and associated proteins
+P52298,Venetoclax,NCBP2,False,Messenger RNA biogenesis
+P52434,TGX221,POLR2H,False,Transcription machinery
+P52565,GDC-0879;Afatinib;Savolitinib;PLX-4720;Dabrafenib;SB590885;IAP_7638,ARHGDIA,False,Exosome
+P52594,Crizotinib;AZD5582,AGFG1,False,Messenger RNA biogenesis
+P52597,Afatinib;Savolitinib,HNRNPF,False,Spliceosome
+P52701,Venetoclax,MSH6,False,DNA repair and recombination proteins
+P52732,Afatinib;Savolitinib,KIF11,False,Chromosome and associated proteins
+P52758,Afatinib;PF-06747775,RIDA,False,Enzymes
+P52788,GDC-0879;Afatinib;PLX-4720;Dabrafenib;PF-06747775;SB590885,SMS,False,Enzymes
+P52789,Afatinib;Savolitinib;PLX-4720;Dabrafenib;SB590885,HK2,False,Membrane trafficking
+P52815,Afatinib;PF-06747775,MRPL12,False,Ribosome
+P52888,Afatinib;Savolitinib;Crizotinib,THOP1,False,Peptidases and inhibitors
+P52907,Crizotinib;Capmatinib;AZD6094;Savolitinib,CAPZA1,False,Membrane trafficking
+P53004,PLX-4720;Crizotinib,BLVRA,False,Enzymes
+P53007,Nilotinib,SLC25A1,False,Transporters
+P53041,SB590885;Afatinib,PPP5C,False,Protein phosphatases and associated proteins
+P53355,GSK690693,DAPK1,False,Protein kinases
+P53367,AC220,ARFIP1,False,Membrane trafficking
+P53384,WEHI-539,NUBP1,False,none
+P53396,GSK429286A;Afatinib;IAP_7638;AZD5582,ACLY,False,Exosome
+P53582,Crizotinib;AZD5582,METAP1,False,Peptidases and inhibitors
+P53597,Afatinib;PF-06747775,SUCLG1,False,Enzymes
+P53618,Afatinib,COPB1,False,Membrane trafficking
+P53621,Afatinib;LIMK1 inhibitor BMS4,COPA,False,Membrane trafficking
+P53680,SB590885;Dabrafenib,AP2S1,False,Membrane trafficking
+P53701,Venetoclax,HCCS,False,Enzymes
+P53992,IAP_7638,SEC24C,False,Membrane trafficking
+P53999,Afatinib;AZD5582,SUB1,False,Transcription machinery
+P54259,Savolitinib,ATN1,False,none
+P54578,Afatinib;Savolitinib,USP14,False,Peptidases and inhibitors
+P54619,PD173074,PRKAG1,False,none
+P54687,Venetoclax,BCAT1,False,Amino acid related enzymes
+P54709,SB590885;PLX-4720;AZD5582,ATP1B3,False,CD molecules
+P54725,Savolitinib;AZD5582,RAD23A,False,Proteasome
+P54727,Crizotinib;IAP_5620;IAP_7638;AZD5582,RAD23B,False,Proteasome
+P54819,Dabrafenib,AK2,False,Exosome
+P54920,Afatinib,NAPA,False,Membrane trafficking
+P55010,Afatinib;AZD5582,EIF5,False,Translation factors
+P55011,Afatinib;PF-06747775;GSK429286A,SLC12A2,False,Protein phosphatases and associated proteins
+P55036,Afatinib;PLX-4720;Savolitinib,PSMD4,False,Proteasome
+P55081,Dabrafenib;AZD5582,MFAP1,False,Spliceosome
+P55084,Crizotinib;Savolitinib,HADHB,False,Enzymes
+P55145,SB590885;Dabrafenib,MANF,False,Membrane trafficking
+P55209,GSK429286A;Afatinib;PF-06747775;AZD5582,NAP1L1,False,Chromosome and associated proteins
+P55265,PF-06747775,ADAR,False,Spliceosome
+P55735,LIMK1 inhibitor BMS4;IAP_7638;AZD5582,SEC13,False,Messenger RNA biogenesis
+P55786,GSK269962A,NPEPPS,False,Peptidases and inhibitors
+P55884,Afatinib,EIF3B,False,Messenger RNA biogenesis
+P55957,AZD5582,BID,False,none
+P56182,SB590885,RRP1,False,Protein phosphatases and associated proteins
+P56211,Lapatinib,ARPP19,False,none
+P56537,PLX-4720;Dabrafenib;Venetoclax,EIF6,False,Ribosome biogenesis
+P56545,Cabozantinib;Imatinib;KIT_5808,CTBP2,False,Membrane trafficking
+P56556,SB590885;WH-4-023,NDUFA6,False,none
+P56937,IAP_7638;AZD5582,HSD17B7,False,Enzymes
+P56962,Afatinib;PF-06747775,STX17,False,Membrane trafficking
+P57105,Afatinib;PF-06747775;Savolitinib,SYNJ2BP,False,Membrane trafficking
+P57729,SB590885;GDC-0879;Dabrafenib;PLX-4720,RAB38,False,Membrane trafficking
+P57740,AZD5582;Savolitinib;Nilotinib;Dabrafenib;SB590885,NUP107,False,Messenger RNA biogenesis
+P58107,Afatinib;PF-06747775;GSK429286A,EPPK1,False,none
+P58546,Afatinib;GDC-0879;PLX-4720;Dabrafenib;SB590885;IAP_7638,MTPN,False,none
+P59780,AZD5582,AP3S2,False,Membrane trafficking
+P59998,Dabrafenib,ARPC4,False,Membrane trafficking
+P60059,Venetoclax,SEC61G,False,Membrane trafficking
+P60174,Afatinib;AZD5582;Savolitinib;PLX-4720;IAP_7638;Crizotinib,TPI1,False,Exosome
+P60228,Afatinib;PF-06747775;AZD5582,EIF3E,False,Translation factors
+P60468,IAP_7638;Venetoclax;AZD5582,SEC61B,False,Membrane trafficking
+P60660,WH-4-023;TGX221,MYL6,False,Cytoskeleton proteins
+P60842,Afatinib;PF-06747775;LIMK1 inhibitor BMS4,EIF4A1,False,Messenger RNA biogenesis
+P60866,Afatinib;AZD5582;PLX-4720;WEHI-539;IAP_7638,RPS20,False,Ribosome
+P60891,IAP_7638;AZD5582,PRPS1,False,Enzymes
+P60900,Afatinib;Savolitinib;Crizotinib,PSMA6,False,Peptidases and inhibitors
+P60903,SB590885,S100A10,False,Exosome
+P60981,Savolitinib;Dabrafenib;IAP_7638;AZD5582,DSTN,False,Cytoskeleton proteins
+P60983,Afatinib;Crizotinib,GMFB,False,none
+P61011,Afatinib;IAP_7638;AZD5582,SRP54,False,Secretion system
+P61019,AC220,RAB2A,False,Membrane trafficking
+P61020,Dabrafenib,RAB5B,False,Membrane trafficking
+P61026,GDC-0879;Afatinib;PF-06747775;Savolitinib,RAB10,False,Membrane trafficking
+P61081,Afatinib;AZD5582;Savolitinib;PF-06747775;SB590885;IAP_7638;Crizotinib,UBE2M,False,Ubiquitin system
+P61088,Afatinib;IAP_5620;AZD5582;SB590885;IAP_7638;Crizotinib,UBE2N,False,Ubiquitin system
+P61106,Afatinib;PD173074;PF-06747775,RAB14,False,Membrane trafficking
+P61158,Crizotinib;Dabrafenib;IAP_7638;AZD5582,ACTR3,False,Membrane trafficking
+P61160,Crizotinib;Dabrafenib;IAP_7638;AZD5582,ACTR2,False,Membrane trafficking
+P61163,GSK429286A;Afatinib;PF-06747775;AZD5582,ACTR1A,False,Chromosome and associated proteins
+P61201,Afatinib,COPS2,False,Ubiquitin system
+P61221,Afatinib;AZD5582,ABCE1,False,Ribosome biogenesis
+P61225,Afatinib;PF-06747775,RAP2B,False,Exosome
+P61247,Afatinib;WEHI-539;PLX-4720;AZD5582,RPS3A,False,Ribosome
+P61289,Afatinib,PSME3,False,Proteasome
+P61313,AZD5582,RPL15,False,Ribosome
+P61353,SB590885,RPL27,False,Ribosome
+P61421,Dabrafenib;PLX-4720,ATP6V0D1,False,none
+P61457,IAP_7638,PCBD1,False,Exosome
+P61513,AZD5582,RPL37A,False,Ribosome
+P61586,Dabrafenib;Savolitinib,RHOA,True,Membrane trafficking
+P61604,PD173074;PF-06747775,HSPE1,False,Chaperones and folding catalysts
+P61619,WEHI-539,SEC61A1,False,Membrane trafficking
+P61758,Afatinib;Savolitinib;IAP_7638;Crizotinib,VBP1,False,none
+P61764,GDC-0879;Afatinib;PLX-4720;Dabrafenib;Venetoclax;SB590885,STXBP1,False,Membrane trafficking
+P61769,AZD5582,B2M,True,Exosome
+P61923,Afatinib;Dabrafenib;LIMK1 inhibitor BMS4,COPZ1,False,Membrane trafficking
+P61960,Savolitinib;PLX-4720;Dabrafenib;SB590885;Crizotinib,UFM1,False,Ubiquitin system
+P61962,Dabrafenib;AZD5582,DCAF7,False,Ubiquitin system
+P61964,Dabrafenib;Savolitinib,WDR5,False,Chromosome and associated proteins
+P61970,Afatinib;IAP_7638;AZD5582,NUTF2,False,none
+P61978,Afatinib;TGX221;WEHI-539;Venetoclax;Ara-G,HNRNPK,False,Spliceosome
+P61981,Afatinib;Savolitinib;IAP_7638;AZD5582,YWHAG,False,Protein phosphatases and associated proteins
+P62070,Quizartinib,RRAS2,False,Exosome
+P62081,Afatinib;WEHI-539;IAP_7638;AZD5582,RPS7,False,Ribosome
+P62136,Savolitinib,PPP1CA,False,Protein phosphatases and associated proteins
+P62140,IAP_7638;AZD5582,PPP1CB,False,Protein phosphatases and associated proteins
+P62191,Afatinib;PLX-4720;Savolitinib,PSMC1,False,Proteasome
+P62195,Afatinib;Dabrafenib;PLX-4720;Savolitinib,PSMC5,False,Proteasome
+P62241,Afatinib;AZD5582;PD173074;PLX-4720;Dabrafenib;WEHI-539;PF-06747775,RPS8,False,Ribosome
+P62244,GSK429286A;Afatinib;AZD5582,RPS15A,False,Ribosome
+P62249,Afatinib;GSK429286A,RPS16,False,Ribosome
+P62258,Afatinib;IAP_5620;AZD5582;IAP_7638;Crizotinib,YWHAE,False,DNA repair and recombination proteins
+P62263,Afatinib;AZD5582;PLX-4720;WEHI-539;Dabrafenib;Crizotinib,RPS14,False,Ribosome
+P62266,Afatinib;LIMK1 inhibitor BMS4;IAP_7638;AZD5582,RPS23,False,Ribosome
+P62269,Afatinib;AZD5582;PLX-4720;Dabrafenib;WEHI-539;LIMK1 inhibitor BMS4,RPS18,False,Ribosome
+P62273,Afatinib;AZD5582,RPS29,False,Ribosome
+P62277,Afatinib;WEHI-539;LIMK1 inhibitor BMS4;AZD5582,RPS13,False,Ribosome
+P62280,Afatinib;AZD5582;PF-06747775;LIMK1 inhibitor BMS4;GSK429286A,RPS11,False,Ribosome
+P62304,AC220,SNRPE,False,Messenger RNA biogenesis
+P62306,WH-4-023;TGX221,SNRPF,False,Messenger RNA biogenesis
+P62310,TGX221;Savolitinib,LSM3,False,Messenger RNA biogenesis
+P62312,TGX221;Crizotinib,LSM6,False,Messenger RNA biogenesis
+P62316,WEHI-539;Savolitinib,SNRPD2,False,Spliceosome
+P62328,AZD5582,TMSB4X,False,Cytoskeleton proteins
+P62333,Afatinib;Savolitinib,PSMC6,False,Proteasome
+P62424,SB590885,RPL7A,False,Ribosome
+P62495,Afatinib;PF-06747775,ETF1,False,Messenger RNA biogenesis
+P62701,Afatinib;WEHI-539;IAP_7638;AZD5582,RPS4X,False,Ribosome
+P62714,AC220,PPP2CB,False,Protein phosphatases and associated proteins
+P62750,Afatinib;AZD5582;PLX-4720;CAY10566;Dabrafenib;WEHI-539;A-1155463,RPL23A,False,Ribosome
+P62753,Afatinib;AZD5582;LIMK1 inhibitor BMS4;PLX-4720;Dabrafenib;WEHI-539;A-1155463,RPS6,False,Ribosome
+P62829,Afatinib;AZD5582;LIMK1 inhibitor BMS4;PLX-4720;Dabrafenib;WEHI-539;A-1155463;Crizotinib,RPL23,False,Ribosome
+P62847,IAP_7638;AZD5582,RPS24,False,Ribosome
+P62851,Afatinib;IAP_5620;AZD5582;PLX-4720;IAP_7638,RPS25,False,Ribosome
+P62854,Afatinib;Dabrafenib;PLX-4720;AZD5582,RPS26,False,Ribosome
+P62857,Afatinib;AZD5582;PLX-4720;WEHI-539;IAP_7638;Crizotinib,RPS28,False,Ribosome
+P62873,GSK429286A;Afatinib;PF-06747775;Savolitinib,GNB1,False,Exosome
+P62875,Savolitinib,POLR2L,False,Transcription machinery
+P62877,Afatinib;Crizotinib,RBX1,False,Ubiquitin system
+P62879,SB590885;Savolitinib,GNB2,False,Exosome
+P62888,Afatinib;A-1155463;PLX-4720;WEHI-539;LIMK1 inhibitor BMS4,RPL30,False,Ribosome
+P62899,Afatinib;A-1155463;AZD5582;PLX-4720;Dabrafenib;IAP_7638,RPL31,False,Ribosome
+P62906,Afatinib;AZD5582;LIMK1 inhibitor BMS4;PLX-4720;Dabrafenib;WEHI-539;SB590885;A-1155463,RPL10A,False,Ribosome
+P62910,Afatinib;AZD5582;PLX-4720;WEHI-539;Dabrafenib,RPL32,False,Ribosome
+P62913,Afatinib;AZD5582;PLX-4720;Dabrafenib;WEHI-539;PF-06747775,RPL11,False,Ribosome
+P62917,SB590885;Afatinib;IAP_7638;AZD5582,RPL8,False,Ribosome
+P62942,GDC-0879;PLX-4720;Dabrafenib;SB590885;Crizotinib,FKBP1A,False,Chaperones and folding catalysts
+P62993,IAP_5620;IAP_7638;AZD5582,GRB2,False,Membrane trafficking
+P62995,CAY10566;Dabrafenib,TRA2B,False,Protein phosphatases and associated proteins
+P63000,AC220,RAC1,True,Membrane trafficking
+P63010,GDC-0879;WH-4-023;Ponatinib;TGX221;Venetoclax;SB590885;GSK429286A,AP2B1,False,Membrane trafficking
+P63027,AZD5582,VAMP2,False,Membrane trafficking
+P63151,Afatinib,PPP2R2A,False,Protein phosphatases and associated proteins
+P63173,Crizotinib,RPL38,False,Ribosome
+P63208,Afatinib,SKP1,False,Membrane trafficking
+P63220,Afatinib;Dabrafenib;IAP_7638;AZD5582,RPS21,False,Ribosome
+P63241,Afatinib;AZD5582,EIF5A,False,Translation factors
+P63244,Afatinib;AZD5582;LIMK1 inhibitor BMS4;WEHI-539;PF-06747775;IAP_7638,RACK1,False,Messenger RNA biogenesis
+P63272,Afatinib,SUPT4H1,False,Transcription machinery
+P63279,Afatinib;IAP_5620;AZD5582;Venetoclax;IAP_7638;Crizotinib,UBE2I,False,Ubiquitin system
+P67809,Afatinib;AZD5582;PD173074;WEHI-539;PF-06747775;GSK429286A,YBX1,False,Transcription factors
+P67870,Afatinib,CSNK2B,False,Ribosome biogenesis
+P68036,SB590885;Afatinib;GDC-0879,UBE2L3,False,Ubiquitin system
+P68366,IAP_7638,TUBA4A,False,Messenger RNA biogenesis
+P68371,Savolitinib;IAP_7638;AZD5582,TUBB4B,False,Chromosome and associated proteins
+P68400,LIMK1 inhibitor BMS4;Ara-G,CSNK2A1,False,Protein kinases
+P68402,Afatinib;IAP_7638;Savolitinib,PAFAH1B2,False,Enzymes
+P78318,Savolitinib,IGBP1,False,Protein phosphatases and associated proteins
+P78371,Afatinib;IAP_5620;IAP_7638;AZD5582,CCT2,False,Chaperones and folding catalysts
+P78417,Afatinib;GDC-0879;AZD5582;PLX-4720;Dabrafenib;SB590885;LIMK1 inhibitor BMS4,GSTO1,False,Transporters
+P78527,Venotoclax;Venetoclax;Savolitinib,PRKDC,False,Protein kinases
+P78536,Afatinib,ADAM17,False,Peptidases and inhibitors
+P80303,WEHI-539;Ara-G,NUCB2,False,Membrane trafficking
+P82650,SB590885;Afatinib,MRPS22,False,Ribosome
+P82673,Afatinib;Savolitinib;PD173074;AZD6094;PF-06747775;SB590885;AZD4547,MRPS35,False,Ribosome
+P82675,Afatinib;PF-06747775;Savolitinib,MRPS5,False,Ribosome
+P82909,PD173074,MRPS36,False,Ribosome
+P82912,SB590885;Afatinib,MRPS11,False,Ribosome
+P82914,Afatinib;Savolitinib,MRPS15,False,Ribosome
+P82930,SB590885;Afatinib;Savolitinib,MRPS34,False,Ribosome
+P82932,Afatinib;PF-06747775,MRPS6,False,Ribosome
+P82933,SB590885;Afatinib;PF-06747775,MRPS9,False,Ribosome
+P82970,Savolitinib,HMGN5,False,Chromosome and associated proteins
+P82979,Afatinib;AZD5582;TGX221;AC220;IAP_7638,SARNP,False,Messenger RNA biogenesis
+P83111,GSK429286A,LACTB,False,Peptidases and inhibitors
+P83731,Afatinib;AZD5582;PLX-4720;Dabrafenib;WEHI-539;IAP_7638,RPL24,False,Ribosome
+P83916,Afatinib;Dabrafenib;Venetoclax;IAP_7638;Ara-G,CBX1,False,Chromosome and associated proteins
+P84090,Dabrafenib;Savolitinib,ERH,False,none
+P84095,Dabrafenib;Venetoclax,RHOG,False,Exosome
+P84098,Afatinib;CAY10566;WEHI-539;AZD5582,RPL19,False,Ribosome
+P84103,Dabrafenib;Savolitinib,SRSF3,False,Spliceosome
+P84157,Afatinib,MXRA7,False,none
+P85037,AZD5582,FOXK1,False,Transcription factors
+P98175,Dabrafenib,RBM10,True,Spliceosome
+P98179,Afatinib;Savolitinib,RBM3,False,Spliceosome
+Q00059,Afatinib;PF-06747775;Savolitinib,TFAM,False,Mitochondrial biogenesis
+Q00325,Crizotinib,SLC25A3,False,Transporters
+Q00535,SB590885;Afatinib;Dabrafenib;PLX-4720,CDK5,False,Protein kinases
+Q00577,Afatinib;Dabrafenib,PURA,False,Transcription factors
+Q00587,Afatinib,CDC42EP1,False,none
+Q00610,BIX-02188;IAP_7638;AZD5582,CLTC,False,Membrane trafficking
+Q00613,Crizotinib,HSF1,False,Transcription factors
+Q00688,Crizotinib;Afatinib;IAP_7638;AZD5582,FKBP3,False,Chaperones and folding catalysts
+Q00765,Afatinib;IAP_5620;AZD5582;Venetoclax;Lapatinib,REEP5,False,Exosome
+Q00796,IAP_5620;IAP_7638;AZD5582,SORD,False,Enzymes
+Q00839,Dabrafenib;PLX-4720;Savolitinib,HNRNPU,False,Spliceosome
+Q00978,TL-2-105,IRF9,False,Transcription factors
+Q01105,AC220;IAP_7638;Crizotinib,SET,False,Chromosome and associated proteins
+Q01167,AC220;Imatinib,FOXK2,False,Transcription factors
+Q01469,SB590885;GDC-0879;Savolitinib;AZD5582,FABP5,False,none
+Q01484,SB590885,ANK2,False,Cytoskeleton proteins
+Q01518,Afatinib;PLX-4720;Dabrafenib;PF-06747775;LIMK1 inhibitor BMS4;Crizotinib,CAP1,False,Membrane trafficking
+Q01650,Afatinib;Cetuximab;PF-06747775,SLC7A5,False,Transporters
+Q01658,Afatinib;PF-06747775,DR1,False,Transcription machinery
+Q01813,Afatinib;Dabrafenib;PF-06747775;GSK429286A,PFKP,False,Protein phosphatases and associated proteins
+Q01970,WEHI-539;IAP_7638;AZD5582,PLCB3,False,Membrane trafficking
+Q01995,Afatinib,TAGLN,False,Membrane trafficking
+Q02040,Dabrafenib;PLX-4720,AKAP17A,False,Spliceosome
+Q02218,Afatinib;Savolitinib;AZD5582;PF-06747775;IAP_7638;Ara-G,OGDH,False,Enzymes
+Q02252,SB590885;Dabrafenib;PLX-4720,ALDH6A1,False,Enzymes
+Q02318,SB590885;Dabrafenib;PLX-4720,CYP27A1,False,Cytochrome P450
+Q02543,SB590885;Afatinib;GSK429286A;AZD5582,RPL18A,False,Ribosome
+Q02750,AZD5582,MAP2K1,True,Protein kinases
+Q02809,WH-4-023;A-1155463;AZD5582;TGX221;Ponatinib;PF-06747775;IAP_7638,PLOD1,False,Exosome
+Q02878,SB590885;Afatinib;Dabrafenib,RPL6,False,Ribosome
+Q02880,AZD6094;Venetoclax;Ara-G;Savolitinib,TOP2B,False,DNA replication proteins
+Q02952,PF-06747775,AKAP12,False,none
+Q03111,Crizotinib,MLLT1,False,Transcription machinery
+Q03135,SB590885;Dabrafenib,CAV1,False,Membrane trafficking
+Q03154,SB590885;Dabrafenib;PLX-4720,ACY1,False,Peptidases and inhibitors
+Q03252,SB590885;GDC-0879;CAY10566;Dabrafenib,LMNB2,False,Cytoskeleton proteins
+Q03518,NVP-BHG712;IAP_7638;AZD5582,TAP1,False,Transporters
+Q03519,AZD5582;IAP_7638;Crizotinib,TAP2,False,Transporters
+Q04323,Afatinib,UBXN1,False,none
+Q04446,Afatinib,GBE1,False,Exosome
+Q04695,Afatinib;PF-06747775;Crizotinib,KRT17,False,Cytoskeleton proteins
+Q04760,Afatinib;Savolitinib,GLO1,False,Enzymes
+Q04837,PD173074,SSBP1,False,DNA replication proteins
+Q04912,PD173074,MST1R,False,Protein kinases
+Q04917,Afatinib;IAP_7638,YWHAH,False,Protein phosphatases and associated proteins
+Q05209,Dabrafenib;PLX-4720,PTPN12,False,Protein phosphatases and associated proteins
+Q05519,AC220;Crizotinib,SRSF11,False,Spliceosome
+Q05655,SB590885;GDC-0879;Dabrafenib,PRKCD,False,Protein kinases
+Q05682,Afatinib;GSK269962A;TGX221;PLX-4720;PF-06747775;LIMK1 inhibitor BMS4;GSK429286A,CALD1,False,Cytoskeleton proteins
+Q05D32,Ara-G,CTDSPL2,False,Protein phosphatases and associated proteins
+Q06124,Afatinib;AZD5582;Dabrafenib;SB590885;AC220;IAP_7638,PTPN11,True,Protein phosphatases and associated proteins
+Q06203,Afatinib;TGX221;Venetoclax,PPAT,False,Peptidases and inhibitors
+Q06210,Crizotinib;Dabrafenib;IAP_7638;AZD5582,GFPT1,False,Peptidases and inhibitors
+Q06546,Afatinib;PF-06747775,GABPA,False,Transcription factors
+Q06830,IAP_7638;AZD5582,PRDX1,False,Exosome
+Q07020,SB590885;AZD5582,RPL18,False,Ribosome
+Q07157,SB590885;GDC-0879;Afatinib;Dabrafenib,TJP1,True,Cytoskeleton proteins
+Q07666,Afatinib;TGX221,KHDRBS1,False,Spliceosome
+Q07817,Afatinib;WEHI-539;Venetoclax;A-1155463,BCL2L1,False,Protein phosphatases and associated proteins
+Q07954,Afatinib;PF-06747775,LRP1,False,Membrane trafficking
+Q07955,Dabrafenib;WEHI-539;PLX-4720;Savolitinib,SRSF1,False,Spliceosome
+Q07960,Dabrafenib;IAP_7638,ARHGAP1,False,Membrane trafficking
+Q08211,Dabrafenib;PLX-4720;Savolitinib,DHX9,True,Spliceosome
+Q08379,Afatinib;PF-06747775,GOLGA2,False,Membrane trafficking
+Q08380,Afatinib;PF-06747775;GSK429286A,LGALS3BP,False,Exosome
+Q08495,Savolitinib,DMTN,False,none
+Q08722,Afatinib;IAP_5620;IAP_7638;AZD5582,CD47,False,Cell adhesion molecules
+Q08945,Dabrafenib,SSRP1,False,Transcription factors
+Q08AG7,SB590885,MZT1,False,Cytoskeleton proteins
+Q08J23,AZD5582,NSUN2,False,Transfer RNA biogenesis
+Q09028,Afatinib;Ara-G,RBBP4,False,Chromosome and associated proteins
+Q09328,WEHI-539,MGAT5,False,Glycosyltransferases
+Q09666,Afatinib;TGX221;Venetoclax;SB590885;Ara-G,AHNAK,True,none
+Q0VDF9,Savolitinib,HSPA14,False,none
+Q10471,WH-4-023,GALNT2,False,Glycosyltransferases
+Q10570,Dabrafenib;PLX-4720,CPSF1,False,Transcription machinery
+Q10588,WEHI-539,BST1,False,CD molecules
+Q10713,Afatinib,PMPCA,False,Peptidases and inhibitors
+Q12765,Afatinib;PF-06747775;Crizotinib,SCRN1,False,Peptidases and inhibitors
+Q12768,Imatinib,WASHC5,False,Membrane trafficking
+Q12769,Savolitinib,NUP160,False,Messenger RNA biogenesis
+Q12788,Savolitinib,TBL3,False,Ribosome biogenesis
+Q12802,WEHI-539,AKAP13,False,Membrane trafficking
+Q12824,Venetoclax;Ara-G;Savolitinib,SMARCB1,True,Protein phosphatases and associated proteins
+Q12841,PLX-4720,FSTL1,False,Peptidases and inhibitors
+Q12846,SB590885;GDC-0879;IAP_5620;AZD5582,STX4,False,Membrane trafficking
+Q12874,TGX221,SF3A3,False,Spliceosome
+Q12904,Savolitinib,AIMP1,False,Transfer RNA biogenesis
+Q12905,Dabrafenib;Savolitinib,ILF2,False,Spliceosome
+Q12907,IAP_5620;AZD5582;Venetoclax;Lapatinib;IAP_7638,LMAN2,False,Membrane trafficking
+Q12931,Afatinib;Savolitinib;PF-06747775;SB590885;Ara-G,TRAP1,False,Chaperones and folding catalysts
+Q12959,GDC-0879;Afatinib;PLX-4720;Dabrafenib;Cetuximab;SB590885;Lapatinib,DLG1,True,Chromosome and associated proteins
+Q12972,AC220,PPP1R8,False,Protein phosphatases and associated proteins
+Q13011,PF-06747775,ECH1,False,Enzymes
+Q13043,Imatinib,STK4,True,Protein kinases
+Q13045,Dabrafenib,FLII,False,none
+Q13049,Cabozantinib,TRIM32,False,Ubiquitin system
+Q13084,Afatinib;Savolitinib;WEHI-539;SB590885;Ara-G,MRPL28,False,Ribosome
+Q13098,Afatinib,GPS1,False,Ubiquitin system
+Q13113,SB590885;Savolitinib,PDZK1IP1,False,none
+Q13123,Dabrafenib;IAP_7638;AZD5582,IK,False,Spliceosome
+Q13126,AZD5582,MTAP,False,Enzymes
+Q13131,PD173074,PRKAA1,False,Protein kinases
+Q13136,AC220;MCL1_8070,PPFIA1,False,Membrane trafficking
+Q13151,PLX-4720;Dabrafenib;TGX221;Venetoclax,HNRNPA0,False,Spliceosome
+Q13177,Afatinib;Savolitinib;Crizotinib,PAK2,False,Protein kinases
+Q13188,IAP_7638,STK3,False,Protein kinases
+Q13190,Afatinib;IAP_5620;AZD5582;SB590885;IAP_7638,STX5,False,Membrane trafficking
+Q13200,Afatinib;PF-06747775,PSMD2,False,Proteasome
+Q13217,Afatinib;AZD5582,DNAJC3,False,Chaperones and folding catalysts
+Q13242,Dabrafenib,SRSF9,False,Spliceosome
+Q13243,AZD6094,SRSF5,False,Spliceosome
+Q13247,WEHI-539,SRSF6,False,Spliceosome
+Q13263,PLK4_0066;Venetoclax;IAP_7638;AZD5582,TRIM28,False,Protein kinases
+Q13277,SB590885;GDC-0879;Dabrafenib,STX3,False,Membrane trafficking
+Q13283,Afatinib;Dabrafenib;PLX-4720;AZD5582,G3BP1,False,Messenger RNA biogenesis
+Q13310,Afatinib;PF-06747775,PABPC4,False,Messenger RNA biogenesis
+Q13330,Afatinib,MTA1,False,Transcription factors
+Q13347,Afatinib;LIMK1 inhibitor BMS4;PLX-4720,EIF3I,False,Translation factors
+Q13363,Afatinib;Venetoclax;IAP_7638,CTBP1,False,Membrane trafficking
+Q13405,Afatinib;AZD4547;PF-06747775;Savolitinib,MRPL49,False,Ribosome
+Q13418,Afatinib;PLX-4720;Dabrafenib;PF-06747775;GSK429286A,ILK,False,Protein kinases
+Q13425,TGX221;A-1155463,SNTB2,False,Domain-containing proteins not elsewhere classified
+Q13427,Dabrafenib;Savolitinib,PPIG,False,Spliceosome
+Q13428,Afatinib,TCOF1,False,Ribosome biogenesis
+Q13435,Dabrafenib;Savolitinib,SF3B2,False,Spliceosome
+Q13438,PF-06747775,OS9,False,Lectins
+Q13439,Dabrafenib;PLX-4720,GOLGA4,False,Membrane trafficking
+Q13442,Afatinib;Savolitinib;Crizotinib,PDAP1,False,none
+Q13443,SB590885;GDC-0879,ADAM9,False,Peptidases and inhibitors
+Q13451,Afatinib,FKBP5,False,Chaperones and folding catalysts
+Q13485,IAP_7638;AZD5582,SMAD4,True,none
+Q13492,WH-4-023;IAP_7638;TGX221;Venetoclax,PICALM,False,Membrane trafficking
+Q13505,Savolitinib,MTX1,False,Mitochondrial biogenesis
+Q13509,GDC-0879;Afatinib;Venetoclax;PF-06747775,TUBB3,False,Chromosome and associated proteins
+Q13510,GDC-0879;PLX-4720;WEHI-539;Dabrafenib;SB590885,ASAH1,False,Peptidases and inhibitors
+Q13523,IAP_5620;IAP_7638;AZD5582,PRPF4B,False,Protein kinases
+Q13526,AC220;Afatinib;Savolitinib,PIN1,False,Transcription machinery
+Q13561,Afatinib;PF-06747775;IAP_7638,DCTN2,False,Chromosome and associated proteins
+Q13564,Afatinib,NAE1,False,Ubiquitin system
+Q13573,Dabrafenib;PLX-4720;AZD5582,SNW1,False,Spliceosome
+Q13586,Afatinib,STIM1,False,Transporters
+Q13595,SB590885;GDC-0879;Dabrafenib;PLX-4720,TRA2A,False,Protein phosphatases and associated proteins
+Q13596,GDC-0879;Afatinib;PLX-4720;Dabrafenib;SB590885,SNX1,False,Membrane trafficking
+Q13610,Afatinib;PF-06747775,PWP1,False,Ribosome biogenesis
+Q13616,Afatinib;PLX-4720,CUL1,False,Ubiquitin system
+Q13618,Venetoclax,CUL3,True,Ubiquitin system
+Q13619,AZD5582,CUL4A,False,Ubiquitin system
+Q13637,Afatinib;LIMK1 inhibitor BMS4,RAB32,False,Membrane trafficking
+Q13641,IAP_5620;IAP_7638;AZD5582,TPBG,False,none
+Q13724,AZD5582;Savolitinib,MOGS,False,Exosome
+Q13740,SB590885,ALCAM,False,Cell adhesion molecules
+Q13751,Afatinib,LAMB3,False,none
+Q13753,Afatinib;AZD5582,LAMC2,False,none
+Q13813,Afatinib;Ara-G,SPTAN1,True,Cytoskeleton proteins
+Q13823,SB590885,GNL2,False,Ribosome biogenesis
+Q13867,TGX221,BLMH,False,Peptidases and inhibitors
+Q13868,SB590885,EXOSC2,False,Messenger RNA biogenesis
+Q13885,SB590885;Afatinib;Dabrafenib,TUBB2A,False,Chromosome and associated proteins
+Q13907,SB590885,IDI1,False,Enzymes
+Q13951,Afatinib;PLX-4720;Dabrafenib;PF-06747775;SB590885,CBFB,False,none
+Q14008,Afatinib;PF-06747775;GSK429286A,CKAP5,False,Chromosome and associated proteins
+Q14011,WH-4-023;Afatinib;TGX221;Venetoclax;IAP_7638,CIRBP,False,Spliceosome
+Q14019,Dabrafenib;PLX-4720,COTL1,False,none
+Q14108,Dabrafenib,SCARB2,False,none
+Q14118,WEHI-539;A-1155463,DAG1,False,none
+Q14126,Afatinib;PLX-4720;Dabrafenib;PF-06747775;GSK429286A,DSG2,False,Cell adhesion molecules
+Q14134,Idelalisib,TRIM29,False,Ubiquitin system
+Q14137,SB590885;Savolitinib,BOP1,False,Ribosome biogenesis
+Q14139,AZD5582,UBE4A,False,Ubiquitin system
+Q14152,Afatinib;PF-06747775;AZD5582,EIF3A,False,Translation factors
+Q14157,Afatinib;IAP_7638;AZD5582,UBAP2L,False,Ubiquitin system
+Q14160,Afatinib,SCRIB,False,none
+Q14165,Crizotinib,MLEC,False,none
+Q14166,SB590885,TTLL12,False,Cytoskeleton proteins
+Q14192,TGX221;IAP_7638;AZD5582,FHL2,False,Domain-containing proteins not elsewhere classified
+Q14194,TGX221;Venetoclax,CRMP1,False,none
+Q14197,Afatinib;Savolitinib;WEHI-539;PF-06747775;SB590885,MRPL58,False,Translation factors
+Q14204,Afatinib;PF-06747775;LIMK1 inhibitor BMS4;GSK429286A,DYNC1H1,False,Chromosome and associated proteins
+Q14232,PD173074,EIF2B1,False,Translation factors
+Q14240,Afatinib,EIF4A2,False,Messenger RNA biogenesis
+Q14254,SB590885;Savolitinib,FLOT2,False,Membrane trafficking
+Q14258,IAP_7638;AZD5582,TRIM25,False,Ubiquitin system
+Q14289,Savolitinib,PTK2B,False,Protein kinases
+Q14315,Afatinib;TGX221;PF-06747775;GSK429286A,FLNC,False,Cytoskeleton proteins
+Q14318,AZD5582,FKBP8,False,Protein phosphatases and associated proteins
+Q14320,Afatinib,FAM50A,False,Spliceosome
+Q14331,Pemetrexed,FRG1,False,Spliceosome
+Q14444,Afatinib;PLX-4720;AZD5582,CAPRIN1,False,Messenger RNA biogenesis
+Q14498,Dabrafenib;TGX221;Venetoclax;Ara-G,RBM39,False,Spliceosome
+Q14554,AZD5582;Crizotinib,PDIA5,False,Chaperones and folding catalysts
+Q14562,Dabrafenib,DHX8,False,Spliceosome
+Q14566,Afatinib;Venetoclax,MCM6,False,DNA replication proteins
+Q14573,Afatinib;IAP_5620;IAP_7638;AZD5582,ITPR3,False,Protein phosphatases and associated proteins
+Q14574,Afatinib;Capmatinib,DSC3,False,Cell adhesion molecules
+Q14651,Savolitinib;Dabrafenib;WEHI-539;PF-06747775;Crizotinib,PLS1,False,Cytoskeleton proteins
+Q14653,Savolitinib;Ara-G,IRF3,False,Transcription factors
+Q14671,Afatinib,PUM1,False,none
+Q14677,AZD5582,CLINT1,False,Membrane trafficking
+Q14678,SB590885,KANK1,False,DNA repair and recombination proteins
+Q14683,Dabrafenib;Venetoclax;Ara-G,SMC1A,True,Chromosome and associated proteins
+Q14687,AZD6094,GSE1,False,none
+Q14692,SB590885;Afatinib,BMS1,False,Ribosome biogenesis
+Q14694,Afatinib;AZD5582,USP10,False,Peptidases and inhibitors
+Q14696,Dabrafenib;PLX-4720,MESD,False,Chaperones and folding catalysts
+Q14697,IAP_5620;AZD5582;Savolitinib;PLX-4720;IAP_7638,GANAB,False,Enzymes
+Q14739,Dabrafenib;PLX-4720,LBR,False,Chromosome and associated proteins
+Q14764,TL-2-105;WEHI-539,MVP,False,Exosome
+Q14781,Imatinib,CBX2,False,Chromosome and associated proteins
+Q14789,Afatinib;Venetoclax,GOLGB1,False,Membrane trafficking
+Q14807,Dabrafenib;AZD5582,KIF22,False,Cytoskeleton proteins
+Q14839,Venetoclax;IAP_7638;Ara-G,CHD4,True,Chromosome and associated proteins
+Q14847,Crizotinib;IAP_7638;AZD5582,LASP1,False,Domain-containing proteins not elsewhere classified
+Q14919,Afatinib;PF-06747775,DRAP1,False,Transcription machinery
+Q14956,GDC-0879;NVP-BHG712;PLX-4720;Dabrafenib;SB590885;A-1155463,GPNMB,False,Membrane trafficking
+Q14974,Afatinib;PF-06747775,KPNB1,False,Ribosome biogenesis
+Q14978,Afatinib;Dabrafenib;TGX221,NOLC1,False,Transcription machinery
+Q14980,Dabrafenib;PLX-4720,NUMA1,False,Chromosome and associated proteins
+Q14BN4,Afatinib,SLMAP,False,none
+Q15003,Afatinib;Savolitinib,NCAPH,False,Chromosome and associated proteins
+Q15004,AC220,PCLAF,False,none
+Q15005,SB590885,SPCS2,False,Enzymes
+Q15006,Afatinib;IAP_5620;AZD5582;IAP_7638;Crizotinib,EMC2,False,Membrane trafficking
+Q15007,TGX221,WTAP,False,Messenger RNA biogenesis
+Q15014,Afatinib,MORF4L2,False,Chromosome and associated proteins
+Q15020,IAP_5620;IAP_7638;AZD5582,SART3,False,Spliceosome
+Q15029,SB590885;Dabrafenib;PLX-4720;Savolitinib,EFTUD2,False,Spliceosome
+Q15050,SB590885;Afatinib,RRS1,False,Ribosome biogenesis
+Q15056,Afatinib;Savolitinib;AZD5582,EIF4H,False,Messenger RNA biogenesis
+Q15061,SB590885;Afatinib,WDR43,False,Ribosome biogenesis
+Q15075,SB590885;LIMK1 inhibitor BMS4;Dabrafenib;PLX-4720,EEA1,False,Membrane trafficking
+Q15102,Afatinib;TGX221;PLK4_0066;Venetoclax;IAP_7638,PAFAH1B3,False,Enzymes
+Q15121,GDC-0879;Afatinib;PLX-4720;Dabrafenib;PF-06747775;SB590885;LIMK1 inhibitor BMS4,PEA15,False,none
+Q15165,Dabrafenib;PLX-4720,PON2,False,Exosome
+Q15181,IAP_5620;TGX221;IAP_7638;AZD5582,PPA1,False,Enzymes
+Q15185,Afatinib;IAP_5620;AZD5582;IAP_7638;Crizotinib,PTGES3,False,Enzymes
+Q15233,WEHI-539;Venetoclax,NONO,False,Spliceosome
+Q15287,SB590885;GDC-0879;Dabrafenib;PLX-4720,RNPS1,False,Messenger RNA biogenesis
+Q15291,Imatinib;KIT_6754,RBBP5,False,Chromosome and associated proteins
+Q15293,Pemetrexed,RCN1,False,Domain-containing proteins not elsewhere classified
+Q15345,AZD5582,LRRC41,False,Ubiquitin system
+Q15365,Afatinib;IAP_5620;AZD5582;SB590885;IAP_7638;Crizotinib,PCBP1,False,Messenger RNA biogenesis
+Q15369,Afatinib;AZD5582;Savolitinib;PLX-4720;Dabrafenib;SB590885,ELOC,False,Ubiquitin system
+Q15370,Afatinib;AZD5582;PLX-4720;Dabrafenib;SB590885,ELOB,False,Ubiquitin system
+Q15382,Afatinib;Dabrafenib;PLX-4720,RHEB,False,GTP-binding proteins
+Q15386,Dabrafenib;Venetoclax;AZD5582,UBE3C,False,Ubiquitin system
+Q15388,Afatinib;Dabrafenib;PF-06747775,TOMM20,False,Mitochondrial biogenesis
+Q15393,SB590885;Dabrafenib;PLX-4720;Savolitinib,SF3B3,False,Transcription machinery
+Q15404,Afatinib;Axitinib;TGX221;PF-06747775;GSK429286A,RSU1,False,none
+Q15417,GSK429286A;Afatinib;PF-06747775;Crizotinib,CNN3,False,none
+Q15424,Dabrafenib;TGX221,SAFB,False,Spliceosome
+Q15427,Savolitinib,SF3B4,False,Spliceosome
+Q15428,AC220,SF3A2,False,Spliceosome
+Q15435,AZD5582,PPP1R7,False,Protein phosphatases and associated proteins
+Q15436,Afatinib;PD173074;PF-06747775;AZD4547;GSK429286A,SEC23A,False,Membrane trafficking
+Q15437,IAP_7638;AZD5582,SEC23B,False,Membrane trafficking
+Q15554,Dabrafenib;Venetoclax;PLX-4720,TERF2,False,DNA replication proteins
+Q15631,Afatinib;Venetoclax;IAP_7638,TSN,False,none
+Q15646,AZD5582,OASL,False,none
+Q15691,Afatinib;Savolitinib;IAP_7638;AZD5582,MAPRE1,False,Chromosome and associated proteins
+Q15717,SB590885;GDC-0879;Dabrafenib,ELAVL1,False,Messenger RNA biogenesis
+Q15738,AZD5582,NSDHL,False,Enzymes
+Q15785,Afatinib;Savolitinib,TOMM34,False,Mitochondrial biogenesis
+Q15814,Afatinib;Crizotinib,TBCC,False,Cytoskeleton proteins
+Q15843,Crizotinib;Afatinib;IAP_7638;AZD5582,NEDD8,False,Ubiquitin system
+Q15904,AZD5582;Crizotinib,ATP6AP1,False,none
+Q15942,Afatinib;AZD5582;TGX221;Dabrafenib;PF-06747775;Linifanib;GSK429286A,ZYX,False,none
+Q16186,Afatinib;AZD5582,ADRM1,False,Proteasome
+Q16204,Afatinib;Savolitinib;PF-06747775;AZD5582,CCDC6,False,none
+Q16222,Afatinib;PF-06747775,UAP1,False,Enzymes
+Q16401,GSK269962A,PSMD5,False,Proteasome
+Q16512,Afatinib,PKN1,False,Protein kinases
+Q16513,Savolitinib,PKN2,False,Protein kinases
+Q16540,SB590885;Afatinib,MRPL23,False,Ribosome
+Q16555,Afatinib;Venetoclax;PF-06747775;AZD5582,DPYSL2,False,none
+Q16566,WEHI-539,CAMK4,False,Protein kinases
+Q16576,Savolitinib,RBBP7,False,Chromosome and associated proteins
+Q16595,AC220,FXN,False,Mitochondrial biogenesis
+Q16610,SB590885,ECM1,False,none
+Q16629,Dabrafenib;PLX-4720;Savolitinib,SRSF7,False,Spliceosome
+Q16630,IAP_5620;AZD5582;TGX221;AC220;IAP_7638;Crizotinib,CPSF6,False,Messenger RNA biogenesis
+Q16643,AC220;Afatinib;PF-06747775;GSK429286A,DBN1,False,Cilium and associated proteins
+Q16656,Afatinib;Venetoclax,NRF1,False,Mitochondrial biogenesis
+Q16658,GSK429286A,FSCN1,False,Membrane trafficking
+Q16718,WH-4-023;PD173074;WEHI-539;Ponatinib,NDUFA5,False,none
+Q16740,SB590885;Ara-G,CLPP,False,Peptidases and inhibitors
+Q16762,Afatinib;PF-06747775,TST,False,Enzymes
+Q16763,Afatinib,UBE2S,False,Ubiquitin system
+Q16775,SB590885;Afatinib;IAP_7638,HAGH,False,Enzymes
+Q16795,SB590885;Savolitinib,NDUFA9,False,none
+Q16798,Savolitinib,ME3,False,Enzymes
+Q16822,Afatinib;Dabrafenib;PF-06747775,PCK2,False,Enzymes
+Q16831,SB590885;GDC-0879;Dabrafenib;PLX-4720,UPP1,False,Enzymes
+Q16836,PF-06747775;Dabrafenib;PLX-4720;GSK429286A,HADH,False,Enzymes
+Q16850,GDC-0879,CYP51A1,False,Cytochrome P450
+Q16851,Savolitinib;Dabrafenib;PLX-4720;Crizotinib,UGP2,False,Enzymes
+Q27J81,Afatinib;PF-06747775,INF2,False,Cytoskeleton proteins
+Q29RF7,Ara-G,PDS5A,False,Chromosome and associated proteins
+Q2TAY7,SB590885;Dabrafenib;PLX-4720;Savolitinib,SMU1,False,Spliceosome
+Q2TB10,SB590885;Dabrafenib;PLX-4720,ZNF800,False,none
+Q2VPK5,AC220,CTU2,False,Transfer RNA biogenesis
+Q32MZ4,AZD5582,LRRFIP1,False,Transcription factors
+Q32P28,Afatinib;AZD5582;PD173074;TGX221;PLX-4720;Ponatinib;PF-06747775;AZD4547;A-1155463;GSK429286A,P3H1,False,Chaperones and folding catalysts
+Q3KQU3,Afatinib;GSK429286A,MAP7D1,False,Chromosome and associated proteins
+Q3KQV9,IAP_7638,UAP1L1,False,Enzymes
+Q3ZCQ8,AC220;GDC-0879;Dabrafenib;PLX-4720,TIMM50,False,Mitochondrial biogenesis
+Q49A26,Afatinib;PLX-4720;Savolitinib,GLYR1,False,none
+Q49B96,Imatinib;Nilotinib,COX19,False,Mitochondrial biogenesis
+Q4G0J3,Afatinib,LARP7,False,Transcription machinery
+Q4G0N4,Afatinib,NADK2,False,Enzymes
+Q4KWH8,WEHI-539,PLCH1,False,Membrane trafficking
+Q4VXU2,Savolitinib,PABPC1L,False,none
+Q52LJ0,Afatinib;Venetoclax,FAM98B,False,Transfer RNA biogenesis
+Q53EL6,IAP_7638,PDCD4,False,none
+Q53F19,Dabrafenib,NCBP3,False,none
+Q53GA4,Afatinib,PHLDA2,False,Domain-containing proteins not elsewhere classified
+Q53H12,SB590885;Dabrafenib;PLX-4720,AGK,False,Enzymes
+Q53H82,Afatinib;PF-06747775,LACTB2,False,Mitochondrial biogenesis
+Q53T59,GDC-0879;Dabrafenib,HS1BP3,False,Domain-containing proteins not elsewhere classified
+Q562R1,SB590885;TGX221,ACTBL2,False,none
+Q5HYI8,Afatinib;PF-06747775,RABL3,False,GTP-binding proteins
+Q5J8M3,Crizotinib,EMC4,False,Membrane trafficking
+Q5JTD0,Savolitinib;Crizotinib,TJAP1,False,none
+Q5JTH9,Afatinib,RRP12,False,Ribosome biogenesis
+Q5JTJ3,PF-06747775,COA6,False,Mitochondrial biogenesis
+Q5JTV8,Afatinib;IAP_7638;Venetoclax;AZD5582,TOR1AIP1,False,Chaperones and folding catalysts
+Q5JTZ9,AZD5582,AARS2,False,Amino acid related enzymes
+Q5M775,SB590885;Afatinib;WEHI-539,SPECC1,False,Cytoskeleton proteins
+Q5RKV6,Dabrafenib,EXOSC6,False,Messenger RNA biogenesis
+Q5SNT2,Afatinib,TMEM201,False,none
+Q5SRE5,Dabrafenib;AZD5582;Savolitinib,NUP188,False,Messenger RNA biogenesis
+Q5ST30,CAY10566;Lapatinib,VARS2,False,Amino acid related enzymes
+Q5SW79,Afatinib;PLX-4720;Dabrafenib;PF-06747775;SB590885,CEP170,False,Chromosome and associated proteins
+Q5SWX8,Afatinib,ODR4,False,none
+Q5SY16,Savolitinib,NOL9,False,Ribosome biogenesis
+Q5T0W9,Savolitinib,FAM83B,False,Domain-containing proteins not elsewhere classified
+Q5T1C6,PLX-4720,THEM4,False,Enzymes
+Q5T1S7,AZD5582,PPP6C,False,none
+Q5T280,Afatinib,SPOUT1,False,Chromosome and associated proteins
+Q5T5H1,WH-4-023;TGX221,ENSA,False,none
+Q5T653,SB590885;Afatinib;Savolitinib,MRPL2,False,Ribosome
+Q5T6F2,Savolitinib,UBAP2,False,Ubiquitin system
+Q5T9A4,Afatinib;PF-06747775,ATAD3B,False,Mitochondrial biogenesis
+Q5TBB1,Ara-G,RNASEH2B,False,DNA replication proteins
+Q5TC12,Savolitinib,ATPAF1,False,Mitochondrial biogenesis
+Q5TCU3,TGX221;GSK429286A,TPM2,False,none
+Q5TDH0,SB590885;Savolitinib;GSK429286A,DDI2,False,Proteasome
+Q5TGY3,Savolitinib,AHDC1,False,Chromosome and associated proteins
+Q5VV42,AZD5582,CDKAL1,False,Transfer RNA biogenesis
+Q63ZY3,Venetoclax,KANK2,False,DNA repair and recombination proteins
+Q658Y4,Dabrafenib,FAM91A1,False,none
+Q6DD87,Afatinib;AZD5582,ZNF787,False,none
+Q6DD88,IAP_5620;AZD5582;TGX221;Venetoclax;SB590885;IAP_7638,ATL3,False,Membrane trafficking
+Q6DKI1,IAP_7638,RPL7L1,False,none
+Q6DN90,Savolitinib,IQSEC1,False,Membrane trafficking
+Q6FI81,Afatinib;Savolitinib,CIAPIN1,False,none
+Q6IAN0,Afatinib;PF-06747775,DHRS7B,False,Enzymes
+Q6IBS0,Afatinib;AZD5582;PLX-4720;Dabrafenib;PF-06747775;SB590885,TWF2,False,Cilium and associated proteins
+Q6IBW4,PD173074,NCAPH2,False,Chromosome and associated proteins
+Q6IN85,AC220,PPP4R3A,False,Protein phosphatases and associated proteins
+Q6IQ23,AZD5582,PLEKHA7,False,Domain-containing proteins not elsewhere classified
+Q6KC79,AC220;PLX-4720;Dabrafenib;SB590885,NIPBL,False,Chromosome and associated proteins
+Q6L8Q7,Afatinib;Dabrafenib,PDE12,False,Messenger RNA biogenesis
+Q6NUK1,SB590885;Afatinib;Venetoclax;KIT_5808,SLC25A24,False,Transporters
+Q6NUM9,Dabrafenib;PLX-4720,RETSAT,False,Enzymes
+Q6NVY1,PF-06747775,HIBCH,False,Enzymes
+Q6NW29,Savolitinib,RWDD4,False,none
+Q6NZI2,Venetoclax,CAVIN1,False,Transcription machinery
+Q6P179,CAY10566,ERAP2,False,Peptidases and inhibitors
+Q6P1L8,Afatinib,MRPL14,False,Ribosome
+Q6P1M0,Afatinib;PF-06747775,SLC27A4,False,Lipid biosynthesis proteins
+Q6P1M3,IAP_7638,LLGL2,False,Membrane trafficking
+Q6P1N0,IAP_7638;AZD5582,CC2D1A,False,Exosome
+Q6P2E9,AZD5582,EDC4,False,Messenger RNA biogenesis
+Q6P2Q9,SB590885;Dabrafenib;Savolitinib,PRPF8,False,Spliceosome
+Q6PCB7,AZD5582,SLC27A1,False,Lipid biosynthesis proteins
+Q6PD62,Savolitinib,CTR9,False,Transcription machinery
+Q6PD74,Savolitinib,AAGAB,False,Membrane trafficking
+Q6PGP7,Dabrafenib,TTC37,False,Messenger RNA biogenesis
+Q6PI48,Afatinib;Savolitinib,DARS2,False,Amino acid related enzymes
+Q6PIU2,Afatinib;AZD5582;Venetoclax;SB590885;TL-2-105;IAP_7638,NCEH1,False,Peptidases and inhibitors
+Q6PJG6,AZD5582,BRAT1,False,DNA repair and recombination proteins
+Q6PKG0,Afatinib;PF-06747775;AZD5582,LARP1,False,Messenger RNA biogenesis
+Q6PL18,Dabrafenib;PLX-4720;Ara-G,ATAD2,False,Enzymes
+Q6RFH5,SB590885;PLX-4720,WDR74,False,Ribosome biogenesis
+Q6SPF0,Dabrafenib;Venetoclax,SAMD1,False,Chromosome and associated proteins
+Q6SZW1,Pemetrexed,SARM1,False,none
+Q6UB35,Savolitinib,MTHFD1L,False,Enzymes
+Q6UVK1,SB590885;Dabrafenib;PLX-4720,CSPG4,False,Proteoglycans
+Q6UVY6,Savolitinib,MOXD1,False,none
+Q6UW68,Afatinib;Savolitinib,TMEM205,False,none
+Q6UX71,WEHI-539,PLXDC2,False,none
+Q6UXD5,AZD5582,SEZ6L2,False,Domain-containing proteins not elsewhere classified
+Q6UXV4,AZD5582,APOOL,False,Mitochondrial biogenesis
+Q6WCQ1,SB590885;Afatinib;Cetuximab,MPRIP,False,Domain-containing proteins not elsewhere classified
+Q6WKZ4,Afatinib,RAB11FIP1,False,Membrane trafficking
+Q6YN16,Afatinib;AZD5582,HSDL2,False,none
+Q6ZRP7,WH-4-023,QSOX2,False,Enzymes
+Q6ZRV2,Afatinib;PLX-4720;Dabrafenib;PF-06747775;SB590885,FAM83H,False,Cytoskeleton proteins
+Q71RC2,Temozolomide,LARP4,False,Messenger RNA biogenesis
+Q71UM5,Dabrafenib,RPS27L,False,Ribosome
+Q7KZF4,Afatinib;GDC-0879;AZD5582;PLX-4720;Dabrafenib;PF-06747775;SB590885;LIMK1 inhibitor BMS4,SND1,False,none
+Q7KZI7,Afatinib;PF-06747775,MARK2,False,Protein kinases
+Q7L1Q6,AZD5582,BZW1,False,none
+Q7L2E3,Afatinib;Crizotinib,DHX30,False,Spliceosome
+Q7L2H7,Afatinib;PF-06747775,EIF3M,False,Translation factors
+Q7L5D6,BIX-02188,GET4,False,Membrane trafficking
+Q7L5N1,Afatinib;AZD5582,COPS6,False,Ubiquitin system
+Q7L8L6,Afatinib,FASTKD5,False,none
+Q7Z2K6,Afatinib;PF-06747775,ERMP1,False,none
+Q7Z2W9,SB590885;Capmatinib;Savolitinib,MRPL21,False,Ribosome
+Q7Z3B4,AZD5582;Savolitinib,NUP54,False,Messenger RNA biogenesis
+Q7Z3K3,Afatinib;Dabrafenib;Venetoclax,POGZ,False,Chromosome and associated proteins
+Q7Z3T8,SB590885;GDC-0879;Dabrafenib;PLX-4720,ZFYVE16,False,Protein phosphatases and associated proteins
+Q7Z417,Savolitinib,NUFIP2,False,none
+Q7Z460,Afatinib,CLASP1,False,Chromosome and associated proteins
+Q7Z4H3,Savolitinib,HDDC2,False,Enzymes
+Q7Z4V5,Afatinib;Crizotinib,HDGFL2,False,DNA repair and recombination proteins
+Q7Z4W1,Afatinib;PF-06747775;PLX-4720;Savolitinib,DCXR,False,Enzymes
+Q7Z5G4,SB590885,GOLGA7,False,Membrane trafficking
+Q7Z6M1,Savolitinib,RABEPK,False,Membrane trafficking
+Q7Z7F7,Afatinib;PF-06747775,MRPL55,False,Ribosome
+Q7Z7H5,Afatinib;PF-06747775;AZD5582,TMED4,False,Membrane trafficking
+Q7Z7H8,Afatinib;Savolitinib,MRPL10,False,Ribosome
+Q86SE5,Ara-G,RALYL,False,Domain-containing proteins not elsewhere classified
+Q86SX6,TGX221;PF-06747775,GLRX5,False,Chaperones and folding catalysts
+Q86TI0,Temozolomide;Savolitinib,TBC1D1,False,Membrane trafficking
+Q86U28,Afatinib;PF-06747775,ISCA2,False,Mitochondrial biogenesis
+Q86U38,Afatinib;Dabrafenib;PF-06747775;Savolitinib,NOP9,False,Ribosome biogenesis
+Q86U42,Dabrafenib,PABPN1,False,Messenger RNA biogenesis
+Q86UA1,Afatinib,PRPF39,False,Spliceosome
+Q86UE4,Dabrafenib,MTDH,False,none
+Q86UE8,WEHI-539,TLK2,False,Protein kinases
+Q86UP2,Afatinib;IAP_5620;Dabrafenib;SB590885;IAP_7638,KTN1,False,Mitochondrial biogenesis
+Q86UX7,AZD5582,FERMT3,False,Exosome
+Q86UY6,Crizotinib,NAA40,False,Chromosome and associated proteins
+Q86V21,Cabozantinib,AACS,False,Lipid biosynthesis proteins
+Q86VM9,PF-06747775,ZC3H18,False,Spliceosome
+Q86VY4,Savolitinib,TSPYL5,False,Chromosome and associated proteins
+Q86W42,Dabrafenib;PLX-4720,THOC6,False,Messenger RNA biogenesis
+Q86W50,AZD5582,METTL16,False,Messenger RNA biogenesis
+Q86WA6,CAY10566,BPHL,False,Enzymes
+Q86X76,Ponatinib;Crizotinib,NIT1,False,Enzymes
+Q86XP3,IAP_7638;AZD5582,DDX42,False,Spliceosome
+Q86Y82,Afatinib;IAP_7638;PLX-4720,STX12,False,Membrane trafficking
+Q86YB8,AC220,ERO1B,False,Enzymes
+Q86YH6,Savolitinib;AZD5582,PDSS2,False,Prenyltransferases
+Q86YP4,Capmatinib,GATAD2A,False,Transcription factors
+Q86YQ8,BIX-02188,CPNE8,False,Domain-containing proteins not elsewhere classified
+Q8IV08,Afatinib,PLD3,False,Membrane trafficking
+Q8IVL5,SB590885,P3H2,False,Chaperones and folding catalysts
+Q8IVL6,Afatinib;GSK269962A;TGX221;WEHI-539;PF-06747775,P3H3,False,Chaperones and folding catalysts
+Q8IVM0,Dabrafenib;PLX-4720,CCDC50,False,Membrane trafficking
+Q8IWA0,Afatinib,WDR75,False,Ribosome biogenesis
+Q8IWA4,Pemetrexed,MFN1,False,Mitochondrial biogenesis
+Q8IWB7,SB590885;GDC-0879;Dabrafenib;PLX-4720,WDFY1,False,Membrane trafficking
+Q8IWJ2,SB590885,GCC2,False,Membrane trafficking
+Q8IWR0,SB590885;Dabrafenib,ZC3H7A,False,Domain-containing proteins not elsewhere classified
+Q8IWR1,Nilotinib,TRIM59,False,Ubiquitin system
+Q8IWT6,Afatinib,LRRC8A,False,Ion channels
+Q8IWX8,SB590885;GDC-0879;Dabrafenib;PLX-4720,CHERP,False,Spliceosome
+Q8IX01,Afatinib;Venetoclax;PF-06747775;GSK429286A,SUGP2,False,Spliceosome
+Q8IX12,Dabrafenib,CCAR1,True,Transcription machinery
+Q8IXI1,Savolitinib,RHOT2,False,GTP-binding proteins
+Q8IXJ6,Savolitinib;AZD5582,SIRT2,False,Chromosome and associated proteins
+Q8IXM3,SB590885;Afatinib;Savolitinib,MRPL41,False,Ribosome
+Q8IXQ4,WEHI-539,GPALPP1,False,none
+Q8IXT5,Savolitinib,RBM12B,False,Spliceosome
+Q8IY17,Savolitinib,PNPLA6,False,Enzymes
+Q8IY26,CAY10566,PLPP6,False,Enzymes
+Q8IY81,SB590885,FTSJ3,False,Ribosome biogenesis
+Q8IYB3,WEHI-539,SRRM1,False,Messenger RNA biogenesis
+Q8IYB8,Afatinib;Dabrafenib;PLX-4720,SUPV3L1,False,Mitochondrial biogenesis
+Q8IYS2,IAP_7638;AZD5582,KIAA2013,False,none
+Q8IZ83,AZD5582,ALDH16A1,False,none
+Q8IZH2,Savolitinib,XRN1,True,Messenger RNA biogenesis
+Q8IZL8,AZD5582;Savolitinib,PELP1,False,Ribosome biogenesis
+Q8IZW8,SB590885,TNS4,False,Protein phosphatases and associated proteins
+Q8N0X7,SB590885;Dabrafenib;PLX-4720,SPART,False,none
+Q8N128,Afatinib;PF-06747775,FAM177A1,False,none
+Q8N1F7,Dabrafenib;AZD5582,NUP93,True,Messenger RNA biogenesis
+Q8N1G4,Afatinib;IAP_7638;AZD5582,LRRC47,False,none
+Q8N2F6,Dabrafenib,ARMC10,False,Domain-containing proteins not elsewhere classified
+Q8N2G8,Afatinib,GHDC,False,none
+Q8N335,TGX221;PF-06747775,GPD1L,False,Enzymes
+Q8N3D4,AZD5582;Savolitinib,EHBP1L1,False,Membrane trafficking
+Q8N3U4,Dabrafenib,STAG2,True,Chromosome and associated proteins
+Q8N4C8,AC220,MINK1,False,Protein kinases
+Q8N4L2,SB590885;GDC-0879;Dabrafenib,PIP4P2,False,Enzymes
+Q8N4T8,Savolitinib,CBR4,False,Enzymes
+Q8N4X5,Ara-G,AFAP1L2,False,Domain-containing proteins not elsewhere classified
+Q8N556,Afatinib,AFAP1,False,Cytoskeleton proteins
+Q8N5F7,Savolitinib,NKAP,False,Spliceosome
+Q8N5N7,Afatinib;Savolitinib;WEHI-539;PF-06747775;SB590885,MRPL50,False,Ribosome
+Q8N684,Dabrafenib,CPSF7,False,Messenger RNA biogenesis
+Q8N766,IAP_5620;AZD5582;IAP_7638;Crizotinib,EMC1,False,Membrane trafficking
+Q8N7H5,Dabrafenib,PAF1,False,Transcription machinery
+Q8N884,Pemetrexed,CGAS,False,Enzymes
+Q8N8A6,Savolitinib,DDX51,False,Ribosome biogenesis
+Q8N8S7,Afatinib;AZD5582,ENAH,False,none
+Q8N983,Afatinib;Savolitinib;Capmatinib;WEHI-539;PF-06747775;SB590885,MRPL43,False,Ribosome
+Q8NAV1,SB590885;GDC-0879;Dabrafenib;Savolitinib,PRPF38A,False,Spliceosome
+Q8NBJ4,Afatinib;PF-06747775,GOLM1,False,none
+Q8NBJ5,TGX221;AZD5582,COLGALT1,False,Glycosyltransferases
+Q8NBJ7,Afatinib;AZD5582,SUMF2,False,none
+Q8NBL1,Afatinib,POGLUT1,False,Glycosyltransferases
+Q8NBM4,Afatinib;PF-06747775;Savolitinib,UBAC2,False,Ubiquitin system
+Q8NBN7,GSK429286A,RDH13,False,Enzymes
+Q8NBS9,AZD5582;IAP_7638;Ara-G,TXNDC5,False,Chaperones and folding catalysts
+Q8NBT2,Afatinib,SPC24,False,Chromosome and associated proteins
+Q8NBU5,Afatinib;Savolitinib,ATAD1,False,Enzymes
+Q8NBX0,Savolitinib,SCCPDH,False,none
+Q8NC56,Afatinib;IAP_5620;Savolitinib;AZD5582;Venetoclax;SB590885;IAP_7638,LEMD2,False,Cytoskeleton proteins
+Q8NCA5,Afatinib,FAM98A,False,none
+Q8NCG7,Savolitinib,DAGLB,False,Enzymes
+Q8NCH0,SB590885;A-1155463,CHST14,False,Glycosyltransferases
+Q8NCW5,SB590885;WH-4-023;IAP_7638,NAXE,False,Enzymes
+Q8NDX5,Tivozanib,PHC3,False,Chromosome and associated proteins
+Q8NE71,Afatinib,ABCF1,False,Translation factors
+Q8NE86,GDC-0879;Afatinib;PLX-4720;Dabrafenib;SB590885,MCU,False,Mitochondrial biogenesis
+Q8NEJ9,Savolitinib,NGDN,False,Ribosome biogenesis
+Q8NEY8,SB590885;Dabrafenib;PLX-4720,PPHLN1,False,Chromosome and associated proteins
+Q8NFH3,AZD5582,NUP43,False,Messenger RNA biogenesis
+Q8NFH4,Dabrafenib,NUP37,False,Messenger RNA biogenesis
+Q8NFH5,Dabrafenib;AZD5582;IAP_7638;Savolitinib,NUP35,False,Messenger RNA biogenesis
+Q8NFQ8,SB590885;Afatinib;Venetoclax;AZD5582,TOR1AIP2,False,Chaperones and folding catalysts
+Q8NHH9,Dabrafenib,ATL2,False,Membrane trafficking
+Q8NHP8,Afatinib;Dabrafenib;TGX221,PLBD2,False,none
+Q8NI27,Dabrafenib,THOC2,False,Messenger RNA biogenesis
+Q8TAE8,Afatinib;Ara-G,GADD45GIP1,False,none
+Q8TAF3,Imatinib,WDR48,False,DNA repair and recombination proteins
+Q8TAQ2,Venetoclax;Savolitinib,SMARCC2,False,Transcription machinery
+Q8TAT6,Afatinib;Dabrafenib;Crizotinib,NPLOC4,False,Ribosome biogenesis
+Q8TB22,Savolitinib,SPATA20,False,none
+Q8TB36,Afatinib,GDAP1,False,Mitochondrial biogenesis
+Q8TB37,Afatinib,NUBPL,False,Chromosome and associated proteins
+Q8TBA6,Afatinib;IAP_5620;AZD5582;PF-06747775;Lapatinib;IAP_7638,GOLGA5,False,none
+Q8TBQ9,IAP_7638,TMEM167A,False,none
+Q8TC12,AZD5582,RDH11,False,Enzymes
+Q8TCC3,Afatinib;Ara-G,MRPL30,False,Ribosome
+Q8TCS8,Afatinib;AZD4547;PD173074;PF-06747775,PNPT1,False,Messenger RNA biogenesis
+Q8TD43,CAY10566,TRPM4,False,Ion channels
+Q8TD55,Afatinib;Dabrafenib,PLEKHO2,False,Domain-containing proteins not elsewhere classified
+Q8TDX7,AZD4547,NEK7,False,Protein kinases
+Q8TEA8,Afatinib;Dabrafenib;PLX-4720;IAP_7638,DTD1,False,Transfer RNA biogenesis
+Q8TED1,Afatinib;GSK269962A;TGX221;PD173074;Ponatinib;PF-06747775;Tivozanib;GSK429286A,GPX8,False,Enzymes
+Q8TEM1,SB590885;Dabrafenib;PLX-4720;AZD5582,NUP210,False,Messenger RNA biogenesis
+Q8TF01,PD173074,PNISR,False,Spliceosome
+Q8WTV0,SB590885;GDC-0879;Dabrafenib;PLX-4720,SCARB1,False,Membrane trafficking
+Q8WU39,Temozolomide,MZB1,False,none
+Q8WU76,Nilotinib,SCFD2,False,none
+Q8WU90,Crizotinib;Afatinib;IAP_7638;AZD5582,ZC3H15,False,none
+Q8WUA2,Ara-G,PPIL4,False,Spliceosome
+Q8WUF5,AZD5582,PPP1R13L,False,none
+Q8WUM0,Dabrafenib;AZD5582;Savolitinib,NUP133,False,Messenger RNA biogenesis
+Q8WUM4,Afatinib;Savolitinib;IAP_7638;AZD5582,PDCD6IP,False,Membrane trafficking
+Q8WUM9,AC220,SLC20A1,False,Transporters
+Q8WUY1,Afatinib;PF-06747775;PLX-4720;Savolitinib,THEM6,False,none
+Q8WUY8,Crizotinib,NAT14,False,none
+Q8WV74,Afatinib,NUDT8,False,Enzymes
+Q8WVJ2,Afatinib;Savolitinib,NUDCD2,False,none
+Q8WVM7,Savolitinib,STAG1,True,Chromosome and associated proteins
+Q8WVQ1,Afatinib;PF-06747775,CANT1,False,Enzymes
+Q8WW12,WH-4-023;Afatinib;GDC-0879;IAP_5620;AZD5582;Savolitinib;TGX221;SB590885;IAP_7638;Crizotinib,PCNP,False,none
+Q8WWB7,SB590885;Dabrafenib,GLMP,False,none
+Q8WWC4,AC220;Afatinib;PF-06747775;Savolitinib,MAIP1,False,none
+Q8WWH5,Cabozantinib,TRUB1,False,Transfer RNA biogenesis
+Q8WWM7,Afatinib;Savolitinib;AZD5582,ATXN2L,False,Messenger RNA biogenesis
+Q8WWM9,WEHI-539,CYGB,False,Transporters
+Q8WWY3,Venetoclax,PRPF31,False,Spliceosome
+Q8WXF1,WH-4-023;TGX221,PSPC1,False,Spliceosome
+Q8WXI7,PD173074,MUC16,False,Membrane trafficking
+Q8WXI9,Dabrafenib;Venetoclax;Ara-G,GATAD2B,False,Transcription factors
+Q8WXX5,AZD5582,DNAJC9,False,Chaperones and folding catalysts
+Q8WYP5,Afatinib;Dabrafenib;AZD5582,AHCTF1,True,none
+Q8WZA0,Afatinib;Crizotinib,LZIC,False,none
+Q8WZA9,SB590885;IAP_5620;Venetoclax;IAP_7638,IRGQ,False,none
+Q92466,Savolitinib,DDB2,False,Ubiquitin system
+Q92499,Afatinib;IAP_5620;AZD5582;Venetoclax;IAP_7638,DDX1,False,Spliceosome
+Q92506,Afatinib;PF-06747775,HSD17B8,False,Enzymes
+Q92520,Afatinib;Venetoclax,FAM3C,False,none
+Q92538,IAP_7638;AZD5582,GBF1,False,Membrane trafficking
+Q92541,IAP_5620;IAP_7638;AZD5582,RTF1,False,Transcription machinery
+Q92542,AZD5582,NCSTN,False,none
+Q92544,Afatinib;Venetoclax,TM9SF4,False,Exosome
+Q92552,SB590885;Afatinib;Savolitinib,MRPS27,False,Ribosome
+Q92572,Afatinib;Dabrafenib;PF-06747775,AP3S1,False,Membrane trafficking
+Q92575,SB590885;GDC-0879;Afatinib;PF-06747775,UBXN4,False,none
+Q92597,Savolitinib,NDRG1,False,Exosome
+Q92598,Crizotinib,HSPH1,False,Chaperones and folding catalysts
+Q92614,PF-06747775,MYO18A,False,Membrane trafficking
+Q92615,IAP_7638;AZD5582,LARP4B,True,Messenger RNA biogenesis
+Q92618,AC220,ZNF516,False,Transcription factors
+Q92621,Nilotinib;Savolitinib,NUP205,False,Messenger RNA biogenesis
+Q92629,AZD6094,SGCD,False,none
+Q92665,SB590885;Afatinib;AZD4547;PF-06747775,MRPS31,False,Ribosome
+Q92667,Afatinib;AZD4547;Dabrafenib;PF-06747775,AKAP1,False,Protein phosphatases and associated proteins
+Q92673,AZD5582,SORL1,False,Membrane trafficking
+Q92688,Afatinib;IAP_7638;AZD5582,ANP32B,False,Messenger RNA biogenesis
+Q92692,SB590885;GDC-0879;Dabrafenib,NECTIN2,False,Cell adhesion molecules
+Q92734,Savolitinib;Crizotinib,TFG,False,none
+Q92766,Linifanib,RREB1,False,Transcription factors
+Q92769,Venetoclax;IAP_7638;AZD5582,HDAC2,False,Chromosome and associated proteins
+Q92786,Savolitinib,PROX1,False,Transcription factors
+Q92791,TGX221,P3H4,False,Chaperones and folding catalysts
+Q92797,Savolitinib,SYMPK,False,Transcription machinery
+Q92817,GSK429286A;Afatinib;AZD5582,EVPL,False,Cytoskeleton proteins
+Q92820,Afatinib;Dabrafenib,GGH,False,Peptidases and inhibitors
+Q92841,Afatinib;Venetoclax;Savolitinib,DDX17,False,Spliceosome
+Q92876,IAP_7638,KLK6,False,Peptidases and inhibitors
+Q92879,Dabrafenib,CELF1,False,Spliceosome
+Q92890,Afatinib;PLX-4720;Savolitinib,UFD1,False,Ribosome biogenesis
+Q92896,A-1155463;Savolitinib,GLG1,False,none
+Q92900,Afatinib;IAP_7638;AZD5582,UPF1,False,Messenger RNA biogenesis
+Q92905,Afatinib,COPS5,False,Peptidases and inhibitors
+Q92922,Cabozantinib;Afatinib;Venetoclax;Ara-G,SMARCC1,False,Transcription machinery
+Q92925,Afatinib;Dabrafenib;PF-06747775,SMARCD2,False,Transcription machinery
+Q92930,Afatinib;TGX221;PLX-4720;Dabrafenib;PF-06747775,RAB8B,False,Membrane trafficking
+Q92945,Afatinib;Savolitinib;IAP_7638;AZD5582,KHSRP,False,Messenger RNA biogenesis
+Q92947,AZD5582,GCDH,False,Enzymes
+Q92973,Afatinib;AZD5582;PF-06747775;IAP_7638;GSK429286A,TNPO1,False,Messenger RNA biogenesis
+Q92974,Afatinib;PLX-4720;Dabrafenib;PF-06747775;Crizotinib,ARHGEF2,False,Membrane trafficking
+Q93009,AZD5582,USP7,False,Peptidases and inhibitors
+Q93050,SB590885;GDC-0879;Dabrafenib;PLX-4720,ATP6V0A1,False,Exosome
+Q969G3,WEHI-539;Venetoclax;Ara-G;PDGFR_0615,SMARCE1,False,Transcription machinery
+Q969H8,Dabrafenib,MYDGF,False,none
+Q969P0,SB590885;GDC-0879;Dabrafenib;PLX-4720,IGSF8,False,Exosome
+Q969Q5,Savolitinib,RAB24,False,Membrane trafficking
+Q969T9,Dabrafenib;Savolitinib,WBP2,False,Domain-containing proteins not elsewhere classified
+Q969X5,TGX221;AZD6094;Savolitinib,ERGIC1,False,Membrane trafficking
+Q969X6,SB590885;Afatinib;Nilotinib,UTP4,False,Ribosome biogenesis
+Q96A26,AZD5582,FAM162A,False,none
+Q96A33,SB590885;Afatinib;Venetoclax,CCDC47,False,Chaperones and folding catalysts
+Q96A35,SB590885;Ara-G,MRPL24,False,Ribosome
+Q96AB3,Afatinib,ISOC2,False,none
+Q96AE4,WEHI-539,FUBP1,False,Messenger RNA biogenesis
+Q96AG4,Venetoclax,LRRC59,False,none
+Q96AQ6,AZD5582,PBXIP1,False,none
+Q96AT1,WEHI-539,KIAA1143,False,none
+Q96AY3,Afatinib;AZD5582;TGX221;Pemetrexed;PF-06747775;AZD4547,FKBP10,False,Chaperones and folding catalysts
+Q96B54,Afatinib;Ara-G,ZNF428,False,none
+Q96C01,Savolitinib,FAM136A,False,none
+Q96C19,Dabrafenib;PLX-4720;Crizotinib,EFHD2,False,Domain-containing proteins not elsewhere classified
+Q96C86,SB590885;Dabrafenib,DCPS,False,Messenger RNA biogenesis
+Q96C90,AC220,PPP1R14B,False,Protein phosphatases and associated proteins
+Q96CG8,SB590885;PLX-4720,CTHRC1,False,Cilium and associated proteins
+Q96CM8,Afatinib;PF-06747775,ACSF2,False,Lipid biosynthesis proteins
+Q96CP2,AC220,FLYWCH2,False,none
+Q96CS3,SB590885;Venetoclax,FAF2,False,Messenger RNA biogenesis
+Q96CT7,Afatinib;AZD5582;PF-06747775;IAP_7638;Crizotinib,CCDC124,False,none
+Q96CW1,SB590885;TGX221;Savolitinib,AP2M1,False,Membrane trafficking
+Q96DA6,Afatinib;PF-06747775;Savolitinib,DNAJC19,False,Chaperones and folding catalysts
+Q96DB5,Afatinib,RMDN1,False,none
+Q96DC8,BIX-02188,ECHDC3,False,none
+Q96DI7,GDC-0879;Savolitinib;PLX-4720;Dabrafenib;SB590885,SNRNP40,False,Spliceosome
+Q96DV4,SB590885;Afatinib;Savolitinib,MRPL38,False,Ribosome
+Q96E11,GDC-0879;Afatinib;PF-06747775,MRRF,False,Translation factors
+Q96E39,Crizotinib;Savolitinib,RBMXL1,False,none
+Q96EC8,Savolitinib,YIPF6,False,Membrane trafficking
+Q96EE3,Savolitinib,SEH1L,False,Messenger RNA biogenesis
+Q96EL3,Afatinib;TGX221;PF-06747775,MRPL53,False,Ribosome
+Q96EP5,Crizotinib;WEHI-539;Savolitinib,DAZAP1,False,Messenger RNA biogenesis
+Q96ES7,AC220,SGF29,False,Transcription machinery
+Q96EV2,AC220,RBM33,False,Domain-containing proteins not elsewhere classified
+Q96EY4,PDGFR_0615,TMA16,False,Ribosome biogenesis
+Q96EY7,Afatinib;Savolitinib;PD173074;PF-06747775;AZD4547,PTCD3,False,Mitochondrial biogenesis
+Q96F86,Savolitinib,EDC3,False,Messenger RNA biogenesis
+Q96FQ6,Afatinib;PF-06747775,S100A16,False,Domain-containing proteins not elsewhere classified
+Q96FS4,Afatinib;WEHI-539,SIPA1,False,none
+Q96FV9,AZD5582,THOC1,False,Messenger RNA biogenesis
+Q96FW1,Crizotinib;TGX221;IAP_7638;AZD5582,OTUB1,False,Peptidases and inhibitors
+Q96G03,IAP_7638,PGM2,False,Enzymes
+Q96G21,Savolitinib,IMP4,False,Ribosome biogenesis
+Q96G23,Crizotinib,CERS2,False,Enzymes
+Q96GC5,SB590885;Afatinib;PF-06747775;Ara-G,MRPL48,False,Ribosome
+Q96GD0,Afatinib;TGX221;Venetoclax,PDXP,False,Protein phosphatases and associated proteins
+Q96GD4,AZD5582,AURKB,False,Protein kinases
+Q96GG9,GSK269962A;IAP_7638;AZD5582,DCUN1D1,False,Ubiquitin system
+Q96GK7,SB590885;Afatinib;Dabrafenib;PLX-4720,FAHD2A,False,none
+Q96GU1,Idelalisib,PAGE5,False,none
+Q96GX5,Savolitinib,MASTL,False,Protein kinases
+Q96HE7,Afatinib;IAP_5620;AZD5582;PF-06747775;Venetoclax;IAP_7638,ERO1A,False,Enzymes
+Q96HP4,IAP_7638,OXNAD1,False,none
+Q96HR3,Savolitinib,MED30,False,Transcription machinery
+Q96HS1,CAY10566;Dabrafenib;PLX-4720,PGAM5,False,Enzymes
+Q96HY6,Afatinib;PF-06747775,DDRGK1,False,Ubiquitin system
+Q96HY7,Afatinib;PF-06747775,DHTKD1,False,Mitochondrial biogenesis
+Q96I15,Savolitinib,SCLY,False,Enzymes
+Q96I24,SB590885;Dabrafenib,FUBP3,False,Messenger RNA biogenesis
+Q96I25,Dabrafenib,RBM17,False,Spliceosome
+Q96I99,Dabrafenib,SUCLG2,False,Exosome
+Q96IU4,Dabrafenib,ABHD14B,False,Peptidases and inhibitors
+Q96IZ0,GSK429286A;AZD5582,PAWR,False,none
+Q96J01,Dabrafenib;PLX-4720,THOC3,False,Messenger RNA biogenesis
+Q96JB5,Afatinib;PF-06747775;Savolitinib,CDK5RAP3,False,none
+Q96JJ7,TGX221;GSK429286A,TMX3,False,Chaperones and folding catalysts
+Q96JM3,TGX221;Venetoclax,CHAMP1,False,Chromosome and associated proteins
+Q96K17,Crizotinib,BTF3L4,False,none
+Q96KA5,AZD5582,CLPTM1L,False,none
+Q96KP4,SB590885;Dabrafenib,CNDP2,False,Peptidases and inhibitors
+Q96KR1,Dabrafenib;AZD5582,ZFR,False,Spliceosome
+Q96LJ7,Afatinib;PF-06747775,DHRS1,False,Enzymes
+Q96ME7,TGX221;Venetoclax,ZNF512,False,none
+Q96MX3,AC220,ZNF48,False,none
+Q96N64,IAP_7638,PWWP2A,False,Chromosome and associated proteins
+Q96P16,WH-4-023;Afatinib;TGX221;Venetoclax,RPRD1A,False,Transcription machinery
+Q96PE7,WEHI-539,MCEE,False,Enzymes
+Q96PK6,Afatinib;Dabrafenib;Savolitinib,RBM14,False,none
+Q96PZ0,Venetoclax,PUS7,False,Transfer RNA biogenesis
+Q96QC0,Dabrafenib,PPP1R10,False,Protein phosphatases and associated proteins
+Q96QD8,Imatinib,SLC38A2,False,Transporters
+Q96QD9,AZD5582,FYTTD1,False,none
+Q96RP9,Afatinib;PF-06747775;Crizotinib,GFM1,False,Translation factors
+Q96RQ3,Afatinib;PF-06747775,MCCC1,False,Enzymes
+Q96S52,AZD5582,PIGS,False,none
+Q96SI9,Dabrafenib;Venetoclax;Savolitinib,STRBP,False,Spliceosome
+Q96ST2,Afatinib,IWS1,False,Transcription machinery
+Q96ST3,Ara-G;Savolitinib,SIN3A,True,Chromosome and associated proteins
+Q96T23,TGX221,RSF1,False,Chromosome and associated proteins
+Q96T37,Dabrafenib;PLX-4720;Savolitinib,RBM15,False,Messenger RNA biogenesis
+Q96T88,GSK1070916;Dabrafenib;Venetoclax;Ara-G,UHRF1,False,Ubiquitin system
+Q96TA2,Crizotinib,YME1L1,False,Peptidases and inhibitors
+Q96TC7,Venetoclax;Crizotinib,RMDN3,False,Membrane trafficking
+Q99417,CAY10566,MYCBP,False,Cilium and associated proteins
+Q99426,Afatinib;Venetoclax;PF-06747775,TBCB,False,Cytoskeleton proteins
+Q99436,Afatinib;Savolitinib;Crizotinib,PSMB7,False,Peptidases and inhibitors
+Q99439,SB590885;TGX221;IAP_7638;AZD5582,CNN2,False,none
+Q99442,Savolitinib,SEC62,False,Secretion system
+Q99447,SB590885;Dabrafenib,PCYT2,False,Enzymes
+Q99459,Dabrafenib;IAP_7638;AZD5582,CDC5L,False,Spliceosome
+Q99460,Afatinib;PF-06747775;LIMK1 inhibitor BMS4,PSMD1,False,Proteasome
+Q99471,Afatinib;Savolitinib;TGX221;Crizotinib,PFDN5,False,Chaperones and folding catalysts
+Q99496,Afatinib;Venetoclax,RNF2,False,Ubiquitin system
+Q99497,Afatinib;AZD5582;PLX-4720;Dabrafenib;SB590885;IAP_7638;Crizotinib,PARK7,False,Peptidases and inhibitors
+Q99523,SB590885;GDC-0879;Dabrafenib,SORT1,False,none
+Q99536,GDC-0879;Afatinib;PLX-4720;Dabrafenib;PF-06747775;SB590885,VAT1,False,Mitochondrial biogenesis
+Q99543,Savolitinib,DNAJC2,False,Chaperones and folding catalysts
+Q99567,AZD5582,NUP88,False,Messenger RNA biogenesis
+Q99569,Afatinib,PKP4,False,none
+Q99584,Dabrafenib;AZD5582,S100A13,False,Domain-containing proteins not elsewhere classified
+Q99590,Afatinib;Dabrafenib,SCAF11,False,none
+Q99598,SB590885,TSNAX,False,none
+Q99614,Afatinib;Dabrafenib;Savolitinib,TTC1,False,Chaperones and folding catalysts
+Q99615,Afatinib;Ara-G,DNAJC7,False,Chaperones and folding catalysts
+Q99623,AC220;Crizotinib,PHB2,False,Mitochondrial biogenesis
+Q99627,Afatinib;Savolitinib;PF-06747775;AC220;IAP_7638,COPS8,False,Ubiquitin system
+Q99653,Afatinib;IAP_7638;Dabrafenib;PLX-4720,CHP1,False,Protein phosphatases and associated proteins
+Q99714,Dabrafenib,HSD17B10,False,Mitochondrial biogenesis
+Q99733,Afatinib;IAP_5620;AZD5582;PLX-4720;Dabrafenib;SB590885;IAP_7638;Crizotinib,NAP1L4,False,Chromosome and associated proteins
+Q99747,Afatinib,NAPG,False,Membrane trafficking
+Q99797,Afatinib;PF-06747775,MIPEP,False,Peptidases and inhibitors
+Q99798,WEHI-539,ACO2,False,Enzymes
+Q99805,Afatinib;PF-06747775,TM9SF2,False,Exosome
+Q99816,Dabrafenib,TSG101,False,Membrane trafficking
+Q99829,PD173074,CPNE1,False,Domain-containing proteins not elsewhere classified
+Q99832,Afatinib;IAP_5620;IAP_7638;AZD5582,CCT7,False,Chaperones and folding catalysts
+Q99848,Afatinib;IAP_7638;AZD5582,EBNA1BP2,False,Ribosome biogenesis
+Q99933,SB590885;AZD5582,BAG1,False,Chaperones and folding catalysts
+Q99959,Afatinib;PF-06747775;GSK429286A,PKP2,False,none
+Q99961,Afatinib;Savolitinib,SH3GL1,False,Membrane trafficking
+Q9BPU6,TGX221;Lapatinib;Crizotinib,DPYSL5,False,none
+Q9BPX3,Afatinib,NCAPG,False,Chromosome and associated proteins
+Q9BPX5,Venetoclax,ARPC5L,False,Membrane trafficking
+Q9BQ39,SB590885;GDC-0879;Dabrafenib;Savolitinib,DDX50,False,Spliceosome
+Q9BQ48,Afatinib;Savolitinib,MRPL34,False,Ribosome
+Q9BQ61,Afatinib;Savolitinib,TRIR,False,DNA replication proteins
+Q9BQ69,TGX221,MACROD1,False,Enzymes
+Q9BQ95,Afatinib,ECSIT,False,Mitochondrial biogenesis
+Q9BQA1,Afatinib;TGX221,WDR77,False,Spliceosome
+Q9BQC6,Afatinib,MRPL57,False,none
+Q9BQE3,Dabrafenib;PLX-4720;Savolitinib,TUBA1C,False,Messenger RNA biogenesis
+Q9BQE5,TL-2-105,APOL2,False,none
+Q9BQP7,Afatinib,MGME1,False,Mitochondrial biogenesis
+Q9BQS8,WEHI-539,FYCO1,False,Membrane trafficking
+Q9BR76,WEHI-539;GSK269962A;Crizotinib,CORO1B,False,Cytoskeleton proteins
+Q9BRA2,PLX-4720;Savolitinib,TXNDC17,False,none
+Q9BRD0,Savolitinib;Ara-G,BUD13,False,Spliceosome
+Q9BRJ2,Afatinib;AZD4547;PF-06747775,MRPL45,False,none
+Q9BRP8,Crizotinib;PF-06747775;IAP_7638;AZD5582,PYM1,False,Messenger RNA biogenesis
+Q9BRQ0,WEHI-539;Pemetrexed,PYGO2,False,none
+Q9BRQ6,Afatinib;PF-06747775,CHCHD6,False,Protein phosphatases and associated proteins
+Q9BRT3,Afatinib;PF-06747775,MIEN1,False,none
+Q9BRX2,GSK429286A,PELO,False,Messenger RNA biogenesis
+Q9BS26,Afatinib;IAP_7638;PF-06747775;AZD5582,ERP44,False,Membrane trafficking
+Q9BSC4,Afatinib;Savolitinib,NOL10,False,Ribosome biogenesis
+Q9BSD7,Venetoclax,NTPCR,False,Enzymes
+Q9BSF4,Savolitinib,TIMM29,False,none
+Q9BSH4,Afatinib,TACO1,False,Mitochondrial biogenesis
+Q9BSH5,Afatinib;PF-06747775;GSK429286A,HDHD3,False,none
+Q9BSJ8,TGX221;AZD5582;Savolitinib,ESYT1,False,none
+Q9BT23,Temozolomide,LIMD2,False,none
+Q9BT73,Crizotinib,PSMG3,False,Proteasome
+Q9BT78,Afatinib;AZD5582,COPS4,False,Ubiquitin system
+Q9BTD8,Savolitinib,RBM42,False,Domain-containing proteins not elsewhere classified
+Q9BTE1,SB590885;Imatinib;Savolitinib,DCTN5,False,Chromosome and associated proteins
+Q9BTE3,Afatinib;Venetoclax,MCMBP,False,none
+Q9BTT0,Afatinib;TGX221;Savolitinib,ANP32E,False,Chromosome and associated proteins
+Q9BTT6,Afatinib;PF-06747775,LRRC1,False,none
+Q9BTU6,Dabrafenib,PI4K2A,False,Membrane trafficking
+Q9BTV4,SB590885;TGX221;AZD5582;Crizotinib,TMEM43,False,none
+Q9BTY7,Savolitinib,HGH1,False,none
+Q9BU23,LIMK1 inhibitor BMS4;Dabrafenib;PLX-4720,LMF2,False,none
+Q9BU61,IAP_7638;AZD5582,NDUFAF3,False,Mitochondrial biogenesis
+Q9BU89,Savolitinib,DOHH,False,Enzymes
+Q9BUB7,Savolitinib,TMEM70,False,Mitochondrial biogenesis
+Q9BUF5,Afatinib;PF-06747775;GSK429286A,TUBB6,False,Chromosome and associated proteins
+Q9BUJ2,Savolitinib,HNRNPUL1,False,none
+Q9BUP3,Afatinib;Cetuximab;PF-06747775,HTATIP2,False,Exosome
+Q9BUQ8,SB590885;Dabrafenib;PLX-4720;Savolitinib,DDX23,False,Spliceosome
+Q9BUR5,Savolitinib,APOO,False,Mitochondrial biogenesis
+Q9BUT1,Ara-G,BDH2,False,Enzymes
+Q9BV23,Ara-G;Savolitinib,ABHD6,False,Peptidases and inhibitors
+Q9BV36,SB590885;Dabrafenib,MLPH,False,Membrane trafficking
+Q9BV38,Savolitinib,WDR18,False,Ribosome biogenesis
+Q9BV40,Afatinib;Linifanib;PF-06747775,VAMP8,False,Membrane trafficking
+Q9BV86,Afatinib,NTMT1,False,Enzymes
+Q9BVA1,Venetoclax,TUBB2B,False,Chromosome and associated proteins
+Q9BVC6,TGX221;Venetoclax,TMEM109,False,none
+Q9BVG4,SB590885,PBDC1,False,none
+Q9BVK6,Afatinib;IAP_5620;AZD5582;Venetoclax;IAP_7638,TMED9,False,Membrane trafficking
+Q9BVP2,SB590885,GNL3,False,Ribosome biogenesis
+Q9BVT8,AZD5582,TMUB1,False,Ubiquitin system
+Q9BW27,SB590885;Savolitinib,NUP85,False,Messenger RNA biogenesis
+Q9BWD1,Afatinib;Venetoclax,ACAT2,False,Exosome
+Q9BWF3,Dabrafenib,RBM4,False,Spliceosome
+Q9BWM7,Dabrafenib;TGX221;PLX-4720,SFXN3,False,Mitochondrial biogenesis
+Q9BX68,Dabrafenib,HINT2,False,none
+Q9BXI6,SB590885;Savolitinib,TBC1D10A,False,Membrane trafficking
+Q9BXJ9,Afatinib,NAA15,False,Chromosome and associated proteins
+Q9BXK5,Afatinib;IAP_5620;Savolitinib,BCL2L13,False,none
+Q9BXP2,Dabrafenib;AZD5582,SLC12A9,False,Transporters
+Q9BXP5,SB590885;Afatinib,SRRT,False,none
+Q9BY32,SB590885;Afatinib,ITPA,False,Enzymes
+Q9BY44,Crizotinib,EIF2A,False,Messenger RNA biogenesis
+Q9BYD1,Afatinib;WEHI-539;PF-06747775;SB590885;Ara-G,MRPL13,False,Ribosome
+Q9BYD2,SB590885;Afatinib,MRPL9,False,Ribosome
+Q9BYD3,Afatinib;Savolitinib;WEHI-539;PF-06747775;SB590885;Ara-G,MRPL4,False,Ribosome
+Q9BYD6,SB590885;Afatinib;PLX-4720,MRPL1,False,Ribosome
+Q9BYN8,Afatinib;PF-06747775;Savolitinib,MRPS26,False,Ribosome
+Q9BYT8,Venetoclax,NLN,False,Peptidases and inhibitors
+Q9BZE1,SB590885;Afatinib;Savolitinib,MRPL37,False,Ribosome
+Q9BZF1,GSK429286A;Savolitinib,OSBPL8,False,Membrane trafficking
+Q9BZI7,Linifanib,UPF3B,True,Messenger RNA biogenesis
+Q9BZK7,AC220,TBL1XR1,True,Chromosome and associated proteins
+Q9BZL1,Afatinib;Savolitinib,UBL5,False,Spliceosome
+Q9BZX2,Afatinib,UCK2,False,Enzymes
+Q9BZZ5,Crizotinib;Venetoclax;IAP_7638;AZD5582,API5,False,none
+Q9C004,SB590885,SPRY4,False,none
+Q9C005,TGX221,DPY30,False,Chromosome and associated proteins
+Q9C0B1,Afatinib,FTO,False,Messenger RNA biogenesis
+Q9C0B5,Afatinib,ZDHHC5,False,Membrane trafficking
+Q9C0C2,Afatinib;Lapatinib,TNKS1BP1,False,none
+Q9C0E8,GSK269962A,LNPK,False,Membrane trafficking
+Q9C0J8,Capmatinib,WDR33,False,Messenger RNA biogenesis
+Q9GZR2,Afatinib;AZD5582,REXO4,False,Ribosome biogenesis
+Q9GZS3,SB590885;Afatinib;Dabrafenib;PLX-4720,WDR61,False,Messenger RNA biogenesis
+Q9GZT3,Afatinib;PF-06747775,SLIRP,False,Cilium and associated proteins
+Q9GZT6,PD173074,CCDC90B,False,none
+Q9GZT8,Afatinib;Crizotinib,NIF3L1,False,none
+Q9GZZ1,Afatinib,NAA50,False,Chromosome and associated proteins
+Q9H019,Afatinib,MTFR1L,False,none
+Q9H074,AZD5582,PAIP1,False,Messenger RNA biogenesis
+Q9H078,PF-06747775,CLPB,False,Chaperones and folding catalysts
+Q9H082,Savolitinib,RAB33B,False,Membrane trafficking
+Q9H0A0,Afatinib;Savolitinib,NAT10,False,Ribosome biogenesis
+Q9H0C8,Afatinib;Savolitinib,ILKAP,False,Protein phosphatases and associated proteins
+Q9H0E2,GDC-0879;PLX-4720;Dabrafenib;SB590885;IAP_7638,TOLLIP,False,Exosome
+Q9H0E3,AC220,SAP130,False,Chromosome and associated proteins
+Q9H0H5,SB590885;Dabrafenib,RACGAP1,False,Membrane trafficking
+Q9H0S4,SB590885,DDX47,False,Ribosome biogenesis
+Q9H0U4,Afatinib;Crizotinib,RAB1B,False,Membrane trafficking
+Q9H0U6,Afatinib;Savolitinib;WEHI-539;PF-06747775;SB590885,MRPL18,False,Ribosome
+Q9H173,AZD5582,SIL1,False,Mitochondrial biogenesis
+Q9H1A3,SB590885;GDC-0879;Dabrafenib;PLX-4720,METTL9,False,none
+Q9H1E3,Crizotinib;IAP_5620;IAP_7638;AZD5582,NUCKS1,False,none
+Q9H1E5,Afatinib,TMX4,False,none
+Q9H223,PLX-4720;IAP_7638;Dabrafenib;LIMK1 inhibitor BMS4;Ara-G,EHD4,False,Membrane trafficking
+Q9H299,Afatinib;AZD5582;Savolitinib;PLX-4720;Dabrafenib;PF-06747775;LIMK1 inhibitor BMS4,SH3BGRL3,False,Domain-containing proteins not elsewhere classified
+Q9H2D6,Dabrafenib;Venetoclax;PLX-4720,TRIOBP,False,Cytoskeleton proteins
+Q9H2M9,Venetoclax;IAP_7638,RAB3GAP2,False,Membrane trafficking
+Q9H2P0,Dabrafenib;Venetoclax;IAP_7638;Ara-G,ADNP,False,Transcription factors
+Q9H2V7,Venetoclax,SPIN1,False,Transporters
+Q9H2W6,SB590885;Afatinib;PF-06747775,MRPL46,False,Ribosome
+Q9H307,Afatinib;AZD5582;TGX221;PLX-4720;Dabrafenib,PNN,False,Messenger RNA biogenesis
+Q9H3K2,Motesanib,GHITM,False,Transporters
+Q9H3N1,Afatinib;IAP_7638;AZD5582,TMX1,False,none
+Q9H3S7,Dabrafenib,PTPN23,False,Protein phosphatases and associated proteins
+Q9H3U1,Dabrafenib;Savolitinib,UNC45A,False,Chaperones and folding catalysts
+Q9H444,IAP_7638;AZD5582,CHMP4B,False,Membrane trafficking
+Q9H4A6,IAP_7638;AZD5582,GOLPH3,False,Membrane trafficking
+Q9H4G0,Afatinib;PF-06747775;GSK429286A,EPB41L1,False,Domain-containing proteins not elsewhere classified
+Q9H4I3,Savolitinib,TRABD,False,none
+Q9H583,Savolitinib,HEATR1,False,Ribosome biogenesis
+Q9H5V8,Dabrafenib;Venetoclax,CDCP1,False,CD molecules
+Q9H5X1,Dabrafenib,CIAO2A,False,none
+Q9H6D7,Crizotinib,HAUS4,False,Chromosome and associated proteins
+Q9H6H4,Savolitinib,REEP4,False,none
+Q9H6R0,Savolitinib,DHX33,False,Ribosome biogenesis
+Q9H6R3,CAY10566,ACSS3,False,Lipid biosynthesis proteins
+Q9H6R4,Afatinib,NOL6,False,Ribosome biogenesis
+Q9H6S3,Afatinib,EPS8L2,False,Membrane trafficking
+Q9H6V9,SB590885,LDAH,False,none
+Q9H6Z4,Afatinib;IAP_5620;Savolitinib;AZD5582;IAP_7638,RANBP3,False,none
+Q9H773,Savolitinib;Venetoclax;IAP_7638;AZD5582,DCTPP1,False,Enzymes
+Q9H788,SB590885,SH2D4A,False,Protein phosphatases and associated proteins
+Q9H7B2,IAP_5620,RPF2,False,Ribosome biogenesis
+Q9H7Z7,SB590885;Afatinib;PF-06747775,PTGES2,False,Enzymes
+Q9H845,SB590885;Afatinib;PF-06747775,ACAD9,False,Mitochondrial biogenesis
+Q9H8H0,Afatinib,NOL11,False,none
+Q9H8V3,Ara-G,ECT2,False,Membrane trafficking
+Q9H8Y5,A-1155463,ANKZF1,False,Ribosome biogenesis
+Q9H910,IAP_7638,JPT2,False,none
+Q9H939,AZD5582,PSTPIP2,False,Membrane trafficking
+Q9H944,Crizotinib,MED20,False,Transcription machinery
+Q9H9A6,Afatinib;PF-06747775;Crizotinib,LRRC40,False,none
+Q9H9B1,GDC-0879;TGX221;PLX-4720;Dabrafenib;SB590885,EHMT1,False,Chromosome and associated proteins
+Q9H9B4,Crizotinib,SFXN1,False,Mitochondrial biogenesis
+Q9H9J2,SB590885;Afatinib;WEHI-539;Savolitinib,MRPL44,False,Ribosome
+Q9H9P8,Afatinib;Savolitinib;CAY10566;PF-06747775;GSK429286A,L2HGDH,False,Enzymes
+Q9HA77,Savolitinib,CARS2,False,Amino acid related enzymes
+Q9HAF1,Afatinib;Dabrafenib;Venetoclax,MEAF6,False,Chromosome and associated proteins
+Q9HAV7,Venetoclax,GRPEL1,False,Chaperones and folding catalysts
+Q9HB71,Afatinib;IAP_7638;AZD5582,CACYBP,False,none
+Q9HBH5,Afatinib,RDH14,False,Enzymes
+Q9HC52,Venetoclax;IAP_7638,CBX8,False,Chromosome and associated proteins
+Q9HC84,SB590885,MUC5B,False,Membrane trafficking
+Q9HCC0,Crizotinib;Afatinib;Savolitinib;PF-06747775;GSK429286A,MCCC2,False,Enzymes
+Q9HCD5,Dabrafenib,NCOA5,False,none
+Q9HCE1,IAP_7638,MOV10,False,Messenger RNA biogenesis
+Q9HCG8,SB590885,CWC22,False,Spliceosome
+Q9HCM4,IAP_7638,EPB41L5,False,Domain-containing proteins not elsewhere classified
+Q9HCS7,SB590885;GDC-0879;Dabrafenib;PLX-4720,XAB2,False,Messenger RNA biogenesis
+Q9HCU5,Crizotinib;Savolitinib,PREB,False,Membrane trafficking
+Q9HD33,SB590885;Afatinib;Savolitinib,MRPL47,False,Ribosome
+Q9HD42,AZD5582,CHMP1A,False,Membrane trafficking
+Q9HD45,Afatinib;PF-06747775,TM9SF3,False,Exosome
+Q9HDC9,AC220;AZD5582;Crizotinib,APMAP,False,Membrane trafficking
+Q9NNW7,KIT_5808,TXNRD2,False,Enzymes
+Q9NP58,Savolitinib;IAP_7638;AZD5582,ABCB6,False,Transporters
+Q9NP61,Dabrafenib;PLX-4720,ARFGAP3,True,Membrane trafficking
+Q9NP79,Afatinib;Savolitinib;AZD5582,VTA1,False,Membrane trafficking
+Q9NP92,Savolitinib,MRPS30,False,Ribosome
+Q9NPA0,IAP_7638;AZD5582;Venetoclax;Crizotinib,EMC7,False,Membrane trafficking
+Q9NPA8,Savolitinib;TGX221;BIX-02188;AC220;Crizotinib,ENY2,False,Transcription machinery
+Q9NPE3,Afatinib,NOP10,False,Ribosome biogenesis
+Q9NPH2,Savolitinib,ISYNA1,False,Enzymes
+Q9NPJ3,AZD5582,ACOT13,False,Lipid biosynthesis proteins
+Q9NPL8,Dabrafenib;PLX-4720;Savolitinib,TIMMDC1,False,Mitochondrial biogenesis
+Q9NPQ8,Afatinib;PF-06747775,RIC8A,False,none
+Q9NQ29,Afatinib,LUC7L,False,none
+Q9NQ50,Afatinib;PF-06747775;Savolitinib,MRPL40,False,Ribosome
+Q9NQ88,GDC-0879;Savolitinib;PLX-4720;Dabrafenib;SB590885;Ara-G,TIGAR,False,Enzymes
+Q9NQC3,WH-4-023;Savolitinib;TGX221;PLX-4720;Dabrafenib;PF-06747775;GSK429286A,RTN4,True,Membrane trafficking
+Q9NQG5,Ara-G;IAP_7638;AZD5582,RPRD1B,False,Transcription machinery
+Q9NQP4,Afatinib;AZD5582,PFDN4,False,Chaperones and folding catalysts
+Q9NQR4,Crizotinib;Dabrafenib;SB590885;AZD5582,NIT2,False,Enzymes
+Q9NQW6,SB590885;TGX221,ANLN,False,Cytoskeleton proteins
+Q9NQX3,WH-4-023;TGX221;Savolitinib,GPHN,False,Enzymes
+Q9NQX7,AC220,ITM2C,False,Exosome
+Q9NR09,AZD5582,BIRC6,False,Peptidases and inhibitors
+Q9NR12,Afatinib;WH-4-023;GSK269962A;TGX221;PF-06747775;SB590885;GSK429286A,PDLIM7,False,Domain-containing proteins not elsewhere classified
+Q9NR30,SB590885;Dabrafenib,DDX21,False,Ribosome biogenesis
+Q9NR45,Savolitinib;AZD5582,NANS,False,Enzymes
+Q9NR46,IAP_7638;AZD5582,SH3GLB2,False,Membrane trafficking
+Q9NR50,Afatinib,EIF2B3,False,Translation factors
+Q9NRF8,Dabrafenib,CTPS2,False,Enzymes
+Q9NRG7,Nilotinib,SDR39U1,False,none
+Q9NRL2,Afatinib;PLX-4720;Dabrafenib;PF-06747775;SB590885,BAZ1A,False,Chromosome and associated proteins
+Q9NRL3,Temozolomide;AZD5582,STRN4,False,Protein phosphatases and associated proteins
+Q9NRN7,Afatinib;Savolitinib;Venetoclax;AZD5582,AASDHPPT,False,Enzymes
+Q9NRR5,SB590885,UBQLN4,False,Membrane trafficking
+Q9NRS6,AZD5582,SNX15,False,Domain-containing proteins not elsewhere classified
+Q9NRV9,Dabrafenib,HEBP1,False,none
+Q9NRX2,SB590885;Afatinib;Savolitinib,MRPL17,False,Ribosome
+Q9NS69,SB590885,TOMM22,False,Mitochondrial biogenesis
+Q9NS86,Afatinib;Cetuximab;AZD5582,LANCL2,False,none
+Q9NSD9,Afatinib;IAP_5620;IAP_7638;AZD5582,FARSB,False,Amino acid related enzymes
+Q9NSE4,Afatinib;PF-06747775;Savolitinib,IARS2,False,Amino acid related enzymes
+Q9NT62,SB590885;Afatinib,ATG3,False,Membrane trafficking
+Q9NTI5,AC220,PDS5B,False,Chromosome and associated proteins
+Q9NTJ3,Afatinib;PF-06747775,SMC4,False,Chromosome and associated proteins
+Q9NTK5,Afatinib;IAP_7638;AZD5582,OLA1,False,Chromosome and associated proteins
+Q9NTZ6,Crizotinib;Afatinib;IAP_7638;AZD5582,RBM12,False,Spliceosome
+Q9NU22,Lapatinib,MDN1,False,Ribosome biogenesis
+Q9NUB1,SB590885,ACSS1,False,Lipid biosynthesis proteins
+Q9NUD5,Savolitinib,ZCCHC3,False,none
+Q9NUJ1,Afatinib;Savolitinib,ABHD10,False,Peptidases and inhibitors
+Q9NUP9,Afatinib;Cetuximab;PF-06747775;AZD5582,LIN7C,False,Membrane trafficking
+Q9NV06,Afatinib;Savolitinib,DCAF13,False,Ribosome biogenesis
+Q9NVD7,GSK429286A;Afatinib;TGX221;AZD5582,PARVA,False,Cytoskeleton proteins
+Q9NVG8,IAP_7638,TBC1D13,False,Membrane trafficking
+Q9NVI1,AZD5582,FANCI,False,DNA repair and recombination proteins
+Q9NVI7,Crizotinib,ATAD3A,False,Mitochondrial biogenesis
+Q9NVM6,Savolitinib,DNAJC17,False,Chaperones and folding catalysts
+Q9NVM9,Savolitinib,INTS13,False,none
+Q9NVP1,Afatinib;Savolitinib,DDX18,False,Spliceosome
+Q9NVS2,Savolitinib,MRPS18A,False,Ribosome
+Q9NVS9,Savolitinib;IAP_7638;AZD5582,PNPO,False,Enzymes
+Q9NVT9,Afatinib,ARMC1,False,Exosome
+Q9NW64,GDC-0879;AZD5582;PLX-4720;Dabrafenib;SB590885,RBM22,False,Spliceosome
+Q9NW82,Dabrafenib,WDR70,False,Ubiquitin system
+Q9NWB6,Venetoclax;Savolitinib,ARGLU1,False,Spliceosome
+Q9NWH9,Afatinib;Dabrafenib,SLTM,False,Domain-containing proteins not elsewhere classified
+Q9NWS8,Imatinib;Axitinib;Motesanib;BIX-02188;Nilotinib;KIT_6754,RMND1,False,Mitochondrial biogenesis
+Q9NWU5,Afatinib;Savolitinib,MRPL22,False,Ribosome
+Q9NWV4,Afatinib;Crizotinib,CZIB,False,none
+Q9NX24,Dabrafenib,NHP2,False,Ribosome biogenesis
+Q9NX40,AZD5582,OCIAD1,False,none
+Q9NX55,Savolitinib,HYPK,False,none
+Q9NX58,IAP_7638,LYAR,False,Transcription factors
+Q9NX63,PD173074,CHCHD3,False,Protein phosphatases and associated proteins
+Q9NXE4,IAP_7638;AZD5582,SMPD4,False,Enzymes
+Q9NXF1,Savolitinib,TEX10,False,Ribosome biogenesis
+Q9NXG2,GSK269962A,THUMPD1,False,Transfer RNA biogenesis
+Q9NXR7,AZD5582,BABAM2,False,Ubiquitin system
+Q9NXU5,IAP_7638,ARL15,False,GTP-binding proteins
+Q9NXW2,SB590885;Afatinib;Cetuximab,DNAJB12,False,Chaperones and folding catalysts
+Q9NY12,Savolitinib,GAR1,False,Ribosome biogenesis
+Q9NY33,Savolitinib;IAP_7638;AZD5582,DPP3,False,Peptidases and inhibitors
+Q9NY61,Afatinib,AATF,False,Ribosome biogenesis
+Q9NY93,Afatinib;IAP_7638;AZD5582,DDX56,False,Ribosome biogenesis
+Q9NYB0,IAP_7638,TERF2IP,False,DNA replication proteins
+Q9NYF8,Dabrafenib,BCLAF1,True,Spliceosome
+Q9NYK5,SB590885;Afatinib,MRPL39,False,Ribosome
+Q9NYL9,Afatinib;Venetoclax;SB590885;AC220;PF-06747775;Lapatinib,TMOD3,False,Cytoskeleton proteins
+Q9NYU2,AZD5582,UGGT1,False,Glycosyltransferases
+Q9NZ08,IAP_5620;IAP_7638;AZD5582,ERAP1,False,Peptidases and inhibitors
+Q9NZ53,TGX221,PODXL2,False,none
+Q9NZB2,IAP_7638;AZD5582,FAM120A,False,none
+Q9NZI8,Afatinib;TGX221,IGF2BP1,False,Spliceosome
+Q9NZJ7,AC220,MTCH1,False,Mitochondrial biogenesis
+Q9NZL4,Afatinib;Savolitinib,HSPBP1,False,Chaperones and folding catalysts
+Q9NZM1,SB590885;GDC-0879;Afatinib,MYOF,False,Membrane trafficking
+Q9NZN4,AZD4547;PD173074;Savolitinib,EHD2,False,Membrane trafficking
+Q9NZQ7,SB590885,CD274,False,CD molecules
+Q9NZT2,GDC-0879;Dabrafenib;Savolitinib,OGFR,False,none
+Q9NZU0,Pemetrexed,FLRT3,False,Domain-containing proteins not elsewhere classified
+Q9P015,Afatinib;Savolitinib;PF-06747775;SB590885;Ara-G,MRPL15,False,Ribosome
+Q9P016,WH-4-023;WEHI-539;TGX221,THYN1,False,none
+Q9P032,Savolitinib,NDUFAF4,False,Mitochondrial biogenesis
+Q9P035,Nilotinib;Savolitinib,HACD3,False,Lipid biosynthesis proteins
+Q9P0I2,Savolitinib,EMC3,False,Membrane trafficking
+Q9P0J0,SB590885,NDUFA13,False,none
+Q9P0J1,IAP_5620;IAP_7638;AZD5582,PDP1,False,Protein phosphatases and associated proteins
+Q9P0M9,Afatinib;Savolitinib;WEHI-539;PF-06747775;SB590885;AZD4547,MRPL27,False,Ribosome
+Q9P0P0,Savolitinib,RNF181,False,Ubiquitin system
+Q9P0R6,Savolitinib,GSKIP,False,none
+Q9P0U1,Quizartinib,TOMM7,False,Membrane trafficking
+Q9P1Y5,AZD5582,CAMSAP3,False,Protein phosphatases and associated proteins
+Q9P206,Afatinib;AZD5582;Dabrafenib;WEHI-539;PF-06747775,KIAA1522,False,none
+Q9P258,Afatinib;Venetoclax;IAP_7638;AZD5582,RCC2,False,none
+Q9P260,Venetoclax,RELCH,False,Membrane trafficking
+Q9P266,Savolitinib,JCAD,False,none
+Q9P287,Savolitinib,BCCIP,False,Ribosome biogenesis
+Q9P2B2,Afatinib;Cetuximab;AZD5582,PTGFRN,False,Exosome
+Q9P2B4,Savolitinib,CTTNBP2NL,False,none
+Q9P2E9,WH-4-023;TGX221;PLX-4720;AZD1152-HQPA;WEHI-539;Dabrafenib;Venetoclax;A-1155463,RRBP1,False,none
+Q9P2I0,Nilotinib;Dabrafenib,CPSF2,False,Messenger RNA biogenesis
+Q9P2M7,GSK429286A,CGN,False,none
+Q9P2N5,PF-06747775,RBM27,False,Spliceosome
+Q9P2R3,Afatinib;Dabrafenib;PLX-4720,ANKFY1,False,Membrane trafficking
+Q9P2R7,Afatinib;PF-06747775;PLX-4720;Savolitinib,SUCLA2,False,Exosome
+Q9P2W9,AZD5582,STX18,False,Membrane trafficking
+Q9UBB4,Venetoclax,ATXN10,False,none
+Q9UBB5,Afatinib;Axitinib;NVP-BHG712,MBD2,False,Chromosome and associated proteins
+Q9UBC2,Crizotinib,EPS15L1,False,Membrane trafficking
+Q9UBE0,Afatinib;Savolitinib;PLK4_0066;Venetoclax;SB590885;Crizotinib,SAE1,False,Ubiquitin system
+Q9UBH6,Savolitinib,XPR1,False,Transporters
+Q9UBI6,WH-4-023;IAP_5620;TGX221;PLX-4720;Dabrafenib;Venetoclax;IAP_7638;Ara-G,GNG12,False,Exosome
+Q9UBM7,Afatinib;IAP_5620;AZD5582;PF-06747775;IAP_7638,DHCR7,False,Enzymes
+Q9UBQ5,Afatinib;Savolitinib;Crizotinib,EIF3K,False,Translation factors
+Q9UBR2,Dabrafenib,CTSZ,False,Peptidases and inhibitors
+Q9UBS4,IAP_7638;AZD5582,DNAJB11,False,Chaperones and folding catalysts
+Q9UBS8,SB590885;Dabrafenib;PLX-4720,RNF14,False,Ubiquitin system
+Q9UBT2,Afatinib;AZD5582;PLK4_0066;Venetoclax;SB590885;Crizotinib,UBA2,False,Ubiquitin system
+Q9UBV8,IAP_7638,PEF1,False,Domain-containing proteins not elsewhere classified
+Q9UD71,AZD5582,PPP1R1B,False,Protein phosphatases and associated proteins
+Q9UDY2,Afatinib;PF-06747775,TJP2,True,none
+Q9UEE9,TGX221,CFDP1,False,none
+Q9UFW8,Afatinib;Dabrafenib,CGGBP1,False,none
+Q9UG63,SB590885;Afatinib;Dabrafenib;PLX-4720,ABCF2,False,Ribosome biogenesis
+Q9UGI8,Savolitinib;AZD6094;AZD5582,TES,False,Domain-containing proteins not elsewhere classified
+Q9UGT4,Savolitinib,SUSD2,False,Domain-containing proteins not elsewhere classified
+Q9UGU0,Savolitinib,TCF20,False,Transcription factors
+Q9UGV2,Afatinib;Savolitinib,NDRG3,False,none
+Q9UH65,AZD5582,SWAP70,False,Membrane trafficking
+Q9UH99,AZD5582;Savolitinib,SUN2,False,Chromosome and associated proteins
+Q9UHA4,Savolitinib,LAMTOR3,False,none
+Q9UHB6,Afatinib;Venetoclax,LIMA1,True,Cytoskeleton proteins
+Q9UHB9,Afatinib,SRP68,False,Secretion system
+Q9UHG3,Afatinib,PCYOX1,False,Enzymes
+Q9UHL4,SB590885;Dabrafenib,DPP7,False,Peptidases and inhibitors
+Q9UHR4,PF-06747775,BAIAP2L1,False,Membrane trafficking
+Q9UHR5,IAP_7638,SAP30BP,False,Chromosome and associated proteins
+Q9UHV9,Afatinib;IAP_5620;AZD5582;Savolitinib;IAP_7638;Crizotinib,PFDN2,False,Chaperones and folding catalysts
+Q9UHX1,Afatinib;WEHI-539;AZD5582,PUF60,False,Spliceosome
+Q9UHY1,Dabrafenib,NRBP1,False,Protein kinases
+Q9UHY7,SB590885;TGX221,ENOPH1,False,Enzymes
+Q9UI08,Temozolomide,EVL,False,none
+Q9UI09,AC220;SB590885,NDUFA12,False,none
+Q9UI10,Afatinib,EIF2B4,False,Translation factors
+Q9UI12,Afatinib;GDC-0879;PLX-4720;Dabrafenib;SB590885,ATP6V1H,False,none
+Q9UI15,IAP_7638,TAGLN3,False,Membrane trafficking
+Q9UI30,Afatinib;IAP_5620;IAP_7638;AZD5582,TRMT112,False,Transfer RNA biogenesis
+Q9UI42,TL-1-85,CPA4,False,Peptidases and inhibitors
+Q9UIG0,Savolitinib,BAZ1B,False,Chromosome and associated proteins
+Q9UIM3,WH-4-023;TGX221;IAP_7638;AZD5582,FKBP4,False,Chaperones and folding catalysts
+Q9UIQ6,AZD5582;Savolitinib,LNPEP,True,Peptidases and inhibitors
+Q9UIS9,Crizotinib,MBD1,False,Transcription factors
+Q9UIV1,A-1155463,CNOT7,False,Messenger RNA biogenesis
+Q9UIW2,Capmatinib,PLXNA1,True,none
+Q9UJ14,IAP_7638,GGT7,False,Peptidases and inhibitors
+Q9UJ70,Dabrafenib,NAGK,False,Enzymes
+Q9UJS0,Crizotinib,SLC25A13,False,Transporters
+Q9UJU6,Dabrafenib,DBNL,False,Membrane trafficking
+Q9UJV9,IAP_7638;AZD5582,DDX41,False,Spliceosome
+Q9UJW0,Afatinib,DCTN4,False,Chromosome and associated proteins
+Q9UJY4,Savolitinib,GGA2,False,Membrane trafficking
+Q9UJY5,SB590885;Dabrafenib,GGA1,False,Membrane trafficking
+Q9UJZ1,Afatinib;CAY10566;AZD5582;Savolitinib,STOML2,False,Transporters
+Q9UK45,TGX221;IAP_7638,LSM7,False,Messenger RNA biogenesis
+Q9UK76,Savolitinib,JPT1,False,none
+Q9UKA9,TGX221,PTBP2,False,Spliceosome
+Q9UKD2,SB590885,MRTO4,False,Ribosome biogenesis
+Q9UKF6,Dabrafenib;Nilotinib,CPSF3,False,Transcription machinery
+Q9UKK9,Afatinib;IAP_7638;Crizotinib,NUDT5,False,Enzymes
+Q9UKL0,Ara-G,RCOR1,False,Chromosome and associated proteins
+Q9UKN8,SB590885,GTF3C4,False,Transcription machinery
+Q9UKS6,Afatinib;PF-06747775,PACSIN3,False,Membrane trafficking
+Q9UKV3,Dabrafenib;TGX221;PLX-4720,ACIN1,False,Messenger RNA biogenesis
+Q9UKX7,SB590885,NUP50,False,Messenger RNA biogenesis
+Q9UKY7,Savolitinib,CDV3,False,none
+Q9ULC3,Afatinib;TGX221;GSK429286A,RAB23,False,Membrane trafficking
+Q9ULC4,IAP_7638;AZD5582,MCTS1,False,Messenger RNA biogenesis
+Q9ULE4,Venetoclax,FAM184B,False,none
+Q9ULR0,Dabrafenib,ISY1,False,Spliceosome
+Q9ULU4,Venetoclax;Savolitinib,ZMYND8,False,Domain-containing proteins not elsewhere classified
+Q9ULV4,Afatinib;PLX-4720;Dabrafenib;PF-06747775;LIMK1 inhibitor BMS4;GSK429286A,CORO1C,False,Cytoskeleton proteins
+Q9ULW0,WEHI-539;Dabrafenib;AZD5582,TPX2,False,Chromosome and associated proteins
+Q9ULX9,Afatinib;GDC-0879;PLX-4720;Dabrafenib;SB590885,MAFF,False,Transcription factors
+Q9ULZ3,Dabrafenib,PYCARD,False,none
+Q9UM00,Afatinib;AZD5582,TMCO1,False,Membrane trafficking
+Q9UMS4,SB590885;Dabrafenib;IAP_7638;AZD5582,PRPF19,False,Spliceosome
+Q9UMX0,Savolitinib,UBQLN1,False,Membrane trafficking
+Q9UMY4,Afatinib;Dabrafenib,SNX12,False,Membrane trafficking
+Q9UN37,Afatinib;AZD5582;Savolitinib;SB590885;IAP_7638;Crizotinib,VPS4A,False,Membrane trafficking
+Q9UN86,Afatinib,G3BP2,True,Messenger RNA biogenesis
+Q9UNE7,Dabrafenib;PLX-4720,STUB1,False,Chaperones and folding catalysts
+Q9UNF0,SB590885;GDC-0879;Dabrafenib;PLX-4720,PACSIN2,False,Membrane trafficking
+Q9UNF1,GDC-0879;PLX-4720;Dabrafenib;SB590885;LIMK1 inhibitor BMS4,MAGED2,False,Domain-containing proteins not elsewhere classified
+Q9UNH7,Afatinib;PF-06747775,SNX6,False,Membrane trafficking
+Q9UNK0,PLX-4720,STX8,False,Membrane trafficking
+Q9UNL2,AZD5582;IAP_7638;Crizotinib,SSR3,False,Membrane trafficking
+Q9UNN5,Afatinib,FAF1,True,none
+Q9UNS1,PF-06747775;AZD5582,TIMELESS,False,Chromosome and associated proteins
+Q9UNS2,Afatinib;Cetuximab;PF-06747775,COPS3,False,Ubiquitin system
+Q9UPN6,AC220,SCAF8,False,Transcription machinery
+Q9UPQ0,AZD5582,LIMCH1,False,Domain-containing proteins not elsewhere classified
+Q9UPY8,Savolitinib;BIX-02188,MAPRE3,False,Chromosome and associated proteins
+Q9UQ80,Afatinib;IAP_7638;AZD5582,PA2G4,False,none
+Q9UQB8,Afatinib;PF-06747775;AZD5582,BAIAP2,False,Membrane trafficking
+Q9UQE7,Dabrafenib;Venetoclax;PLX-4720,SMC3,False,Chromosome and associated proteins
+Q9UQR0,Dabrafenib,SCML2,False,Chromosome and associated proteins
+Q9Y224,Afatinib;IAP_5620;IAP_7638;AZD5582,RTRAF,False,Transfer RNA biogenesis
+Q9Y230,Afatinib,RUVBL2,False,Chromosome and associated proteins
+Q9Y250,Dabrafenib;PLX-4720,LZTS1,False,none
+Q9Y262,Afatinib;PF-06747775;AZD5582,EIF3L,False,Translation factors
+Q9Y263,Afatinib;PF-06747775,PLAA,False,none
+Q9Y265,Afatinib,RUVBL1,False,Chromosome and associated proteins
+Q9Y266,Afatinib;PLX-4720;PF-06747775;Savolitinib,NUDC,False,Chromosome and associated proteins
+Q9Y276,AZD5582,BCS1L,False,Mitochondrial biogenesis
+Q9Y277,Crizotinib,VDAC3,False,Mitochondrial biogenesis
+Q9Y281,Afatinib;PF-06747775;Savolitinib,CFL2,False,Membrane trafficking
+Q9Y282,Afatinib;IAP_7638;Venetoclax;AZD5582,ERGIC3,False,Membrane trafficking
+Q9Y285,Crizotinib;Afatinib;IAP_7638;AZD5582,FARSA,False,Amino acid related enzymes
+Q9Y291,Afatinib;PF-06747775,MRPS33,False,Ribosome
+Q9Y295,AZD5582,DRG1,False,Enzymes
+Q9Y2E5,Dabrafenib,MAN2B2,False,Enzymes
+Q9Y2G5,Afatinib,POFUT2,False,Glycosyltransferases
+Q9Y2K7,SB590885;Afatinib;Dabrafenib,KDM2A,False,Transcription factors
+Q9Y2L1,Afatinib,DIS3,False,Messenger RNA biogenesis
+Q9Y2L9,IAP_7638;AZD5582,LRCH1,False,none
+Q9Y2P8,SB590885;Afatinib,RCL1,False,Ribosome biogenesis
+Q9Y2Q9,SB590885;Afatinib;AZD4547;PF-06747775,MRPS28,False,Ribosome
+Q9Y2R0,Crizotinib,COA3,False,Mitochondrial biogenesis
+Q9Y2R4,Afatinib,DDX52,False,Ribosome biogenesis
+Q9Y2R5,Afatinib,MRPS17,False,Ribosome
+Q9Y2R9,Afatinib,MRPS7,False,Ribosome
+Q9Y2S7,SB590885;KIT_6754,POLDIP2,False,Mitochondrial biogenesis
+Q9Y2U8,Afatinib;Dabrafenib;PF-06747775,LEMD3,False,Cytoskeleton proteins
+Q9Y2V2,Afatinib,CARHSP1,False,none
+Q9Y2W1,Afatinib;Dabrafenib;Savolitinib,THRAP3,True,Spliceosome
+Q9Y2W2,AC220;TGX221,WBP11,False,Protein phosphatases and associated proteins
+Q9Y2X3,Savolitinib,NOP58,False,Ribosome biogenesis
+Q9Y2Z0,Afatinib,SUGT1,False,none
+Q9Y2Z4,SB590885;Afatinib,YARS2,False,Amino acid related enzymes
+Q9Y303,SB590885;GDC-0879;Dabrafenib;PLX-4720,AMDHD2,False,Enzymes
+Q9Y305,TGX221;Venetoclax,ACOT9,False,Lipid biosynthesis proteins
+Q9Y314,Afatinib;Crizotinib,NOSIP,False,Spliceosome
+Q9Y333,AC220;TGX221,LSM2,False,Messenger RNA biogenesis
+Q9Y371,Afatinib,SH3GLB1,False,Protein phosphatases and associated proteins
+Q9Y375,AC220,NDUFAF1,False,Mitochondrial biogenesis
+Q9Y383,SB590885;IAP_7638;AZD5582,LUC7L2,False,Spliceosome
+Q9Y388,Dabrafenib,RBMX2,False,Spliceosome
+Q9Y394,Afatinib;PF-06747775,DHRS7,False,Enzymes
+Q9Y3A3,AZD5582,MOB4,False,none
+Q9Y3A5,Savolitinib,SBDS,False,Ribosome biogenesis
+Q9Y3B3,IAP_5620;IAP_7638;AZD5582,TMED7,False,none
+Q9Y3B4,Dabrafenib;PLX-4720,SF3B6,False,Spliceosome
+Q9Y3B7,Capmatinib;Afatinib;AZD4547;PF-06747775,MRPL11,False,Ribosome
+Q9Y3B8,Dabrafenib,REXO2,False,Messenger RNA biogenesis
+Q9Y3B9,Cabozantinib;IAP_7638;AZD5582,RRP15,False,none
+Q9Y3D0,Afatinib;Dabrafenib;PLX-4720;Savolitinib,CIAO2B,False,none
+Q9Y3D3,SB590885;Afatinib;Venetoclax,MRPS16,False,Ribosome
+Q9Y3D6,SB590885;Dabrafenib,FIS1,False,Mitochondrial biogenesis
+Q9Y3D9,Afatinib;PD173074;PF-06747775;SB590885;AZD4547;LIMK1 inhibitor BMS4,MRPS23,False,Ribosome
+Q9Y3E1,Afatinib;TGX221;Venetoclax,HDGFL3,False,none
+Q9Y3E2,Savolitinib,BOLA1,False,Mitochondrial biogenesis
+Q9Y3E5,AZD5582,PTRH2,False,Translation factors
+Q9Y3F4,Afatinib;IAP_5620;AZD5582;IAP_7638;Crizotinib,STRAP,False,Spliceosome
+Q9Y3I0,Afatinib;IAP_5620;IAP_7638;AZD5582,RTCB,False,Transfer RNA biogenesis
+Q9Y3L5,Idelalisib,RAP2C,False,GTP-binding proteins
+Q9Y3T9,SB590885;Savolitinib,NOC2L,False,Ribosome biogenesis
+Q9Y3U8,Afatinib;AZD5582;CAY10566;WEHI-539;A-1155463,RPL36,False,Ribosome
+Q9Y3Y2,Dabrafenib;AZD5582,CHTOP,False,none
+Q9Y446,Afatinib;Dabrafenib;PF-06747775;AZD4547;GSK429286A,PKP3,False,none
+Q9Y478,PD173074,PRKAB1,False,none
+Q9Y483,SB590885,MTF2,False,Transcription factors
+Q9Y487,Dabrafenib,ATP6V0A2,False,Exosome
+Q9Y490,Afatinib;PD173074;PLX-4720;Dabrafenib;PF-06747775;AZD4547;LIMK1 inhibitor BMS4;GSK429286A,TLN1,False,Exosome
+Q9Y4B6,AZD5582,DCAF1,False,Protein kinases
+Q9Y4H2,Crizotinib,IRS2,False,none
+Q9Y4I1,GDC-0879;Afatinib;PLX-4720;Dabrafenib;SB590885,MYO5A,False,Messenger RNA biogenesis
+Q9Y4L1,AZD5582,HYOU1,False,Chaperones and folding catalysts
+Q9Y4P3,SB590885;A-1155463;AZD5582,TBL2,False,Translation factors
+Q9Y4W6,Afatinib;PD173074;PF-06747775,AFG3L2,False,Peptidases and inhibitors
+Q9Y508,Crizotinib,RNF114,False,Ubiquitin system
+Q9Y512,Crizotinib,SAMM50,False,Mitochondrial biogenesis
+Q9Y5A9,Afatinib,YTHDF2,False,Messenger RNA biogenesis
+Q9Y5J1,SB590885;Savolitinib,UTP18,False,Ribosome biogenesis
+Q9Y5J9,WH-4-023;Nilotinib,TIMM8B,False,Mitochondrial biogenesis
+Q9Y5K5,Afatinib,UCHL5,False,Peptidases and inhibitors
+Q9Y5K6,Savolitinib,CD2AP,False,Membrane trafficking
+Q9Y5K8,GDC-0879;Afatinib;Dabrafenib;PLX-4720,ATP6V1D,False,none
+Q9Y5L4,IAP_7638,TIMM13,False,Mitochondrial biogenesis
+Q9Y5M8,IAP_7638;Venetoclax;AZD5582,SRPRB,False,Secretion system
+Q9Y5Q8,AZD5582,GTF3C5,False,Transcription machinery
+Q9Y5S9,Dabrafenib;TGX221;PLX-4720,RBM8A,False,Messenger RNA biogenesis
+Q9Y5V0,AC220,ZNF706,False,none
+Q9Y5X1,SB590885;Dabrafenib;PLX-4720,SNX9,False,Membrane trafficking
+Q9Y5X3,SB590885;Dabrafenib,SNX5,False,Membrane trafficking
+Q9Y608,Dabrafenib;PLX-4720,LRRFIP2,False,Transcription factors
+Q9Y624,Afatinib;PLX-4720;Dabrafenib;Cetuximab;PF-06747775;LIMK1 inhibitor BMS4;GSK429286A,F11R,False,CD molecules
+Q9Y625,Dabrafenib,GPC6,False,Proteoglycans
+Q9Y646,SB590885;Dabrafenib,CPQ,False,Peptidases and inhibitors
+Q9Y653,SB590885;GDC-0879;Dabrafenib,ADGRG1,False,Peptidases and inhibitors
+Q9Y673,Afatinib,ALG5,False,Glycosyltransferases
+Q9Y676,Afatinib;PF-06747775;Savolitinib,MRPS18B,False,Ribosome
+Q9Y678,Afatinib,COPG1,False,Membrane trafficking
+Q9Y696,Crizotinib;Afatinib;PLX-4720;Dabrafenib;PF-06747775;GSK429286A,CLIC4,False,Exosome
+Q9Y697,Afatinib;PF-06747775;AZD5582,NFS1,False,Transfer RNA biogenesis
+Q9Y6A4,AZD5582,CFAP20,False,Cilium and associated proteins
+Q9Y6B6,IAP_7638,SAR1B,False,Membrane trafficking
+Q9Y6C9,Savolitinib,MTCH2,False,Mitochondrial biogenesis
+Q9Y6D5,AC220;Imatinib,ARFGEF2,True,Membrane trafficking
+Q9Y6D9,Imatinib;AZD5582,MAD1L1,False,Chromosome and associated proteins
+Q9Y6G9,Afatinib;Savolitinib;Venetoclax;PF-06747775;Lapatinib,DYNC1LI1,False,Membrane trafficking
+Q9Y6I9,Dabrafenib,TEX264,False,none
+Q9Y6M1,Dabrafenib,IGF2BP2,False,Domain-containing proteins not elsewhere classified
+Q9Y6M7,TGX221,SLC4A7,False,Transporters
+Q9Y6M9,AC220;WEHI-539;SB590885,NDUFB9,False,none
+Q9Y6N5,Afatinib;PD173074;Ponatinib;PF-06747775;SB590885,SQOR,False,Enzymes
+Q9Y6Q5,IAP_7638;AZD5582,AP1M2,False,Membrane trafficking
+Q9Y6U3,CAY10566,SCIN,False,Cytoskeleton proteins
+Q9Y6W5,IAP_7638;AZD5582,WASF2,False,Cytoskeleton proteins
+Q9Y6X9,AC220,MORC2,False,Chromosome and associated proteins
+Q9Y6Y8,Savolitinib,SEC23IP,False,none
+not found,Imatinib;Ponatinib;Nilotinib;IAP_7638;A-1155463;Crizotinib;Afatinib;GSK429286A;LIMK1 inhibitor BMS4;Axitinib;GSK269962A;TGX221;CAY10566;AZD6094;SB590885;AZD4547;Linifanib;IAP_5620;AZD5582;PD173074;PLX-4720;PDGFR_0615;BIX-02188;AZD1152-HQPA;WEHI-539;Venetoclax;KIT_6754;Ruxolitinib;Ara-G;GDC-0879;WH-4-023;NVP-BHG712;Savolitinib;PLK4_0066;Dabrafenib;Cetuximab;PF-06747775;AC220;TL-2-105;Lapatinib,PRRC2A;TARDBP;PRDM15;PRMT5;C11orf98;HLA-C;ACOX1;SLK;PRRC2C;NEDD4L;SPAG9;DDR1;SUN1;AGRN;PGM3;NEXN;CTSC;PQBP1;RAN;PALLD;TGFBI;PHC2;VPS35;LSR;SYNE1;NFYC;FKBP9;WIZ;ADI1;ASPH;ABHD11;BNIP1;ARFGAP1;DCTN1;KRT8;MYO6;PITRM1;MYH14;CTNND1;SYNE2;ATP6V1F;HP1BP3;PPP1R18;PGM1;PRDX5;ABCC3;FKBP7;FIP1L1;RAP1GDS1;SIRPA;NCLN;NT5C3A;ZC3H14;PSMB5;SNX3;PML;MIA3;ACOT7;KMT2A;ADD1;CNBP;BAG6;MYH10;CRYBG1;NF2;TMTC3;ARHGAP17;GLB1;QSER1;C12orf57;NUP98;HUWE1;OXA1L;AMPD2;IMPDH1;FLNB;TUFM;LCK;PEPD;HNRNPD;WDR91;TSTA3;TBRG4;SRSF10;TAPBP;SOD2;CCAR2;MSLN;ALPL;FAHD1;PCBP2;ARHGAP15;CD44;TXLNA;LMNA;TXNRD1;ITGB1;SEC31A;PLEC;ARID1A;GLOD4;IDH3B;MYEF2;SERPINA1;CENPV;FHL1;PBRM1;UBE2O;QKI;KIF21A;PVR;UBE2K;OPA3;CSDE1;ABCC1;LDLR;CUL4B;XPNPEP1;LDHA;RTN3;DNAJA3;NCAM1;SLC27A3;COL6A2;UBR4;GTF2I;SCFD1;ECI2;AKAP9;MAVS;BCOR;DDX27;ENO1;ARSA;ILF3;RNF20;ITGA6;DIDO1;PDXDC1;PTK7;CYB5R3;DOCK7;GCN1;DNM1L;SDF4;CAND1;CRNKL1;ALDH4A1;ESYT2;HLA-A;RPL14;HLA-B;ITGAV;RIPOR1;KIAA0319L;HNRNPH3;SNRNP70;IST1;IL16;PDHA1;EGFR;SUPT6H;GAPVD1;IFI16;PHIP;CSNK1A1;EHMT2;ERBIN;DNAJB6;PPA2;MAT2B;C16orf87;MICAL1;DBT;EIF4E;HDLBP;TGOLN2;SSR1;YWHAZ;DYNC1I2;ATF2;RBM25;FDXR;ABHD12;NFATC2;ANXA4;ATP1A1;PREX1;ABLIM1;GRB7;POLR2A;CSE1L;NUMB;IMMT;TUBB;MCL1;UBA6;RUNX1;EIF4G1;GBA;SF1;SERBP1;MACF1;PPIA;PRODH;ABI1;PSMD13;UBE2V1;GRIPAP1;PKM;GPATCH11;NASP;MAP1S;ALDH9A1;TRIP6;PCMT1;APP;SLC1A5;VIM;NPM1;AIFM1;BAX;ALYREF;TPD52;CES1;KLC1;ZNF598;SON;RABL6;IKBIP;CALU;ECE1;TMEM214;EIF4G2;HNRNPC;ABI2,False;True,none
