@@ -112,17 +112,6 @@ function positionTips(
     const midpointP3P4PolarC1 = cartesianToPolar(
         globalToLocal(midpointP3P4cartesianC2, centerPosC1)
     );
-    console.log(
-        'mp',
-        p3LocalPolarC2.theta,
-        p4LocalPolarC2.theta,
-        midpointP3P4PolarC2,
-        polarToCartesian(midpointP3P4PolarC2.r, midpointP3P4PolarC2.theta),
-        midpointP3P4cartesianC2,
-        globalToLocal(midpointP3P4cartesianC2, centerPosC1),
-        midpointP3P4PolarC2,
-        midpointP3P4PolarC1
-    );
     const adjustedTipPosition1 = {
         r: scaledOuterSizeC1,
         theta: midpointP3P4PolarC1.theta
@@ -177,7 +166,7 @@ function positionTips(
                     p1LocalPolarC1.theta,
                     correctionAngle
                 );
-                tipBaseP1Polar.theta = addAngle(p1LocalPolarC1.theta, 0);
+                tipBaseP1Polar.theta = p1LocalPolarC1.theta;
                 tipBaseP2Polar.theta = addAngle(
                     p1LocalPolarC1.theta,
                     TIP_MAX_ANGLE
@@ -187,7 +176,7 @@ function positionTips(
                     p2LocalPolarC1.theta,
                     correctionAngle
                 );
-                tipBaseP2Polar.theta = subtractAngle(p2LocalPolarC1.theta, 0);
+                tipBaseP2Polar.theta = p2LocalPolarC1.theta;
                 tipBaseP1Polar.theta = subtractAngle(
                     p2LocalPolarC1.theta,
                     TIP_MAX_ANGLE
@@ -219,7 +208,7 @@ function positionTips(
                     tipBaseP2Polar.theta
                 )
             ) {
-                tipBaseP2Polar.theta = subtractAngle(p2LocalPolarC1.theta, 0);
+                tipBaseP2Polar.theta = p2LocalPolarC1.theta;
 
                 tipPosition1.theta = subtractAngle(
                     p2LocalPolarC1.theta,
@@ -390,21 +379,16 @@ function orientTips(
         globalToLocal(tipBaseP2Cartesian, centerPos)
     );
     // check if tipPosition2Polar in the semicircle right of tipPosition1Polar
-    const pos1PlusHalfPi = subtractAngle(tipPosition1Polar.theta, Math.PI / 2);
+    const pos1PlusHalfPi = addAngle(tipPosition1Polar.theta, Math.PI);
     const isClockwise = polarIsBetween(
         tipPosition1Polar.theta,
         pos1PlusHalfPi,
         tipPosition2Polar.theta
     );
-
-    const midTipPointPolarTheta = midPointPolar(
-        isClockwise ? tipPosition1Polar.theta : tipPosition2Polar.theta,
-        isClockwise ? tipPosition2Polar.theta : tipPosition1Polar.theta
-    );
-
-    const midTheta2 = midPointPolar(
-        isClockwise ? tipPosition1Polar.theta : midTipPointPolarTheta,
-        isClockwise ? midTipPointPolarTheta : tipPosition1Polar.theta
+    console.log(
+        tipPosition1Polar.theta,
+        pos1PlusHalfPi,
+        tipPosition2Polar.theta
     );
 
     const angleDifference = distancePolar(
@@ -433,13 +417,16 @@ function orientTips(
             return tipPosition1Polar.theta;
         }
     };
-
+    const midTheta2 = midPointPolar(
+        isClockwise ? tipPosition1Polar.theta : tipPointTheta(),
+        isClockwise ? tipPointTheta() : tipPosition1Polar.theta
+    );
     const tipPoint1Polar = {
         r: tipPosition1Polar.r * (1 + TIP_LENGTH),
         theta: tipPointTheta()
     };
     const tipPoint2Polar = {
-        r: tipPoint1Polar.r * (1 + TIP_LENGTH * 2),
+        r: tipPoint1Polar.r * (1 + TIP_LENGTH),
         theta: midTheta2
     };
     const tipPointControlPolar = {
@@ -712,7 +699,7 @@ const EgoGraphBand = (props: EgoGraphBandProps) => {
 
     return pathData.map((pathDatum) => (
         <>
-            {/* <circle
+            <circle
                 cx={pathDatum.path[2][0]}
                 cy={pathDatum.path[2][1]}
                 r={3}
@@ -747,7 +734,7 @@ const EgoGraphBand = (props: EgoGraphBandProps) => {
                 cy={pathDatum.path[7][1]}
                 r={3}
                 fill="orange"
-            ></circle> */}
+            ></circle>
             <path
                 d={pathDatum.path[1]}
                 className="band"

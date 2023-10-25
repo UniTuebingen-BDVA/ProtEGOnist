@@ -456,8 +456,8 @@ function calculateXRanges(proportion: number, toggle: boolean) {
     const fullRange = 2 * Math.PI;
     if (toggle) {
         return [
-            [0, fullRange / proportion],
-            [fullRange / proportion, fullRange]
+            [0, fullRange * proportion],
+            [fullRange * proportion, fullRange]
         ];
     }
     return [
@@ -629,7 +629,6 @@ export function calculateLayout(
             if (egoGraphs.length <= 2) {
                 const nodeSize = largestRadius * 2.5;
                 if (i === 0) {
-                    console.log('iZero');
                     graphCenters.push({
                         x: largestRadius - nodeSize / 2,
                         y: nodeSize / 2,
@@ -637,7 +636,6 @@ export function calculateLayout(
                         outerSize: scaledOuterSize
                     });
                 } else {
-                    console.log('soz', scaledOuterSizes);
                     graphCenters.push({
                         x: nodeSize + nodeSize / 2 - largestRadius,
                         y: nodeSize / 2,

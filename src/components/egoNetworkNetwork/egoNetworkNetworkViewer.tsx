@@ -5,7 +5,8 @@ import {
     CircularProgress,
     Paper,
     ToggleButton,
-    ToggleButtonGroup
+    ToggleButtonGroup,
+    Tooltip
 } from '@mui/material';
 import { useAtom, useAtomValue } from 'jotai';
 import {
@@ -21,7 +22,7 @@ import {
     egoNetworkNetworkBusyAtom,
     quantifyNodesByAtom
 } from '../../apiCalls.ts';
-import { SetCenter, SetAll, SetLeftRight } from 'mdi-material-ui';
+import { SetCenter, SetAll } from 'mdi-material-ui';
 
 function EgoNetworkNetworkViewer() {
     const [egoNetworkNetworkBusy] = useAtom(egoNetworkNetworkBusyAtom);
@@ -107,7 +108,7 @@ function EgoNetworkNetworkViewer() {
                 </animated.g>
             </animated.svg>
             <ToggleButtonGroup
-                style={{ left: 5, position: 'absolute', top: 260 }}
+                style={{ left: 5, position: 'absolute', top: 280 }}
                 orientation="vertical"
                 value={decollapseMode}
                 exclusive
@@ -117,15 +118,17 @@ function EgoNetworkNetworkViewer() {
                     }
                 }}
             >
-                <ToggleButton value="shared" aria-label="list">
-                    <SetCenter />
-                </ToggleButton>
-                <ToggleButton value="all" aria-label="module">
-                    <SetAll />
-                </ToggleButton>
-                <ToggleButton value="unique" aria-label="quilt">
-                    <SetLeftRight />
-                </ToggleButton>
+                {' '}
+                <Tooltip title="Show ONLY shared nodes">
+                    <ToggleButton value="shared" aria-label="list">
+                        <SetCenter />
+                    </ToggleButton>
+                </Tooltip>
+                <Tooltip title="Show shared AND unique nodes">
+                    <ToggleButton value="all" aria-label="module">
+                        <SetAll />
+                    </ToggleButton>
+                </Tooltip>
             </ToggleButtonGroup>
             <svg
                 height={275}

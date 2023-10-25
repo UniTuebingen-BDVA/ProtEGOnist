@@ -25,10 +25,12 @@ export function midPointPolar2PI(p1Theta: number, p2Theta: number) {
     }
 }
 
-export function getPartialRanges(numRanges: number) {
+export function getPartialRanges(
+    numRanges: number
+): [[number, number], [number, number]][] {
     const fullRange = 2 * Math.PI;
     const partialRange = fullRange / numRanges;
-    const ranges = [];
+    const ranges: [[number, number], [number, number]][] = [];
     for (let i = 0; i < numRanges; i++) {
         ranges.push([
             [i * partialRange, (i + 1) * partialRange],
