@@ -17,10 +17,11 @@ import ColorLegend from '../ColorLegend.tsx';
 import { drugsPerProteinColorscaleAtom } from '../selectionTable/tableStore.tsx';
 import { animated, useSpring } from '@react-spring/web';
 import React from 'react';
-import { egoNetworkNetworkBusyAtom } from '../../apiCalls.ts';
+import {
+    egoNetworkNetworkBusyAtom,
+    quantifyNodesByAtom
+} from '../../apiCalls.ts';
 import { SetCenter, SetAll, SetLeftRight } from 'mdi-material-ui';
-import ViewQuiltIcon from '@mui/icons-material/ViewQuilt';
-import Icon from '@mui/material/Icon';
 
 function EgoNetworkNetworkViewer() {
     const [egoNetworkNetworkBusy] = useAtom(egoNetworkNetworkBusyAtom);
@@ -28,6 +29,7 @@ function EgoNetworkNetworkViewer() {
     const svgSize = useAtomValue(egoNetworkNetworkSizeAtom);
     const [colorscale] = useAtom(drugsPerProteinColorscaleAtom);
     const [decollapseIDsArray] = useAtom(decollapseIDsArrayAtom);
+    const [quantifyBy] = useAtom(quantifyNodesByAtom);
     // prevent default pinch zoom
     document.addEventListener('gesturestart', (e) => e.preventDefault());
     document.addEventListener('gesturechange', (e) => e.preventDefault());
@@ -126,23 +128,24 @@ function EgoNetworkNetworkViewer() {
                 </ToggleButton>
             </ToggleButtonGroup>
             <svg
-                height={250}
+                height={275}
                 width={200}
                 style={{ left: 0, position: 'absolute' }}
             >
                 <ColorLegend
                     domain={colorscale.domain()}
                     range={colorscale.range()}
+                    unknown={colorscale.unknown()}
                     type={'quantitative'}
                     transform={`translate(${10},${10})`}
-                    title={'#Drugs associated with protein'}
+                    title={`Quantification via ${quantifyBy['label']}`}
                     render={true}
                 />
                 <ColorLegend
                     domain={['few interactions', 'many interactions']}
                     range={['#e9cfd7', '#860028']}
                     type={'quantitative'}
-                    transform={`translate(${10},${135})`}
+                    transform={`translate(${10},${150})`}
                     title={'Node connectivity within ego-graph'}
                     render={renderSecondLegend}
                 />

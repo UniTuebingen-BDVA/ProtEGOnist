@@ -33,7 +33,7 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
     const [isHovered, setIsHovered] = useState(false);
     const color = colorscale(drugsPerProtein[id]);
     return (
-        <AdvancedTooltip uniprotID={id} key={id}>
+        <AdvancedTooltip nodeID={id} key={id}>
             <animated.g
                 key={id}
                 transform={animatedParams.transform}

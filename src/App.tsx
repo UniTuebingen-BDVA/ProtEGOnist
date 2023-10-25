@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import './App.css';
+import InputPage from './components/HomePage/LandingPage.tsx';
 import { useAtom, useSetAtom } from 'jotai';
 import {
     AppBar,
@@ -21,7 +22,9 @@ import {
     getRadarAtom,
     getTableAtom,
     getEgoNetworkNetworkOverviewAtom,
-    startDataOverview, serverBusyAtom
+    startDataOverview, serverBusyAtom,
+    selectedExampleAtom,
+    classifyByAtom
 } from './apiCalls.ts';
 import EgoNetworkNetworkOverviewViewer from './components/overview_component/egoNetworkNetworkOverviewViewer.tsx';
 import DrawerElement from './components/drawerElement/DrawerElement.tsx';
@@ -30,9 +33,11 @@ import LogoText from './assets/LogoPathWhite.svg';
 import LogoBlue from './assets/LogoBlue.svg';
 
 import { GitHub } from '@mui/icons-material';
+import LandingPage from './components/HomePage/LandingPage.tsx';
 
 function App() {
-    const [serverBusy]=useAtom(serverBusyAtom);
+    const [selectedExample] = useAtom(selectedExampleAtom);
+    const [serverBusy] = useAtom(serverBusyAtom);
     const [tableData, getTableData] = useAtom(getTableAtom);
     const [intersectionData, getRadarData] = useAtom(getRadarAtom);
     const [_selectedProteins, setSelectedProteins] =
@@ -44,6 +49,7 @@ function App() {
         useAtom(getEgoNetworkNetworkOverviewAtom);
     const [tarNode, setTarNode] = useAtom(tarNodeAtom);
     const setStateDrawer = useSetAtom(drawerShownAtom);
+    const [classifyBy] = useAtom(classifyByAtom);
 
     const theme = createTheme({
         palette: {
@@ -57,27 +63,20 @@ function App() {
     });
 
     useEffect(() => {
-        getTableData();
-        //ForUseCase
-        // setTarNode('P61978');
-        // getRadarData('P61978');
-        // Chosen starts
-        setTarNode('P63279');
-        getRadarData('P63279');
-        // TODO it seems like the http-get of the table atom leads to the problem that the initial set of the selectedProteinsAtom is not correctly selected in the table
-        setSelectedProteins([
-            'Q99459',
-            'Q01518',
-            'P61421',
-            'P52565',
-            'P00568',
-            'Q9NRN7',
-            'P63279'
-        ]);
-        // For useCase
-        // setSelectedProteins(['P61978', 'O43447', 'Q14498', 'Q92922']);
-        getEgoNetworkNetworkOverviewData(startDataOverview);
+        if (selectedExample) {
+            getTableData();
+            //ForUseCase
+            // setTarNode('P61978');
+            // getRadarData('P61978');
+            // Chosen starts
+
+            // For useCase
+            // setSelectedProteins(['P61978', 'O43447', 'Q14498', 'Q92922']);
+            getEgoNetworkNetworkOverviewData(startDataOverview);
+        }
+
     }, [
+        selectedExample,
         getTableData,
         getRadarData,
         setTarNode,
@@ -86,8 +85,9 @@ function App() {
         setSelectedProteins
     ]);
     if (
+        selectedExample &&
         // check if all data is loaded (not empty)
-        tableData.rows.length > 0 && // tableData
+        Object.keys(tableData.rows).length > 0 && // tableData
         Object.keys(intersectionData).length > 0 && // radarData
         tarNode !== '' && egoNetworkNetworkOverviewData.nodes.length>0
     ) {
@@ -177,8 +177,10 @@ function App() {
                             }}
                         >
                             <Typography style={{ color: 'black' }}>
-                                Network overview: 91 protein ego-graphs from top
-                                108 protein-drug associations
+                                Network overview: 91 ego-graphs from that cover X and Y.
+                                {//TODO Add text and make it more general for any kind of network
+                                    // The given nodes cover X percent of the network's nodes and Y percent of the network's edges.
+                                }
                             </Typography>
                             <div
                                 style={{
@@ -191,8 +193,8 @@ function App() {
                                 <EgoNetworkNetworkOverviewViewer />
                             </div>
                             <Typography style={{ color: 'black' }}>
-                                Functional neighborhood of selected protein
-                                (radar center)
+                                Neighborhood of selected node (radar center) classified by {classifyBy}
+
                             </Typography>
                             <div style={{ minWidth: '80%', width: '80%' }}>
                                 {/* <!-- Content for the first column, second row --> */}
@@ -226,7 +228,7 @@ function App() {
                 </div>
             </ThemeProvider>
         );
-    } else
+    } else if (selectedExample) {
         return (
             <ThemeProvider theme={theme}>
                 <Box
@@ -249,6 +251,12 @@ function App() {
                 </Box>
             </ThemeProvider>
         );
+    } else {
+        return (
+            <LandingPage />
+        )
+
+    }
 }
 
 export default App;

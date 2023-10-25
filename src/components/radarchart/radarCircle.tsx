@@ -40,21 +40,21 @@ const RadarCircle = memo(function RadarCircle(props: RadarCircleProps) {
     const strokeColor: string = selectedProteins.includes(id)
         ? 'orange'
         : id == lastSelectedNode
-        ? 'red'
-        : color;
+            ? 'red'
+            : color;
     const strokeWidth =
         selectedProteins.includes(id) || id == lastSelectedNode ? 3 : 1;
     const strokeOpacity =
         selectedProteins.includes(id) || id == lastSelectedNode ? 1 : 0.8;
 
     return (
-        <AdvancedTooltip uniprotID={id} key={id}>
+        <AdvancedTooltip nodeID={id} key={id}>
             <animated.circle
                 key={id}
                 r={
                     CIRCLE_RADIUS +
                     intersectionLengthScale(intersectionDatum.setSize) *
-                        CIRCLE_RADIUS
+                    CIRCLE_RADIUS
                 }
                 fill={color}
                 fillOpacity={0.7}
