@@ -108,8 +108,8 @@ function EgoNetworkNetworkViewer() {
                 </animated.g>
             </animated.svg>
             <ToggleButtonGroup
-                style={{ left: 10, position: 'absolute', top: 280 }}
-                orientation="vertical"
+                style={{ right: 10, position: 'absolute', top: 10 }}
+                orientation="horizontal"
                 value={decollapseMode}
                 exclusive
                 onChange={(_event, nextVal: string) => {
@@ -120,7 +120,9 @@ function EgoNetworkNetworkViewer() {
                 }}
             >
                 <TooltipToggleButton
-                    TooltipProps={{ title: 'Show ONLY shared nodes' }}
+                    TooltipProps={{
+                        title: 'Show ONLY shared nodes on decollapse'
+                    }}
                     value="shared"
                     aria-label="shared"
                 >
@@ -128,7 +130,9 @@ function EgoNetworkNetworkViewer() {
                 </TooltipToggleButton>
 
                 <TooltipToggleButton
-                    TooltipProps={{ title: 'Show shared AND unique nodes' }}
+                    TooltipProps={{
+                        title: 'Show shared AND unique nodes on decollapse'
+                    }}
                     value="all"
                     aria-label="all"
                 >

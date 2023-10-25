@@ -469,8 +469,8 @@ function calculateXRanges(proportion: number, toggle: boolean) {
         ];
     }
     return [
-        [0, fullRange - 0.0001],
-        [fullRange - 0.0001, fullRange]
+        [0, fullRange],
+        [fullRange, fullRange]
     ];
 }
 
