@@ -452,6 +452,19 @@ function sortPairwiseIntersection(
     });
     return nodes;
 }
+function calculateXRanges(proportion: number, toggle: boolean) {
+    const fullRange = 2 * Math.PI;
+    if (toggle) {
+        return [
+            [0, fullRange / proportion],
+            [fullRange / proportion, fullRange]
+        ];
+    }
+    return [
+        [0, fullRange - 0.0001],
+        [fullRange - 0.0001, fullRange]
+    ];
+}
 
 /**
  *
@@ -481,18 +494,30 @@ export function calculateLayout(
     console.log('MODE', decollapseMode);
     // get the amount of intersecting nodes for each egoGraph
     const decollapsedRadii: { [key: string]: number } = {};
+    const sharedNonShared: {
+        [key: string]: { shared: number; unique: number };
+    } = {};
     egoGraphs.forEach((egoGraph) => {
         let idAccumulator = 0;
+        let shared = 0;
         for (const [key, value] of Object.entries(intersections)) {
             const ke = key.split(',');
-            const addCond =
-                ke.length > 1 ||
-                egoGraphs.length === 1 ||
-                decollapseMode === 'all'; //add only shared cond here
+            const addCond = ke.length > 1 || egoGraphs.length === 1; //add only shared cond here
             if (addCond && ke.includes(egoGraph.centerNode.originalID)) {
+                idAccumulator += value.length;
+                shared += value.length;
+            }
+            if (
+                decollapseMode === 'all' &&
+                ke.includes(egoGraph.centerNode.originalID)
+            ) {
                 idAccumulator += value.length;
             }
         }
+        sharedNonShared[egoGraph.centerNode.originalID] = {
+            shared,
+            unique: idAccumulator - shared
+        };
         decollapsedRadii[egoGraph.centerNode.originalID] =
             calculateRadius(idAccumulator);
     });
@@ -515,14 +540,7 @@ export function calculateLayout(
             centers: []
         };
         const fullRange = 2 * Math.PI;
-        const xRanges: [[number, number], [number, number]] = [
-            decollapseMode === 'shared'
-                ? [0, fullRange - 0.0001]
-                : [0, fullRange / egoGraphs.length],
-            decollapseMode === 'shared'
-                ? [fullRange - 0.0001, fullRange]
-                : [fullRange / egoGraphs.length, fullRange]
-        ];
+
         let layoutNodeDict: { [key: string]: layoutNode } = {};
         let nodeDict: { [key: string]: egoGraphNode } = {};
         egoGraphs[egoGraphs.length - 1].nodes.forEach(
@@ -661,7 +679,10 @@ export function calculateLayout(
                     outerSize: scaledOuterSize
                 });
             }
-
+            const proportion =
+                sharedNonShared[firstGraphId].shared /
+                (sharedNonShared[firstGraphId].shared +
+                    sharedNonShared[firstGraphId].unique);
             const currLayout = calculateMultiLayout(
                 egoGraphs[i],
                 scaledOuterSize / 2,
@@ -671,7 +692,7 @@ export function calculateLayout(
                     : intersections[egoGraphs[i].centerNode.originalID], //todo need switching
                 intersectingNodes.reverse(),
                 graphCenters[i],
-                xRanges,
+                calculateXRanges(proportion, decollapseMode !== 'shared'),
                 //-fullRange / egoGraphs.length / 2 +
                 (fullRange / egoGraphs.length) * i
             );

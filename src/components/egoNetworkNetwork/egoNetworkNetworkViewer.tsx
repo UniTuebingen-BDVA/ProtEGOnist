@@ -109,9 +109,11 @@ function EgoNetworkNetworkViewer() {
                 orientation="vertical"
                 value={decollapseMode}
                 exclusive
-                onChange={(_event, nextVal: string) =>
-                    setDecollapseModeAtom(nextVal)
-                }
+                onChange={(_event, nextVal: string) => {
+                    if (nextVal !== null) {
+                        return setDecollapseModeAtom(nextVal);
+                    }
+                }}
             >
                 <ToggleButton value="shared" aria-label="list">
                     <SetCenter />
