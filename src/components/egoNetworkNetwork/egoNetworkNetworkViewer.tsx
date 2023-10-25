@@ -1,19 +1,30 @@
 import { useGesture } from '@use-gesture/react';
 import EgoNetworkNetwork from './egoNetworkNetwork.tsx';
-import { Backdrop, CircularProgress, Paper } from '@mui/material';
+import {
+    Backdrop,
+    CircularProgress,
+    Paper,
+    ToggleButton,
+    ToggleButtonGroup
+} from '@mui/material';
 import { useAtom, useAtomValue } from 'jotai';
 import {
     decollapseIDsArrayAtom,
-    egoNetworkNetworkSizeAtom
+    egoNetworkNetworkSizeAtom,
+    decollapseModeAtom
 } from './egoNetworkNetworkStore.ts';
 import ColorLegend from '../ColorLegend.tsx';
 import { drugsPerProteinColorscaleAtom } from '../selectionTable/tableStore.tsx';
 import { animated, useSpring } from '@react-spring/web';
 import React from 'react';
 import { egoNetworkNetworkBusyAtom } from '../../apiCalls.ts';
+import { SetCenter, SetAll, SetLeftRight } from 'mdi-material-ui';
+import ViewQuiltIcon from '@mui/icons-material/ViewQuilt';
+import Icon from '@mui/material/Icon';
 
 function EgoNetworkNetworkViewer() {
-    const [egoNetworkNetworkBusy]=useAtom(egoNetworkNetworkBusyAtom);
+    const [egoNetworkNetworkBusy] = useAtom(egoNetworkNetworkBusyAtom);
+    const [decollapseMode, setDecollapseModeAtom] = useAtom(decollapseModeAtom);
     const svgSize = useAtomValue(egoNetworkNetworkSizeAtom);
     const [colorscale] = useAtom(drugsPerProteinColorscaleAtom);
     const [decollapseIDsArray] = useAtom(decollapseIDsArrayAtom);
@@ -65,7 +76,7 @@ function EgoNetworkNetworkViewer() {
                 position: 'relative'
             }}
         >
-             <Backdrop
+            <Backdrop
                 sx={{
                     color: '#fff',
                     zIndex: (theme) => theme.zIndex.drawer + 1,
@@ -93,6 +104,25 @@ function EgoNetworkNetworkViewer() {
                     <EgoNetworkNetwork />
                 </animated.g>
             </animated.svg>
+            <ToggleButtonGroup
+                style={{ left: 5, position: 'absolute', top: 260 }}
+                orientation="vertical"
+                value={decollapseMode}
+                exclusive
+                onChange={(_event, nextVal: string) =>
+                    setDecollapseModeAtom(nextVal)
+                }
+            >
+                <ToggleButton value="shared" aria-label="list">
+                    <SetCenter />
+                </ToggleButton>
+                <ToggleButton value="all" aria-label="module">
+                    <SetAll />
+                </ToggleButton>
+                <ToggleButton value="unique" aria-label="quilt">
+                    <SetLeftRight />
+                </ToggleButton>
+            </ToggleButtonGroup>
             <svg
                 height={250}
                 width={200}

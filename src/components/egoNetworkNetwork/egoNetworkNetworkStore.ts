@@ -12,6 +12,7 @@ import {
     outerRadiusAtom
 } from '../egograph/egoGraphBundleStore.ts';
 import { egoNetworkNetworksOverviewAtom } from '../overview_component/egoNetworkNetworkOverviewStore.ts';
+import { get } from 'optics-ts';
 
 export const egoNetworkNetworkSizeAtom = atom({
     width: 1000,
@@ -20,6 +21,14 @@ export const egoNetworkNetworkSizeAtom = atom({
     y: 0
 });
 
+const decollapseModeStoreAtom = atom('shared');
+export const decollapseModeAtom = atom(
+    (get) => get(decollapseModeStoreAtom),
+    (get, set, value: string) => {
+        console.log('modeSET', value);
+        set(decollapseModeStoreAtom, value);
+    }
+);
 export const decollapseIDsArrayAtom = atom<string[]>([]);
 const decollapsedSizeStoreAtom = atom<number[]>([]);
 export const decollapsedSizeAtom = atom(

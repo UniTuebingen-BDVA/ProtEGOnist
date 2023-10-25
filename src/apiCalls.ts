@@ -28,6 +28,7 @@ import {
 } from './components/egoNetworkNetwork/egoNetworkNetworkStore.ts';
 import { calculateLayout } from './components/egograph/egolayout.ts';
 import { egoNetworkNetworksOverviewAtom } from './components/overview_component/egoNetworkNetworkOverviewStore.ts';
+import { decollapseModeAtom } from './components/egoNetworkNetwork/egoNetworkNetworkStore.ts';
 
 export const serverBusyAtom = atom(false);
 export const radarChartBusyAtom = atom(false);
@@ -62,13 +63,15 @@ export const getMultiEgographBundleAtom = atom(
                     .then(
                         (result) => {
                             const { egoGraphs, intersections } = result.data;
+                            const decollapseMode = get(decollapseModeAtom);
                             set(egoGraphBundlesLayoutAtom, {
                                 ...get(egoGraphBundlesLayoutAtom),
                                 [jointID]: calculateLayout(
                                     egoGraphs,
                                     intersections,
                                     get(innerRadiusAtom),
-                                    get(outerRadiusAtom)
+                                    get(outerRadiusAtom),
+                                    decollapseMode
                                 )
                             });
                             requestCounter += 1;

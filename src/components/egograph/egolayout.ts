@@ -465,7 +465,8 @@ export function calculateLayout(
     egoGraphs: egoGraph[],
     intersections: { [key: string]: string[] },
     innerSize: number,
-    outerSize: number
+    outerSize: number,
+    decollapseMode: string
 ) {
     // sort each array in egoGraphs alphabetically by centerNode originalId
     egoGraphs.sort((a, b) => {
@@ -477,14 +478,17 @@ export function calculateLayout(
             return 0;
         }
     });
-
+    console.log('MODE', decollapseMode);
     // get the amount of intersecting nodes for each egoGraph
     const decollapsedRadii: { [key: string]: number } = {};
     egoGraphs.forEach((egoGraph) => {
         let idAccumulator = 0;
         for (const [key, value] of Object.entries(intersections)) {
             const ke = key.split(',');
-            const addCond = ke.length > 1 || egoGraphs.length === 1; //add only shared cond here
+            const addCond =
+                ke.length > 1 ||
+                egoGraphs.length === 1 ||
+                decollapseMode === 'all'; //add only shared cond here
             if (addCond && ke.includes(egoGraph.centerNode.originalID)) {
                 idAccumulator += value.length;
             }
@@ -512,8 +516,12 @@ export function calculateLayout(
         };
         const fullRange = 2 * Math.PI;
         const xRanges: [[number, number], [number, number]] = [
-            [0, fullRange - 0.0001],
-            [fullRange - 0.0001, fullRange]
+            decollapseMode === 'shared'
+                ? [0, fullRange - 0.0001]
+                : [0, fullRange / egoGraphs.length],
+            decollapseMode === 'shared'
+                ? [fullRange - 0.0001, fullRange]
+                : [fullRange / egoGraphs.length, fullRange]
         ];
         let layoutNodeDict: { [key: string]: layoutNode } = {};
         let nodeDict: { [key: string]: egoGraphNode } = {};
@@ -658,7 +666,9 @@ export function calculateLayout(
                 egoGraphs[i],
                 scaledOuterSize / 2,
                 scaledOuterSize,
-                [], //intersections[egoGraphs[i].centerNode.originalID], //todo need switching
+                decollapseMode === 'shared'
+                    ? []
+                    : intersections[egoGraphs[i].centerNode.originalID], //todo need switching
                 intersectingNodes.reverse(),
                 graphCenters[i],
                 xRanges,
