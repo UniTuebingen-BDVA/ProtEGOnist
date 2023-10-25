@@ -4,10 +4,10 @@ import {
     Backdrop,
     CircularProgress,
     Paper,
-    ToggleButton,
     ToggleButtonGroup,
     Tooltip
 } from '@mui/material';
+import TooltipToggleButton from '../egoNetworkNetwork/TooltipToggleButton.tsx';
 import { useAtom, useAtomValue } from 'jotai';
 import {
     decollapseIDsArrayAtom,
@@ -114,21 +114,26 @@ function EgoNetworkNetworkViewer() {
                 exclusive
                 onChange={(_event, nextVal: string) => {
                     if (nextVal !== null) {
-                        return setDecollapseModeAtom(nextVal);
+                        console.log('butto#', decollapseMode);
+                        setDecollapseModeAtom(nextVal);
                     }
                 }}
             >
-                {' '}
-                <Tooltip title="Show ONLY shared nodes">
-                    <ToggleButton value="shared" aria-label="list">
-                        <SetCenter />
-                    </ToggleButton>
-                </Tooltip>
-                <Tooltip title="Show shared AND unique nodes">
-                    <ToggleButton value="all" aria-label="module">
-                        <SetAll />
-                    </ToggleButton>
-                </Tooltip>
+                <TooltipToggleButton
+                    TooltipProps={{ title: 'Show ONLY shared nodes' }}
+                    value="shared"
+                    aria-label="shared"
+                >
+                    <SetCenter />
+                </TooltipToggleButton>
+
+                <TooltipToggleButton
+                    TooltipProps={{ title: 'Show shared AND unique nodes' }}
+                    value="all"
+                    aria-label="all"
+                >
+                    <SetAll />
+                </TooltipToggleButton>
             </ToggleButtonGroup>
             <svg
                 height={275}
