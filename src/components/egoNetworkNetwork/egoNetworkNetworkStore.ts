@@ -97,19 +97,35 @@ export const highlightedEdgesAtom = atom(
     }
 );
 
+export const updateDecollapseIdsAtom = atom(
+    (get) => get(decollapseIDsArrayAtom),
+    (get, set, ids:string[]) => {
+        const decollapseIDs=get(decollapseIDsArrayAtom).slice();
+        for(let i=decollapseIDs.length-1;i>=0;i--){
+            for(let j=decollapseIDs[i].length-1;j>=0;j--){
+                if(!ids.includes(decollapseIDs[i][j])){
+                    if(decollapseIDs[i].length===1){
+                        decollapseIDs.splice(i,1);
+                    }else{
+                        decollapseIDs[i].splice(j,1);
+                    }
+                }
+            }
+        }
+        set(getMultiEgographBundleAtom,decollapseIDs);
+    }
+);
 export const decollapseEdgeAtom = atom(
     (get) => get(decollapseIDsArrayAtom),
     (get, set) => {
         const currentIdArray = get(decollapseIDsArrayAtom).slice();
         const highlightedEdges = get(highlightedEdgesAtom);
-        if (
-            highlightedEdges.ids.length > 0
-        ) {
+        if (highlightedEdges.ids.length > 0) {
             // case: two bundles are merged
             if (highlightedEdges.indices.length === 2) {
                 currentIdArray[highlightedEdges.indices[0]] =
                     highlightedEdges.ids;
-                currentIdArray.splice(highlightedEdges.indices[1],1);
+                currentIdArray.splice(highlightedEdges.indices[1], 1);
                 // case: node is added to bundle
             } else if (highlightedEdges.indices.length === 1) {
                 currentIdArray[highlightedEdges.indices[0]] =

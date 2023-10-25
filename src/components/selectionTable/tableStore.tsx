@@ -1,9 +1,17 @@
 import { atom, useAtom } from 'jotai';
 import { GridRowsProp, GridColDef } from '@mui/x-data-grid';
-import { getEgoNetworkNetworkAtom, getRadarAtom, quantifyNodesByAtom } from '../../apiCalls';
+import {
+    getEgoNetworkNetworkAtom,
+    getRadarAtom,
+    quantifyNodesByAtom
+} from '../../apiCalls';
 import { multiSelectionAtom } from '../TabViewer/tabViewerStore';
 import RadarIcon from '@mui/icons-material/Radar';
 import * as d3 from 'd3';
+import {
+    updateDecollapseIdsAtom
+} from '../egoNetworkNetwork/egoNetworkNetworkStore.ts';
+
 export const tableAtomStore = atom<{
     rows: GridRowsProp;
     columns: GridColDef[];
@@ -56,14 +64,21 @@ export const selectedProteinsAtom = atom(
         // Calculate proteins to delete and proteins to add
 
         // Which prots are not there yet
-        const proteinsToAdd = uniqueIds.filter(id => !selectedProteinsStoreValue.includes(id));
+        const proteinsToAdd = uniqueIds.filter(
+            (id) => !selectedProteinsStoreValue.includes(id)
+        );
 
         // Which prots are already there and should be deleted
-        const proteinsToDelete = selectedProteinsStoreValue.filter(id => uniqueIds.includes(id));
+        const proteinsToDelete = selectedProteinsStoreValue.filter((id) =>
+            uniqueIds.includes(id)
+        );
 
         // Update selected proteins with optimized array operations
-        const updatedProteins = selectedProteinsStoreValue.filter(id => !proteinsToDelete.includes(id)).concat(proteinsToAdd);
+        const updatedProteins = selectedProteinsStoreValue
+            .filter((id) => !proteinsToDelete.includes(id))
+            .concat(proteinsToAdd);
 
+        set(updateDecollapseIdsAtom, updatedProteins);
         set(selectedProteinsStoreAtom, updatedProteins);
         set(getEgoNetworkNetworkAtom, updatedProteins);
     }
@@ -71,7 +86,6 @@ export const selectedProteinsAtom = atom(
 
 export const drugsPerProteinColorscaleAtom = atom((get) => {
     const drugsPerProtein = get(drugsPerProteinAtom);
-    console.log(drugsPerProtein);
     const max = Math.max(...Object.values(drugsPerProtein));
     const min = Math.min(...Object.values(drugsPerProtein));
     // generate a colorscale based on the number of drugs per protein with d3 from white to #ff7f00
@@ -88,14 +102,14 @@ export const drugsPerProteinAtom = atom<{ [key: string]: number }>({});
 export const tableModelSelectedAtom = atom<number[]>((get) => {
     const selectedProteins = get(selectedProteinsAtom);
     const tableRows = get(tableAtomStore).rows;
-    const indexSelectedProts = Object.keys(tableRows).map((key, index) => selectedProteins.includes(key) ? index : -1).filter(index => index !== -1);
-    return indexSelectedProts
-}
-);
-export const columnVisibilityAtom = atom<{ [key: string]: boolean }>({
-    with_metadata: false,
+    const indexSelectedProts = Object.keys(tableRows)
+        .map((key, index) => (selectedProteins.includes(key) ? index : -1))
+        .filter((index) => index !== -1);
+    return indexSelectedProts;
 });
-
+export const columnVisibilityAtom = atom<{ [key: string]: boolean }>({
+    with_metadata: false
+});
 
 export const tableAtom = atom(
     (get) => get(tableAtomStore),
@@ -103,31 +117,29 @@ export const tableAtom = atom(
         // add a Radar button to the columns when tableAtom is set
         // get all unique keys (nodeID) from dictionary and put them in an array
         const quantifyNodesBy = get(quantifyNodesByAtom);
-        const nodeIDs = Object.keys(update.rows)
+        const nodeIDs = Object.keys(update.rows);
         // generate set of unique uniprot ids
         const uniquenodeIDs = [...new Set(nodeIDs)];
-
 
         const nodeQuantification: { [key: string]: number } = {};
 
         for (const nodeID of uniquenodeIDs) {
             const rowNode = update.rows[nodeID];
-            if (!rowNode || !rowNode["with_metadata"]) {
+            if (!rowNode || !rowNode['with_metadata']) {
                 nodeQuantification[nodeID] = null;
                 continue;
             }
-            if (quantifyNodesBy["type"] === "quantitative") {
-                nodeQuantification[nodeID] = rowNode[quantifyNodesBy["label"]] ?? null;
-                console.log(nodeQuantification[nodeID])
-            }
-            else if (quantifyNodesBy["type"] === "categorical") {
-                const elementsNode = rowNode[quantifyNodesBy["label"]].split(';') ?? [nodeID];
+            if (quantifyNodesBy['type'] === 'quantitative') {
+                nodeQuantification[nodeID] =
+                    rowNode[quantifyNodesBy['label']] ?? null;
+                console.log(nodeQuantification[nodeID]);
+            } else if (quantifyNodesBy['type'] === 'categorical') {
+                const elementsNode = rowNode[quantifyNodesBy['label']].split(
+                    ';'
+                ) ?? [nodeID];
                 const uniqueElementNode = [...new Set(elementsNode)];
                 nodeQuantification[nodeID] = uniqueElementNode.length;
             }
-
-
-
         }
         set(drugsPerProteinAtom, nodeQuantification);
         // generate set of unique drug names

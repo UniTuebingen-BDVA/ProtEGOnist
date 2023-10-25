@@ -28,7 +28,6 @@ const TooltipContent = memo(function TooltipContent({
     const [showOnTooltip] = useAtom(showOnTooltipAtom)
 
     const nodeData = tableData.rows[nodeID]
-    console.log(nodeData)
 
     // split data if available
     const proteinNames = (nodeData?.[nameNodesBy] ?? "").split(';').filter((x) => x !== "");
@@ -37,7 +36,6 @@ const TooltipContent = memo(function TooltipContent({
         tooltipData[showTooltip] = [... new Set((nodeData?.[showTooltip] ?? "").split(';').filter((x) => x !== ""))];
 
     }
-    console.log(tooltipData)
     // generate set of unique protein names
     const uniqueProteinNames = [...new Set(proteinNames)];
 
@@ -53,8 +51,7 @@ const TooltipContent = memo(function TooltipContent({
             {Object.keys(tooltipData).length > 0 && (
                 <>
                     {Object.entries(tooltipData).map(([key, iter]) => (
-                        <>
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <div key={key} style={{ display: 'flex', alignItems: 'center' }}>
                                 <span style={{ fontWeight: 'bold', textTransform: 'uppercase' }}>{key} </span>
                                 <ul>
                                     {iter.map((ele) => (
@@ -62,7 +59,6 @@ const TooltipContent = memo(function TooltipContent({
                                     ))}
                                 </ul>
                             </div>
-                        </>
 
 
                     ))

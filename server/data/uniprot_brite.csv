@@ -1,4 +1,4 @@
-UniprotID_inString,brite
+nodeID,brite
 P16150,CD molecules
 Q9BRQ0,none
 Q15386,Ubiquitin system
@@ -15,7 +15,7 @@ P16885,Membrane trafficking
 Q10588,CD molecules
 Q6UX71,none
 Q9UIV1,Messenger RNA biogenesis
-not found,#N/A
+not found,N/A
 A3KN83,Chromosome and associated proteins
 O00423,Cytoskeleton proteins
 Q9H939,Membrane trafficking
@@ -33,7 +33,7 @@ Q9Y250,none
 Q13485,none
 P06280,Enzymes
 Q9UKF6,Transcription machinery
-not found,#N/A
+not found,N/A
 Q6IQ23,Domain-containing proteins not elsewhere classified
 Q9Y478,none
 Q07955,Spliceosome
@@ -44,10 +44,10 @@ O75643,Spliceosome
 O15042,Spliceosome
 O75911,Enzymes
 O75400,Spliceosome
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 Q8IWX8,Spliceosome
-not found,#N/A
+not found,N/A
 P62899,Ribosome
 O75533,Spliceosome
 P05388,Ribosome
@@ -58,13 +58,13 @@ P62917,Ribosome
 Q9H788,Protein phosphatases and associated proteins
 Q07955,Spliceosome
 P62316,Spliceosome
-not found,#N/A
+not found,N/A
 P62906,Ribosome
 Q15233,Spliceosome
 O43824,none
 Q86UA1,Spliceosome
 P46777,Protein phosphatases and associated proteins
-not found,#N/A
+not found,N/A
 Q9H6H4,none
 Q8IXJ6,Chromosome and associated proteins
 Q9BV23,Peptidases and inhibitors
@@ -86,10 +86,10 @@ Q92618,Transcription factors
 Q86YH6,Prenyltransferases
 P56937,Enzymes
 Q15029,Spliceosome
-not found,#N/A
+not found,N/A
 O75643,Spliceosome
 P26373,Ribosome
-not found,#N/A
+not found,N/A
 P62829,Ribosome
 O75643,Spliceosome
 Q9P2I0,Messenger RNA biogenesis
@@ -97,7 +97,7 @@ Q9P2I0,Messenger RNA biogenesis
 P62829,Ribosome
 Q9NWS8,Mitochondrial biogenesis
 P62304,Messenger RNA biogenesis
-not found,#N/A
+not found,N/A
 P29728,Enzymes
 P16383,Transcription factors
 Q9NWS8,Mitochondrial biogenesis
@@ -107,7 +107,7 @@ P62906,Ribosome
 P18621,Ribosome
 Q9NWS8,Mitochondrial biogenesis
 Q15365,Messenger RNA biogenesis
-not found,#N/A
+not found,N/A
 P62750,Ribosome
 P62701,Ribosome
 Q6PJG6,DNA repair and recombination proteins
@@ -138,7 +138,7 @@ Q92900,Messenger RNA biogenesis
 P46779,Ribosome
 P46782,Ribosome
 Q15388,Mitochondrial biogenesis
-not found,#N/A
+not found,N/A
 P51636,Membrane trafficking
 Q9HCM4,Domain-containing proteins not elsewhere classified
 Q16630,Messenger RNA biogenesis
@@ -147,7 +147,7 @@ Q08211,Spliceosome
 Q8IY26,Enzymes
 P56937,Enzymes
 O95825,none
-not found,#N/A
+not found,N/A
 Q9NXR7,Ubiquitin system
 Q9NZB2,none
 Q13188,Protein kinases
@@ -157,7 +157,7 @@ Q9BQS8,Membrane trafficking
 O15357,Membrane trafficking
 P19404,Enzymes
 Q16629,Spliceosome
-not found,#N/A
+not found,N/A
 O43172,Spliceosome
 P59780,Membrane trafficking
 P35232,Mitochondrial biogenesis
@@ -176,7 +176,7 @@ Q9H8Y5,Ribosome biogenesis
 Q12768,Membrane trafficking
 Q9Y4B6,Protein kinases
 Q8IYB3,Messenger RNA biogenesis
-not found,#N/A
+not found,N/A
 Q9H307,Messenger RNA biogenesis
 P62081,Ribosome
 O43290,Spliceosome
@@ -196,16 +196,16 @@ O75643,Spliceosome
 P23508,none
 P14866,Spliceosome
 P62140,Protein phosphatases and associated proteins
-not found,#N/A
+not found,N/A
 Q8IWA4,Mitochondrial biogenesis
 Q14677,Membrane trafficking
 P62913,Ribosome
 P62750,Ribosome
-not found,#N/A
+not found,N/A
 Q9UHX1,Spliceosome
 P63000,Membrane trafficking
 P62241,Ribosome
-not found,#N/A
+not found,N/A
 Q9BV23,Peptidases and inhibitors
 Q92769,Chromosome and associated proteins
 O94763,Protein phosphatases and associated proteins
@@ -234,11 +234,11 @@ Q9P206,none
 Q9Y6W5,Cytoskeleton proteins
 Q9UKF6,Transcription machinery
 Q09666,none
-not found,#N/A
+not found,N/A
 Q96GG9,Ubiquitin system
 Q00839,Spliceosome
 Q53H12,Enzymes
-not found,#N/A
+not found,N/A
 Q6PL18,Enzymes
 P62263,Ribosome
 Q92615,Messenger RNA biogenesis
@@ -254,7 +254,7 @@ O76094,Secretion system
 Q7KZF4,none
 Q14152,Translation factors
 Q49B96,Mitochondrial biogenesis
-not found,#N/A
+not found,N/A
 Q08J23,Transfer RNA biogenesis
 Q13049,Ubiquitin system
 O43395,Spliceosome
@@ -262,13 +262,13 @@ P46459,Membrane trafficking
 Q9Y224,Transfer RNA biogenesis
 Q92876,Peptidases and inhibitors
 Q9BUT1,Enzymes
-not found,#N/A
+not found,N/A
 Q9BRD0,Spliceosome
 Q6P2Q9,Spliceosome
 Q15029,Spliceosome
 Q9Y3F4,Spliceosome
 Q92900,Messenger RNA biogenesis
-not found,#N/A
+not found,N/A
 Q01970,Membrane trafficking
 P08708,Ribosome
 P18621,Ribosome
@@ -294,7 +294,7 @@ Q53H12,Enzymes
 P13747,Exosome
 Q9H9J2,Ribosome
 P62140,Protein phosphatases and associated proteins
-not found,#N/A
+not found,N/A
 Q53H12,Enzymes
 Q9BUQ8,Spliceosome
 Q9P2E9,none
@@ -312,11 +312,11 @@ Q9BZZ5,none
 Q9P258,none
 Q8N983,Ribosome
 O75306,Enzymes
-not found,#N/A
+not found,N/A
 P83916,Chromosome and associated proteins
 Q9Y2W1,Spliceosome
 Q14197,Translation factors
-not found,#N/A
+not found,N/A
 Q9Y383,Spliceosome
 P53582,Peptidases and inhibitors
 Q13242,Spliceosome
@@ -327,18 +327,18 @@ Q6P1N0,Exosome
 Q15020,Spliceosome
 Q96T37,Messenger RNA biogenesis
 Q86UX7,Exosome
-not found,#N/A
+not found,N/A
 Q8IZH2,Messenger RNA biogenesis
 Q96DI7,Spliceosome
 P62280,Ribosome
 O95169,none
 Q8NFH5,Messenger RNA biogenesis
-not found,#N/A
+not found,N/A
 Q86TI0,Membrane trafficking
 Q96I24,Messenger RNA biogenesis
 Q6P1M3,Membrane trafficking
 Q9Y295,Enzymes
-not found,#N/A
+not found,N/A
 O15371,Translation factors
 P05455,none
 Q53H12,Enzymes
@@ -378,10 +378,10 @@ O95169,none
 Q92896,none
 Q86V21,Lipid biosynthesis proteins
 P05141,Mitochondrial biogenesis
-not found,#N/A
+not found,N/A
 Q9H9J2,Ribosome
 P36957,Enzymes
-not found,#N/A
+not found,N/A
 P46783,Ribosome
 P52907,Membrane trafficking
 Q99615,Chaperones and folding catalysts
@@ -392,14 +392,14 @@ O75489,Enzymes
 Q9Y6B6,Membrane trafficking
 O43678,none
 P00367,Exosome
-not found,#N/A
+not found,N/A
 P42766,Ribosome
 P39019,Ribosome
 P54259,none
 Q9HCS7,Messenger RNA biogenesis
 P54727,Proteasome
 P84090,none
-not found,#N/A
+not found,N/A
 P31943,Spliceosome
 P15880,Ribosome
 Q15424,Spliceosome
@@ -425,7 +425,7 @@ P84098,Ribosome
 P83731,Ribosome
 Q07955,Spliceosome
 P62263,Ribosome
-not found,#N/A
+not found,N/A
 P85037,Transcription factors
 Q9UNS1,Chromosome and associated proteins
 Q9ULE4,none
@@ -446,10 +446,10 @@ Q9GZT6,none
 Q8TAE8,none
 O76070,Transporters
 Q9UPQ0,Domain-containing proteins not elsewhere classified
-not found,#N/A
+not found,N/A
 Q7Z3B4,Messenger RNA biogenesis
 O75608,Enzymes
-not found,#N/A
+not found,N/A
 Q8WXI9,Transcription factors
 P61011,Secretion system
 Q13084,Ribosome
@@ -463,10 +463,10 @@ Q6P1N0,Exosome
 Q15365,Messenger RNA biogenesis
 P37198,Messenger RNA biogenesis
 O14920,Protein kinases
-not found,#N/A
+not found,N/A
 P43243,Spliceosome
 P53384,none
-not found,#N/A
+not found,N/A
 Q9UBI6,Exosome
 Q9NQG5,Transcription machinery
 Q9P2B4,none
@@ -503,7 +503,7 @@ P42766,Ribosome
 P61978,Spliceosome
 O43583,Messenger RNA biogenesis
 O15042,Spliceosome
-not found,#N/A
+not found,N/A
 P30153,Protein phosphatases and associated proteins
 O15042,Spliceosome
 O43432,Messenger RNA biogenesis
@@ -520,10 +520,10 @@ Q9NVS9,Enzymes
 P49458,Secretion system
 P23284,Chaperones and folding catalysts
 P49750,Protein phosphatases and associated proteins
-not found,#N/A
+not found,N/A
 P25685,Chaperones and folding catalysts
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 Q13405,Ribosome
 P13861,none
 Q9P2I0,Messenger RNA biogenesis
@@ -542,7 +542,7 @@ Q15437,Membrane trafficking
 Q8WUM9,Transporters
 Q8TF01,Spliceosome
 P43304,Enzymes
-not found,#N/A
+not found,N/A
 Q99798,Enzymes
 Q9Y2W2,Protein phosphatases and associated proteins
 Q96EY7,Mitochondrial biogenesis
@@ -555,13 +555,13 @@ P37108,Secretion system
 P42677,Ribosome
 Q96A33,Chaperones and folding catalysts
 P62917,Ribosome
-not found,#N/A
+not found,N/A
 Q92552,Ribosome
 P38159,Spliceosome
 P52907,Membrane trafficking
 P23284,Chaperones and folding catalysts
 P82673,Ribosome
-not found,#N/A
+not found,N/A
 O75718,Chaperones and folding catalysts
 O75821,Translation factors
 P61163,Chromosome and associated proteins
@@ -570,7 +570,7 @@ P23284,Chaperones and folding catalysts
 P54725,Proteasome
 O15145,Membrane trafficking
 Q00610,Membrane trafficking
-not found,#N/A
+not found,N/A
 P27635,Ribosome
 Q13113,none
 O60264,Transcription machinery
@@ -587,7 +587,7 @@ O95487,Membrane trafficking
 Q10570,Transcription machinery
 P23919,Enzymes
 P48735,Enzymes
-not found,#N/A
+not found,N/A
 P62857,Ribosome
 Q14653,Transcription factors
 Q14687,none
@@ -608,26 +608,26 @@ P31947,Exosome
 Q96GU1,none
 P61962,Ubiquitin system
 Q8N8S7,none
-not found,#N/A
+not found,N/A
 P31946,DNA repair and recombination proteins
 P09668,Peptidases and inhibitors
-not found,#N/A
+not found,N/A
 Q92499,Spliceosome
 Q07817,Protein phosphatases and associated proteins
 Q12972,Protein phosphatases and associated proteins
 Q6L8Q7,Messenger RNA biogenesis
-not found,#N/A
+not found,N/A
 O00571,Messenger RNA biogenesis
 Q15293,Domain-containing proteins not elsewhere classified
 Q93009,Peptidases and inhibitors
 O00303,Translation factors
 Q9HCS7,Messenger RNA biogenesis
 Q02040,Spliceosome
-not found,#N/A
+not found,N/A
 Q14839,Chromosome and associated proteins
 Q9H1E3,none
 P13667,Chaperones and folding catalysts
-not found,#N/A
+not found,N/A
 Q07817,Protein phosphatases and associated proteins
 Q96DV4,Ribosome
 P51148,Membrane trafficking
@@ -673,7 +673,7 @@ Q6IN85,Protein phosphatases and associated proteins
 P62851,Ribosome
 P62266,Ribosome
 Q8IWX8,Spliceosome
-not found,#N/A
+not found,N/A
 Q9UBV8,Domain-containing proteins not elsewhere classified
 P05198,Translation factors
 Q96ES7,Transcription machinery
@@ -701,7 +701,7 @@ Q9BYD3,Ribosome
 P43034,Chromosome and associated proteins
 Q9P015,Ribosome
 Q9UN37,Membrane trafficking
-not found,#N/A
+not found,N/A
 P50995,Secretion system
 P00390,Enzymes
 P22314,Ubiquitin system
@@ -729,7 +729,7 @@ Q13084,Ribosome
 P82673,Ribosome
 Q92688,Messenger RNA biogenesis
 Q8IWX8,Spliceosome
-not found,#N/A
+not found,N/A
 Q15369,Ubiquitin system
 Q9BUJ2,none
 Q16629,Spliceosome
@@ -753,7 +753,7 @@ Q9Y3B7,Ribosome
 Q96I24,Messenger RNA biogenesis
 Q9NW64,Spliceosome
 Q8NCG7,Enzymes
-not found,#N/A
+not found,N/A
 P49790,Messenger RNA biogenesis
 Q9P015,Ribosome
 Q8WUM4,Membrane trafficking
@@ -776,7 +776,7 @@ Q96GC5,Ribosome
 Q5T9A4,Mitochondrial biogenesis
 Q8WUM0,Messenger RNA biogenesis
 O94776,Transcription factors
-not found,#N/A
+not found,N/A
 O15042,Spliceosome
 Q8TAQ2,Transcription machinery
 Q96AY3,Chaperones and folding catalysts
@@ -816,11 +816,11 @@ P35613,Exosome
 Q9UBH6,Transporters
 Q16630,Messenger RNA biogenesis
 P21281,Exosome
-not found,#N/A
+not found,N/A
 Q92541,Transcription machinery
 Q9NQG5,Transcription machinery
 Q15020,Spliceosome
-not found,#N/A
+not found,N/A
 P37108,Secretion system
 O60610,Cytoskeleton proteins
 Q9H4A6,Membrane trafficking
@@ -828,14 +828,14 @@ Q9Y3I0,Transfer RNA biogenesis
 P62847,Ribosome
 Q9H2M9,Membrane trafficking
 O95182,none
-not found,#N/A
+not found,N/A
 Q05519,Spliceosome
 P49116,Transcription factors
 O75822,Ribosome biogenesis
 Q86X76,Enzymes
-not found,#N/A
+not found,N/A
 O15143,Membrane trafficking
-not found,#N/A
+not found,N/A
 Q9UQR0,Chromosome and associated proteins
 P53992,Membrane trafficking
 P80303,Membrane trafficking
@@ -845,9 +845,9 @@ Q32MZ4,Transcription factors
 Q9HCG8,Spliceosome
 P63220,Ribosome
 Q13283,Messenger RNA biogenesis
-not found,#N/A
+not found,N/A
 P50570,Membrane trafficking
-not found,#N/A
+not found,N/A
 P18754,Messenger RNA biogenesis
 P39687,Messenger RNA biogenesis
 Q02218,Enzymes
@@ -855,7 +855,7 @@ Q9UPN6,Transcription machinery
 Q7Z2W9,Ribosome
 P84103,Spliceosome
 P53999,Transcription machinery
-not found,#N/A
+not found,N/A
 Q96HS1,Enzymes
 P29372,DNA repair and recombination proteins
 Q9Y6M9,none
@@ -863,14 +863,14 @@ Q6IBS0,Cilium and associated proteins
 O15382,Amino acid related enzymes
 Q92665,Ribosome
 O60256,none
-not found,#N/A
+not found,N/A
 P60228,Translation factors
 Q92621,Messenger RNA biogenesis
 Q8WU90,none
 P35241,Cytoskeleton proteins
 Q9NQR4,Enzymes
 P61221,Ribosome biogenesis
-not found,#N/A
+not found,N/A
 Q9H6Z4,none
 P27635,Ribosome
 O75643,Spliceosome
@@ -882,7 +882,7 @@ Q9UJZ1,Transporters
 Q96FW1,Peptidases and inhibitors
 Q9Y5V0,none
 Q06210,Peptidases and inhibitors
-not found,#N/A
+not found,N/A
 Q14258,Ubiquitin system
 Q8TD43,Ion channels
 Q8NHH9,Membrane trafficking
@@ -917,7 +917,7 @@ P62258,DNA repair and recombination proteins
 Q15427,Spliceosome
 Q03111,Transcription machinery
 P31948,Chaperones and folding catalysts
-not found,#N/A
+not found,N/A
 P04632,Peptidases and inhibitors
 Q3KQV9,Enzymes
 P12270,Messenger RNA biogenesis
@@ -936,7 +936,7 @@ Q9Y3D3,Ribosome
 P46013,Protein phosphatases and associated proteins
 P82650,Ribosome
 P56556,none
-P39880,#N/A
+P39880,N/A
 O60841,Translation factors
 O95817,Chaperones and folding catalysts
 P12235,Mitochondrial biogenesis
@@ -951,12 +951,12 @@ Q9H1E3,none
 O94880,none
 Q9Y6D9,Chromosome and associated proteins
 P61513,Ribosome
-not found,#N/A
+not found,N/A
 P39748,DNA replication proteins
 Q9BPU6,none
 Q32P28,Chaperones and folding catalysts
 P09211,Transporters
-not found,#N/A
+not found,N/A
 P42126,Enzymes
 O76094,Secretion system
 P23284,Chaperones and folding catalysts
@@ -967,7 +967,7 @@ Q13505,Mitochondrial biogenesis
 O00541,Ribosome biogenesis
 Q9UGI8,Domain-containing proteins not elsewhere classified
 Q9Y3D3,Ribosome
-not found,#N/A
+not found,N/A
 Q92766,Transcription factors
 Q9NRG7,none
 P48643,Chaperones and folding catalysts
@@ -978,14 +978,14 @@ P35270,Exosome
 P49327,Lipid biosynthesis proteins
 Q13526,Transcription machinery
 P56537,Ribosome biogenesis
-not found,#N/A
+not found,N/A
 Q5ST30,Amino acid related enzymes
 Q13573,Spliceosome
 Q92499,Spliceosome
 O43447,Spliceosome
 Q99584,Domain-containing proteins not elsewhere classified
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 P23528,Membrane trafficking
 P56182,Protein phosphatases and associated proteins
 O60884,Chaperones and folding catalysts
@@ -1006,7 +1006,7 @@ Q9NP79,Membrane trafficking
 Q9NWB6,Spliceosome
 P82673,Ribosome
 O95169,none
-not found,#N/A
+not found,N/A
 O75937,Spliceosome
 Q14192,Domain-containing proteins not elsewhere classified
 Q9BRD0,Spliceosome
@@ -1014,7 +1014,7 @@ O75431,Mitochondrial biogenesis
 Q9HD33,Ribosome
 Q8WUA2,Spliceosome
 Q9BTD8,Domain-containing proteins not elsewhere classified
-not found,#N/A
+not found,N/A
 P46940,Cytoskeleton proteins
 Q96EV2,Domain-containing proteins not elsewhere classified
 O94888,Ubiquitin system
@@ -1035,12 +1035,12 @@ Q9BYD6,Ribosome
 Q86SE5,Domain-containing proteins not elsewhere classified
 Q6IBW4,Chromosome and associated proteins
 P35269,Transcription machinery
-not found,#N/A
+not found,N/A
 Q9Y3F4,Spliceosome
 Q16718,none
 O15031,none
 P06400,Protein phosphatases and associated proteins
-Q5T1S7,#N/A
+Q5T1S7,N/A
 P09543,Exosome
 Q9UBT2,Ubiquitin system
 Q09028,Chromosome and associated proteins
@@ -1048,27 +1048,27 @@ Q99733,Chromosome and associated proteins
 P16152,Enzymes
 P54727,Proteasome
 P28331,Enzymes
-not found,#N/A
+not found,N/A
 P08865,Ribosome
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 P60468,Membrane trafficking
 O95747,Protein kinases
 Q9H074,Messenger RNA biogenesis
-not found,#N/A
+not found,N/A
 Q96EE3,Messenger RNA biogenesis
 Q9NR30,Ribosome biogenesis
-not found,#N/A
+not found,N/A
 Q13425,Domain-containing proteins not elsewhere classified
 Q00765,Exosome
 Q9NTI5,Chromosome and associated proteins
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 Q14498,Spliceosome
 Q13136,Membrane trafficking
 Q9UKL0,Chromosome and associated proteins
 Q86YH6,Prenyltransferases
-not found,#N/A
+not found,N/A
 Q15554,DNA replication proteins
 P23919,Enzymes
 Q9P035,Lipid biosynthesis proteins
@@ -1088,7 +1088,7 @@ P27695,DNA repair and recombination proteins
 P32455,none
 O15127,Membrane trafficking
 Q5TC12,Mitochondrial biogenesis
-not found,#N/A
+not found,N/A
 Q4G0J3,Transcription machinery
 P51970,none
 Q14692,Ribosome biogenesis
@@ -1099,11 +1099,11 @@ Q9Y5J9,Mitochondrial biogenesis
 O75880,Mitochondrial biogenesis
 O00233,Proteasome
 O60218,Enzymes
-not found,#N/A
+not found,N/A
 Q6PI48,Amino acid related enzymes
 Q13126,Enzymes
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 P38606,Enzymes
 P30086,Peptidases and inhibitors
 Q9NP58,Transporters
@@ -1113,7 +1113,7 @@ P17987,Chaperones and folding catalysts
 Q96FS4,none
 Q5TBB1,DNA replication proteins
 Q9NS69,Mitochondrial biogenesis
-A0A0C4DGU3,#N/A
+A0A0C4DGU3,N/A
 Q9H2P0,Transcription factors
 Q9UI30,Transfer RNA biogenesis
 Q9UHB9,Secretion system
@@ -1127,8 +1127,8 @@ Q96ST3,Chromosome and associated proteins
 P15927,DNA replication proteins
 Q9NQG5,Transcription machinery
 P29401,Enzymes
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 Q01970,Membrane trafficking
 P28370,Chromosome and associated proteins
 Q9Y4H2,none
@@ -1143,12 +1143,12 @@ Q8NAV1,Spliceosome
 O60763,none
 Q13123,Spliceosome
 Q00796,Enzymes
-not found,#N/A
+not found,N/A
 Q15393,Transcription machinery
 Q96DV4,Ribosome
 Q8WWC4,none
 Q8TD55,Domain-containing proteins not elsewhere classified
-not found,#N/A
+not found,N/A
 O75694,Messenger RNA biogenesis
 Q9NPA8,Transcription machinery
 O43818,Ribosome biogenesis
@@ -1156,7 +1156,7 @@ Q15050,Ribosome biogenesis
 Q06830,Exosome
 P61088,Ubiquitin system
 P23528,Membrane trafficking
-not found,#N/A
+not found,N/A
 Q9UMS4,Spliceosome
 O00151,Domain-containing proteins not elsewhere classified
 Q96ST3,Chromosome and associated proteins
@@ -1185,7 +1185,7 @@ Q8N556,Cytoskeleton proteins
 Q12824,Protein phosphatases and associated proteins
 Q96PK6,none
 P48444,Membrane trafficking
-not found,#N/A
+not found,N/A
 Q9NTZ6,Spliceosome
 P25685,Chaperones and folding catalysts
 O76094,Secretion system
@@ -1203,7 +1203,7 @@ O75306,Enzymes
 P23526,Protein phosphatases and associated proteins
 P28482,Protein kinases
 Q92922,Transcription machinery
-not found,#N/A
+not found,N/A
 Q16656,Mitochondrial biogenesis
 P41240,Protein kinases
 Q8IVL6,Chaperones and folding catalysts
@@ -1213,12 +1213,12 @@ P13798,Peptidases and inhibitors
 Q8N4T8,Enzymes
 P48507,none
 Q16595,Mitochondrial biogenesis
-not found,#N/A
+not found,N/A
 Q96DI7,Spliceosome
 P53396,Exosome
 Q9Y3T9,Ribosome biogenesis
 P41240,Protein kinases
-Q9BRJ2,#N/A
+Q9BRJ2,N/A
 P41240,Protein kinases
 Q9BWF3,Spliceosome
 P63244,Messenger RNA biogenesis
@@ -1240,7 +1240,7 @@ C9JLW8,none
 P82675,Ribosome
 P49458,Secretion system
 P61604,Chaperones and folding catalysts
-not found,#N/A
+not found,N/A
 Q8N983,Ribosome
 P82930,Ribosome
 P00390,Enzymes
@@ -1270,7 +1270,7 @@ Q9HCU5,Membrane trafficking
 P50991,Chaperones and folding catalysts
 O60264,Transcription machinery
 Q8N1G4,none
-not found,#N/A
+not found,N/A
 P37108,Secretion system
 Q9P258,none
 O43920,none
@@ -1278,7 +1278,7 @@ Q9BZE1,Ribosome
 Q13813,Cytoskeleton proteins
 P27348,DNA repair and recombination proteins
 P28070,Peptidases and inhibitors
-not found,#N/A
+not found,N/A
 Q96E39,none
 Q9BVP2,Ribosome biogenesis
 Q7Z7H8,Ribosome
@@ -1292,7 +1292,7 @@ Q9NVS2,Ribosome
 Q9NVS9,Enzymes
 O75083,Domain-containing proteins not elsewhere classified
 P35573,Enzymes
-not found,#N/A
+not found,N/A
 O15061,Cytoskeleton proteins
 P49848,Transcription machinery
 Q99832,Chaperones and folding catalysts
@@ -1303,7 +1303,7 @@ Q9NQ88,Enzymes
 P22695,Peptidases and inhibitors
 Q02880,DNA replication proteins
 O43395,Spliceosome
-not found,#N/A
+not found,N/A
 Q9Y4I1,Messenger RNA biogenesis
 O00217,Enzymes
 Q16630,Messenger RNA biogenesis
@@ -1314,14 +1314,14 @@ P31947,Exosome
 Q13084,Ribosome
 P49821,Enzymes
 Q9Y5J1,Ribosome biogenesis
-not found,#N/A
+not found,N/A
 Q15291,Chromosome and associated proteins
 Q9NW64,Spliceosome
 Q01105,Chromosome and associated proteins
 O14979,Spliceosome
 P52907,Membrane trafficking
 Q9H845,Mitochondrial biogenesis
-not found,#N/A
+not found,N/A
 Q8NEY8,Chromosome and associated proteins
 Q5T653,Ribosome
 Q16775,Enzymes
@@ -1366,7 +1366,7 @@ P28331,Enzymes
 P27348,DNA repair and recombination proteins
 Q14157,Ubiquitin system
 Q9UI09,none
-not found,#N/A
+not found,N/A
 Q8NCW5,Enzymes
 Q9NXG2,Transfer RNA biogenesis
 Q13243,Spliceosome
@@ -1375,8 +1375,8 @@ Q9NRN7,Enzymes
 P09874,DNA replication proteins
 Q9NW64,Spliceosome
 P32942,CD molecules
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 P53367,Membrane trafficking
 O95155,Ubiquitin system
 Q96T88,Ubiquitin system
@@ -1399,7 +1399,7 @@ P35241,Cytoskeleton proteins
 Q8IY17,Enzymes
 O60831,Membrane trafficking
 Q49B96,Mitochondrial biogenesis
-not found,#N/A
+not found,N/A
 Q9BW27,Messenger RNA biogenesis
 P60891,Enzymes
 P56556,none
@@ -1410,17 +1410,17 @@ Q9P0M9,Ribosome
 Q96B54,none
 P07355,Membrane trafficking
 P38159,Spliceosome
-not found,#N/A
+not found,N/A
 Q13868,Messenger RNA biogenesis
 Q6P179,Peptidases and inhibitors
 Q9NTK5,Chromosome and associated proteins
 Q6NUK1,Transporters
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 Q9P2R7,Exosome
 Q86YP4,Transcription factors
 Q9Y6C9,Mitochondrial biogenesis
-not found,#N/A
+not found,N/A
 P62258,DNA repair and recombination proteins
 P57729,Membrane trafficking
 Q96AG4,none
@@ -1429,8 +1429,8 @@ Q06210,Peptidases and inhibitors
 O14980,Messenger RNA biogenesis
 P62899,Ribosome
 Q96J01,Messenger RNA biogenesis
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 Q00610,Membrane trafficking
 O75694,Messenger RNA biogenesis
 Q8NEY8,Chromosome and associated proteins
@@ -1447,7 +1447,7 @@ O15228,Enzymes
 P07195,Exosome
 Q9ULR0,Spliceosome
 P17028,Transcription factors
-not found,#N/A
+not found,N/A
 Q15435,Protein phosphatases and associated proteins
 Q9Y3T9,Ribosome biogenesis
 Q9HCS7,Messenger RNA biogenesis
@@ -1468,7 +1468,7 @@ Q15005,Enzymes
 Q8WXI9,Transcription factors
 P43034,Chromosome and associated proteins
 P40939,Enzymes
-P43155,#N/A
+P43155,N/A
 P62273,Ribosome
 P49406,Ribosome
 P35221,Cytoskeleton proteins
@@ -1482,15 +1482,15 @@ Q9BSC4,Ribosome biogenesis
 Q9HCS7,Messenger RNA biogenesis
 Q9H0S4,Ribosome biogenesis
 P50395,Exosome
-not found,#N/A
-K7ENT6,#N/A
-not found,#N/A
-not found,#N/A
+not found,N/A
+K7ENT6,N/A
+not found,N/A
+not found,N/A
 O95757,Chaperones and folding catalysts
 Q8NBX0,none
 P17987,Chaperones and folding catalysts
 Q9NSD9,Amino acid related enzymes
-not found,#N/A
+not found,N/A
 O95182,none
 P08397,Enzymes
 P32969,Ribosome
@@ -1505,18 +1505,18 @@ P06744,Exosome
 Q15020,Spliceosome
 P13804,Exosome
 P45974,Peptidases and inhibitors
-not found,#N/A
+not found,N/A
 Q9NVM9,none
 P05455,none
 Q16643,Cilium and associated proteins
 P27695,DNA repair and recombination proteins
 Q13610,Ribosome biogenesis
 P11413,Exosome
-not found,#N/A
+not found,N/A
 O75489,Enzymes
 Q9BQ39,Spliceosome
 Q9NR45,Enzymes
-not found,#N/A
+not found,N/A
 Q9H223,Membrane trafficking
 P84090,none
 Q16795,none
@@ -1524,8 +1524,8 @@ Q96FW1,Peptidases and inhibitors
 Q9NR46,Membrane trafficking
 P31939,Exosome
 P07737,Membrane trafficking
-not found,#N/A
-H0YCD9,#N/A
+not found,N/A
+H0YCD9,N/A
 Q9Y2S7,Mitochondrial biogenesis
 Q00688,Chaperones and folding catalysts
 P82979,Messenger RNA biogenesis
@@ -1539,7 +1539,7 @@ P18621,Ribosome
 P34897,Enzymes
 O75828,Enzymes
 Q9UNS2,Ubiquitin system
-not found,#N/A
+not found,N/A
 Q5SRE5,Messenger RNA biogenesis
 O60508,Spliceosome
 Q02040,Spliceosome
@@ -1560,8 +1560,8 @@ P62136,Protein phosphatases and associated proteins
 O00151,Domain-containing proteins not elsewhere classified
 P10599,Chaperones and folding catalysts
 O60341,Chromosome and associated proteins
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 O75718,Chaperones and folding catalysts
 Q92621,Messenger RNA biogenesis
 P50897,Lipid biosynthesis proteins
@@ -1573,11 +1573,11 @@ Q9Y4P3,Translation factors
 Q9BQ39,Spliceosome
 P40227,Chaperones and folding catalysts
 P35659,Chromosome and associated proteins
-not found,#N/A
+not found,N/A
 Q6DD87,none
-not found,#N/A
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
+not found,N/A
 Q9Y2P8,Ribosome biogenesis
 Q9ULV4,Cytoskeleton proteins
 P30050,Ribosome
@@ -1601,7 +1601,7 @@ Q9NZL4,Chaperones and folding catalysts
 P15924,Cytoskeleton proteins
 Q969X6,Ribosome biogenesis
 P49750,Protein phosphatases and associated proteins
-not found,#N/A
+not found,N/A
 P12532,Exosome
 P09110,Enzymes
 Q8NC56,Cytoskeleton proteins
@@ -1615,13 +1615,13 @@ P11216,Enzymes
 Q53F19,none
 Q9ULU4,Domain-containing proteins not elsewhere classified
 P63244,Messenger RNA biogenesis
-not found,#N/A
+not found,N/A
 P27694,Transcription factors
 P37837,Enzymes
 P23526,Protein phosphatases and associated proteins
 Q16795,none
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 P23368,Enzymes
 O95218,Spliceosome
 Q16401,Proteasome
@@ -1634,20 +1634,20 @@ Q6WCQ1,Domain-containing proteins not elsewhere classified
 P46459,Membrane trafficking
 P84157,none
 P31949,Domain-containing proteins not elsewhere classified
-K7ENT6,#N/A
+K7ENT6,N/A
 O00161,Membrane trafficking
 Q9H9B1,Chromosome and associated proteins
 Q02880,DNA replication proteins
 P33316,DNA repair and recombination proteins
-not found,#N/A
+not found,N/A
 P27707,Enzymes
-not found,#N/A
+not found,N/A
 Q9P035,Lipid biosynthesis proteins
 P22314,Ubiquitin system
 P12814,Membrane trafficking
 P30041,Enzymes
 Q08945,Transcription factors
-not found,#N/A
+not found,N/A
 P78417,Transporters
 O75915,Membrane trafficking
 P61160,Membrane trafficking
@@ -1655,7 +1655,7 @@ Q8WUY1,none
 O00571,Messenger RNA biogenesis
 Q8NBL1,Glycosyltransferases
 Q9Y3D9,Ribosome
-not found,#N/A
+not found,N/A
 Q9H6R0,Ribosome biogenesis
 P20962,none
 P61978,Spliceosome
@@ -1679,9 +1679,9 @@ P61221,Ribosome biogenesis
 P51649,Enzymes
 Q92544,Exosome
 Q92667,Protein phosphatases and associated proteins
-not found,#N/A
+not found,N/A
 P18887,DNA repair and recombination proteins
-not found,#N/A
+not found,N/A
 Q8NFQ8,Chaperones and folding catalysts
 Q99439,none
 P09936,Peptidases and inhibitors
@@ -1690,11 +1690,11 @@ Q8WW12,none
 P13489,none
 Q9BUR5,Mitochondrial biogenesis
 P04075,Membrane trafficking
-not found,#N/A
+not found,N/A
 Q02218,Enzymes
 P28300,Enzymes
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 P62995,Protein phosphatases and associated proteins
 P18621,Ribosome
 P51648,Enzymes
@@ -1711,22 +1711,22 @@ P35268,Ribosome
 O43181,none
 Q14974,Ribosome biogenesis
 P60059,Membrane trafficking
-not found,#N/A
+not found,N/A
 Q92572,Membrane trafficking
 Q9UHV9,Chaperones and folding catalysts
 Q9UJZ1,Transporters
 P48059,Domain-containing proteins not elsewhere classified
 P49368,Chaperones and folding catalysts
 P09960,Peptidases and inhibitors
-C9JNT3,#N/A
+C9JNT3,N/A
 P31483,Messenger RNA biogenesis
 Q32P28,Chaperones and folding catalysts
 P31483,Messenger RNA biogenesis
 Q96HR3,Transcription machinery
-not found,#N/A
+not found,N/A
 P46199,Translation factors
 Q14574,Cell adhesion molecules
-not found,#N/A
+not found,N/A
 O75531,Chromosome and associated proteins
 O95159,none
 Q15181,Enzymes
@@ -1740,17 +1740,17 @@ Q5SY16,Ribosome biogenesis
 P09874,DNA replication proteins
 P15121,Enzymes
 P00558,Exosome
-not found,#N/A
-Q5T5H1,#N/A
+not found,N/A
+Q5T5H1,N/A
 Q13724,Exosome
 P45974,Peptidases and inhibitors
 P60174,Exosome
 Q8IXM3,Ribosome
-not found,#N/A
+not found,N/A
 O95613,Chromosome and associated proteins
 O15400,Membrane trafficking
 Q86U38,Ribosome biogenesis
-not found,#N/A
+not found,N/A
 P40227,Chaperones and folding catalysts
 P60866,Ribosome
 Q13363,Membrane trafficking
@@ -1795,7 +1795,7 @@ P16152,Enzymes
 P61970,none
 P14384,Peptidases and inhibitors
 O43598,Enzymes
-not found,#N/A
+not found,N/A
 P68402,Enzymes
 P60981,Cytoskeleton proteins
 P62701,Ribosome
@@ -1804,10 +1804,10 @@ P82979,Messenger RNA biogenesis
 Q99832,Chaperones and folding catalysts
 P32969,Ribosome
 Q53EL6,none
-not found,#N/A
+not found,N/A
 P48643,Chaperones and folding catalysts
 P62280,Ribosome
-not found,#N/A
+not found,N/A
 Q9UI30,Transfer RNA biogenesis
 P04843,none
 Q9UGT4,Domain-containing proteins not elsewhere classified
@@ -1833,7 +1833,7 @@ P06744,Exosome
 P05386,Ribosome
 O15144,Membrane trafficking
 P53396,Exosome
-C9J0E9,#N/A
+C9J0E9,N/A
 P54920,Membrane trafficking
 O15144,Membrane trafficking
 Q9UI09,none
@@ -1846,7 +1846,7 @@ P62249,Ribosome
 P61088,Ubiquitin system
 Q9H2P0,Transcription factors
 P05198,Translation factors
-not found,#N/A
+not found,N/A
 O15145,Membrane trafficking
 P35236,Protein phosphatases and associated proteins
 Q92896,none
@@ -1861,12 +1861,12 @@ P14927,none
 P14550,Exosome
 P46977,Glycosyltransferases
 Q969X5,Membrane trafficking
-not found,#N/A
+not found,N/A
 P59998,Membrane trafficking
 P62277,Ribosome
 P83916,Chromosome and associated proteins
-D3YTI2,#N/A
-not found,#N/A
+D3YTI2,N/A
+not found,N/A
 P04626,Protein kinases
 Q13043,Protein kinases
 Q8TEM1,Messenger RNA biogenesis
@@ -1874,12 +1874,12 @@ Q15631,none
 P61970,none
 P78371,Chaperones and folding catalysts
 P04626,Protein kinases
-not found,#N/A
+not found,N/A
 O15511,Membrane trafficking
-not found,#N/A
+not found,N/A
 P38432,Spliceosome
 Q9Y3D9,Ribosome
-E9PAV3,#N/A
+E9PAV3,N/A
 O15511,Membrane trafficking
 P62917,Ribosome
 Q9Y2Q9,Ribosome
@@ -1887,19 +1887,19 @@ Q9H4I3,none
 P62081,Ribosome
 P48449,Enzymes
 P04626,Protein kinases
-not found,#N/A
+not found,N/A
 Q9NXW2,Chaperones and folding catalysts
 P57105,Membrane trafficking
-not found,#N/A
+not found,N/A
 Q96SI9,Spliceosome
 Q9GZT8,none
 Q6KC79,Chromosome and associated proteins
 P21281,Exosome
-not found,#N/A
+not found,N/A
 O60568,Glycosyltransferases
 P62081,Ribosome
 P63220,Ribosome
-not found,#N/A
+not found,N/A
 P23526,Protein phosphatases and associated proteins
 P46777,Protein phosphatases and associated proteins
 P21281,Exosome
@@ -1913,12 +1913,12 @@ P62277,Ribosome
 Q7L5N1,Ubiquitin system
 Q9UBB5,Chromosome and associated proteins
 P63279,Ubiquitin system
-H0Y6T8,#N/A
-not found,#N/A
+H0Y6T8,N/A
+not found,N/A
 O75718,Chaperones and folding catalysts
 Q07666,Spliceosome
 O43242,Proteasome
-not found,#N/A
+not found,N/A
 P98175,Spliceosome
 P53618,Membrane trafficking
 Q9UI30,Transfer RNA biogenesis
@@ -1931,7 +1931,7 @@ Q9NPA0,Membrane trafficking
 Q6KC79,Chromosome and associated proteins
 Q9UBC2,Membrane trafficking
 Q9Y5K8,none
-not found,#N/A
+not found,N/A
 O75822,Ribosome biogenesis
 Q04917,Protein phosphatases and associated proteins
 P22234,Enzymes
@@ -1939,24 +1939,24 @@ O60885,Protein kinases
 P35244,DNA replication proteins
 Q92879,Spliceosome
 Q14789,Membrane trafficking
-not found,#N/A
+not found,N/A
 Q15003,Chromosome and associated proteins
 O43660,Spliceosome
 P35241,Cytoskeleton proteins
 Q8NEJ9,Ribosome biogenesis
-not found,#N/A
+not found,N/A
 O95861,Transfer RNA biogenesis
 Q9NXF1,Ribosome biogenesis
 O43660,Spliceosome
 Q00839,Spliceosome
 P60903,Exosome
 P31937,Enzymes
-not found,#N/A
+not found,N/A
 Q99747,Membrane trafficking
 Q96CT7,none
 Q15436,Membrane trafficking
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 Q9NQX3,Enzymes
 Q8WUY1,none
 O15355,Protein phosphatases and associated proteins
@@ -1984,18 +1984,18 @@ Q86Y82,Membrane trafficking
 A5YKK6,Messenger RNA biogenesis
 Q9ULX9,Transcription factors
 P62244,Ribosome
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 P30086,Peptidases and inhibitors
 Q01518,Membrane trafficking
 P31939,Exosome
 Q8TCS8,Messenger RNA biogenesis
 P46779,Ribosome
-not found,#N/A
+not found,N/A
 P62280,Ribosome
 Q8WZA9,none
 O43660,Spliceosome
-not found,#N/A
+not found,N/A
 P04632,Peptidases and inhibitors
 P53999,Transcription machinery
 P63279,Ubiquitin system
@@ -2009,7 +2009,7 @@ O75976,Peptidases and inhibitors
 P28072,Peptidases and inhibitors
 Q86U42,Messenger RNA biogenesis
 Q86Y82,Membrane trafficking
-not found,#N/A
+not found,N/A
 Q10570,Transcription machinery
 Q03135,Membrane trafficking
 Q13951,none
@@ -2023,9 +2023,9 @@ Q99459,Spliceosome
 P36578,Ribosome
 Q13330,Transcription factors
 P31146,Membrane trafficking
-not found,#N/A
+not found,N/A
 Q99459,Spliceosome
-not found,#N/A
+not found,N/A
 Q9NTK5,Chromosome and associated proteins
 P24941,Protein kinases
 P78371,Chaperones and folding catalysts
@@ -2050,21 +2050,21 @@ Q14847,Domain-containing proteins not elsewhere classified
 O14656,Chaperones and folding catalysts
 Q8WZA0,none
 P23528,Membrane trafficking
-not found,#N/A
+not found,N/A
 P48556,Proteasome
 Q9Y388,Spliceosome
 Q13330,Transcription factors
 P61081,Ubiquitin system
 A5YKK6,Messenger RNA biogenesis
 Q9NW64,Spliceosome
-not found,#N/A
+not found,N/A
 Q8WW12,none
 Q15181,Enzymes
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 Q9HCS7,Messenger RNA biogenesis
 P24941,Protein kinases
-not found,#N/A
+not found,N/A
 P26583,Chromosome and associated proteins
 P46782,Ribosome
 Q00535,Protein kinases
@@ -2077,7 +2077,7 @@ P62263,Ribosome
 P26006,Exosome
 P05388,Ribosome
 Q9UKA9,Spliceosome
-not found,#N/A
+not found,N/A
 Q99497,Peptidases and inhibitors
 Q8IX12,Transcription machinery
 P10619,Peptidases and inhibitors
@@ -2091,11 +2091,11 @@ Q15554,DNA replication proteins
 P55209,Chromosome and associated proteins
 O60841,Translation factors
 Q8WZA9,none
-not found,#N/A
+not found,N/A
 P09543,Exosome
 P09417,Enzymes
 Q9UGV2,none
-H0Y4K8,#N/A
+H0Y4K8,N/A
 P61158,Membrane trafficking
 Q969X5,Membrane trafficking
 Q9Y2L1,Messenger RNA biogenesis
@@ -2125,7 +2125,7 @@ P09543,Exosome
 Q9Y6N5,Enzymes
 O43175,Exosome
 Q9UBR2,Peptidases and inhibitors
-not found,#N/A
+not found,N/A
 P62877,Ubiquitin system
 P39687,Messenger RNA biogenesis
 O15355,Protein phosphatases and associated proteins
@@ -2133,37 +2133,37 @@ Q15365,Messenger RNA biogenesis
 P23396,Ribosome
 O43390,Spliceosome
 Q9Y6N5,Enzymes
-E9PAV3,#N/A
+E9PAV3,N/A
 P48739,none
 P11940,Messenger RNA biogenesis
 P62195,Proteasome
 P54920,Membrane trafficking
 Q15185,Enzymes
-not found,#N/A
+not found,N/A
 Q6PIU2,Peptidases and inhibitors
 Q9NPA8,Transcription machinery
 Q8WVM7,Chromosome and associated proteins
 Q3ZCQ8,Mitochondrial biogenesis
 Q00765,Exosome
-not found,#N/A
+not found,N/A
 Q7Z4V5,DNA repair and recombination proteins
 Q9Y314,Spliceosome
 P09661,Spliceosome
 O43432,Messenger RNA biogenesis
 P39023,Ribosome
-H0YCD9,#N/A
+H0YCD9,N/A
 P07900,Protein phosphatases and associated proteins
-not found,#N/A
+not found,N/A
 P35241,Cytoskeleton proteins
-not found,#N/A
+not found,N/A
 P05166,Enzymes
 O95372,Enzymes
 Q9UJU6,Membrane trafficking
-not found,#N/A
+not found,N/A
 Q5JTD0,none
 Q15185,Enzymes
 Q05519,Spliceosome
-not found,#N/A
+not found,N/A
 Q9BVK6,Membrane trafficking
 P67809,Transcription factors
 Q02543,Ribosome
@@ -2176,7 +2176,7 @@ Q14444,Messenger RNA biogenesis
 Q8IYB8,Mitochondrial biogenesis
 P06454,none
 P35606,Membrane trafficking
-not found,#N/A
+not found,N/A
 P39748,DNA replication proteins
 Q9P2R3,Membrane trafficking
 Q92665,Ribosome
@@ -2188,20 +2188,20 @@ Q13510,Peptidases and inhibitors
 Q8NC56,Cytoskeleton proteins
 O60508,Spliceosome
 Q14498,Spliceosome
-not found,#N/A
+not found,N/A
 Q9H944,Transcription machinery
 P67809,Transcription factors
 Q14157,Ubiquitin system
 P56211,none
-not found,#N/A
+not found,N/A
 P51649,Enzymes
 P52888,Peptidases and inhibitors
 O15269,Amino acid related enzymes
 Q8NE71,Translation factors
 Q15181,Enzymes
-not found,#N/A
+not found,N/A
 Q8IX01,Spliceosome
-not found,#N/A
+not found,N/A
 Q12959,Chromosome and associated proteins
 O75165,Spliceosome
 Q99733,Chromosome and associated proteins
@@ -2209,18 +2209,18 @@ O75165,Spliceosome
 P62899,Ribosome
 Q14739,Chromosome and associated proteins
 O14874,Protein kinases
-not found,#N/A
+not found,N/A
 P98179,Spliceosome
 Q92900,Messenger RNA biogenesis
 P63279,Ubiquitin system
 O60831,Membrane trafficking
 P62753,Ribosome
-not found,#N/A
+not found,N/A
 Q9UGU0,Transcription factors
 Q9UBB5,Chromosome and associated proteins
 P42766,Ribosome
-D3YTI2,#N/A
-not found,#N/A
+D3YTI2,N/A
+not found,N/A
 P07195,Exosome
 Q9UHL4,Peptidases and inhibitors
 O75937,Spliceosome
@@ -2251,7 +2251,7 @@ P39019,Ribosome
 P52888,Peptidases and inhibitors
 P52565,Exosome
 P46781,Ribosome
-not found,#N/A
+not found,N/A
 Q9NR50,Translation factors
 O60684,Chromosome and associated proteins
 Q03518,Transporters
@@ -2265,7 +2265,7 @@ P62942,Chaperones and folding catalysts
 Q96E39,none
 Q00688,Chaperones and folding catalysts
 Q99627,Ubiquitin system
-D3YTI2,#N/A
+D3YTI2,N/A
 P62263,Ribosome
 O95239,Cytoskeleton proteins
 Q9NTZ6,Spliceosome
@@ -2273,20 +2273,20 @@ P43304,Enzymes
 Q13637,Membrane trafficking
 P08708,Ribosome
 Q86X76,Enzymes
-not found,#N/A
+not found,N/A
 Q92930,Membrane trafficking
 Q92900,Messenger RNA biogenesis
 P38919,Messenger RNA biogenesis
 P51159,Membrane trafficking
 P15121,Enzymes
 P10606,none
-not found,#N/A
+not found,N/A
 P61457,Exosome
 Q9H9A6,none
 Q13098,Ubiquitin system
 O14964,Membrane trafficking
 Q9Y314,Spliceosome
-not found,#N/A
+not found,N/A
 P14406,none
 P51648,Enzymes
 P13995,Enzymes
@@ -2298,7 +2298,7 @@ P11142,Protein phosphatases and associated proteins
 Q9NTJ3,Chromosome and associated proteins
 P22234,Enzymes
 P51648,Enzymes
-not found,#N/A
+not found,N/A
 O43617,Membrane trafficking
 P11940,Messenger RNA biogenesis
 P62249,Ribosome
@@ -2348,8 +2348,8 @@ P43686,Proteasome
 P53582,Peptidases and inhibitors
 P27635,Ribosome
 Q6NUK1,Transporters
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 Q9NTJ3,Chromosome and associated proteins
 P46063,DNA repair and recombination proteins
 O15511,Membrane trafficking
@@ -2360,7 +2360,7 @@ P17028,Transcription factors
 Q13310,Messenger RNA biogenesis
 P12694,Enzymes
 Q92820,Peptidases and inhibitors
-P42166,#N/A
+P42166,N/A
 Q8WUM4,Membrane trafficking
 P14866,Spliceosome
 P06865,Chaperones and folding catalysts
@@ -2376,7 +2376,7 @@ P25788,Peptidases and inhibitors
 P68371,Chromosome and associated proteins
 Q9H1E5,none
 O43684,Spliceosome
-not found,#N/A
+not found,N/A
 O14908,Membrane trafficking
 P19623,Enzymes
 O43491,Domain-containing proteins not elsewhere classified
@@ -2391,7 +2391,7 @@ P09669,none
 P06280,Enzymes
 P23396,Ribosome
 P61160,Membrane trafficking
-not found,#N/A
+not found,N/A
 P60174,Exosome
 P04899,Exosome
 P25786,Peptidases and inhibitors
@@ -2412,21 +2412,21 @@ P47755,Membrane trafficking
 Q9BWM7,Mitochondrial biogenesis
 P61247,Ribosome
 P49593,Protein phosphatases and associated proteins
-not found,#N/A
+not found,N/A
 P15586,Enzymes
 Q9Y696,Exosome
-not found,#N/A
+not found,N/A
 P15880,Ribosome
-not found,#N/A
+not found,N/A
 P35606,Membrane trafficking
 P61247,Ribosome
 P51116,Messenger RNA biogenesis
-not found,#N/A
+not found,N/A
 Q15102,Enzymes
 P61978,Spliceosome
 O14786,CD molecules
 P62913,Ribosome
-not found,#N/A
+not found,N/A
 Q96CT7,none
 O00410,Ribosome biogenesis
 Q13098,Ubiquitin system
@@ -2442,7 +2442,7 @@ P25787,Peptidases and inhibitors
 P11166,Transporters
 P18754,Messenger RNA biogenesis
 Q9Y508,Ubiquitin system
-not found,#N/A
+not found,N/A
 P62333,Proteasome
 O60231,Spliceosome
 P62191,Proteasome
@@ -2461,7 +2461,7 @@ P05387,Ribosome
 P34932,Chaperones and folding catalysts
 O00487,Peptidases and inhibitors
 P27695,DNA repair and recombination proteins
-not found,#N/A
+not found,N/A
 P41240,Protein kinases
 Q9BTT0,Chromosome and associated proteins
 O75475,Spliceosome
@@ -2472,7 +2472,7 @@ P62312,Messenger RNA biogenesis
 O14964,Membrane trafficking
 P25787,Peptidases and inhibitors
 Q96SI9,Spliceosome
-not found,#N/A
+not found,N/A
 P35244,DNA replication proteins
 Q13151,Spliceosome
 Q9NT62,Membrane trafficking
@@ -2480,7 +2480,7 @@ Q32P28,Chaperones and folding catalysts
 P52594,Messenger RNA biogenesis
 P18084,Membrane trafficking
 Q13310,Messenger RNA biogenesis
-not found,#N/A
+not found,N/A
 O14964,Membrane trafficking
 P30626,Domain-containing proteins not elsewhere classified
 P98179,Spliceosome
@@ -2506,16 +2506,16 @@ P62241,Ribosome
 Q9BY44,Messenger RNA biogenesis
 Q00796,Enzymes
 P25788,Peptidases and inhibitors
-not found,#N/A
+not found,N/A
 Q8TEA8,Transfer RNA biogenesis
 P08240,Secretion system
-not found,#N/A
+not found,N/A
 Q01105,Chromosome and associated proteins
 Q99627,Ubiquitin system
 O15371,Translation factors
 O60313,Mitochondrial biogenesis
 Q9H910,none
-not found,#N/A
+not found,N/A
 Q92499,Spliceosome
 Q9BY32,Enzymes
 Q9BR76,Cytoskeleton proteins
@@ -2523,26 +2523,26 @@ P13645,Cytoskeleton proteins
 P61011,Secretion system
 P55884,Messenger RNA biogenesis
 Q7L5N1,Ubiquitin system
-not found,#N/A
+not found,N/A
 Q00535,Protein kinases
 Q92841,Spliceosome
 Q13616,Ubiquitin system
 Q05682,Cytoskeleton proteins
 P63272,Transcription machinery
 Q06546,Transcription factors
-G3V4M1,#N/A
+G3V4M1,N/A
 P46782,Ribosome
 P61758,none
 P62258,DNA repair and recombination proteins
 Q99615,Chaperones and folding catalysts
 Q9UN37,Membrane trafficking
-not found,#N/A
+not found,N/A
 P36915,none
 P08708,Ribosome
 O15143,Membrane trafficking
 Q16555,none
 P30050,Ribosome
-not found,#N/A
+not found,N/A
 P61088,Ubiquitin system
 Q15007,Messenger RNA biogenesis
 P15880,Ribosome
@@ -2555,7 +2555,7 @@ P20618,Peptidases and inhibitors
 Q13564,Ubiquitin system
 P31483,Messenger RNA biogenesis
 Q9Y285,Amino acid related enzymes
-not found,#N/A
+not found,N/A
 Q52LJ0,Transfer RNA biogenesis
 O00469,Enzymes
 Q96RP9,Translation factors
@@ -2579,7 +2579,7 @@ Q15843,Ubiquitin system
 P11142,Protein phosphatases and associated proteins
 P11717,Exosome
 P13995,Enzymes
-not found,#N/A
+not found,N/A
 O15371,Translation factors
 Q14807,Cytoskeleton proteins
 Q13418,Protein kinases
@@ -2591,9 +2591,9 @@ Q99436,Peptidases and inhibitors
 O60462,Membrane trafficking
 O43684,Spliceosome
 P31350,DNA repair and recombination proteins
-not found,#N/A
+not found,N/A
 Q9UBQ5,Translation factors
-not found,#N/A
+not found,N/A
 Q9Y3E1,none
 P62266,Ribosome
 Q9BS26,Membrane trafficking
@@ -2610,14 +2610,14 @@ P06213,Protein kinases
 Q9Y3D6,Mitochondrial biogenesis
 P83731,Ribosome
 P12004,DNA replication proteins
-not found,#N/A
+not found,N/A
 P55884,Messenger RNA biogenesis
 P33316,DNA repair and recombination proteins
 P62495,Messenger RNA biogenesis
 P62753,Ribosome
-G3V4M1,#N/A
-not found,#N/A
-not found,#N/A
+G3V4M1,N/A
+not found,N/A
+not found,N/A
 Q86UP2,Mitochondrial biogenesis
 P53621,Membrane trafficking
 P63208,Membrane trafficking
@@ -2626,13 +2626,13 @@ Q9H9B1,Chromosome and associated proteins
 Q92575,none
 P46109,none
 P14324,Prenyltransferases
-not found,#N/A
+not found,N/A
 P22314,Ubiquitin system
 Q13595,Protein phosphatases and associated proteins
 P83916,Chromosome and associated proteins
-not found,#N/A
+not found,N/A
 Q14974,Ribosome biogenesis
-not found,#N/A
+not found,N/A
 P60900,Peptidases and inhibitors
 O43447,Spliceosome
 Q9NX24,Ribosome biogenesis
@@ -2659,7 +2659,7 @@ Q9NRL2,Chromosome and associated proteins
 Q9Y2U8,Cytoskeleton proteins
 P09382,Exosome
 P61221,Ribosome biogenesis
-not found,#N/A
+not found,N/A
 Q96FW1,Peptidases and inhibitors
 P42126,Enzymes
 Q9BTT0,Chromosome and associated proteins
@@ -2683,7 +2683,7 @@ Q92905,Peptidases and inhibitors
 Q7L2H7,Translation factors
 Q9NR12,Domain-containing proteins not elsewhere classified
 Q9BTE3,none
-not found,#N/A
+not found,N/A
 Q9HC52,Chromosome and associated proteins
 O75396,Membrane trafficking
 P54727,Proteasome
@@ -2695,10 +2695,10 @@ P17931,Exosome
 P17931,Exosome
 P50416,Mitochondrial biogenesis
 O75955,Membrane trafficking
-not found,#N/A
+not found,N/A
 O75828,Enzymes
 Q9BT78,Ubiquitin system
-not found,#N/A
+not found,N/A
 P20700,Cytoskeleton proteins
 P39019,Ribosome
 Q9UKK9,Enzymes
@@ -2719,7 +2719,7 @@ P39748,DNA replication proteins
 Q14008,Chromosome and associated proteins
 Q9Y696,Exosome
 Q13418,Protein kinases
-D3YTI2,#N/A
+D3YTI2,N/A
 Q9H0H5,Membrane trafficking
 Q9H4G0,Domain-containing proteins not elsewhere classified
 P11717,Exosome
@@ -2728,7 +2728,7 @@ P30533,none
 Q8TB36,Mitochondrial biogenesis
 O75821,Translation factors
 Q9UBE0,Ubiquitin system
-not found,#N/A
+not found,N/A
 P32119,Exosome
 Q9UNF1,Domain-containing proteins not elsewhere classified
 Q9UFW8,none
@@ -2739,9 +2739,9 @@ O14818,Peptidases and inhibitors
 Q9H019,none
 O43765,Chaperones and folding catalysts
 Q9UNF1,Domain-containing proteins not elsewhere classified
-not found,#N/A
+not found,N/A
 Q9H307,Messenger RNA biogenesis
-not found,#N/A
+not found,N/A
 P46782,Ribosome
 O15347,Chromosome and associated proteins
 P07093,Peptidases and inhibitors
@@ -2766,14 +2766,14 @@ Q92572,Membrane trafficking
 O14818,Peptidases and inhibitors
 P62857,Ribosome
 P00492,Enzymes
-not found,#N/A
+not found,N/A
 Q15554,DNA replication proteins
 Q9BXJ9,Chromosome and associated proteins
 O60568,Glycosyltransferases
 Q02252,Enzymes
-not found,#N/A
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
+not found,N/A
 O94766,Glycosyltransferases
 Q9Y3F4,Spliceosome
 O15020,Cytoskeleton proteins
@@ -2792,17 +2792,17 @@ Q9H845,Mitochondrial biogenesis
 P42765,Enzymes
 O60869,none
 P06493,Protein kinases
-not found,#N/A
+not found,N/A
 P09651,Messenger RNA biogenesis
 Q99497,Peptidases and inhibitors
 Q6DD88,Membrane trafficking
 P31350,DNA repair and recombination proteins
 P06865,Chaperones and folding catalysts
-not found,#N/A
+not found,N/A
 P11717,Exosome
 P30085,Enzymes
 P39748,DNA replication proteins
-not found,#N/A
+not found,N/A
 Q5SW79,Chromosome and associated proteins
 Q86UE4,none
 P15170,Messenger RNA biogenesis
@@ -2811,14 +2811,14 @@ Q99961,Membrane trafficking
 P55209,Chromosome and associated proteins
 P49755,Membrane trafficking
 P62873,Exosome
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 P39687,Messenger RNA biogenesis
 Q92598,Chaperones and folding catalysts
-not found,#N/A
+not found,N/A
 Q9Y6N5,Enzymes
 P23528,Membrane trafficking
-not found,#N/A
+not found,N/A
 O95747,Protein kinases
 Q01658,Transcription machinery
 Q15417,none
@@ -2829,18 +2829,18 @@ P12277,Exosome
 P68036,Ubiquitin system
 O15042,Spliceosome
 Q8WVJ2,none
-not found,#N/A
+not found,N/A
 P13489,none
 P48556,Proteasome
-not found,#N/A
+not found,N/A
 Q8NE86,Mitochondrial biogenesis
 P31946,DNA repair and recombination proteins
 P63173,Ribosome
 P51532,Transcription machinery
 P60842,Messenger RNA biogenesis
 P13639,Translation factors
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 P36776,Peptidases and inhibitors
 P60228,Translation factors
 Q9Y6I9,none
@@ -2851,7 +2851,7 @@ Q8IVL5,Chaperones and folding catalysts
 Q14980,Chromosome and associated proteins
 Q92817,Cytoskeleton proteins
 Q14980,Chromosome and associated proteins
-not found,#N/A
+not found,N/A
 Q9NT62,Membrane trafficking
 O14773,Peptidases and inhibitors
 Q14651,Cytoskeleton proteins
@@ -2859,10 +2859,10 @@ O75312,none
 P57740,Messenger RNA biogenesis
 Q9BS26,Membrane trafficking
 P62263,Ribosome
-not found,#N/A
+not found,N/A
 Q02252,Enzymes
 P36551,Enzymes
-not found,#N/A
+not found,N/A
 P26583,Chromosome and associated proteins
 O00231,Proteasome
 Q8TEM1,Messenger RNA biogenesis
@@ -2872,12 +2872,12 @@ O60568,Glycosyltransferases
 P09211,Transporters
 P53004,Enzymes
 Q9H9B1,Chromosome and associated proteins
-not found,#N/A
+not found,N/A
 Q14320,Spliceosome
 Q8WUM0,Messenger RNA biogenesis
-not found,#N/A
+not found,N/A
 Q9UHY7,Enzymes
-not found,#N/A
+not found,N/A
 Q9NSD9,Amino acid related enzymes
 Q15369,Ubiquitin system
 P07195,Exosome
@@ -2888,8 +2888,8 @@ Q8WUM0,Messenger RNA biogenesis
 Q8NFH4,Messenger RNA biogenesis
 O15269,Amino acid related enzymes
 Q16512,Protein kinases
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 Q8IWB7,Membrane trafficking
 Q9UNF0,Membrane trafficking
 Q92572,Membrane trafficking
@@ -2918,23 +2918,23 @@ P42126,Enzymes
 Q9NQX3,Enzymes
 Q16851,Enzymes
 Q7KZF4,none
-not found,#N/A
+not found,N/A
 Q9UHV9,Chaperones and folding catalysts
 O00442,Enzymes
 P51858,Glycosaminoglycan binding proteins
 Q02318,Cytochrome P450
-not found,#N/A
+not found,N/A
 Q9UNF0,Membrane trafficking
-not found,#N/A
+not found,N/A
 Q9NR50,Translation factors
 P25205,DNA replication proteins
 P08708,Ribosome
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 Q13442,none
 Q9BWM7,Mitochondrial biogenesis
 P43007,Transporters
-not found,#N/A
+not found,N/A
 P42126,Enzymes
 P49748,Enzymes
 O94888,Ubiquitin system
@@ -2943,43 +2943,43 @@ Q14011,Spliceosome
 P07737,Membrane trafficking
 Q15121,none
 P51571,Membrane trafficking
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 P50395,Exosome
-not found,#N/A
+not found,N/A
 Q15121,none
 P28482,Protein kinases
-not found,#N/A
+not found,N/A
 Q13363,Membrane trafficking
 P54578,Peptidases and inhibitors
-not found,#N/A
+not found,N/A
 O00264,Exosome
 P61163,Chromosome and associated proteins
 Q92667,Protein phosphatases and associated proteins
 Q86SX6,Chaperones and folding catalysts
 Q99627,Ubiquitin system
-not found,#N/A
+not found,N/A
 P50895,CD molecules
 O15031,none
 P07108,none
 P62306,Messenger RNA biogenesis
-not found,#N/A
+not found,N/A
 P05455,none
 P52209,Enzymes
 Q13510,Peptidases and inhibitors
 Q9Y2Z4,Amino acid related enzymes
-not found,#N/A
+not found,N/A
 Q9GZZ1,Chromosome and associated proteins
 Q9Y6G9,Membrane trafficking
 P48059,Domain-containing proteins not elsewhere classified
 P15311,Cytoskeleton proteins
 Q9Y285,Amino acid related enzymes
 Q9C005,Chromosome and associated proteins
-not found,#N/A
+not found,N/A
 P33176,Membrane trafficking
 O00232,Proteasome
 Q14847,Domain-containing proteins not elsewhere classified
-not found,#N/A
+not found,N/A
 Q06203,Peptidases and inhibitors
 Q16836,Enzymes
 P52732,Chromosome and associated proteins
@@ -2987,7 +2987,7 @@ P61962,Ubiquitin system
 P51991,Messenger RNA biogenesis
 Q14696,Chaperones and folding catalysts
 P28066,Peptidases and inhibitors
-not found,#N/A
+not found,N/A
 P12109,Exosome
 P09497,Membrane trafficking
 Q6PL18,Enzymes
@@ -2996,10 +2996,10 @@ P62269,Ribosome
 Q99584,Domain-containing proteins not elsewhere classified
 P49721,Peptidases and inhibitors
 Q969P0,Exosome
-not found,#N/A
+not found,N/A
 P05141,Mitochondrial biogenesis
 P10644,none
-not found,#N/A
+not found,N/A
 Q9UK45,Messenger RNA biogenesis
 P10644,none
 Q99436,Peptidases and inhibitors
@@ -3015,11 +3015,11 @@ P63220,Ribosome
 Q12765,Peptidases and inhibitors
 P39687,Messenger RNA biogenesis
 Q9Y2Z0,none
-Q5T5H1,#N/A
-not found,#N/A
+Q5T5H1,N/A
+not found,N/A
 P04004,Exosome
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 Q05655,Protein kinases
 P49736,DNA replication proteins
 P60842,Messenger RNA biogenesis
@@ -3048,20 +3048,20 @@ Q8WU90,none
 Q96AY3,Chaperones and folding catalysts
 O75475,Spliceosome
 P25786,Peptidases and inhibitors
-not found,#N/A
+not found,N/A
 P08758,Exosome
 Q96T37,Messenger RNA biogenesis
 P61201,Ubiquitin system
 P78417,Transporters
 Q9BTT6,none
 P43487,none
-not found,#N/A
+not found,N/A
 O00303,Translation factors
 P62195,Proteasome
 P37837,Enzymes
 O00487,Peptidases and inhibitors
 Q16763,Ubiquitin system
-not found,#N/A
+not found,N/A
 Q9NZ53,none
 P09543,Exosome
 P62241,Ribosome
@@ -3108,12 +3108,12 @@ P51149,Membrane trafficking
 Q96RP9,Translation factors
 Q8N1G4,none
 Q07157,Cytoskeleton proteins
-not found,#N/A
+not found,N/A
 Q9UEE9,none
 Q9ULZ3,none
 Q9H9P8,Enzymes
 Q96P16,Transcription machinery
-not found,#N/A
+not found,N/A
 Q13526,Transcription machinery
 Q9BPX3,Chromosome and associated proteins
 Q96HE7,Enzymes
@@ -3124,14 +3124,14 @@ Q96GD0,Protein phosphatases and associated proteins
 Q9Y3E1,none
 P11216,Enzymes
 P31150,Exosome
-not found,#N/A
+not found,N/A
 Q9H845,Mitochondrial biogenesis
 P07093,Peptidases and inhibitors
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 P35659,Chromosome and associated proteins
 Q09666,none
-D3YTI2,#N/A
+D3YTI2,N/A
 Q86U42,Messenger RNA biogenesis
 Q99615,Chaperones and folding catalysts
 Q13443,Peptidases and inhibitors
@@ -3152,26 +3152,26 @@ P08582,CD molecules
 P61020,Membrane trafficking
 P33993,Protein phosphatases and associated proteins
 P49773,Exosome
-not found,#N/A
+not found,N/A
 O75347,Cytoskeleton proteins
 Q9P258,none
 Q9UG63,Ribosome biogenesis
 P60900,Peptidases and inhibitors
 Q9ULX9,Transcription factors
-E9PAV3,#N/A
+E9PAV3,N/A
 P04264,Cytoskeleton proteins
-not found,#N/A
-E9PAV3,#N/A
+not found,N/A
+E9PAV3,N/A
 Q9BT78,Ubiquitin system
 P60174,Exosome
-not found,#N/A
+not found,N/A
 P34932,Chaperones and folding catalysts
 Q9Y3F4,Spliceosome
 P62258,DNA repair and recombination proteins
 Q15075,Membrane trafficking
 O95239,Cytoskeleton proteins
 P51148,Membrane trafficking
-not found,#N/A
+not found,N/A
 P36915,none
 Q9Y265,Chromosome and associated proteins
 P62857,Ribosome
@@ -3179,7 +3179,7 @@ O60216,Chromosome and associated proteins
 Q9Y5S9,Messenger RNA biogenesis
 Q3ZCQ8,Mitochondrial biogenesis
 Q99536,Mitochondrial biogenesis
-not found,#N/A
+not found,N/A
 P46109,none
 P33176,Membrane trafficking
 P05166,Enzymes
@@ -3193,7 +3193,7 @@ Q9Y6G9,Membrane trafficking
 Q9BU23,none
 P38117,none
 P36873,Protein phosphatases and associated proteins
-not found,#N/A
+not found,N/A
 Q14739,Chromosome and associated proteins
 P12277,Exosome
 P00167,none
@@ -3204,7 +3204,7 @@ Q9UQ80,none
 Q9UI12,none
 Q9NP79,Membrane trafficking
 P16144,Exosome
-not found,#N/A
+not found,N/A
 Q86W42,Messenger RNA biogenesis
 Q7L2E3,Spliceosome
 P68402,Enzymes
@@ -3215,9 +3215,9 @@ P55209,Chromosome and associated proteins
 P06454,none
 P14923,Exosome
 P22234,Enzymes
-K7ENT6,#N/A
+K7ENT6,N/A
 P47914,Ribosome
-not found,#N/A
+not found,N/A
 P26599,Messenger RNA biogenesis
 P82979,Messenger RNA biogenesis
 P05026,CD molecules
@@ -3231,7 +3231,7 @@ Q9ULV4,Cytoskeleton proteins
 Q6ZRV2,Cytoskeleton proteins
 P58546,none
 P10155,none
-not found,#N/A
+not found,N/A
 P55209,Chromosome and associated proteins
 P29218,Enzymes
 Q15814,Cytoskeleton proteins
@@ -3248,7 +3248,7 @@ P43246,DNA repair and recombination proteins
 P10644,none
 P36551,Enzymes
 P09382,Exosome
-not found,#N/A
+not found,N/A
 P08865,Ribosome
 P52788,Enzymes
 P39019,Ribosome
@@ -3261,7 +3261,7 @@ P07384,Peptidases and inhibitors
 Q14204,Chromosome and associated proteins
 O00442,Enzymes
 Q9Y5S9,Messenger RNA biogenesis
-not found,#N/A
+not found,N/A
 O14964,Membrane trafficking
 Q96B54,none
 P27695,DNA repair and recombination proteins
@@ -3273,7 +3273,7 @@ P25787,Peptidases and inhibitors
 Q9NR12,Domain-containing proteins not elsewhere classified
 Q15382,GTP-binding proteins
 Q9Y263,none
-not found,#N/A
+not found,N/A
 Q9UI12,none
 Q13283,Messenger RNA biogenesis
 Q15404,none
@@ -3314,7 +3314,7 @@ P53041,Protein phosphatases and associated proteins
 Q02952,none
 P08758,Exosome
 P26038,Cytoskeleton proteins
-not found,#N/A
+not found,N/A
 P28066,Peptidases and inhibitors
 Q9BWD1,Exosome
 Q9H9B1,Chromosome and associated proteins
@@ -3326,23 +3326,23 @@ P62913,Ribosome
 P61923,Membrane trafficking
 P49750,Protein phosphatases and associated proteins
 Q01658,Transcription machinery
-not found,#N/A
+not found,N/A
 Q92820,Peptidases and inhibitors
 P14854,none
-not found,#N/A
+not found,N/A
 P11766,Enzymes
 Q96A33,Chaperones and folding catalysts
 P30050,Ribosome
 O14656,Chaperones and folding catalysts
 Q9NTK5,Chromosome and associated proteins
 P26373,Ribosome
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 P18621,Ribosome
 P46778,Ribosome
 P05455,none
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 Q6PKG0,Messenger RNA biogenesis
 P05388,Ribosome
 P63220,Ribosome
@@ -3355,7 +3355,7 @@ Q969P0,Exosome
 P83916,Chromosome and associated proteins
 Q92905,Peptidases and inhibitors
 Q8WW12,none
-not found,#N/A
+not found,N/A
 P62750,Ribosome
 P08133,Membrane trafficking
 P62750,Ribosome
@@ -3374,7 +3374,7 @@ Q9NQ29,none
 Q6ZRV2,Cytoskeleton proteins
 O14672,Peptidases and inhibitors
 Q8N1G4,none
-not found,#N/A
+not found,N/A
 O15212,Chaperones and folding catalysts
 Q9Y2V2,none
 P26583,Chromosome and associated proteins
@@ -3386,21 +3386,21 @@ P18084,Membrane trafficking
 P83731,Ribosome
 P43487,none
 O75663,Protein phosphatases and associated proteins
-not found,#N/A
+not found,N/A
 Q9Y224,Transfer RNA biogenesis
 Q96CT7,none
 P35221,Cytoskeleton proteins
 P35222,none
-H0Y6T8,#N/A
+H0Y6T8,N/A
 O00410,Ribosome biogenesis
 P23786,Enzymes
 Q9H9A6,none
 Q96GK7,none
-not found,#N/A
+not found,N/A
 P11388,DNA replication proteins
 Q9Y5K5,Peptidases and inhibitors
 Q8NBJ4,none
-not found,#N/A
+not found,N/A
 Q9UN86,Messenger RNA biogenesis
 O95400,Protein phosphatases and associated proteins
 Q15691,Chromosome and associated proteins
@@ -3410,17 +3410,17 @@ P47914,Ribosome
 P62899,Ribosome
 Q15056,Messenger RNA biogenesis
 P62910,Ribosome
-not found,#N/A
+not found,N/A
 P20674,none
 O75312,none
 P46777,Protein phosphatases and associated proteins
-not found,#N/A
+not found,N/A
 Q9UMY4,Membrane trafficking
-not found,#N/A
+not found,N/A
 Q6ZRV2,Cytoskeleton proteins
 Q15102,Enzymes
 P61081,Ubiquitin system
-not found,#N/A
+not found,N/A
 Q96B54,none
 Q9Y3I0,Transfer RNA biogenesis
 Q02878,Ribosome
@@ -3429,9 +3429,9 @@ Q13442,none
 P05387,Ribosome
 Q13151,Spliceosome
 Q92520,none
-C9J0E9,#N/A
+C9J0E9,N/A
 Q9UHX1,Spliceosome
-D3YTI2,#N/A
+D3YTI2,N/A
 P15170,Messenger RNA biogenesis
 Q9Y3I0,Transfer RNA biogenesis
 P62258,DNA repair and recombination proteins
@@ -3439,7 +3439,7 @@ P49773,Exosome
 Q14807,Cytoskeleton proteins
 Q969P0,Exosome
 P42765,Enzymes
-not found,#N/A
+not found,N/A
 Q99832,Chaperones and folding catalysts
 P62995,Protein phosphatases and associated proteins
 P17987,Chaperones and folding catalysts
@@ -3455,7 +3455,7 @@ P43007,Transporters
 Q9Y490,Exosome
 A3KMH1,Domain-containing proteins not elsewhere classified
 Q15102,Enzymes
-not found,#N/A
+not found,N/A
 Q96PK6,none
 P50213,Enzymes
 Q8WTV0,Membrane trafficking
@@ -3469,12 +3469,12 @@ Q13347,Translation factors
 P06744,Exosome
 Q9UM00,Membrane trafficking
 Q8WUM4,Membrane trafficking
-not found,#N/A
+not found,N/A
 P52597,Spliceosome
 P38159,Spliceosome
 Q15006,Membrane trafficking
 O15116,Messenger RNA biogenesis
-not found,#N/A
+not found,N/A
 Q9UI12,none
 Q9BYD6,Ribosome
 Q9UHG3,Enzymes
@@ -3514,7 +3514,7 @@ P62854,Ribosome
 O75937,Spliceosome
 Q71UM5,Ribosome
 P27635,Ribosome
-not found,#N/A
+not found,N/A
 Q9UBT2,Ubiquitin system
 P68402,Enzymes
 P09543,Exosome
@@ -3528,7 +3528,7 @@ Q15424,Spliceosome
 P22314,Ubiquitin system
 Q86UP2,Mitochondrial biogenesis
 P46782,Ribosome
-not found,#N/A
+not found,N/A
 Q9GZS3,Messenger RNA biogenesis
 P14324,Prenyltransferases
 P36551,Enzymes
@@ -3547,11 +3547,11 @@ P52888,Peptidases and inhibitors
 Q9Y2R9,Ribosome
 P50895,CD molecules
 Q14108,none
-not found,#N/A
+not found,N/A
 P61758,none
 Q8WTV0,Membrane trafficking
 Q92925,Transcription machinery
-not found,#N/A
+not found,N/A
 Q92688,Messenger RNA biogenesis
 Q9UBE0,Ubiquitin system
 Q9NSD9,Amino acid related enzymes
@@ -3565,7 +3565,7 @@ P24534,Translation factors
 Q04695,Cytoskeleton proteins
 P31431,Proteoglycans
 Q99497,Peptidases and inhibitors
-not found,#N/A
+not found,N/A
 P07093,Peptidases and inhibitors
 Q16831,Enzymes
 Q6PKG0,Messenger RNA biogenesis
@@ -3573,7 +3573,7 @@ P25398,Ribosome
 P06703,Domain-containing proteins not elsewhere classified
 Q9Y2Z0,none
 O00560,Exosome
-not found,#N/A
+not found,N/A
 Q8IWX8,Spliceosome
 O15372,Translation factors
 O00560,Exosome
@@ -3582,10 +3582,10 @@ Q15631,none
 P50990,Chaperones and folding catalysts
 Q9H299,Domain-containing proteins not elsewhere classified
 P29218,Enzymes
-E9PAV3,#N/A
+E9PAV3,N/A
 P21926,Cilium and associated proteins
-H0YKX5,#N/A
-not found,#N/A
+H0YKX5,N/A
+not found,N/A
 Q9H6Z4,none
 P07093,Peptidases and inhibitors
 Q13951,none
@@ -3615,9 +3615,9 @@ Q92922,Transcription machinery
 Q9BUP3,Exosome
 Q99848,Ribosome biogenesis
 P51149,Membrane trafficking
-K7ENT6,#N/A
+K7ENT6,N/A
 O15294,Glycosyltransferases
-not found,#N/A
+not found,N/A
 Q9UQE7,Chromosome and associated proteins
 Q14240,Messenger RNA biogenesis
 Q3ZCQ8,Mitochondrial biogenesis
@@ -3625,8 +3625,8 @@ O15067,Enzymes
 Q99536,Mitochondrial biogenesis
 Q6UVK1,Proteoglycans
 Q9NPQ8,none
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 P23528,Membrane trafficking
 Q9UQE7,Chromosome and associated proteins
 O00233,Proteasome
@@ -3638,13 +3638,13 @@ O95721,Membrane trafficking
 Q9BZL1,Spliceosome
 P15927,DNA replication proteins
 P37840,Membrane trafficking
-not found,#N/A
+not found,N/A
 P22102,Enzymes
 O00299,Exosome
 O60749,Membrane trafficking
 P00505,Amino acid related enzymes
 P20290,none
-not found,#N/A
+not found,N/A
 Q9Y3D6,Mitochondrial biogenesis
 P30566,Enzymes
 Q99614,Chaperones and folding catalysts
@@ -3657,7 +3657,7 @@ Q9P2E9,none
 Q9Y446,none
 Q9Y5X3,Membrane trafficking
 P30086,Peptidases and inhibitors
-not found,#N/A
+not found,N/A
 Q9H019,none
 Q9Y5X3,Membrane trafficking
 Q8IWB7,Membrane trafficking
@@ -3673,40 +3673,40 @@ P50991,Chaperones and folding catalysts
 Q13510,Peptidases and inhibitors
 Q99426,Cytoskeleton proteins
 P18754,Messenger RNA biogenesis
-not found,#N/A
+not found,N/A
 P22102,Enzymes
 P23528,Membrane trafficking
 Q16643,Cilium and associated proteins
 O75792,DNA replication proteins
 O95747,Protein kinases
 P39687,Messenger RNA biogenesis
-not found,#N/A
+not found,N/A
 P52292,Chromosome and associated proteins
 Q99733,Chromosome and associated proteins
 O15027,Membrane trafficking
 Q9Y394,Enzymes
 Q9Y5X1,Membrane trafficking
 Q93050,Exosome
-not found,#N/A
+not found,N/A
 Q15056,Messenger RNA biogenesis
 Q99523,none
 P15924,Cytoskeleton proteins
 Q99523,none
 P49736,DNA replication proteins
 Q06203,Peptidases and inhibitors
-not found,#N/A
+not found,N/A
 P61289,Proteasome
 Q9UKK9,Enzymes
 Q9C0B1,Messenger RNA biogenesis
 P08582,CD molecules
-not found,#N/A
+not found,N/A
 Q08380,Exosome
 O43396,none
-not found,#N/A
+not found,N/A
 Q8N3U4,Chromosome and associated proteins
 P00568,Exosome
 O43402,Membrane trafficking
-not found,#N/A
+not found,N/A
 O94804,Protein kinases
 Q9Y696,Exosome
 P61225,Exosome
@@ -3715,13 +3715,13 @@ Q9UNN5,none
 P16949,Cytoskeleton proteins
 Q92945,Messenger RNA biogenesis
 O94804,Protein kinases
-not found,#N/A
+not found,N/A
 O15400,Membrane trafficking
 Q9UNE7,Chaperones and folding catalysts
 Q13509,Chromosome and associated proteins
 O15371,Translation factors
 P22314,Ubiquitin system
-not found,#N/A
+not found,N/A
 P17050,Enzymes
 P36543,none
 Q04917,Protein phosphatases and associated proteins
@@ -3732,8 +3732,8 @@ P08238,Protein phosphatases and associated proteins
 P17987,Chaperones and folding catalysts
 Q01658,Transcription machinery
 O95104,Transcription machinery
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 P49711,Transcription factors
 Q9Y490,Exosome
 P09936,Peptidases and inhibitors
@@ -3760,14 +3760,14 @@ Q13564,Ubiquitin system
 P23588,Messenger RNA biogenesis
 P04406,Membrane trafficking
 O14773,Peptidases and inhibitors
-not found,#N/A
+not found,N/A
 Q9Y624,CD molecules
 Q99832,Chaperones and folding catalysts
 P16949,Cytoskeleton proteins
 Q01518,Membrane trafficking
 P18085,Membrane trafficking
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 Q9BQ69,Enzymes
 P30101,Chaperones and folding catalysts
 Q5M775,Cytoskeleton proteins
@@ -3781,17 +3781,17 @@ O60784,Membrane trafficking
 Q9NPQ8,none
 O60784,Membrane trafficking
 O43795,Protein phosphatases and associated proteins
-not found,#N/A
+not found,N/A
 P00558,Exosome
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 Q96CT7,none
 Q9ULW0,Chromosome and associated proteins
 O15027,Membrane trafficking
 P45974,Peptidases and inhibitors
-not found,#N/A
+not found,N/A
 P31483,Messenger RNA biogenesis
-not found,#N/A
+not found,N/A
 P48444,Membrane trafficking
 P05783,Cytoskeleton proteins
 P51148,Membrane trafficking
@@ -3814,7 +3814,7 @@ P61088,Ubiquitin system
 O75569,Chromosome and associated proteins
 P06865,Chaperones and folding catalysts
 Q96GK7,none
-not found,#N/A
+not found,N/A
 Q9ULC3,Membrane trafficking
 P25205,DNA replication proteins
 Q6NZI2,Transcription machinery
@@ -3823,7 +3823,7 @@ Q15691,Chromosome and associated proteins
 O00151,Domain-containing proteins not elsewhere classified
 Q15843,Ubiquitin system
 Q16643,Cilium and associated proteins
-not found,#N/A
+not found,N/A
 P49368,Chaperones and folding catalysts
 Q15386,Ubiquitin system
 Q99536,Mitochondrial biogenesis
@@ -3839,19 +3839,19 @@ P53396,Exosome
 P23919,Enzymes
 P04075,Membrane trafficking
 Q9ULX9,Transcription factors
-not found,#N/A
+not found,N/A
 O95758,Spliceosome
 Q99714,Mitochondrial biogenesis
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 P58546,none
 P20962,none
 P08238,Protein phosphatases and associated proteins
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 Q15843,Ubiquitin system
 P07093,Peptidases and inhibitors
-not found,#N/A
+not found,N/A
 Q8TEA8,Transfer RNA biogenesis
 Q49A26,none
 P62877,Ubiquitin system
@@ -3861,9 +3861,9 @@ O14745,Transporters
 O00754,Enzymes
 Q14566,DNA replication proteins
 Q99536,Mitochondrial biogenesis
-not found,#N/A
+not found,N/A
 P06865,Chaperones and folding catalysts
-not found,#N/A
+not found,N/A
 P36405,Cilium and associated proteins
 Q9Y696,Exosome
 Q92692,Cell adhesion molecules
@@ -3879,26 +3879,26 @@ Q15424,Spliceosome
 O95218,Spliceosome
 P51798,Protein phosphatases and associated proteins
 Q96HE7,Enzymes
-not found,#N/A
+not found,N/A
 P21796,Mitochondrial biogenesis
 P36639,DNA repair and recombination proteins
 P24941,Protein kinases
 O15031,none
-not found,#N/A
+not found,N/A
 O60749,Membrane trafficking
 Q9NZI8,Spliceosome
 Q9NZI8,Spliceosome
 O15067,Enzymes
 Q9NRN7,Enzymes
 Q9GZT8,none
-not found,#N/A
+not found,N/A
 P04004,Exosome
 O15031,none
 Q8WWM7,Messenger RNA biogenesis
 O95373,Ribosome biogenesis
 Q13190,Membrane trafficking
 Q13347,Translation factors
-not found,#N/A
+not found,N/A
 O00401,Membrane trafficking
 P33316,DNA repair and recombination proteins
 Q9Y265,Chromosome and associated proteins
@@ -3907,8 +3907,8 @@ O00401,Membrane trafficking
 P61964,Chromosome and associated proteins
 P58107,none
 P62273,Ribosome
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 P22234,Enzymes
 Q15942,none
 P08648,Exosome
@@ -3917,7 +3917,7 @@ O75828,Enzymes
 Q9BSH5,none
 P17301,Exosome
 Q9Y490,Exosome
-not found,#N/A
+not found,N/A
 P09497,Membrane trafficking
 Q9BQ61,DNA replication proteins
 Q9BUF5,Chromosome and associated proteins
@@ -3940,15 +3940,15 @@ O43390,Spliceosome
 Q14011,Spliceosome
 Q9NZM1,Membrane trafficking
 P31939,Exosome
-not found,#N/A
+not found,N/A
 Q92974,Membrane trafficking
-not found,#N/A
+not found,N/A
 Q96GD0,Protein phosphatases and associated proteins
 Q969P0,Exosome
 P24941,Protein kinases
 P16949,Cytoskeleton proteins
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 Q9UBT2,Ubiquitin system
 O15061,Cytoskeleton proteins
 P10619,Peptidases and inhibitors
@@ -3967,7 +3967,7 @@ Q15717,Messenger RNA biogenesis
 P15311,Cytoskeleton proteins
 Q9Y250,none
 P31153,Enzymes
-not found,#N/A
+not found,N/A
 Q01469,none
 P27708,Peptidases and inhibitors
 Q9Y371,Protein phosphatases and associated proteins
@@ -3980,7 +3980,7 @@ Q13177,Protein kinases
 P50990,Chaperones and folding catalysts
 Q8WTV0,Membrane trafficking
 P52565,Exosome
-not found,#N/A
+not found,N/A
 Q9Y490,Exosome
 P82979,Messenger RNA biogenesis
 Q99653,Protein phosphatases and associated proteins
@@ -3998,7 +3998,7 @@ Q9NR12,Domain-containing proteins not elsewhere classified
 Q15365,Messenger RNA biogenesis
 P27816,Cytoskeleton proteins
 Q9UBB5,Chromosome and associated proteins
-not found,#N/A
+not found,N/A
 P55265,Spliceosome
 Q9Y224,Transfer RNA biogenesis
 Q12931,Chaperones and folding catalysts
@@ -4015,7 +4015,7 @@ P31150,Exosome
 Q9Y285,Amino acid related enzymes
 P13489,none
 P49916,DNA repair and recombination proteins
-not found,#N/A
+not found,N/A
 P53041,Protein phosphatases and associated proteins
 P07686,Chaperones and folding catalysts
 Q13596,Membrane trafficking
@@ -4050,7 +4050,7 @@ Q9ULV4,Cytoskeleton proteins
 P05783,Cytoskeleton proteins
 O94919,none
 P31153,Enzymes
-not found,#N/A
+not found,N/A
 P21291,Transcription factors
 P26006,Exosome
 Q07954,Membrane trafficking
@@ -4061,22 +4061,22 @@ P31689,Chaperones and folding catalysts
 Q9P2E9,none
 Q03154,Peptidases and inhibitors
 P16152,Enzymes
-not found,#N/A
+not found,N/A
 P14923,Exosome
 O15355,Protein phosphatases and associated proteins
 Q86Y82,Membrane trafficking
 P45877,Chaperones and folding catalysts
 Q8WZA0,none
-not found,#N/A
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
+not found,N/A
 P32119,Exosome
 P51159,Membrane trafficking
 P17931,Exosome
 P15927,DNA replication proteins
 Q9ULX9,Transcription factors
 Q04323,none
-K7ENT6,#N/A
+K7ENT6,N/A
 P07711,Peptidases and inhibitors
 Q8WWM7,Messenger RNA biogenesis
 P38606,Enzymes
@@ -4086,15 +4086,15 @@ P31939,Exosome
 Q32P28,Chaperones and folding catalysts
 Q9UN37,Membrane trafficking
 P11142,Protein phosphatases and associated proteins
-not found,#N/A
+not found,N/A
 O14617,Membrane trafficking
-not found,#N/A
+not found,N/A
 P06396,Cytoskeleton proteins
 O43795,Protein phosphatases and associated proteins
 P10619,Peptidases and inhibitors
 Q9H1A3,none
 Q07157,Cytoskeleton proteins
-not found,#N/A
+not found,N/A
 Q9NPE3,Ribosome biogenesis
 Q9HBH5,Enzymes
 P13804,Exosome
@@ -4106,7 +4106,7 @@ P06132,Enzymes
 P08133,Membrane trafficking
 P28482,Protein kinases
 P18669,Membrane trafficking
-not found,#N/A
+not found,N/A
 Q9NZM1,Membrane trafficking
 Q9NVP1,Spliceosome
 O60568,Glycosyltransferases
@@ -4114,14 +4114,14 @@ O94874,Ubiquitin system
 Q9UNF1,Domain-containing proteins not elsewhere classified
 Q8NE86,Mitochondrial biogenesis
 P60174,Exosome
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 P62857,Ribosome
 P18669,Membrane trafficking
 P28482,Protein kinases
 P09104,Messenger RNA biogenesis
 O60488,Lipid biosynthesis proteins
-not found,#N/A
+not found,N/A
 Q9UNF0,Membrane trafficking
 P61970,none
 Q15121,none
@@ -4153,7 +4153,7 @@ Q16222,Enzymes
 Q96C86,Messenger RNA biogenesis
 O00178,Messenger RNA biogenesis
 Q8TAT6,Ribosome biogenesis
-not found,#N/A
+not found,N/A
 O95573,Lipid biosynthesis proteins
 O75683,none
 O95573,Lipid biosynthesis proteins
@@ -4166,10 +4166,10 @@ O94804,Protein kinases
 Q9Y3D0,none
 Q96GC5,Ribosome
 Q12846,Membrane trafficking
-not found,#N/A
+not found,N/A
 P40227,Chaperones and folding catalysts
 P50454,Peptidases and inhibitors
-not found,#N/A
+not found,N/A
 Q9ULX9,Transcription factors
 P40925,Enzymes
 P16152,Enzymes
@@ -4177,18 +4177,18 @@ O75663,Protein phosphatases and associated proteins
 Q09666,none
 Q9H0E2,Exosome
 P30101,Chaperones and folding catalysts
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 P13010,DNA repair and recombination proteins
 P78371,Chaperones and folding catalysts
-not found,#N/A
+not found,N/A
 O00625,Enzymes
 Q9H9P8,Enzymes
-not found,#N/A
+not found,N/A
 O75347,Cytoskeleton proteins
 Q9Y371,Protein phosphatases and associated proteins
 Q99536,Mitochondrial biogenesis
-not found,#N/A
+not found,N/A
 P23919,Enzymes
 Q9Y5K8,none
 O00401,Membrane trafficking
@@ -4196,9 +4196,9 @@ P19623,Enzymes
 P35579,Cytoskeleton proteins
 Q9Y3L5,GTP-binding proteins
 O15143,Membrane trafficking
-not found,#N/A
+not found,N/A
 Q16222,Enzymes
-not found,#N/A
+not found,N/A
 P36543,none
 P14174,Exosome
 P08758,Exosome
@@ -4208,7 +4208,7 @@ P61163,Chromosome and associated proteins
 P08758,Exosome
 Q99426,Cytoskeleton proteins
 Q9UBM7,Enzymes
-not found,#N/A
+not found,N/A
 P16152,Enzymes
 P05026,CD molecules
 P82914,Ribosome
@@ -4228,10 +4228,10 @@ Q6YN16,none
 P07858,Peptidases and inhibitors
 Q9NRL2,Chromosome and associated proteins
 O75083,Domain-containing proteins not elsewhere classified
-H0Y4K8,#N/A
+H0Y4K8,N/A
 Q14204,Chromosome and associated proteins
-not found,#N/A
-D3YTI2,#N/A
+not found,N/A
+D3YTI2,N/A
 P60842,Messenger RNA biogenesis
 P07093,Peptidases and inhibitors
 Q09666,none
@@ -4254,7 +4254,7 @@ P57105,Membrane trafficking
 P61421,none
 P26038,Cytoskeleton proteins
 O43432,Messenger RNA biogenesis
-J3QKM9,#N/A
+J3QKM9,N/A
 Q16763,Ubiquitin system
 O00469,Enzymes
 Q9H6Z4,none
@@ -4275,7 +4275,7 @@ P13674,Enzymes
 Q9Y281,Membrane trafficking
 O75347,Cytoskeleton proteins
 P61088,Ubiquitin system
-not found,#N/A
+not found,N/A
 O00231,Proteasome
 Q07817,Protein phosphatases and associated proteins
 O00232,Proteasome
@@ -4301,9 +4301,9 @@ P09104,Messenger RNA biogenesis
 Q15417,none
 Q8WTV0,Membrane trafficking
 Q6PIU2,Peptidases and inhibitors
-not found,#N/A
+not found,N/A
 O00625,Enzymes
-not found,#N/A
+not found,N/A
 P61764,Membrane trafficking
 O95573,Lipid biosynthesis proteins
 Q16775,Enzymes
@@ -4318,13 +4318,13 @@ O60610,Cytoskeleton proteins
 P26006,Exosome
 P57740,Messenger RNA biogenesis
 P11216,Enzymes
-not found,#N/A
+not found,N/A
 P09110,Enzymes
 Q13443,Peptidases and inhibitors
 O94925,Enzymes
-not found,#N/A
+not found,N/A
 Q15942,none
-not found,#N/A
+not found,N/A
 Q9BV86,Enzymes
 P05783,Cytoskeleton proteins
 Q9NY93,Ribosome biogenesis
@@ -4335,9 +4335,9 @@ Q9H3S7,Protein phosphatases and associated proteins
 P42126,Enzymes
 Q969H8,none
 Q92520,none
-not found,#N/A
+not found,N/A
 P35221,Cytoskeleton proteins
-not found,#N/A
+not found,N/A
 Q14978,Transcription machinery
 Q969X6,Ribosome biogenesis
 Q969P0,Exosome
@@ -4350,12 +4350,12 @@ P49368,Chaperones and folding catalysts
 Q9UKV3,Messenger RNA biogenesis
 O75935,Chromosome and associated proteins
 O75935,Chromosome and associated proteins
-not found,#N/A
+not found,N/A
 Q14BN4,none
 Q92667,Protein phosphatases and associated proteins
 Q92572,Membrane trafficking
 Q9UJZ1,Transporters
-not found,#N/A
+not found,N/A
 Q92974,Membrane trafficking
 P13797,DNA repair and recombination proteins
 P19623,Enzymes
@@ -4363,21 +4363,21 @@ Q92575,none
 P16615,Enzymes
 P21333,Cytoskeleton proteins
 P19623,Enzymes
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 P21281,Exosome
 Q9NRL2,Chromosome and associated proteins
 Q9UQB8,Membrane trafficking
 Q9UHR4,Membrane trafficking
 Q8IWB7,Membrane trafficking
-not found,#N/A
+not found,N/A
 P06396,Cytoskeleton proteins
 P48643,Chaperones and folding catalysts
-not found,#N/A
+not found,N/A
 Q92974,Membrane trafficking
 Q6PL18,Enzymes
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 P12814,Membrane trafficking
 Q9H0A0,Ribosome biogenesis
 A3KMH1,Domain-containing proteins not elsewhere classified
@@ -4387,17 +4387,17 @@ Q99653,Protein phosphatases and associated proteins
 Q9NQR4,Enzymes
 Q05682,Cytoskeleton proteins
 O00244,none
-not found,#N/A
+not found,N/A
 P42704,Mitochondrial biogenesis
 Q9Y4I1,Messenger RNA biogenesis
 Q16836,Enzymes
-not found,#N/A
+not found,N/A
 P36551,Enzymes
 P61981,Protein phosphatases and associated proteins
 Q9Y673,Glycosyltransferases
 O75396,Membrane trafficking
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 Q8WVQ1,Enzymes
 P36543,none
 Q01518,Membrane trafficking
@@ -4423,10 +4423,10 @@ Q14739,Chromosome and associated proteins
 Q7Z2K6,none
 Q8IWB7,Membrane trafficking
 P21926,Cilium and associated proteins
-not found,#N/A
+not found,N/A
 Q9NRL2,Chromosome and associated proteins
 P36551,Enzymes
-not found,#N/A
+not found,N/A
 P31930,Peptidases and inhibitors
 P11216,Enzymes
 Q14008,Chromosome and associated proteins
@@ -4445,12 +4445,12 @@ Q16775,Enzymes
 P07195,Exosome
 P36776,Peptidases and inhibitors
 Q6IBS0,Cilium and associated proteins
-not found,#N/A
+not found,N/A
 Q9UKX7,Messenger RNA biogenesis
 Q9UNS2,Ubiquitin system
 Q99627,Ubiquitin system
 Q96HE7,Enzymes
-not found,#N/A
+not found,N/A
 Q13885,Chromosome and associated proteins
 O75348,none
 Q9UBM7,Enzymes
@@ -4460,27 +4460,27 @@ P53396,Exosome
 P06396,Cytoskeleton proteins
 P07339,Peptidases and inhibitors
 Q9BQC6,none
-not found,#N/A
+not found,N/A
 O95573,Lipid biosynthesis proteins
 Q9Y697,Transfer RNA biogenesis
 Q92930,Membrane trafficking
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 Q8NBJ5,Glycosyltransferases
 Q99653,Protein phosphatases and associated proteins
 P31483,Messenger RNA biogenesis
-Q5TCU3,#N/A
+Q5TCU3,N/A
 Q13561,Chromosome and associated proteins
 Q13561,Chromosome and associated proteins
 Q8NHP8,none
 Q8NBM4,Ubiquitin system
-not found,#N/A
+not found,N/A
 P06396,Cytoskeleton proteins
 O75935,Chromosome and associated proteins
 P55011,Protein phosphatases and associated proteins
-not found,#N/A
+not found,N/A
 Q9NUJ1,Peptidases and inhibitors
-not found,#N/A
+not found,N/A
 O15143,Membrane trafficking
 O75937,Spliceosome
 P35579,Cytoskeleton proteins
@@ -4494,7 +4494,7 @@ P51398,Ribosome
 P82930,Ribosome
 O15127,Membrane trafficking
 P15924,Cytoskeleton proteins
-not found,#N/A
+not found,N/A
 Q7Z7H5,Membrane trafficking
 P11233,Membrane trafficking
 P54819,Exosome
@@ -4510,11 +4510,11 @@ O75347,Cytoskeleton proteins
 Q15417,none
 P06865,Chaperones and folding catalysts
 P17900,Exosome
-not found,#N/A
+not found,N/A
 P78417,Transporters
 Q02809,Exosome
 P21281,Exosome
-not found,#N/A
+not found,N/A
 P08727,Cytoskeleton proteins
 Q9Y6G9,Membrane trafficking
 P36543,none
@@ -4524,7 +4524,7 @@ P31949,Domain-containing proteins not elsewhere classified
 Q14315,Cytoskeleton proteins
 Q99590,none
 P23284,Chaperones and folding catalysts
-not found,#N/A
+not found,N/A
 Q13011,Enzymes
 P52789,Membrane trafficking
 Q14152,Translation factors
@@ -4543,7 +4543,7 @@ O75821,Translation factors
 P08195,Transporters
 Q9Y262,Translation factors
 O75348,none
-not found,#N/A
+not found,N/A
 Q7L2H7,Translation factors
 P05783,Cytoskeleton proteins
 Q99797,Peptidases and inhibitors
@@ -4553,34 +4553,34 @@ Q9BS26,Membrane trafficking
 P62495,Messenger RNA biogenesis
 Q96TC7,Membrane trafficking
 P82933,Ribosome
-not found,#N/A
+not found,N/A
 P15531,Membrane trafficking
 O00469,Enzymes
 Q07955,Spliceosome
-not found,#N/A
+not found,N/A
 Q9HCC0,Enzymes
 Q9Y624,CD molecules
-not found,#N/A
+not found,N/A
 Q6WCQ1,Domain-containing proteins not elsewhere classified
 P55011,Protein phosphatases and associated proteins
-C9JNT3,#N/A
+C9JNT3,N/A
 O00299,Exosome
 O00422,Messenger RNA biogenesis
 P21333,Cytoskeleton proteins
 Q9GZR2,Ribosome biogenesis
 Q14315,Cytoskeleton proteins
 P21283,none
-H0Y4K8,#N/A
+H0Y4K8,N/A
 P04899,Exosome
-not found,#N/A
+not found,N/A
 P00558,Exosome
 Q49A26,none
 P15924,Cytoskeleton proteins
 Q9Y5S9,Messenger RNA biogenesis
 Q9H7Z7,Enzymes
 O15061,Cytoskeleton proteins
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 P23526,Protein phosphatases and associated proteins
 P62873,Exosome
 P00558,Exosome
@@ -4592,11 +4592,11 @@ Q10713,Peptidases and inhibitors
 O75828,Enzymes
 P07108,none
 P10768,Enzymes
-not found,#N/A
+not found,N/A
 P08758,Exosome
-not found,#N/A
+not found,N/A
 Q9NQ88,Enzymes
-H0YCD9,#N/A
+H0YCD9,N/A
 P61981,Protein phosphatases and associated proteins
 Q9H9P8,Enzymes
 P30519,Enzymes
@@ -4607,21 +4607,21 @@ P51116,Messenger RNA biogenesis
 Q13596,Membrane trafficking
 P78417,Transporters
 P28838,Peptidases and inhibitors
-not found,#N/A
+not found,N/A
 O94925,Enzymes
-K7ENT6,#N/A
+K7ENT6,N/A
 Q9UI30,Transfer RNA biogenesis
 P31943,Spliceosome
 Q6FI81,none
 O15061,Cytoskeleton proteins
 P43304,Enzymes
 Q9Y624,CD molecules
-not found,#N/A
+not found,N/A
 P13693,none
 Q9NPL8,Mitochondrial biogenesis
 Q15061,Ribosome biogenesis
 Q96C86,Messenger RNA biogenesis
-not found,#N/A
+not found,N/A
 P10809,Messenger RNA biogenesis
 Q6PI48,Amino acid related enzymes
 P61604,Chaperones and folding catalysts
@@ -4636,11 +4636,11 @@ O95239,Cytoskeleton proteins
 O43795,Protein phosphatases and associated proteins
 Q9UHB6,Cytoskeleton proteins
 P52292,Chromosome and associated proteins
-not found,#N/A
+not found,N/A
 Q14974,Ribosome biogenesis
 Q9HD45,Exosome
 P08727,Cytoskeleton proteins
-not found,#N/A
+not found,N/A
 P38606,Enzymes
 P46976,Glycosyltransferases
 P33316,DNA repair and recombination proteins
@@ -4648,45 +4648,45 @@ Q07157,Cytoskeleton proteins
 P50454,Peptidases and inhibitors
 P30626,Domain-containing proteins not elsewhere classified
 P49006,none
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 Q9Y2U8,Cytoskeleton proteins
 P61106,Membrane trafficking
-not found,#N/A
+not found,N/A
 P00558,Exosome
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 P09382,Exosome
 Q8NFQ8,Chaperones and folding catalysts
-C9JNT3,#N/A
+C9JNT3,N/A
 Q15365,Messenger RNA biogenesis
 Q32P28,Chaperones and folding catalysts
-not found,#N/A
+not found,N/A
 P48059,Domain-containing proteins not elsewhere classified
 Q14BN4,none
 Q9NUP9,Membrane trafficking
 Q9ULC3,Membrane trafficking
 Q96KP4,Peptidases and inhibitors
 P20700,Cytoskeleton proteins
-not found,#N/A
+not found,N/A
 Q14011,Spliceosome
 Q07954,Membrane trafficking
 Q07817,Protein phosphatases and associated proteins
 P04080,Peptidases and inhibitors
 P15531,Membrane trafficking
 Q8NCW5,Enzymes
-not found,#N/A
+not found,N/A
 P30084,Enzymes
 P42704,Mitochondrial biogenesis
-not found,#N/A
+not found,N/A
 O15400,Membrane trafficking
 P10620,Transporters
 P07093,Peptidases and inhibitors
 P08729,Cytoskeleton proteins
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 Q9UHB6,Cytoskeleton proteins
-not found,#N/A
+not found,N/A
 Q99497,Peptidases and inhibitors
 P57729,Membrane trafficking
 Q9Y3B7,Ribosome
@@ -4699,56 +4699,56 @@ P61970,none
 P26038,Cytoskeleton proteins
 P78417,Transporters
 Q9P2B2,Exosome
-not found,#N/A
+not found,N/A
 Q92614,Membrane trafficking
-not found,#N/A
+not found,N/A
 P31937,Enzymes
 Q96GC5,Ribosome
 Q9Y266,Chromosome and associated proteins
 O00116,Enzymes
 P06132,Enzymes
 P51159,Membrane trafficking
-not found,#N/A
+not found,N/A
 Q6PL18,Enzymes
 Q9H9A6,none
 Q9NYF8,Spliceosome
 P16152,Enzymes
 Q13438,Lectins
-not found,#N/A
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
+not found,N/A
 Q08379,Membrane trafficking
 Q96IU4,Peptidases and inhibitors
 Q9UMY4,Membrane trafficking
 Q9H6R4,Ribosome biogenesis
 Q16822,Enzymes
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 P39687,Messenger RNA biogenesis
 P14174,Exosome
 Q15121,none
 Q9UJZ1,Transporters
 Q13596,Membrane trafficking
 Q99496,Ubiquitin system
-not found,#N/A
+not found,N/A
 P32119,Exosome
 P07737,Membrane trafficking
 Q14978,Transcription machinery
-not found,#N/A
+not found,N/A
 O00264,Exosome
 Q99959,none
 Q9Y446,none
 O43707,Membrane trafficking
-not found,#N/A
+not found,N/A
 O00178,Messenger RNA biogenesis
 P09972,Membrane trafficking
-not found,#N/A
+not found,N/A
 Q9Y653,Peptidases and inhibitors
 Q9Y263,none
 Q02318,Cytochrome P450
 Q8WWC4,none
 Q13510,Peptidases and inhibitors
-H0YKX5,#N/A
+H0YKX5,N/A
 P07203,Enzymes
 P19623,Enzymes
 Q9H299,Domain-containing proteins not elsewhere classified
@@ -4756,19 +4756,19 @@ Q9Y2R5,Ribosome
 P19623,Enzymes
 O60664,Membrane trafficking
 P36873,Protein phosphatases and associated proteins
-not found,#N/A
+not found,N/A
 Q96DA6,Chaperones and folding catalysts
-not found,#N/A
+not found,N/A
 P30084,Enzymes
 P30085,Enzymes
 Q9H2D6,Cytoskeleton proteins
 P05026,CD molecules
 P11279,Membrane trafficking
-not found,#N/A
+not found,N/A
 Q16831,Enzymes
 P10644,none
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 P17275,Transcription factors
 Q9NSE4,Amino acid related enzymes
 P46087,Ribosome biogenesis
@@ -4789,39 +4789,39 @@ P13674,Enzymes
 Q9H299,Domain-containing proteins not elsewhere classified
 O43719,Spliceosome
 Q6UVK1,Proteoglycans
-not found,#N/A
+not found,N/A
 P11216,Enzymes
 Q6PIU2,Peptidases and inhibitors
-not found,#N/A
+not found,N/A
 Q96RQ3,Enzymes
 P43490,Enzymes
 P35080,Membrane trafficking
 P38606,Enzymes
 Q9Y490,Exosome
-not found,#N/A
+not found,N/A
 Q99460,Proteasome
 Q12905,Spliceosome
 O00232,Proteasome
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 O14773,Peptidases and inhibitors
 Q01650,Transporters
 Q04695,Cytoskeleton proteins
 P30626,Domain-containing proteins not elsewhere classified
 P63244,Messenger RNA biogenesis
-not found,#N/A
+not found,N/A
 P43487,none
 P08758,Exosome
 Q9Y3D0,none
 P40926,Enzymes
 Q7Z3T8,Protein phosphatases and associated proteins
 O00487,Peptidases and inhibitors
-not found,#N/A
+not found,N/A
 O94925,Enzymes
 Q13200,Proteasome
-not found,#N/A
+not found,N/A
 Q02218,Enzymes
-not found,#N/A
+not found,N/A
 P37108,Secretion system
 P61764,Membrane trafficking
 P29218,Enzymes
@@ -4831,7 +4831,7 @@ O14773,Peptidases and inhibitors
 Q9H7Z7,Enzymes
 P33121,Lipid biosynthesis proteins
 Q16775,Enzymes
-not found,#N/A
+not found,N/A
 P09382,Exosome
 P61026,Membrane trafficking
 P38117,none
@@ -4839,17 +4839,17 @@ Q14956,Membrane trafficking
 P61106,Membrane trafficking
 P07711,Peptidases and inhibitors
 P08729,Cytoskeleton proteins
-not found,#N/A
+not found,N/A
 P12235,Mitochondrial biogenesis
-not found,#N/A
+not found,N/A
 P20340,Membrane trafficking
 A3KMH1,Domain-containing proteins not elsewhere classified
 Q92930,Membrane trafficking
 Q96J01,Messenger RNA biogenesis
 P12814,Membrane trafficking
 Q96CM8,Lipid biosynthesis proteins
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 P11166,Transporters
 Q8NHP8,none
 Q13596,Membrane trafficking
@@ -4868,7 +4868,7 @@ Q14126,Cell adhesion molecules
 P40121,Cytoskeleton proteins
 P08758,Exosome
 O75792,DNA replication proteins
-not found,#N/A
+not found,N/A
 Q96KP4,Peptidases and inhibitors
 P07195,Exosome
 P19623,Enzymes
@@ -4877,7 +4877,7 @@ Q96FS4,none
 Q9Y303,Enzymes
 Q99733,Chromosome and associated proteins
 Q6P1M0,Lipid biosynthesis proteins
-not found,#N/A
+not found,N/A
 P27816,Cytoskeleton proteins
 Q9Y305,Lipid biosynthesis proteins
 P11233,Membrane trafficking
@@ -4908,25 +4908,25 @@ Q12959,Chromosome and associated proteins
 P08134,Membrane trafficking
 Q9NPQ8,none
 P30626,Domain-containing proteins not elsewhere classified
-not found,#N/A
+not found,N/A
 Q9BQ48,Ribosome
 P62913,Ribosome
 Q15165,Exosome
 P04075,Membrane trafficking
 O15143,Membrane trafficking
 O00330,none
-not found,#N/A
+not found,N/A
 Q13151,Spliceosome
-not found,#N/A
+not found,N/A
 P40925,Enzymes
-not found,#N/A
+not found,N/A
 Q8WWC4,none
 P17900,Exosome
 Q9Y4I1,Messenger RNA biogenesis
 Q5SW79,Chromosome and associated proteins
 Q13510,Peptidases and inhibitors
 P78417,Transporters
-not found,#N/A
+not found,N/A
 Q16822,Enzymes
 O15269,Amino acid related enzymes
 Q8WTV0,Membrane trafficking
@@ -4953,9 +4953,9 @@ P62241,Ribosome
 Q92930,Membrane trafficking
 Q9NQC3,Membrane trafficking
 Q15436,Membrane trafficking
-not found,#N/A
+not found,N/A
 Q15121,none
-not found,#N/A
+not found,N/A
 P07195,Exosome
 P20290,none
 Q13509,Chromosome and associated proteins
@@ -4974,22 +4974,22 @@ P13798,Peptidases and inhibitors
 Q7KZF4,none
 P09417,Enzymes
 Q9H2W6,Ribosome
-not found,#N/A
+not found,N/A
 P14923,Exosome
 O43278,Peptidases and inhibitors
 Q15436,Membrane trafficking
-not found,#N/A
+not found,N/A
 P35270,Exosome
 P51648,Enzymes
-not found,#N/A
+not found,N/A
 P50895,CD molecules
 O00625,Enzymes
 O95758,Spliceosome
 O76021,Ribosome biogenesis
-not found,#N/A
+not found,N/A
 Q9NR12,Domain-containing proteins not elsewhere classified
 P16949,Cytoskeleton proteins
-not found,#N/A
+not found,N/A
 Q99496,Ubiquitin system
 P56962,Membrane trafficking
 Q8NHP8,none
@@ -4998,19 +4998,19 @@ Q9H5V8,CD molecules
 P13798,Peptidases and inhibitors
 O43752,Membrane trafficking
 P68036,Ubiquitin system
-not found,#N/A
+not found,N/A
 Q9UDY2,none
 P82912,Ribosome
 Q8TCS8,Messenger RNA biogenesis
 Q9H3U1,Chaperones and folding catalysts
 Q9Y490,Exosome
 P49755,Membrane trafficking
-not found,#N/A
+not found,N/A
 Q9UI12,none
 P45973,Chromosome and associated proteins
 P11279,Membrane trafficking
 Q9NPE3,Ribosome biogenesis
-not found,#N/A
+not found,N/A
 Q9P2R3,Membrane trafficking
 Q9Y291,Ribosome
 Q9H299,Domain-containing proteins not elsewhere classified
@@ -5019,11 +5019,11 @@ Q14204,Chromosome and associated proteins
 P29218,Enzymes
 P63010,Membrane trafficking
 Q14019,none
-not found,#N/A
+not found,N/A
 P61081,Ubiquitin system
 Q6WKZ4,Membrane trafficking
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 O94874,Ubiquitin system
 Q8WTV0,Membrane trafficking
 Q13596,Membrane trafficking
@@ -5031,20 +5031,20 @@ P06865,Chaperones and folding catalysts
 Q99536,Mitochondrial biogenesis
 Q9UI12,none
 Q8TAT6,Ribosome biogenesis
-not found,#N/A
+not found,N/A
 P67809,Transcription factors
 P57105,Membrane trafficking
 P27816,Cytoskeleton proteins
 Q15942,none
 O75874,Enzymes
 P21283,none
-not found,#N/A
+not found,N/A
 P30085,Enzymes
 P52789,Membrane trafficking
 Q9Y2R5,Ribosome
 P06132,Enzymes
 P13489,none
-not found,#N/A
+not found,N/A
 Q15102,Enzymes
 P12814,Membrane trafficking
 Q9H9J2,Ribosome
@@ -5053,7 +5053,7 @@ O75439,Peptidases and inhibitors
 Q96I25,Spliceosome
 P04075,Membrane trafficking
 Q5JTV8,Chaperones and folding catalysts
-not found,#N/A
+not found,N/A
 P00558,Exosome
 P35052,Proteoglycans
 Q05682,Cytoskeleton proteins
@@ -5064,18 +5064,18 @@ Q9UHB6,Cytoskeleton proteins
 P48637,Exosome
 P35221,Cytoskeleton proteins
 P09382,Exosome
-not found,#N/A
+not found,N/A
 O60888,none
-not found,#N/A
+not found,N/A
 Q13347,Translation factors
 P16930,Exosome
 Q9BQC6,none
 Q15370,Ubiquitin system
 Q9BUP3,Exosome
 Q13405,Ribosome
-not found,#N/A
+not found,N/A
 P38606,Enzymes
-not found,#N/A
+not found,N/A
 Q99797,Peptidases and inhibitors
 Q9NP61,Membrane trafficking
 Q9ULC3,Membrane trafficking
@@ -5091,11 +5091,11 @@ P82673,Ribosome
 Q92890,Ribosome biogenesis
 P52565,Exosome
 P51159,Membrane trafficking
-not found,#N/A
+not found,N/A
 O95747,Protein kinases
 Q9UBM7,Enzymes
-not found,#N/A
-G3V4M1,#N/A
+not found,N/A
+G3V4M1,N/A
 P18669,Membrane trafficking
 Q86U38,Ribosome biogenesis
 Q92974,Membrane trafficking
@@ -5103,9 +5103,9 @@ P30530,Protein kinases
 P08195,Transporters
 Q92974,Membrane trafficking
 Q9UKS6,Membrane trafficking
-not found,#N/A
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
+not found,N/A
 P09417,Enzymes
 Q13190,Membrane trafficking
 Q9HBH5,Enzymes
@@ -5120,9 +5120,9 @@ Q9BRQ6,Protein phosphatases and associated proteins
 Q16658,Membrane trafficking
 P78417,Transporters
 P21281,Exosome
-not found,#N/A
+not found,N/A
 P04080,Peptidases and inhibitors
-not found,#N/A
+not found,N/A
 Q96I99,Exosome
 P43490,Enzymes
 P45973,Chromosome and associated proteins
@@ -5131,32 +5131,32 @@ P21589,CD molecules
 P53004,Enzymes
 Q86U38,Ribosome biogenesis
 Q05682,Cytoskeleton proteins
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 O15460,Enzymes
 Q9NWU5,Ribosome
 Q9Y6M7,Transporters
 Q9BU23,none
 P62873,Exosome
 Q96AY3,Chaperones and folding catalysts
-not found,#N/A
+not found,N/A
 P49593,Protein phosphatases and associated proteins
 Q01518,Membrane trafficking
 Q14444,Messenger RNA biogenesis
 O75323,none
 Q9Y2U8,Cytoskeleton proteins
-C9J9W1,#N/A
+C9J9W1,N/A
 Q13951,none
-J3QKM9,#N/A
+J3QKM9,N/A
 Q9UI12,none
 Q9Y291,Ribosome
 Q13951,none
 P51571,Membrane trafficking
 P07195,Exosome
-H0Y4K8,#N/A
+H0Y4K8,N/A
 P24941,Protein kinases
 P05165,Enzymes
-not found,#N/A
+not found,N/A
 P24941,Protein kinases
 Q00535,Protein kinases
 Q8TED1,Enzymes
@@ -5164,7 +5164,7 @@ Q96FQ6,Domain-containing proteins not elsewhere classified
 P10619,Peptidases and inhibitors
 P10619,Peptidases and inhibitors
 Q13425,Domain-containing proteins not elsewhere classified
-not found,#N/A
+not found,N/A
 Q6YN16,none
 Q969X5,Membrane trafficking
 P08727,Cytoskeleton proteins
@@ -5173,7 +5173,7 @@ Q13492,Membrane trafficking
 P07339,Peptidases and inhibitors
 Q13616,Ubiquitin system
 Q92506,Enzymes
-not found,#N/A
+not found,N/A
 Q9BVA1,Chromosome and associated proteins
 Q15121,none
 Q12959,Chromosome and associated proteins
@@ -5182,7 +5182,7 @@ P00558,Exosome
 P13798,Peptidases and inhibitors
 Q96CT7,none
 Q9NQC3,Membrane trafficking
-not found,#N/A
+not found,N/A
 P08582,CD molecules
 P54709,CD molecules
 P27816,Cytoskeleton proteins
@@ -5193,12 +5193,12 @@ Q13277,Membrane trafficking
 Q01650,Transporters
 O94874,Ubiquitin system
 Q9P2R7,Exosome
-not found,#N/A
+not found,N/A
 Q9Y383,Spliceosome
 Q8TBA6,none
 P48637,Exosome
 O75347,Cytoskeleton proteins
-not found,#N/A
+not found,N/A
 Q9UJW0,Chromosome and associated proteins
 Q3KQU3,Chromosome and associated proteins
 Q9NQ50,Ribosome
@@ -5206,7 +5206,7 @@ Q9BSD7,Enzymes
 P51452,Protein phosphatases and associated proteins
 Q9BVC6,none
 Q92890,Ribosome biogenesis
-not found,#N/A
+not found,N/A
 Q8WW12,none
 Q9UMY4,Membrane trafficking
 O75348,none
@@ -5221,10 +5221,10 @@ Q13492,Membrane trafficking
 P38919,Messenger RNA biogenesis
 Q16831,Enzymes
 Q9Y624,CD molecules
-not found,#N/A
+not found,N/A
 Q9Y624,CD molecules
 Q99653,Protein phosphatases and associated proteins
-not found,#N/A
+not found,N/A
 P62942,Chaperones and folding catalysts
 O43175,Exosome
 P62942,Chaperones and folding catalysts
@@ -5242,7 +5242,7 @@ P04080,Peptidases and inhibitors
 P16930,Exosome
 P13647,Cytoskeleton proteins
 P82914,Ribosome
-not found,#N/A
+not found,N/A
 O75683,none
 O00754,Enzymes
 Q12841,Peptidases and inhibitors
@@ -5262,7 +5262,7 @@ O15061,Cytoskeleton proteins
 Q9Y2K7,Transcription factors
 Q32P28,Chaperones and folding catalysts
 P15586,Enzymes
-not found,#N/A
+not found,N/A
 O95373,Ribosome biogenesis
 Q9Y696,Exosome
 P07686,Chaperones and folding catalysts
@@ -5299,31 +5299,31 @@ Q96DA6,Chaperones and folding catalysts
 Q9NZT2,none
 Q02218,Enzymes
 P20700,Cytoskeleton proteins
-not found,#N/A
+not found,N/A
 P61225,Exosome
 Q8IWR0,Domain-containing proteins not elsewhere classified
 P13639,Translation factors
 P30084,Enzymes
 P16930,Exosome
 P00558,Exosome
-not found,#N/A
+not found,N/A
 Q01650,Transporters
 P17900,Exosome
 Q14197,Translation factors
 O60664,Membrane trafficking
 P30533,none
-not found,#N/A
+not found,N/A
 O60568,Glycosyltransferases
 P07108,none
-H0YCD9,#N/A
+H0YCD9,N/A
 P30086,Peptidases and inhibitors
 Q9NY61,Ribosome biogenesis
 Q9UNF1,Domain-containing proteins not elsewhere classified
 Q9NR12,Domain-containing proteins not elsewhere classified
 Q8NE86,Mitochondrial biogenesis
-not found,#N/A
+not found,N/A
 P35241,Cytoskeleton proteins
-not found,#N/A
+not found,N/A
 Q9BVG4,none
 O00244,none
 Q6DD88,Membrane trafficking
@@ -5339,9 +5339,9 @@ Q9C0C2,none
 P00558,Exosome
 P18827,Membrane trafficking
 P82673,Ribosome
-not found,#N/A
+not found,N/A
 Q03154,Peptidases and inhibitors
-not found,#N/A
+not found,N/A
 Q15050,Ribosome biogenesis
 P09382,Exosome
 Q14980,Chromosome and associated proteins
@@ -5362,7 +5362,7 @@ Q15102,Enzymes
 P18669,Membrane trafficking
 Q9NR12,Domain-containing proteins not elsewhere classified
 Q9H773,Enzymes
-not found,#N/A
+not found,N/A
 Q9UNF0,Membrane trafficking
 P52789,Membrane trafficking
 O75347,Cytoskeleton proteins
@@ -5370,7 +5370,7 @@ Q99447,Enzymes
 Q15121,none
 P61764,Membrane trafficking
 Q15121,none
-not found,#N/A
+not found,N/A
 P10644,none
 P10644,none
 P00558,Exosome
@@ -5381,7 +5381,7 @@ P35998,Proteasome
 P43686,Proteasome
 O75438,none
 Q9BTT6,none
-not found,#N/A
+not found,N/A
 Q9UN37,Membrane trafficking
 O75083,Domain-containing proteins not elsewhere classified
 P48637,Exosome
@@ -5389,11 +5389,11 @@ P62195,Proteasome
 P61764,Membrane trafficking
 Q9ULC3,Membrane trafficking
 Q01813,Protein phosphatases and associated proteins
-not found,#N/A
+not found,N/A
 O00487,Peptidases and inhibitors
 P55036,Proteasome
 Q12907,Membrane trafficking
-not found,#N/A
+not found,N/A
 Q8WYP5,none
 P09417,Enzymes
 Q9UBE0,Ubiquitin system
@@ -5403,17 +5403,17 @@ Q15417,none
 P18031,Protein phosphatases and associated proteins
 Q03154,Peptidases and inhibitors
 P49023,Domain-containing proteins not elsewhere classified
-not found,#N/A
+not found,N/A
 P30626,Domain-containing proteins not elsewhere classified
-not found,#N/A
+not found,N/A
 P50416,Mitochondrial biogenesis
 P40925,Enzymes
 P11234,Membrane trafficking
 Q9H9P8,Enzymes
 Q8IYB8,Mitochondrial biogenesis
 P26440,Enzymes
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 Q9Y4I1,Messenger RNA biogenesis
 Q9BTV4,none
 Q9ULV4,Cytoskeleton proteins
@@ -5426,7 +5426,7 @@ Q14956,Membrane trafficking
 Q13045,none
 Q9Y5S9,Messenger RNA biogenesis
 Q9BYD3,Ribosome
-E9PAV3,#N/A
+E9PAV3,N/A
 P21291,Transcription factors
 P16152,Enzymes
 P09110,Enzymes
@@ -5436,10 +5436,10 @@ O14974,Protein phosphatases and associated proteins
 O75616,Ribosome biogenesis
 Q9P206,none
 Q9ULV4,Cytoskeleton proteins
-C9J9W1,#N/A
+C9J9W1,N/A
 Q15382,GTP-binding proteins
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 Q6IAN0,Enzymes
 O14578,Protein kinases
 P08134,Membrane trafficking
@@ -5447,7 +5447,7 @@ Q9Y3D0,none
 P09669,none
 P30566,Enzymes
 Q9UBS8,Ubiquitin system
-not found,#N/A
+not found,N/A
 O00303,Translation factors
 P61421,none
 P48739,none
@@ -5457,7 +5457,7 @@ Q15287,Messenger RNA biogenesis
 Q15404,none
 P14324,Prenyltransferases
 P10301,GTP-binding proteins
-not found,#N/A
+not found,N/A
 Q01813,Protein phosphatases and associated proteins
 Q05682,Cytoskeleton proteins
 P62906,Ribosome
@@ -5466,24 +5466,24 @@ P58546,none
 Q13347,Translation factors
 O95425,Cytoskeleton proteins
 P78417,Transporters
-C9JNT3,#N/A
-C9J9W1,#N/A
+C9JNT3,N/A
+C9J9W1,N/A
 P48681,Cytoskeleton proteins
 Q8IXM3,Ribosome
 P07108,none
 P30050,Ribosome
-not found,#N/A
+not found,N/A
 O95373,Ribosome biogenesis
 P49593,Protein phosphatases and associated proteins
-not found,#N/A
+not found,N/A
 Q562R1,none
 Q8TED1,Enzymes
 P54709,CD molecules
 P26373,Ribosome
-not found,#N/A
+not found,N/A
 P07203,Enzymes
 Q14194,none
-C9J9W1,#N/A
+C9J9W1,N/A
 P07093,Peptidases and inhibitors
 Q10471,Glycosyltransferases
 P36957,Enzymes
@@ -5520,29 +5520,29 @@ Q13586,Transporters
 P47914,Ribosome
 Q9Y4I1,Messenger RNA biogenesis
 P13693,none
-not found,#N/A
+not found,N/A
 P10620,Transporters
 P38606,Enzymes
 Q8N8S7,none
 P62888,Ribosome
 P43490,Enzymes
-Q5TCU3,#N/A
+Q5TCU3,N/A
 P62899,Ribosome
 P62910,Ribosome
 Q12959,Chromosome and associated proteins
 P04406,Membrane trafficking
 Q86U38,Ribosome biogenesis
 Q16555,none
-not found,#N/A
+not found,N/A
 Q9H6S3,Membrane trafficking
 Q96DB5,none
-not found,#N/A
-P16435,#N/A
+not found,N/A
+P16435,N/A
 P50213,Enzymes
 Q9Y697,Transfer RNA biogenesis
 P46777,Protein phosphatases and associated proteins
 Q9ULV4,Cytoskeleton proteins
-not found,#N/A
+not found,N/A
 P14550,Exosome
 Q9BXP2,Transporters
 Q9ULV4,Cytoskeleton proteins
@@ -5550,7 +5550,7 @@ Q9Y4W6,Peptidases and inhibitors
 P32969,Ribosome
 P05388,Ribosome
 P04080,Peptidases and inhibitors
-P42166,#N/A
+P42166,N/A
 P05386,Ribosome
 O75683,none
 P05387,Ribosome
@@ -5559,7 +5559,7 @@ Q13596,Membrane trafficking
 Q9NXW2,Chaperones and folding catalysts
 Q9H0U4,Membrane trafficking
 P15954,none
-not found,#N/A
+not found,N/A
 P10768,Enzymes
 P25398,Ribosome
 Q9Y303,Enzymes
@@ -5586,7 +5586,7 @@ Q00059,Mitochondrial biogenesis
 O15372,Translation factors
 P62854,Ribosome
 P08865,Ribosome
-not found,#N/A
+not found,N/A
 Q53H82,Mitochondrial biogenesis
 P62857,Ribosome
 P61247,Ribosome
@@ -5648,11 +5648,11 @@ O75886,Membrane trafficking
 O94804,Protein kinases
 P49711,Transcription factors
 P50151,GTP-binding proteins
-not found,#N/A
+not found,N/A
 Q6RFH5,Ribosome biogenesis
 Q9UNE7,Chaperones and folding catalysts
 P14406,none
-not found,#N/A
+not found,N/A
 O95747,Protein kinases
 P60174,Exosome
 Q9Y490,Exosome
@@ -5673,7 +5673,7 @@ P62753,Ribosome
 Q9H223,Membrane trafficking
 P10606,none
 P42704,Mitochondrial biogenesis
-not found,#N/A
+not found,N/A
 Q99536,Mitochondrial biogenesis
 Q9NYL9,Cytoskeleton proteins
 P30519,Enzymes
@@ -5697,14 +5697,14 @@ P08727,Cytoskeleton proteins
 P62070,Exosome
 Q9H299,Domain-containing proteins not elsewhere classified
 P08183,Transporters
-not found,#N/A
+not found,N/A
 Q9Y446,none
-not found,#N/A
+not found,N/A
 O95747,Protein kinases
-not found,#N/A
+not found,N/A
 P04075,Membrane trafficking
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 Q9BUP3,Exosome
 Q5SW79,Chromosome and associated proteins
 P37837,Enzymes
@@ -5715,19 +5715,19 @@ Q96E11,Translation factors
 P11388,DNA replication proteins
 Q6IBS0,Cilium and associated proteins
 Q9UHY7,Enzymes
-not found,#N/A
+not found,N/A
 P00367,Exosome
-not found,#N/A
+not found,N/A
 P52565,Exosome
 P50454,Peptidases and inhibitors
-not found,#N/A
+not found,N/A
 P63244,Messenger RNA biogenesis
 Q96CG8,Cilium and associated proteins
 P49406,Ribosome
 Q53T59,Domain-containing proteins not elsewhere classified
 Q27J81,Cytoskeleton proteins
 Q93050,Exosome
-not found,#N/A
+not found,N/A
 P62269,Ribosome
 Q16851,Enzymes
 Q14137,Ribosome biogenesis
@@ -5736,7 +5736,7 @@ P06132,Enzymes
 Q9Y5K6,Membrane trafficking
 Q9H9B1,Chromosome and associated proteins
 Q96DV4,Ribosome
-not found,#N/A
+not found,N/A
 Q8IVL6,Chaperones and folding catalysts
 P09417,Enzymes
 P30622,Chromosome and associated proteins
@@ -5746,9 +5746,9 @@ Q6PD62,Transcription machinery
 Q8N4L2,Enzymes
 Q9C0B5,Membrane trafficking
 P82650,Ribosome
-not found,#N/A
+not found,N/A
 Q99569,none
-not found,#N/A
+not found,N/A
 Q9NV06,Ribosome biogenesis
 P83916,Chromosome and associated proteins
 Q92466,Ubiquitin system
@@ -5756,7 +5756,7 @@ P06396,Cytoskeleton proteins
 P07737,Membrane trafficking
 Q9H6S3,Membrane trafficking
 Q96T88,Ubiquitin system
-not found,#N/A
+not found,N/A
 Q8NBT2,Chromosome and associated proteins
 Q9Y3B3,none
 P63010,Membrane trafficking
@@ -5767,7 +5767,7 @@ O15027,Membrane trafficking
 Q9BZE1,Ribosome
 Q8TED1,Enzymes
 P39656,none
-not found,#N/A
+not found,N/A
 Q9H0U6,Ribosome
 P12268,Exosome
 Q9BRA2,none
@@ -5779,7 +5779,7 @@ P06454,none
 Q00059,Mitochondrial biogenesis
 Q13283,Messenger RNA biogenesis
 O15400,Membrane trafficking
-not found,#N/A
+not found,N/A
 Q96DV4,Ribosome
 Q14566,DNA replication proteins
 Q13428,Ribosome biogenesis
@@ -5788,12 +5788,12 @@ P43490,Enzymes
 Q9Y6G9,Membrane trafficking
 P07954,Enzymes
 Q92665,Ribosome
-not found,#N/A
+not found,N/A
 O15270,Amino acid related enzymes
 P40925,Enzymes
 Q14197,Translation factors
 Q13573,Spliceosome
-not found,#N/A
+not found,N/A
 O95571,Mitochondrial biogenesis
 P17900,Exosome
 Q99959,none
@@ -5803,12 +5803,12 @@ P61923,Membrane trafficking
 P29401,Enzymes
 P13639,Translation factors
 Q9UG63,Ribosome biogenesis
-not found,#N/A
+not found,N/A
 Q96FS4,none
 Q15369,Ubiquitin system
 Q9NZN4,Membrane trafficking
 Q9Y608,Transcription factors
-not found,#N/A
+not found,N/A
 Q13418,Protein kinases
 Q9UBQ5,Translation factors
 P23588,Messenger RNA biogenesis
@@ -5818,9 +5818,9 @@ P15311,Cytoskeleton proteins
 Q16851,Enzymes
 Q9UG63,Ribosome biogenesis
 O00299,Exosome
-not found,#N/A
+not found,N/A
 P20290,none
-not found,#N/A
+not found,N/A
 Q01469,none
 Q9NRX2,Ribosome
 Q6P1L8,Ribosome
@@ -5844,13 +5844,13 @@ Q9HCC0,Enzymes
 P13489,none
 P08134,Membrane trafficking
 Q8IWR0,Domain-containing proteins not elsewhere classified
-not found,#N/A
+not found,N/A
 Q96C19,Domain-containing proteins not elsewhere classified
 P14174,Exosome
 Q9GZR2,Ribosome biogenesis
 P62879,Exosome
 P30566,Enzymes
-not found,#N/A
+not found,N/A
 Q9HCC0,Enzymes
 P04406,Membrane trafficking
 P15170,Messenger RNA biogenesis
@@ -5894,8 +5894,8 @@ Q96G21,Ribosome biogenesis
 P04181,Amino acid related enzymes
 P00367,Exosome
 P37837,Enzymes
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 P08727,Cytoskeleton proteins
 O95168,none
 Q9UMS4,Spliceosome
@@ -5904,7 +5904,7 @@ P00367,Exosome
 P61923,Membrane trafficking
 P49748,Enzymes
 Q9NQ88,Enzymes
-not found,#N/A
+not found,N/A
 O43795,Protein phosphatases and associated proteins
 O15226,Transcription factors
 Q9BQE3,Messenger RNA biogenesis
@@ -5913,25 +5913,25 @@ Q6DN90,Membrane trafficking
 Q14653,Transcription factors
 Q15436,Membrane trafficking
 Q9Y2R4,Ribosome biogenesis
-not found,#N/A
+not found,N/A
 Q13277,Membrane trafficking
 Q99959,none
 Q13084,Ribosome
 P40121,Cytoskeleton proteins
 P11279,Membrane trafficking
 P13473,Membrane trafficking
-not found,#N/A
+not found,N/A
 Q9UJ70,Enzymes
 Q9UHA4,none
-not found,#N/A
+not found,N/A
 P56537,Ribosome biogenesis
 Q9Y646,Peptidases and inhibitors
 P16930,Exosome
-not found,#N/A
+not found,N/A
 P52788,Enzymes
 Q16540,Ribosome
 O95747,Protein kinases
-not found,#N/A
+not found,N/A
 P17931,Exosome
 P27635,Ribosome
 P49916,DNA repair and recombination proteins
@@ -5948,7 +5948,7 @@ Q9C0C2,none
 P45985,Protein kinases
 Q15691,Chromosome and associated proteins
 Q8IXM3,Ribosome
-not found,#N/A
+not found,N/A
 Q9BYD3,Ribosome
 Q9ULV4,Cytoskeleton proteins
 O00159,Protein phosphatases and associated proteins
@@ -5965,8 +5965,8 @@ Q9Y266,Chromosome and associated proteins
 P52815,Ribosome
 P57740,Messenger RNA biogenesis
 P07195,Exosome
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 Q96E11,Translation factors
 Q92665,Ribosome
 P82675,Ribosome
@@ -5975,7 +5975,7 @@ Q13177,Protein kinases
 Q8IZL8,Ribosome biogenesis
 Q04695,Cytoskeleton proteins
 Q14651,Cytoskeleton proteins
-not found,#N/A
+not found,N/A
 O15031,none
 Q27J81,Cytoskeleton proteins
 P00505,Amino acid related enzymes
@@ -5997,8 +5997,8 @@ Q9NQ50,Ribosome
 Q16513,Protein kinases
 P62873,Exosome
 P62875,Transcription machinery
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 P78527,Protein kinases
 P25786,Peptidases and inhibitors
 P61158,Membrane trafficking
@@ -6034,9 +6034,9 @@ P35998,Proteasome
 Q9Y6N5,Enzymes
 Q9GZS3,Messenger RNA biogenesis
 P17980,Proteasome
-not found,#N/A
+not found,N/A
 Q9HCC0,Enzymes
-not found,#N/A
+not found,N/A
 Q9UFW8,none
 O15226,Transcription factors
 P21283,none
@@ -6053,27 +6053,27 @@ Q16836,Enzymes
 P40855,none
 P52701,DNA repair and recombination proteins
 P04080,Peptidases and inhibitors
-not found,#N/A
+not found,N/A
 Q96C19,Domain-containing proteins not elsewhere classified
 Q13283,Messenger RNA biogenesis
 Q13405,Ribosome
 P05026,CD molecules
-not found,#N/A
+not found,N/A
 Q9BSJ8,none
 O43242,Proteasome
 P55036,Proteasome
 O00244,none
 Q9BQP7,Mitochondrial biogenesis
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 P30566,Enzymes
-C9J0E9,#N/A
-P16435,#N/A
+C9J0E9,N/A
+P16435,N/A
 Q06210,Peptidases and inhibitors
 P46063,DNA repair and recombination proteins
-not found,#N/A
+not found,N/A
 P61960,Ubiquitin system
-not found,#N/A
+not found,N/A
 Q8IVM0,Membrane trafficking
 P51665,Proteasome
 P48556,Proteasome
@@ -6099,7 +6099,7 @@ Q9Y487,Exosome
 Q8N0X7,none
 Q9Y3D9,Ribosome
 Q969Q5,Membrane trafficking
-not found,#N/A
+not found,N/A
 Q9H082,Membrane trafficking
 P29218,Enzymes
 P51149,Membrane trafficking
@@ -6117,15 +6117,15 @@ P25205,DNA replication proteins
 Q9NS86,none
 P26038,Cytoskeleton proteins
 P17900,Exosome
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 P40938,DNA replication proteins
 Q9BRA2,none
 P09496,Membrane trafficking
-not found,#N/A
+not found,N/A
 P58546,none
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 Q9P2E9,none
 Q96JJ7,Chaperones and folding catalysts
 Q14160,none
@@ -6133,7 +6133,7 @@ Q9NXW2,Chaperones and folding catalysts
 O43566,none
 Q9UNL2,Membrane trafficking
 Q6NVY1,Enzymes
-not found,#N/A
+not found,N/A
 Q8IXI1,GTP-binding proteins
 Q9UNF1,Domain-containing proteins not elsewhere classified
 Q9UI12,none
@@ -6167,9 +6167,9 @@ P62244,Ribosome
 O15269,Amino acid related enzymes
 P31947,Exosome
 P12830,Chromosome and associated proteins
-not found,#N/A
+not found,N/A
 Q8NC56,Cytoskeleton proteins
-not found,#N/A
+not found,N/A
 P58546,none
 P26440,Enzymes
 P15924,Cytoskeleton proteins
@@ -6177,14 +6177,14 @@ Q9UHV9,Chaperones and folding catalysts
 Q8WZA9,none
 P17812,Enzymes
 P48637,Exosome
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 O00244,none
 Q27J81,Cytoskeleton proteins
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 O95630,Peptidases and inhibitors
-not found,#N/A
+not found,N/A
 P18669,Membrane trafficking
 P00568,Exosome
 Q5JTV8,Chaperones and folding catalysts
@@ -6200,8 +6200,8 @@ Q9BXI6,Membrane trafficking
 Q9P016,none
 Q12788,Ribosome biogenesis
 P14854,none
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 O00244,none
 P13693,none
 P51116,Messenger RNA biogenesis
@@ -6210,7 +6210,7 @@ Q14165,none
 P68371,Chromosome and associated proteins
 Q8N4L2,Enzymes
 P10599,Chaperones and folding catalysts
-not found,#N/A
+not found,N/A
 P33121,Lipid biosynthesis proteins
 Q9C0E8,Membrane trafficking
 P51553,Enzymes
@@ -6219,10 +6219,10 @@ Q9Y608,Transcription factors
 P61081,Ubiquitin system
 P49755,Membrane trafficking
 P38606,Enzymes
-not found,#N/A
+not found,N/A
 P49593,Protein phosphatases and associated proteins
 Q6IAN0,Enzymes
-P42166,#N/A
+P42166,N/A
 Q9UMX0,Membrane trafficking
 Q6DD88,Membrane trafficking
 P35754,Chaperones and folding catalysts
@@ -6242,7 +6242,7 @@ Q9NP79,Membrane trafficking
 Q96JB5,none
 Q9Y281,Membrane trafficking
 Q9P206,none
-not found,#N/A
+not found,N/A
 Q9UKS6,Membrane trafficking
 Q9UKS6,Membrane trafficking
 Q9BV38,Ribosome biogenesis
@@ -6265,7 +6265,7 @@ P08648,Exosome
 Q9BQE3,Messenger RNA biogenesis
 P12259,none
 P31153,Enzymes
-not found,#N/A
+not found,N/A
 O43264,Membrane trafficking
 Q96JB5,none
 P02765,Peptidases and inhibitors
@@ -6285,7 +6285,7 @@ P52788,Enzymes
 Q9H0U4,Membrane trafficking
 P53680,Membrane trafficking
 Q8N684,Messenger RNA biogenesis
-not found,#N/A
+not found,N/A
 Q92734,none
 P60174,Exosome
 P52565,Exosome
@@ -6296,19 +6296,19 @@ P21281,Exosome
 Q9HDC9,Membrane trafficking
 P10301,GTP-binding proteins
 P21281,Exosome
-not found,#N/A
+not found,N/A
 Q9Y277,Mitochondrial biogenesis
 P07741,Exosome
 Q9Y2Q9,Ribosome
-not found,#N/A
+not found,N/A
 O95861,Transfer RNA biogenesis
 P35613,Exosome
 Q96P16,Transcription machinery
-not found,#N/A
+not found,N/A
 Q9Y676,Ribosome
 P07108,none
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 P10301,GTP-binding proteins
 Q03135,Membrane trafficking
 Q8N983,Ribosome
@@ -6317,21 +6317,21 @@ Q03154,Peptidases and inhibitors
 Q8N128,none
 Q13951,none
 Q9NPH2,Enzymes
-not found,#N/A
+not found,N/A
 Q9NZQ7,CD molecules
 Q9NRN7,Enzymes
 P24941,Protein kinases
-not found,#N/A
+not found,N/A
 Q9NQ50,Ribosome
 Q96AB3,none
 Q9Y4I1,Messenger RNA biogenesis
 Q9UJ70,Enzymes
 Q99733,Chromosome and associated proteins
 P40925,Enzymes
-not found,#N/A
+not found,N/A
 Q9Y3D0,none
 Q92597,Exosome
-not found,#N/A
+not found,N/A
 Q9NVI7,Mitochondrial biogenesis
 P24941,Protein kinases
 P39656,none
@@ -6339,15 +6339,15 @@ Q15233,Spliceosome
 P10301,GTP-binding proteins
 Q00535,Protein kinases
 Q99439,none
-not found,#N/A
+not found,N/A
 P19623,Enzymes
 P10619,Peptidases and inhibitors
 Q12959,Chromosome and associated proteins
-not found,#N/A
+not found,N/A
 Q9BQ48,Ribosome
 Q5J8M3,Membrane trafficking
 Q9Y3B7,Ribosome
-not found,#N/A
+not found,N/A
 P62280,Ribosome
 Q8WW12,none
 P82930,Ribosome
@@ -6363,36 +6363,36 @@ P51452,Protein phosphatases and associated proteins
 Q9P206,none
 Q9P0M9,Ribosome
 Q99961,Membrane trafficking
-not found,#N/A
+not found,N/A
 P62906,Ribosome
 O75165,Spliceosome
 Q6WCQ1,Domain-containing proteins not elsewhere classified
 P10768,Enzymes
-not found,#N/A
+not found,N/A
 Q92930,Membrane trafficking
 Q8IVL6,Chaperones and folding catalysts
 O75348,none
 O75312,none
-not found,#N/A
+not found,N/A
 O15212,Chaperones and folding catalysts
 P09110,Enzymes
 Q8N2G8,none
 P38919,Messenger RNA biogenesis
 Q6PGP7,Messenger RNA biogenesis
 Q99733,Chromosome and associated proteins
-not found,#N/A
+not found,N/A
 Q99653,Protein phosphatases and associated proteins
 P50895,CD molecules
 Q9HCC0,Enzymes
 Q8TED1,Enzymes
-not found,#N/A
+not found,N/A
 P00492,Enzymes
 Q9NQX3,Enzymes
 P38919,Messenger RNA biogenesis
 Q6SPF0,Chromosome and associated proteins
 Q00059,Mitochondrial biogenesis
 Q15717,Messenger RNA biogenesis
-not found,#N/A
+not found,N/A
 P21283,none
 P50402,none
 P15311,Cytoskeleton proteins
@@ -6400,7 +6400,7 @@ Q01469,none
 P52815,Ribosome
 Q96CS3,Messenger RNA biogenesis
 Q9NRX2,Ribosome
-not found,#N/A
+not found,N/A
 P62942,Chaperones and folding catalysts
 P62942,Chaperones and folding catalysts
 P61163,Chromosome and associated proteins
@@ -6411,7 +6411,7 @@ P82912,Ribosome
 O75323,none
 P02533,Cytoskeleton proteins
 Q86U28,Mitochondrial biogenesis
-not found,#N/A
+not found,N/A
 P19022,Chromosome and associated proteins
 O14828,Membrane trafficking
 O00273,none
@@ -6447,17 +6447,17 @@ P11142,Protein phosphatases and associated proteins
 P11142,Protein phosphatases and associated proteins
 P26006,Exosome
 Q9BYN8,Ribosome
-not found,#N/A
+not found,N/A
 Q86UP2,Mitochondrial biogenesis
 P17931,Exosome
 Q13753,none
 P29692,Translation factors
 Q99471,Chaperones and folding catalysts
 O75718,Chaperones and folding catalysts
-not found,#N/A
+not found,N/A
 Q96PK6,none
 Q92575,none
-not found,#N/A
+not found,N/A
 Q96LJ7,Enzymes
 Q8TCC3,Ribosome
 P17931,Exosome
@@ -6471,33 +6471,33 @@ P04406,Membrane trafficking
 Q7KZF4,none
 Q6WCQ1,Domain-containing proteins not elsewhere classified
 Q9NRN7,Enzymes
-not found,#N/A
+not found,N/A
 Q7KZF4,none
 Q99623,Mitochondrial biogenesis
 Q13885,Chromosome and associated proteins
 O15031,none
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 O94880,none
 Q7Z7H5,Membrane trafficking
 Q7KZF4,none
-not found,#N/A
+not found,N/A
 Q8TBA6,none
-not found,#N/A
+not found,N/A
 Q08AG7,Cytoskeleton proteins
 P55084,Enzymes
 P51159,Membrane trafficking
-not found,#N/A
+not found,N/A
 Q9H2W6,Ribosome
 Q7KZF4,none
 P15586,Enzymes
-not found,#N/A
+not found,N/A
 Q2TB10,none
 P06744,Exosome
 P57740,Messenger RNA biogenesis
 Q9BW27,Messenger RNA biogenesis
 Q9UKX7,Messenger RNA biogenesis
-not found,#N/A
+not found,N/A
 Q9H0U6,Ribosome
 Q7Z4W1,Enzymes
 Q86SX6,Chaperones and folding catalysts
@@ -6521,7 +6521,7 @@ Q9BTT0,Chromosome and associated proteins
 Q8NBM4,Ubiquitin system
 Q9P287,Ribosome biogenesis
 O00264,Exosome
-not found,#N/A
+not found,N/A
 O43752,Membrane trafficking
 O95782,Membrane trafficking
 Q5TDH0,Proteasome
@@ -6549,7 +6549,7 @@ P00568,Exosome
 P20645,Exosome
 O60925,Chaperones and folding catalysts
 Q9Y490,Exosome
-not found,#N/A
+not found,N/A
 O15031,none
 Q14197,Translation factors
 Q9BSH4,Mitochondrial biogenesis
@@ -6562,7 +6562,7 @@ Q9BV36,Membrane trafficking
 Q6DD88,Membrane trafficking
 Q16762,Enzymes
 P62280,Ribosome
-not found,#N/A
+not found,N/A
 O75347,Cytoskeleton proteins
 P78318,Protein phosphatases and associated proteins
 Q96E11,Translation factors
@@ -6576,7 +6576,7 @@ Q9P2E9,none
 P50454,Peptidases and inhibitors
 Q8IX01,Spliceosome
 Q7KZF4,none
-not found,#N/A
+not found,N/A
 Q13190,Membrane trafficking
 P56962,Membrane trafficking
 Q96TC7,Membrane trafficking
@@ -6584,28 +6584,28 @@ P11216,Enzymes
 P11216,Enzymes
 O75718,Chaperones and folding catalysts
 Q9Y3E1,none
-not found,#N/A
+not found,N/A
 Q6L8Q7,Messenger RNA biogenesis
-not found,#N/A
+not found,N/A
 Q9UBS8,Ubiquitin system
 Q15287,Messenger RNA biogenesis
 P61960,Ubiquitin system
-not found,#N/A
+not found,N/A
 Q13405,Ribosome
 P83111,Peptidases and inhibitors
-not found,#N/A
+not found,N/A
 Q7KZI7,Protein kinases
 Q6NUM9,Enzymes
-not found,#N/A
+not found,N/A
 P62906,Ribosome
 O95232,none
-not found,#N/A
+not found,N/A
 Q5M775,Cytoskeleton proteins
 Q9UJS0,Transporters
-not found,#N/A
+not found,N/A
 P60468,Membrane trafficking
 Q07020,Ribosome
-not found,#N/A
+not found,N/A
 Q96HY6,Ubiquitin system
 Q02543,Ribosome
 P61353,Ribosome
@@ -6640,8 +6640,8 @@ O00560,Exosome
 P27797,Chaperones and folding catalysts
 Q8WVQ1,Enzymes
 O00560,Exosome
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 Q5SW79,Chromosome and associated proteins
 P37840,Membrane trafficking
 P37840,Membrane trafficking
@@ -6652,9 +6652,9 @@ Q9P2R7,Exosome
 P09417,Enzymes
 O00159,Protein phosphatases and associated proteins
 P10301,GTP-binding proteins
-not found,#N/A
+not found,N/A
 Q9Y5X3,Membrane trafficking
-not found,#N/A
+not found,N/A
 O15460,Enzymes
 Q9BRQ6,Protein phosphatases and associated proteins
 Q9Y5X1,Membrane trafficking
@@ -6666,7 +6666,7 @@ Q9H2D6,Cytoskeleton proteins
 Q5SW79,Chromosome and associated proteins
 Q99523,none
 Q8NC56,Cytoskeleton proteins
-not found,#N/A
+not found,N/A
 Q96CG8,Cilium and associated proteins
 Q9C004,none
 Q9C004,none
@@ -6692,7 +6692,7 @@ Q9Y6Y8,none
 Q15785,Mitochondrial biogenesis
 Q9UGV2,none
 Q7Z4H3,Enzymes
-not found,#N/A
+not found,N/A
 Q12846,Membrane trafficking
 Q9BYD3,Ribosome
 Q99829,Domain-containing proteins not elsewhere classified
@@ -6704,7 +6704,7 @@ Q9H9B4,Mitochondrial biogenesis
 P82932,Ribosome
 O15355,Protein phosphatases and associated proteins
 Q7Z3T8,Protein phosphatases and associated proteins
-Q9BRJ2,#N/A
+Q9BRJ2,N/A
 Q99598,none
 P21579,Membrane trafficking
 Q9NZ08,Peptidases and inhibitors
@@ -6725,9 +6725,9 @@ Q9Y6N5,Enzymes
 P29218,Enzymes
 O75208,none
 O15460,Enzymes
-not found,#N/A
+not found,N/A
 Q9H0E2,Exosome
-not found,#N/A
+not found,N/A
 O60784,Membrane trafficking
 Q9P2N5,Spliceosome
 O75718,Chaperones and folding catalysts
@@ -6741,17 +6741,17 @@ P21796,Mitochondrial biogenesis
 Q99569,none
 Q96HY7,Mitochondrial biogenesis
 P52888,Peptidases and inhibitors
-not found,#N/A
+not found,N/A
 O15460,Enzymes
 P61764,Membrane trafficking
 Q96RQ3,Enzymes
-not found,#N/A
+not found,N/A
 P61088,Ubiquitin system
 O43665,none
 Q7Z7F7,Ribosome
 P61421,none
 Q99536,Mitochondrial biogenesis
-not found,#N/A
+not found,N/A
 Q9Y3D9,Ribosome
 P49903,Transfer RNA biogenesis
 Q9BX68,none
@@ -6785,7 +6785,7 @@ P58546,none
 P56537,Ribosome biogenesis
 Q9UBM7,Enzymes
 Q9BSH5,none
-not found,#N/A
+not found,N/A
 Q7Z7H5,Membrane trafficking
 P08779,Cytoskeleton proteins
 Q13885,Chromosome and associated proteins
@@ -6821,7 +6821,7 @@ P21926,Cilium and associated proteins
 P63010,Membrane trafficking
 Q9HCU5,Membrane trafficking
 Q96CW1,Membrane trafficking
-A0A087WYR3,#N/A
+A0A087WYR3,N/A
 O15143,Membrane trafficking
 Q9P2B2,Exosome
 Q8TED1,Enzymes
@@ -6829,25 +6829,25 @@ P61960,Ubiquitin system
 O00443,Enzymes
 P30046,Enzymes
 Q00613,Transcription factors
-not found,#N/A
+not found,N/A
 O75368,Domain-containing proteins not elsewhere classified
 Q9BSF4,none
 O95816,Chaperones and folding catalysts
 P49247,Enzymes
 Q9NV06,Ribosome biogenesis
 Q8N5N7,Ribosome
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 Q9BTY7,none
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 Q9NQC3,Membrane trafficking
 O43148,Messenger RNA biogenesis
 Q7Z7F7,Ribosome
 Q9NRR5,Membrane trafficking
 Q9Y3A5,Ribosome biogenesis
 Q9NP58,Transporters
-not found,#N/A
+not found,N/A
 P17655,Peptidases and inhibitors
 P78536,Peptidases and inhibitors
 O95159,none
@@ -6866,7 +6866,7 @@ Q9NS86,none
 P49755,Membrane trafficking
 Q9BYD1,Ribosome
 P28838,Peptidases and inhibitors
-not found,#N/A
+not found,N/A
 P12109,Exosome
 Q15369,Ubiquitin system
 Q6ZRV2,Cytoskeleton proteins
@@ -6877,16 +6877,16 @@ Q14194,none
 Q9BPU6,none
 Q08380,Exosome
 Q6P1L8,Ribosome
-not found,#N/A
+not found,N/A
 Q9P258,none
-not found,#N/A
+not found,N/A
 Q14192,Domain-containing proteins not elsewhere classified
 Q9Y394,Enzymes
 P21333,Cytoskeleton proteins
-H0Y4K8,#N/A
+H0Y4K8,N/A
 P04899,Exosome
 O15226,Transcription factors
-not found,#N/A
+not found,N/A
 Q9UBI6,Exosome
 Q52LJ0,Transfer RNA biogenesis
 Q9BRP8,Messenger RNA biogenesis
@@ -6901,11 +6901,11 @@ Q96C01,none
 Q9BXK5,none
 P46940,Cytoskeleton proteins
 P31327,Peptidases and inhibitors
-not found,#N/A
+not found,N/A
 Q14697,Enzymes
 P35269,Transcription machinery
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 Q07666,Spliceosome
 Q92667,Protein phosphatases and associated proteins
 Q9BV40,Membrane trafficking
@@ -6913,7 +6913,7 @@ Q92667,Protein phosphatases and associated proteins
 Q5SW79,Chromosome and associated proteins
 Q9UGI8,Domain-containing proteins not elsewhere classified
 O00139,Chromosome and associated proteins
-not found,#N/A
+not found,N/A
 Q12959,Chromosome and associated proteins
 Q9Y512,Mitochondrial biogenesis
 Q9GZT3,Cilium and associated proteins
@@ -6925,10 +6925,10 @@ P11021,Chaperones and folding catalysts
 Q9BUB7,Mitochondrial biogenesis
 Q9Y5M8,Secretion system
 P11047,none
-not found,#N/A
+not found,N/A
 Q9UFW8,none
 Q5HYI8,GTP-binding proteins
-not found,#N/A
+not found,N/A
 Q9UBE0,Ubiquitin system
 Q9BTE3,none
 P09972,Membrane trafficking
@@ -6954,23 +6954,23 @@ Q9NVD7,Cytoskeleton proteins
 Q9NR12,Domain-containing proteins not elsewhere classified
 Q13492,Membrane trafficking
 P16455,DNA repair and recombination proteins
-not found,#N/A
+not found,N/A
 P11166,Transporters
 P46977,Glycosyltransferases
 Q9Y303,Enzymes
 P49770,Translation factors
-not found,#N/A
+not found,N/A
 Q9NQ88,Enzymes
 Q02809,Exosome
 Q15006,Membrane trafficking
 P08134,Membrane trafficking
 Q9NQC3,Membrane trafficking
-not found,#N/A
+not found,N/A
 O95292,Membrane trafficking
 P31946,DNA repair and recombination proteins
-not found,#N/A
+not found,N/A
 P02786,Peptidases and inhibitors
-not found,#N/A
+not found,N/A
 P18206,Cytoskeleton proteins
 P31946,DNA repair and recombination proteins
 Q8N4L2,Enzymes
@@ -6979,23 +6979,23 @@ Q0VDF9,none
 P07948,Protein kinases
 P14859,Transcription factors
 Q9Y2W1,Spliceosome
-Q9BRJ2,#N/A
-not found,#N/A
+Q9BRJ2,N/A
+not found,N/A
 Q5T280,Chromosome and associated proteins
 Q8N766,Membrane trafficking
 P08183,Transporters
-not found,#N/A
+not found,N/A
 O60763,none
 Q9Y2R4,Ribosome biogenesis
 Q9H4G0,Domain-containing proteins not elsewhere classified
-Q9BRJ2,#N/A
-not found,#N/A
-not found,#N/A
+Q9BRJ2,N/A
+not found,N/A
+not found,N/A
 P02786,Peptidases and inhibitors
 Q5SW79,Chromosome and associated proteins
 P51991,Messenger RNA biogenesis
 Q6DD88,Membrane trafficking
-not found,#N/A
+not found,N/A
 Q9UBE0,Ubiquitin system
 Q16204,none
 P67809,Transcription factors
@@ -7008,7 +7008,7 @@ Q99816,Membrane trafficking
 Q15942,none
 Q7Z7H8,Ribosome
 O15027,Membrane trafficking
-not found,#N/A
+not found,N/A
 Q96F86,Messenger RNA biogenesis
 Q7Z6M1,Membrane trafficking
 O75688,Protein phosphatases and associated proteins
@@ -7026,15 +7026,15 @@ Q7Z3T8,Protein phosphatases and associated proteins
 O60645,Membrane trafficking
 Q9Y3B3,none
 Q00978,Transcription factors
-not found,#N/A
+not found,N/A
 Q9UPY8,Chromosome and associated proteins
 Q15003,Chromosome and associated proteins
 Q9NVM6,Chaperones and folding catalysts
 Q02809,Exosome
 Q06203,Peptidases and inhibitors
 Q8N766,Membrane trafficking
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 P54709,CD molecules
 Q14764,Exosome
 Q53H82,Mitochondrial biogenesis
@@ -7045,7 +7045,7 @@ P30046,Enzymes
 Q7Z3T8,Protein phosphatases and associated proteins
 P05141,Mitochondrial biogenesis
 Q86U28,Mitochondrial biogenesis
-not found,#N/A
+not found,N/A
 O96019,Transcription machinery
 Q08379,Membrane trafficking
 P07355,Membrane trafficking
@@ -7055,7 +7055,7 @@ P09758,Exosome
 Q9BU89,Enzymes
 Q9GZT3,Cilium and associated proteins
 O95782,Membrane trafficking
-not found,#N/A
+not found,N/A
 O43447,Spliceosome
 P63010,Membrane trafficking
 P27695,DNA repair and recombination proteins
@@ -7065,14 +7065,14 @@ O00217,Enzymes
 Q15631,none
 Q9UM00,Membrane trafficking
 P11388,DNA replication proteins
-not found,#N/A
+not found,N/A
 Q9Y3B8,Messenger RNA biogenesis
-not found,#N/A
+not found,N/A
 O00244,none
-not found,#N/A
+not found,N/A
 P51572,none
 P00374,Enzymes
-not found,#N/A
+not found,N/A
 Q9HC52,Chromosome and associated proteins
 P06493,Protein kinases
 Q92945,Messenger RNA biogenesis
@@ -7083,30 +7083,30 @@ Q01484,Cytoskeleton proteins
 Q12907,Membrane trafficking
 Q9Y446,none
 P52298,Messenger RNA biogenesis
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 P36952,Peptidases and inhibitors
 P53597,Enzymes
-not found,#N/A
+not found,N/A
 Q96PK6,none
-not found,#N/A
+not found,N/A
 Q9BV40,Membrane trafficking
 A5YKK6,Messenger RNA biogenesis
 Q13363,Membrane trafficking
 P49711,Transcription factors
 P10619,Peptidases and inhibitors
-not found,#N/A
+not found,N/A
 Q92841,Spliceosome
-not found,#N/A
+not found,N/A
 Q8TAT6,Ribosome biogenesis
 Q9BQE3,Messenger RNA biogenesis
 P27707,Enzymes
 Q9NPA8,Transcription machinery
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 Q13618,Ubiquitin system
 Q13641,none
-not found,#N/A
+not found,N/A
 O75368,Domain-containing proteins not elsewhere classified
 Q9NZN4,Membrane trafficking
 O95292,Membrane trafficking
@@ -7133,12 +7133,12 @@ Q92499,Spliceosome
 P09429,Chromosome and associated proteins
 Q9GZT3,Cilium and associated proteins
 Q00577,Transcription factors
-P16435,#N/A
+P16435,N/A
 Q6FI81,none
 P49755,Membrane trafficking
 P30519,Enzymes
 P11021,Chaperones and folding catalysts
-not found,#N/A
+not found,N/A
 Q6NW29,none
 Q13190,Membrane trafficking
 P21980,Enzymes
@@ -7146,7 +7146,7 @@ P30046,Enzymes
 P22223,Cell adhesion molecules
 Q9Y3E2,Mitochondrial biogenesis
 Q9HC84,Membrane trafficking
-not found,#N/A
+not found,N/A
 Q9NZ08,Peptidases and inhibitors
 O60341,Chromosome and associated proteins
 P62241,Ribosome
@@ -7157,38 +7157,38 @@ Q9Y6G9,Membrane trafficking
 P49916,DNA repair and recombination proteins
 Q96G23,Enzymes
 Q5T280,Chromosome and associated proteins
-not found,#N/A
-Q4VXU2,#N/A
+not found,N/A
+Q4VXU2,N/A
 Q9BU61,Mitochondrial biogenesis
 Q9HAF1,Chromosome and associated proteins
 Q9UNL2,Membrane trafficking
 P25325,Enzymes
 P43246,DNA repair and recombination proteins
-not found,#N/A
+not found,N/A
 P20591,none
 Q99848,Ribosome biogenesis
 O95782,Membrane trafficking
 P30046,Enzymes
 P07237,Chaperones and folding catalysts
 Q16576,Chromosome and associated proteins
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 Q16656,Mitochondrial biogenesis
 P09874,DNA replication proteins
 Q5VV42,Transfer RNA biogenesis
 Q13131,Protein kinases
 Q9UJY5,Membrane trafficking
-not found,#N/A
+not found,N/A
 Q9Y303,Enzymes
 P04844,none
 P30086,Peptidases and inhibitors
 P29034,Domain-containing proteins not elsewhere classified
 P08240,Secretion system
-not found,#N/A
+not found,N/A
 O95159,none
 Q8TEM1,Messenger RNA biogenesis
 Q9ULW0,Chromosome and associated proteins
-not found,#N/A
+not found,N/A
 Q14498,Spliceosome
 Q5T653,Ribosome
 Q9NUD5,none
@@ -7197,13 +7197,13 @@ Q9BVK6,Membrane trafficking
 O00178,Messenger RNA biogenesis
 Q9NS86,none
 Q9NPJ3,Lipid biosynthesis proteins
-not found,#N/A
+not found,N/A
 Q9Y2Q9,Ribosome
 P05166,Enzymes
 O43615,Mitochondrial biogenesis
-not found,#N/A
+not found,N/A
 Q13641,none
-not found,#N/A
+not found,N/A
 Q9HDC9,Membrane trafficking
 P19387,Transcription machinery
 Q9BV36,Membrane trafficking
@@ -7227,13 +7227,13 @@ Q03518,Transporters
 Q8N4L2,Enzymes
 P82933,Ribosome
 Q9UBM7,Enzymes
-not found,#N/A
+not found,N/A
 Q9BSH5,none
 P05387,Ribosome
 Q86VM9,Spliceosome
 Q92922,Transcription machinery
 O75694,Messenger RNA biogenesis
-not found,#N/A
+not found,N/A
 Q8TAQ2,Transcription machinery
 Q08722,Cell adhesion molecules
 Q96GX5,Protein kinases
@@ -7243,7 +7243,7 @@ P27824,Chaperones and folding catalysts
 Q969G3,Transcription machinery
 Q9P0R6,none
 Q8IWA0,Ribosome biogenesis
-not found,#N/A
+not found,N/A
 O75477,Ubiquitin system
 P04843,none
 Q8IWT6,Ion channels
@@ -7256,17 +7256,17 @@ P84098,Ribosome
 Q99417,Cilium and associated proteins
 O43169,none
 O96005,none
-not found,#N/A
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
+not found,N/A
 Q9BRT3,none
 P02786,Peptidases and inhibitors
 Q7Z3T8,Protein phosphatases and associated proteins
 P31040,Enzymes
 Q9NYL9,Cytoskeleton proteins
-not found,#N/A
+not found,N/A
 Q9UQE7,Chromosome and associated proteins
-not found,#N/A
+not found,N/A
 P07339,Peptidases and inhibitors
 P16949,Cytoskeleton proteins
 Q13641,none
@@ -7279,7 +7279,7 @@ Q8N766,Membrane trafficking
 P23193,Transcription machinery
 P42766,Ribosome
 Q13523,Protein kinases
-not found,#N/A
+not found,N/A
 Q15554,DNA replication proteins
 Q9H1A3,none
 Q08722,Cell adhesion molecules
@@ -7290,15 +7290,15 @@ Q92786,Transcription factors
 P08397,Enzymes
 P14384,Peptidases and inhibitors
 Q13263,Protein kinases
-not found,#N/A
+not found,N/A
 Q02880,DNA replication proteins
 Q99848,Ribosome biogenesis
 Q9UBM7,Enzymes
 Q5JTV8,Chaperones and folding catalysts
 Q9NZJ7,Mitochondrial biogenesis
 Q12907,Membrane trafficking
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 P39656,none
 Q13263,Protein kinases
 P63279,Ubiquitin system
@@ -7331,7 +7331,7 @@ O43278,Peptidases and inhibitors
 Q5TGY3,Chromosome and associated proteins
 O75694,Messenger RNA biogenesis
 Q05209,Protein phosphatases and associated proteins
-not found,#N/A
+not found,N/A
 Q9H1A3,none
 Q04912,Protein kinases
 Q9Y608,Transcription factors
@@ -7340,13 +7340,13 @@ Q9NPA0,Membrane trafficking
 Q99805,Exosome
 Q14573,Protein phosphatases and associated proteins
 Q13724,Exosome
-not found,#N/A
+not found,N/A
 P54619,none
 Q8WWB7,none
 P08754,Exosome
 Q9H2D6,Cytoskeleton proteins
 Q8NC56,Cytoskeleton proteins
-not found,#N/A
+not found,N/A
 Q96EC8,Membrane trafficking
 Q9BYT8,Peptidases and inhibitors
 Q9H7B2,Ribosome biogenesis
@@ -7359,14 +7359,14 @@ P05388,Ribosome
 O95782,Membrane trafficking
 Q99623,Mitochondrial biogenesis
 O00515,none
-not found,#N/A
+not found,N/A
 P14854,none
 P61019,Membrane trafficking
-not found,#N/A
+not found,N/A
 O43660,Spliceosome
 Q6PD74,Membrane trafficking
 Q9ULU4,Domain-containing proteins not elsewhere classified
-not found,#N/A
+not found,N/A
 Q9HDC9,Membrane trafficking
 Q14678,DNA repair and recombination proteins
 P46063,DNA repair and recombination proteins
@@ -7377,14 +7377,14 @@ P09669,none
 P33121,Lipid biosynthesis proteins
 P17676,Transcription factors
 P15954,none
-not found,#N/A
+not found,N/A
 Q96QD9,none
 O94851,Membrane trafficking
 P51572,none
 P15311,Cytoskeleton proteins
 O95816,Chaperones and folding catalysts
 O14874,Protein kinases
-not found,#N/A
+not found,N/A
 P07199,Chromosome and associated proteins
 Q9Y3E5,Translation factors
 Q2TB10,none
@@ -7393,11 +7393,11 @@ Q92947,Enzymes
 Q9BS26,Membrane trafficking
 Q13510,Peptidases and inhibitors
 P05362,Exosome
-not found,#N/A
+not found,N/A
 O00754,Enzymes
 P00403,Mitochondrial biogenesis
 O60568,Glycosyltransferases
-not found,#N/A
+not found,N/A
 Q14554,Chaperones and folding catalysts
 O95881,Membrane trafficking
 P26885,Chaperones and folding catalysts
@@ -7407,12 +7407,12 @@ Q9Y5M8,Secretion system
 Q9Y3Y2,none
 O00483,none
 O43402,Membrane trafficking
-not found,#N/A
-not found,#N/A
+not found,N/A
+not found,N/A
 Q86Y82,Membrane trafficking
 O94766,Glycosyltransferases
 O75880,Mitochondrial biogenesis
-J3QKM9,#N/A
+J3QKM9,N/A
 Q13217,Chaperones and folding catalysts
 P51571,Membrane trafficking
 Q9Y4P3,Translation factors
@@ -7430,7 +7430,7 @@ Q9UIQ6,Peptidases and inhibitors
 P04843,none
 Q8IZL8,Ribosome biogenesis
 Q15904,none
-not found,#N/A
+not found,N/A
 P29350,Protein phosphatases and associated proteins
 Q9BVK6,Membrane trafficking
 O95782,Membrane trafficking
@@ -7443,7 +7443,7 @@ Q9Y3U8,Ribosome
 P05141,Mitochondrial biogenesis
 Q9Y3B3,none
 Q63ZY3,DNA repair and recombination proteins
-not found,#N/A
+not found,N/A
 O75525,Spliceosome
 O75381,Membrane trafficking
 Q9P0I2,Membrane trafficking
@@ -7475,11 +7475,11 @@ Q8NFH5,Messenger RNA biogenesis
 P84098,Ribosome
 P39656,none
 P62829,Ribosome
-not found,#N/A
+not found,N/A
 Q9BPX5,Membrane trafficking
 O75449,Cytoskeleton proteins
 Q14573,Protein phosphatases and associated proteins
-J3QKM9,#N/A
+J3QKM9,N/A
 P11233,Membrane trafficking
 Q92542,none
 Q5M775,Cytoskeleton proteins
@@ -7498,23 +7498,23 @@ Q9H2M9,Membrane trafficking
 P49790,Messenger RNA biogenesis
 Q96KA5,none
 P13611,Proteoglycans
-not found,#N/A
+not found,N/A
 P51571,Membrane trafficking
 Q9H6R3,Lipid biosynthesis proteins
 P14314,Lectins
 Q96FV9,Messenger RNA biogenesis
-not found,#N/A
+not found,N/A
 Q9NY93,Ribosome biogenesis
 P83731,Ribosome
 Q8N766,Membrane trafficking
 P60468,Membrane trafficking
 Q6PIU2,Peptidases and inhibitors
 Q9UBS4,Chaperones and folding catalysts
-not found,#N/A
+not found,N/A
 Q9NXE4,Enzymes
 Q9BTE1,Chromosome and associated proteins
 Q9NW82,Ubiquitin system
-J3QKM9,#N/A
+J3QKM9,N/A
 Q6ZRV2,Cytoskeleton proteins
 P22033,Enzymes
 P46776,Ribosome
@@ -7532,7 +7532,7 @@ P62910,Ribosome
 O75382,Ubiquitin system
 P50402,none
 Q16831,Enzymes
-not found,#N/A
+not found,N/A
 Q96S52,none
 P35251,DNA replication proteins
 Q14318,Protein phosphatases and associated proteins
@@ -7552,14 +7552,14 @@ Q8N3D4,Membrane trafficking
 Q8N2F6,Domain-containing proteins not elsewhere classified
 Q12846,Membrane trafficking
 Q8TC12,Enzymes
-not found,#N/A
+not found,N/A
 Q9Y375,Mitochondrial biogenesis
 Q9Y3U8,Ribosome
 P46777,Protein phosphatases and associated proteins
 P05387,Ribosome
 Q15006,Membrane trafficking
 P14625,Chaperones and folding catalysts
-not found,#N/A
+not found,N/A
 Q12846,Membrane trafficking
 A6NHR9,Chromosome and associated proteins
 Q9NPA0,Membrane trafficking
@@ -7578,7 +7578,7 @@ Q9UNS1,Chromosome and associated proteins
 Q99933,Chaperones and folding catalysts
 Q9H2P0,Transcription factors
 Q14331,Spliceosome
-not found,#N/A
+not found,N/A
 Q8TBQ9,none
 P30101,Chaperones and folding catalysts
 P27797,Chaperones and folding catalysts
@@ -7596,10 +7596,10 @@ Q9UNL2,Membrane trafficking
 O60507,Enzymes
 Q9BVK6,Membrane trafficking
 Q8NBS9,Chaperones and folding catalysts
-not found,#N/A
+not found,N/A
 P62857,Ribosome
 O95639,Transcription machinery
-not found,#N/A
+not found,N/A
 P09467,Exosome
 P30040,Membrane trafficking
 Q8IYS2,none
@@ -7614,7 +7614,7 @@ Q9UBS4,Chaperones and folding catalysts
 P14314,Lectins
 P12270,Messenger RNA biogenesis
 Q14697,Enzymes
-not found,#N/A
+not found,N/A
 Q8IZW8,Protein phosphatases and associated proteins
 Q96N64,Chromosome and associated proteins
 Q13523,Protein kinases
@@ -7657,7 +7657,7 @@ Q8NC56,Cytoskeleton proteins
 P63027,Membrane trafficking
 O43759,none
 O14874,Protein kinases
-not found,#N/A
+not found,N/A
 Q9NZU0,Domain-containing proteins not elsewhere classified
 Q9P1Y5,Protein phosphatases and associated proteins
 Q96AT1,none
@@ -7668,7 +7668,7 @@ P05413,Exosome
 Q9H307,Messenger RNA biogenesis
 Q2VPK5,Transfer RNA biogenesis
 Q8N1F7,Messenger RNA biogenesis
-not found,#N/A
+not found,N/A
 Q8NFH5,Messenger RNA biogenesis
 O00534,Domain-containing proteins not elsewhere classified
 P14314,Lectins

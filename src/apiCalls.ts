@@ -78,7 +78,6 @@ export const getMultiEgographBundleAtom = atom(
             .forEach((id) => {
                 const egographBundleLayout = get(egoGraphBundlesLayoutAtom);
                 delete egographBundleLayout[id];
-                console.log(id);
                 set(egoGraphBundlesLayoutAtom, egographBundleLayout);
             });
         const newBundlesIds = bundleIds.filter(

@@ -559,7 +559,6 @@ export function calculateLayout(
         for (let i = 0; i < egoGraphs.length; i++) {
             nodeDict = {};
             egoGraphs[i].nodes.forEach((node) => (nodeDict[node.id] = node));
-            console.log('id', egoGraphs[i].centerNode.originalID);
             const firstGraphId = egoGraphs[i].centerNode.originalID;
             let secondGraphId;
             if (i === egoGraphs.length - 1) {
@@ -635,7 +634,6 @@ export function calculateLayout(
                 (fullRange / egoGraphs.length) * i
             );
 
-            console.log('CURRENT BANDS', currLayout.bands);
             Object.entries(currLayout.bands).forEach((entry) => {
                 const key = entry[0];
                 const entryValue = entry[1];
