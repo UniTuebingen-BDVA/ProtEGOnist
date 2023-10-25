@@ -98,18 +98,26 @@ function createLayerNodes(
         (d) => d.id.split(',').length > 2
     );
     // if such an element is found calculate the midpoint of the two outer nodes
+    let firstNode = '';
+    let lastNode = '';
     if (tripleIntersection) {
-        const firstNode = tripleIntersection.intersections[0];
-        const lastNode =
+        firstNode = tripleIntersection.intersections[0];
+        lastNode =
             tripleIntersection.intersections[
                 tripleIntersection.intersections.length - 1
             ];
-        const firstNodeTheta = x(firstNode);
-        const lastNodeTheta = x(lastNode) + x.bandwidth();
-        internalOffset -= midPointPolar2PI(firstNodeTheta, lastNodeTheta);
     } else {
-        internalOffset += 0;
+        firstNode = sortOrder[0].intersections[0];
+        lastNode =
+            sortOrder[sortOrder.length - 1].intersections[
+                sortOrder[sortOrder.length - 1].intersections.length - 1
+            ];
     }
+
+    const firstNodeTheta = x(firstNode);
+    const lastNodeTheta = x(lastNode) + x.bandwidth();
+    internalOffset -= midPointPolar2PI(firstNodeTheta, lastNodeTheta);
+
     const bands: {
         [key: string]: [
             { x: number; y: number },
