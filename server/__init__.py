@@ -21,8 +21,8 @@ here: pathlib.Path = pathlib.Path(__file__).parent.absolute()
 
 EXAMPLES = {
     "string": read_example_string(here),
-    "string_modified": read_example_string_modified(here),
-    "metagenome": read_example_metagenome_2(here)
+    "string_modified": read_example_string_modified(here)
+    # "metagenome": read_example_metagenome_2(here)
 }
 
 
