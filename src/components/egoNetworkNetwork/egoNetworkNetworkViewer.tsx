@@ -108,7 +108,7 @@ function EgoNetworkNetworkViewer() {
                 </animated.g>
             </animated.svg>
             <ToggleButtonGroup
-                style={{ left: 5, position: 'absolute', top: 280 }}
+                style={{ left: 10, position: 'absolute', top: 280 }}
                 orientation="vertical"
                 value={decollapseMode}
                 exclusive
