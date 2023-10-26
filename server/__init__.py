@@ -76,6 +76,8 @@ def test_data_egograph(targetNode: str):
 
 @app.route("/api/egograph_bundle", methods=["POST"])
 def test_data_egograph_bundle():
+    example = request.json["example"]
+    string_graph = EXAMPLES[example]["network"]
     target_nodes = request.json["ids"]
     json_data = generate_ego_graph_bundle(string_graph, target_nodes)
     return json_data
