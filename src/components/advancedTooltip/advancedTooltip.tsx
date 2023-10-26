@@ -24,20 +24,25 @@ const TooltipContent = memo(function TooltipContent({
     additionalData
 }: TooltipContentProps) {
     const [tableData] = useAtom(tableAtom);
-    const [nameNodesBy] = useAtom(nameNodesByAtom)
-    const [showOnTooltip] = useAtom(showOnTooltipAtom)
+    const [nameNodesBy] = useAtom(nameNodesByAtom);
+    const [showOnTooltip] = useAtom(showOnTooltipAtom);
 
-    const nodeData = tableData.rows[nodeID]
-    console.log(nodeData)
+    const nodeData = tableData.rows[nodeID];
 
     // split data if available
-    const proteinNames = (nodeData?.[nameNodesBy] ?? "").split(';').filter((x) => x !== "");
-    let tooltipData = {}
+    const proteinNames = (nodeData?.[nameNodesBy] ?? '')
+        .split(';')
+        .filter((x) => x !== '');
+    let tooltipData = {};
     for (let showTooltip of showOnTooltip) {
-        tooltipData[showTooltip] = [... new Set((nodeData?.[showTooltip] ?? "").split(';').filter((x) => x !== ""))];
-
+        tooltipData[showTooltip] = [
+            ...new Set(
+                (nodeData?.[showTooltip] ?? '')
+                    .split(';')
+                    .filter((x) => x !== '')
+            )
+        ];
     }
-    console.log(tooltipData)
     // generate set of unique protein names
     const uniqueProteinNames = [...new Set(proteinNames)];
 
@@ -54,8 +59,20 @@ const TooltipContent = memo(function TooltipContent({
                 <>
                     {Object.entries(tooltipData).map(([key, iter]) => (
                         <>
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <span style={{ fontWeight: 'bold', textTransform: 'uppercase' }}>{key} </span>
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center'
+                                }}
+                            >
+                                <span
+                                    style={{
+                                        fontWeight: 'bold',
+                                        textTransform: 'uppercase'
+                                    }}
+                                >
+                                    {key}{' '}
+                                </span>
                                 <ul>
                                     {iter.map((ele) => (
                                         <li key={ele}>{ele}</li>
@@ -63,10 +80,7 @@ const TooltipContent = memo(function TooltipContent({
                                 </ul>
                             </div>
                         </>
-
-
-                    ))
-                    }
+                    ))}
                 </>
             )}
         </div>
