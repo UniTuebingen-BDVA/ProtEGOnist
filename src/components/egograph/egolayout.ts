@@ -63,6 +63,7 @@ export interface egoGraphLayout {
     };
     radii: { [key: string]: number };
     centers: { x: number; y: number; id: string; outerSize: number }[];
+    decollapsedSize: number;
 }
 /**
  * Calculates the needed radius for the ego graph such that the nodes are not overlapping and evenly distributed
@@ -563,7 +564,7 @@ export function calculateLayout(
 
     // set radius of the bundle such that all circles are accommodated
     const maxRadius = Math.max(...Object.values(decollapsedRadii));
-    const radiusOfEnclosingCircle = maxRadius * 2.2;
+    const radiusOfEnclosingCircle = maxRadius * 3;
 
     if (egoGraphs.length > 1) {
         const graphCenters: graphCenter[] = [];
@@ -762,14 +763,16 @@ export function calculateLayout(
             layout.centers
         );
         layout.bandData = firstAndLastNodes;
+        layout.decollapsedSize = radiusOfEnclosingCircle;
         return layout;
     } else {
-        return calculateEgoLayout(
+        const layout = calculateEgoLayout(
             egoGraphs[0],
             decollapsedRadii[egoGraphs[0].centerNode.originalID] / 2,
             decollapsedRadii[egoGraphs[0].centerNode.originalID],
             decollapsedRadii[egoGraphs[0].centerNode.originalID]
         );
+        return layout;
     }
 }
 
@@ -1235,8 +1238,10 @@ export function calculateEgoLayout(
             {
                 x: nodeSize / 2,
                 y: nodeSize / 2,
-                id: graph.centerNode.originalID
+                id: graph.centerNode.originalID,
+                outerSize: outerSize
             }
-        ]
+        ],
+        decollapsedSize: outerSize
     };
 }

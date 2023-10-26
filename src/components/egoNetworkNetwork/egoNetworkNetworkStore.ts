@@ -7,12 +7,8 @@ import {
 } from '../../egoGraphSchema';
 import { getMultiEgographBundleAtom } from '../../apiCalls.ts';
 import * as d3 from 'd3';
-import {
-    egoGraphBundlesLayoutAtom,
-    outerRadiusAtom
-} from '../egograph/egoGraphBundleStore.ts';
+import { egoGraphBundlesLayoutAtom } from '../egograph/egoGraphBundleStore.ts';
 import { egoNetworkNetworksOverviewAtom } from '../overview_component/egoNetworkNetworkOverviewStore.ts';
-import { get } from 'optics-ts';
 
 export const egoNetworkNetworkSizeAtom = atom({
     width: 1000,
@@ -25,18 +21,22 @@ const decollapseModeStoreAtom = atom('shared');
 export const decollapseModeAtom = atom(
     (get) => get(decollapseModeStoreAtom),
     (get, set, value: string) => {
-        console.log('modeSET', value);
         set(decollapseModeStoreAtom, value);
     }
 );
 export const decollapseIDsArrayAtom = atom<string[]>([]);
-const decollapsedSizeStoreAtom = atom<number[]>([]);
-export const decollapsedSizeAtom = atom(
-    (get) => get(decollapsedSizeStoreAtom),
-    (get, set, newSizes: number[]) => {
-        set(decollapsedSizeStoreAtom, newSizes);
+export const decollapsedSizeAtom = atom((get) => {
+    const layouts = get(egoGraphBundlesLayoutAtom);
+    const decollapsedSizes = {};
+    for (const [key, layout] of Object.entries(layouts)) {
+        if (layout) {
+            decollapsedSizes[key] = layout.decollapsedSize;
+        } else {
+            decollapsedSizes[key] = 0;
+        }
     }
-);
+    return decollapsedSizes;
+});
 // indices stores indices in decollapsedIDsArray that are affected if the edges are selected for a bundle
 const highlightedEdgesStoreAtom = atom<{ indices: number[]; ids: string[] }>({
     indices: [],
@@ -243,7 +243,7 @@ function aggregateEgoNetworkNodes(
     egoNetworkNodesNodes: egoNetworkNetworkNode[],
     egoNetworkNetworkEdges: egoNetworkNetworkRenderedEdge[],
     aggregateNodeIDs: string[][],
-    decollapsedSize: number[],
+    decollapsedSize: { [key: string]: number },
     radiusScale: d3.ScaleLinear<number, number>
 ): {
     outNodes: egoNetworkNetworkNode[];
@@ -267,8 +267,8 @@ function aggregateEgoNetworkNodes(
         nodeDict[aggregateID] = {
             id: aggregateID,
             name: aggregateID,
-            radius: decollapsedSize[aggregates.length - 1],
-            size: decollapsedSize[aggregates.length - 1],
+            radius: decollapsedSize[aggregateID],
+            size: decollapsedSize[aggregateID],
             x: 0,
             y: 0,
             vx: 0,
@@ -408,22 +408,16 @@ export const interEdgesAtom = atom((get) => {
                     const sourceIndex = aggregateEgoNetworkNodeIDs
                         .map((ids) => ids.includes(edge.source))
                         .indexOf(true);
+                    const aggregateID =
+                        aggregateEgoNetworkNodeIDs[sourceIndex].join(',');
                     interEdges.push({
                         source: edge.source,
                         target: edge.target,
                         weight: edge.weight,
                         x1:
-                            nodeDict[
-                                aggregateEgoNetworkNodeIDs[sourceIndex].join(
-                                    ','
-                                )
-                            ].x +
+                            nodeDict[aggregateID].x +
                             centerPositions[edge.source].x -
-                            decollapsedSize[
-                                aggregateEgoNetworkNodeIDs[sourceIndex].length -
-                                    1
-                            ] /
-                                2,
+                            decollapsedSize[aggregateID] / 2,
                         y1:
                             nodeDict[
                                 aggregateEgoNetworkNodeIDs[sourceIndex].join(
@@ -431,11 +425,7 @@ export const interEdgesAtom = atom((get) => {
                                 )
                             ].y +
                             centerPositions[edge.source].y -
-                            decollapsedSize[
-                                aggregateEgoNetworkNodeIDs[sourceIndex].length -
-                                    1
-                            ] /
-                                2,
+                            decollapsedSize[aggregateID] / 2,
                         x2: nodeDict[edge.target].x,
                         y2: nodeDict[edge.target].y,
                         opacity: 1
@@ -444,6 +434,8 @@ export const interEdgesAtom = atom((get) => {
                     const targetIndex = aggregateEgoNetworkNodeIDs
                         .map((ids) => ids.includes(edge.target))
                         .indexOf(true);
+                    const aggregateID =
+                        aggregateEgoNetworkNodeIDs[targetIndex].join(',');
                     interEdges.push({
                         opacity: 1,
                         source: edge.source,
@@ -452,17 +444,9 @@ export const interEdgesAtom = atom((get) => {
                         x1: nodeDict[edge.source].x,
                         y1: nodeDict[edge.source].y,
                         x2:
-                            nodeDict[
-                                aggregateEgoNetworkNodeIDs[targetIndex].join(
-                                    ','
-                                )
-                            ].x +
+                            nodeDict[aggregateID].x +
                             centerPositions[edge.target].x -
-                            decollapsedSize[
-                                aggregateEgoNetworkNodeIDs[targetIndex].length -
-                                    1
-                            ] /
-                                2,
+                            decollapsedSize[aggregateID] / 2,
                         y2:
                             nodeDict[
                                 aggregateEgoNetworkNodeIDs[targetIndex].join(
@@ -470,11 +454,7 @@ export const interEdgesAtom = atom((get) => {
                                 )
                             ].y +
                             centerPositions[edge.target].y -
-                            decollapsedSize[
-                                aggregateEgoNetworkNodeIDs[targetIndex].length -
-                                    1
-                            ] /
-                                2
+                            decollapsedSize[aggregateID] / 2
                     });
                 } else {
                     const sourceIndex = aggregateEgoNetworkNodeIDs
@@ -483,6 +463,11 @@ export const interEdgesAtom = atom((get) => {
                     const targetIndex = aggregateEgoNetworkNodeIDs
                         .map((ids) => ids.includes(edge.target))
                         .indexOf(true);
+                    const aggregateSourceID =
+                        aggregateEgoNetworkNodeIDs[sourceIndex].join(',');
+                    const aggregateTargetID =
+                        aggregateEgoNetworkNodeIDs[targetIndex].join(',');
+
                     if (sourceIndex !== targetIndex) {
                         interEdges.push({
                             opacity: 1,
@@ -490,53 +475,21 @@ export const interEdgesAtom = atom((get) => {
                             target: edge.target,
                             weight: edge.weight,
                             x1:
-                                nodeDict[
-                                    aggregateEgoNetworkNodeIDs[
-                                        sourceIndex
-                                    ].join(',')
-                                ].x +
+                                nodeDict[aggregateSourceID].x +
                                 centerPositions[edge.source].x -
-                                decollapsedSize[
-                                    aggregateEgoNetworkNodeIDs[sourceIndex]
-                                        .length - 1
-                                ] /
-                                    2,
+                                decollapsedSize[edge.source] / 2,
                             y1:
-                                nodeDict[
-                                    aggregateEgoNetworkNodeIDs[
-                                        sourceIndex
-                                    ].join(',')
-                                ].y +
+                                nodeDict[aggregateSourceID].y +
                                 centerPositions[edge.source].y -
-                                decollapsedSize[
-                                    aggregateEgoNetworkNodeIDs[sourceIndex]
-                                        .length - 1
-                                ] /
-                                    2,
+                                decollapsedSize[aggregateSourceID] / 2,
                             x2:
-                                nodeDict[
-                                    aggregateEgoNetworkNodeIDs[
-                                        targetIndex
-                                    ].join(',')
-                                ].x +
+                                nodeDict[aggregateTargetID].x +
                                 centerPositions[edge.target].x -
-                                decollapsedSize[
-                                    aggregateEgoNetworkNodeIDs[targetIndex]
-                                        .length - 1
-                                ] /
-                                    2,
+                                decollapsedSize[aggregateTargetID] / 2,
                             y2:
-                                nodeDict[
-                                    aggregateEgoNetworkNodeIDs[
-                                        targetIndex
-                                    ].join(',')
-                                ].y +
+                                nodeDict[aggregateTargetID].y +
                                 centerPositions[edge.target].y -
-                                decollapsedSize[
-                                    aggregateEgoNetworkNodeIDs[targetIndex]
-                                        .length - 1
-                                ] /
-                                    2
+                                decollapsedSize[aggregateTargetID] / 2
                         });
                     }
                 }

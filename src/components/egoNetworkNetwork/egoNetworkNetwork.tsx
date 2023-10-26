@@ -13,6 +13,7 @@ const EgoNetworkNetwork = () => {
     const [{ nodes, edges }] = useAtom(aggregateNetworkAtom);
     const [decollapsedSize] = useAtom(decollapsedSizeAtom);
     const [interEdges] = useAtom(interEdgesAtom);
+    console.log('sizes', decollapsedSize);
     const transitionsNodes = useTransition(nodes, {
         keys: ({ id }) => id,
         from: {
@@ -139,16 +140,8 @@ const EgoNetworkNetwork = () => {
                         <animated.g transform={style.transform}>
                             <EgoGraphBundle
                                 key={node.id}
-                                x={
-                                    -decollapsedSize[
-                                        node.id.split(',').length - 1
-                                    ] / 2
-                                }
-                                y={
-                                    -decollapsedSize[
-                                        node.id.split(',').length - 1
-                                    ] / 2
-                                }
+                                x={-decollapsedSize[node.id] / 2}
+                                y={-decollapsedSize[node.id] / 2}
                                 nodeId={node.id}
                             />
                         </animated.g>
