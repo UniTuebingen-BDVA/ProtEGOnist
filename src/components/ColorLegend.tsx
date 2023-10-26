@@ -61,7 +61,7 @@ function ColorLegend(props) {
             }
             return (
                 <text
-                    key={d}
+                    key={`${d}_${i}`}
                     x={itemSize + 2}
                     y={(height / (domain.length - 1)) * i + offset}
                     fontSize={itemSize}

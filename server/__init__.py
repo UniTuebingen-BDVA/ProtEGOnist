@@ -1,3 +1,4 @@
+from calendar import c
 import json
 import pathlib
 from flask import Flask, request
@@ -21,8 +22,8 @@ here: pathlib.Path = pathlib.Path(__file__).parent.absolute()
 
 EXAMPLES = {
     "string": read_example_string(here),
-    "string_modified": read_example_string_modified(here)
-    # "metagenome": read_example_metagenome_2(here)
+    "string_modified": read_example_string_modified(here),
+    "metagenome": read_example_metagenome_2(here)
 }
 
 
@@ -177,12 +178,29 @@ def get_ego_network_network_overview(example: str):
     """
     string_graph = EXAMPLES[example]["network"]
     overview_nodes = EXAMPLES[example]["overview_nodes"]
-    return json.dumps({"network": get_ego_network(string_graph, overview_nodes).get_graph_json(),
+    ego_networks = get_ego_network(string_graph, overview_nodes, True)
+    return json.dumps({"network": ego_networks["graph"].get_graph_json(), "coverage": ego_networks["coverage"],
                        "overviewNodes": overview_nodes})
 
 
-def get_ego_network(string_graph, split_target):
-    ego_networks = [EgoGraph.from_string_network(
-        i, string_graph) for i in split_target]
-    ego_network_network = EgoNetworkNetwork(ego_networks)
-    return ego_network_network
+def get_ego_network(string_graph, split_target, coverage=False):
+    if coverage:
+        ego_networks = []
+        covered_edges = set()
+        covered_nodes = set()
+
+        for ego_center in split_target:
+            ego_network_temp = EgoGraph.from_string_network(
+                ego_center, string_graph)
+            ego_networks.append(ego_network_temp)
+            covered_edges.update(ego_network_temp.get_edge_set())
+            covered_nodes.update(ego_network_temp.get_node_set())
+
+        coverage = {"nodes": len(covered_nodes) / len(string_graph.nodes),
+                    "edges": len(covered_edges) / len(string_graph.edges)}
+        ego_network_network = EgoNetworkNetwork(ego_networks)
+
+        return {"graph": ego_network_network, "coverage": coverage}
+    else:
+        return EgoNetworkNetwork([EgoGraph.from_string_network(
+            i, string_graph) for i in split_target])
