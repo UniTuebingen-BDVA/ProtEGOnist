@@ -181,9 +181,7 @@ function App() {
                         >
                             <Typography style={{ color: 'black' }}>
                                 Network overview: {egoNetworkNetworkOverviewData.nodes.length} ego-graphs covering {(100 * coverage.nodes).toFixed(2)}% of the nodes and {(100 * coverage.edges).toFixed(2)}% of the edges of the given network.
-                                {//TODO Add text and make it more general for any kind of network
-                                    // The given nodes cover X percent of the network's nodes and Y percent of the network's edges.
-                                }
+
                             </Typography>
                             <div
                                 style={{
