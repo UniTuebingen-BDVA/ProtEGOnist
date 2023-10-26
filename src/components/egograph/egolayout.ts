@@ -561,6 +561,10 @@ export function calculateLayout(
             calculateRadius(idAccumulator);
     });
 
+    // set radius of the bundle such that all circles are accommodated
+    const maxRadius = Math.max(...Object.values(decollapsedRadii));
+    const radiusOfEnclosingCircle = maxRadius * 2.2;
+
     if (egoGraphs.length > 1) {
         const graphCenters: graphCenter[] = [];
         const layout: egoGraphLayout = {
