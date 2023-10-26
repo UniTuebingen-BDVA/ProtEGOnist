@@ -23,14 +23,15 @@ export const egoNetworkNetworkSizeAtom = atom({
     y: 0
 });
 
+// stores egoGraphs and their intersections
 export const egoGraphBundlesAtom = atom<{
     [key: string]: {
         id: string;
-        ids: string[];
         egoGraphs: egoGraph[];
         intersections: { [key: string]: string[] };
     };
 }>({});
+// write only atom to add new bundle
 export const addEgoGraphBundleAtom = atom(
     null,
     (
@@ -52,13 +53,14 @@ export const addEgoGraphBundleAtom = atom(
             [bundle.id]: calculateLayout(
                 bundle.egoGraphs,
                 bundle.intersections,
-                get(decollapsedSizeAtom)[bundle.ids.length - 1],
+                get(decollapsedSizeAtom)[bundle.egoGraphs.length - 1],
                 get(innerRadiusAtom),
                 get(outerRadiusAtom)
             )
         });
     }
 );
+// write only atom to remove bundle
 export const removeEgoGraphBundleAtom = atom(null, (get, set, id: string) => {
     const bundles = get(egoGraphBundlesAtom);
     delete bundles[id];

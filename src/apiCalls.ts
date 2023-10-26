@@ -100,7 +100,6 @@ export const getMultiEgographBundleAtom = atom(
                             set(addEgoGraphBundleAtom, {
                                 ...result.data,
                                 id: jointID,
-                                ids: ids
                             });
                             requestCounter += 1;
                             if (requestCounter === newBundlesIds.length) {
