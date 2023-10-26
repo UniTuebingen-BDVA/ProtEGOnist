@@ -1,4 +1,3 @@
-from calendar import c
 import json
 import pathlib
 from flask import Flask, request
@@ -12,9 +11,6 @@ from server.python_scripts.sampleGraph import (
 from server.python_scripts.egoNetworkNetwork import EgoNetworkNetwork
 from server.python_scripts.egoGraph import EgoGraph
 
-global string_graph
-global top_intersections
-global uniprot_brite_dict
 
 dev_Flag = True
 app = Flask(__name__, static_folder="../dist", static_url_path="/")
@@ -66,12 +62,6 @@ def get_labelling_keys(example: str):
 def test():
     counter = int(request.form.to_dict()["counter"])
     return str(counter + 1)
-
-
-@app.route("/api/test_data_egograph/<targetNode>", methods=["GET"])
-def test_data_egograph(targetNode: str):
-    json_data = generate_random_ego_graph_string(string_graph, targetNode)
-    return json_data
 
 
 @app.route("/api/egograph_bundle", methods=["POST"])
