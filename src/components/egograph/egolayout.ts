@@ -457,7 +457,7 @@ export function calculateLayout(
     nodeSize: number,
     innerSize: number,
     outerSize: number
-) {
+): egoGraphLayout {
     // sort each array in egoGraphs alphabetically by centerNode originalId
     egoGraphs.sort((a, b) => {
         if (a.centerNode.originalID > b.centerNode.originalID) {

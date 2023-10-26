@@ -1,5 +1,6 @@
 import { atom } from 'jotai';
 import {
+    egoGraph,
     egoNetworkNetwork,
     egoNetworkNetworkNode,
     egoNetworkNetworkRendered,
@@ -9,9 +10,11 @@ import { getMultiEgographBundleAtom } from '../../apiCalls.ts';
 import * as d3 from 'd3';
 import {
     egoGraphBundlesLayoutAtom,
+    innerRadiusAtom,
     outerRadiusAtom
 } from '../egograph/egoGraphBundleStore.ts';
 import { egoNetworkNetworksOverviewAtom } from '../overview_component/egoNetworkNetworkOverviewStore.ts';
+import { calculateLayout } from '../egograph/egolayout.ts';
 
 export const egoNetworkNetworkSizeAtom = atom({
     width: 1000,
@@ -20,6 +23,50 @@ export const egoNetworkNetworkSizeAtom = atom({
     y: 0
 });
 
+export const egoGraphBundlesAtom = atom<{
+    [key: string]: {
+        id: string;
+        ids: string[];
+        egoGraphs: egoGraph[];
+        intersections: { [key: string]: string[] };
+    };
+}>({});
+export const addEgoGraphBundleAtom = atom(
+    null,
+    (
+        get,
+        set,
+        bundle: {
+            id: string;
+            ids: string[];
+            egoGraphs: egoGraph[];
+            intersections: { [key: string]: string[] };
+        }
+    ) => {
+        set(egoGraphBundlesAtom, {
+            ...get(egoGraphBundlesAtom),
+            [bundle.id]: bundle
+        });
+        set(egoGraphBundlesLayoutAtom, {
+            ...get(egoGraphBundlesLayoutAtom),
+            [bundle.id]: calculateLayout(
+                bundle.egoGraphs,
+                bundle.intersections,
+                get(decollapsedSizeAtom)[bundle.ids.length - 1],
+                get(innerRadiusAtom),
+                get(outerRadiusAtom)
+            )
+        });
+    }
+);
+export const removeEgoGraphBundleAtom = atom(null, (get, set, id: string) => {
+    const bundles = get(egoGraphBundlesAtom);
+    delete bundles[id];
+    const layouts = get(egoGraphBundlesLayoutAtom);
+    delete layouts[id];
+    set(egoGraphBundlesAtom, bundles);
+    set(egoGraphBundlesLayoutAtom, layouts);
+});
 export const decollapseIDsArrayAtom = atom<string[][]>([]);
 export const decollapsedSizeAtom = atom((get) => [
     get(outerRadiusAtom),
@@ -99,20 +146,20 @@ export const highlightedEdgesAtom = atom(
 
 export const updateDecollapseIdsAtom = atom(
     (get) => get(decollapseIDsArrayAtom),
-    (get, set, ids:string[]) => {
-        const decollapseIDs=get(decollapseIDsArrayAtom).slice();
-        for(let i=decollapseIDs.length-1;i>=0;i--){
-            for(let j=decollapseIDs[i].length-1;j>=0;j--){
-                if(!ids.includes(decollapseIDs[i][j])){
-                    if(decollapseIDs[i].length===1){
-                        decollapseIDs.splice(i,1);
-                    }else{
-                        decollapseIDs[i].splice(j,1);
+    (get, set, ids: string[]) => {
+        const decollapseIDs = get(decollapseIDsArrayAtom).slice();
+        for (let i = decollapseIDs.length - 1; i >= 0; i--) {
+            for (let j = decollapseIDs[i].length - 1; j >= 0; j--) {
+                if (!ids.includes(decollapseIDs[i][j])) {
+                    if (decollapseIDs[i].length === 1) {
+                        decollapseIDs.splice(i, 1);
+                    } else {
+                        decollapseIDs[i].splice(j, 1);
                     }
                 }
             }
         }
-        set(getMultiEgographBundleAtom,decollapseIDs);
+        set(getMultiEgographBundleAtom, decollapseIDs);
     }
 );
 export const decollapseEdgeAtom = atom(
