@@ -70,8 +70,6 @@ export interface egoGraphLayout {
 function calculateRadius(amount: number, nodeSize = 5) {
     const radius = (amount * nodeSize * 1) / (2 * Math.PI);
 
-    console.log(amount);
-    console.log(radius);
     return Math.max(radius, 50);
 }
 
@@ -117,7 +115,11 @@ function createLayerNodes(
     const tripleIntersection = sortOrder.find(
         (d) => d.id.split(',').length > 2
     );
+    const doubleIntersection = sortOrder.find(
+        (d) => d.id.split(',').length > 1
+    );
     // if such an element is found calculate the midpoint of the two outer nodes
+
     let firstNode = '';
     let lastNode = '';
     if (tripleIntersection) {
@@ -136,7 +138,13 @@ function createLayerNodes(
 
     const firstNodeTheta = x(firstNode);
     const lastNodeTheta = x(lastNode) + x.bandwidth();
-    internalOffset -= midPointPolar2PI(firstNodeTheta, lastNodeTheta);
+    let additionalOffset = 0;
+    if (sortOrder.length > 1 || doubleIntersection || tripleIntersection) {
+        additionalOffset = midPointPolar2PI(firstNodeTheta, lastNodeTheta);
+    } else {
+        additionalOffset = 0;
+    }
+    internalOffset -= additionalOffset;
 
     const bands: { [key: string]: layoutBand } = {};
     for (let i = 0; i < sortOrder.length; i++) {
@@ -195,7 +203,7 @@ function createLayerNodes(
         };
     });
 
-    return { nodes, bands };
+    return { nodes, bands, additionalOffset };
 }
 
 /**
@@ -538,8 +546,7 @@ export function calculateLayout(
             if (addCond && ke.includes(egoGraph.centerNode.originalID)) {
                 idAccumulator += value.length;
                 shared += value.length;
-            }
-            if (
+            } else if (
                 decollapseMode === 'all' &&
                 ke.includes(egoGraph.centerNode.originalID)
             ) {
@@ -554,7 +561,6 @@ export function calculateLayout(
             calculateRadius(idAccumulator);
     });
 
-    console.log('intersectingNodesAmounts', intersections);
     if (egoGraphs.length > 1) {
         const graphCenters: graphCenter[] = [];
         const layout: egoGraphLayout = {
@@ -588,7 +594,6 @@ export function calculateLayout(
         for (let i = 0; i < egoGraphs.length; i++) {
             nodeDict = {};
             egoGraphs[i].nodes.forEach((node) => (nodeDict[node.id] = node));
-            console.log('id', egoGraphs[i].centerNode.originalID);
             const firstGraphId = egoGraphs[i].centerNode.originalID;
             let secondGraphId;
             if (i === egoGraphs.length - 1) {
@@ -671,7 +676,6 @@ export function calculateLayout(
                     });
                 }
             } else {
-                console.log('3case');
                 const nodeSize = largestRadius * 2.5;
 
                 const points = [
@@ -722,7 +726,6 @@ export function calculateLayout(
                 (fullRange / egoGraphs.length) * i
             );
 
-            console.log('CURRENT BANDS', currLayout.bands);
             Object.entries(currLayout.bands).forEach((entry) => {
                 const key = entry[0];
                 const entryValue = entry[1];
@@ -862,7 +865,7 @@ function calculateMultiLayout(
     const nodeDict: { [key: string]: egoGraphNode } = {};
     graph.nodes.forEach((node) => (nodeDict[node.id] = node));
     let nodes: { [key: string]: layoutNode };
-    const nodeIdsFlat = sharedNodeIds
+    const sharedNodeIdsFlat = sharedNodeIds
         .map((d) =>
             d.intersections.map(
                 (nodeId) => nodeDict[graph.centerNode.originalID + '_' + nodeId]
@@ -870,7 +873,7 @@ function calculateMultiLayout(
         )
         .flat();
     const sharedNodesLayout = calculateLayoutSharedNodes(
-        nodeIdsFlat,
+        sharedNodeIdsFlat,
         addCenterNodeId(graph.centerNode.originalID, sharedNodeIds),
         outerSize,
         outerSize,
@@ -891,7 +894,7 @@ function calculateMultiLayout(
             outerSize,
             xRanges[1],
             transformVector,
-            offset
+            offset - sharedNodesLayout.additionalOffset
         );
         nodes = {
             ...uniqueNodesLayout.nodesLayer1Layout.nodes,
