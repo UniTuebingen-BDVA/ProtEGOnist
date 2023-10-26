@@ -499,7 +499,6 @@ export function calculateLayout(
             return 0;
         }
     });
-    console.log('MODE', decollapseMode);
     // get the amount of intersecting nodes for each egoGraph
     const decollapsedRadii: { [key: string]: number } = {};
     const sharedNonShared: {
@@ -538,14 +537,14 @@ export function calculateLayout(
             id: string;
             outerSize: number;
         }[] = [];
-        const scaledOuterSizes: number[] = [];
         const layout: egoGraphLayout = {
             bandData: {},
             nodes: [],
             edges: [],
             identityEdges: [],
             radii: decollapsedRadii,
-            centers: []
+            centers: [],
+            firstAndLastNodes: {}
         };
         const fullRange = 2 * Math.PI;
 
@@ -1110,7 +1109,7 @@ function createEgoEdges(
     Object.values(nodeDict).forEach((elem, index) => (elem.index = index));
     const layoutEdges: layoutEdge[] = [];
     edges.forEach((edge) => {
-        const sourceId = edge.sources;
+        const sourceId = edge.source;
         const targetId = edge.target;
         //check if both source and target are in nodeDict
         if (

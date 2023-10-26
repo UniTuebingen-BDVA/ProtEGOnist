@@ -485,7 +485,7 @@ function drawTip(
     // draw a line from p2Cartesian to centerPos and close it
     const line_P2_center = `L ${centerPos.x} ${centerPos.y}`;
     // merge the paths
-    //return `${arc_P1_tipBase} ${line_P2_center}`;
+
     return `${arc_P1_tipBase} ${quadraticCurve_tipBaseP1_tipPoint1} ${connector} ${quadraticCurve_tipPoint1_tipBaseP2} ${arc_tipBaseP2_P2} ${line_P2_center} Z`;
 }
 
@@ -699,7 +699,7 @@ const EgoGraphBand = (props: EgoGraphBandProps) => {
 
     return pathData.map((pathDatum) => (
         <>
-            <circle
+            {/* <circle
                 cx={pathDatum.path[2][0]}
                 cy={pathDatum.path[2][1]}
                 r={3}
@@ -734,7 +734,7 @@ const EgoGraphBand = (props: EgoGraphBandProps) => {
                 cy={pathDatum.path[7][1]}
                 r={3}
                 fill="orange"
-            ></circle>
+            ></circle> */}
             <path
                 d={pathDatum.path[1]}
                 className="band"
