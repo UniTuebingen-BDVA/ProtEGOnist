@@ -23,7 +23,6 @@ import {
     getTableAtom,
     getEgoNetworkNetworkOverviewAtom,
     egoNetworkNetworkOverviewCoverageAtom,
-
     startDataOverview, serverBusyAtom,
     selectedExampleAtom,
     classifyByAtom
