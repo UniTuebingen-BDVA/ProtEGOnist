@@ -22,6 +22,7 @@ import {
     getRadarAtom,
     getTableAtom,
     getEgoNetworkNetworkOverviewAtom,
+    egoNetworkNetworkOverviewCoverageAtom,
     startDataOverview, serverBusyAtom,
     selectedExampleAtom,
     classifyByAtom
@@ -50,6 +51,8 @@ function App() {
     const [tarNode, setTarNode] = useAtom(tarNodeAtom);
     const setStateDrawer = useSetAtom(drawerShownAtom);
     const [classifyBy] = useAtom(classifyByAtom);
+    const [coverage] = useAtom(egoNetworkNetworkOverviewCoverageAtom)
+
 
     const theme = createTheme({
         palette: {
@@ -89,7 +92,7 @@ function App() {
         // check if all data is loaded (not empty)
         Object.keys(tableData.rows).length > 0 && // tableData
         Object.keys(intersectionData).length > 0 && // radarData
-        tarNode !== '' && egoNetworkNetworkOverviewData.nodes.length>0
+        tarNode !== '' && egoNetworkNetworkOverviewData.nodes.length > 0
     ) {
         return (
             <ThemeProvider theme={theme}>
@@ -177,10 +180,8 @@ function App() {
                             }}
                         >
                             <Typography style={{ color: 'black' }}>
-                                Network overview: 91 ego-graphs from that cover X and Y.
-                                {//TODO Add text and make it more general for any kind of network
-                                    // The given nodes cover X percent of the network's nodes and Y percent of the network's edges.
-                                }
+                                Network overview: {egoNetworkNetworkOverviewData.nodes.length} ego-graphs covering {(100 * coverage.nodes).toFixed(2)}% of the nodes and {(100 * coverage.edges).toFixed(2)}% of the edges of the given network.
+
                             </Typography>
                             <div
                                 style={{

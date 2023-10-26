@@ -71,6 +71,7 @@ export const selectedExampleAtom = atom(
 );
 export const radarChartBusyAtom = atom(false);
 export const egoNetworkNetworkBusyAtom = atom(false);
+export const egoNetworkNetworkOverviewCoverageAtom = atom({});
 
 export const getMultiEgographBundleAtom = atom(
     (get) => get(egoGraphBundlesAtom),
@@ -283,6 +284,7 @@ export const getEgoNetworkNetworkOverviewAtom = atom(
             .then(
                 (result) => {
                     set(egoNetworkNetworksOverviewAtom, result.data.network);
+                    set(egoNetworkNetworkOverviewCoverageAtom, result.data.coverage);
                     startDataOverview = result.data.overviewNodes;
                 },
                 () => {
