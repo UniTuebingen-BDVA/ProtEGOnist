@@ -55,6 +55,7 @@ const SelectionTable = () => {
     return (
         <Box style={{ maxWidth: '100%', width: '100%', height: '100%' }}>
             <Typography
+                component={'span'}
                 variant="subtitle2"
                 component="div"
                 style={{ marginLeft: '1em' }}
