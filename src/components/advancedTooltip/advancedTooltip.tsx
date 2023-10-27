@@ -58,9 +58,8 @@ const TooltipContent = memo(function TooltipContent({
             {Object.keys(tooltipData).length > 0 && (
                 <>
                     {Object.entries(tooltipData).map(([key, iter]) => (
-                        <>
                             <div
-                                style={{
+                                key={key} style={{
                                     display: 'flex',
                                     alignItems: 'center'
                                 }}
