@@ -49,9 +49,7 @@ export const addEgoGraphBundleAtom = atom(
             [bundle.id]: calculateLayout(
                 bundle.egoGraphs,
                 bundle.intersections,
-                get(decollapsedSizeAtom)[bundle.egoGraphs.length - 1],
-                get(innerRadiusAtom),
-                get(outerRadiusAtom)
+                get(decollapseModeAtom)
             )
         });
     }
@@ -65,11 +63,22 @@ export const removeEgoGraphBundleAtom = atom(null, (get, set, id: string) => {
     set(egoGraphBundlesAtom, bundles);
     set(egoGraphBundlesLayoutAtom, layouts);
 });
+
 const decollapseModeStoreAtom = atom('shared');
 export const decollapseModeAtom = atom(
     (get) => get(decollapseModeStoreAtom),
     (get, set, value: string) => {
         set(decollapseModeStoreAtom, value);
+        const bundles = get(egoGraphBundlesAtom);
+        const newLayouts = {};
+        Object.values(bundles).forEach((bundle) => {
+            newLayouts[bundle.id] = calculateLayout(
+                bundle.egoGraphs,
+                bundle.intersections,
+                value
+            );
+        });
+        set(egoGraphBundlesLayoutAtom, newLayouts);
     }
 );
 export const decollapseIDsArrayAtom = atom<string[]>([]);

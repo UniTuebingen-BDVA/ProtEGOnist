@@ -385,11 +385,6 @@ function orientTips(
         pos1PlusHalfPi,
         tipPosition2Polar.theta
     );
-    console.log(
-        tipPosition1Polar.theta,
-        pos1PlusHalfPi,
-        tipPosition2Polar.theta
-    );
 
     const angleDifference = distancePolar(
         isClockwise ? tipPosition1Polar.theta : tipPosition2Polar.theta,
@@ -697,44 +692,8 @@ const EgoGraphBand = (props: EgoGraphBandProps) => {
         });
     }
 
-    return pathData.map((pathDatum) => (
-        <>
-            {/* <circle
-                cx={pathDatum.path[2][0]}
-                cy={pathDatum.path[2][1]}
-                r={3}
-                fill="red"
-            ></circle>
-            <circle
-                cx={pathDatum.path[3][0]}
-                cy={pathDatum.path[3][1]}
-                r={3}
-                fill="pink"
-            ></circle>
-            <circle
-                cx={pathDatum.path[4][0]}
-                cy={pathDatum.path[4][1]}
-                r={3}
-                fill="blue"
-            ></circle>
-            <circle
-                cx={pathDatum.path[5][0]}
-                cy={pathDatum.path[5][1]}
-                r={3}
-                fill="cyan"
-            ></circle>
-            <circle
-                cx={pathDatum.path[6][0]}
-                cy={pathDatum.path[6][1]}
-                r={3}
-                fill="green"
-            ></circle>
-            <circle
-                cx={pathDatum.path[7][0]}
-                cy={pathDatum.path[7][1]}
-                r={3}
-                fill="orange"
-            ></circle> */}
+    return pathData.map((pathDatum, i) => (
+        <g key={i}>
             <path
                 d={pathDatum.path[1]}
                 className="band"
@@ -751,7 +710,7 @@ const EgoGraphBand = (props: EgoGraphBandProps) => {
                 strokeWidth="0"
                 fill={pathDatum.color}
             />
-        </>
+        </g>
     ));
 };
 

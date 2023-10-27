@@ -519,11 +519,9 @@ function calculateXRanges(
 export function calculateLayout(
     egoGraphs: egoGraph[],
     intersections: { [key: string]: string[] },
-    innerSize: number,
-    outerSize: number,
     decollapseMode: string
 ): egoGraphLayout {
-    // sort each array in egoGraphs alphabetically by centerNode originalId
+    // sort each array in egsGraphs alphabetically by centerNode originalId
     egoGraphs.sort((a, b) => {
         if (a.centerNode.originalID > b.centerNode.originalID) {
             return 1;

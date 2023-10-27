@@ -114,7 +114,6 @@ function EgoNetworkNetworkViewer() {
                 exclusive
                 onChange={(_event, nextVal: string) => {
                     if (nextVal !== null) {
-                        console.log('butto#', decollapseMode);
                         setDecollapseModeAtom(nextVal);
                     }
                 }}
