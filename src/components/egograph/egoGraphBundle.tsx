@@ -310,7 +310,6 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
             {layoutCircles}
 
             {backgroundBands}
-
             {circles}
             {foregroundBands}
             {lines}

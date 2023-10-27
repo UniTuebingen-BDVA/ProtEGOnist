@@ -99,7 +99,7 @@ export const EgographNode = memo(function EgographNode(
                     }}
                     cx={centerPoint.x}
                     cy={centerPoint.y}
-                    r={nodeRadius}
+                    r={egoRadius / 10}
                     fill={fill}
                     stroke={
                         highlightedNodeIndices.includes(node.index)
