@@ -8,3 +8,5 @@ export const egoGraphBundlesLayoutAtom = atom<{
 // TODO: create write only atom here for recalculation of layout when mode is changed
 
 export const maxRadiusAtom = atom(5);
+
+export const selectedBandAtom = atom('');
