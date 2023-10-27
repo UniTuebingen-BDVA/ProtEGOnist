@@ -10,7 +10,10 @@ import {
     addAngle
 } from './polarUtilities';
 
-import { selectedBandAtom } from './egoGraphBundleStore';
+import {
+    filteredIntersectionsAtom,
+    selectedBandAtom
+} from './egoGraphBundleStore';
 import { useAtom } from 'jotai';
 interface EgoGraphBandProps {
     bandData: [
@@ -645,12 +648,12 @@ function getPath(
 const EgoGraphBand = (props: EgoGraphBandProps) => {
     const { bandData, color } = props;
     const [selectedBand, setSelectedBand] = useAtom(selectedBandAtom);
+    const [filteredIntersections] = useAtom(filteredIntersectionsAtom);
     let pathData: { path: string[]; color: string; id: string }[] = [];
     if (Object.values(bandData[1]).length === 0) return null;
     if (Object.values(bandData[1]).length === 1) return null;
     if (Object.values(bandData[1]).length === 2) {
         const start = Object.values(bandData[1])[0];
-        console.log(bandData);
         const end = Object.values(bandData[1])[1];
         pathData = [
             {
