@@ -308,7 +308,6 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
         <g transform={`translate(${x},${y})`}>
             {bands}
             {layoutCircles}
-
             {backgroundBands}
             {circles}
             {foregroundBands}
