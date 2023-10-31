@@ -282,7 +282,12 @@ def read_example_IEEEcoAuthor(here):
         "quantify_type": "quantitative",
         "classify_by": "institution",
         "name_nodes": "nodeID",
-        "show_tooltip": ["Author"],
+        "show_tooltip": [
+            "institution",
+            "institutionCountry",
+            "Documents",
+            "Citations",
+        ],
         "start_radar": "Helwig Hauser",
         "start_selected": [
             "Helwig Hauser",
