@@ -1,6 +1,6 @@
 import { useAtom } from 'jotai';
 import {
-    decollapseIDsAtom,
+    decollapseNodeAtom,
     highlightedEdgesAtom
 } from './egoNetworkNetworkStore';
 import { SpringValue, animated } from '@react-spring/web';
@@ -14,8 +14,6 @@ import { memo, useState } from 'react';
 interface EgoNetworkNetworkNodeProps {
     id: string;
     size: number;
-    x: number;
-    y: number;
     animatedParams: {
         opacity: number | SpringValue<number>;
         transform: string | SpringValue<string>;
@@ -26,7 +24,7 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
     props: EgoNetworkNetworkNodeProps
 ) {
     const { id, size, animatedParams } = props;
-    const [_, setDecollapseID] = useAtom(decollapseIDsAtom);
+    const [_, setDecollapseID] = useAtom(decollapseNodeAtom);
     const [colorscale] = useAtom(drugsPerProteinColorscaleAtom);
     const [drugsPerProtein] = useAtom(drugsPerProteinAtom);
     const [highlightedEdges] = useAtom(highlightedEdgesAtom);

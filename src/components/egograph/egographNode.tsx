@@ -87,14 +87,9 @@ export const EgographNode = memo(function EgographNode(
             centerNode.y === centerPoint.y ? (
                 <circle
                     onMouseEnter={() => {
-                        setNode((oldValue) => ({ ...oldValue, hovered: true }));
                         setHighlightedNodeIndices(node.identityNodes);
                     }}
                     onMouseLeave={() => {
-                        setNode((oldValue) => ({
-                            ...oldValue,
-                            hovered: false
-                        }));
                         setHighlightedNodeIndices([]);
                     }}
                     cx={centerPoint.x}
@@ -110,14 +105,9 @@ export const EgographNode = memo(function EgographNode(
             ) : (
                 <path
                     onMouseEnter={() => {
-                        setNode((oldValue) => ({ ...oldValue, hovered: true }));
                         setHighlightedNodeIndices(node.identityNodes);
                     }}
                     onMouseLeave={() => {
-                        setNode((oldValue) => ({
-                            ...oldValue,
-                            hovered: false
-                        }));
                         setHighlightedNodeIndices([]);
                     }}
                     d={`

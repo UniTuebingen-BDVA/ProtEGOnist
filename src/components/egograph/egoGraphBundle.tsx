@@ -6,18 +6,16 @@ import { ReactElement, useMemo } from 'react';
 import { useAtom } from 'jotai';
 
 import {
-    maxRadiusAtom,
     egoGraphBundlesLayoutAtom
 } from './egoGraphBundleStore';
 import { EgographNode } from './egographNode';
 import EgoGraphBand from './egoGraphBand.tsx';
 import { atom } from 'jotai';
-import { egoGraphLayout } from './egolayout.ts';
 import { focusAtom } from 'jotai-optics';
 import { splitAtom } from 'jotai/utils';
 import * as d3 from 'd3';
 import {
-    decollapseIDsAtom,
+    decollapseNodeAtom,
     highlightedEdgesAtom
 } from '../egoNetworkNetwork/egoNetworkNetworkStore.ts';
 import { edgesClassificationAtom } from '../../apiCalls.ts';
@@ -26,51 +24,13 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
     const { x, y, nodeId } = props;
 
     // "local store"
-    const egoGraphBundleDataAtom = useMemo(() => {
-        return focusAtom(egoGraphBundlesLayoutAtom, (optic) =>
-            optic.prop(nodeId)
-        );
-    }, [nodeId, egoGraphBundlesLayoutAtom]); //egoGraphBundlesLayoutAtom NEEDS to be in the dependency array, otherwise the atom will not update when the store updates
+    const egoGraphBundleAtom = useMemo(() => {
+        return focusAtom(egoGraphBundlesLayoutAtom,(optic)=>optic.prop(nodeId))
+    }, [nodeId]); //egoGraphBundlesLayoutAtom NEEDS to be in the dependency array, otherwise the atom will not update when the store updates
     const isLoadedAtom = useMemo(
-        () => atom((get) => get(egoGraphBundleDataAtom) !== undefined),
-        [egoGraphBundleDataAtom]
+        () => atom((get) => get(egoGraphBundleAtom) !== undefined),
+        [egoGraphBundleAtom]
     );
-    const egoGraphBundleDefaultAtom = useMemo(
-        () =>
-            atom((get) => {
-                const data = get(egoGraphBundleDataAtom);
-                if (!data) {
-                    return {
-                        edges: [],
-                        nodes: [],
-                        identityEdges: [],
-                        maxRadius: 0,
-                        centers: []
-                    };
-                } else {
-                    return get(egoGraphBundleDataAtom);
-                }
-            }),
-        [egoGraphBundleDataAtom]
-    );
-    const egoGraphBundleOverwrittenAtom = useMemo(() => atom(null), []);
-    // writable version of egoGraphBundle
-    const egoGraphBundleAtom = useMemo(
-        () =>
-            atom<egoGraphLayout>(
-                (get) => {
-                    return (
-                        get(egoGraphBundleOverwrittenAtom) ||
-                        get(egoGraphBundleDefaultAtom)
-                    );
-                },
-
-                (_get, set, action) =>
-                    set(egoGraphBundleOverwrittenAtom, action)
-            ),
-        [egoGraphBundleDefaultAtom, egoGraphBundleOverwrittenAtom]
-    );
-
     const nodeAtom = useMemo(
         () => focusAtom(egoGraphBundleAtom, (optic) => optic.prop('nodes')),
         [egoGraphBundleAtom]
@@ -104,28 +64,19 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                 //return d3.scaleOrdinal(d3.schemeTableau10);
                 return d3.scaleOrdinal(d3.schemeGreys[7].slice(2, 6));
             }),
-        [egoGraphBundleAtom]
+        []
     );
 
-    const nodeRadiusAtom = useMemo(
-        () =>
-            atom((get) => {
-                return get(maxRadiusAtom) < get(egoGraphBundleAtom).maxradius
-                    ? get(maxRadiusAtom)
-                    : get(egoGraphBundleAtom).maxradius;
-            }),
-        [egoGraphBundleAtom]
-    );
+
     const highlightedNodeIndicesAtom = useMemo(() => atom<number[]>([]), []);
 
     const [isLoaded] = useAtom(isLoadedAtom);
     const [layout] = useAtom(egoGraphBundleAtom);
     const [nodeAtoms] = useAtom(nodesAtomsAtom);
     const [colorScale] = useAtom(colorScaleAtom);
-    const [nodeRadius] = useAtom(nodeRadiusAtom);
     const [highlightedNodeIndices] = useAtom(highlightedNodeIndicesAtom);
     const [highlightedEdges] = useAtom(highlightedEdgesAtom);
-    const [_, setDecollapseID] = useAtom(decollapseIDsAtom);
+    const [_, setDecollapseID] = useAtom(decollapseNodeAtom);
 
     // generate a d3 categorcal color scale with 20 colors
     const [bandColorScale] = useAtom(bundleColorScaleAtom);
@@ -282,7 +233,6 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                         y1={edge.y1}
                         y2={edge.y2}
                         stroke={'black'}
-                        strokeWidth={nodeRadius * 2}
                     />
                 );
             } else {
@@ -296,21 +246,18 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                             y2={edge.y2}
                             stroke={'gray'}
                             opacity={0.2}
-                            strokeWidth={nodeRadius * 2}
                         />
                     );
                 }
             }
         });
         return [foregroundBands, backgroundBands];
-    }, [highlightedNodeIndices, layout.identityEdges, nodeRadius]);
+    }, [highlightedNodeIndices, layout.identityEdges]);
     return isLoaded ? (
         <g transform={`translate(${x},${y})`}>
             {bands}
             {layoutCircles}
-
             {backgroundBands}
-
             {circles}
             {foregroundBands}
             {lines}

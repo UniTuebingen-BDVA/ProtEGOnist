@@ -20,14 +20,11 @@ import {
 } from './components/selectionTable/tableStore.tsx';
 import { GridColDef, GridRowsProp } from '@mui/x-data-grid';
 import {
-    addEgoGraphBundleAtom,
-    decollapseIDsArrayAtom,
     egoGraphBundlesAtom,
     egoNetworkNetworksAtom,
-    removeEgoGraphBundleAtom
+    updateEgoGraphBundleAtom
 } from './components/egoNetworkNetwork/egoNetworkNetworkStore.ts';
 import { egoNetworkNetworksOverviewAtom } from './components/overview_component/egoNetworkNetworkOverviewStore.ts';
-import { decollapseModeAtom } from './components/egoNetworkNetwork/egoNetworkNetworkStore.ts';
 
 export const serverBusyAtom = atom(false);
 export const showOnTooltipAtom = atom([]);
@@ -77,17 +74,13 @@ export const egoNetworkNetworkOverviewCoverageAtom = atom({});
 export const getMultiEgographBundleAtom = atom(
     (get) => get(egoGraphBundlesAtom),
     (get, set, bundleIds: string[][]) => {
-        Object.keys(get(egoGraphBundlesAtom))
-            .filter((id) => !bundleIds.map((ids) => ids.join(',')).includes(id))
-            .forEach((id) => {
-                set(removeEgoGraphBundleAtom, id);
-            });
         const newBundlesIds = bundleIds.filter(
             (ids) =>
                 !Object.keys(get(egoGraphBundlesAtom)).includes(ids.join(','))
         );
         if (newBundlesIds.length > 0) {
             set(egoNetworkNetworkBusyAtom, true);
+            const newData = {};
             let requestCounter = 0;
             const example = get(selectedExampleAtom);
             newBundlesIds.forEach((ids) => {
@@ -99,14 +92,26 @@ export const getMultiEgographBundleAtom = atom(
                     }>(`/api/egograph_bundle`, { ids: ids, example: example })
                     .then(
                         (result) => {
-                            set(addEgoGraphBundleAtom, {
+                            newData[jointID] = result.data;
+                            /*set(addEgoGraphBundleAtom, {
                                 ...result.data,
                                 id: jointID
-                            });
+                            });*/
                             requestCounter += 1;
                             if (requestCounter === newBundlesIds.length) {
+                                const deleteIds = Object.keys(
+                                    get(egoGraphBundlesAtom)
+                                ).filter(
+                                    (id) =>
+                                        !bundleIds
+                                            .map((ids) => ids.join(','))
+                                            .includes(id)
+                                );
+                                set(updateEgoGraphBundleAtom, {
+                                    bundles: newData,
+                                    ids: deleteIds
+                                });
                                 set(egoNetworkNetworkBusyAtom, false);
-                                set(decollapseIDsArrayAtom, bundleIds);
                             }
                         },
                         () => {
@@ -117,8 +122,6 @@ export const getMultiEgographBundleAtom = atom(
                         }
                     );
             });
-        } else {
-            set(decollapseIDsArrayAtom, bundleIds);
         }
     }
 );

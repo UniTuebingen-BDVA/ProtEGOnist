@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import './App.css';
-import InputPage from './components/HomePage/LandingPage.tsx';
 import { useAtom, useSetAtom } from 'jotai';
 import {
     AppBar,
