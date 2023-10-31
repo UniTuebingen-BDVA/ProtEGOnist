@@ -27,6 +27,7 @@ import {
     removeEgoGraphBundleAtom
 } from './components/egoNetworkNetwork/egoNetworkNetworkStore.ts';
 import { egoNetworkNetworksOverviewAtom } from './components/overview_component/egoNetworkNetworkOverviewStore.ts';
+import { decollapseModeAtom } from './components/egoNetworkNetwork/egoNetworkNetworkStore.ts';
 
 export const serverBusyAtom = atom(false);
 export const showOnTooltipAtom = atom([]);
@@ -100,7 +101,7 @@ export const getMultiEgographBundleAtom = atom(
                         (result) => {
                             set(addEgoGraphBundleAtom, {
                                 ...result.data,
-                                id: jointID,
+                                id: jointID
                             });
                             requestCounter += 1;
                             if (requestCounter === newBundlesIds.length) {
@@ -284,7 +285,10 @@ export const getEgoNetworkNetworkOverviewAtom = atom(
             .then(
                 (result) => {
                     set(egoNetworkNetworksOverviewAtom, result.data.network);
-                    set(egoNetworkNetworkOverviewCoverageAtom, result.data.coverage);
+                    set(
+                        egoNetworkNetworkOverviewCoverageAtom,
+                        result.data.coverage
+                    );
                     startDataOverview = result.data.overviewNodes;
                 },
                 () => {

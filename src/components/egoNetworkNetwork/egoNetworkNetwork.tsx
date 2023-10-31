@@ -138,16 +138,9 @@ const EgoNetworkNetwork = () => {
                     return (
                         <animated.g transform={style.transform}>
                             <EgoGraphBundle
-                                x={
-                                    -decollapsedSize[
-                                        node.id.split(',').length - 1
-                                    ] / 2
-                                }
-                                y={
-                                    -decollapsedSize[
-                                        node.id.split(',').length - 1
-                                    ] / 2
-                                }
+                                key={node.id}
+                                x={-decollapsedSize[node.id] / 2}
+                                y={-decollapsedSize[node.id] / 2}
                                 nodeId={node.id}
                             />
                         </animated.g>

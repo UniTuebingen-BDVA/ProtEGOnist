@@ -8,9 +8,7 @@ import {
 import { multiSelectionAtom } from '../TabViewer/tabViewerStore';
 import RadarIcon from '@mui/icons-material/Radar';
 import * as d3 from 'd3';
-import {
-    updateDecollapseIdsAtom
-} from '../egoNetworkNetwork/egoNetworkNetworkStore.ts';
+import { updateDecollapseIdsAtom } from '../egoNetworkNetwork/egoNetworkNetworkStore.ts';
 
 export const tableAtomStore = atom<{
     rows: GridRowsProp;
@@ -132,7 +130,6 @@ export const tableAtom = atom(
             if (quantifyNodesBy['type'] === 'quantitative') {
                 nodeQuantification[nodeID] =
                     rowNode[quantifyNodesBy['label']] ?? null;
-                console.log(nodeQuantification[nodeID]);
             } else if (quantifyNodesBy['type'] === 'categorical') {
                 const elementsNode = rowNode[quantifyNodesBy['label']].split(
                     ';'

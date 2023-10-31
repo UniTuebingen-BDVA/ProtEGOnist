@@ -9,7 +9,7 @@ interface RadarCirclesProps {
     GUIDE_CIRCLE_RADIUS: number;
     CIRCLE_RADIUS: number;
     intersectionLengthScale: d3.ScaleLinear<number, number, never>;
-    colorScale: d3.ScaleOrdinal<string, any | string, never>;
+    colorScale: d3.ScaleOrdinal<string, string>;
 }
 
 const RadarCircles = memo(function RadarCircles(props: RadarCirclesProps) {
@@ -50,13 +50,11 @@ const RadarCircles = memo(function RadarCircles(props: RadarCirclesProps) {
                 .toString(),
             opacity: 0
         }),
-        leave:
-            () =>
-            async (next, _cancel) => {
-                await next({
-                    opacity: 0
-                });
-            },
+        leave: () => async (next, _cancel) => {
+            await next({
+                opacity: 0
+            });
+        },
         update:
             ({ intersectionDatum, index }) =>
             async (next, _cancel) => {
@@ -80,7 +78,7 @@ const RadarCircles = memo(function RadarCircles(props: RadarCirclesProps) {
                         ?.toString()
                 });
             },
-                enter:
+        enter:
             ({ intersectionDatum, index }) =>
             async (next, _cancel) => {
                 await next({

@@ -11,7 +11,7 @@ interface radarLabelProps {
     hoverLabel: string;
     guideCircleRadius: number;
     radius: number;
-    colorScale: d3.ScaleOrdinal<string, string | any, never>;
+    colorScale: d3.ScaleOrdinal<string, string>;
 }
 
 // given radarLabel props draw an arc and a text label along the arc

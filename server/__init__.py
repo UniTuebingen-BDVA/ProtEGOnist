@@ -1,7 +1,12 @@
 import json
 import pathlib
 from flask import Flask, request
-from server.python_scripts.example_reading import read_example_string, read_example_string_modified, read_example_metagenome_2
+from server.python_scripts.example_reading import (
+    read_example_string,
+    read_example_string_modified,
+    read_example_metagenome_2,
+    read_example_IEEEcoAuthor,
+)
 from server.python_scripts.sampleGraph import (
     generate_string_intersections_top,
     generate_radar_data,
@@ -19,7 +24,8 @@ here: pathlib.Path = pathlib.Path(__file__).parent.absolute()
 EXAMPLES = {
     "string": read_example_string(here),
     "string_modified": read_example_string_modified(here),
-    "metagenome": read_example_metagenome_2(here)
+    "metagenome": read_example_metagenome_2(here),
+    "IEEE": read_example_IEEEcoAuthor(here),
 }
 
 
@@ -31,6 +37,7 @@ EXAMPLES = {
 #         print("Loaded string graph ", len(string_graph.nodes))
 #     return json.dumps(True)
 
+
 @app.route("/api/get_labelling_keys/<example>", methods=["GET"])
 def get_labelling_keys(example: str):
     try:
@@ -39,11 +46,12 @@ def get_labelling_keys(example: str):
             "nameNodesBy": example_data["name_nodes"],
             "classifyBy": example_data["classify_by"],
             "showOnTooltip": example_data["show_tooltip"],
-            "quantifyBy": {"label": example_data["quantify_by"],
-                           "type": example_data["quantify_type"]},
+            "quantifyBy": {
+                "label": example_data["quantify_by"],
+                "type": example_data["quantify_type"],
+            },
             "startRadarNode": example_data["start_radar"],
-            "startSelectedNodes": example_data["start_selected"]
-
+            "startSelectedNodes": example_data["start_selected"],
         }
         # check if example_data has the key "edges_classification"
         if "edges_classification" in example_data:
@@ -54,6 +62,7 @@ def get_labelling_keys(example: str):
         print(e)
 
     return json.dumps(labelling_keys)
+
 
 # ROUTES
 
@@ -76,6 +85,7 @@ def test_data_egograph_bundle():
 @app.route("/")
 def index():
     return app.send_static_file("index.html")
+
 
 # @app.route("/api/ParseNetwork/", methods=["POST"])
 # def parse_network():
@@ -139,8 +149,7 @@ def get_ego_radar(example: str, targetNode: str):
     intersection_dict = {
         i: rest_ego_graphs[i].get_intersection(tar_ego_graph) for i in ids
     }
-    intersection_dict[targetNode] = tar_ego_graph.get_intersection(
-        tar_ego_graph)
+    intersection_dict[targetNode] = tar_ego_graph.get_intersection(tar_ego_graph)
 
     return json.dumps(intersection_dict)
 
@@ -169,8 +178,13 @@ def get_ego_network_network_overview(example: str):
     string_graph = EXAMPLES[example]["network"]
     overview_nodes = EXAMPLES[example]["overview_nodes"]
     ego_networks = get_ego_network(string_graph, overview_nodes, True)
-    return json.dumps({"network": ego_networks["graph"].get_graph_json(), "coverage": ego_networks["coverage"],
-                       "overviewNodes": overview_nodes})
+    return json.dumps(
+        {
+            "network": ego_networks["graph"].get_graph_json(),
+            "coverage": ego_networks["coverage"],
+            "overviewNodes": overview_nodes,
+        }
+    )
 
 
 def get_ego_network(string_graph, split_target, coverage=False):
@@ -180,17 +194,19 @@ def get_ego_network(string_graph, split_target, coverage=False):
         covered_nodes = set()
 
         for ego_center in split_target:
-            ego_network_temp = EgoGraph.from_string_network(
-                ego_center, string_graph)
+            ego_network_temp = EgoGraph.from_string_network(ego_center, string_graph)
             ego_networks.append(ego_network_temp)
             covered_edges.update(ego_network_temp.get_edge_set())
             covered_nodes.update(ego_network_temp.get_node_set())
 
-        coverage = {"nodes": len(covered_nodes) / len(string_graph.nodes),
-                    "edges": len(covered_edges) / len(string_graph.edges)}
+        coverage = {
+            "nodes": len(covered_nodes) / len(string_graph.nodes),
+            "edges": len(covered_edges) / len(string_graph.edges),
+        }
         ego_network_network = EgoNetworkNetwork(ego_networks)
 
         return {"graph": ego_network_network, "coverage": coverage}
     else:
-        return EgoNetworkNetwork([EgoGraph.from_string_network(
-            i, string_graph) for i in split_target])
+        return EgoNetworkNetwork(
+            [EgoGraph.from_string_network(i, string_graph) for i in split_target]
+        )

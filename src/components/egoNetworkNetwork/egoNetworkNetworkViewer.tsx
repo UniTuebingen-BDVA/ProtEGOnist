@@ -1,19 +1,32 @@
 import { useGesture } from '@use-gesture/react';
 import EgoNetworkNetwork from './egoNetworkNetwork.tsx';
-import { Backdrop, CircularProgress, Paper } from '@mui/material';
+import {
+    Backdrop,
+    CircularProgress,
+    Paper,
+    ToggleButtonGroup,
+    Tooltip
+} from '@mui/material';
+import TooltipToggleButton from '../egoNetworkNetwork/TooltipToggleButton.tsx';
 import { useAtom, useAtomValue } from 'jotai';
 import {
     decollapseIDsArrayAtom,
-    egoNetworkNetworkSizeAtom
+    egoNetworkNetworkSizeAtom,
+    decollapseModeAtom
 } from './egoNetworkNetworkStore.ts';
 import ColorLegend from '../ColorLegend.tsx';
 import { drugsPerProteinColorscaleAtom } from '../selectionTable/tableStore.tsx';
 import { animated, useSpring } from '@react-spring/web';
 import React from 'react';
-import { egoNetworkNetworkBusyAtom, quantifyNodesByAtom } from '../../apiCalls.ts';
+import {
+    egoNetworkNetworkBusyAtom,
+    quantifyNodesByAtom
+} from '../../apiCalls.ts';
+import { SetCenter, SetAll } from 'mdi-material-ui';
 
 function EgoNetworkNetworkViewer() {
     const [egoNetworkNetworkBusy] = useAtom(egoNetworkNetworkBusyAtom);
+    const [decollapseMode, setDecollapseModeAtom] = useAtom(decollapseModeAtom);
     const svgSize = useAtomValue(egoNetworkNetworkSizeAtom);
     const [colorscale] = useAtom(drugsPerProteinColorscaleAtom);
     const [decollapseIDsArray] = useAtom(decollapseIDsArrayAtom);
@@ -94,6 +107,37 @@ function EgoNetworkNetworkViewer() {
                     <EgoNetworkNetwork />
                 </animated.g>
             </animated.svg>
+            <ToggleButtonGroup
+                style={{ right: 10, position: 'absolute', top: 10 }}
+                orientation="horizontal"
+                value={decollapseMode}
+                exclusive
+                onChange={(_event, nextVal: string) => {
+                    if (nextVal !== null) {
+                        setDecollapseModeAtom(nextVal);
+                    }
+                }}
+            >
+                <TooltipToggleButton
+                    TooltipProps={{
+                        title: 'Show ONLY shared nodes on decollapse'
+                    }}
+                    value="shared"
+                    aria-label="shared"
+                >
+                    <SetCenter />
+                </TooltipToggleButton>
+
+                <TooltipToggleButton
+                    TooltipProps={{
+                        title: 'Show shared AND unique nodes on decollapse'
+                    }}
+                    value="all"
+                    aria-label="all"
+                >
+                    <SetAll />
+                </TooltipToggleButton>
+            </ToggleButtonGroup>
             <svg
                 height={275}
                 width={200}
@@ -105,7 +149,7 @@ function EgoNetworkNetworkViewer() {
                     unknown={colorscale.unknown()}
                     type={'quantitative'}
                     transform={`translate(${10},${10})`}
-                    title={`Quantification via ${quantifyBy["label"]}`}
+                    title={`Quantification via ${quantifyBy['label']}`}
                     render={true}
                 />
                 <ColorLegend

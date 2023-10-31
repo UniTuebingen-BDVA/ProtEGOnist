@@ -1713,6 +1713,7 @@ __metadata:
     eslint-plugin-react-refresh: ^0.4.1
     jotai: ^2.2.2
     jotai-optics: ^0.3.0
+    mdi-material-ui: ^7.7.0
     mocha: ^10.2.0
     optics-ts: ^2.4.1
     prettier: ^3.0.0
@@ -3532,6 +3533,16 @@ __metadata:
     socks-proxy-agent: ^7.0.0
     ssri: ^10.0.0
   checksum: 7268bf274a0f6dcf0343829489a4506603ff34bd0649c12058753900b0eb29191dce5dba12680719a5d0a983d3e57810f594a12f3c18494e93a1fbc6348a4540
+  languageName: node
+  linkType: hard
+
+"mdi-material-ui@npm:^7.7.0":
+  version: 7.7.0
+  resolution: "mdi-material-ui@npm:7.7.0"
+  peerDependencies:
+    "@mui/material": ^5.0.0 || ^5.0.0-rc.0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 5dd565522dc4689e5e45b363134a71ac57145a5342e08cdac6725295a45545bb932cf8498dd71d76416793454304af9625b2436af85d553e91a54acb4234f637
   languageName: node
   linkType: hard
 

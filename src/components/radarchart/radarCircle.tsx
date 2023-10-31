@@ -40,8 +40,8 @@ const RadarCircle = memo(function RadarCircle(props: RadarCircleProps) {
     const strokeColor: string = selectedProteins.includes(id)
         ? 'orange'
         : id == lastSelectedNode
-            ? 'red'
-            : color;
+        ? 'red'
+        : color;
     const strokeWidth =
         selectedProteins.includes(id) || id == lastSelectedNode ? 3 : 1;
     const strokeOpacity =
@@ -54,7 +54,7 @@ const RadarCircle = memo(function RadarCircle(props: RadarCircleProps) {
                 r={
                     CIRCLE_RADIUS +
                     intersectionLengthScale(intersectionDatum.setSize) *
-                    CIRCLE_RADIUS
+                        CIRCLE_RADIUS
                 }
                 fill={color}
                 fillOpacity={0.7}
