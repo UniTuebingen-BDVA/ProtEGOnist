@@ -61,8 +61,8 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
     const bundleColorScaleAtom = useMemo(
         () =>
             atom((get) => {
-                //return d3.scaleOrdinal(d3.schemeTableau10);
-                return d3.scaleOrdinal(d3.schemeGreys[7].slice(2, 6));
+                return d3.scaleOrdinal(d3.schemeTableau10);
+                //return d3.scaleOrdinal(d3.schemeGreys[7].slice(2, 6));
             }),
         []
     );

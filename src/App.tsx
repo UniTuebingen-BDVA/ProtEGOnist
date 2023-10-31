@@ -9,7 +9,8 @@ import {
     CircularProgress,
     Box,
     createTheme,
-    ThemeProvider, Backdrop
+    ThemeProvider,
+    Backdrop
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import RadarChartViewer from './components/radarchart/radarChartViewer.tsx';
@@ -22,7 +23,8 @@ import {
     getTableAtom,
     getEgoNetworkNetworkOverviewAtom,
     egoNetworkNetworkOverviewCoverageAtom,
-    startDataOverview, serverBusyAtom,
+    startDataOverview,
+    serverBusyAtom,
     selectedExampleAtom,
     classifyByAtom
 } from './apiCalls.ts';
@@ -50,8 +52,7 @@ function App() {
     const [tarNode, setTarNode] = useAtom(tarNodeAtom);
     const setStateDrawer = useSetAtom(drawerShownAtom);
     const [classifyBy] = useAtom(classifyByAtom);
-    const [coverage] = useAtom(egoNetworkNetworkOverviewCoverageAtom)
-
+    const [coverage] = useAtom(egoNetworkNetworkOverviewCoverageAtom);
 
     const theme = createTheme({
         palette: {
@@ -76,7 +77,6 @@ function App() {
             // setSelectedProteins(['P61978', 'O43447', 'Q14498', 'Q92922']);
             getEgoNetworkNetworkOverviewData(startDataOverview);
         }
-
     }, [
         selectedExample,
         getTableData,
@@ -91,7 +91,8 @@ function App() {
         // check if all data is loaded (not empty)
         Object.keys(tableData.rows).length > 0 && // tableData
         Object.keys(intersectionData).length > 0 && // radarData
-        tarNode !== '' && egoNetworkNetworkOverviewData.nodes.length > 0
+        tarNode !== '' &&
+        egoNetworkNetworkOverviewData.nodes.length > 0
     ) {
         return (
             <ThemeProvider theme={theme}>
@@ -178,9 +179,16 @@ function App() {
                                 alignItems: 'center'
                             }}
                         >
-                            <Typography style={{ color: 'black' }}>
-                                Network overview: {egoNetworkNetworkOverviewData.nodes.length} ego-graphs covering {(100 * coverage.nodes).toFixed(2)}% of the nodes and {(100 * coverage.edges).toFixed(2)}% of the edges of the given network.
-
+                            <Typography
+                                component={'span'}
+                                style={{ color: 'black' }}
+                            >
+                                Network overview:{' '}
+                                {egoNetworkNetworkOverviewData.nodes.length}{' '}
+                                ego-graphs covering{' '}
+                                {(100 * coverage.nodes).toFixed(2)}% of the
+                                nodes and {(100 * coverage.edges).toFixed(2)}%
+                                of the edges of the given network.
                             </Typography>
                             <div
                                 style={{
@@ -192,9 +200,12 @@ function App() {
                                 {/* <!-- Content for the first column, first row --> */}
                                 <EgoNetworkNetworkOverviewViewer />
                             </div>
-                            <Typography style={{ color: 'black' }}>
-                                Neighborhood of selected node (radar center) classified by {classifyBy}
-
+                            <Typography
+                                component={'span'}
+                                style={{ color: 'black' }}
+                            >
+                                Neighborhood of selected node (radar center)
+                                classified by {classifyBy}
                             </Typography>
                             <div style={{ minWidth: '80%', width: '80%' }}>
                                 {/* <!-- Content for the first column, second row --> */}
@@ -214,6 +225,7 @@ function App() {
                             }}
                         >
                             <Typography
+                                component={'span'}
                                 style={{ color: 'black', textAlign: 'center' }}
                             >
                                 Ego-graph subnetwork
@@ -252,10 +264,7 @@ function App() {
             </ThemeProvider>
         );
     } else {
-        return (
-            <LandingPage />
-        )
-
+        return <LandingPage />;
     }
 }
 

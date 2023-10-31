@@ -88,9 +88,8 @@ export const decollapseIDsAtom = atom<string[][]>((get) =>
     Object.keys(get(egoGraphBundlesLayoutAtom)).map((d) => d.split(','))
 );
 export const decollapsedSizeAtom = atom((get) => {
-    console.log("called");
     const layouts = get(egoGraphBundlesLayoutAtom);
-    const decollapsedSizes = {};
+    const decollapsedSizes: { [key: string]: number } = {};
     Object.entries(layouts).forEach(([key, layout]) => {
         if (layout) {
             decollapsedSizes[key] = layout.decollapsedSize;
@@ -256,7 +255,6 @@ const egoNetworkNetworkDeepCopyAtom = atom<egoNetworkNetworkRendered>((get) => {
 export const aggregateNetworkAtom = atom((get) => {
     const egoNetworkNetwork = get(egoNetworkNetworkDeepCopyAtom);
     const aggregateEgoNetworkNodeIDs = get(decollapseIDsAtom);
-    console.log(aggregateEgoNetworkNodeIDs);
     const { outNodes, outEdges } = aggregateEgoNetworkNodes(
         egoNetworkNetwork.nodes,
         egoNetworkNetwork.edges,
@@ -427,6 +425,11 @@ function aggregateEgoNetworkNodes(
 }
 
 export const scaleNodeSizeAtom = atom((get) => {
+    const decollapsedSize = get(decollapsedSizeAtom);
+    //find max value in the decollapsedSize dictionary
+    const maxDecollapsed: number = d3.max(Object.values(decollapsedSize));
+    const maxRadius: number =
+        maxDecollapsed === undefined ? 150 : maxDecollapsed;
     const allSizes = get(egoNetworkNetworksOverviewAtom).nodes.map(
         (d) => d.size
     );
@@ -435,7 +438,10 @@ export const scaleNodeSizeAtom = atom((get) => {
     return d3
         .scaleLinear()
         .domain([min, max])
-        .range([Math.PI * 5 ** 2, Math.PI * 50 ** 2]);
+        .range([
+            Math.PI * (maxRadius / 30) ** 2,
+            Math.PI * (maxRadius / 3) ** 2
+        ]);
 });
 export const interEdgesAtom = atom((get) => {
     const aggregateEgoNetworkNodeIDs = get(decollapseIDsAtom);

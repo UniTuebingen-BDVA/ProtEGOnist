@@ -10,6 +10,11 @@ import {
     addAngle
 } from './polarUtilities';
 
+import {
+    filteredIntersectionsAtom,
+    selectedBandAtom
+} from './egoGraphBundleStore';
+import { useAtom } from 'jotai';
 interface EgoGraphBandProps {
     bandData: [
         string,
@@ -459,29 +464,25 @@ function drawTip(
     centerPos: { x: number; y: number },
     radius: number
 ) {
+    // generate quadratic curve from tipBaseP1Cartesian to tipPoint1Cartesian with midpoinP1P2Cartesian as control point
+    const quadraticCurve_tipBaseP1_tipPoint1 = `M ${tipPoint1Cartesian[0]} ${tipPoint1Cartesian[1]} Q ${tipPointControlCartesian1[0]} ${tipPointControlCartesian1[1]} ${tipBaseP1Cartesian[0]} ${tipBaseP1Cartesian[1]}`;
     //generate an svg arc from p1Cartesian to tipBaseP1Cartesian
     //const arc_P1_tipBase = `M${p2[0]} ${p2[1]}  A ${radius} ${radius} 0 0 1 ${p1[0]} ${p1[1]}`;
-    const arc_P1_tipBase = `M ${p1Cartesian[0]} ${
-        p1Cartesian[1]
-    } A ${radius} ${radius} 0 ${p1BaseAngle >= Math.PI ? 0 : 1} 1 ${
-        tipBaseP1Cartesian[0]
-    } ${tipBaseP1Cartesian[1]}`;
-    // generate quadratic curve from tipBaseP1Cartesian to tipPoint1Cartesian with midpoinP1P2Cartesian as control point
-    const quadraticCurve_tipBaseP1_tipPoint1 = `Q ${tipPointControlCartesian1[0]} ${tipPointControlCartesian1[1]} ${tipPoint1Cartesian[0]} ${tipPoint1Cartesian[1]}`;
-
-    const connector = `L${tipPoint2Cartesian[0]} ${tipPoint2Cartesian[1]}`;
-
-    // generate svg quadratic curve from tipPoint1Cartesian to tipBaseP2Cartesian
-    const quadraticCurve_tipPoint1_tipBaseP2 = `Q ${tipPointControlCartesian2[0]} ${tipPointControlCartesian2[1]} ${tipBaseP2Cartesian[0]} ${tipBaseP2Cartesian[1]}`;
+    const arc_P1_tipBase = `A ${radius} ${radius} 0 ${
+        p1BaseAngle >= Math.PI ? 0 : 1
+    } 0 ${p1Cartesian[0]} ${p1Cartesian[1]}`;
+    const line_P1_center = `L ${centerPos.x} ${centerPos.y}`;
+    const line_center_P2 = `L ${p2Cartesian[0]} ${p2Cartesian[1]}`;
     //generate an svg arc from tipBaseP2Cartesian to p2Cartesian
-    const arc_tipBaseP2_P2 = `A ${radius} ${radius} 0 ${
+    const arc_P2_tipBaseP2 = `A ${radius} ${radius} 0 ${
         p2BaseAngle >= Math.PI ? 0 : 1
-    } 1 ${p2Cartesian[0]} ${p2Cartesian[1]}`;
-    // draw a line from p2Cartesian to centerPos and close it
-    const line_P2_center = `L ${centerPos.x} ${centerPos.y}`;
+    } 0 ${tipBaseP2Cartesian[0]} ${tipBaseP2Cartesian[1]}`;
+    // generate svg quadratic curve from tipPoint1Cartesian to tipBaseP2Cartesian
+    const quadraticCurve_tipBaseP2_tipPoint2 = `Q ${tipPointControlCartesian2[0]} ${tipPointControlCartesian2[1]} ${tipPoint2Cartesian[0]} ${tipPoint2Cartesian[1]}`;
+
     // merge the paths
 
-    return `${arc_P1_tipBase} ${quadraticCurve_tipBaseP1_tipPoint1} ${connector} ${quadraticCurve_tipPoint1_tipBaseP2} ${arc_tipBaseP2_P2} ${line_P2_center} Z`;
+    return `${quadraticCurve_tipBaseP1_tipPoint1} ${arc_P1_tipBase} ${line_P1_center} ${line_center_P2} ${arc_P2_tipBaseP2} ${quadraticCurve_tipBaseP2_tipPoint2}`;
 }
 
 function getPath(
@@ -635,27 +636,20 @@ function getPath(
         end[0].graphCenterPos.outerSize * RADIUS_SCALE
     );
 
-    const connector = `
-    M ${tipPoint1OffsetCartesianNeg[0]} ${tipPoint1OffsetCartesianNeg[1]}
-    C ${connectorControl1OffsetCartesianNeg[0]} ${connectorControl1OffsetCartesianNeg[1]} ${connectorControl2OffsetCartesianPos[0]} ${connectorControl2OffsetCartesianPos[1]} ${tipPoint2OffsetCartesianPos[0]} ${tipPoint2OffsetCartesianPos[1]}
-    L ${tipPoint2OffsetCartesianNeg[0]} ${tipPoint2OffsetCartesianNeg[1]}
-    C ${connectorControl2OffsetCartesianNeg[0]} ${connectorControl2OffsetCartesianNeg[1]} ${connectorControl1OffsetCartesianPos[0]} ${connectorControl1OffsetCartesianPos[1]} ${tipPoint1OffsetCartesianPos[0]} ${tipPoint1OffsetCartesianPos[1]}
-    Z`;
-    return [
-        connector,
-        arc1 + arc2,
-        tipPoint1OffsetCartesianNeg,
-        tipPoint1OffsetCartesianPos,
-        tipPoint2OffsetCartesianNeg,
-        tipPoint2OffsetCartesianPos,
-        tipPoint1Cartesian,
-        tipPoint2Cartesian
-    ];
+    const connector1 = `
+    C ${connectorControl1OffsetCartesianPos[0]} ${connectorControl1OffsetCartesianPos[1]} ${connectorControl2OffsetCartesianNeg[0]} ${connectorControl2OffsetCartesianNeg[1]} ${tipPoint2OffsetCartesianNeg[0]} ${tipPoint2OffsetCartesianNeg[1]}
+    `;
+    const connector2 = `
+    C ${connectorControl2OffsetCartesianPos[0]} ${connectorControl2OffsetCartesianPos[1]} ${connectorControl1OffsetCartesianNeg[0]} ${connectorControl1OffsetCartesianNeg[1]} ${tipPoint1OffsetCartesianNeg[0]} ${tipPoint1OffsetCartesianNeg[1]}
+    `;
+    return arc1 + connector1 + arc2 + connector2;
 }
 
 const EgoGraphBand = (props: EgoGraphBandProps) => {
     const { bandData, color } = props;
-    let pathData: { path: string[]; color: string }[] = [];
+    const [selectedBand, setSelectedBand] = useAtom(selectedBandAtom);
+    const [filteredIntersections] = useAtom(filteredIntersectionsAtom);
+    let pathData: { path: string[]; color: string; id: string }[] = [];
     if (Object.values(bandData[1]).length === 0) return null;
     if (Object.values(bandData[1]).length === 1) return null;
     if (Object.values(bandData[1]).length === 2) {
@@ -664,7 +658,8 @@ const EgoGraphBand = (props: EgoGraphBandProps) => {
         pathData = [
             {
                 path: getPath(start, end),
-                color: color
+                color: color,
+                id: bandData[0]
             }
         ];
     }
@@ -675,42 +670,42 @@ const EgoGraphBand = (props: EgoGraphBandProps) => {
 
         //make a path consisting of 3 bands, one for each pair of nodes
         //start to mid, mid to end, end to start
+        // todo: at the moment the resulting paths are not a union of the three bands but thre separate bands maybe use something like paper.js to do union them
         // push start to mid
         pathData.push({
             path: getPath(start, mid),
-            color: color
+            color: color,
+            id: bandData[0]
         });
         // push mid to end
         pathData.push({
             path: getPath(mid, end),
-            color: color
+            color: color,
+            id: bandData[0]
         });
         // push end to start
         pathData.push({
             path: getPath(end, start),
-            color: color
+            color: color,
+            id: bandData[0]
         });
     }
 
     return pathData.map((pathDatum, i) => (
-        <g key={i}>
-            <path
-                d={pathDatum.path[1]}
-                className="band"
-                stroke={'white'}
-                opacity={1}
-                strokeWidth="0"
-                fill={pathDatum.color}
-            />
-            <path
-                d={pathDatum.path[0]}
-                className="band"
-                stroke={'white'}
-                opacity={1}
-                strokeWidth="0"
-                fill={pathDatum.color}
-            />
-        </g>
+        <path
+            key={i}
+            d={pathDatum.path}
+            className="band"
+            stroke={'red'}
+            opacity={1}
+            strokeWidth={selectedBand === pathDatum.id ? '4' : '0'}
+            fill={pathDatum.color}
+            onClick={() => {
+                setSelectedBand(
+                    selectedBand == pathDatum.id ? '' : pathDatum.id
+                );
+            }}
+        />
     ));
 };
 

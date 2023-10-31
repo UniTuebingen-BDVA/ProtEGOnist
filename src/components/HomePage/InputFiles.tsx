@@ -37,9 +37,7 @@ const InputFilesForm = (props) => {
     const [dataProcess, setDataProcess] = useAtom(selectedExampleAtom);
     const [networkFile, setNetworkFile] = React.useState(null);
     const [allNodes, setAllNodes] = React.useState(new Set());
-    const [nodesOfInterestFile, setNodesOfInterestFile] = React.useState(
-        null
-    );
+    const [nodesOfInterestFile, setNodesOfInterestFile] = React.useState(null);
     const [notFoundNodes, setNotFoundNodes] = React.useState(new Set());
     const [metadataFile, setMetadataFile] = React.useState(null);
     const [isLoading, setIsLoading] = React.useState(false);
@@ -62,7 +60,7 @@ const InputFilesForm = (props) => {
                     </ListItem>
                 ) : null}
                 <ListItem>
-                    <Typography>
+                    <Typography component={'span'}>
                         Network in form of Interaction file
                         <Tooltip
                             title={
@@ -74,7 +72,7 @@ const InputFilesForm = (props) => {
                     </Typography>
                 </ListItem>
                 <ListItem>
-                    <Typography>
+                    <Typography component={'span'}>
                         <Button
                             variant="contained"
                             component="label"
@@ -87,37 +85,56 @@ const InputFilesForm = (props) => {
                                 style={{ display: 'none' }}
                                 onChange={(event) => {
                                     const formData = new FormData();
-                                    let filePath = event.target.files[0]
+                                    let filePath = event.target.files[0];
                                     formData.append('network', filePath);
-                                    axios.post("/api/ParseNetwork/", formData).then((response) => {
-                                        let allNodesTemp = new Set(response.data)
-                                        setAllNodes(allNodesTemp)
-                                        if (nodesOfInterestFile !== null) {
-                                            // Get intersection with all nodes
-                                            let notFound = new Set([...nodesOfInterestFile].filter(x => !allNodesTemp.has(x)));
-                                            if (notFound.size > 0) {
-                                                // Raise error
-                                                // setNotFoundNodes(notFound)
-                                                let notFoundNodesString = Array.from(notFound).reduce((node, curr) => curr + ', ' + node, '')
-                                                let erroMessage = `The following nodes were not found in the given network: ${notFoundNodesString}`
-                                                setError(erroMessage)
+                                    axios
+                                        .post('/api/ParseNetwork/', formData)
+                                        .then((response) => {
+                                            let allNodesTemp = new Set(
+                                                response.data
+                                            );
+                                            setAllNodes(allNodesTemp);
+                                            if (nodesOfInterestFile !== null) {
+                                                // Get intersection with all nodes
+                                                let notFound = new Set(
+                                                    [
+                                                        ...nodesOfInterestFile
+                                                    ].filter(
+                                                        (x) =>
+                                                            !allNodesTemp.has(x)
+                                                    )
+                                                );
+                                                if (notFound.size > 0) {
+                                                    // Raise error
+                                                    // setNotFoundNodes(notFound)
+                                                    let notFoundNodesString =
+                                                        Array.from(
+                                                            notFound
+                                                        ).reduce(
+                                                            (node, curr) =>
+                                                                curr +
+                                                                ', ' +
+                                                                node,
+                                                            ''
+                                                        );
+                                                    let erroMessage = `The following nodes were not found in the given network: ${notFoundNodesString}`;
+                                                    setError(erroMessage);
+                                                } else {
+                                                    setError('');
+                                                }
                                             }
-                                            else {
-                                                setError('')
-                                            }
-                                        }
-                                    }).catch((error) => {
-                                        console.error(error)
-                                        setError(error)
-                                    }
-                                    )
+                                        })
+                                        .catch((error) => {
+                                            console.error(error);
+                                            setError(error);
+                                        });
                                 }}
                             />
                         </Button>
                     </Typography>
                 </ListItem>
                 <ListItem>
-                    <Typography>
+                    <Typography component={'span'}>
                         Nodes of interest
                         <Tooltip
                             title={
@@ -129,7 +146,7 @@ const InputFilesForm = (props) => {
                     </Typography>
                 </ListItem>
                 <ListItem>
-                    <Typography>
+                    <Typography component={'span'}>
                         <Button
                             variant="contained"
                             size="small"
@@ -142,39 +159,53 @@ const InputFilesForm = (props) => {
                                 style={{ display: 'none' }}
                                 onChange={(event) => {
                                     const formData = new FormData();
-                                    let filePath = event.target.files[0]
+                                    let filePath = event.target.files[0];
                                     formData.append('nodesInterest', filePath);
-                                    axios.post("/api/ParseNodesInterest/", formData).then((response) => {
-                                        let nodesParsed = response.data
-                                        setNodesOfInterestFile(nodesParsed)
-                                        // Get intersection with all nodes
-                                        if (allNodes.size > 0) {
-                                            let notFound = new Set([...nodesParsed].filter(x => !allNodes.has(x)));
-                                            if (notFound.size > 0) {
-                                                // Raise error
-                                                let notFoundNodesString = Array.from(notFound).reduce((node, curr) => curr + ', ' + node, '')
-                                                let erroMessage = `The following nodes were not found in the given network: ${notFoundNodesString}`
-                                                setError(erroMessage)
+                                    axios
+                                        .post(
+                                            '/api/ParseNodesInterest/',
+                                            formData
+                                        )
+                                        .then((response) => {
+                                            let nodesParsed = response.data;
+                                            setNodesOfInterestFile(nodesParsed);
+                                            // Get intersection with all nodes
+                                            if (allNodes.size > 0) {
+                                                let notFound = new Set(
+                                                    [...nodesParsed].filter(
+                                                        (x) => !allNodes.has(x)
+                                                    )
+                                                );
+                                                if (notFound.size > 0) {
+                                                    // Raise error
+                                                    let notFoundNodesString =
+                                                        Array.from(
+                                                            notFound
+                                                        ).reduce(
+                                                            (node, curr) =>
+                                                                curr +
+                                                                ', ' +
+                                                                node,
+                                                            ''
+                                                        );
+                                                    let erroMessage = `The following nodes were not found in the given network: ${notFoundNodesString}`;
+                                                    setError(erroMessage);
+                                                } else {
+                                                    setError('');
+                                                }
                                             }
-                                            else {
-                                                setError('')
-                                            }
-                                        }
-
-                                    }).catch((error) => {
-                                        console.error(error)
-                                        setError(error)
-
-                                    }
-                                    )
-                                }
-                                }
+                                        })
+                                        .catch((error) => {
+                                            console.error(error);
+                                            setError(error);
+                                        });
+                                }}
                             />
                         </Button>
                     </Typography>
                 </ListItem>
                 <ListItem>
-                    <Typography>
+                    <Typography component={'span'}>
                         Metadata on the nodes
                         <Tooltip
                             title={
@@ -186,7 +217,7 @@ const InputFilesForm = (props) => {
                     </Typography>
                 </ListItem>
                 <ListItem>
-                    <Typography>
+                    <Typography component={'span'}>
                         <Button
                             variant="contained"
                             size="small"
@@ -197,27 +228,25 @@ const InputFilesForm = (props) => {
                                 type="file"
                                 multiple
                                 style={{ display: 'none' }}
-                                onChange={(event) => {
-
-                                }}
+                                onChange={(event) => {}}
                             />
                         </Button>
                     </Typography>
                 </ListItem>
             </List>
 
-            {allFilesChosen && error.length == 0 ?
+            {allFilesChosen && error.length == 0 ? (
                 <Button
                     variant="contained"
                     size="small"
                     onClick={(e) => {
                         console.log('Start');
-                        setDataProcess("string")
-
+                        setDataProcess('string');
                     }}
                 >
                     Explore
-                </Button> : null}
+                </Button>
+            ) : null}
         </Container>
     );
 };
