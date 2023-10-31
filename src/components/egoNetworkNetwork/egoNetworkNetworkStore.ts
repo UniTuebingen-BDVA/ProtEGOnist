@@ -6,7 +6,7 @@ import {
     egoNetworkNetworkRendered,
     egoNetworkNetworkRenderedEdge
 } from '../../egoGraphSchema';
-import { egoNetworkNetworkBusyAtom, getMultiEgographBundleAtom } from '../../apiCalls.ts';
+import { getMultiEgographBundleAtom } from '../../apiCalls.ts';
 import * as d3 from 'd3';
 import { egoGraphBundlesLayoutAtom } from '../egograph/egoGraphBundleStore.ts';
 import { egoNetworkNetworksOverviewAtom } from '../overview_component/egoNetworkNetworkOverviewStore.ts';

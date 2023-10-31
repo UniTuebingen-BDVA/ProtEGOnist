@@ -78,6 +78,9 @@ export const getMultiEgographBundleAtom = atom(
             (ids) =>
                 !Object.keys(get(egoGraphBundlesAtom)).includes(ids.join(','))
         );
+        const bumbleIdsToDelete = Object.keys(get(egoGraphBundlesAtom)).filter(
+            (id) => !bundleIds.map((ids) => ids.join(',')).includes(id)
+        );
         if (newBundlesIds.length > 0) {
             set(egoNetworkNetworkBusyAtom, true);
             const newData = {};
@@ -99,17 +102,9 @@ export const getMultiEgographBundleAtom = atom(
                             });*/
                             requestCounter += 1;
                             if (requestCounter === newBundlesIds.length) {
-                                const deleteIds = Object.keys(
-                                    get(egoGraphBundlesAtom)
-                                ).filter(
-                                    (id) =>
-                                        !bundleIds
-                                            .map((ids) => ids.join(','))
-                                            .includes(id)
-                                );
                                 set(updateEgoGraphBundleAtom, {
                                     bundles: newData,
-                                    ids: deleteIds
+                                    ids: bumbleIdsToDelete
                                 });
                                 set(egoNetworkNetworkBusyAtom, false);
                             }
@@ -121,6 +116,11 @@ export const getMultiEgographBundleAtom = atom(
                                 );
                         }
                     );
+            });
+        } else if (bumbleIdsToDelete.length > 0) {
+            set(updateEgoGraphBundleAtom, {
+                bundles: [],
+                ids: bumbleIdsToDelete
             });
         }
     }
