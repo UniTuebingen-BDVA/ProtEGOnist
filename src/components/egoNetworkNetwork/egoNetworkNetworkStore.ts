@@ -21,77 +21,82 @@ export const egoNetworkNetworkSizeAtom = atom({
 
 // stores egoGraphs and their intersections
 export const egoGraphBundlesAtom = atom<{
-    [key: string]: {
-        id: string;
+    [id: string]: {
         egoGraphs: egoGraph[];
         intersections: { [key: string]: string[] };
     };
 }>({});
-// write only atom to add new bundle
-export const addEgoGraphBundleAtom = atom(
+
+export const updateEgoGraphBundleAtom = atom(
     null,
     (
         get,
         set,
-        bundle: {
-            id: string;
+        updater: {
             ids: string[];
-            egoGraphs: egoGraph[];
-            intersections: { [key: string]: string[] };
+            bundles: {
+                [id: string]: {
+                    egoGraphs: egoGraph[];
+                    intersections: { [key: string]: string[] };
+                };
+            };
         }
     ) => {
-        set(egoGraphBundlesAtom, {
-            ...get(egoGraphBundlesAtom),
-            [bundle.id]: bundle
+        let bundles = get(egoGraphBundlesAtom);
+        let layouts = structuredClone(get(egoGraphBundlesLayoutAtom));
+        updater.ids.forEach((id) => {
+            const { [id]: _bundle, ...restL } = layouts;
+            layouts = restL;
+            const { [id]: _layout, ...restB } = bundles;
+            bundles = restB;
         });
-        set(egoGraphBundlesLayoutAtom, {
-            ...get(egoGraphBundlesLayoutAtom),
-            [bundle.id]: calculateLayout(
-                bundle.egoGraphs,
-                bundle.intersections,
-                get(decollapseModeAtom)
-            )
+        bundles = { ...bundles, ...updater.bundles };
+        Object.entries(updater.bundles).forEach(([key, value]) => {
+            layouts = {
+                ...layouts,
+                [key]: calculateLayout(
+                    value.egoGraphs,
+                    value.intersections,
+                    get(decollapseModeAtom)
+                )
+            };
         });
+        set(egoGraphBundlesAtom, bundles);
+        set(egoGraphBundlesLayoutAtom, layouts);
     }
 );
-// write only atom to remove bundle
-export const removeEgoGraphBundleAtom = atom(null, (get, set, id: string) => {
-    const bundles = get(egoGraphBundlesAtom);
-    delete bundles[id];
-    const layouts = get(egoGraphBundlesLayoutAtom);
-    delete layouts[id];
-    set(egoGraphBundlesAtom, bundles);
-    set(egoGraphBundlesLayoutAtom, layouts);
-});
 
 const decollapseModeStoreAtom = atom('shared');
 export const decollapseModeAtom = atom(
     (get) => get(decollapseModeStoreAtom),
     (get, set, value: string) => {
-        set(decollapseModeStoreAtom, value);
         const bundles = get(egoGraphBundlesAtom);
         const newLayouts = {};
-        Object.values(bundles).forEach((bundle) => {
-            newLayouts[bundle.id] = calculateLayout(
+        Object.entries(bundles).forEach(([id, bundle]) => {
+            newLayouts[id] = calculateLayout(
                 bundle.egoGraphs,
                 bundle.intersections,
                 value
             );
         });
+        set(decollapseModeStoreAtom, value);
         set(egoGraphBundlesLayoutAtom, newLayouts);
+        // TODO: Show loading spinner when layout is recalculated
     }
 );
-export const decollapseIDsArrayAtom = atom<string[]>([]);
+export const decollapseIDsAtom = atom<string[][]>((get) =>
+    Object.keys(get(egoGraphBundlesLayoutAtom)).map((d) => d.split(','))
+);
 export const decollapsedSizeAtom = atom((get) => {
     const layouts = get(egoGraphBundlesLayoutAtom);
     const decollapsedSizes: { [key: string]: number } = {};
-    for (const [key, layout] of Object.entries(layouts)) {
+    Object.entries(layouts).forEach(([key, layout]) => {
         if (layout) {
             decollapsedSizes[key] = layout.decollapsedSize;
         } else {
             decollapsedSizes[key] = 0;
         }
-    }
+    });
     return decollapsedSizes;
 });
 // indices stores indices in decollapsedIDsArray that are affected if the edges are selected for a bundle
@@ -105,7 +110,7 @@ export const highlightedEdgesAtom = atom(
         if (ids.length === 0) {
             set(highlightedEdgesStoreAtom, { indices: [], ids: [] });
         } else {
-            const currentIdArray = get(decollapseIDsArrayAtom).slice();
+            const currentIdArray = get(decollapseIDsAtom).slice();
             const aggregateIndex = (id: string) => {
                 let index = -1;
                 for (let i = 0; i < currentIdArray.length; i++) {
@@ -164,67 +169,64 @@ export const highlightedEdgesAtom = atom(
         }
     }
 );
-
-export const updateDecollapseIdsAtom = atom(
-    (get) => get(decollapseIDsArrayAtom),
-    (get, set, ids: string[]) => {
-        const decollapseIDs = get(decollapseIDsArrayAtom).slice();
-        for (let i = decollapseIDs.length - 1; i >= 0; i--) {
-            for (let j = decollapseIDs[i].length - 1; j >= 0; j--) {
-                if (!ids.includes(decollapseIDs[i][j])) {
-                    if (decollapseIDs[i].length === 1) {
-                        decollapseIDs.splice(i, 1);
-                    } else {
-                        decollapseIDs[i].splice(j, 1);
-                    }
+/**
+ * Write-only atom for updating decollapse IDs when a node is deleted from the egoNetworkNetwork
+ */
+export const updateDecollapseIdsAtom = atom(null, (get, set, ids: string[]) => {
+    const decollapseIDs = get(decollapseIDsAtom).slice();
+    for (let i = decollapseIDs.length - 1; i >= 0; i--) {
+        for (let j = decollapseIDs[i].length - 1; j >= 0; j--) {
+            if (!ids.includes(decollapseIDs[i][j])) {
+                if (decollapseIDs[i].length === 1) {
+                    decollapseIDs.splice(i, 1);
+                } else {
+                    decollapseIDs[i].splice(j, 1);
                 }
             }
         }
-        set(getMultiEgographBundleAtom, decollapseIDs);
     }
-);
-export const decollapseEdgeAtom = atom(
-    (get) => get(decollapseIDsArrayAtom),
-    (get, set) => {
-        const currentIdArray = get(decollapseIDsArrayAtom).slice();
-        const highlightedEdges = get(highlightedEdgesAtom);
-        if (highlightedEdges.ids.length > 0) {
-            // case: two bundles are merged
-            if (highlightedEdges.indices.length === 2) {
-                currentIdArray[highlightedEdges.indices[0]] =
-                    highlightedEdges.ids;
-                currentIdArray.splice(highlightedEdges.indices[1], 1);
-                // case: node is added to bundle
-            } else if (highlightedEdges.indices.length === 1) {
-                currentIdArray[highlightedEdges.indices[0]] =
-                    highlightedEdges.ids;
-                // case: new bundle created
-            } else {
-                currentIdArray.push(highlightedEdges.ids);
-            }
-            set(getMultiEgographBundleAtom, currentIdArray);
-        }
-    }
-);
-export const decollapseIDsAtom = atom(
-    (get) => get(decollapseIDsArrayAtom),
-    (get, set, id: string) => {
-        const currentIdArray = get(decollapseIDsArrayAtom).slice();
-        const idIndex = currentIdArray
-            .map((bundleIds) => bundleIds.includes(id))
-            .indexOf(true);
-        if (idIndex !== -1) {
-            const subArray = currentIdArray[idIndex];
-            if (subArray.length > 1) {
-                subArray.splice(currentIdArray[idIndex].indexOf(id), 1);
-                currentIdArray[idIndex] = subArray;
-            } else currentIdArray.splice(idIndex, 1);
+    set(getMultiEgographBundleAtom, decollapseIDs);
+});
+/**
+ * write-only atom for decollapsing both nodes attached to an edge
+ */
+export const decollapseEdgeAtom = atom(null, (get, set) => {
+    const currentIdArray = get(decollapseIDsAtom).slice();
+    const highlightedEdges = get(highlightedEdgesAtom);
+    if (highlightedEdges.ids.length > 0) {
+        // case: two bundles are merged
+        if (highlightedEdges.indices.length === 2) {
+            currentIdArray[highlightedEdges.indices[0]] = highlightedEdges.ids;
+            currentIdArray.splice(highlightedEdges.indices[1], 1);
+            // case: node is added to bundle
+        } else if (highlightedEdges.indices.length === 1) {
+            currentIdArray[highlightedEdges.indices[0]] = highlightedEdges.ids;
+            // case: new bundle created
         } else {
-            currentIdArray.push([id]);
+            currentIdArray.push(highlightedEdges.ids);
         }
         set(getMultiEgographBundleAtom, currentIdArray);
     }
-);
+});
+/**
+ * Write-only atom for decollapsing a single node
+ */
+export const decollapseNodeAtom = atom(null, (get, set, id: string) => {
+    const currentIdArray = get(decollapseIDsAtom).slice();
+    const idIndex = currentIdArray
+        .map((bundleIds) => bundleIds.includes(id))
+        .indexOf(true);
+    if (idIndex !== -1) {
+        const subArray = currentIdArray[idIndex];
+        if (subArray.length > 1) {
+            subArray.splice(currentIdArray[idIndex].indexOf(id), 1);
+            currentIdArray[idIndex] = subArray;
+        } else currentIdArray.splice(idIndex, 1);
+    } else {
+        currentIdArray.push([id]);
+    }
+    set(getMultiEgographBundleAtom, currentIdArray);
+});
 
 export const egoNetworkNetworksAtom = atom<egoNetworkNetwork>({
     nodes: [],
@@ -232,9 +234,7 @@ export const egoNetworkNetworksAtom = atom<egoNetworkNetwork>({
 });
 
 const egoNetworkNetworkDeepCopyAtom = atom<egoNetworkNetworkRendered>((get) => {
-    const copy: egoNetworkNetwork = JSON.parse(
-        JSON.stringify(get(egoNetworkNetworksAtom))
-    );
+    const copy: egoNetworkNetwork = structuredClone(get(egoNetworkNetworksAtom));
     const nodeDict: { [key: string]: egoNetworkNetworkNode } = {};
     copy.nodes.forEach((node) => (nodeDict[node.id] = node));
     const renderedNetwork: egoNetworkNetworkRendered = { nodes: [], edges: [] };
@@ -560,7 +560,7 @@ export const interEdgesAtom = atom((get) => {
                             x1:
                                 nodeDict[aggregateSourceID].x +
                                 centerPositions[edge.source].x -
-                                decollapsedSize[edge.source] / 2,
+                                decollapsedSize[aggregateSourceID] / 2,
                             y1:
                                 nodeDict[aggregateSourceID].y +
                                 centerPositions[edge.source].y -

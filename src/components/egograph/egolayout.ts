@@ -9,7 +9,6 @@ export type layoutNode = egoGraphNode & {
     isCenter: boolean;
     cx: number;
     cy: number;
-    hovered: boolean;
     pseudo: boolean; // invisible node
 };
 type layoutEdge = egoGraphEdge & {
@@ -198,7 +197,6 @@ function createLayerNodes(
             isCenter: false,
             cx: nodeCoords.x + transformVector.x,
             cy: nodeCoords.y + transformVector.y,
-            hovered: false,
             pseudo: false,
             identityNodes: []
         };
@@ -512,9 +510,7 @@ function calculateXRanges(
  *
  * @param {egoGraph[]} egoGraphs
  * @param {{ [key: string]: string[] }} intersections
- * @param {number} nodeSize
- * @param {number} innerSize
- * @param {number} outerSize
+ * @param {string} decollapseMode
  */
 export function calculateLayout(
     egoGraphs: egoGraph[],
@@ -1183,7 +1179,6 @@ function createCenterNode(
         isCenter: true,
         cx: outerSize + transformVector.x,
         cy: outerSize + transformVector.y,
-        hovered: false,
         pseudo: false,
         identityNodes: []
     };

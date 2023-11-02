@@ -10,7 +10,7 @@ import {
 import TooltipToggleButton from '../egoNetworkNetwork/TooltipToggleButton.tsx';
 import { useAtom, useAtomValue } from 'jotai';
 import {
-    decollapseIDsArrayAtom,
+    decollapseIDsAtom,
     egoNetworkNetworkSizeAtom,
     decollapseModeAtom
 } from './egoNetworkNetworkStore.ts';
@@ -29,7 +29,7 @@ function EgoNetworkNetworkViewer() {
     const [decollapseMode, setDecollapseModeAtom] = useAtom(decollapseModeAtom);
     const svgSize = useAtomValue(egoNetworkNetworkSizeAtom);
     const [colorscale] = useAtom(drugsPerProteinColorscaleAtom);
-    const [decollapseIDsArray] = useAtom(decollapseIDsArrayAtom);
+    const [decollapseIDsArray] = useAtom(decollapseIDsAtom);
     const [quantifyBy] = useAtom(quantifyNodesByAtom);
     // prevent default pinch zoom
     document.addEventListener('gesturestart', (e) => e.preventDefault());

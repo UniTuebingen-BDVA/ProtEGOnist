@@ -8,11 +8,13 @@ import EgoNetworkNetworkNode from './egoNetworkNetworkNode.tsx';
 import EgoNetworkNetworkEdge from './egoNetworkNetworkEdge.tsx';
 import EgoGraphBundle from '../egograph/egoGraphBundle.tsx';
 import { animated, useTransition } from '@react-spring/web';
+import { egoGraphBundlesLayoutAtom } from '../egograph/egoGraphBundleStore.ts';
 
 const EgoNetworkNetwork = () => {
     const [{ nodes, edges }] = useAtom(aggregateNetworkAtom);
     const [decollapsedSize] = useAtom(decollapsedSizeAtom);
     const [interEdges] = useAtom(interEdgesAtom);
+    const [layouts]=useAtom(egoGraphBundlesLayoutAtom);
     const transitionsNodes = useTransition(nodes, {
         keys: ({ id }) => id,
         from: {
@@ -137,12 +139,14 @@ const EgoNetworkNetwork = () => {
                 if (!node.collapsed) {
                     return (
                         <animated.g transform={style.transform}>
-                            <EgoGraphBundle
-                                key={node.id}
-                                x={-decollapsedSize[node.id] / 2}
-                                y={-decollapsedSize[node.id] / 2}
-                                nodeId={node.id}
-                            />
+                            // TODO: Not sure why this check is needed, we should fix this eventually!
+                            {Object.keys(layouts).includes(node.id)?
+                                <EgoGraphBundle
+                                    key={node.id}
+                                    x={-decollapsedSize[node.id] / 2}
+                                    y={-decollapsedSize[node.id] / 2}
+                                    nodeId={node.id}
+                                />:null}
                         </animated.g>
                     );
                 } else
