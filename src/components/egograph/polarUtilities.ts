@@ -29,9 +29,9 @@ export function polarToCartesian(
 }
 
 export function midPointPolar(p1Theta: number, p2Theta: number) {
-    if (p1Theta > p2Theta && Math.abs(p1Theta - p2Theta) > 0.001) {
-        const p1To2Pi = Math.abs(2 * Math.PI - p1Theta);
-        return p2Theta + p1To2Pi / 2;
+    if (p1Theta > p2Theta) {
+        const p2To2Pi = -1 * (2 * Math.PI - p2Theta);
+        return (p1Theta + p2To2Pi) / 2;
     } else {
         return p2Theta - (p2Theta - p1Theta) / 2;
     }

@@ -32,6 +32,7 @@ interface EgoGraphBandProps {
         }
     ];
     color: string;
+    twoCase: boolean;
 }
 
 function positionTips(
@@ -41,7 +42,8 @@ function positionTips(
     p4: [number, number],
     radiusScale: number,
     centerPosC1: { x: number; y: number; id: string; outerSize: number },
-    centerPosC2: { x: number; y: number; id: string; outerSize: number }
+    centerPosC2: { x: number; y: number; id: string; outerSize: number },
+    twoCase: number | boolean = false
 ) {
     const TIP_MAX_ANGLE = 0.4; //rad
     let p1Cartesian = structuredClone(p1);
@@ -94,29 +96,37 @@ function positionTips(
         centerPosC1
     );
 
+    let midpointP1P2PolarC1, midpointP3P4PolarC1;
     // calculate the midpoint between p1LocalPolar and p2LocalPolar consider that the midpoint of 3/2 pi and 1/2 pi is 0
-    const midpointP1P2PolarC1 = {
-        r: scaledOuterSizeC1,
-        theta: midPointPolar(p1LocalPolarC1.theta, p2LocalPolarC1.theta)
-    };
-    // const midpointP3P4PolarC1 = {
-    //     r: p3LocalPolarC1.r,
-    //     theta: midPointPolar(p3LocalPolarC1.theta, p4LocalPolarC1.theta)
-    // };
+    if (twoCase) {
+        midpointP1P2PolarC1 = {
+            r: scaledOuterSizeC1,
+            theta: twoCase == 1 ? 0 : Math.PI
+        };
+        midpointP3P4PolarC1 = {
+            r: p3LocalPolarC2.r,
+            theta: twoCase == 1 ? 0 : Math.PI
+        };
+    } else {
+        midpointP1P2PolarC1 = {
+            r: scaledOuterSizeC1,
+            theta: midPointPolar(p1LocalPolarC1.theta, p2LocalPolarC1.theta)
+        };
 
-    const midpointP3P4PolarC2 = {
-        r: p3LocalPolarC2.r,
-        theta: midPointPolar(p3LocalPolarC2.theta, p4LocalPolarC2.theta)
-    };
+        const midpointP3P4PolarC2 = {
+            r: p3LocalPolarC2.r,
+            theta: midPointPolar(p3LocalPolarC2.theta, p4LocalPolarC2.theta)
+        };
 
-    const midpointP3P4cartesianC2 = localToGlobal(
-        polarToCartesian(midpointP3P4PolarC2.r, midpointP3P4PolarC2.theta),
-        centerPosC2
-    );
+        const midpointP3P4cartesianC2 = localToGlobal(
+            polarToCartesian(midpointP3P4PolarC2.r, midpointP3P4PolarC2.theta),
+            centerPosC2
+        );
+        midpointP3P4PolarC1 = cartesianToPolar(
+            globalToLocal(midpointP3P4cartesianC2, centerPosC1)
+        );
+    }
 
-    const midpointP3P4PolarC1 = cartesianToPolar(
-        globalToLocal(midpointP3P4cartesianC2, centerPosC1)
-    );
     const adjustedTipPosition1 = {
         r: scaledOuterSizeC1,
         theta: midpointP3P4PolarC1.theta
@@ -138,7 +148,18 @@ function positionTips(
     const correctionAngle = TIP_MAX_ANGLE / 5;
     //check if the tip is within the arc
 
-    if (
+    if (twoCase) {
+        tipPosition1.theta = twoCase == 1 ? 0 : Math.PI;
+        const distSmallerThanTip =
+            distancePolar(p1LocalPolarC1, p2LocalPolarC1) < TIP_MAX_ANGLE;
+        const distLargerThreshold =
+            distancePolar(p1LocalPolarC1, p2LocalPolarC1) > 0.000001 &&
+            distancePolar(p2LocalPolarC1, p1LocalPolarC1) > 0.000001;
+        if (distSmallerThanTip && distLargerThreshold) {
+            tipBaseP1Polar.theta = p1LocalPolarC1.theta;
+            tipBaseP2Polar.theta = p2LocalPolarC1.theta;
+        }
+    } else if (
         distancePolar(p1LocalPolarC1.theta, p2LocalPolarC1.theta) <
         TIP_MAX_ANGLE
     ) {
@@ -177,7 +198,7 @@ function positionTips(
                     TIP_MAX_ANGLE
                 );
             } else {
-                tipPosition1.theta = addAngle(
+                tipPosition1.theta = subtractAngle(
                     p2LocalPolarC1.theta,
                     correctionAngle
                 );
@@ -195,10 +216,10 @@ function positionTips(
                     tipBaseP1Polar.theta
                 )
             ) {
-                tipBaseP1Polar.theta = addAngle(p1LocalPolarC1.theta, 0);
+                tipBaseP1Polar.theta = p1LocalPolarC1.theta;
                 tipBaseP2Polar.theta = addAngle(
                     tipBaseP2Polar.theta,
-                    correctionAngle
+                    correctionAngle + TIP_MAX_ANGLE / 2
                 );
 
                 tipPosition1.theta = addAngle(
@@ -214,6 +235,10 @@ function positionTips(
                 )
             ) {
                 tipBaseP2Polar.theta = p2LocalPolarC1.theta;
+                tipBaseP1Polar.theta = subtractAngle(
+                    tipBaseP2Polar.theta,
+                    correctionAngle + TIP_MAX_ANGLE / 2
+                );
 
                 tipPosition1.theta = subtractAngle(
                     p2LocalPolarC1.theta,
@@ -364,8 +389,6 @@ function offsetTips(
 function orientTips(
     tipPosition1Cartesian: [number, number],
     tipPosition2Cartesian: [number, number],
-    tipBaseP1Cartesian: [number, number],
-    tipBaseP2Cartesian: [number, number],
     centerPos: { x: number; y: number }
 ) {
     const TIP_LENGTH = 0.13;
@@ -376,12 +399,6 @@ function orientTips(
 
     const tipPosition2Polar = cartesianToPolar(
         globalToLocal(tipPosition2Cartesian, centerPos)
-    );
-    const tipBaseP1Polar = cartesianToPolar(
-        globalToLocal(tipBaseP1Cartesian, centerPos)
-    );
-    const tipBaseP2Polar = cartesianToPolar(
-        globalToLocal(tipBaseP2Cartesian, centerPos)
     );
     // check if tipPosition2Polar in the semicircle right of tipPosition1Polar
     const pos1PlusHalfPi = addAngle(tipPosition1Polar.theta, Math.PI);
@@ -398,36 +415,30 @@ function orientTips(
 
     // calculate the tip points from the tip polar coordinates
     // calculate the theat for the tip points such that it tilts towards tipPoint2Polar but not farther than the respective base point
-
     const tipPointTheta = () => {
-        if (Math.abs(angleDifference) > 0.1) {
+        if (Math.abs(angleDifference) > 0.0) {
             return isClockwise
-                ? Math.min(
-                      addAngle(tipBaseP2Polar.theta, angleDifference / 20),
-                      addAngle(tipPosition1Polar.theta, angleDifference / 15)
-                  )
-                : Math.max(
-                      subtractAngle(tipBaseP1Polar.theta, angleDifference / 20),
-                      subtractAngle(
-                          tipPosition1Polar.theta,
-                          angleDifference / 15
-                      )
+                ? addAngle(tipPosition1Polar.theta, angleDifference * 0.15)
+                : subtractAngle(
+                      tipPosition1Polar.theta,
+                      angleDifference * 0.15
                   );
         } else {
             return tipPosition1Polar.theta;
         }
     };
-    const midTheta2 = midPointPolar(
-        isClockwise ? tipPosition1Polar.theta : tipPointTheta(),
-        isClockwise ? tipPointTheta() : tipPosition1Polar.theta
+    const distancePosition1Position2cartesian = Math.sqrt(
+        (tipPosition1Cartesian[0] - tipPosition2Cartesian[0]) ** 2 +
+            (tipPosition1Cartesian[1] - tipPosition2Cartesian[1]) ** 2
     );
+
     const tipPoint1Polar = {
         r: tipPosition1Polar.r * (1 + TIP_LENGTH),
-        theta: tipPointTheta()
+        theta: tipPosition1Polar.theta
     };
     const tipPoint2Polar = {
-        r: tipPoint1Polar.r * (1 + TIP_LENGTH),
-        theta: midTheta2
+        r: tipPoint1Polar.r + distancePosition1Position2cartesian / 4,
+        theta: tipPointTheta()
     };
     const tipPointControlPolar = {
         r: tipPosition1Polar.r * 1.04,
@@ -493,7 +504,8 @@ function getPath(
     end: {
         graphCenterPos: { x: number; y: number; id: string; outerSize: number };
         pos: { x: number; y: number };
-    }[]
+    }[],
+    twoCase = false
 ) {
     const RADIUS_SCALE = 1.1;
 
@@ -503,26 +515,9 @@ function getPath(
     const avgCircleDiameter =
         (start[0].graphCenterPos.outerSize + end[0].graphCenterPos.outerSize) /
         2;
-    const distanceBetweenStartPoints = Math.sqrt(
-        (secondPos[0] - firstPos[0]) ** 2 + (secondPos[1] - firstPos[1]) ** 2
-    );
-    const outerSize = avgCircleDiameter * 2 * Math.PI * 0.01;
-
-    const OFFSET_SCALE_1 =
-        distanceBetweenStartPoints > outerSize ||
-        distanceBetweenStartPoints < 0.1
-            ? outerSize
-            : distanceBetweenStartPoints / 2;
 
     const thirdPos: [number, number] = [end[0].pos.x, end[0].pos.y];
     const fourthPos: [number, number] = [end[1].pos.x, end[1].pos.y];
-    const distanceBetweenEndPoints = Math.sqrt(
-        (fourthPos[0] - thirdPos[0]) ** 2 + (fourthPos[1] - thirdPos[1]) ** 2
-    );
-    const OFFSET_SCALE_2 =
-        distanceBetweenEndPoints > outerSize || distanceBetweenEndPoints < 0.1
-            ? outerSize
-            : distanceBetweenEndPoints / 2;
 
     const [
         p1Cartesian,
@@ -539,7 +534,8 @@ function getPath(
         fourthPos,
         RADIUS_SCALE,
         start[0].graphCenterPos,
-        end[0].graphCenterPos
+        end[0].graphCenterPos,
+        twoCase ? 1 : false
     );
 
     const [
@@ -557,15 +553,15 @@ function getPath(
         secondPos,
         RADIUS_SCALE,
         end[0].graphCenterPos,
-        start[0].graphCenterPos
+        start[0].graphCenterPos,
+        twoCase ? 2 : false
     );
 
     const [tipPoint1Cartesian, tipPoint2Cartesian, tipPointControlCartesian] =
         orientTips(
             tipPosition1Cartesian,
             tipPosition2Cartesian,
-            tipBaseP1Cartesian,
-            tipBaseP2Cartesian,
+
             start[0].graphCenterPos
         );
 
@@ -573,10 +569,21 @@ function getPath(
         orientTips(
             tipPosition2Cartesian,
             tipPosition1Cartesian,
-            tipBaseP3Cartesian,
-            tipBaseP4Cartesian,
             end[0].graphCenterPos
         );
+
+    const distanceBetweenStartPoints = Math.sqrt(
+        (tipBaseP2Cartesian[0] - tipBaseP1Cartesian[0]) ** 2 +
+            (tipBaseP2Cartesian[1] - tipBaseP1Cartesian[1]) ** 2
+    );
+    const outerSize = avgCircleDiameter * 2 * Math.PI * 0.01;
+
+    const OFFSET_SCALE_1 =
+        distanceBetweenStartPoints > outerSize ||
+        distanceBetweenStartPoints < 0.1
+            ? outerSize
+            : distanceBetweenStartPoints / 3;
+
     const [
         tipPoint1OffsetCartesianNeg,
         tipPoint1OffsetCartesianPos,
@@ -586,12 +593,22 @@ function getPath(
         connectorControl1OffsetCartesianPos
     ] = offsetTips(
         tipPoint1Cartesian,
-        tipPoint3Cartesian,
+        tipPoint2Cartesian,
         tipPointControlCartesian,
         tipPoint2Cartesian,
         OFFSET_SCALE_1,
         [start[0].graphCenterPos.x, start[0].graphCenterPos.y]
     );
+
+    const distanceBetweenEndPoints = Math.sqrt(
+        (tipBaseP4Cartesian[0] - tipBaseP3Cartesian[0]) ** 2 +
+            (tipBaseP4Cartesian[1] - tipBaseP3Cartesian[1]) ** 2
+    );
+    const OFFSET_SCALE_2 =
+        distanceBetweenEndPoints > outerSize || distanceBetweenEndPoints < 0.1
+            ? outerSize
+            : distanceBetweenEndPoints / 3;
+
     const [
         tipPoint2OffsetCartesianNeg,
         tipPoint2OffsetCartesianPos,
@@ -601,7 +618,7 @@ function getPath(
         connectorControl2OffsetCartesianPos
     ] = offsetTips(
         tipPoint3Cartesian,
-        tipPoint1Cartesian,
+        tipPoint4Cartesian,
         tipPointControlCartesian2,
         tipPoint4Cartesian,
         OFFSET_SCALE_2,
@@ -642,13 +659,12 @@ function getPath(
     const connector2 = `
     C ${connectorControl2OffsetCartesianPos[0]} ${connectorControl2OffsetCartesianPos[1]} ${connectorControl1OffsetCartesianNeg[0]} ${connectorControl1OffsetCartesianNeg[1]} ${tipPoint1OffsetCartesianNeg[0]} ${tipPoint1OffsetCartesianNeg[1]}
     `;
-    return arc1 + connector1 + arc2 + connector2;
+    return [arc1 + connector1 + arc2 + connector2];
 }
 
 const EgoGraphBand = (props: EgoGraphBandProps) => {
-    const { bandData, color } = props;
+    const { bandData, color, twoCase } = props;
     const [selectedBand, setSelectedBand] = useAtom(selectedBandAtom);
-    const [filteredIntersections] = useAtom(filteredIntersectionsAtom);
     let pathData: { path: string[]; color: string; id: string }[] = [];
     if (Object.values(bandData[1]).length === 0) return null;
     if (Object.values(bandData[1]).length === 1) return null;
@@ -657,7 +673,7 @@ const EgoGraphBand = (props: EgoGraphBandProps) => {
         const end = Object.values(bandData[1])[1];
         pathData = [
             {
-                path: getPath(start, end),
+                path: getPath(start, end, twoCase),
                 color: color,
                 id: bandData[0]
             }
@@ -692,20 +708,22 @@ const EgoGraphBand = (props: EgoGraphBandProps) => {
     }
 
     return pathData.map((pathDatum, i) => (
-        <path
-            key={i}
-            d={pathDatum.path}
-            className="band"
-            stroke={'red'}
-            opacity={1}
-            strokeWidth={selectedBand === pathDatum.id ? '4' : '0'}
-            fill={pathDatum.color}
-            onClick={() => {
-                setSelectedBand(
-                    selectedBand == pathDatum.id ? '' : pathDatum.id
-                );
-            }}
-        />
+        <g>
+            <path
+                key={i}
+                d={pathDatum.path[0]}
+                className="band"
+                stroke={'red'}
+                opacity={1}
+                strokeWidth={selectedBand === pathDatum.id ? '4' : '0'}
+                fill={pathDatum.color}
+                onClick={() => {
+                    setSelectedBand(
+                        selectedBand == pathDatum.id ? '' : pathDatum.id
+                    );
+                }}
+            />
+        </g>
     ));
 };
 

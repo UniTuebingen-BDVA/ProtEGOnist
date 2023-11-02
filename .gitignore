@@ -22,6 +22,8 @@ __pycache__/
 /server/data/*.xlsx
 /server/data/example_PPIs*
 /server/data/metageno*
+!/server/data/IEEEcoAuthor/*.py
+/server/data/IEEEcoAuthor/*
 /server/data/encounteredNodes.txt
 
 # Logs

@@ -166,6 +166,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                         key={i}
                         bandData={band}
                         color={bandColorScale(i)}
+                        twoCase={Object.entries(layout.bandData).length === 1}
                     />
                 );
             });
