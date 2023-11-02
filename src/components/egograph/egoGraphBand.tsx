@@ -515,26 +515,9 @@ function getPath(
     const avgCircleDiameter =
         (start[0].graphCenterPos.outerSize + end[0].graphCenterPos.outerSize) /
         2;
-    const distanceBetweenStartPoints = Math.sqrt(
-        (secondPos[0] - firstPos[0]) ** 2 + (secondPos[1] - firstPos[1]) ** 2
-    );
-    const outerSize = avgCircleDiameter * 2 * Math.PI * 0.01;
-
-    const OFFSET_SCALE_1 =
-        distanceBetweenStartPoints > outerSize ||
-        distanceBetweenStartPoints < 0.1
-            ? outerSize
-            : distanceBetweenStartPoints / 2;
 
     const thirdPos: [number, number] = [end[0].pos.x, end[0].pos.y];
     const fourthPos: [number, number] = [end[1].pos.x, end[1].pos.y];
-    const distanceBetweenEndPoints = Math.sqrt(
-        (fourthPos[0] - thirdPos[0]) ** 2 + (fourthPos[1] - thirdPos[1]) ** 2
-    );
-    const OFFSET_SCALE_2 =
-        distanceBetweenEndPoints > outerSize || distanceBetweenEndPoints < 0.1
-            ? outerSize
-            : distanceBetweenEndPoints / 2;
 
     const [
         p1Cartesian,
@@ -588,6 +571,19 @@ function getPath(
             tipPosition1Cartesian,
             end[0].graphCenterPos
         );
+
+    const distanceBetweenStartPoints = Math.sqrt(
+        (tipBaseP2Cartesian[0] - tipBaseP1Cartesian[0]) ** 2 +
+            (tipBaseP2Cartesian[1] - tipBaseP1Cartesian[1]) ** 2
+    );
+    const outerSize = avgCircleDiameter * 2 * Math.PI * 0.01;
+
+    const OFFSET_SCALE_1 =
+        distanceBetweenStartPoints > outerSize ||
+        distanceBetweenStartPoints < 0.1
+            ? outerSize
+            : distanceBetweenStartPoints / 3;
+
     const [
         tipPoint1OffsetCartesianNeg,
         tipPoint1OffsetCartesianPos,
@@ -603,6 +599,16 @@ function getPath(
         OFFSET_SCALE_1,
         [start[0].graphCenterPos.x, start[0].graphCenterPos.y]
     );
+
+    const distanceBetweenEndPoints = Math.sqrt(
+        (tipBaseP4Cartesian[0] - tipBaseP3Cartesian[0]) ** 2 +
+            (tipBaseP4Cartesian[1] - tipBaseP3Cartesian[1]) ** 2
+    );
+    const OFFSET_SCALE_2 =
+        distanceBetweenEndPoints > outerSize || distanceBetweenEndPoints < 0.1
+            ? outerSize
+            : distanceBetweenEndPoints / 3;
+
     const [
         tipPoint2OffsetCartesianNeg,
         tipPoint2OffsetCartesianPos,
