@@ -547,7 +547,7 @@ export function calculateLayout(
         Object.keys(intersections).forEach((key) => {
             const ids = key.split(',');
             if (ids.includes(egoGraph.centerNode.originalID)) {
-                if (ids.length > 1) {
+                if (ids.length > 1 || egoGraphs.length===1) {
                     sharedLength += intersections[key].length;
                 } else {
                     uniqueLength += intersections[key].length;
