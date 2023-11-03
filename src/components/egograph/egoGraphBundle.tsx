@@ -76,6 +76,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
         () =>
             layout.centers.map((center) => (
                 <circle
+                    key={center.id}
                     cx={center.x}
                     cy={center.y}
                     r={center.outerSize}

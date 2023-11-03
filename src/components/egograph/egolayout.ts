@@ -43,6 +43,7 @@ type graphCenter = {
     id: string;
     outerSize: number;
 };
+
 export interface egoGraphLayout {
     bandData: {
         [key: string]: {
@@ -64,6 +65,7 @@ export interface egoGraphLayout {
     centers: { x: number; y: number; id: string; outerSize: number }[];
     decollapsedSize: number;
 }
+
 /**
  * Calculates the needed radius for the ego graph such that the nodes are not overlapping and evenly distributed
  */
@@ -489,24 +491,27 @@ function sortPairwiseIntersection(
     });
     return nodes;
 }
+
 function calculateXRanges(
     proportion: number,
     toggle: boolean
 ): [[number, number], [number, number]] {
     const fullRange = 2 * Math.PI;
-    let offset=1/24*Math.PI
+    let offset = (1 / 24) * Math.PI;
     if (toggle) {
-        if(proportion!==1){
-            offset=0;
+        // also draw gap in "all" mode when there is only shared nodes.
+        // TODO: Maybe change this? Only draw gap in nodes but not in bands?
+        if (proportion !== 1) {
+            offset = 0;
         }
         return [
-            [0, fullRange * proportion-offset],
-            [fullRange * proportion+offset, fullRange]
+            [0, fullRange * proportion - offset],
+            [fullRange * proportion + offset, fullRange]
         ];
     }
     return [
-        [0, fullRange-offset],
-        [fullRange+offset, fullRange]
+        [0, fullRange - offset],
+        [fullRange + offset, fullRange]
     ];
 }
 
@@ -537,27 +542,27 @@ export function calculateLayout(
         [key: string]: { shared: number; unique: number };
     } = {};
     egoGraphs.forEach((egoGraph) => {
-        let idAccumulator = 0;
-        let shared = 0;
-        for (const [key, value] of Object.entries(intersections)) {
-            const ke = key.split(',');
-            const addCond = ke.length > 1 || egoGraphs.length === 1; //add only shared cond here
-            if (addCond && ke.includes(egoGraph.centerNode.originalID)) {
-                idAccumulator += value.length;
-                shared += value.length;
-            } else if (
-                decollapseMode === 'all' &&
-                ke.includes(egoGraph.centerNode.originalID)
-            ) {
-                idAccumulator += value.length;
+        let sharedLength = 0;
+        let uniqueLength = 0;
+        Object.keys(intersections).forEach((key) => {
+            const ids = key.split(',');
+            if (ids.includes(egoGraph.centerNode.originalID)) {
+                if (ids.length > 1) {
+                    sharedLength += intersections[key].length;
+                } else {
+                    uniqueLength += intersections[key].length;
+                }
             }
-        }
+        });
         sharedNonShared[egoGraph.centerNode.originalID] = {
-            shared,
-            unique: idAccumulator - shared
+            shared: sharedLength,
+            unique: uniqueLength
         };
-        decollapsedRadii[egoGraph.centerNode.originalID] =
-            calculateRadius(idAccumulator);
+        decollapsedRadii[egoGraph.centerNode.originalID] = calculateRadius(
+            decollapseMode === 'shared'
+                ? sharedLength
+                : sharedLength + uniqueLength
+        );
     });
 
     // set radius of the bundle such that all circles are accommodated
