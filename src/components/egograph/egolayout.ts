@@ -494,15 +494,19 @@ function calculateXRanges(
     toggle: boolean
 ): [[number, number], [number, number]] {
     const fullRange = 2 * Math.PI;
+    let offset=1/24*Math.PI
     if (toggle) {
+        if(proportion!==1){
+            offset=0;
+        }
         return [
-            [0, fullRange * proportion],
-            [fullRange * proportion, fullRange]
+            [0, fullRange * proportion-offset],
+            [fullRange * proportion+offset, fullRange]
         ];
     }
     return [
-        [0, fullRange],
-        [fullRange, fullRange]
+        [0, fullRange-offset],
+        [fullRange+offset, fullRange]
     ];
 }
 
