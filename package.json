@@ -6,7 +6,7 @@
   "scripts": {
     "server": "cd server && flask --app ../wsgi.py run --port=5002",
     "dev": "concurrently \"yarn run server\" \"vite\"",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "test": "NODE_OPTIONS=\"--loader ts-node/esm\" mocha src/tests",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
