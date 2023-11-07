@@ -103,15 +103,6 @@ function createLayerNodes(
         .scaleBand()
         .range(xRange)
         .domain(sortOrder.map((d) => d.intersections).flat());
-    // let maxradius: number;
-    // if (layerNodes.length > 1) {
-    //     maxradius =
-    //         ((center / Math.sin((Math.PI - x.bandwidth()) / 2)) *
-    //             Math.sin(x.bandwidth())) /
-    //         2;
-    // } else {
-    //     maxradius = radius;
-    // }
 
     // check if any element in sortOrder has an id sortOrder[i].id.split(',').length > 2
     const tripleIntersection = sortOrder.find(
@@ -177,12 +168,6 @@ function createLayerNodes(
             end,
             transformVector.graphId,
             transformVector
-            // x(sortOrder[i].intersections[0]),
-            // x(
-            //     sortOrder[i].intersections[
-            //         sortOrder[i].intersections.length - 1
-            //     ]
-            // ) + x.bandwidth()
         ];
     }
     layerNodes.forEach((node) => {
@@ -441,26 +426,56 @@ export function sortByOverlap(
 }
 
 /**
- * Sorts nodes in egograph
+ * Sorts unique nodes in egograph
  * @param {egoGraphNode[]} nodes
  * @param {egoGraphEdge[]} edges
  */
-function sortNodes(nodes: egoGraphNode[], edges: egoGraphEdge[]) {
+function sortUniqueNodes(nodes: egoGraphNode[], edges: egoGraphEdge[], sortBy) {
     const nodeDict: { [key: string]: egoGraphNode } = {};
     nodes.forEach((node) => (nodeDict[node.id] = node));
     const nodeAssignment = assignToInnerNodes(nodeDict, edges);
-    const innerNodes = Object.keys(nodeAssignment);
-    const intersectingNodes = calculateOverlaps(nodeAssignment, innerNodes);
-    if (intersectingNodes.length > 1) {
-        return sortByOverlap(intersectingNodes, nodeAssignment, innerNodes);
-    } else {
-        const allOuterOrder: string[] = Array.from(
-            nodeAssignment.values()
-        ).flat();
-        const outerNodeOrder = new Set(allOuterOrder);
+    if (sortBy === 'consistent') {
+        const innerNodes = Object.keys(nodeAssignment);
+        const intersectingNodes = calculateOverlaps(nodeAssignment, innerNodes);
+        let innerNodeOrder: string[] = [];
+        let outerNodeOrder: string[] = [];
+        if (intersectingNodes.length > 1) {
+            const nodeOrder = sortByOverlap(
+                intersectingNodes,
+                nodeAssignment,
+                innerNodes
+            );
+            innerNodeOrder = nodeOrder.innerNodeOrder;
+            outerNodeOrder = nodeOrder.outerNodeOrder;
+        } else {
+            const allOuterOrder: string[] = Array.from(
+                nodeAssignment.values()
+            ).flat();
+            outerNodeOrder = [...new Set(allOuterOrder)];
+        }
+        const nodesLayer1 = nodes.filter((d) => d.centerDist === 1);
+        const nodesLayer2 = nodes.filter((d) => d.centerDist === 2);
+        nodesLayer1.forEach((node) => {
+            if (!innerNodeOrder.includes(node.id)) {
+                innerNodeOrder.push(node.id);
+            }
+        });
+        nodesLayer2.forEach((node) => {
+            if (!outerNodeOrder.includes(node.id)) {
+                outerNodeOrder.push(node.id);
+            }
+        });
         return {
-            innerNodeOrder: innerNodes,
-            outerNodeOrder: [...outerNodeOrder]
+            innerNodes: nodes.filter((d) => innerNodeOrder.includes(d.id)),
+            outerNodes: nodes.filter((d) => outerNodeOrder.includes(d.id))
+        };
+    } else {
+        const sortedNodeIds = nodes.sort((a, b) => a.numEdges - b.numEdges);
+        const outerNodes = sortedNodeIds.filter((d) => d.centerDist === 2);
+        const innerNodes = sortedNodeIds.filter((d) => d.centerDist === 1);
+        return {
+            innerNodes: innerNodes,
+            outerNodes: outerNodes
         };
     }
 }
@@ -492,6 +507,54 @@ function sortPairwiseIntersection(
     return nodes;
 }
 
+function sortIntersectionByDistance(
+    nodes: string[],
+    currGraphId: string,
+    otherGraphIds: string[],
+    nodeDict: { [key: string]: egoGraphNode }
+) {
+    return nodes.sort((a, b) => {
+        const centerDistComp =
+            nodeDict[currGraphId + '_' + b].centerDist -
+            nodeDict[currGraphId + '_' + a].centerDist;
+        if (centerDistComp !== 0) {
+            return centerDistComp;
+        } else {
+            const distanceA =
+                nodeDict[currGraphId + '_' + a].centerDist +
+                otherGraphIds.reduce(
+                    (acc: number, curr: string) =>
+                        acc + nodeDict[curr + '_' + a].centerDist,
+                    0
+                );
+            const distanceB =
+                nodeDict[currGraphId + '_' + b].centerDist +
+                otherGraphIds.reduce(
+                    (acc: number, curr: string) =>
+                        acc + nodeDict[curr + '_' + b].centerDist,
+                    0
+                );
+            const totalDistComp = distanceB - distanceA;
+            if (totalDistComp !== 0) {
+                return totalDistComp;
+            } else {
+                const numEdgeComp =
+                    nodeDict[currGraphId + '_' + a].numEdges -
+                    nodeDict[currGraphId + '_' + b].numEdges;
+                if (numEdgeComp !== 0) {
+                    return numEdgeComp;
+                } else {
+                    if (b > a) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                }
+            }
+        }
+    });
+}
+
 function calculateXRanges(
     proportion: number,
     toggle: boolean
@@ -520,12 +583,18 @@ function calculateXRanges(
  * @param {egoGraph[]} egoGraphs
  * @param {{ [key: string]: string[] }} intersections
  * @param {string} decollapseMode
+ * @param {string} sortBy
  */
 export function calculateLayout(
     egoGraphs: egoGraph[],
     intersections: { [key: string]: string[] },
-    decollapseMode: string
+    decollapseMode: string,
+    sortBy: string
 ): egoGraphLayout {
+    const globalNodeDict = {};
+    egoGraphs.forEach((graph) =>
+        graph.nodes.forEach((node) => (globalNodeDict[node.id] = node))
+    );
     // sort each array in egsGraphs alphabetically by centerNode originalId
     egoGraphs.sort((a, b) => {
         if (a.centerNode.originalID > b.centerNode.originalID) {
@@ -547,7 +616,7 @@ export function calculateLayout(
         Object.keys(intersections).forEach((key) => {
             const ids = key.split(',');
             if (ids.includes(egoGraph.centerNode.originalID)) {
-                if (ids.length > 1 || egoGraphs.length===1) {
+                if (ids.length > 1 || egoGraphs.length === 1) {
                     sharedLength += intersections[key].length;
                 } else {
                     uniqueLength += intersections[key].length;
@@ -593,12 +662,16 @@ export function calculateLayout(
         ]
             .sort()
             .toString();
-        let pairwiseIntersections = sortPairwiseIntersection(
-            intersections[pairwiseIntersectionId],
-            nodeDict,
-            egoGraphs[egoGraphs.length - 1].centerNode.originalID
-        ); //.reverse();
+        let pairwiseIntersections =
+            sortBy === 'consistent'
+                ? sortPairwiseIntersection(
+                      intersections[pairwiseIntersectionId],
+                      nodeDict,
+                      egoGraphs[egoGraphs.length - 1].centerNode.originalID
+                  )
+                : intersections[pairwiseIntersectionId];
         const firstAndLastNodesIDs: { [key: string]: layoutBand[] } = {};
+        let prevId = egoGraphs[egoGraphs.length - 1].centerNode.originalID;
         for (let i = 0; i < egoGraphs.length; i++) {
             nodeDict = {};
             egoGraphs[i].nodes.forEach((node) => (nodeDict[node.id] = node));
@@ -617,7 +690,7 @@ export function calculateLayout(
             let nextPairwiseIntersections =
                 intersections[nextPairwiseIntersectionsId];
             // if we only have selected two egographs we don't sort both of them to prevent crossing edges.
-            if (egoGraphs.length > 2) {
+            if (egoGraphs.length > 2 && sortBy == 'consistent') {
                 nextPairwiseIntersections = sortPairwiseIntersection(
                     nextPairwiseIntersections,
                     nodeDict,
@@ -648,22 +721,47 @@ export function calculateLayout(
             if (pairwiseIntersections.length > 0) {
                 intersectingNodes.push({
                     id: pairwiseIntersectionId,
-                    intersections: pairwiseIntersections
+                    intersections:
+                        sortBy === 'consistent'
+                            ? pairwiseIntersections
+                            : sortIntersectionByDistance(
+                                  pairwiseIntersections,
+                                  firstGraphId,
+                                  [prevId],
+                                  globalNodeDict
+                              )
                 });
             }
             if (otherIntersections.length > 0) {
                 intersectingNodes.push({
                     id: otherIntersectionsId,
-                    intersections: otherIntersections
+                    intersections:
+                        sortBy === 'consistent'
+                            ? otherIntersections
+                            : sortIntersectionByDistance(
+                                  otherIntersections,
+                                  firstGraphId,
+                                  [prevId, secondGraphId],
+                                  globalNodeDict
+                              )
                 });
             }
             if (nextPairwiseIntersections.length > 0 && egoGraphs.length > 2) {
                 intersectingNodes.push({
                     id: nextPairwiseIntersectionsId,
-                    intersections: nextPairwiseIntersections
+                    intersections:
+                        sortBy === 'consistent'
+                            ? nextPairwiseIntersections
+                            : sortIntersectionByDistance(
+                                  nextPairwiseIntersections,
+                                  firstGraphId,
+                                  [secondGraphId],
+                                  globalNodeDict
+                              )
                 });
             }
             pairwiseIntersections = nextPairwiseIntersections;
+            prevId = firstGraphId;
             const scaledOuterSize = decollapsedRadii[firstGraphId];
             const largestRadius = Math.max(...Object.values(decollapsedRadii));
             if (egoGraphs.length <= 2) {
@@ -731,7 +829,8 @@ export function calculateLayout(
                 graphCenters[i],
                 calculateXRanges(proportion, decollapseMode !== 'shared'),
                 //-fullRange / egoGraphs.length / 2 +
-                (fullRange / egoGraphs.length) * i
+                (fullRange / egoGraphs.length) * i,
+                sortBy
             );
 
             Object.entries(currLayout.bands).forEach((entry) => {
@@ -748,10 +847,6 @@ export function calculateLayout(
             pairwiseIntersectionId = nextPairwiseIntersectionsId;
 
             layoutNodeDict = { ...currLayout.nodes, ...layoutNodeDict };
-            // layout.maxradius = Math.max(
-            //     Math.min(currLayout.maxradius, layout.maxradius),
-            //     2
-            // );
         }
         layout.edges = createEgoEdges(
             layoutNodeDict,
@@ -773,7 +868,8 @@ export function calculateLayout(
             egoGraphs[0],
             decollapsedRadii[egoGraphs[0].centerNode.originalID] / 2,
             decollapsedRadii[egoGraphs[0].centerNode.originalID],
-            decollapsedRadii[egoGraphs[0].centerNode.originalID]
+            decollapsedRadii[egoGraphs[0].centerNode.originalID],
+            sortBy
         );
         return layout;
     }
@@ -865,7 +961,8 @@ function calculateMultiLayout(
     }[],
     graphCenter: { x: number; y: number; id: string },
     xRanges: [[number, number], [number, number]],
-    offset: number
+    offset: number,
+    sortBy: string
 ) {
     const transformVector = {
         graphId: graphCenter.id,
@@ -893,7 +990,6 @@ function calculateMultiLayout(
         offset
     );
     nodes = sharedNodesLayout.nodes;
-    // let maxRadius = sharedNodesLayout.maxradius;
     if (uniqueNodeIds.length > 0) {
         const uniqueNodesLayout = calculateLayoutUniqueNodes(
             uniqueNodeIds.map(
@@ -904,18 +1000,14 @@ function calculateMultiLayout(
             outerSize,
             xRanges[1],
             transformVector,
-            offset - sharedNodesLayout.additionalOffset
+            offset - sharedNodesLayout.additionalOffset,
+            sortBy
         );
         nodes = {
             ...uniqueNodesLayout.nodesLayer1Layout.nodes,
             ...uniqueNodesLayout.nodesLayer2Layout.nodes,
             ...nodes
         };
-        // maxRadius = Math.min(
-        //     uniqueNodesLayout.nodesLayer1Layout.maxradius,
-        //     uniqueNodesLayout.nodesLayer2Layout.maxradius,
-        //     maxRadius
-        // );
     }
     nodes[graph.centerNode.id] = createCenterNode(
         graph.nodes[graph.nodes.map((d) => d.id).indexOf(graph.centerNode.id)],
@@ -1002,6 +1094,7 @@ function calculateLayoutSharedNodes(
  * @param {[number, number]} xRange
  * @param {{x: number, y:number}} transformVector - vector to transform all points to their position
  * @param {number} offset
+ * @param {string} sortBy
  */
 function calculateLayoutUniqueNodes(
     nodes: egoGraphNode[],
@@ -1010,24 +1103,13 @@ function calculateLayoutUniqueNodes(
     outerSize: number,
     xRange: [number, number],
     transformVector: { graphId: string; x: number; y: number },
-    offset: number
+    offset: number,
+    sortBy: string
 ) {
-    const { innerNodeOrder, outerNodeOrder } = sortNodes(nodes, edges);
-    const nodesLayer1 = nodes.filter((d) => d.centerDist === 1);
-    const nodesLayer2 = nodes.filter((d) => d.centerDist === 2);
-    nodesLayer1.forEach((node) => {
-        if (!innerNodeOrder.includes(node.id)) {
-            innerNodeOrder.push(node.id);
-        }
-    });
-    nodesLayer2.forEach((node) => {
-        if (!outerNodeOrder.includes(node.id)) {
-            outerNodeOrder.push(node.id);
-        }
-    });
+    const { innerNodes, outerNodes } = sortUniqueNodes(nodes, edges, sortBy);
     const nodesLayer1Layout = createLayerNodes(
-        nodesLayer1,
-        [{ id: 'layer1', intersections: innerNodeOrder }],
+        innerNodes,
+        [{ id: 'layer1', intersections: innerNodes.map((d) => d.id) }],
         outerSize,
         innerSize,
         xRange,
@@ -1035,8 +1117,8 @@ function calculateLayoutUniqueNodes(
         offset
     );
     const nodesLayer2Layout = createLayerNodes(
-        nodesLayer2,
-        [{ id: 'layer2', intersections: outerNodeOrder }],
+        outerNodes,
+        [{ id: 'layer2', intersections: outerNodes.map((d) => d.id) }],
         outerSize,
         outerSize,
         xRange,
@@ -1199,12 +1281,14 @@ function createCenterNode(
  * @param {number} innerSize
  * @param {number} outerSize
  * @param {number} nodeSize
+ * @param {string} sortBy
  */
 export function calculateEgoLayout(
     graph: egoGraph,
     innerSize: number,
     outerSize: number,
-    nodeSize: number
+    nodeSize: number,
+    sortBy: string
 ) {
     const { nodesLayer1Layout, nodesLayer2Layout } = calculateLayoutUniqueNodes(
         graph.nodes,
@@ -1217,7 +1301,8 @@ export function calculateEgoLayout(
             x: nodeSize / 2 - outerSize,
             y: nodeSize / 2 - outerSize
         },
-        0
+        0,
+        sortBy
     );
     const nodes = { ...nodesLayer1Layout.nodes, ...nodesLayer2Layout.nodes };
     // add inner node to layout at center position

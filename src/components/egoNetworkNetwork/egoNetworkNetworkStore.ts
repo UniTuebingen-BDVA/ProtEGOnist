@@ -8,7 +8,7 @@ import {
 } from '../../egoGraphSchema';
 import { getMultiEgographBundleAtom } from '../../apiCalls.ts';
 import * as d3 from 'd3';
-import { egoGraphBundlesLayoutAtom } from '../egograph/egoGraphBundleStore.ts';
+import { egoGraphBundlesLayoutAtom, sortNodesBy } from '../egograph/egoGraphBundleStore.ts';
 import { egoNetworkNetworksOverviewAtom } from '../overview_component/egoNetworkNetworkOverviewStore.ts';
 import { calculateLayout } from '../egograph/egolayout.ts';
 
@@ -57,7 +57,8 @@ export const updateEgoGraphBundleAtom = atom(
                 [key]: calculateLayout(
                     value.egoGraphs,
                     value.intersections,
-                    get(decollapseModeAtom)
+                    get(decollapseModeAtom),
+                    get(sortNodesBy)
                 )
             };
         });
@@ -76,7 +77,8 @@ export const decollapseModeAtom = atom(
             newLayouts[id] = calculateLayout(
                 bundle.egoGraphs,
                 bundle.intersections,
-                value
+                value,
+                sortNodesBy
             );
         });
         set(decollapseModeStoreAtom, value);
