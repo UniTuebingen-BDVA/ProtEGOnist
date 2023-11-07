@@ -547,7 +547,7 @@ export function calculateLayout(
         Object.keys(intersections).forEach((key) => {
             const ids = key.split(',');
             if (ids.includes(egoGraph.centerNode.originalID)) {
-                if (ids.length > 1 || egoGraphs.length===1) {
+                if (ids.length > 1 || egoGraphs.length === 1) {
                     sharedLength += intersections[key].length;
                 } else {
                     uniqueLength += intersections[key].length;
@@ -684,27 +684,27 @@ export function calculateLayout(
                     });
                 }
             } else {
-                const nodeSize = largestRadius * 2.5;
+                const nodeSize = largestRadius * 1.75;
 
                 const points = [
                     polarToCartesian(
                         nodeSize / 2,
                         nodeSize / 2,
-                        nodeSize - scaledOuterSize,
+                        nodeSize,
                         0,
                         Math.PI
                     ),
                     polarToCartesian(
                         nodeSize / 2,
                         nodeSize / 2,
-                        nodeSize - scaledOuterSize,
+                        nodeSize,
                         (1 / 3) * (2 * Math.PI),
                         Math.PI
                     ),
                     polarToCartesian(
                         nodeSize / 2,
                         nodeSize / 2,
-                        nodeSize - scaledOuterSize,
+                        nodeSize,
                         (2 / 3) * (2 * Math.PI),
                         Math.PI
                     )
