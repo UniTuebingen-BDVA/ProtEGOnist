@@ -1,15 +1,19 @@
 import EgoNetworkNetworkOverview from './egoNetworkNetworkOverview.tsx';
-import { Paper } from '@mui/material';
+import { IconButton, Paper, Tooltip } from '@mui/material';
 import { useAtom } from 'jotai';
 import { egoNetworkNetworkSizeAtom } from './egoNetworkNetworkOverviewStore.ts';
 import { useRef, useEffect } from 'react';
 import { useDimensions } from '../../UtilityFunctions.ts';
 import ColorLegend from '../ColorLegend.tsx';
+import { InformationVariantCircle } from 'mdi-material-ui';
+import { infoContentAtom, infoTitleAtom } from '../HomePage/InfoComponent.tsx';
 
 function EgoNetworkNetworkOverviewViewer() {
     const ref = useRef(null);
 
     const [svgSize, setSvgSize] = useAtom(egoNetworkNetworkSizeAtom);
+    const [_infoContent, setInfoContent] = useAtom(infoContentAtom);
+    const [_infoTitle, setInfoTitle] = useAtom(infoTitleAtom);
     const { width, height } = useDimensions(ref);
 
     useEffect(() => {
@@ -33,8 +37,9 @@ function EgoNetworkNetworkOverviewViewer() {
             <svg
                 width="100%"
                 height="100%"
-                viewBox={`${svgSize.x} ${svgSize.y} ${svgSize.width + 30 ?? 0} ${svgSize.height + 30 ?? 0
-                    }`}
+                viewBox={`${svgSize.x} ${svgSize.y} ${
+                    svgSize.width + 30 ?? 0
+                } ${svgSize.height + 30 ?? 0}`}
                 style={{
                     position: 'absolute',
                     top: 0,
@@ -43,13 +48,13 @@ function EgoNetworkNetworkOverviewViewer() {
                     right: 0
                 }}
             >
-                <g transform={"translate(40,35)"}>
+                <g transform={'translate(40,35)'}>
                     <EgoNetworkNetworkOverview />
                 </g>
             </svg>
             <svg height={200} width={475}>
                 <ColorLegend
-                    domain={["In ego-graph subnetwork", "Radar center"]}
+                    domain={['In ego-graph subnetwork', 'Radar center']}
                     range={['#ff7f00', '#ffff99']}
                     type={'qualitative'}
                     transform={`translate(${340},${-7})`}
@@ -61,12 +66,23 @@ function EgoNetworkNetworkOverviewViewer() {
                     range={['white', '#1f78b4']}
                     type={'quantitative'}
                     transform={`translate(${10},${5})`}
-                    title={'Percent of nodes represented in ego-graph subnetwork (right)'}
-
+                    title={
+                        'Percent of nodes represented in ego-graph subnetwork (right)'
+                    }
                     render={true}
                 />
-
             </svg>
+            <IconButton
+                style={{ right: 10, position: 'absolute', top: 15 }}
+                onClick={() => {
+                    setInfoTitle('networkOverview');
+                    setInfoContent('networkOverview');
+                }}
+            >
+                <Tooltip title="Information about the Radar Chart">
+                    <InformationVariantCircle />
+                </Tooltip>
+            </IconButton>
         </Paper>
     );
 }

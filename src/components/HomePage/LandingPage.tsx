@@ -1,36 +1,19 @@
-import React, { useCallback, useEffect, useState } from 'react';
 import TabsElements from './TabsElements';
-import { GitHub, Help, Home } from '@mui/icons-material';
+import { GitHub } from '@mui/icons-material';
 import {
     Toolbar,
     IconButton,
-    Button,
-    CircularProgress, Container,
-    createStyles,
-    FormControl,
-    FormControlLabel,
-    InputLabel, Link,
-    List,
-    ListItem,
-    ListSubheader,
-    makeStyles,
-    MenuItem,
-    Radio,
-    RadioGroup,
-    Select, Switch, Tab, Tabs,
-    TextField,
-    Tooltip,
-    Box,
-    Typography,
     AppBar,
     createTheme,
     ThemeProvider,
-
-} from "@mui/material";
+    Tooltip
+} from '@mui/material';
 import LogoText from '../../assets/LogoPathWhite.svg';
+import { InformationVariantCircle } from 'mdi-material-ui';
+import { useAtom } from 'jotai';
+import { infoTitleAtom, infoContentAtom, InfoComponent } from './InfoComponent';
 
 const LandingPage = () => {
-
     const theme = createTheme({
         palette: {
             primary: {
@@ -41,8 +24,11 @@ const LandingPage = () => {
             }
         }
     });
+    const [, setInfoTitle] = useAtom(infoTitleAtom);
+    const [, setInfoContent] = useAtom(infoContentAtom);
     return (
         <ThemeProvider theme={theme}>
+            <InfoComponent></InfoComponent>
 
             <div className="container">
                 {/* <!-- First Row --> */}
@@ -57,7 +43,7 @@ const LandingPage = () => {
                             display: 'flex',
                             justifyContent: 'center',
                             alignItems: 'center',
-                            maxHeight: '5%',
+                            maxHeight: '5%'
                         }}
                     >
                         {/* <!-- Content for the first row --> */}
@@ -66,11 +52,10 @@ const LandingPage = () => {
                             style={{
                                 display: 'flex',
                                 height: '5%',
-                                maxHeight: '5%',
+                                maxHeight: '5%'
                             }}
                         >
                             <Toolbar variant="dense">
-
                                 <img
                                     src={LogoText}
                                     style={{
@@ -78,30 +63,37 @@ const LandingPage = () => {
                                         top: '10%'
                                     }}
                                 />
-                                <IconButton
-                                    size="large"
-                                    edge="start"
-                                    color="inherit"
-                                    style={{ marginLeft: 'auto' }}
-                                    onClick={() =>
-                                        window.open(
-                                            'https://github.com/UniTuebingen-BDVA/BiovisChallenge2023'
-                                        )
-                                    }
-                                >
-                                    <GitHub />
-                                </IconButton>
+                                <span style={{ marginLeft: 'auto' }}>
+                                    <IconButton
+                                        onClick={() => {
+                                            setInfoTitle('protegonist');
+                                            setInfoContent('protegonist');
+                                        }}
+                                    >
+                                        <Tooltip title="Information about ProtEGOnist">
+                                            <InformationVariantCircle />
+                                        </Tooltip>
+                                    </IconButton>
+                                    <IconButton
+                                        size="large"
+                                        edge="start"
+                                        color="inherit"
+                                        onClick={() =>
+                                            window.open(
+                                                'https://github.com/UniTuebingen-BDVA/BiovisChallenge2023'
+                                            )
+                                        }
+                                    >
+                                        <GitHub />
+                                    </IconButton>
+                                </span>
                             </Toolbar>
                         </AppBar>
                     </div>
                 </div>
                 <TabsElements />
-
-
-
-
             </div>
         </ThemeProvider>
-    )
-}
+    );
+};
 export default LandingPage;

@@ -4,8 +4,16 @@ import RadarChart from './radarChart.tsx';
 import { useAtom } from 'jotai';
 import { radarSVGSizeAtom } from './radarStore.ts';
 import { useDimensions } from '../../UtilityFunctions.ts';
-import { Backdrop, CircularProgress, Paper } from '@mui/material';
+import {
+    Backdrop,
+    CircularProgress,
+    IconButton,
+    Paper,
+    Tooltip
+} from '@mui/material';
 import { radarChartBusyAtom } from '../../apiCalls.ts';
+import { InformationVariantCircle } from 'mdi-material-ui';
+import { infoContentAtom, infoTitleAtom } from '../HomePage/InfoComponent.tsx';
 
 interface RadarChartViewerProps {
     intersectionData: { [name: string | number]: intersectionDatum };
@@ -17,6 +25,8 @@ function RadarChartViewer(props: RadarChartViewerProps) {
     const { width, height } = useDimensions(ref);
     const [svgSize, setSVGSize] = useAtom(radarSVGSizeAtom);
     const [radarBusy] = useAtom(radarChartBusyAtom);
+    const [_infoContent, setInfoContent] = useAtom(infoContentAtom);
+    const [_infoTitle, setInfoTitle] = useAtom(infoTitleAtom);
     useEffect(() => {
         setSVGSize({ width: width, height: height });
     }, [height, width]);
@@ -44,6 +54,17 @@ function RadarChartViewer(props: RadarChartViewerProps) {
             >
                 <CircularProgress color="inherit" />
             </Backdrop>
+            <IconButton
+                style={{ right: 10, position: 'absolute', top: 15 }}
+                onClick={() => {
+                    setInfoTitle('radarChart');
+                    setInfoContent('radarChart');
+                }}
+            >
+                <Tooltip title="Information about the Radar Chart">
+                    <InformationVariantCircle />
+                </Tooltip>
+            </IconButton>
             <svg
                 width={svgSize.width}
                 height={svgSize.height}
