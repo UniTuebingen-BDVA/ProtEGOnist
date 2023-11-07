@@ -6,9 +6,7 @@ export const egoGraphBundlesLayoutAtom = atom<{
     [key: string]: egoGraphLayout;
 }>({});
 
-
-export const maxRadiusAtom = atom(5);
-
+export const sortNodesBy=atom<string>("distance");
 export const selectedBandAtom = atom('');
 
 export const filteredIntersectionsAtom = atom((get) => {

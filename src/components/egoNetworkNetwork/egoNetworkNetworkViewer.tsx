@@ -154,7 +154,7 @@ function EgoNetworkNetworkViewer() {
                 />
                 <ColorLegend
                     domain={['few interactions', 'many interactions']}
-                    range={['#e9cfd7', '#860028']}
+                    range={['#f6e9ea', '#860028']}
                     type={'quantitative'}
                     transform={`translate(${10},${150})`}
                     title={'Node connectivity within ego-graph'}

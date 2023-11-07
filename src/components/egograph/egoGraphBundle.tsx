@@ -54,7 +54,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                 return d3
                     .scaleLinear<string, number>()
                     .domain(get(numEdgesMinMax))
-                    .range(['#e9cfd7', '#860028']);
+                    .range(['#f6e9ea', '#860028']);
             }),
         [numEdgesMinMax]
     );
@@ -169,8 +169,8 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                         bandData={band}
                         color={
                             band[0].split(',').length === 3
-                                ? 'gray'
-                                : 'darkgray'
+                                ? '#a4a4a4'
+                                : '#d0d0d0'
                         }
                         twoCase={Object.entries(layout.bandData).length === 1}
                     />
@@ -244,7 +244,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                         stroke={'black'}
                     />
                 );
-            } else {
+            }/* else {
                 if (!edge.alwaysDraw) {
                     backgroundBands.push(
                         <line
@@ -253,12 +253,12 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                             x2={edge.x2}
                             y1={edge.y1}
                             y2={edge.y2}
-                            stroke={'white'}
+                            stroke={'#d0d0d0'}
                             opacity={1}
                         />
                     );
                 }
-            }
+            }*/
         });
         return [foregroundBands, backgroundBands];
     }, [highlightedNodeIndices, layout.identityEdges]);
