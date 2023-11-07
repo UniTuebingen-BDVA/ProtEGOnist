@@ -7,5 +7,5 @@ setup(
     install_requires=[
         'flask',
     ],
-    package_data={'server': ['data/*']},
+    package_data={'server': ['data/**']},
 )
