@@ -10,7 +10,8 @@ import {
     Box,
     createTheme,
     ThemeProvider,
-    Backdrop
+    Backdrop,
+    Tooltip
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import RadarChartViewer from './components/radarchart/radarChartViewer.tsx';
@@ -36,6 +37,12 @@ import LogoBlue from './assets/LogoBlue.svg';
 
 import { GitHub } from '@mui/icons-material';
 import LandingPage from './components/HomePage/LandingPage.tsx';
+import {
+    InfoComponent,
+    infoContentAtom,
+    infoTitleAtom
+} from './components/HomePage/InfoComponent.tsx';
+import { InformationVariantCircle } from 'mdi-material-ui';
 
 function App() {
     const [selectedExample] = useAtom(selectedExampleAtom);
@@ -53,6 +60,8 @@ function App() {
     const setStateDrawer = useSetAtom(drawerShownAtom);
     const [classifyBy] = useAtom(classifyByAtom);
     const [coverage] = useAtom(egoNetworkNetworkOverviewCoverageAtom);
+    const [, setInfoTitle] = useAtom(infoTitleAtom);
+    const [, setInfoContent] = useAtom(infoContentAtom);
 
     const theme = createTheme({
         palette: {
@@ -105,6 +114,7 @@ function App() {
                 >
                     <CircularProgress color="inherit" />
                 </Backdrop>
+                <InfoComponent></InfoComponent>
                 <div className="container">
                     {/* <!-- First Row --> */}
                     <div
@@ -147,19 +157,30 @@ function App() {
                                             top: '10%'
                                         }}
                                     />
-                                    <IconButton
-                                        size="large"
-                                        edge="start"
-                                        color="inherit"
-                                        style={{ marginLeft: 'auto' }}
-                                        onClick={() =>
-                                            window.open(
-                                                'https://github.com/UniTuebingen-BDVA/BiovisChallenge2023'
-                                            )
-                                        }
-                                    >
-                                        <GitHub />
-                                    </IconButton>
+                                    <span style={{ marginLeft: 'auto' }}>
+                                        <IconButton
+                                            onClick={() => {
+                                                setInfoTitle('protegonist');
+                                                setInfoContent('protegonist');
+                                            }}
+                                        >
+                                            <Tooltip title="Information about ProtEGOnist">
+                                                <InformationVariantCircle />
+                                            </Tooltip>
+                                        </IconButton>
+                                        <IconButton
+                                            size="large"
+                                            edge="start"
+                                            color="inherit"
+                                            onClick={() =>
+                                                window.open(
+                                                    'https://github.com/UniTuebingen-BDVA/BiovisChallenge2023'
+                                                )
+                                            }
+                                        >
+                                            <GitHub />
+                                        </IconButton>
+                                    </span>
                                 </Toolbar>
                             </AppBar>
                         </div>

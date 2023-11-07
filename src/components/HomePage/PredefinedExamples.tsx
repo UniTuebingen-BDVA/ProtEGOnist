@@ -18,7 +18,7 @@ const ExamplesPage = (_props) => {
                         Example One: Visualizing PPIs
                     </Button>
                 </ListItem>
-                <ListItem>
+                {/* <ListItem>
                     <Button
                         variant="contained"
                         size="small"
@@ -39,7 +39,7 @@ const ExamplesPage = (_props) => {
                     >
                         Example Three: Correlation Network Metagenome
                     </Button>
-                </ListItem>
+                </ListItem> */}
                 <ListItem>
                     <Button
                         variant="contained"
@@ -48,7 +48,7 @@ const ExamplesPage = (_props) => {
                             setExampleChosen('IEEE');
                         }}
                     >
-                        Example Four: IEEE VIS Co-Author Network
+                        Example two: IEEE VIS Co-Author Network
                     </Button>
                 </ListItem>
             </List>

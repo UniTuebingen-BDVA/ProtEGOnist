@@ -3,6 +3,7 @@ import EgoNetworkNetwork from './egoNetworkNetwork.tsx';
 import {
     Backdrop,
     CircularProgress,
+    IconButton,
     Paper,
     ToggleButtonGroup,
     Tooltip
@@ -22,7 +23,8 @@ import {
     egoNetworkNetworkBusyAtom,
     quantifyNodesByAtom
 } from '../../apiCalls.ts';
-import { SetCenter, SetAll } from 'mdi-material-ui';
+import { SetCenter, SetAll, InformationVariantCircle } from 'mdi-material-ui';
+import { infoContentAtom, infoTitleAtom } from '../HomePage/InfoComponent.tsx';
 
 function EgoNetworkNetworkViewer() {
     const [egoNetworkNetworkBusy] = useAtom(egoNetworkNetworkBusyAtom);
@@ -31,6 +33,8 @@ function EgoNetworkNetworkViewer() {
     const [colorscale] = useAtom(drugsPerProteinColorscaleAtom);
     const [decollapseIDsArray] = useAtom(decollapseIDsAtom);
     const [quantifyBy] = useAtom(quantifyNodesByAtom);
+    const [_infoContent, setInfoContent] = useAtom(infoContentAtom);
+    const [_infoTitle, setInfoTitle] = useAtom(infoTitleAtom);
     // prevent default pinch zoom
     document.addEventListener('gesturestart', (e) => e.preventDefault());
     document.addEventListener('gesturechange', (e) => e.preventDefault());
@@ -138,6 +142,17 @@ function EgoNetworkNetworkViewer() {
                     <SetAll />
                 </TooltipToggleButton>
             </ToggleButtonGroup>
+            <IconButton
+                style={{ right: 115, position: 'absolute', top: 15 }}
+                onClick={() => {
+                    setInfoTitle('egoNetworkNetwork');
+                    setInfoContent('egoNetworkNetwork');
+                }}
+            >
+                <Tooltip title="Information about the network">
+                    <InformationVariantCircle />
+                </Tooltip>
+            </IconButton>
             <svg
                 height={275}
                 width={200}

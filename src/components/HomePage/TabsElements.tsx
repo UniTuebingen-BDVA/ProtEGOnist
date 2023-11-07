@@ -5,9 +5,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { GitHub, Help, Home } from '@mui/icons-material';
 import AboutPage from './AboutPage';
-import InputFilesForm from './InputFiles';
 import ExamplesPage from './PredefinedExamples';
 import { Alert, Link } from '@mui/material';
 

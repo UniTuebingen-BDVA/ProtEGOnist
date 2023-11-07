@@ -782,27 +782,27 @@ export function calculateLayout(
                     });
                 }
             } else {
-                const nodeSize = largestRadius * 2.5;
+                const nodeSize = largestRadius * 1.75;
 
                 const points = [
                     polarToCartesian(
                         nodeSize / 2,
                         nodeSize / 2,
-                        nodeSize - scaledOuterSize,
+                        nodeSize,
                         0,
                         Math.PI
                     ),
                     polarToCartesian(
                         nodeSize / 2,
                         nodeSize / 2,
-                        nodeSize - scaledOuterSize,
+                        nodeSize,
                         (1 / 3) * (2 * Math.PI),
                         Math.PI
                     ),
                     polarToCartesian(
                         nodeSize / 2,
                         nodeSize / 2,
-                        nodeSize - scaledOuterSize,
+                        nodeSize,
                         (2 / 3) * (2 * Math.PI),
                         Math.PI
                     )

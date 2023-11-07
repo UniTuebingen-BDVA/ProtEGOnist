@@ -151,11 +151,9 @@ function positionTips(
     if (twoCase) {
         tipPosition1.theta = twoCase == 1 ? 0 : Math.PI;
         const distSmallerThanTip =
-            distancePolar(p1LocalPolarC1, p2LocalPolarC1) < TIP_MAX_ANGLE;
-        const distLargerThreshold =
-            distancePolar(p1LocalPolarC1, p2LocalPolarC1) > 0.000001 &&
-            distancePolar(p2LocalPolarC1, p1LocalPolarC1) > 0.000001;
-        if (distSmallerThanTip && distLargerThreshold) {
+            distancePolar(p1LocalPolarC1.theta, p2LocalPolarC1.theta) <
+            TIP_MAX_ANGLE;
+        if (distSmallerThanTip) {
             tipBaseP1Polar.theta = p1LocalPolarC1.theta;
             tipBaseP2Polar.theta = p2LocalPolarC1.theta;
         }
@@ -217,17 +215,15 @@ function positionTips(
                 )
             ) {
                 tipBaseP1Polar.theta = p1LocalPolarC1.theta;
-                tipBaseP2Polar.theta = addAngle(
-                    tipBaseP2Polar.theta,
-                    correctionAngle + TIP_MAX_ANGLE / 2
-                );
-
                 tipPosition1.theta = addAngle(
                     p1LocalPolarC1.theta,
                     correctionAngle
                 );
-            }
-            if (
+                tipBaseP2Polar.theta = addAngle(
+                    tipPosition1.theta,
+                    TIP_MAX_ANGLE / 2
+                );
+            } else if (
                 !polarIsBetween(
                     p1LocalPolarC1.theta,
                     p2LocalPolarC1.theta,
@@ -235,14 +231,13 @@ function positionTips(
                 )
             ) {
                 tipBaseP2Polar.theta = p2LocalPolarC1.theta;
-                tipBaseP1Polar.theta = subtractAngle(
-                    tipBaseP2Polar.theta,
-                    correctionAngle + TIP_MAX_ANGLE / 2
-                );
-
                 tipPosition1.theta = subtractAngle(
                     p2LocalPolarC1.theta,
                     correctionAngle
+                );
+                tipBaseP1Polar.theta = subtractAngle(
+                    tipBaseP2Polar.theta,
+                    TIP_MAX_ANGLE / 2
                 );
             }
         }
@@ -507,14 +502,13 @@ function getPath(
     }[],
     twoCase = false
 ) {
-    const RADIUS_SCALE = 1.1;
-
     const firstPos: [number, number] = [start[0].pos.x, start[0].pos.y];
     const secondPos: [number, number] = [start[1].pos.x, start[1].pos.y];
 
     const avgCircleDiameter =
         (start[0].graphCenterPos.outerSize + end[0].graphCenterPos.outerSize) /
         2;
+    const RADIUS_SCALE = 1.1;
 
     const thirdPos: [number, number] = [end[0].pos.x, end[0].pos.y];
     const fourthPos: [number, number] = [end[1].pos.x, end[1].pos.y];
@@ -576,7 +570,7 @@ function getPath(
         (tipBaseP2Cartesian[0] - tipBaseP1Cartesian[0]) ** 2 +
             (tipBaseP2Cartesian[1] - tipBaseP1Cartesian[1]) ** 2
     );
-    const outerSize = avgCircleDiameter * 2 * Math.PI * 0.01;
+    const outerSize = avgCircleDiameter * 2 * Math.PI * 0.007;
 
     const OFFSET_SCALE_1 =
         distanceBetweenStartPoints > outerSize ||
