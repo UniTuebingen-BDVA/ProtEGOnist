@@ -17,9 +17,14 @@ __pycache__/
 
 # Data
 /data/*
-/server/data/*.pickle
-/server/data/graphml*
+/server/data/**/*.pickle
+/server/data/**/graphml*
 /server/data/*.xlsx
+/server/data/example_PPIs*
+/server/data/metageno*
+!/server/data/IEEEcoAuthor/*.py
+/server/data/IEEEcoAuthor/*
+/server/data/encounteredNodes.txt
 
 # Logs
 logs

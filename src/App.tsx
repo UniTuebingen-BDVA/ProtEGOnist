@@ -9,7 +9,9 @@ import {
     CircularProgress,
     Box,
     createTheme,
-    ThemeProvider, Backdrop
+    ThemeProvider,
+    Backdrop,
+    Tooltip
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import RadarChartViewer from './components/radarchart/radarChartViewer.tsx';
@@ -21,7 +23,11 @@ import {
     getRadarAtom,
     getTableAtom,
     getEgoNetworkNetworkOverviewAtom,
-    startDataOverview, serverBusyAtom
+    egoNetworkNetworkOverviewCoverageAtom,
+    startDataOverview,
+    serverBusyAtom,
+    selectedExampleAtom,
+    classifyByAtom
 } from './apiCalls.ts';
 import EgoNetworkNetworkOverviewViewer from './components/overview_component/egoNetworkNetworkOverviewViewer.tsx';
 import DrawerElement from './components/drawerElement/DrawerElement.tsx';
@@ -30,9 +36,17 @@ import LogoText from './assets/LogoPathWhite.svg';
 import LogoBlue from './assets/LogoBlue.svg';
 
 import { GitHub } from '@mui/icons-material';
+import LandingPage from './components/HomePage/LandingPage.tsx';
+import {
+    InfoComponent,
+    infoContentAtom,
+    infoTitleAtom
+} from './components/HomePage/InfoComponent.tsx';
+import { InformationVariantCircle } from 'mdi-material-ui';
 
 function App() {
-    const [serverBusy]=useAtom(serverBusyAtom);
+    const [selectedExample] = useAtom(selectedExampleAtom);
+    const [serverBusy] = useAtom(serverBusyAtom);
     const [tableData, getTableData] = useAtom(getTableAtom);
     const [intersectionData, getRadarData] = useAtom(getRadarAtom);
     const [_selectedProteins, setSelectedProteins] =
@@ -44,6 +58,10 @@ function App() {
         useAtom(getEgoNetworkNetworkOverviewAtom);
     const [tarNode, setTarNode] = useAtom(tarNodeAtom);
     const setStateDrawer = useSetAtom(drawerShownAtom);
+    const [classifyBy] = useAtom(classifyByAtom);
+    const [coverage] = useAtom(egoNetworkNetworkOverviewCoverageAtom);
+    const [, setInfoTitle] = useAtom(infoTitleAtom);
+    const [, setInfoContent] = useAtom(infoContentAtom);
 
     const theme = createTheme({
         palette: {
@@ -57,27 +75,19 @@ function App() {
     });
 
     useEffect(() => {
-        getTableData();
-        //ForUseCase
-        // setTarNode('P61978');
-        // getRadarData('P61978');
-        // Chosen starts
-        setTarNode('P63279');
-        getRadarData('P63279');
-        // TODO it seems like the http-get of the table atom leads to the problem that the initial set of the selectedProteinsAtom is not correctly selected in the table
-        setSelectedProteins([
-            'Q99459',
-            'Q01518',
-            'P61421',
-            'P52565',
-            'P00568',
-            'Q9NRN7',
-            'P63279'
-        ]);
-        // For useCase
-        // setSelectedProteins(['P61978', 'O43447', 'Q14498', 'Q92922']);
-        getEgoNetworkNetworkOverviewData(startDataOverview);
+        if (selectedExample) {
+            getTableData();
+            //ForUseCase
+            // setTarNode('P61978');
+            // getRadarData('P61978');
+            // Chosen starts
+
+            // For useCase
+            // setSelectedProteins(['P61978', 'O43447', 'Q14498', 'Q92922']);
+            getEgoNetworkNetworkOverviewData(startDataOverview);
+        }
     }, [
+        selectedExample,
         getTableData,
         getRadarData,
         setTarNode,
@@ -86,10 +96,12 @@ function App() {
         setSelectedProteins
     ]);
     if (
+        selectedExample &&
         // check if all data is loaded (not empty)
-        tableData.rows.length > 0 && // tableData
+        Object.keys(tableData.rows).length > 0 && // tableData
         Object.keys(intersectionData).length > 0 && // radarData
-        tarNode !== '' && egoNetworkNetworkOverviewData.nodes.length>0
+        tarNode !== '' &&
+        egoNetworkNetworkOverviewData.nodes.length > 0
     ) {
         return (
             <ThemeProvider theme={theme}>
@@ -102,6 +114,7 @@ function App() {
                 >
                     <CircularProgress color="inherit" />
                 </Backdrop>
+                <InfoComponent></InfoComponent>
                 <div className="container">
                     {/* <!-- First Row --> */}
                     <div
@@ -144,19 +157,30 @@ function App() {
                                             top: '10%'
                                         }}
                                     />
-                                    <IconButton
-                                        size="large"
-                                        edge="start"
-                                        color="inherit"
-                                        style={{ marginLeft: 'auto' }}
-                                        onClick={() =>
-                                            window.open(
-                                                'https://github.com/UniTuebingen-BDVA/BiovisChallenge2023'
-                                            )
-                                        }
-                                    >
-                                        <GitHub />
-                                    </IconButton>
+                                    <span style={{ marginLeft: 'auto' }}>
+                                        <IconButton
+                                            onClick={() => {
+                                                setInfoTitle('protegonist');
+                                                setInfoContent('protegonist');
+                                            }}
+                                        >
+                                            <Tooltip title="Information about ProtEGOnist">
+                                                <InformationVariantCircle />
+                                            </Tooltip>
+                                        </IconButton>
+                                        <IconButton
+                                            size="large"
+                                            edge="start"
+                                            color="inherit"
+                                            onClick={() =>
+                                                window.open(
+                                                    'https://github.com/UniTuebingen-BDVA/BiovisChallenge2023'
+                                                )
+                                            }
+                                        >
+                                            <GitHub />
+                                        </IconButton>
+                                    </span>
                                 </Toolbar>
                             </AppBar>
                         </div>
@@ -176,9 +200,16 @@ function App() {
                                 alignItems: 'center'
                             }}
                         >
-                            <Typography style={{ color: 'black' }}>
-                                Network overview: 91 protein ego-graphs from top
-                                108 protein-drug associations
+                            <Typography
+                                component={'span'}
+                                style={{ color: 'black' }}
+                            >
+                                Network overview:{' '}
+                                {egoNetworkNetworkOverviewData.nodes.length}{' '}
+                                ego-graphs covering{' '}
+                                {(100 * coverage.nodes).toFixed(2)}% of the
+                                nodes and {(100 * coverage.edges).toFixed(2)}%
+                                of the edges of the given network.
                             </Typography>
                             <div
                                 style={{
@@ -190,9 +221,12 @@ function App() {
                                 {/* <!-- Content for the first column, first row --> */}
                                 <EgoNetworkNetworkOverviewViewer />
                             </div>
-                            <Typography style={{ color: 'black' }}>
-                                Functional neighborhood of selected protein
-                                (radar center)
+                            <Typography
+                                component={'span'}
+                                style={{ color: 'black' }}
+                            >
+                                Neighborhood of selected node (radar center)
+                                classified by {classifyBy}
                             </Typography>
                             <div style={{ minWidth: '80%', width: '80%' }}>
                                 {/* <!-- Content for the first column, second row --> */}
@@ -212,6 +246,7 @@ function App() {
                             }}
                         >
                             <Typography
+                                component={'span'}
                                 style={{ color: 'black', textAlign: 'center' }}
                             >
                                 Ego-graph subnetwork
@@ -226,7 +261,7 @@ function App() {
                 </div>
             </ThemeProvider>
         );
-    } else
+    } else if (selectedExample) {
         return (
             <ThemeProvider theme={theme}>
                 <Box
@@ -249,6 +284,9 @@ function App() {
                 </Box>
             </ThemeProvider>
         );
+    } else {
+        return <LandingPage />;
+    }
 }
 
 export default App;

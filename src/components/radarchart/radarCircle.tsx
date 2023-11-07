@@ -48,7 +48,7 @@ const RadarCircle = memo(function RadarCircle(props: RadarCircleProps) {
         selectedProteins.includes(id) || id == lastSelectedNode ? 1 : 0.8;
 
     return (
-        <AdvancedTooltip uniprotID={id} key={id}>
+        <AdvancedTooltip nodeID={id} key={id}>
             <animated.circle
                 key={id}
                 r={

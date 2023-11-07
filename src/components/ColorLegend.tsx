@@ -7,10 +7,11 @@ import { v4 as uuidv4 } from 'uuid';
 import { isNumber } from '@mui/x-data-grid/internals';
 
 function ColorLegend(props) {
-    const { range, domain, type, transform, title, render } = props;
+    const { range, domain, type, transform, title, render, unknown } = props;
     const itemSize = 10;
-    let colors, labels;
+    let colors, labels, unknownBox, labelUnknown;
     let def = null;
+
     if (type === 'quantitative') {
         const id = uuidv4();
         const height = 100;
@@ -36,6 +37,21 @@ function ColorLegend(props) {
                 fill={'url(#' + id + ')'}
             />
         );
+        if (unknown) {
+            unknownBox = <rect
+                x={0}
+                y={height + itemSize}
+                width={itemSize}
+                height={itemSize}
+                stroke={'gray'}
+                fill={unknown}
+            />
+            labelUnknown = <text
+                x={itemSize + 2}
+                y={height + itemSize * 1.9}
+                fontSize={itemSize}
+            > No data </text>
+        }
         labels = domain.map((d, i) => {
             let offset = itemSize * 0.5;
             if (i === 0) {
@@ -45,7 +61,7 @@ function ColorLegend(props) {
             }
             return (
                 <text
-                    key={d}
+                    key={`${d}_${i}`}
                     x={itemSize + 2}
                     y={(height / (domain.length - 1)) * i + offset}
                     fontSize={itemSize}
@@ -53,6 +69,7 @@ function ColorLegend(props) {
                     {isNumber(d) ? Math.round(d * 100) / 100 : d}
                 </text>
             );
+
         });
     } else {
         colors = range.map((d, i) => (
@@ -77,6 +94,7 @@ function ColorLegend(props) {
             </text>
         ));
     }
+
     if (render) {
         return (
             <g transform={transform}>
@@ -87,6 +105,8 @@ function ColorLegend(props) {
                     <defs>{def}</defs>
                     {colors}
                     {labels}
+                    {unknownBox}
+                    {labelUnknown}
                 </g>
             </g>
         );

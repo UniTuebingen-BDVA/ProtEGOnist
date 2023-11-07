@@ -5,25 +5,39 @@ export function polarToCartesian(
     centerY: number,
     radius: number,
     angleInRadians: number,
-    offset: number = 0,
+    offset: number = 0
 ) {
     return {
-        x: centerX + radius * Math.cos(angleInRadians+offset),
-        y: centerY + radius * Math.sin(angleInRadians+offset)
+        x: centerX + radius * Math.cos(angleInRadians + offset),
+        y: centerY + radius * Math.sin(angleInRadians + offset)
     };
 }
 
-export function getPartialRanges(numRanges: number) {
+export function midPointPolar2PI(p1Theta: number, p2Theta: number) {
+    if (p1Theta > p2Theta) {
+        const p1To2PI = 2 * Math.PI - p1Theta;
+        const p2To0PI = p2Theta;
+        const offsetFromP1 = (p2To0PI + p1To2PI) / 2;
+        return p1Theta + (offsetFromP1 % (2 * Math.PI));
+    } else {
+        const offsetFromP1 = (p2Theta - p1Theta) / 2;
+        return p1Theta + offsetFromP1;
+    }
+}
+
+export function getPartialRanges(
+    numRanges: number
+): [[number, number], [number, number]][] {
     const fullRange = 2 * Math.PI;
     const partialRange = fullRange / numRanges;
-    const ranges = [];
+    const ranges: [[number, number], [number, number]][] = [];
     for (let i = 0; i < numRanges; i++) {
-        ranges.push(
-            [[i * partialRange, (i+1) * partialRange],
-            [(i+1) * partialRange, fullRange]]
-        );
+        ranges.push([
+            [i * partialRange, (i + 1) * partialRange],
+            [(i + 1) * partialRange, fullRange]
+        ]);
     }
-    return(ranges)
+    return ranges;
 }
 
 export function createArcPath(

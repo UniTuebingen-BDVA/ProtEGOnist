@@ -5,11 +5,12 @@ import {
 } from '../selectionTable/tableStore';
 import {
     getEgoNetworkAndRadar,
-    getEgoNetworkNetworkAtom,
+    getEgoNetworkNetworkAtom
 } from '../../apiCalls';
 import AdvancedTooltip from '../advancedTooltip/advancedTooltip';
 import { highlightNodeAtom } from './egoNetworkNetworkOverviewStore';
 import { memo, useCallback } from 'react';
+import { updateDecollapseIdsAtom } from '../egoNetworkNetwork/egoNetworkNetworkStore.ts';
 
 interface EgoNetworkNetworkNodeProps {
     id: string;
@@ -24,10 +25,11 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
 ) {
     const [selectedProteins] =
         useAtom(selectedProteinsAtom);
-    const setSelectedProteins=useSetAtom(selectedProteinsStoreAtom)
+    const setSelectedProteins = useSetAtom(selectedProteinsStoreAtom)
     const getNetworkAndRadar = useSetAtom(getEgoNetworkAndRadar);
-    const getEgoNetworkNetwork=useSetAtom(getEgoNetworkNetworkAtom)
+    const getEgoNetworkNetwork = useSetAtom(getEgoNetworkNetworkAtom)
     const highlightNodeSet = useSetAtom(highlightNodeAtom);
+    const updateDecollapseIds = useSetAtom(updateDecollapseIdsAtom)
     const { x, y, id, size, color } = props;
     const handleClick = useCallback(
         (id: string) => {
@@ -37,18 +39,19 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
             if (updatedProteins.includes(id)) {
                 updatedProteins.splice(updatedProteins.indexOf(id), 1);
                 setSelectedProteins(updatedProteins);
-                getEgoNetworkNetwork(updatedProteins)
+                updateDecollapseIds(updatedProteins);
+                getEgoNetworkNetwork(updatedProteins);
             } else {
                 updatedProteins.push(id);
                 setSelectedProteins(updatedProteins);
                 getNetworkAndRadar(updatedProteins, id);
             }
         },
-        [getEgoNetworkNetwork, getNetworkAndRadar, selectedProteins, setSelectedProteins]
+        [getEgoNetworkNetwork, getNetworkAndRadar, selectedProteins, setSelectedProteins, updateDecollapseIds]
     );
     const transform = `translate(${x}, ${y})`;
     return (
-        <AdvancedTooltip uniprotID={id} key={id}>
+        <AdvancedTooltip nodeID={id} key={id}>
             <g
                 key={id}
                 transform={transform}
