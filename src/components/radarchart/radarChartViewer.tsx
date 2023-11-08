@@ -22,25 +22,26 @@ interface RadarChartViewerProps {
 
 function RadarChartViewer(props: RadarChartViewerProps) {
     const ref = useRef(null);
-    const { width, height } = useDimensions(ref);
-    const [svgSize, setSVGSize] = useAtom(radarSVGSizeAtom);
+    //const { width, height } = useDimensions(ref);
+    //const [svgSize, setSVGSize] = useAtom(radarSVGSizeAtom);
     const [radarBusy] = useAtom(radarChartBusyAtom);
     const [_infoContent, setInfoContent] = useAtom(infoContentAtom);
     const [_infoTitle, setInfoTitle] = useAtom(infoTitleAtom);
-    useEffect(() => {
-        setSVGSize({ width: width, height: height });
-    }, [height, width]);
+    // useEffect(() => {
+    //     setSVGSize({ width: width, height: height });
+    // }, [height, width]);
+    const svgSize = { width: 500, height: 500 };
 
     return (
         <Paper
             ref={ref}
             style={{
                 width: '100%',
-                height: '100%',
-                display: 'flex',
-                textAlign: 'center',
-                alignItems: 'center',
-                justifyContent: 'center',
+                height: '95%',
+                // display: 'flex',
+                // textAlign: 'center',
+                // //alignItems: 'center',
+                // justifyContent: 'center',
                 position: 'relative'
             }}
         >
@@ -66,8 +67,8 @@ function RadarChartViewer(props: RadarChartViewerProps) {
                 </Tooltip>
             </IconButton>
             <svg
-                width={svgSize.width}
-                height={svgSize.height}
+                width={'100%'}
+                height={'100%'}
                 viewBox={`0 0 ${svgSize.width} ${svgSize.width}`}
             >
                 <g

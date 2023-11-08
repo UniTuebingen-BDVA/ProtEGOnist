@@ -38,12 +38,14 @@ import { infoContentAtom, infoTitleAtom } from '../HomePage/InfoComponent.tsx';
 function EgoNetworkNetworkViewer() {
     const [egoNetworkNetworkBusy] = useAtom(egoNetworkNetworkBusyAtom);
     const [decollapseMode, setDecollapseModeAtom] = useAtom(decollapseModeAtom);
-    const svgSize = useAtomValue(egoNetworkNetworkSizeAtom);
+    //const svgSize = useAtomValue(egoNetworkNetworkSizeAtom);
     const [colorscale] = useAtom(drugsPerProteinColorscaleAtom);
     const [decollapseIDsArray] = useAtom(decollapseIDsAtom);
     const [quantifyBy] = useAtom(quantifyNodesByAtom);
     const [_infoContent, setInfoContent] = useAtom(infoContentAtom);
     const [_infoTitle, setInfoTitle] = useAtom(infoTitleAtom);
+    const svgSize = { width: 500, height: 500 };
+
     // prevent default pinch zoom
     document.addEventListener('gesturestart', (e) => e.preventDefault());
     document.addEventListener('gesturechange', (e) => e.preventDefault());
@@ -89,12 +91,11 @@ function EgoNetworkNetworkViewer() {
         <Paper
             style={{
                 width: '100%',
-                height: '100%',
-                alignItems: 'center',
-                justifyContent: 'center',
-                margin: 0,
-                padding: 0,
-                overflow: 'hidden',
+                height: '97.5%',
+                display: 'flex',
+                // textAlign: 'center',
+                // //alignItems: 'center',
+                // justifyContent: 'center',
                 position: 'relative'
             }}
         >
@@ -115,6 +116,7 @@ function EgoNetworkNetworkViewer() {
                 ref={ref}
                 width="100%"
                 height="100%"
+                viewBox={`0 0 ${svgSize.width} ${svgSize.width}`}
             >
                 <animated.g
                     // FIXME Node misses x,y
