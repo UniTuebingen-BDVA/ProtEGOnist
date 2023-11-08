@@ -8,7 +8,8 @@ import {
     Paper,
     Stack,
     ToggleButtonGroup,
-    Tooltip
+    Tooltip,
+    Typography
 } from '@mui/material';
 import TooltipToggleButton from '../egoNetworkNetwork/TooltipToggleButton.tsx';
 import { useAtom, useAtomValue } from 'jotai';
@@ -91,11 +92,11 @@ function EgoNetworkNetworkViewer() {
         <Paper
             style={{
                 width: '100%',
-                height: '97.5%',
+                height: '100%',
                 display: 'flex',
-                // textAlign: 'center',
-                // //alignItems: 'center',
-                // justifyContent: 'center',
+                //textAlign: 'center',
+                //alignItems: 'center',
+                justifyContent: 'center',
                 position: 'relative'
             }}
         >
@@ -109,6 +110,14 @@ function EgoNetworkNetworkViewer() {
             >
                 <CircularProgress color="inherit" />
             </Backdrop>
+            <Typography
+                style={{
+                    color: 'black'
+                    //textAlign: 'center'
+                }}
+            >
+                Ego-graph subnetwork
+            </Typography>
             <animated.svg
                 // FIXME Node misses x,y
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -204,7 +213,7 @@ function EgoNetworkNetworkViewer() {
             <svg
                 height={275}
                 width={200}
-                style={{ left: 0, position: 'absolute' }}
+                style={{ left: 0, top: 30, position: 'absolute' }}
             >
                 <ColorLegend
                     domain={colorscale.domain()}

@@ -37,7 +37,7 @@ function RadarChartViewer(props: RadarChartViewerProps) {
             ref={ref}
             style={{
                 width: '100%',
-                height: '95%',
+                height: '100%',
                 // display: 'flex',
                 // textAlign: 'center',
                 // //alignItems: 'center',

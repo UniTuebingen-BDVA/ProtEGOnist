@@ -106,7 +106,7 @@ function App() {
         egoNetworkNetworkOverviewData.nodes.length > 0
     ) {
         return (
-            <Grid container spacing={0}>
+            <Grid container sx={{ height: '99vh', width: '100vw' }}>
                 <ThemeProvider theme={theme}>
                     <Backdrop
                         sx={{
@@ -120,7 +120,7 @@ function App() {
                     <InfoComponent></InfoComponent>
 
                     {/* <!-- First Row --> */}
-                    <Grid xs={12} sx={{ height: '5vh', width: '100vw' }}>
+                    <Grid xs={12} sx={{ height: '5%', width: '100%' }}>
                         <DrawerElement />
                         {/* <!-- Content for the first row --> */}
                         <AppBar
@@ -181,17 +181,12 @@ function App() {
                     <Grid
                         container
                         columns={16}
-                        spacing={2}
+                        spacing={1}
                         xs={12}
-                        sx={{ height: '95vh', width: '100vw' }}
+                        sx={{ height: '96%', width: '100%' }}
                     >
                         {/* <!-- First Column --> */}
-                        <Grid
-                            container
-                            xs={7}
-                            spacing={2}
-                            sx={{ height: '100%' }}
-                        >
+                        <Grid container xs={7} sx={{ height: '100%' }}>
                             <Grid
                                 xs={16}
                                 sx={{
@@ -199,7 +194,7 @@ function App() {
                                     textAlign: 'center'
                                 }}
                             >
-                                <Typography
+                                {/* <Typography
                                     component={'span'}
                                     style={{ color: 'black' }}
                                 >
@@ -210,7 +205,7 @@ function App() {
                                     nodes and{' '}
                                     {(100 * coverage.edges).toFixed(2)}% of the
                                     edges of the given network.
-                                </Typography>
+                                </Typography> */}
 
                                 {/* <!-- Content for the first column, first row --> */}
                                 <EgoNetworkNetworkOverviewViewer />
@@ -223,13 +218,13 @@ function App() {
                                 }}
                                 // style={{ minWidth: '80%', width: '80%' }}
                             >
-                                <Typography
+                                {/* <Typography
                                     component={'span'}
                                     style={{ color: 'black' }}
                                 >
                                     Neighborhood of selected node (radar center)
                                     classified by {classifyBy}
-                                </Typography>
+                                </Typography> */}
                                 {/* <!-- Content for the first column, second row --> */}
                                 <RadarChartViewer
                                     intersectionData={intersectionData}
@@ -244,7 +239,7 @@ function App() {
                                 xs={16}
                                 sx={{ height: '100%', textAlign: 'center' }}
                             >
-                                <Typography
+                                {/* <Typography
                                     component={'span'}
                                     style={{
                                         color: 'black',
@@ -252,7 +247,7 @@ function App() {
                                     }}
                                 >
                                     Ego-graph subnetwork
-                                </Typography>
+                                </Typography> */}
 
                                 {/* <!-- Content for the second column, first row --> */}
                                 {/* <EgoGraphViewer />  */}
