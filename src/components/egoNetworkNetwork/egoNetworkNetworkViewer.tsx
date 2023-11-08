@@ -198,6 +198,7 @@ function EgoNetworkNetworkViewer() {
                     </IconButton>
                 </Tooltip>
             </Stack>
+
             <svg
                 height={275}
                 width={200}
