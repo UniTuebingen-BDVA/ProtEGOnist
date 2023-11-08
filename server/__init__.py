@@ -19,8 +19,10 @@ from server.python_scripts.egoGraph import EgoGraph
 
 dev_Flag = True
 app = Flask(__name__, static_folder="../dist", static_url_path="/")
+
 here: pathlib.Path = pathlib.Path(__file__).parent
 print(here)
+
 EXAMPLES = {
     "string": read_example_string(here),
     "string_modified": read_example_string_modified(here),

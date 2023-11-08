@@ -2,9 +2,11 @@ import { useGesture } from '@use-gesture/react';
 import EgoNetworkNetwork from './egoNetworkNetwork.tsx';
 import {
     Backdrop,
+    ButtonGroup,
     CircularProgress,
     IconButton,
     Paper,
+    Stack,
     ToggleButtonGroup,
     Tooltip
 } from '@mui/material';
@@ -23,7 +25,14 @@ import {
     egoNetworkNetworkBusyAtom,
     quantifyNodesByAtom
 } from '../../apiCalls.ts';
-import { SetCenter, SetAll, InformationVariantCircle } from 'mdi-material-ui';
+import {
+    SetCenter,
+    SetAll,
+    InformationVariantCircle,
+    MagnifyPlusOutline,
+    MagnifyMinusOutline,
+    Refresh
+} from 'mdi-material-ui';
 import { infoContentAtom, infoTitleAtom } from '../HomePage/InfoComponent.tsx';
 
 function EgoNetworkNetworkViewer() {
@@ -44,7 +53,13 @@ function EgoNetworkNetworkViewer() {
         scale: 1
     }));
     const ref = React.useRef<HTMLDivElement>(null);
-
+    function zoom(val: number) {
+        const target = style.scale.get() + val;
+        api.start({ scale: target > 0 ? target : 0 });
+    }
+    function resetZoomPosition() {
+        api.start({ x: svgSize.width / 2, y: svgSize.height / 2, scale: 1 });
+    }
     useGesture(
         {
             onWheel: ({ delta: [, dy] }) => {
@@ -111,48 +126,79 @@ function EgoNetworkNetworkViewer() {
                     <EgoNetworkNetwork />
                 </animated.g>
             </animated.svg>
-            <ToggleButtonGroup
+            <Stack
+                direction="row"
+                spacing={2}
                 style={{ right: 10, position: 'absolute', top: 10 }}
-                orientation="horizontal"
-                value={decollapseMode}
-                exclusive
-                onChange={(_event, nextVal: string) => {
-                    if (nextVal !== null) {
-                        setDecollapseModeAtom(nextVal);
-                    }
-                }}
             >
-                <TooltipToggleButton
-                    TooltipProps={{
-                        title: 'Show ONLY shared nodes on decollapse'
-                    }}
-                    value="shared"
-                    aria-label="shared"
-                >
-                    <SetCenter />
-                </TooltipToggleButton>
+                <ButtonGroup>
+                    <IconButton
+                        onClick={() => {
+                            zoom(0.2);
+                        }}
+                    >
+                        <MagnifyPlusOutline />
+                    </IconButton>
+                    <IconButton
+                        onClick={() => {
+                            zoom(-0.2);
+                        }}
+                    >
+                        <MagnifyMinusOutline />
+                    </IconButton>
+                    <Tooltip title="Reset Zoom">
+                        <IconButton
+                            onClick={() => {
+                                resetZoomPosition();
+                            }}
+                        >
+                            <Refresh />
+                        </IconButton>
+                    </Tooltip>
+                </ButtonGroup>
 
-                <TooltipToggleButton
-                    TooltipProps={{
-                        title: 'Show shared AND unique nodes on decollapse'
+                <ToggleButtonGroup
+                    orientation="horizontal"
+                    value={decollapseMode}
+                    exclusive
+                    onChange={(_event, nextVal: string) => {
+                        if (nextVal !== null) {
+                            setDecollapseModeAtom(nextVal);
+                        }
                     }}
-                    value="all"
-                    aria-label="all"
                 >
-                    <SetAll />
-                </TooltipToggleButton>
-            </ToggleButtonGroup>
-            <IconButton
-                style={{ right: 115, position: 'absolute', top: 15 }}
-                onClick={() => {
-                    setInfoTitle('egoNetworkNetwork');
-                    setInfoContent('egoNetworkNetwork');
-                }}
-            >
+                    <TooltipToggleButton
+                        TooltipProps={{
+                            title: 'Show ONLY shared nodes on decollapse'
+                        }}
+                        value="shared"
+                        aria-label="shared"
+                    >
+                        <SetCenter />
+                    </TooltipToggleButton>
+
+                    <TooltipToggleButton
+                        TooltipProps={{
+                            title: 'Show shared AND unique nodes on decollapse'
+                        }}
+                        value="all"
+                        aria-label="all"
+                    >
+                        <SetAll />
+                    </TooltipToggleButton>
+                </ToggleButtonGroup>
                 <Tooltip title="Information about the network">
-                    <InformationVariantCircle />
+                    <IconButton
+                        onClick={() => {
+                            setInfoTitle('egoNetworkNetwork');
+                            setInfoContent('egoNetworkNetwork');
+                        }}
+                    >
+                        <InformationVariantCircle />
+                    </IconButton>
                 </Tooltip>
-            </IconButton>
+            </Stack>
+
             <svg
                 height={275}
                 width={200}
