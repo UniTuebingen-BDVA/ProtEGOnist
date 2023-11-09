@@ -3,7 +3,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import axios from 'axios';
-import { atom } from 'jotai';
+import { Atom, atom } from 'jotai';
 import {
     egoGraph,
     intersectionDatum,
@@ -32,7 +32,9 @@ export const nameNodesByAtom = atom('nodeID');
 export const quantifyNodesByAtom = atom({});
 export const classifyByAtom = atom('');
 export const chosenSetAtom = atom(null);
-export const edgesClassificationAtom = atom(null);
+export const edgesClassificationAtom = atom<{ [key: string]: number } | null>(
+    null
+);
 
 export const selectedExampleAtom = atom(
     (get) => get(chosenSetAtom),
@@ -69,7 +71,10 @@ export const selectedExampleAtom = atom(
 );
 export const radarChartBusyAtom = atom(false);
 export const egoNetworkNetworkBusyAtom = atom(false);
-export const egoNetworkNetworkOverviewCoverageAtom = atom({});
+export const egoNetworkNetworkOverviewCoverageAtom = atom<{
+    nodes: number;
+    edges: number;
+}>({});
 
 export const getMultiEgographBundleAtom = atom(
     (get) => get(egoGraphBundlesAtom),

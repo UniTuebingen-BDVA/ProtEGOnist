@@ -4,15 +4,14 @@ import { useAtom, useSetAtom } from 'jotai';
 import {
     AppBar,
     Toolbar,
-    Typography,
     IconButton,
     CircularProgress,
     Box,
     createTheme,
-    ThemeProvider,
     Backdrop,
     Tooltip
 } from '@mui/material';
+import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import MenuIcon from '@mui/icons-material/Menu';
 import RadarChartViewer from './components/radarchart/radarChartViewer.tsx';
 import { tarNodeAtom } from './components/radarchart/radarStore.ts';
@@ -23,11 +22,9 @@ import {
     getRadarAtom,
     getTableAtom,
     getEgoNetworkNetworkOverviewAtom,
-    egoNetworkNetworkOverviewCoverageAtom,
     startDataOverview,
     serverBusyAtom,
-    selectedExampleAtom,
-    classifyByAtom
+    selectedExampleAtom
 } from './apiCalls.ts';
 import EgoNetworkNetworkOverviewViewer from './components/overview_component/egoNetworkNetworkOverviewViewer.tsx';
 import DrawerElement from './components/drawerElement/DrawerElement.tsx';
@@ -43,6 +40,7 @@ import {
     infoTitleAtom
 } from './components/HomePage/InfoComponent.tsx';
 import { InformationVariantCircle } from 'mdi-material-ui';
+import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 
 function App() {
     const [selectedExample] = useAtom(selectedExampleAtom);
@@ -58,8 +56,6 @@ function App() {
         useAtom(getEgoNetworkNetworkOverviewAtom);
     const [tarNode, setTarNode] = useAtom(tarNodeAtom);
     const setStateDrawer = useSetAtom(drawerShownAtom);
-    const [classifyBy] = useAtom(classifyByAtom);
-    const [coverage] = useAtom(egoNetworkNetworkOverviewCoverageAtom);
     const [, setInfoTitle] = useAtom(infoTitleAtom);
     const [, setInfoContent] = useAtom(infoContentAtom);
 
@@ -104,162 +100,138 @@ function App() {
         egoNetworkNetworkOverviewData.nodes.length > 0
     ) {
         return (
-            <ThemeProvider theme={theme}>
-                <Backdrop
-                    sx={{
-                        color: '#fff',
-                        zIndex: (theme) => theme.zIndex.drawer + 1
-                    }}
-                    open={serverBusy}
-                >
-                    <CircularProgress color="inherit" />
-                </Backdrop>
-                <InfoComponent></InfoComponent>
-                <div className="container">
-                    {/* <!-- First Row --> */}
-                    <div
-                        className="row"
-                        style={{ display: 'flex', minHeight: '5%' }}
+            <Grid container sx={{ height: '99vh', width: '100vw' }}>
+                <ThemeProvider theme={theme}>
+                    <Backdrop
+                        sx={{
+                            color: '#fff',
+                            zIndex: (theme) => theme.zIndex.drawer + 1
+                        }}
+                        open={serverBusy}
                     >
+                        <CircularProgress color="inherit" />
+                    </Backdrop>
+                    <InfoComponent></InfoComponent>
+
+                    {/* <!-- First Row --> */}
+                    <Grid xs={12} sx={{ height: '5%', width: '100%' }}>
                         <DrawerElement />
-                        <div
-                            className="column"
+                        {/* <!-- Content for the first row --> */}
+                        <AppBar
+                            className="header-title"
+                            position="static"
                             style={{
-                                flex: '1 1 0px',
                                 display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center'
+                                height: '100%'
                             }}
                         >
-                            {/* <!-- Content for the first row --> */}
-                            <AppBar
-                                className="header-title"
-                                style={{
-                                    display: 'flex',
-                                    height: '5%'
-                                }}
-                            >
-                                <Toolbar variant="dense">
+                            <Toolbar variant="dense">
+                                <IconButton
+                                    size="large"
+                                    edge="start"
+                                    color="inherit"
+                                    aria-label="menu"
+                                    sx={{ mr: 2 }}
+                                    onClick={() => setStateDrawer(true)}
+                                >
+                                    <MenuIcon />
+                                </IconButton>
+                                <img
+                                    src={LogoText}
+                                    style={{
+                                        height: '60%',
+                                        top: '10%'
+                                    }}
+                                />
+                                <span style={{ marginLeft: 'auto' }}>
+                                    <IconButton
+                                        onClick={() => {
+                                            setInfoTitle('protegonist');
+                                            setInfoContent('protegonist');
+                                        }}
+                                    >
+                                        <Tooltip title="Information about ProtEGOnist">
+                                            <InformationVariantCircle />
+                                        </Tooltip>
+                                    </IconButton>
                                     <IconButton
                                         size="large"
                                         edge="start"
                                         color="inherit"
-                                        aria-label="menu"
-                                        sx={{ mr: 2 }}
-                                        onClick={() => setStateDrawer(true)}
+                                        onClick={() =>
+                                            window.open(
+                                                'https://github.com/UniTuebingen-BDVA/BiovisChallenge2023'
+                                            )
+                                        }
                                     >
-                                        <MenuIcon />
+                                        <GitHub />
                                     </IconButton>
-                                    <img
-                                        src={LogoText}
-                                        style={{
-                                            height: '60%',
-                                            top: '10%'
-                                        }}
-                                    />
-                                    <span style={{ marginLeft: 'auto' }}>
-                                        <IconButton
-                                            onClick={() => {
-                                                setInfoTitle('protegonist');
-                                                setInfoContent('protegonist');
-                                            }}
-                                        >
-                                            <Tooltip title="Information about ProtEGOnist">
-                                                <InformationVariantCircle />
-                                            </Tooltip>
-                                        </IconButton>
-                                        <IconButton
-                                            size="large"
-                                            edge="start"
-                                            color="inherit"
-                                            onClick={() =>
-                                                window.open(
-                                                    'https://github.com/UniTuebingen-BDVA/BiovisChallenge2023'
-                                                )
-                                            }
-                                        >
-                                            <GitHub />
-                                        </IconButton>
-                                    </span>
-                                </Toolbar>
-                            </AppBar>
-                        </div>
-                    </div>
+                                </span>
+                            </Toolbar>
+                        </AppBar>
+                    </Grid>
 
                     {/* <!-- Second Row --> */}
-                    <div className="row" style={{ minHeight: '95%' }}>
+                    <Grid
+                        container
+                        columns={16}
+                        spacing={1}
+                        xs={12}
+                        sx={{ height: '96%', width: '100%' }}
+                    >
                         {/* <!-- First Column --> */}
-                        <div
-                            className="column"
-                            style={{
-                                flex: 1,
-                                minHeight: '100%',
-                                height: '100%',
-                                width: '45%',
-                                minWidth: '45%',
-                                alignItems: 'center'
-                            }}
-                        >
-                            <Typography
-                                component={'span'}
-                                style={{ color: 'black' }}
-                            >
-                                Network overview:{' '}
-                                {egoNetworkNetworkOverviewData.nodes.length}{' '}
-                                ego-graphs covering{' '}
-                                {(100 * coverage.nodes).toFixed(2)}% of the
-                                nodes and {(100 * coverage.edges).toFixed(2)}%
-                                of the edges of the given network.
-                            </Typography>
-                            <div
-                                style={{
-                                    minHeight: '45%',
-                                    height: '45%',
-                                    width: '100%'
+                        <Grid container xs={7} sx={{ height: '100%' }}>
+                            <Grid
+                                xs={16}
+                                sx={{
+                                    height: '55%',
+                                    textAlign: 'center'
                                 }}
                             >
                                 {/* <!-- Content for the first column, first row --> */}
                                 <EgoNetworkNetworkOverviewViewer />
-                            </div>
-                            <Typography
-                                component={'span'}
-                                style={{ color: 'black' }}
+                            </Grid>
+                            <Grid
+                                xs={16}
+                                sx={{
+                                    height: '45%',
+                                    textAlign: 'center'
+                                }}
+                                // style={{ minWidth: '80%', width: '80%' }}
                             >
-                                Neighborhood of selected node (radar center)
-                                classified by {classifyBy}
-                            </Typography>
-                            <div style={{ minWidth: '80%', width: '80%' }}>
+                                {/* */}
                                 {/* <!-- Content for the first column, second row --> */}
                                 <RadarChartViewer
                                     intersectionData={intersectionData}
                                     tarNode={tarNode}
                                 />
-                            </div>
-                        </div>
+                            </Grid>
+                        </Grid>
 
                         {/* <!-- Second Column --> */}
-                        <div
-                            className="column"
-                            style={{
-                                flex: 2,
-                                width: '55%'
-                            }}
-                        >
-                            <Typography
-                                component={'span'}
-                                style={{ color: 'black', textAlign: 'center' }}
+                        <Grid container xs={9} sx={{ height: '100%' }}>
+                            <Grid
+                                xs={16}
+                                sx={{ height: '100%', textAlign: 'center' }}
                             >
-                                Ego-graph subnetwork
-                            </Typography>
-                            <div>
+                                {/* <Typography
+                                    component={'span'}
+                                    style={{
+                                        color: 'black',
+                                        textAlign: 'center'
+                                    }}
+                                >
+                                    Ego-graph subnetwork
+                                </Typography> */}
+
                                 {/* <!-- Content for the second column, first row --> */}
                                 {/* <EgoGraphViewer />  */}
                                 <EgoNetworkNetworkViewer />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </ThemeProvider>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </ThemeProvider>
+            </Grid>
         );
     } else if (selectedExample) {
         return (

@@ -1,24 +1,27 @@
 import EgoNetworkNetworkOverview from './egoNetworkNetworkOverview.tsx';
-import { IconButton, Paper, Tooltip } from '@mui/material';
+import { IconButton, Paper, Tooltip, Typography } from '@mui/material';
 import { useAtom } from 'jotai';
 import { egoNetworkNetworkSizeAtom } from './egoNetworkNetworkOverviewStore.ts';
-import { useRef, useEffect } from 'react';
-import { useDimensions } from '../../UtilityFunctions.ts';
+import { useRef } from 'react';
 import ColorLegend from '../ColorLegend.tsx';
 import { InformationVariantCircle } from 'mdi-material-ui';
 import { infoContentAtom, infoTitleAtom } from '../HomePage/InfoComponent.tsx';
+import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
+import {
+    egoNetworkNetworkOverviewCoverageAtom,
+    getEgoNetworkNetworkOverviewAtom
+} from '../../apiCalls.ts';
 
 function EgoNetworkNetworkOverviewViewer() {
     const ref = useRef(null);
 
-    const [svgSize, setSvgSize] = useAtom(egoNetworkNetworkSizeAtom);
+    const [svgSize] = useAtom(egoNetworkNetworkSizeAtom);
     const [_infoContent, setInfoContent] = useAtom(infoContentAtom);
     const [_infoTitle, setInfoTitle] = useAtom(infoTitleAtom);
-    const { width, height } = useDimensions(ref);
-
-    useEffect(() => {
-        setSvgSize({ x: 0, y: 0, width: width, height: height });
-    }, [height, width]);
+    const [coverage] = useAtom(egoNetworkNetworkOverviewCoverageAtom);
+    const [egoNetworkNetworkOverviewData] = useAtom(
+        getEgoNetworkNetworkOverviewAtom
+    );
 
     return (
         <Paper
@@ -26,63 +29,93 @@ function EgoNetworkNetworkOverviewViewer() {
             style={{
                 width: '100%',
                 height: '100%',
-                alignItems: 'center',
-                justifyContent: 'center',
-                margin: 0,
-                padding: 0,
-                overflow: 'hidden',
                 position: 'relative'
             }}
         >
-            <svg
-                width="100%"
-                height="100%"
-                viewBox={`${svgSize.x} ${svgSize.y} ${
-                    svgSize.width + 30 ?? 0
-                } ${svgSize.height + 30 ?? 0}`}
-                style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    bottom: 0,
-                    right: 0
+            <Grid
+                container
+                spacing={0}
+                sx={{
+                    top: 10,
+                    alignItems: 'flex-start',
+                    width: '100%'
                 }}
             >
-                <g transform={'translate(40,35)'}>
-                    <EgoNetworkNetworkOverview />
-                </g>
-            </svg>
-            <svg height={200} width={475}>
-                <ColorLegend
-                    domain={['In ego-graph subnetwork', 'Radar center']}
-                    range={['#ff7f00', '#ffff99']}
-                    type={'qualitative'}
-                    transform={`translate(${340},${-7})`}
-                    title={''}
-                    render={true}
-                />
-                <ColorLegend
-                    domain={[0, 100]}
-                    range={['white', '#1f78b4']}
-                    type={'quantitative'}
-                    transform={`translate(${10},${5})`}
-                    title={
-                        'Percent of nodes represented in ego-graph subnetwork (right)'
-                    }
-                    render={true}
-                />
-            </svg>
-            <IconButton
-                style={{ right: 10, position: 'absolute', top: 15 }}
-                onClick={() => {
-                    setInfoTitle('networkOverview');
-                    setInfoContent('networkOverview');
-                }}
-            >
-                <Tooltip title="Information about the Radar Chart">
-                    <InformationVariantCircle />
-                </Tooltip>
-            </IconButton>
+                <Grid xs={12}>
+                    <Typography component={'span'} style={{ color: 'black' }}>
+                        Network overview:{' '}
+                        {egoNetworkNetworkOverviewData.nodes.length} ego-graphs
+                        covering {(100 * coverage.nodes).toFixed(2)}% of the
+                        nodes and {(100 * coverage.edges).toFixed(2)}% of the
+                        edges of the given network.
+                    </Typography>
+                </Grid>
+                <Grid xs={5}>
+                    <svg height={'100%'} width={'100%'} viewBox="0 0 300 200">
+                        <ColorLegend
+                            domain={[0, 100]}
+                            range={['white', '#1f78b4']}
+                            type={'quantitative'}
+                            transform={`translate(${10},${10})`}
+                            title={
+                                'Percent of nodes represented in ego-graph subnetwork (right)'
+                            }
+                            render={true}
+                        />
+                    </svg>
+                </Grid>
+                <Grid xs={3}>
+                    <svg height={'100%'} width={'100%'} viewBox="0 0 200 100">
+                        <ColorLegend
+                            domain={['In ego-graph subnetwork']}
+                            range={['#ff7f00']}
+                            type={'qualitative'}
+                            title={''}
+                            render={true}
+                        />
+                    </svg>
+                </Grid>
+                <Grid xs={3}>
+                    <svg height={'100%'} width={'100%'} viewBox="0 0 200 100">
+                        <ColorLegend
+                            domain={['Radar center']}
+                            range={['#ffff99']}
+                            type={'qualitative'}
+                            title={''}
+                            render={true}
+                        />
+                    </svg>
+                </Grid>
+                <Grid xs={1} xsOffset="auto">
+                    <IconButton
+                        onClick={() => {
+                            setInfoTitle('networkOverview');
+                            setInfoContent('networkOverview');
+                        }}
+                    >
+                        <Tooltip title="Information about the Radar Chart">
+                            <InformationVariantCircle />
+                        </Tooltip>
+                    </IconButton>
+                </Grid>
+                <Grid xs={12} sx={{ top: '10%', position: 'absolute' }}>
+                    <svg
+                        width={'100%'}
+                        height={'100%'}
+                        viewBox={`0 0 ${svgSize.width * 1.05} ${
+                            svgSize.height * 1.05
+                        }`}
+                    >
+                        <g
+                            transform={`translate(${svgSize.width / 20},${
+                                svgSize.height / 20
+                            })`}
+                        >
+                            <EgoNetworkNetworkOverview />
+                        </g>
+                    </svg>
+                </Grid>
+            </Grid>
         </Paper>
     );
 }

@@ -1,5 +1,5 @@
 
-body{
+/* body{
   display: block;
   min-width: 100%;
   background-color: white;
@@ -13,7 +13,7 @@ body{
   max-width: 100%;
   min-height: 100vh;
 
-}
+} */
 
 
 .card {
@@ -24,12 +24,11 @@ body{
   color: #888;
 }
 
-.MuiGrid-item {}
 
 .header-title {
   background-color: #61dafbaa;
 }
-.container {
+/* .container {
   display: flex; 
   flex-direction: column;
   flex-basis: 100%;
@@ -63,4 +62,4 @@ body{
   justify-content: center;
   align-items: center;
   padding: 0.5em;
-}
+} */

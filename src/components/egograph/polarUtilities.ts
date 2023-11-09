@@ -1,3 +1,8 @@
+export type polarCoordinate = {
+    r: number;
+    theta: number;
+};
+
 export function globalToLocal(
     point: [number, number],
     center: { x: number; y: number }

@@ -202,7 +202,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                         ]);
                         const keyEdges = `${sortedEdges[0]}_${sortedEdges[1]}`;
                         // console.log(edgesClassification[keyEdges])
-                        const edgeValue =
+                        const edgeValue: number | null =
                             edgesClassification?.[keyEdges] ?? null;
                         if (edgeValue !== null) {
                             colorEdge = edgeValue === '-1' ? 'red' : 'blue';
@@ -244,7 +244,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                         stroke={'black'}
                     />
                 );
-            }/* else {
+            } /* else {
                 if (!edge.alwaysDraw) {
                     backgroundBands.push(
                         <line

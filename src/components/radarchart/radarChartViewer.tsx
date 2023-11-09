@@ -1,20 +1,20 @@
-import { useRef, useEffect } from 'react';
+import { useRef } from 'react';
 import { intersectionDatum } from '../../egoGraphSchema';
 import RadarChart from './radarChart.tsx';
 import { useAtom } from 'jotai';
-import { radarSVGSizeAtom } from './radarStore.ts';
-import { useDimensions } from '../../UtilityFunctions.ts';
 import {
     Backdrop,
     CircularProgress,
     IconButton,
     Paper,
-    Tooltip
+    Tooltip,
+    Typography
 } from '@mui/material';
-import { radarChartBusyAtom } from '../../apiCalls.ts';
+import { classifyByAtom, radarChartBusyAtom } from '../../apiCalls.ts';
 import { InformationVariantCircle } from 'mdi-material-ui';
-import { infoContentAtom, infoTitleAtom } from '../HomePage/InfoComponent.tsx';
+import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 
+import { infoContentAtom, infoTitleAtom } from '../HomePage/InfoComponent.tsx';
 interface RadarChartViewerProps {
     intersectionData: { [name: string | number]: intersectionDatum };
     tarNode: string;
@@ -22,14 +22,17 @@ interface RadarChartViewerProps {
 
 function RadarChartViewer(props: RadarChartViewerProps) {
     const ref = useRef(null);
-    const { width, height } = useDimensions(ref);
-    const [svgSize, setSVGSize] = useAtom(radarSVGSizeAtom);
+    //const { width, height } = useDimensions(ref);
+    //const [svgSize, setSVGSize] = useAtom(radarSVGSizeAtom);
     const [radarBusy] = useAtom(radarChartBusyAtom);
     const [_infoContent, setInfoContent] = useAtom(infoContentAtom);
     const [_infoTitle, setInfoTitle] = useAtom(infoTitleAtom);
-    useEffect(() => {
-        setSVGSize({ width: width, height: height });
-    }, [height, width]);
+    const [classifyBy] = useAtom(classifyByAtom);
+
+    // useEffect(() => {
+    //     setSVGSize({ width: width, height: height });
+    // }, [height, width]);
+    const svgSize = { width: 500, height: 500 };
 
     return (
         <Paper
@@ -37,10 +40,6 @@ function RadarChartViewer(props: RadarChartViewerProps) {
             style={{
                 width: '100%',
                 height: '100%',
-                display: 'flex',
-                textAlign: 'center',
-                alignItems: 'center',
-                justifyContent: 'center',
                 position: 'relative'
             }}
         >
@@ -54,38 +53,56 @@ function RadarChartViewer(props: RadarChartViewerProps) {
             >
                 <CircularProgress color="inherit" />
             </Backdrop>
-            <IconButton
-                style={{ right: 10, position: 'absolute', top: 15 }}
-                onClick={() => {
-                    setInfoTitle('radarChart');
-                    setInfoContent('radarChart');
+            <Grid
+                container
+                spacing={0}
+                sx={{
+                    top: 10,
+                    width: '100%',
+                    height: '100%'
                 }}
             >
-                <Tooltip title="Information about the Radar Chart">
-                    <InformationVariantCircle />
-                </Tooltip>
-            </IconButton>
-            <svg
-                width={svgSize.width}
-                height={svgSize.height}
-                viewBox={`0 0 ${svgSize.width} ${svgSize.width}`}
-            >
-                <g
-                    transform={
-                        'translate(' +
-                        String(svgSize.width / 2) +
-                        ',' +
-                        String(svgSize.width / 2) +
-                        ')'
-                    }
-                >
-                    <RadarChart
-                        intersectionData={props.intersectionData}
-                        tarNode={props.tarNode}
-                        baseRadius={svgSize.width / 2}
-                    />
-                </g>
-            </svg>
+                <Grid xs={11}>
+                    <Typography component={'span'} style={{ color: 'black' }}>
+                        Neighborhood of selected node (radar center) classified
+                        by {classifyBy}
+                    </Typography>
+                </Grid>
+                <Grid xs={1} sx={{ display: 'flex' }}>
+                    <IconButton
+                        onClick={() => {
+                            setInfoTitle('radarChart');
+                            setInfoContent('radarChart');
+                        }}
+                    >
+                        <Tooltip title="Information about the Radar Chart">
+                            <InformationVariantCircle />
+                        </Tooltip>
+                    </IconButton>
+                </Grid>
+                <Grid xs={12}>
+                    <svg
+                        width={'42%'}
+                        viewBox={`0 0 ${svgSize.width} ${svgSize.width}`}
+                    >
+                        <g
+                            transform={
+                                'translate(' +
+                                String(svgSize.width / 2) +
+                                ',' +
+                                String(svgSize.width / 2) +
+                                ')'
+                            }
+                        >
+                            <RadarChart
+                                intersectionData={props.intersectionData}
+                                tarNode={props.tarNode}
+                                baseRadius={svgSize.width / 2}
+                            />
+                        </g>
+                    </svg>
+                </Grid>
+            </Grid>
         </Paper>
     );
 }
