@@ -106,6 +106,7 @@ export const MainPage = (props: mainPageProps) => {
                 <Grid
                     container
                     alignContent={props.alignContent}
+
                     columns={props.columns}
                     spacing={0}
                     sx={{

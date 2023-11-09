@@ -24,6 +24,7 @@ import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import { MainPage } from './components/HomePage/MainPage.tsx';
 import TabsElements from './components/HomePage/TabsElements.tsx';
 
+
 function App() {
     const [selectedExample] = useAtom(selectedExampleAtom);
     const [tableData, getTableData] = useAtom(getTableAtom);
@@ -77,6 +78,7 @@ function App() {
         egoNetworkNetworkOverviewData.nodes.length > 0
     ) {
         return (
+
             <MainPage columns={16} alignContent="center" theme={theme}>
                 {/* <!-- First Column --> */}
                 <Grid container xs={7} sx={{ height: '100%' }}>
@@ -100,6 +102,7 @@ function App() {
                             height: '45%',
                             textAlign: 'center'
                         }}
+
                     >
                         <RadarChartViewer
                             intersectionData={intersectionData}
@@ -107,6 +110,7 @@ function App() {
                         />
                     </Grid>
                 </Grid>
+
 
                 {/* <!-- Second Column --> */}
                 <Grid container xs={9} sx={{ height: '100%' }}>
