@@ -1,8 +1,10 @@
 import { useEffect } from 'react';
 import './App.css';
+
 import { useAtom } from 'jotai';
 import { CircularProgress, Box, createTheme } from '@mui/material';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
+
 import RadarChartViewer from './components/radarchart/radarChartViewer.tsx';
 import { tarNodeAtom } from './components/radarchart/radarStore.ts';
 import EgoNetworkNetworkViewer from './components/egoNetworkNetwork/egoNetworkNetworkViewer.tsx';
@@ -22,6 +24,7 @@ import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import { MainPage } from './components/HomePage/MainPage.tsx';
 import TabsElements from './components/HomePage/TabsElements.tsx';
 
+
 function App() {
     const [selectedExample] = useAtom(selectedExampleAtom);
     const [tableData, getTableData] = useAtom(getTableAtom);
@@ -34,7 +37,6 @@ function App() {
     const [egoNetworkNetworkOverviewData, getEgoNetworkNetworkOverviewData] =
         useAtom(getEgoNetworkNetworkOverviewAtom);
     const [tarNode, setTarNode] = useAtom(tarNodeAtom);
-
     const theme = createTheme({
         palette: {
             primary: {
