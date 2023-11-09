@@ -24,7 +24,6 @@ import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import { MainPage } from './components/HomePage/MainPage.tsx';
 import TabsElements from './components/HomePage/TabsElements.tsx';
 
-
 function App() {
     const [selectedExample] = useAtom(selectedExampleAtom);
     const [tableData, getTableData] = useAtom(getTableAtom);
@@ -78,7 +77,7 @@ function App() {
         egoNetworkNetworkOverviewData.nodes.length > 0
     ) {
         return (
-            <MainPage columns={16} theme={theme}>
+            <MainPage columns={16} alignContent="center" theme={theme}>
                 {/* <!-- First Column --> */}
                 <Grid container xs={7} sx={{ height: '100%' }}>
                     <Grid
@@ -90,7 +89,6 @@ function App() {
                             textAlign: 'center'
                         }}
                     >
-                        {/* <!-- Content for the first column, first row --> */}
                         <EgoNetworkNetworkOverviewViewer />
                     </Grid>
                     <Grid
@@ -102,10 +100,7 @@ function App() {
                             height: '45%',
                             textAlign: 'center'
                         }}
-                        // style={{ minWidth: '80%', width: '80%' }}
                     >
-                        {/* */}
-                        {/* <!-- Content for the first column, second row --> */}
                         <RadarChartViewer
                             intersectionData={intersectionData}
                             tarNode={tarNode}
@@ -120,18 +115,6 @@ function App() {
                         xs={16}
                         sx={{ height: '100%', textAlign: 'center' }}
                     >
-                        {/* <Typography
-                                    component={'span'}
-                                    style={{
-                                        color: 'black',
-                                        textAlign: 'center'
-                                    }}
-                                >
-                                    Ego-graph subnetwork
-                                </Typography> */}
-
-                        {/* <!-- Content for the second column, first row --> */}
-                        {/* <EgoGraphViewer />  */}
                         <EgoNetworkNetworkViewer />
                     </Grid>
                 </Grid>
@@ -162,7 +145,7 @@ function App() {
         );
     } else {
         return (
-            <MainPage theme={theme}>
+            <MainPage columns={12} alignContent={'flex-start'} theme={theme}>
                 <TabsElements />
             </MainPage>
         );

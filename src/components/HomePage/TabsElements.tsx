@@ -8,6 +8,7 @@ import Box from '@mui/material/Box';
 import AboutPage from './AboutPage';
 import ExamplesPage from './PredefinedExamples';
 import { Alert, Link } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -53,32 +54,35 @@ export default function TabsElements() {
     const theme = useTheme();
     const [value, setValue] = React.useState(0);
 
-    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
     return (
-        <Box sx={{ bgcolor: 'background.paper', width: '100%' }}>
-            <AppBar position="static">
-                <Tabs
-                    value={value}
-                    onChange={handleChange}
-                    indicatorColor="primary"
-                    textColor="primary"
-                    variant="fullWidth"
-                    aria-label="full width tabs example"
-                    style={{ backgroundColor: 'white' }}
-                >
-                    <Tab label="Home" {...a11yProps(0)} />
-                    <Tab label="Data Upload" {...a11yProps(1)} />
-                    <Tab label="Example Data" {...a11yProps(2)} />
-                </Tabs>
-            </AppBar>
-            <div>
+        <Grid xs={12}>
+            <Grid xs={12}>
+                <AppBar position="static">
+                    <Tabs
+                        value={value}
+                        onChange={handleChange}
+                        indicatorColor="primary"
+                        textColor="primary"
+                        variant="fullWidth"
+                        aria-label="full width tabs example"
+                        style={{ backgroundColor: 'white' }}
+                    >
+                        <Tab label="Home" {...a11yProps(0)} />
+                        <Tab label="Data Upload" {...a11yProps(1)} />
+                        <Tab label="Example Data" {...a11yProps(2)} />
+                    </Tabs>
+                </AppBar>
+            </Grid>
+
+            <Grid xs={12}>
                 <TabPanel value={value} index={0} dir={theme.direction}>
                     <AboutPage setTab={setValue} />
                 </TabPanel>
                 <TabPanel value={value} index={1} dir={theme.direction}>
-                    <Alert severity="error">
+                    <Alert severity="warning">
                         This page is still under construction. <br />
                         Please check back later for updates or check our
                         provided examples. <br />
@@ -98,7 +102,7 @@ export default function TabsElements() {
                 <TabPanel value={value} index={2} dir={theme.direction}>
                     <ExamplesPage />
                 </TabPanel>
-            </div>
-        </Box>
+            </Grid>
+        </Grid>
     );
 }

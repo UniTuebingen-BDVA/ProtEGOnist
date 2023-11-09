@@ -23,6 +23,7 @@ import LogoText from '../../assets/LogoPathWhite.svg';
 type mainPageProps = {
     columns: number;
     theme: Partial<Theme> | ((outerTheme: Theme) => Theme);
+    alignContent: 'flex-start' | 'center' | 'flex-end' | 'stretch' | 'baseline';
     children: React.ReactNode;
 };
 
@@ -104,7 +105,7 @@ export const MainPage = (props: mainPageProps) => {
                 {/* <!-- Second Row --> */}
                 <Grid
                     container
-                    alignContent={'center'}
+                    alignContent={props.alignContent}
                     columns={props.columns}
                     spacing={0}
                     sx={{
