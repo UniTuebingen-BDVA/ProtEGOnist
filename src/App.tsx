@@ -1,18 +1,10 @@
 import { useEffect } from 'react';
 import './App.css';
-import { useAtom, useSetAtom } from 'jotai';
-import {
-    AppBar,
-    Toolbar,
-    IconButton,
-    CircularProgress,
-    Box,
-    createTheme,
-    Backdrop,
-    Tooltip
-} from '@mui/material';
+
+import { useAtom } from 'jotai';
+import { CircularProgress, Box, createTheme } from '@mui/material';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
-import MenuIcon from '@mui/icons-material/Menu';
+
 import RadarChartViewer from './components/radarchart/radarChartViewer.tsx';
 import { tarNodeAtom } from './components/radarchart/radarStore.ts';
 import EgoNetworkNetworkViewer from './components/egoNetworkNetwork/egoNetworkNetworkViewer.tsx';
@@ -23,28 +15,18 @@ import {
     getTableAtom,
     getEgoNetworkNetworkOverviewAtom,
     startDataOverview,
-    serverBusyAtom,
     selectedExampleAtom
 } from './apiCalls.ts';
 import EgoNetworkNetworkOverviewViewer from './components/overview_component/egoNetworkNetworkOverviewViewer.tsx';
-import DrawerElement from './components/drawerElement/DrawerElement.tsx';
-import { drawerShownAtom } from './components/drawerElement/DrawerElementStore.ts';
-import LogoText from './assets/LogoPathWhite.svg';
 import LogoBlue from './assets/LogoBlue.svg';
 
-import { GitHub } from '@mui/icons-material';
-import LandingPage from './components/HomePage/LandingPage.tsx';
-import {
-    InfoComponent,
-    infoContentAtom,
-    infoTitleAtom
-} from './components/HomePage/InfoComponent.tsx';
-import { InformationVariantCircle } from 'mdi-material-ui';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
+import { MainPage } from './components/HomePage/MainPage.tsx';
+import TabsElements from './components/HomePage/TabsElements.tsx';
+
 
 function App() {
     const [selectedExample] = useAtom(selectedExampleAtom);
-    const [serverBusy] = useAtom(serverBusyAtom);
     const [tableData, getTableData] = useAtom(getTableAtom);
     const [intersectionData, getRadarData] = useAtom(getRadarAtom);
     const [_selectedProteins, setSelectedProteins] =
@@ -55,10 +37,6 @@ function App() {
     const [egoNetworkNetworkOverviewData, getEgoNetworkNetworkOverviewData] =
         useAtom(getEgoNetworkNetworkOverviewAtom);
     const [tarNode, setTarNode] = useAtom(tarNodeAtom);
-    const setStateDrawer = useSetAtom(drawerShownAtom);
-    const [, setInfoTitle] = useAtom(infoTitleAtom);
-    const [, setInfoContent] = useAtom(infoContentAtom);
-
     const theme = createTheme({
         palette: {
             primary: {
@@ -100,121 +78,49 @@ function App() {
         egoNetworkNetworkOverviewData.nodes.length > 0
     ) {
         return (
-            <Grid container sx={{ height: '99vh', width: '100vw' }}>
-                <ThemeProvider theme={theme}>
-                    <Backdrop
-                        sx={{
-                            color: '#fff',
-                            zIndex: (theme) => theme.zIndex.drawer + 1
-                        }}
-                        open={serverBusy}
-                    >
-                        <CircularProgress color="inherit" />
-                    </Backdrop>
-                    <InfoComponent></InfoComponent>
-
-                    {/* <!-- First Row --> */}
-                    <Grid xs={12} sx={{ height: '5%', width: '100%' }}>
-                        <DrawerElement />
-                        {/* <!-- Content for the first row --> */}
-                        <AppBar
-                            className="header-title"
-                            position="static"
-                            style={{
-                                display: 'flex',
-                                height: '100%'
-                            }}
-                        >
-                            <Toolbar variant="dense">
-                                <IconButton
-                                    size="large"
-                                    edge="start"
-                                    color="inherit"
-                                    aria-label="menu"
-                                    sx={{ mr: 2 }}
-                                    onClick={() => setStateDrawer(true)}
-                                >
-                                    <MenuIcon />
-                                </IconButton>
-                                <img
-                                    src={LogoText}
-                                    style={{
-                                        height: '60%',
-                                        top: '10%'
-                                    }}
-                                />
-                                <span style={{ marginLeft: 'auto' }}>
-                                    <IconButton
-                                        onClick={() => {
-                                            setInfoTitle('protegonist');
-                                            setInfoContent('protegonist');
-                                        }}
-                                    >
-                                        <Tooltip title="Information about ProtEGOnist">
-                                            <InformationVariantCircle />
-                                        </Tooltip>
-                                    </IconButton>
-                                    <IconButton
-                                        size="large"
-                                        edge="start"
-                                        color="inherit"
-                                        onClick={() =>
-                                            window.open(
-                                                'https://github.com/UniTuebingen-BDVA/BiovisChallenge2023'
-                                            )
-                                        }
-                                    >
-                                        <GitHub />
-                                    </IconButton>
-                                </span>
-                            </Toolbar>
-                        </AppBar>
-                    </Grid>
-
-                    {/* <!-- Second Row --> */}
+            <MainPage columns={16} theme={theme}>
+                {/* <!-- First Column --> */}
+                <Grid container xs={7} sx={{ height: '100%' }}>
                     <Grid
-                        container
-                        columns={16}
-                        spacing={1}
-                        xs={12}
-                        sx={{ height: '96%', width: '100%' }}
+                        p={1}
+                        pr={0}
+                        xs={16}
+                        sx={{
+                            height: '55%',
+                            textAlign: 'center'
+                        }}
                     >
-                        {/* <!-- First Column --> */}
-                        <Grid container xs={7} sx={{ height: '100%' }}>
-                            <Grid
-                                xs={16}
-                                sx={{
-                                    height: '55%',
-                                    textAlign: 'center'
-                                }}
-                            >
-                                {/* <!-- Content for the first column, first row --> */}
-                                <EgoNetworkNetworkOverviewViewer />
-                            </Grid>
-                            <Grid
-                                xs={16}
-                                sx={{
-                                    height: '45%',
-                                    textAlign: 'center'
-                                }}
-                                // style={{ minWidth: '80%', width: '80%' }}
-                            >
-                                {/* */}
-                                {/* <!-- Content for the first column, second row --> */}
-                                <RadarChartViewer
-                                    intersectionData={intersectionData}
-                                    tarNode={tarNode}
-                                />
-                            </Grid>
-                        </Grid>
+                        {/* <!-- Content for the first column, first row --> */}
+                        <EgoNetworkNetworkOverviewViewer />
+                    </Grid>
+                    <Grid
+                        p={1}
+                        pr={0}
+                        pt={0}
+                        xs={16}
+                        sx={{
+                            height: '45%',
+                            textAlign: 'center'
+                        }}
+                        // style={{ minWidth: '80%', width: '80%' }}
+                    >
+                        {/* */}
+                        {/* <!-- Content for the first column, second row --> */}
+                        <RadarChartViewer
+                            intersectionData={intersectionData}
+                            tarNode={tarNode}
+                        />
+                    </Grid>
+                </Grid>
 
-                        {/* <!-- Second Column --> */}
-                        <Grid container xs={9} sx={{ height: '100%' }}>
-                            <Grid
-                                xs={16}
-                                sx={{ height: '100%', textAlign: 'center' }}
-                            >
-                                {/* <Typography
+                {/* <!-- Second Column --> */}
+                <Grid container xs={9} sx={{ height: '100%' }}>
+                    <Grid
+                        p={1}
+                        xs={16}
+                        sx={{ height: '100%', textAlign: 'center' }}
+                    >
+                        {/* <Typography
                                     component={'span'}
                                     style={{
                                         color: 'black',
@@ -224,14 +130,12 @@ function App() {
                                     Ego-graph subnetwork
                                 </Typography> */}
 
-                                {/* <!-- Content for the second column, first row --> */}
-                                {/* <EgoGraphViewer />  */}
-                                <EgoNetworkNetworkViewer />
-                            </Grid>
-                        </Grid>
+                        {/* <!-- Content for the second column, first row --> */}
+                        {/* <EgoGraphViewer />  */}
+                        <EgoNetworkNetworkViewer />
                     </Grid>
-                </ThemeProvider>
-            </Grid>
+                </Grid>
+            </MainPage>
         );
     } else if (selectedExample) {
         return (
@@ -257,7 +161,11 @@ function App() {
             </ThemeProvider>
         );
     } else {
-        return <LandingPage />;
+        return (
+            <MainPage theme={theme}>
+                <TabsElements />
+            </MainPage>
+        );
     }
 }
 
