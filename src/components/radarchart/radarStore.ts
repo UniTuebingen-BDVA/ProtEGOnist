@@ -1,6 +1,5 @@
 import { atom } from 'jotai';
 import { intersectionDatum } from '../../egoGraphSchema';
-export const radarSVGSizeAtom = atom({ width: 450, height: 450 });
 
 export const changedNodesAtom = atom((get) => {
     return get(radarNodesAtom).changed;
@@ -13,13 +12,16 @@ export const intersectionAtom = atom((get) => {
     return get(radarNodesAtom).intersection;
 });
 
-
-export const radarNodesAtom = atom<{changed: string[], leaving:string[], intersection: {
-    [name: string]: intersectionDatum;
-} }>({
+export const radarNodesAtom = atom<{
+    changed: string[];
+    leaving: string[];
+    intersection: {
+        [name: string]: intersectionDatum;
+    };
+}>({
     changed: [],
-    leaving: [], 
-    intersection:  {}
+    leaving: [],
+    intersection: {}
 });
 
 export const tarNodeStoreAtom = atom<string>('');

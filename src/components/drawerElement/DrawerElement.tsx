@@ -26,12 +26,7 @@ function DrawerElement() {
         >
             <Box sx={{ padding: '0.5%' }} display="flex" alignItems="center">
                 <Box flexGrow={1}>
-                    <Typography
-                        component={'span'}
-                        variant="h6"
-                        color="inherit"
-                        component="div"
-                    >
+                    <Typography component={'span'} variant="h6" color="inherit">
                         Select input data for visualization
                     </Typography>
                 </Box>

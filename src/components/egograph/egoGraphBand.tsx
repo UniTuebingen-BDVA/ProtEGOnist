@@ -7,13 +7,11 @@ import {
     polarIsBetween,
     polarToCartesian,
     subtractAngle,
-    addAngle
+    addAngle,
+    polarCoordinate
 } from './polarUtilities';
 
-import {
-    filteredIntersectionsAtom,
-    selectedBandAtom
-} from './egoGraphBundleStore';
+import { selectedBandAtom } from './egoGraphBundleStore';
 import { useAtom } from 'jotai';
 interface EgoGraphBandProps {
     bandData: [
@@ -44,7 +42,15 @@ function positionTips(
     centerPosC1: { x: number; y: number; id: string; outerSize: number },
     centerPosC2: { x: number; y: number; id: string; outerSize: number },
     twoCase: number | boolean = false
-) {
+): [
+    [number, number],
+    [number, number],
+    [number, number],
+    [number, number],
+    [number, number],
+    number,
+    number
+] {
     const TIP_MAX_ANGLE = 0.4; //rad
     let p1Cartesian = structuredClone(p1);
     let p2Cartesian = structuredClone(p2);
@@ -66,9 +72,6 @@ function positionTips(
         globalToLocal(p4Cartesian, centerPosC2)
     );
 
-    const centerPosC2PolarC1 = cartesianToPolar(
-        globalToLocal([centerPosC2.x, centerPosC2.y], centerPosC1)
-    );
     // check if radius of p1 and p2 is the same within an epsilon and throw error if not
     if (Math.abs(p1LocalPolarC1.r - p2LocalPolarC1.r) > 0.0001) {
         throw new Error(
@@ -96,7 +99,8 @@ function positionTips(
         centerPosC1
     );
 
-    let midpointP1P2PolarC1, midpointP3P4PolarC1;
+    let midpointP1P2PolarC1: polarCoordinate,
+        midpointP3P4PolarC1: polarCoordinate;
     // calculate the midpoint between p1LocalPolar and p2LocalPolar consider that the midpoint of 3/2 pi and 1/2 pi is 0
     if (twoCase) {
         midpointP1P2PolarC1 = {
@@ -290,52 +294,52 @@ function offsetTips(
         offsetPointMain[1] - vectorAssist[1]
     ];
     //check if the abs of the dot product of the two vectors is < 1/3 Pi
-    const dotProduct =
-        fromCenterToOffsetPointMain[0] * tipVector[0] +
-        fromCenterToOffsetPointMain[1] * tipVector[1];
-    const angle = Math.acos(
-        dotProduct /
-            Math.sqrt(
-                fromCenterToOffsetPointMain[0] *
-                    fromCenterToOffsetPointMain[0] +
-                    fromCenterToOffsetPointMain[1] *
-                        fromCenterToOffsetPointMain[1]
-            ) /
-            Math.sqrt(tipVector[0] * tipVector[0] + tipVector[1] * tipVector[1])
-    );
+    // const dotProduct =
+    //     fromCenterToOffsetPointMain[0] * tipVector[0] +
+    //     fromCenterToOffsetPointMain[1] * tipVector[1];
+    // const angle = Math.acos(
+    //     dotProduct /
+    //         Math.sqrt(
+    //             fromCenterToOffsetPointMain[0] *
+    //                 fromCenterToOffsetPointMain[0] +
+    //                 fromCenterToOffsetPointMain[1] *
+    //                     fromCenterToOffsetPointMain[1]
+    //         ) /
+    //         Math.sqrt(tipVector[0] * tipVector[0] + tipVector[1] * tipVector[1])
+    // );
     let tipVectorNormalized = [0, 0];
-    if (false && angle < (Math.PI * 2) / 2) {
-        //mabye change back it seems that this case is not very prevalent
-        console.log('angleCase', angle);
-        // set the vector such that angles with 1/3 Pi
-        const rot = (Math.sign(dotProduct) * -2 * Math.PI) / 2;
-        const fromCenterToOffsetPointMainLength = Math.sqrt(
-            fromCenterToOffsetPointMain[0] * fromCenterToOffsetPointMain[0] +
-                fromCenterToOffsetPointMain[1] * fromCenterToOffsetPointMain[1]
-        );
-        const fromCenterToOffsetPointMainNormalized = [
-            fromCenterToOffsetPointMain[0] / fromCenterToOffsetPointMainLength,
-            fromCenterToOffsetPointMain[1] / fromCenterToOffsetPointMainLength
-        ];
+    // if (angle < (Math.PI * 2) / 2) {
+    //     //mabye change back it seems that this case is not very prevalent
+    //     console.log('angleCase', angle);
+    //     // set the vector such that angles with 1/3 Pi
+    //     const rot = (Math.sign(dotProduct) * -2 * Math.PI) / 2;
+    //     const fromCenterToOffsetPointMainLength = Math.sqrt(
+    //         fromCenterToOffsetPointMain[0] * fromCenterToOffsetPointMain[0] +
+    //             fromCenterToOffsetPointMain[1] * fromCenterToOffsetPointMain[1]
+    //     );
+    //     const fromCenterToOffsetPointMainNormalized = [
+    //         fromCenterToOffsetPointMain[0] / fromCenterToOffsetPointMainLength,
+    //         fromCenterToOffsetPointMain[1] / fromCenterToOffsetPointMainLength
+    //     ];
 
-        tipVectorNormalized = [
-            fromCenterToOffsetPointMainNormalized[0] * Math.cos(rot) -
-                fromCenterToOffsetPointMainNormalized[1] * Math.sin(rot),
-            fromCenterToOffsetPointMainNormalized[0] * Math.sin(rot) +
-                fromCenterToOffsetPointMainNormalized[1] * Math.cos(rot)
-        ];
-    } else {
-        // calculate the length of the tip vector
-        const tipVectorLength = Math.sqrt(
-            tipVector[0] * tipVector[0] + tipVector[1] * tipVector[1]
-        );
+    //     tipVectorNormalized = [
+    //         fromCenterToOffsetPointMainNormalized[0] * Math.cos(rot) -
+    //             fromCenterToOffsetPointMainNormalized[1] * Math.sin(rot),
+    //         fromCenterToOffsetPointMainNormalized[0] * Math.sin(rot) +
+    //             fromCenterToOffsetPointMainNormalized[1] * Math.cos(rot)
+    //     ];
+    // }
 
-        // normalize the tip vector
-        tipVectorNormalized = [
-            tipVector[0] / tipVectorLength,
-            tipVector[1] / tipVectorLength
-        ];
-    }
+    // calculate the length of the tip vector
+    const tipVectorLength = Math.sqrt(
+        tipVector[0] * tipVector[0] + tipVector[1] * tipVector[1]
+    );
+
+    // normalize the tip vector
+    tipVectorNormalized = [
+        tipVector[0] / tipVectorLength,
+        tipVector[1] / tipVectorLength
+    ];
 
     // calculate the offset vector
     const offsetVector = [

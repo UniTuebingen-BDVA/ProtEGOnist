@@ -4,14 +4,12 @@ import { useAtom, useSetAtom } from 'jotai';
 import {
     AppBar,
     Toolbar,
-    Typography,
     IconButton,
     CircularProgress,
     Box,
     createTheme,
     Backdrop,
-    Tooltip,
-    Stack
+    Tooltip
 } from '@mui/material';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -24,11 +22,9 @@ import {
     getRadarAtom,
     getTableAtom,
     getEgoNetworkNetworkOverviewAtom,
-    egoNetworkNetworkOverviewCoverageAtom,
     startDataOverview,
     serverBusyAtom,
-    selectedExampleAtom,
-    classifyByAtom
+    selectedExampleAtom
 } from './apiCalls.ts';
 import EgoNetworkNetworkOverviewViewer from './components/overview_component/egoNetworkNetworkOverviewViewer.tsx';
 import DrawerElement from './components/drawerElement/DrawerElement.tsx';
@@ -60,8 +56,6 @@ function App() {
         useAtom(getEgoNetworkNetworkOverviewAtom);
     const [tarNode, setTarNode] = useAtom(tarNodeAtom);
     const setStateDrawer = useSetAtom(drawerShownAtom);
-    const [classifyBy] = useAtom(classifyByAtom);
-    const [coverage] = useAtom(egoNetworkNetworkOverviewCoverageAtom);
     const [, setInfoTitle] = useAtom(infoTitleAtom);
     const [, setInfoContent] = useAtom(infoContentAtom);
 
@@ -194,19 +188,6 @@ function App() {
                                     textAlign: 'center'
                                 }}
                             >
-                                {/* <Typography
-                                    component={'span'}
-                                    style={{ color: 'black' }}
-                                >
-                                    Network overview:{' '}
-                                    {egoNetworkNetworkOverviewData.nodes.length}{' '}
-                                    ego-graphs covering{' '}
-                                    {(100 * coverage.nodes).toFixed(2)}% of the
-                                    nodes and{' '}
-                                    {(100 * coverage.edges).toFixed(2)}% of the
-                                    edges of the given network.
-                                </Typography> */}
-
                                 {/* <!-- Content for the first column, first row --> */}
                                 <EgoNetworkNetworkOverviewViewer />
                             </Grid>
@@ -218,13 +199,7 @@ function App() {
                                 }}
                                 // style={{ minWidth: '80%', width: '80%' }}
                             >
-                                {/* <Typography
-                                    component={'span'}
-                                    style={{ color: 'black' }}
-                                >
-                                    Neighborhood of selected node (radar center)
-                                    classified by {classifyBy}
-                                </Typography> */}
+                                {/* */}
                                 {/* <!-- Content for the first column, second row --> */}
                                 <RadarChartViewer
                                     intersectionData={intersectionData}

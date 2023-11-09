@@ -647,7 +647,8 @@ export function calculateLayout(
             identityEdges: [],
             radii: decollapsedRadii,
             centers: [],
-            firstAndLastNodes: {}
+            firstAndLastNodes: {},
+            decollapsedSize: 0
         };
         const fullRange = 2 * Math.PI;
 
@@ -676,7 +677,7 @@ export function calculateLayout(
             nodeDict = {};
             egoGraphs[i].nodes.forEach((node) => (nodeDict[node.id] = node));
             const firstGraphId = egoGraphs[i].centerNode.originalID;
-            let secondGraphId;
+            let secondGraphId: string;
             if (i === egoGraphs.length - 1) {
                 secondGraphId = egoGraphs[0].centerNode.originalID;
             } else {
@@ -1329,6 +1330,8 @@ export function calculateEgoLayout(
                 outerSize: outerSize
             }
         ],
-        decollapsedSize: outerSize
+        decollapsedSize: outerSize,
+        bandData: {},
+        firstAndLastNodes: {}
     };
 }

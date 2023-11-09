@@ -8,16 +8,12 @@ import {
 } from '../../egoGraphSchema';
 import { getMultiEgographBundleAtom } from '../../apiCalls.ts';
 import * as d3 from 'd3';
-import { egoGraphBundlesLayoutAtom, sortNodesBy } from '../egograph/egoGraphBundleStore.ts';
+import {
+    egoGraphBundlesLayoutAtom,
+    sortNodesBy
+} from '../egograph/egoGraphBundleStore.ts';
 import { egoNetworkNetworksOverviewAtom } from '../overview_component/egoNetworkNetworkOverviewStore.ts';
 import { calculateLayout } from '../egograph/egolayout.ts';
-
-export const egoNetworkNetworkSizeAtom = atom({
-    width: 1000,
-    height: 1000,
-    x: 0,
-    y: 0
-});
 
 // stores egoGraphs and their intersections
 export const egoGraphBundlesAtom = atom<{
@@ -78,7 +74,7 @@ export const decollapseModeAtom = atom(
                 bundle.egoGraphs,
                 bundle.intersections,
                 value,
-                sortNodesBy
+                get(sortNodesBy)
             );
         });
         set(decollapseModeStoreAtom, value);
@@ -236,7 +232,9 @@ export const egoNetworkNetworksAtom = atom<egoNetworkNetwork>({
 });
 
 const egoNetworkNetworkDeepCopyAtom = atom<egoNetworkNetworkRendered>((get) => {
-    const copy: egoNetworkNetwork = structuredClone(get(egoNetworkNetworksAtom));
+    const copy: egoNetworkNetwork = structuredClone(
+        get(egoNetworkNetworksAtom)
+    );
     const nodeDict: { [key: string]: egoNetworkNetworkNode } = {};
     copy.nodes.forEach((node) => (nodeDict[node.id] = node));
     const renderedNetwork: egoNetworkNetworkRendered = { nodes: [], edges: [] };

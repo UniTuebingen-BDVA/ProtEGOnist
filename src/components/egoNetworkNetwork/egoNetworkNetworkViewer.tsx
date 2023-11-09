@@ -6,16 +6,14 @@ import {
     CircularProgress,
     IconButton,
     Paper,
-    Stack,
     ToggleButtonGroup,
     Tooltip,
     Typography
 } from '@mui/material';
 import TooltipToggleButton from '../egoNetworkNetwork/TooltipToggleButton.tsx';
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtom } from 'jotai';
 import {
     decollapseIDsAtom,
-    egoNetworkNetworkSizeAtom,
     decollapseModeAtom
 } from './egoNetworkNetworkStore.ts';
 import ColorLegend from '../ColorLegend.tsx';
@@ -35,11 +33,11 @@ import {
     Refresh
 } from 'mdi-material-ui';
 import { infoContentAtom, infoTitleAtom } from '../HomePage/InfoComponent.tsx';
+import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 
 function EgoNetworkNetworkViewer() {
     const [egoNetworkNetworkBusy] = useAtom(egoNetworkNetworkBusyAtom);
     const [decollapseMode, setDecollapseModeAtom] = useAtom(decollapseModeAtom);
-    //const svgSize = useAtomValue(egoNetworkNetworkSizeAtom);
     const [colorscale] = useAtom(drugsPerProteinColorscaleAtom);
     const [decollapseIDsArray] = useAtom(decollapseIDsAtom);
     const [quantifyBy] = useAtom(quantifyNodesByAtom);
@@ -55,7 +53,7 @@ function EgoNetworkNetworkViewer() {
         y: svgSize.height / 2,
         scale: 1
     }));
-    const ref = React.useRef<HTMLDivElement>(null);
+    const ref = React.useRef<SVGSVGElement>(null);
     function zoom(val: number) {
         const target = style.scale.get() + val;
         api.start({ scale: target > 0 ? target : 0 });
@@ -96,7 +94,7 @@ function EgoNetworkNetworkViewer() {
                 display: 'flex',
                 //textAlign: 'center',
                 //alignItems: 'center',
-                justifyContent: 'center',
+                //justifyContent: 'center',
                 position: 'relative'
             }}
         >
@@ -110,22 +108,15 @@ function EgoNetworkNetworkViewer() {
             >
                 <CircularProgress color="inherit" />
             </Backdrop>
-            <Typography
-                style={{
-                    color: 'black'
-                    //textAlign: 'center'
-                }}
-            >
-                Ego-graph subnetwork
-            </Typography>
             <animated.svg
                 // FIXME Node misses x,y
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore ts2304
+                width={'100%'}
+                height={'100%'}
                 ref={ref}
-                width="100%"
-                height="100%"
-                viewBox={`0 0 ${svgSize.width} ${svgSize.width}`}
+                viewBox={`0 0 ${svgSize.width * 2} ${svgSize.width * 2}`}
+                style={{ position: 'absolute' }}
             >
                 <animated.g
                     // FIXME Node misses x,y
@@ -137,102 +128,119 @@ function EgoNetworkNetworkViewer() {
                     <EgoNetworkNetwork />
                 </animated.g>
             </animated.svg>
-            <Stack
-                direction="row"
-                spacing={2}
-                style={{ right: 10, position: 'absolute', top: 10 }}
+            <Grid
+                container
+                spacing={0}
+                sx={{
+                    top: 10,
+                    alignItems: 'flex-start',
+                    width: '100%'
+                }}
             >
-                <ButtonGroup>
-                    <IconButton
-                        onClick={() => {
-                            zoom(0.2);
+                <Grid xs={2}>
+                    <svg height={'100%'} width={'100%'} viewBox="0 0 200 300">
+                        <ColorLegend
+                            domain={colorscale.domain()}
+                            range={colorscale.range()}
+                            unknown={colorscale.unknown()}
+                            type={'quantitative'}
+                            transform={`translate(${10},${10})`}
+                            title={`Quantification via ${quantifyBy['label']}`}
+                            render={true}
+                        />
+                        <ColorLegend
+                            domain={['few interactions', 'many interactions']}
+                            range={['#f6e9ea', '#860028']}
+                            type={'quantitative'}
+                            transform={`translate(${10},${150})`}
+                            title={'Node connectivity within ego-graph'}
+                            render={renderSecondLegend}
+                        />
+                    </svg>
+                </Grid>
+
+                <Grid xs={6}>
+                    <Typography
+                        sx={{
+                            color: 'black'
                         }}
                     >
-                        <MagnifyPlusOutline />
-                    </IconButton>
-                    <IconButton
-                        onClick={() => {
-                            zoom(-0.2);
-                        }}
-                    >
-                        <MagnifyMinusOutline />
-                    </IconButton>
-                    <Tooltip title="Reset Zoom">
+                        Ego-graph subnetwork
+                    </Typography>
+                </Grid>
+                <Grid xs={2}>
+                    <ButtonGroup>
                         <IconButton
                             onClick={() => {
-                                resetZoomPosition();
+                                zoom(0.2);
                             }}
                         >
-                            <Refresh />
+                            <MagnifyPlusOutline />
+                        </IconButton>
+                        <IconButton
+                            onClick={() => {
+                                zoom(-0.2);
+                            }}
+                        >
+                            <MagnifyMinusOutline />
+                        </IconButton>
+                        <Tooltip title="Reset Zoom">
+                            <IconButton
+                                onClick={() => {
+                                    resetZoomPosition();
+                                }}
+                            >
+                                <Refresh />
+                            </IconButton>
+                        </Tooltip>
+                    </ButtonGroup>
+                </Grid>
+
+                <Grid xs={1} xsOffset="auto">
+                    <ToggleButtonGroup
+                        orientation="horizontal"
+                        value={decollapseMode}
+                        exclusive
+                        onChange={(_event, nextVal: string) => {
+                            if (nextVal !== null) {
+                                setDecollapseModeAtom(nextVal);
+                            }
+                        }}
+                    >
+                        <TooltipToggleButton
+                            TooltipProps={{
+                                title: 'Show ONLY shared nodes on decollapse'
+                            }}
+                            value="shared"
+                            aria-label="shared"
+                        >
+                            <SetCenter />
+                        </TooltipToggleButton>
+
+                        <TooltipToggleButton
+                            TooltipProps={{
+                                title: 'Show shared AND unique nodes on decollapse'
+                            }}
+                            value="all"
+                            aria-label="all"
+                        >
+                            <SetAll />
+                        </TooltipToggleButton>
+                    </ToggleButtonGroup>
+                </Grid>
+                <Grid xs={1} xsOffset="auto">
+                    <Tooltip title="Information about the network">
+                        <IconButton
+                            onClick={() => {
+                                setInfoTitle('egoNetworkNetwork');
+                                setInfoContent('egoNetworkNetwork');
+                            }}
+                        >
+                            <InformationVariantCircle />
                         </IconButton>
                     </Tooltip>
-                </ButtonGroup>
-
-                <ToggleButtonGroup
-                    orientation="horizontal"
-                    value={decollapseMode}
-                    exclusive
-                    onChange={(_event, nextVal: string) => {
-                        if (nextVal !== null) {
-                            setDecollapseModeAtom(nextVal);
-                        }
-                    }}
-                >
-                    <TooltipToggleButton
-                        TooltipProps={{
-                            title: 'Show ONLY shared nodes on decollapse'
-                        }}
-                        value="shared"
-                        aria-label="shared"
-                    >
-                        <SetCenter />
-                    </TooltipToggleButton>
-
-                    <TooltipToggleButton
-                        TooltipProps={{
-                            title: 'Show shared AND unique nodes on decollapse'
-                        }}
-                        value="all"
-                        aria-label="all"
-                    >
-                        <SetAll />
-                    </TooltipToggleButton>
-                </ToggleButtonGroup>
-                <Tooltip title="Information about the network">
-                    <IconButton
-                        onClick={() => {
-                            setInfoTitle('egoNetworkNetwork');
-                            setInfoContent('egoNetworkNetwork');
-                        }}
-                    >
-                        <InformationVariantCircle />
-                    </IconButton>
-                </Tooltip>
-            </Stack>
-
-            <svg
-                height={275}
-                width={200}
-                style={{ left: 0, top: 30, position: 'absolute' }}
-            >
-                <ColorLegend
-                    domain={colorscale.domain()}
-                    range={colorscale.range()}
-                    unknown={colorscale.unknown()}
-                    type={'quantitative'}
-                    transform={`translate(${10},${10})`}
-                    title={`Quantification via ${quantifyBy['label']}`}
-                    render={true}
-                />
-                <ColorLegend
-                    domain={['few interactions', 'many interactions']}
-                    range={['#f6e9ea', '#860028']}
-                    type={'quantitative'}
-                    transform={`translate(${10},${150})`}
-                    title={'Node connectivity within ego-graph'}
-                    render={renderSecondLegend}
-                />
-            </svg>
+                </Grid>
+            </Grid>
         </Paper>
     );
 }

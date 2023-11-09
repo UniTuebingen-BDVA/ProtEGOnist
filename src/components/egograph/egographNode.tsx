@@ -32,7 +32,7 @@ export const EgographNode = memo(function EgographNode(
         egoRadius,
         centerNode
     } = props;
-    const [node, setNode] = useAtom(nodeAtom);
+    const [node, _setNode] = useAtom(nodeAtom);
     const [highlightedNodeIndices, setHighlightedNodeIndices] = useAtom(
         highlightedNodeIndicesAtom
     );
