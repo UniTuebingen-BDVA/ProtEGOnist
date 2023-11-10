@@ -2,9 +2,11 @@ import { animated, SpringValue } from '@react-spring/web';
 import { memo } from 'react';
 import { useAtom, useSetAtom } from 'jotai';
 import {
+    decollapsedSizeAtom,
     decollapseEdgeAtom,
     highlightedEdgesAtom
 } from './egoNetworkNetworkStore.ts';
+import * as d3 from 'd3';
 
 interface EgoNetworkNetworkEdgeProps {
     weight: number;
@@ -31,6 +33,15 @@ const EgoNetworkNetworkEdge = memo(function EgoNetworkNetworkEdge(
     const setDecollapseEdge = useSetAtom(decollapseEdgeAtom);
     const [highlightedEdges, setHighlightedEdges] =
         useAtom(highlightedEdgesAtom);
+    const [decollapsedSize] = useAtom(decollapsedSizeAtom);
+    //find max value in the decollapsedSize dictionary
+    const maxDecollapsed: number = d3.max(Object.values(decollapsedSize));
+    const maxRadius: number =
+        maxDecollapsed === undefined ? 150 : maxDecollapsed;
+    // scale the weight such that the edges scale with the node size which is scaled
+    //[ Math.PI * (maxDecollapsed / 30) ** 2,Math.PI * (maxDecollapsed / 3) ** 2]
+
+    const weightInternal = weight * (maxRadius / 150);
     return (
         <g>
             <animated.line
@@ -45,7 +56,7 @@ const EgoNetworkNetworkEdge = memo(function EgoNetworkNetworkEdge(
                         ? 'black'
                         : 'lightgray'
                 }
-                strokeWidth={0.5 + 2 * weight * 30}
+                strokeWidth={0.5 + 2 * weightInternal * 30}
             />
             <line
                 x1={notAnimatedParams.x1}
@@ -54,7 +65,9 @@ const EgoNetworkNetworkEdge = memo(function EgoNetworkNetworkEdge(
                 y2={notAnimatedParams.y2}
                 stroke="transparent"
                 strokeWidth={
-                    0.5 + 2 * weight * 30 > 5 ? 0.5 + 2 * weight * 30 : 5
+                    0.5 + 2 * weightInternal * 30 > 5
+                        ? 0.5 + 2 * weightInternal * 30
+                        : 5
                 }
                 style={
                     highlightedEdges.ids.includes(nodeIds[0]) &&
