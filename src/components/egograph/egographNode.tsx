@@ -1,6 +1,6 @@
 import { PrimitiveAtom, useAtom } from 'jotai';
 import { layoutNode } from './egolayout';
-import AdvancedTooltip from '../advancedTooltip/advancedTooltip';
+import AdvancedTooltip from '../utilityComponents/advancedTooltip';
 import { memo } from 'react';
 import {
     addAngle,

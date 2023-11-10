@@ -19,6 +19,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { serverBusyAtom } from '../../apiCalls';
 import { drawerShownAtom } from '../drawerElement/DrawerElementStore';
 import LogoText from '../../assets/LogoPathWhite.svg';
+import ContextMenu from '../utilityComponents/ContextMenu';
 
 type mainPageProps = {
     columns: number;
@@ -34,6 +35,7 @@ export const MainPage = (props: mainPageProps) => {
     const [, setInfoContent] = useAtom(infoContentAtom);
     return (
         <Grid container sx={{ height: '100vh', width: '100vw' }}>
+            <ContextMenu />
             <ThemeProvider theme={props.theme}>
                 <Backdrop
                     sx={{
@@ -106,7 +108,6 @@ export const MainPage = (props: mainPageProps) => {
                 <Grid
                     container
                     alignContent={props.alignContent}
-
                     columns={props.columns}
                     spacing={0}
                     sx={{

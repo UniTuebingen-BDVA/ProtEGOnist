@@ -1,15 +1,16 @@
-import { useAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import {
     decollapseNodeAtom,
     highlightedEdgesAtom
 } from './egoNetworkNetworkStore';
 import { SpringValue, animated } from '@react-spring/web';
-import AdvancedTooltip from '../advancedTooltip/advancedTooltip';
+import AdvancedTooltip from '../utilityComponents/advancedTooltip';
 import {
     drugsPerProteinAtom,
     drugsPerProteinColorscaleAtom
 } from '../selectionTable/tableStore';
 import { memo, useState } from 'react';
+import { contextMenuAtom } from '../utilityComponents/contextMenuStore';
 
 interface EgoNetworkNetworkNodeProps {
     id: string;
@@ -24,11 +25,13 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
     props: EgoNetworkNetworkNodeProps
 ) {
     const { id, size, animatedParams } = props;
-    const [_, setDecollapseID] = useAtom(decollapseNodeAtom);
+    const setDecollapseID = useSetAtom(decollapseNodeAtom);
     const [colorscale] = useAtom(drugsPerProteinColorscaleAtom);
     const [drugsPerProtein] = useAtom(drugsPerProteinAtom);
     const [highlightedEdges] = useAtom(highlightedEdgesAtom);
     const [isHovered, setIsHovered] = useState(false);
+    const setContextMenu = useSetAtom(contextMenuAtom);
+
     const color = colorscale(drugsPerProtein[id]);
     return (
         <AdvancedTooltip nodeID={id} key={id}>
@@ -36,6 +39,9 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                 key={id}
                 transform={animatedParams.transform}
                 opacity={animatedParams.opacity}
+                onContextMenu={(event) => {
+                    setContextMenu(event, id);
+                }}
                 onClick={() => setDecollapseID(id)}
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
