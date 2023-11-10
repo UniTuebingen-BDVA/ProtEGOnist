@@ -130,6 +130,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
         Object.values(layout.nodes).forEach((node, i) => {
             if (!node.pseudo) {
                 const egoID = node.id.split('_')[0];
+
                 returnCircles.push(
                     <EgographNode
                         key={node.id}

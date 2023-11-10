@@ -18,7 +18,7 @@ type egographNodeProps = {
     nodeRadius: number;
     egoRadius: number;
     fill: string;
-    centerNode: { x: number; y: number };
+    centerNode: { x: number; y: number; id: string; outerSize: number };
 };
 export const EgographNode = memo(function EgographNode(
     props: egographNodeProps
@@ -83,8 +83,7 @@ export const EgographNode = memo(function EgographNode(
             nodeID={node.originalID}
             additionalData={`Num edges ${node.numEdges}`}
         >
-            {centerPoint.x === centerNode.x &&
-            centerNode.y === centerPoint.y ? (
+            {node.originalID == centerNode.id ? (
                 <circle
                     onMouseEnter={() => {
                         setHighlightedNodeIndices(node.identityNodes);
