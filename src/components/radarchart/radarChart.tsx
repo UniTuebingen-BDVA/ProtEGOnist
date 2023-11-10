@@ -6,7 +6,7 @@ import { getRadarAtom, nameNodesByAtom } from '../../apiCalls';
 import RadarCircles from './radarCircles';
 import RadarLabel from './radarLabel';
 import { selectedProteinsAtom, tableAtom } from '../selectionTable/tableStore';
-import AdvancedTooltip from '../advancedTooltip/advancedTooltip';
+import AdvancedTooltip from '../utilityComponents/advancedTooltip';
 
 interface RadarChartProps {
     baseRadius: number;
@@ -20,7 +20,7 @@ const RadarChart = (props: RadarChartProps) => {
     const intersectionData = useAtomValue(getRadarAtom);
     const setSelectedProteins = useSetAtom(selectedProteinsAtom);
     const [tableData] = useAtom(tableAtom);
-    const [nameNodesBy] = useAtom(nameNodesByAtom)
+    const [nameNodesBy] = useAtom(nameNodesByAtom);
 
     const intersectionDataClone = structuredClone(intersectionData);
     //generate a linear scale for the size of the intersection property in each intersectionDatum
@@ -77,7 +77,7 @@ const RadarChart = (props: RadarChartProps) => {
     ) {
         classificationProportionsalternating.push(
             classificationProportionsSorted[
-            classificationProportionsSorted.length - 1 - i
+                classificationProportionsSorted.length - 1 - i
             ]
         );
         classificationProportionsalternating.push(
@@ -87,7 +87,7 @@ const RadarChart = (props: RadarChartProps) => {
     if (classificationProportionsSorted.length % 2 !== 0) {
         classificationProportionsalternating.push(
             classificationProportionsSorted[
-            Math.floor(classificationProportionsSorted.length / 2)
+                Math.floor(classificationProportionsSorted.length / 2)
             ]
         );
     }
@@ -182,7 +182,7 @@ const RadarChart = (props: RadarChartProps) => {
             if (
                 segment.midAngle - segment.labelAngleWidth / 2 >
                 segmentWithRingIndex.midAngle +
-                segmentWithRingIndex.labelAngleWidth / 2
+                    segmentWithRingIndex.labelAngleWidth / 2
             ) {
                 // remove the ringIndex from unavailableRingIndices and add it to availableRingIndices
                 unavailableRingIndices.splice(
@@ -249,9 +249,11 @@ const RadarChart = (props: RadarChartProps) => {
         // const filteredRows = tableData.rows.filter((row) => {
         //     return row['nodeID'] === id;
         // });
-        const nodeData = tableData.rows[id]
+        const nodeData = tableData.rows[id];
 
-        const proteinNames = (nodeData?.[nameNodesBy] ?? nodeData.nodeID).split(';');
+        const proteinNames = (nodeData?.[nameNodesBy] ?? nodeData.nodeID).split(
+            ';'
+        );
         // generate set of unique protein names
         const uniqueProteinNames = [...new Set(proteinNames)];
         // join the protein names with a comma
@@ -354,7 +356,7 @@ const RadarChart = (props: RadarChartProps) => {
                     r={
                         CIRCLE_RADIUS +
                         intersectionLengthScale(tarNodeData.setSize) *
-                        CIRCLE_RADIUS
+                            CIRCLE_RADIUS
                     }
                     stroke={'black'}
                     fill={'#ffff99'}

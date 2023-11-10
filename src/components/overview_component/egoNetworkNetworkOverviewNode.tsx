@@ -7,10 +7,11 @@ import {
     getEgoNetworkAndRadar,
     getEgoNetworkNetworkAtom
 } from '../../apiCalls';
-import AdvancedTooltip from '../advancedTooltip/advancedTooltip';
+import AdvancedTooltip from '../utilityComponents/advancedTooltip.tsx';
 import { highlightNodeAtom } from './egoNetworkNetworkOverviewStore';
 import { memo, useCallback } from 'react';
 import { updateDecollapseIdsAtom } from '../egoNetworkNetwork/egoNetworkNetworkStore.ts';
+import { contextMenuAtom } from '../utilityComponents/contextMenuStore.ts';
 
 interface EgoNetworkNetworkNodeProps {
     id: string;
@@ -23,13 +24,14 @@ interface EgoNetworkNetworkNodeProps {
 const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
     props: EgoNetworkNetworkNodeProps
 ) {
-    const [selectedProteins] =
-        useAtom(selectedProteinsAtom);
-    const setSelectedProteins = useSetAtom(selectedProteinsStoreAtom)
+    const [selectedProteins] = useAtom(selectedProteinsAtom);
+    const setSelectedProteins = useSetAtom(selectedProteinsStoreAtom);
     const getNetworkAndRadar = useSetAtom(getEgoNetworkAndRadar);
-    const getEgoNetworkNetwork = useSetAtom(getEgoNetworkNetworkAtom)
+    const getEgoNetworkNetwork = useSetAtom(getEgoNetworkNetworkAtom);
     const highlightNodeSet = useSetAtom(highlightNodeAtom);
-    const updateDecollapseIds = useSetAtom(updateDecollapseIdsAtom)
+    const updateDecollapseIds = useSetAtom(updateDecollapseIdsAtom);
+    const [_contextMenu, setContextMenu] = useAtom(contextMenuAtom);
+
     const { x, y, id, size, color } = props;
     const handleClick = useCallback(
         (id: string) => {
@@ -47,7 +49,13 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                 getNetworkAndRadar(updatedProteins, id);
             }
         },
-        [getEgoNetworkNetwork, getNetworkAndRadar, selectedProteins, setSelectedProteins, updateDecollapseIds]
+        [
+            getEgoNetworkNetwork,
+            getNetworkAndRadar,
+            selectedProteins,
+            setSelectedProteins,
+            updateDecollapseIds
+        ]
     );
     const transform = `translate(${x}, ${y})`;
     return (
@@ -55,6 +63,9 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
             <g
                 key={id}
                 transform={transform}
+                onContextMenu={(event) => {
+                    setContextMenu(event, id);
+                }}
                 onClick={() => handleClick(id)}
                 onMouseEnter={() => {
                     highlightNodeSet(id);

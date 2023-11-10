@@ -4,9 +4,10 @@ import { getRadarAtom } from '../../apiCalls';
 import { useAtom, useAtomValue } from 'jotai';
 import * as d3 from 'd3';
 import { selectedProteinsAtom } from '../selectionTable/tableStore';
-import AdvancedTooltip from '../advancedTooltip/advancedTooltip';
+import AdvancedTooltip from '../utilityComponents/advancedTooltip';
 import { lastSelectedNodeAtom } from './radarStore';
 import { memo } from 'react';
+import { contextMenuAtom } from '../utilityComponents/contextMenuStore';
 
 interface RadarCircleProps {
     id: string;
@@ -35,6 +36,7 @@ const RadarCircle = memo(function RadarCircle(props: RadarCircleProps) {
     const [_intersectionData, getRadarData] = useAtom(getRadarAtom);
     const selectedProteins = useAtomValue(selectedProteinsAtom);
     const [lastSelectedNode] = useAtom(lastSelectedNodeAtom);
+    const [_contextMenu, setContextMenu] = useAtom(contextMenuAtom);
 
     const color = String(colorScale(intersectionDatum.classification));
     const strokeColor: string = selectedProteins.includes(id)
@@ -50,6 +52,9 @@ const RadarCircle = memo(function RadarCircle(props: RadarCircleProps) {
     return (
         <AdvancedTooltip nodeID={id} key={id}>
             <animated.circle
+                onContextMenu={(event) => {
+                    setContextMenu(event, id);
+                }}
                 key={id}
                 r={
                     CIRCLE_RADIUS +
