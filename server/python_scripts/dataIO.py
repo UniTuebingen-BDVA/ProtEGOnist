@@ -88,7 +88,7 @@ def read_metadata(path, classification, all_nodes, sep=","):
         }
         table_data_temp = {
             line.strip().split(sep)[0]: {
-                name: value
+                name: is_number(value)
                 for name, value in zip(
                     table_data["columns"],
                     line.strip().split(sep)
@@ -116,3 +116,18 @@ def read_metadata(path, classification, all_nodes, sep=","):
     table_data["rows"] = table_data_temp
 
     return table_data, classification_dict
+
+
+# a function that checks if a string is a float or an int and returns the value as the correct type if possible
+def is_number(s):
+    if type(s) == bool:
+        return str(s)
+    try:
+        return float(s)
+    except ValueError:
+        pass
+    try:
+        return int(s)
+    except ValueError:
+        pass
+    return s
