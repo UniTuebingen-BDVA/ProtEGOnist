@@ -14,7 +14,7 @@ const EgoNetworkNetwork = () => {
     const [{ nodes, edges }] = useAtom(aggregateNetworkAtom);
     const [decollapsedSize] = useAtom(decollapsedSizeAtom);
     const [interEdges] = useAtom(interEdgesAtom);
-    const [layouts]=useAtom(egoGraphBundlesLayoutAtom);
+    const [layouts] = useAtom(egoGraphBundlesLayoutAtom);
     const transitionsNodes = useTransition(nodes, {
         keys: ({ id }) => id,
         from: {
@@ -139,14 +139,16 @@ const EgoNetworkNetwork = () => {
                 if (!node.collapsed) {
                     return (
                         <animated.g transform={style.transform}>
-                            // TODO: Not sure why this check is needed, we should fix this eventually!
-                            {Object.keys(layouts).includes(node.id)?
+                            {/*TODO: Not sure why this check is needed, we
+                            should fix this eventually!*/}
+                            {Object.keys(layouts).includes(node.id) ? (
                                 <EgoGraphBundle
                                     key={node.id}
-                                    x={-decollapsedSize[node.id] / 2}
-                                    y={-decollapsedSize[node.id] / 2}
+                                    x={-node.radius/2}
+                                    y={-node.radius/2}
                                     nodeId={node.id}
-                                />:null}
+                                />
+                            ) : null}
                         </animated.g>
                     );
                 } else

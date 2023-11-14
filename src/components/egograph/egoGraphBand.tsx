@@ -706,9 +706,8 @@ const EgoGraphBand = (props: EgoGraphBandProps) => {
     }
 
     return pathData.map((pathDatum, i) => (
-        <g>
+        <g key={i}>
             <path
-                key={i}
                 d={pathDatum.path[0]}
                 className="band"
                 stroke={'red'}
