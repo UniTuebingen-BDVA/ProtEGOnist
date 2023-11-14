@@ -1,7 +1,6 @@
 import * as d3 from 'd3';
-import { polarToCartesian } from '../../UtilityFunctions';
+import { midPointPolar2PI, polarToCartesian } from '../../UtilityFunctions';
 import { egoGraph, egoGraphEdge, egoGraphNode } from '../../egoGraphSchema';
-import { midPointPolar2PI } from '../../UtilityFunctions';
 
 export type layoutNode = egoGraphNode & {
     index: number;
@@ -591,9 +590,10 @@ export function calculateLayout(
     decollapseMode: string,
     sortBy: string
 ): egoGraphLayout {
-    const globalNodeDict = {};
+    // create a nodeDict for all nodes in all ego-graphs
+    const nodeDict = {};
     egoGraphs.forEach((graph) =>
-        graph.nodes.forEach((node) => (globalNodeDict[node.id] = node))
+        graph.nodes.forEach((node) => (nodeDict[node.id] = node))
     );
     // sort each array in egsGraphs alphabetically by centerNode originalId
     egoGraphs.sort((a, b) => {
@@ -605,11 +605,12 @@ export function calculateLayout(
             return 0;
         }
     });
-    // get the amount of intersecting nodes for each egoGraph
-    const decollapsedRadii: { [key: string]: number } = {};
     const sharedNonShared: {
         [key: string]: { shared: number; unique: number };
     } = {};
+    const decollapsedRadii: { [key: string]: number } = {};
+
+    // calculate the radii of the egographs
     egoGraphs.forEach((egoGraph) => {
         let sharedLength = 0;
         let uniqueLength = 0;
@@ -634,10 +635,6 @@ export function calculateLayout(
         );
     });
 
-    // set radius of the bundle such that all circles are accommodated
-    const maxRadius = Math.max(...Object.values(decollapsedRadii));
-    const radiusOfEnclosingCircle = maxRadius * 3;
-
     if (egoGraphs.length > 1) {
         const graphCenters: graphCenter[] = [];
         const layout: egoGraphLayout = {
@@ -645,53 +642,75 @@ export function calculateLayout(
             nodes: [],
             edges: [],
             identityEdges: [],
-            radii: decollapsedRadii,
+            radii: {},
             centers: [],
             firstAndLastNodes: {},
             decollapsedSize: 0
         };
         const fullRange = 2 * Math.PI;
-
         let layoutNodeDict: { [key: string]: layoutNode } = {};
-        let nodeDict: { [key: string]: egoGraphNode } = {};
-        egoGraphs[egoGraphs.length - 1].nodes.forEach(
-            (node) => (nodeDict[node.id] = node)
-        );
-        let pairwiseIntersectionId = [
-            egoGraphs[egoGraphs.length - 1].centerNode.originalID,
-            egoGraphs[0].centerNode.originalID
-        ]
+
+        let currGraphId = egoGraphs[0].centerNode.originalID;
+        let prevGraphId = egoGraphs[egoGraphs.length - 1].centerNode.originalID;
+        let currPairwiseIntersectionId = [prevGraphId, currGraphId]
             .sort()
             .toString();
         let pairwiseIntersections =
             sortBy === 'consistent'
                 ? sortPairwiseIntersection(
-                      intersections[pairwiseIntersectionId],
+                      intersections[currPairwiseIntersectionId],
                       nodeDict,
-                      egoGraphs[egoGraphs.length - 1].centerNode.originalID
+                      prevGraphId
                   )
-                : intersections[pairwiseIntersectionId];
+                : intersections[currPairwiseIntersectionId];
         const firstAndLastNodesIDs: { [key: string]: layoutBand[] } = {};
-        let prevId = egoGraphs[egoGraphs.length - 1].centerNode.originalID;
+
+        // calculate center points for egobundles in the corresponding node of the force layout
+        const maxRadius = Math.max(...Object.values(decollapsedRadii));
+        // set radius of the bundle such that all circles are accommodated
+        const radiusOfEnclosingCircle =
+            egoGraphs.length === 2 ? maxRadius * 2.7 : maxRadius * 3;
+        const placementRadius = radiusOfEnclosingCircle - maxRadius * 1.2;
+        const placementAngle = (2 * Math.PI) / egoGraphs.length;
         for (let i = 0; i < egoGraphs.length; i++) {
-            nodeDict = {};
-            egoGraphs[i].nodes.forEach((node) => (nodeDict[node.id] = node));
-            const firstGraphId = egoGraphs[i].centerNode.originalID;
-            let secondGraphId: string;
+            currGraphId = egoGraphs[i].centerNode.originalID;
+            let nextGraphId: string;
             if (i === egoGraphs.length - 1) {
-                secondGraphId = egoGraphs[0].centerNode.originalID;
+                nextGraphId = egoGraphs[0].centerNode.originalID;
             } else {
-                secondGraphId = egoGraphs[i + 1].centerNode.originalID;
+                nextGraphId = egoGraphs[i + 1].centerNode.originalID;
             }
+
+            // calculates shared/non-shared proportion
+            const proportion =
+                sharedNonShared[currGraphId].shared /
+                (sharedNonShared[currGraphId].shared +
+                    sharedNonShared[currGraphId].unique);
+
+            // calculate center position of ego-graph
+            const scaledOuterSize = decollapsedRadii[currGraphId];
+            const points = polarToCartesian(
+                radiusOfEnclosingCircle / 2,
+                radiusOfEnclosingCircle / 2,
+                placementRadius,
+                i * placementAngle,
+                Math.PI
+            );
+            graphCenters.push({
+                x: points.x,
+                y: points.y,
+                id: currGraphId,
+                outerSize: scaledOuterSize
+            });
             const intersectingNodes: { id: string; intersections: string[] }[] =
                 [];
-            const nextPairwiseIntersectionsId = [firstGraphId, secondGraphId]
+            const nextPairwiseIntersectionsId = [currGraphId, nextGraphId]
                 .sort()
                 .toString();
             let nextPairwiseIntersections =
                 intersections[nextPairwiseIntersectionsId];
-            // if we only have selected two egographs we don't sort both of them to prevent crossing edges.
             if (egoGraphs.length > 2 && sortBy == 'consistent') {
+                // if we only have selected two egographs we don't sort both of them to prevent crossing edges.
                 nextPairwiseIntersections = sortPairwiseIntersection(
                     nextPairwiseIntersections,
                     nodeDict,
@@ -706,30 +725,27 @@ export function calculateLayout(
                     (id) =>
                         !pairwiseIntersections.includes(id) &&
                         !nextPairwiseIntersections.includes(id) &&
-                        !intersections[
-                            egoGraphs[i].centerNode.originalID
-                        ].includes(id)
+                        !intersections[currGraphId].includes(id)
                 )
                 .sort();
             let otherIntersectionsId = '';
             if (egoGraphs.length > 2) {
-                otherIntersectionsId = [
-                    ...egoGraphs.map((d) => d.centerNode.originalID)
-                ]
+                otherIntersectionsId = egoGraphs
+                    .map((d) => d.centerNode.originalID)
                     .sort()
                     .toString();
             }
             if (pairwiseIntersections.length > 0) {
                 intersectingNodes.push({
-                    id: pairwiseIntersectionId,
+                    id: currPairwiseIntersectionId,
                     intersections:
                         sortBy === 'consistent'
                             ? pairwiseIntersections
                             : sortIntersectionByDistance(
                                   pairwiseIntersections,
-                                  firstGraphId,
-                                  [prevId],
-                                  globalNodeDict
+                                  currGraphId,
+                                  [prevGraphId],
+                                  nodeDict
                               )
                 });
             }
@@ -741,9 +757,9 @@ export function calculateLayout(
                             ? otherIntersections
                             : sortIntersectionByDistance(
                                   otherIntersections,
-                                  firstGraphId,
-                                  [prevId, secondGraphId],
-                                  globalNodeDict
+                                  currGraphId,
+                                  [prevGraphId, nextGraphId],
+                                  nodeDict
                               )
                 });
             }
@@ -755,81 +771,22 @@ export function calculateLayout(
                             ? nextPairwiseIntersections
                             : sortIntersectionByDistance(
                                   nextPairwiseIntersections,
-                                  firstGraphId,
-                                  [secondGraphId],
-                                  globalNodeDict
+                                  currGraphId,
+                                  [nextGraphId],
+                                  nodeDict
                               )
                 });
             }
             pairwiseIntersections = nextPairwiseIntersections;
-            prevId = firstGraphId;
-            const scaledOuterSize = decollapsedRadii[firstGraphId];
-            const largestRadius = Math.max(...Object.values(decollapsedRadii));
-            if (egoGraphs.length <= 2) {
-                const nodeSize = largestRadius * 2.5;
-                if (i === 0) {
-                    graphCenters.push({
-                        x: largestRadius - nodeSize / 2,
-                        y: nodeSize / 2,
-                        id: egoGraphs[i].centerNode.originalID,
-                        outerSize: scaledOuterSize
-                    });
-                } else {
-                    graphCenters.push({
-                        x: nodeSize + nodeSize / 2 - largestRadius,
-                        y: nodeSize / 2,
-                        id: egoGraphs[i].centerNode.originalID,
-                        outerSize: scaledOuterSize
-                    });
-                }
-            } else {
-                const nodeSize = largestRadius * 1.75;
-
-                const points = [
-                    polarToCartesian(
-                        nodeSize / 2,
-                        nodeSize / 2,
-                        nodeSize,
-                        0,
-                        Math.PI
-                    ),
-                    polarToCartesian(
-                        nodeSize / 2,
-                        nodeSize / 2,
-                        nodeSize,
-                        (1 / 3) * (2 * Math.PI),
-                        Math.PI
-                    ),
-                    polarToCartesian(
-                        nodeSize / 2,
-                        nodeSize / 2,
-                        nodeSize,
-                        (2 / 3) * (2 * Math.PI),
-                        Math.PI
-                    )
-                ];
-                graphCenters.push({
-                    x: points[i].x,
-                    y: points[i].y,
-                    id: egoGraphs[i].centerNode.originalID,
-                    outerSize: scaledOuterSize
-                });
-            }
-            const proportion =
-                sharedNonShared[firstGraphId].shared /
-                (sharedNonShared[firstGraphId].shared +
-                    sharedNonShared[firstGraphId].unique);
+            prevGraphId = currGraphId;
             const currLayout = calculateMultiLayout(
                 egoGraphs[i],
                 scaledOuterSize / 2,
                 scaledOuterSize,
-                decollapseMode === 'shared'
-                    ? []
-                    : intersections[egoGraphs[i].centerNode.originalID], //todo need switching
+                decollapseMode === 'shared' ? [] : intersections[currGraphId], //todo need switching
                 intersectingNodes.reverse(),
                 graphCenters[i],
                 calculateXRanges(proportion, decollapseMode !== 'shared'),
-                //-fullRange / egoGraphs.length / 2 +
                 (fullRange / egoGraphs.length) * i,
                 sortBy
             );
@@ -837,7 +794,7 @@ export function calculateLayout(
             Object.entries(currLayout.bands).forEach((entry) => {
                 const key = entry[0];
                 const entryValue = entry[1];
-                if (key.includes(egoGraphs[i].centerNode.originalID)) {
+                if (key.includes(currGraphId)) {
                     if (!Object.keys(firstAndLastNodesIDs).includes(key)) {
                         firstAndLastNodesIDs[key] = [];
                     }
@@ -845,7 +802,7 @@ export function calculateLayout(
                 }
             });
 
-            pairwiseIntersectionId = nextPairwiseIntersectionsId;
+            currPairwiseIntersectionId = nextPairwiseIntersectionsId;
 
             layoutNodeDict = { ...currLayout.nodes, ...layoutNodeDict };
         }
@@ -854,25 +811,23 @@ export function calculateLayout(
             egoGraphs.map((d) => d.edges).flat()
         );
         layout.identityEdges = createIdentityEdges(layoutNodeDict);
-
         layout.nodes = Object.values(layoutNodeDict);
         layout.centers = graphCenters;
-        const firstAndLastNodes = firstAndLastNodeIntersection(
+        layout.bandData = firstAndLastNodeIntersection(
             firstAndLastNodesIDs,
             layout.centers
         );
-        layout.bandData = firstAndLastNodes;
         layout.decollapsedSize = radiusOfEnclosingCircle;
+        layout.radii = decollapsedRadii;
         return layout;
     } else {
-        const layout = calculateEgoLayout(
+        return calculateEgoLayout(
             egoGraphs[0],
             decollapsedRadii[egoGraphs[0].centerNode.originalID] / 2,
             decollapsedRadii[egoGraphs[0].centerNode.originalID],
             decollapsedRadii[egoGraphs[0].centerNode.originalID],
             sortBy
         );
-        return layout;
     }
 }
 
