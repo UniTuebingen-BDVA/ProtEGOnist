@@ -170,8 +170,8 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                         bandData={band}
                         color={
                             band[0].split(',').length === 3
-                                ? '#a4a4a4'
-                                : '#d0d0d0'
+                                ? '#778ea9'
+                                : '#bed2e8'
                         }
                         twoCase={Object.entries(layout.bandData).length === 1}
                     />

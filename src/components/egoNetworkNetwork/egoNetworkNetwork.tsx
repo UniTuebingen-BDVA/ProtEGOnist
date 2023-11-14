@@ -12,7 +12,6 @@ import { egoGraphBundlesLayoutAtom } from '../egograph/egoGraphBundleStore.ts';
 
 const EgoNetworkNetwork = () => {
     const [{ nodes, edges }] = useAtom(aggregateNetworkAtom);
-    const [decollapsedSize] = useAtom(decollapsedSizeAtom);
     const [interEdges] = useAtom(interEdgesAtom);
     const [layouts] = useAtom(egoGraphBundlesLayoutAtom);
     const transitionsNodes = useTransition(nodes, {

@@ -54,7 +54,7 @@ function EgoNetworkNetworkOverviewViewer() {
                     <svg height={'100%'} width={'100%'} viewBox="0 0 300 200">
                         <ColorLegend
                             domain={[0, 100]}
-                            range={['white', '#1f78b4']}
+                            range={['white', '#464646']}
                             type={'quantitative'}
                             transform={`translate(${10},${10})`}
                             title={
