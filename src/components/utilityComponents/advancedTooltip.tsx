@@ -37,7 +37,7 @@ const TooltipContent = memo(function TooltipContent({
     for (let showTooltip of showOnTooltip) {
         tooltipData[showTooltip] = [
             ...new Set(
-                (nodeData?.[showTooltip] ?? '')
+                (String(nodeData?.[showTooltip]) ?? '')
                     .split(';')
                     .filter((x) => x !== '')
             )
