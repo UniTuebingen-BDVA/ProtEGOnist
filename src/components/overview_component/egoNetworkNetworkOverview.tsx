@@ -86,7 +86,7 @@ const EgoNetworkNetworkOverview = () => {
                     // FIXME Range not defined correctly
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-ignore ts2304
-                    .range(['white', '#1f78b4']);
+                    .range(['white', '#464646']);
                 return (
                     <EgoNetworkNetworkOverviewNode
                         key={node.id}
