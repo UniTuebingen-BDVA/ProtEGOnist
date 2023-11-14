@@ -10,11 +10,16 @@ import EgoGraphBundle from '../egograph/egoGraphBundle.tsx';
 import { animated, useTransition } from '@react-spring/web';
 import { egoGraphBundlesLayoutAtom } from '../egograph/egoGraphBundleStore.ts';
 
-const EgoNetworkNetwork = () => {
+type EgoNetworkNetworkProps = {
+    svgRef: React.MutableRefObject<SVGSVGElement | null>;
+};
+
+const EgoNetworkNetwork = (props: EgoNetworkNetworkProps) => {
+    const { svgRef } = props;
     const [{ nodes, edges }] = useAtom(aggregateNetworkAtom);
     const [decollapsedSize] = useAtom(decollapsedSizeAtom);
     const [interEdges] = useAtom(interEdgesAtom);
-    const [layouts]=useAtom(egoGraphBundlesLayoutAtom);
+    const [layouts] = useAtom(egoGraphBundlesLayoutAtom);
     const transitionsNodes = useTransition(nodes, {
         keys: ({ id }) => id,
         from: {
@@ -133,20 +138,22 @@ const EgoNetworkNetwork = () => {
         );
     });
     return (
-        <g>
+        <g ref={svgRef}>
             {otherEdges}
             {transitionsNodes((style, node) => {
                 if (!node.collapsed) {
                     return (
                         <animated.g transform={style.transform}>
-                            // TODO: Not sure why this check is needed, we should fix this eventually!
-                            {Object.keys(layouts).includes(node.id)?
+                            // TODO: Not sure why this check is needed, we
+                            should fix this eventually!
+                            {Object.keys(layouts).includes(node.id) ? (
                                 <EgoGraphBundle
                                     key={node.id}
                                     x={-decollapsedSize[node.id] / 2}
                                     y={-decollapsedSize[node.id] / 2}
                                     nodeId={node.id}
-                                />:null}
+                                />
+                            ) : null}
                         </animated.g>
                     );
                 } else

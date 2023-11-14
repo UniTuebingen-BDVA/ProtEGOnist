@@ -35,6 +35,19 @@ import {
 import { infoContentAtom, infoTitleAtom } from '../HomePage/InfoComponent.tsx';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 
+const useMutationObserver = (
+    ref: React.MutableRefObject<SVGSVGElement | null>,
+    callback: () => void,
+    options = { attributes: false, childList: true, subtree: true }
+) => {
+    React.useEffect(() => {
+        const obs = new MutationObserver(callback);
+        obs.observe(ref.current, options);
+        return () => {
+            obs.disconnect();
+        };
+    }, [callback, options, ref]);
+};
 function EgoNetworkNetworkViewer() {
     const [egoNetworkNetworkBusy] = useAtom(egoNetworkNetworkBusyAtom);
     const [decollapseMode, setDecollapseModeAtom] = useAtom(decollapseModeAtom);
@@ -43,7 +56,7 @@ function EgoNetworkNetworkViewer() {
     const [quantifyBy] = useAtom(quantifyNodesByAtom);
     const [_infoContent, setInfoContent] = useAtom(infoContentAtom);
     const [_infoTitle, setInfoTitle] = useAtom(infoTitleAtom);
-    const svgSize = { width: 500, height: 500 };
+    const svgSize = { width: 1000, height: 1000 };
 
     // prevent default pinch zoom
     document.addEventListener('gesturestart', (e) => e.preventDefault());
@@ -53,14 +66,49 @@ function EgoNetworkNetworkViewer() {
         y: svgSize.height / 2,
         scale: 1
     }));
-    const ref = React.useRef<SVGSVGElement>(null);
+    const zoomPanRef = React.useRef<SVGSVGElement>(null);
     function zoom(val: number) {
         const target = style.scale.get() + val;
         api.start({ scale: target > 0 ? target : 0 });
     }
     function resetZoomPosition() {
         api.start({ x: svgSize.width / 2, y: svgSize.height / 2, scale: 1 });
+        zoomToFit();
     }
+
+    const mutationObserverRef = React.useRef<SVGSVGElement>(null);
+    function zoomToFit() {
+        console.log('zoomToFit');
+        // when called set the zoom to fit the svg-group zoomableGroup
+        // get the svg-group zoomableGroup
+        const zoomableGroup: SVGSVGElement =
+            document.querySelector('#zoomableGroup');
+        // get the bounding box of the svg-group zoomableGroup
+        const bbox = zoomableGroup.getBBox();
+        // get the width and height of the bounding box
+        const width = bbox.width;
+        const height = bbox.height;
+        //scale it with current zoom
+        const scaledWidth = width * style.scale.get();
+        const scaledHeight = height * style.scale.get();
+
+        const svgWidth = svgSize.width;
+        const svgHeight = svgSize.height;
+        // get the scale
+        const scaleX = svgWidth / scaledWidth;
+        const scaleY = svgHeight / scaledHeight;
+
+        const scale = Math.min(scaleX, scaleY);
+        const translateX = (svgWidth - width * scale) / 2 - bbox.x * scale;
+        const translateY = (svgHeight - height * scale) / 2 - bbox.y * scale;
+        // set the scale and translate
+        api.start({
+            x: translateX,
+            y: translateY,
+            scale: scale
+        });
+    }
+
     useGesture(
         {
             onWheel: ({ delta: [, dy] }) => {
@@ -73,7 +121,7 @@ function EgoNetworkNetworkViewer() {
             }
         },
         {
-            target: ref,
+            target: zoomPanRef,
             drag: {
                 from: () => [style.x.get(), style.y.get()],
                 eventOptions: { passive: false }
@@ -86,6 +134,8 @@ function EgoNetworkNetworkViewer() {
         }
     );
     const renderSecondLegend = decollapseIDsArray.length > 0;
+
+    useMutationObserver(mutationObserverRef, zoomToFit);
     return (
         <Paper
             style={{
@@ -114,7 +164,7 @@ function EgoNetworkNetworkViewer() {
                 // @ts-ignore ts2304
                 width={'100%'}
                 height={'100%'}
-                ref={ref}
+                ref={zoomPanRef}
                 viewBox={`0 0 ${svgSize.width * 2} ${svgSize.width * 2}`}
                 style={{ position: 'absolute' }}
             >
@@ -122,10 +172,11 @@ function EgoNetworkNetworkViewer() {
                     // FIXME Node misses x,y
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-ignore ts2304
-                    ref={ref}
+                    ref={mutationObserverRef}
+                    id="zoomableGroup"
                     style={style}
                 >
-                    <EgoNetworkNetwork />
+                    <EgoNetworkNetwork svgRef={mutationObserverRef} />
                 </animated.g>
             </animated.svg>
             <Grid
