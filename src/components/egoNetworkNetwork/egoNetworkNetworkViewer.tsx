@@ -59,10 +59,6 @@ function EgoNetworkNetworkViewer() {
         api.start({ scale: target > 0 ? target : 0 });
     }
     function resetZoomPosition() {
-        api.start({ x: svgSize.width / 2, y: svgSize.height / 2, scale: 1 });
-        zoomToFit();
-    }
-    function zoomToFit() {
         // when called set the zoom to fit the svg-group zoomableGroup
         // get the svg-group zoomableGroup
         const zoomableGroup: SVGSVGElement =
