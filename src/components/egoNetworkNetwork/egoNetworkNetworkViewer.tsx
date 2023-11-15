@@ -60,6 +60,36 @@ function EgoNetworkNetworkViewer() {
     }
     function resetZoomPosition() {
         api.start({ x: svgSize.width / 2, y: svgSize.height / 2, scale: 1 });
+        zoomToFit();
+    }
+    function zoomToFit() {
+        // when called set the zoom to fit the svg-group zoomableGroup
+        // get the svg-group zoomableGroup
+        const zoomableGroup: SVGSVGElement =
+            document.querySelector('#zoomableGroup');
+        // get the bounding box of the svg-group zoomableGroup
+        const bbox = zoomableGroup.getBBox();
+        // scale the svg-group zoomableGroup to fit the svg either if its width or height is bigger or smaller than the svg
+        const scale = Math.min(
+            svgSize.width / bbox.width,
+            svgSize.height / bbox.height
+        );
+        // get the center of the svg
+        const centerX = svgSize.width / 2;
+        const centerY = svgSize.height / 2;
+        // get the center of the svg-group zoomableGroup
+        const bboxCenterX = bbox.x + bbox.width / 2;
+        const bboxCenterY = bbox.y + bbox.height / 2;
+        // get the translation of the svg-group zoomableGroup
+        const translateX = centerX - bboxCenterX * scale;
+        const translateY = centerY - bboxCenterY * scale;
+
+        // set the scale and translate
+        api.start({
+            x: translateX,
+            y: translateY,
+            scale: scale
+        });
     }
     useGesture(
         {
@@ -115,7 +145,7 @@ function EgoNetworkNetworkViewer() {
                 width={'100%'}
                 height={'100%'}
                 ref={ref}
-                viewBox={`0 0 ${svgSize.width * 2} ${svgSize.width * 2}`}
+                viewBox={`0 0 ${svgSize.width} ${svgSize.width}`}
                 style={{ position: 'absolute' }}
             >
                 <animated.g
@@ -123,6 +153,7 @@ function EgoNetworkNetworkViewer() {
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-ignore ts2304
                     ref={ref}
+                    id="zoomableGroup"
                     style={style}
                 >
                     <EgoNetworkNetwork />
