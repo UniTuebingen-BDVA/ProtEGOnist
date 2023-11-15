@@ -1,7 +1,6 @@
 import { useAtom } from 'jotai';
 import {
     aggregateNetworkAtom,
-    decollapsedSizeAtom,
     interEdgesAtom
 } from './egoNetworkNetworkStore';
 import EgoNetworkNetworkNode from './egoNetworkNetworkNode.tsx';

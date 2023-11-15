@@ -47,6 +47,10 @@ const contents = {
                 <b>Click on</b> bands in groups of decollapsed ego-graphs to select
                 them for detailed investigation using the selection table.
             </p>
+            <p>
+                <b>Right click on</b> ego-graphs to open a context-menu for node-deletion
+                or to view them in the radar chart.
+            </p>
         </div>
     ),
     radarChart: (
@@ -57,6 +61,10 @@ const contents = {
                 ego-graphs are displayed.
             </p>
             <p><b>Click on</b> ego-graphs to change the center.</p>
+            <p>
+                <b>Right click on</b> ego-graphs to open a context-menu for adding
+                ego-graphs to the ego-graph subnetwork.
+            </p>
         </div>
     ),
     networkOverview: (
@@ -70,6 +78,10 @@ const contents = {
             <p>
                 <b>Click on</b> ego-graphs (nodes) to add them to the ego-graph
                 subnetwork and set them as center of the radar chart.
+            </p>
+            <p>
+                <b>Right click on</b> ego-graphs to open a context-menu for adding
+                ego-graphs to the ego-graph subnetwork or to view them in the radar chart.
             </p>
         </div>
     ),

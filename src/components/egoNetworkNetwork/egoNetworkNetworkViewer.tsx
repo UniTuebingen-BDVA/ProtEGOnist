@@ -30,7 +30,7 @@ import {
     InformationVariantCircle,
     MagnifyPlusOutline,
     MagnifyMinusOutline,
-    Refresh
+    FitToPageOutline
 } from 'mdi-material-ui';
 import { infoContentAtom, infoTitleAtom } from '../HomePage/InfoComponent.tsx';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
@@ -211,13 +211,13 @@ function EgoNetworkNetworkViewer() {
                         >
                             <MagnifyMinusOutline />
                         </IconButton>
-                        <Tooltip title="Reset Zoom">
+                        <Tooltip title="Fit to view">
                             <IconButton
                                 onClick={() => {
                                     resetZoomPosition();
                                 }}
                             >
-                                <Refresh />
+                                <FitToPageOutline />
                             </IconButton>
                         </Tooltip>
                     </ButtonGroup>

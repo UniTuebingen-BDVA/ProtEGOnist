@@ -17,6 +17,8 @@ import {
     highlightedEdgesAtom
 } from '../egoNetworkNetwork/egoNetworkNetworkStore.ts';
 import { edgesClassificationAtom } from '../../apiCalls.ts';
+import { useSetAtom } from 'jotai/index';
+import { contextMenuAtom } from '../utilityComponents/contextMenuStore.ts';
 
 const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
     const { x, y, nodeId } = props;
@@ -67,7 +69,9 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
     const [colorScale] = useAtom(colorScaleAtom);
     const [highlightedNodeIndices] = useAtom(highlightedNodeIndicesAtom);
     const [highlightedEdges] = useAtom(highlightedEdgesAtom);
-    const [_, setDecollapseID] = useAtom(decollapseNodeAtom);
+    const setContextMenu = useSetAtom(contextMenuAtom);
+    const setDecollapseID = useSetAtom(decollapseNodeAtom);
+
 
     // generate a d3 categorcal color scale with 20 colors
     const [edgesClassification] = useAtom(edgesClassificationAtom);
@@ -93,6 +97,9 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                     <g
                         key={center.id}
                         onClick={() => setDecollapseID(center.id)}
+                        onContextMenu={(event) => {
+                            setContextMenu(event, center.id);
+                        }}
                     >
                         <circle
                             cx={center.x}
