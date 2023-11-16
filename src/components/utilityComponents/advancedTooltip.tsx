@@ -75,7 +75,9 @@ const TooltipContent = memo(function TooltipContent({
                             </span>
                             <ul>
                                 {iter.map((ele) => (
-                                    <li key={ele}>{ele}</li>
+                                    <li style={{ overflow: 'auto' }} key={ele}>
+                                        {ele}
+                                    </li>
                                 ))}
                             </ul>
                         </div>
