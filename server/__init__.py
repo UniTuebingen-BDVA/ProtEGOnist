@@ -6,6 +6,7 @@ from server.python_scripts.example_reading import (
     read_example_string_modified,
     read_example_metagenome_2,
     read_example_IEEEcoAuthor,
+    read_example_ecoli_full,
 )
 from server.python_scripts.sampleGraph import (
     generate_string_intersections_top,
@@ -28,6 +29,7 @@ EXAMPLES = {
     "string_modified": read_example_string_modified(here),
     "metagenome": read_example_metagenome_2(here),
     "IEEE": read_example_IEEEcoAuthor(here),
+    "ecoli": read_example_ecoli_full(here),
 }
 
 
