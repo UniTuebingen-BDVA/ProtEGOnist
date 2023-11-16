@@ -562,30 +562,8 @@ function sortIntersectionByDistance(
     });
 }
 
-function calculateXRanges(
-    proportion: number,
-    toggle: boolean
-): [[number, number], [number, number]] {
-    const fullRange = 2 * Math.PI;
-    let offset = (1 / 24) * Math.PI;
-    if (toggle) {
-        // also draw gap in "all" mode when there is only shared nodes.
-        // TODO: Maybe change this? Only draw gap in nodes but not in bands?
-        if (proportion !== 1) {
-            offset = 0;
-        }
-        return [
-            [0, fullRange * proportion - offset],
-            [fullRange * proportion, fullRange]
-        ];
-    }
-    return [
-        [0, fullRange - offset],
-        [fullRange, fullRange]
-    ];
-}
 
-function calculateXRanges2(
+function calculateXRanges(
     proportions: { id: string; proportion: number }[],
     centerId: string,
     sharedMode: boolean
@@ -748,7 +726,7 @@ export function calculateLayout(
                     uniqueProportion
                 ];
             }
-            const xRanges = calculateXRanges2(
+            const xRanges = calculateXRanges(
                 currProportions,
                 currGraphId,
                 decollapseMode === 'shared'
