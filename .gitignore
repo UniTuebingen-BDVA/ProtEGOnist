@@ -24,6 +24,7 @@ __pycache__/
 /server/data/metageno*
 !/server/data/IEEEcoAuthor/*.py
 /server/data/IEEEcoAuthor/*
+/server/data/ecoliFull/*
 /server/data/encounteredNodes.txt
 
 # Logs
