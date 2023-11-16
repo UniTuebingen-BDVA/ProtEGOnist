@@ -297,3 +297,54 @@ def read_example_IEEEcoAuthor(here):
             "Natalia Andrienko",
         ],
     }
+
+
+def read_example_ecoli_full(here):
+    try:
+        network = nx.read_graphml(here / "data" / "ecoliFull" / "ecoliFull.graphml")
+        print("Loaded Ecoli graph ", len(network.nodes))
+    except FileNotFoundError:
+        print(f"No graphml file found in {here / 'data'}. Make sure you added it.")
+    # Read the top intersections from the input file
+    try:
+        top_intersections = parse_distance_matrix(
+            here / "data" / "ecoliFull" / "distance_matrix.txt.gz"
+        )
+    except FileNotFoundError:
+        print(f"No json file found in {here / 'data'}. Make sure you added it.")
+    try:
+        table_data, classification_dict = read_metadata(
+            here / "data" / "ecoliFull" / "metadata_final.csv",
+            "BRITEClass",
+            network.nodes,
+            sep=";",
+        )
+
+    except FileNotFoundError:
+        print(f"No metadata file found in {here / 'data'}. Make sure you added it.")
+
+    try:
+        with open(here / "data" / "ecoliFull" / "important_nodes.txt", "r") as f:
+            important_nodes = [line.strip() for line in f]
+            print("Loaded relevant_proteins ", len(important_nodes))
+
+    except FileNotFoundError:
+        print(f"No metadata file found in {here / 'data'}. Make sure you added it.")
+
+    return {
+        "network": network,
+        "top_intersections": top_intersections,
+        "classification": classification_dict,
+        "metadata": table_data,
+        "overview_nodes": important_nodes,
+        "quantify_by": "Documents",
+        "quantify_type": "quantitative",
+        "classify_by": "BRITEClass",
+        "name_nodes": "display name",
+        "show_tooltip": ["BRITEClass", "keggID", "stringdb::canonical name"],
+        "start_radar": "143207",
+        "start_selected": [
+            "143264",
+            "143288",
+        ],
+    }

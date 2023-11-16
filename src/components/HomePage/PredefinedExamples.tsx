@@ -51,6 +51,17 @@ const ExamplesPage = (_props) => {
                         Example two: IEEE VIS Co-Author Network
                     </Button>
                 </ListItem>
+                <ListItem>
+                    <Button
+                        variant="contained"
+                        size="small"
+                        onClick={(e) => {
+                            setExampleChosen('ecoli');
+                        }}
+                    >
+                        Example Three: Full E. coli K12 PPI
+                    </Button>
+                </ListItem>
             </List>
         </Container>
     );
