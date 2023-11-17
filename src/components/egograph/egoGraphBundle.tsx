@@ -130,7 +130,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                     </g>
                 );
             }),
-        [highlightedEdges, layout.centers, setDecollapseID]
+        [highlightedEdges.ids, layout.centers, setContextMenu, setDecollapseID]
     );
     const circles = useMemo(() => {
         const returnCircles: ReactElement[] = [];
