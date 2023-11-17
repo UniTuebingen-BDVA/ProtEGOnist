@@ -20,9 +20,10 @@ def read_example_string(here):
         print(f"No json file found in {here / 'data'}. Make sure you added it.")
     try:
         table_data, classification_dict = read_metadata(
-            here / "data" / "example_PPIs" / "metadata_proteins.csv",
+            here / "data" / "example_PPIs" / "newMeta.csv",
             "brite",
             network.nodes,
+            sep="\t",
         )
 
     except FileNotFoundError:
@@ -46,7 +47,7 @@ def read_example_string(here):
         "quantify_type": "categorical",
         "classify_by": "brite",
         "name_nodes": "x_id",
-        "show_tooltip": ["drug_name", "brite"],
+        "show_tooltip": ["drug_name", "brite", "pathway"],
         "start_radar": "P63279",
         "start_selected": [
             "Q99459",
