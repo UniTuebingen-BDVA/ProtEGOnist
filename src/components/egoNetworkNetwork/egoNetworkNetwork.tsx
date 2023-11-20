@@ -1,8 +1,5 @@
 import { useAtom } from 'jotai';
-import {
-    aggregateNetworkAtom,
-    interEdgesAtom
-} from './egoNetworkNetworkStore';
+import { aggregateNetworkAtom, interEdgesAtom } from './egoNetworkNetworkStore';
 import EgoNetworkNetworkNode from './egoNetworkNetworkNode.tsx';
 import EgoNetworkNetworkEdge from './egoNetworkNetworkEdge.tsx';
 import EgoGraphBundle from '../egograph/egoGraphBundle.tsx';
@@ -142,8 +139,8 @@ const EgoNetworkNetwork = () => {
                             {Object.keys(layouts).includes(node.id) ? (
                                 <EgoGraphBundle
                                     key={node.id}
-                                    x={-node.radius/2}
-                                    y={-node.radius/2}
+                                    x={-node.radius / 2}
+                                    y={-node.radius / 2}
                                     nodeId={node.id}
                                 />
                             ) : null}

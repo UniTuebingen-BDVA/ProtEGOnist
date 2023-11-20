@@ -41,7 +41,7 @@ const EgoNetworkNetworkEdge = memo(function EgoNetworkNetworkEdge(
     // scale the weight such that the edges scale with the node size which is scaled
     //[ Math.PI * (maxDecollapsed / 30) ** 2,Math.PI * (maxDecollapsed / 3) ** 2]
 
-    const weightInternal = weight * (maxRadius / 150);
+    const weightInternal = weight * (maxRadius / 300);
     return (
         <g>
             <animated.line
