@@ -48,16 +48,8 @@ def read_example_string(here):
         "classify_by": "brite",
         "name_nodes": "x_id",
         "show_tooltip": ["drug_name", "brite", "pathway"],
-        "start_radar": "P63279",
-        "start_selected": [
-            "Q99459",
-            "Q01518",
-            "P61421",
-            "P52565",
-            "P00568",
-            "Q9NRN7",
-            "P63279",
-        ],
+        "start_radar": "Q9ULU4",
+        "start_selected": ["Q9ULU4", "P63279", "Q14157", "Q9UBT2"],
     }
 
 
@@ -289,13 +281,12 @@ def read_example_IEEEcoAuthor(here):
             "Documents",
             "Citations",
         ],
-        "start_radar": "Helwig Hauser",
+        "start_radar": "Huamin Qu",
         "start_selected": [
+            "Huamin Qu",
             "Helwig Hauser",
-            "Bongshin Lee",
-            "Christian Tominski",
-            "Barbora Kozlíková",
-            "Natalia Andrienko",
+            "David S. Ebert",
+            "Michael Sedlmair",
         ],
     }
 
@@ -348,9 +339,6 @@ def read_example_ecoli_full(here):
             "canonical name",
             "description",
         ],
-        "start_radar": "143207",
-        "start_selected": [
-            "143264",
-            "143288",
-        ],
+        "start_radar": "145676",
+        "start_selected": ["145676", "145856", "144713", "149408"],
     }
