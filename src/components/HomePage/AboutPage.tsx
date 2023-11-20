@@ -7,7 +7,7 @@ const AboutPage = (props) => {
             <Typography component={'span'}>
                 ProtEGOnist is a new visualization tool that allows users to
                 explore large networks by using an approach based on ego
-                networks. The input for proteonist is the following:
+                networks. The input for ProtEGOnist is the following:
             </Typography>
             <ol>
                 <li> A network in the form of an edge list (csv file) </li>
