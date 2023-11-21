@@ -41,7 +41,9 @@ const EgoNetworkNetworkEdge = memo(function EgoNetworkNetworkEdge(
     // scale the weight such that the edges scale with the node size which is scaled
     //[ Math.PI * (maxDecollapsed / 30) ** 2,Math.PI * (maxDecollapsed / 3) ** 2]
 
-    const weightInternal = weight * (maxRadius / 300);
+    const weightInternal = weight * (maxRadius / 450);
+    const strokeWidth =
+        5 + 2 * weightInternal * 30 > 10 ? 5 + 2 * weightInternal * 30 : 10;
     return (
         <g>
             <animated.line
@@ -56,7 +58,7 @@ const EgoNetworkNetworkEdge = memo(function EgoNetworkNetworkEdge(
                         ? 'black'
                         : 'lightgray'
                 }
-                strokeWidth={0.5 + 2 * weightInternal * 30}
+                strokeWidth={strokeWidth}
             />
             <line
                 x1={notAnimatedParams.x1}
@@ -64,11 +66,7 @@ const EgoNetworkNetworkEdge = memo(function EgoNetworkNetworkEdge(
                 x2={notAnimatedParams.x2}
                 y2={notAnimatedParams.y2}
                 stroke="transparent"
-                strokeWidth={
-                    0.5 + 2 * weightInternal * 30 > 5
-                        ? 0.5 + 2 * weightInternal * 30
-                        : 5
-                }
+                strokeWidth={strokeWidth}
                 style={
                     highlightedEdges.ids.includes(nodeIds[0]) &&
                     highlightedEdges.ids.includes(nodeIds[1])
