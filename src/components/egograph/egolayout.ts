@@ -670,8 +670,8 @@ export function calculateLayout(
         const maxRadius = Math.max(...Object.values(decollapsedRadii));
         // set radius of the bundle such that all circles are accommodated
         const radiusOfEnclosingCircle =
-            egoGraphs.length === 2 ? maxRadius * 2.7 : maxRadius * 3;
-        const placementRadius = radiusOfEnclosingCircle - maxRadius * 1.2;
+            egoGraphs.length === 2 ? maxRadius * 3 : maxRadius * 3.3;
+        const placementRadius = radiusOfEnclosingCircle - maxRadius * 1.6;
         const placementAngle = (2 * Math.PI) / egoGraphs.length;
         for (let i = 0; i < egoGraphs.length; i++) {
             currGraphId = egoGraphs[i].centerNode.originalID;

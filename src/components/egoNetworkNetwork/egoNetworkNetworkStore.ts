@@ -279,10 +279,10 @@ export const aggregateNetworkAtom = atom((get) => {
         )
         .force(
             'collision',
-            d3.forceCollide().radius((d: egoNetworkNetworkNode) => d.radius + 5)
+            d3.forceCollide().radius((d: egoNetworkNetworkNode) => d.radius + 20)
         )
         .stop()
-        .tick(100);
+        .tick(500);
 
     // reshape the edges to contain a x1, x2, y1, y2 coordinate
     // Create a dictionary of nodes for faster lookup

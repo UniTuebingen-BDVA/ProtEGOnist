@@ -79,7 +79,7 @@ const EgoNetworkNetwork = () => {
                     x2: x2,
                     y1: y1,
                     y2: y2,
-                    opacity: 0.7,
+                    opacity: 0.5,
                     delay: 1150
                 });
             },
@@ -91,7 +91,7 @@ const EgoNetworkNetwork = () => {
                     x2: x2,
                     y1: y1,
                     y2: y2,
-                    opacity: 0.7,
+                    opacity: 0.5,
                     delay: 100
                 });
             },
