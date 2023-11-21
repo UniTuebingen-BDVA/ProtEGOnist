@@ -46,7 +46,7 @@ function RadarChartViewer(props: RadarChartViewerProps) {
             <Backdrop
                 sx={{
                     color: '#fff',
-                    zIndex: (theme) => theme.zIndex.drawer + 1,
+                    zIndex: (theme) => theme.zIndex.drawer - 1,
                     position: 'absolute'
                 }}
                 open={radarBusy}
