@@ -7,10 +7,12 @@ import { SpringValue, animated } from '@react-spring/web';
 import AdvancedTooltip from '../utilityComponents/advancedTooltip';
 import {
     drugsPerProteinAtom,
-    drugsPerProteinColorscaleAtom
+    drugsPerProteinColorscaleAtom,
+    tableAtom
 } from '../selectionTable/tableStore';
 import { memo, useState } from 'react';
 import { contextMenuAtom } from '../utilityComponents/contextMenuStore';
+import { nameNodesByAtom } from '../../apiCalls';
 
 interface EgoNetworkNetworkNodeProps {
     id: string;
@@ -30,9 +32,27 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
     const [drugsPerProtein] = useAtom(drugsPerProteinAtom);
     const [highlightedEdges] = useAtom(highlightedEdgesAtom);
     const [isHovered, setIsHovered] = useState(false);
+    const [tableData] = useAtom(tableAtom);
+    const [nameNodesBy] = useAtom(nameNodesByAtom);
     const setContextMenu = useSetAtom(contextMenuAtom);
 
     const color = colorscale(drugsPerProtein[id]);
+    const getNodeName = (id) => {
+        // find the rows in the table that match the uniprot ID
+        // const filteredRows = tableData.rows.filter((row) => {
+        //     return row['nodeID'] === id;
+        // });
+        const nodeData = tableData.rows[id];
+
+        const nodeNames = (nodeData?.[nameNodesBy] ?? nodeData.nodeID).split(
+            ';'
+        );
+        // generate set of unique protein names
+        const uniqueNodeNames = [...new Set(nodeNames)];
+        // join the protein names with a comma
+        return uniqueNodeNames.join(', ');
+    };
+
     return (
         <AdvancedTooltip nodeID={id} key={id}>
             <animated.g
@@ -68,6 +88,23 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                     stroke="black"
                     strokeWidth="1"
                 />
+                <text
+                    textAnchor="middle"
+                    fontSize={size / 3}
+                    dy={`-${size / 10}`}
+                >
+                    <textPath
+                        startOffset={'50%'}
+                        path={`
+                        M 0 0
+                        m 0, ${size}
+                        a ${size},${size} 0 1,1,0 -${size * 2}
+                        a ${size},${size} 0 1,1,0  ${size * 2}
+                        `}
+                    >
+                        {getNodeName(id)}
+                    </textPath>
+                </text>
             </animated.g>
         </AdvancedTooltip>
     );
