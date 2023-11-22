@@ -253,15 +253,17 @@ const RadarChart = (props: RadarChartProps) => {
         // });
         const nodeData = tableData.rows[id];
 
-        const proteinNames = (nodeData?.[nameNodesBy] ?? nodeData.nodeID).split(
+        const nodeNames = (nodeData?.[nameNodesBy] ?? nodeData.nodeID).split(
             ';'
         );
         // generate set of unique protein names
-        const uniqueProteinNames = [...new Set(proteinNames)];
+        const uniqueNodeNames = [...new Set(nodeNames)];
         // join the protein names with a comma
-        return uniqueProteinNames.join(', ');
+        return uniqueNodeNames.join(', ');
     };
-
+    const centerRadius =
+        CIRCLE_RADIUS +
+        intersectionLengthScale(tarNodeData.setSize) * CIRCLE_RADIUS;
     return (
         <g>
             {/* labels and pie segments */}
@@ -352,29 +354,48 @@ const RadarChart = (props: RadarChartProps) => {
                 />
             }
             <AdvancedTooltip nodeID={tarNode} key={tarNode}>
-                <circle
-                    cx={0}
-                    cy={0}
-                    r={
-                        CIRCLE_RADIUS +
-                        intersectionLengthScale(tarNodeData.setSize) *
-                            CIRCLE_RADIUS
+                <g>
+                    <path
+                        id={tarNode + '_label'}
+                        fill={'none'}
+                        stroke="none"
+                        d={`
+                    M 0 0
+                    m 0, ${centerRadius}
+                    a ${centerRadius},${centerRadius} 0 1,1,0 -${
+                        centerRadius * 2
                     }
-                    stroke={'black'}
-                    fill={'#ffff99'}
-                    onClick={() => {
-                        setSelectedProteins([tarNode]);
-                    }}
-                />
+                    a ${centerRadius},${centerRadius} 0 1,1,0  ${
+                        centerRadius * 2
+                    }
+                    `}
+                    />
+                    <circle
+                        cx={0}
+                        cy={0}
+                        r={centerRadius}
+                        stroke={'black'}
+                        fill={'#ffff99'}
+                        onClick={() => {
+                            setSelectedProteins([tarNode]);
+                        }}
+                    />
+                </g>
             </AdvancedTooltip>
+
             <text
-                x={0}
-                y={-CIRCLE_RADIUS - 5}
+                width={30}
                 textAnchor="middle"
                 fontSize="18px"
                 fontWeight="bold"
+                dy={'-0.35em'}
             >
-                {getNodeName(tarNode)}
+                <textPath
+                    startOffset={'50%'}
+                    xlinkHref={'#' + tarNode + '_label'}
+                >
+                    {getNodeName(tarNode)}
+                </textPath>
             </text>
         </g>
     );

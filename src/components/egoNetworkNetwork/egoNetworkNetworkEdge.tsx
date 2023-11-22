@@ -42,8 +42,7 @@ const EgoNetworkNetworkEdge = memo(function EgoNetworkNetworkEdge(
     //[ Math.PI * (maxDecollapsed / 30) ** 2,Math.PI * (maxDecollapsed / 3) ** 2]
 
     const weightInternal = weight * (maxRadius / 450);
-    const strokeWidth =
-        5 + 2 * weightInternal * 30 > 10 ? 5 + 2 * weightInternal * 30 : 10;
+    const strokeWidth = 5 + 2 * weightInternal * 30;
     return (
         <g>
             <animated.line
