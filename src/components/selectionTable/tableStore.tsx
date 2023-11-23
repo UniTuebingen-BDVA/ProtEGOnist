@@ -8,7 +8,10 @@ import {
 import { multiSelectionAtom } from '../TabViewer/tabViewerStore';
 import RadarIcon from '@mui/icons-material/Radar';
 import * as d3 from 'd3';
-import { updateDecollapseIdsAtom } from '../egoNetworkNetwork/egoNetworkNetworkStore.ts';
+import {
+    egoNetworkNetworkNodesAtom,
+    updateDecollapseIdsAtom
+} from '../egoNetworkNetwork/egoNetworkNetworkStore.ts';
 
 export const tableAtomStore = atom<{
     rows: GridRowsProp;
@@ -84,8 +87,20 @@ export const selectedProteinsAtom = atom(
 
 export const drugsPerProteinColorscaleAtom = atom((get) => {
     const drugsPerProtein = get(drugsPerProteinAtom);
-    const max = Math.max(...Object.values(drugsPerProtein));
-    const min = Math.min(...Object.values(drugsPerProtein));
+    const quantifyNodesBy = get(quantifyNodesByAtom);
+    const egoNetworkNetworkNodes = get(egoNetworkNetworkNodesAtom);
+    const densityValues = Object.values(egoNetworkNetworkNodes).map(
+        (node) => node.density
+    );
+
+    const max =
+        quantifyNodesBy['label'] != 'default'
+            ? Math.max(...Object.values(drugsPerProtein))
+            : Math.max(...densityValues);
+    const min =
+        quantifyNodesBy['label'] != 'default'
+            ? Math.min(...Object.values(drugsPerProtein))
+            : Math.min(...densityValues);
     // generate a colorscale based on the number of drugs per protein with d3 from white to #ff7f00
     const colorScale = d3
         .scaleLinear<string>()
@@ -127,15 +142,17 @@ export const tableAtom = atom(
                 nodeQuantification[nodeID] = null;
                 continue;
             }
-            if (quantifyNodesBy['type'] === 'quantitative') {
-                nodeQuantification[nodeID] =
-                    rowNode[quantifyNodesBy['label']] ?? null;
-            } else if (quantifyNodesBy['type'] === 'categorical') {
-                const elementsNode = rowNode[quantifyNodesBy['label']].split(
-                    ';'
-                ) ?? [nodeID];
-                const uniqueElementNode = [...new Set(elementsNode)];
-                nodeQuantification[nodeID] = uniqueElementNode.length;
+            if (quantifyNodesBy['label'] != 'default') {
+                if (quantifyNodesBy['type'] === 'quantitative') {
+                    nodeQuantification[nodeID] =
+                        rowNode[quantifyNodesBy['label']] ?? null;
+                } else if (quantifyNodesBy['type'] === 'categorical') {
+                    const elementsNode = rowNode[
+                        quantifyNodesBy['label']
+                    ].split(';') ?? [nodeID];
+                    const uniqueElementNode = [...new Set(elementsNode)];
+                    nodeQuantification[nodeID] = uniqueElementNode.length;
+                }
             }
         }
         set(drugsPerProteinAtom, nodeQuantification);

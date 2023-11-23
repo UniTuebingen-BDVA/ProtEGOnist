@@ -230,6 +230,14 @@ export const egoNetworkNetworksAtom = atom<egoNetworkNetwork>({
     nodes: [],
     edges: []
 });
+export const egoNetworkNetworkNodesAtom = atom((get) => {
+    const nodeDict: { [key: string]: egoNetworkNetworkNode } = {};
+    get(egoNetworkNetworksAtom).nodes.forEach(
+        (node) => (nodeDict[node.id] = node)
+    );
+
+    return nodeDict;
+});
 
 const egoNetworkNetworkDeepCopyAtom = atom<egoNetworkNetworkRendered>((get) => {
     const copy: egoNetworkNetwork = structuredClone(
@@ -279,7 +287,9 @@ export const aggregateNetworkAtom = atom((get) => {
         )
         .force(
             'collision',
-            d3.forceCollide().radius((d: egoNetworkNetworkNode) => d.radius + 20)
+            d3
+                .forceCollide()
+                .radius((d: egoNetworkNetworkNode) => d.radius + 20)
         )
         .stop()
         .tick(500);

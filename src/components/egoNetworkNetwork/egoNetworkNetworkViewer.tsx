@@ -172,7 +172,11 @@ function EgoNetworkNetworkViewer() {
                             unknown={colorscale.unknown()}
                             type={'quantitative'}
                             transform={`translate(${10},${10})`}
-                            title={`Quantification via ${quantifyBy['label']}`}
+                            title={`Quantification via ${
+                                quantifyBy['label'] != 'default'
+                                    ? quantifyBy['label']
+                                    : 'density'
+                            }`}
                             render={true}
                         />
                         <ColorLegend

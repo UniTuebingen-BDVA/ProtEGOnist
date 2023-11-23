@@ -329,8 +329,8 @@ def read_example_ecoli_full(here):
         "classification": classification_dict,
         "metadata": table_data,
         "overview_nodes": important_nodes,
-        "quantify_by": "BRITEClass",
-        "quantify_type": "categorical",
+        "quantify_by": "default",
+        "quantify_type": "quantitative",
         "classify_by": "BRITEClass",
         "name_nodes": "display name",
         "show_tooltip": [
