@@ -46,6 +46,7 @@ class EgoGraph:
         """
         self.node = input_node
         self.nx_graph: nx.Graph = graph
+        self.density = nx.density(self.nx_graph)
         # check if name and classification are in the attributes if not add them
         for node in self.nx_graph.nodes:
             if "name" not in self.nx_graph.nodes[node]:
@@ -120,10 +121,8 @@ class EgoGraph:
         Returns:
           A JSON representation of the graph object.
         """
-        node_link_data = dict(nx.node_link_data(
-            self.nx_graph, {"link": "edges"}))
-        t1_neighbors: list[str | int] = list(
-            self.nx_graph.neighbors(self.node))
+        node_link_data = dict(nx.node_link_data(self.nx_graph, {"link": "edges"}))
+        t1_neighbors: list[str | int] = list(self.nx_graph.neighbors(self.node))
 
         # check if the nodes in node_link_data have an attribute "name" if not add the attribute "name" with the value of the attribute "id"
         for node in node_link_data["nodes"]:
@@ -166,8 +165,7 @@ class EgoGraph:
           The values are lists of the neighbors of the node.
         """
         try:
-            t1_neighbors: list[str | int] = list(
-                self.nx_graph.neighbors(self.node))
+            t1_neighbors: list[str | int] = list(self.nx_graph.neighbors(self.node))
             t2_neighbors: list[str | int] = list(
                 nx.non_neighbors(self.nx_graph, self.node)
             )
@@ -213,12 +211,10 @@ class EgoGraph:
         # Intersection elements of length 1
         # TODO: Both directions are considered here. This is not necessary as the intersection is symmetric.
         len1_intersection_self_target = list(
-            set([self.node]).intersection(
-                set(target_neighbors["t1_neighbors"]))
+            set([self.node]).intersection(set(target_neighbors["t1_neighbors"]))
         )
         len1_intersection_target_self = list(
-            set([target.node]).intersection(
-                set(self_neighbors["t1_neighbors"]))
+            set([target.node]).intersection(set(self_neighbors["t1_neighbors"]))
         )
         # Intersection elements of length 2
         len2_intersection = list(
@@ -227,12 +223,10 @@ class EgoGraph:
             )
         )
         len2_intersection_self_target = list(
-            set([self.node]).intersection(
-                set(target_neighbors["t2_neighbors"]))
+            set([self.node]).intersection(set(target_neighbors["t2_neighbors"]))
         )
         len2_intersection_target_self = list(
-            set([target.node]).intersection(
-                set(self_neighbors["t2_neighbors"]))
+            set([target.node]).intersection(set(self_neighbors["t2_neighbors"]))
         )
         # Intersection elements of length 3
         len3_intersection_self_target = list(
