@@ -16,9 +16,10 @@ import {
     decollapseNodeAtom,
     highlightedEdgesAtom
 } from '../egoNetworkNetwork/egoNetworkNetworkStore.ts';
-import { edgesClassificationAtom } from '../../apiCalls.ts';
+import { edgesClassificationAtom, nameNodesByAtom } from '../../apiCalls.ts';
 import { useSetAtom } from 'jotai/index';
 import { contextMenuAtom } from '../utilityComponents/contextMenuStore.ts';
+import { tableAtom } from '../selectionTable/tableStore';
 
 const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
     const { x, y, nodeId } = props;
@@ -69,10 +70,26 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
     const [colorScale] = useAtom(colorScaleAtom);
     const [highlightedNodeIndices] = useAtom(highlightedNodeIndicesAtom);
     const [highlightedEdges] = useAtom(highlightedEdgesAtom);
+    const [tableData] = useAtom(tableAtom);
+    const [nameNodesBy] = useAtom(nameNodesByAtom);
     const setContextMenu = useSetAtom(contextMenuAtom);
     const setDecollapseID = useSetAtom(decollapseNodeAtom);
 
+    const getNodeName = (id) => {
+        // find the rows in the table that match the uniprot ID
+        // const filteredRows = tableData.rows.filter((row) => {
+        //     return row['nodeID'] === id;
+        // });
+        const nodeData = tableData.rows[id];
 
+        const nodeNames = (nodeData?.[nameNodesBy] ?? nodeData.nodeID).split(
+            ';'
+        );
+        // generate set of unique protein names
+        const uniqueNodeNames = [...new Set(nodeNames)];
+        // join the protein names with a comma
+        return uniqueNodeNames.join(', ');
+    };
     // generate a d3 categorcal color scale with 20 colors
     const [edgesClassification] = useAtom(edgesClassificationAtom);
 
@@ -93,6 +110,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
     const layoutCircles = useMemo(
         () =>
             layout.centers.map((center) => {
+                const outerRadius = center.outerSize * (5 / 6);
                 return (
                     <g
                         key={center.id}
@@ -105,7 +123,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                             cx={center.x}
                             cy={center.y}
                             strokeWidth={center.outerSize * (7 / 18)}
-                            r={center.outerSize * (5 / 6)}
+                            r={outerRadius}
                             stroke={'white'}
                             fill={'none'}
                         />
@@ -127,6 +145,27 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                             r={center.outerSize * (18 / 35)}
                             fill={'white'}
                         />
+                        <text
+                            textAnchor="middle"
+                            fontSize={outerRadius / 3}
+                            dy={`-${outerRadius / 2.5}`}
+                        >
+                            <textPath
+                                startOffset={'50%'}
+                                path={`
+                        M ${center.x} ${center.y}
+                        m 0, ${outerRadius}
+                        a ${outerRadius},${outerRadius} 0 1,1,0 -${
+                            outerRadius * 2
+                        }
+                        a ${outerRadius},${outerRadius} 0 1,1,0  ${
+                            outerRadius * 2
+                        }
+                        `}
+                            >
+                                {getNodeName(center.id)}
+                            </textPath>
+                        </text>
                     </g>
                 );
             }),
