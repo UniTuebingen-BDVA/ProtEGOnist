@@ -2,7 +2,6 @@ import { useAtom, useSetAtom } from 'jotai';
 import {
     decollapseNodeAtom,
     highlightedEdgesAtom,
-    egoNetworkNetworkNodesAtom
 } from './egoNetworkNetworkStore';
 import { SpringValue, animated } from '@react-spring/web';
 import AdvancedTooltip from '../utilityComponents/advancedTooltip';
@@ -18,6 +17,7 @@ import { nameNodesByAtom, quantifyNodesByAtom } from '../../apiCalls';
 interface EgoNetworkNetworkNodeProps {
     id: string;
     size: number;
+    density:number;
     animatedParams: {
         opacity: number | SpringValue<number>;
         transform: string | SpringValue<string>;
@@ -27,7 +27,7 @@ interface EgoNetworkNetworkNodeProps {
 const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
     props: EgoNetworkNetworkNodeProps
 ) {
-    const { id, size, animatedParams } = props;
+    const { id, size, density, animatedParams } = props;
     const setDecollapseID = useSetAtom(decollapseNodeAtom);
     const [colorscale] = useAtom(drugsPerProteinColorscaleAtom);
     const [drugsPerProtein] = useAtom(drugsPerProteinAtom);
@@ -36,13 +36,12 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
     const [isHovered, setIsHovered] = useState(false);
     const [tableData] = useAtom(tableAtom);
     const [nameNodesBy] = useAtom(nameNodesByAtom);
-    const [egoNetworkNetworkNodes] = useAtom(egoNetworkNetworkNodesAtom);
     const setContextMenu = useSetAtom(contextMenuAtom);
 
     const color =
         quantifyNodesBy['label'] != 'default'
             ? colorscale(drugsPerProtein[id])
-            : colorscale(egoNetworkNetworkNodes[id]['density']);
+            : colorscale(density);
     const getNodeName = (id) => {
         // find the rows in the table that match the uniprot ID
         // const filteredRows = tableData.rows.filter((row) => {

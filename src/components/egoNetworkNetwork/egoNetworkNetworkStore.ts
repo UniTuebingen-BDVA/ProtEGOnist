@@ -230,14 +230,6 @@ export const egoNetworkNetworksAtom = atom<egoNetworkNetwork>({
     nodes: [],
     edges: []
 });
-export const egoNetworkNetworkNodesAtom = atom((get) => {
-    const nodeDict: { [key: string]: egoNetworkNetworkNode } = {};
-    get(egoNetworkNetworksAtom).nodes.forEach(
-        (node) => (nodeDict[node.id] = node)
-    );
-
-    return nodeDict;
-});
 
 const egoNetworkNetworkDeepCopyAtom = atom<egoNetworkNetworkRendered>((get) => {
     const copy: egoNetworkNetwork = structuredClone(

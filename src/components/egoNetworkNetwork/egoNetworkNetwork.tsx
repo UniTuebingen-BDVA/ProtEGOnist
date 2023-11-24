@@ -8,6 +8,7 @@ import { egoGraphBundlesLayoutAtom } from '../egograph/egoGraphBundleStore.ts';
 
 const EgoNetworkNetwork = () => {
     const [{ nodes, edges }] = useAtom(aggregateNetworkAtom);
+    console.log(nodes);
     const [interEdges] = useAtom(interEdgesAtom);
     const [layouts] = useAtom(egoGraphBundlesLayoutAtom);
     const transitionsNodes = useTransition(nodes, {
@@ -148,14 +149,11 @@ const EgoNetworkNetwork = () => {
                     );
                 } else
                     return (
-                        // FIXME Node misses x,y
-                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                        // @ts-ignore ts2304
                         <EgoNetworkNetworkNode
                             key={node.id}
                             id={node.id}
                             size={node.radius}
-                            //color={'#ff7f00'}
+                            density={node.density}
                             animatedParams={style}
                         />
                     );

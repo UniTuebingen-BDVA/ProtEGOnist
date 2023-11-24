@@ -207,7 +207,6 @@ const RadarChart = (props: RadarChartProps) => {
     });
 
     // get max ringIndex
-    console.log('pieChartSegments', pieChartSegments);
     const maxRingIndex = pieChartSegments.reduce((acc, segment) => {
         if (segment.ringIndex > acc) {
             return segment.ringIndex;
@@ -235,7 +234,6 @@ const RadarChart = (props: RadarChartProps) => {
             )
         )
         .range(colorsRadar);
-    console.log('MRI', maxRingIndex);
     const baseRadiusInternal = baseRadius - 15 * (maxRingIndex + 1);
     const GUIDE_CIRCLE_RADIUS = baseRadiusInternal;
     const GUIDE_CIRCLE_STEP = baseRadiusInternal / 4;
