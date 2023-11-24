@@ -339,6 +339,6 @@ def read_example_ecoli_full(here):
             "canonical name",
             "description",
         ],
-        "start_radar": "145676",
-        "start_selected": ["145676", "145856", "144713", "149408"],
+        "start_radar": "Q9ULU4",
+        "start_selected": ["Q9ULU4", "P63279", "Q14157", "Q9UBT2"],
     }
