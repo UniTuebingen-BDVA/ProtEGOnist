@@ -17,7 +17,7 @@ import { useAtom, useSetAtom } from 'jotai';
 import MenuIcon from '@mui/icons-material/Menu';
 
 import { serverBusyAtom } from '../../apiCalls';
-import { drawerShownAtom } from '../drawerElement/DrawerElementStore';
+import {openDrawerAtom } from '../drawerElement/DrawerElementStore';
 import LogoText from '../../assets/LogoPathWhite.svg';
 import ContextMenu from '../utilityComponents/ContextMenu';
 
@@ -30,7 +30,7 @@ type mainPageProps = {
 
 export const MainPage = (props: mainPageProps) => {
     const [serverBusy] = useAtom(serverBusyAtom);
-    const setStateDrawer = useSetAtom(drawerShownAtom);
+    const openDrawer = useSetAtom(openDrawerAtom);
     const [, setInfoTitle] = useAtom(infoTitleAtom);
     const [, setInfoContent] = useAtom(infoContentAtom);
     return (
@@ -71,7 +71,7 @@ export const MainPage = (props: mainPageProps) => {
                                 color="inherit"
                                 aria-label="menu"
                                 sx={{ mr: 2 }}
-                                onClick={() => setStateDrawer(true)}
+                                onClick={() => openDrawer(true)}
                             >
                                 <MenuIcon />
                             </IconButton>

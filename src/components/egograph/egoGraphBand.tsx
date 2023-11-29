@@ -13,6 +13,9 @@ import {
 
 import { selectedBandAtom } from './egoGraphBundleStore';
 import { useAtom } from 'jotai';
+import { openDrawerAtom } from '../drawerElement/DrawerElementStore.ts';
+import { useSetAtom } from 'jotai/index';
+
 interface EgoGraphBandProps {
     bandData: [
         string,
@@ -663,6 +666,7 @@ function getPath(
 const EgoGraphBand = (props: EgoGraphBandProps) => {
     const { bandData, color, twoCase } = props;
     const [selectedBand, setSelectedBand] = useAtom(selectedBandAtom);
+    const openDrawer = useSetAtom(openDrawerAtom);
     let pathData: { path: string[]; color: string; id: string }[] = [];
     if (Object.values(bandData[1]).length === 0) return null;
     if (Object.values(bandData[1]).length === 1) return null;
@@ -718,6 +722,9 @@ const EgoGraphBand = (props: EgoGraphBandProps) => {
                     setSelectedBand(
                         selectedBand == pathDatum.id ? '' : pathDatum.id
                     );
+                    if (selectedBand != pathDatum.id) {
+                        openDrawer(false);
+                    }
                 }}
             />
         </g>

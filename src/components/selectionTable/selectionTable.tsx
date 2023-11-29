@@ -4,11 +4,12 @@ import {
     selectedProteinsAtom,
     tableAtom,
     columnVisibilityAtom,
-    tableModelSelectedAtom
+    tableModelSelectedAtom, tableFilterModelAtom
 } from './tableStore';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { startDataOverview } from '../../apiCalls';
 import { filteredIntersectionsAtom } from '../egograph/egoGraphBundleStore';
+import { useCallback, useMemo } from 'react';
 
 const SelectionTable = () => {
     const [tableData] = useAtom(tableAtom);
@@ -18,16 +19,12 @@ const SelectionTable = () => {
     const tableModel = useAtomValue(tableModelSelectedAtom);
     const [columnVisibility, setColumnVisibility] =
         useAtom(columnVisibilityAtom);
+    const [filterModel,setFilterModel]=useAtom(tableFilterModelAtom);
     const rows = Object.entries(tableData.rows).map(([key, value], index) => {
         return { ...value, nodeID: key, ID: index };
     });
-
-    const initFilterModel: GridFilterModel = {
-        items: [
-            { id: 1, field: 'with_metadata', operator: 'equals', value: 'true' }
-        ]
-    };
-    const columns = [
+    console.log(filterModel);
+    const columns = useMemo(()=>[
         ...tableData.columns,
         {
             field: 'selected',
@@ -50,24 +47,13 @@ const SelectionTable = () => {
             valueGetter: (params) =>
                 filteredIntersections.includes(params.row.nodeID) ? 'Yes' : 'No'
         }
-    ];
+    ],[filteredIntersections, selectedProteins, tableData.columns]);
 
     return (
         <Box style={{ maxWidth: '100%', width: '100%', height: '100%' }}>
-            <Typography
-                component={'span'}
-                variant="subtitle2"
-                component="div"
-                style={{ marginLeft: '1em' }}
-            >
-                {/* *The data from this table corresponds to the data presented by Goncalves et al. (2022) in their supplementary table S5 "All Drug-Protein associations". */}
-            </Typography>
             <DataGrid
-                initialState={{
-                    filter: {
-                        filterModel: initFilterModel
-                    }
-                }}
+                filterModel={filterModel}
+                onFilterModelChange={(newFilterModel)=>setFilterModel(newFilterModel)}
                 rows={rows}
                 getRowId={(row) => row.ID}
                 columns={columns}

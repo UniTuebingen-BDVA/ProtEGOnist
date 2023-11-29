@@ -1,5 +1,5 @@
 import { atom, useAtom } from 'jotai';
-import { GridRowsProp, GridColDef } from '@mui/x-data-grid';
+import { GridRowsProp, GridColDef, GridFilterModel } from '@mui/x-data-grid';
 import {
     getEgoNetworkNetworkAtom,
     getRadarAtom,
@@ -105,6 +105,9 @@ export const tableModelSelectedAtom = atom<number[]>((get) => {
         .filter((index) => index !== -1);
     return indexSelectedProts;
 });
+export const tableFilterModelAtom=atom<GridFilterModel>({items: [
+            { id: 1, field: 'with_metadata', operator: 'equals', value: 'true' }
+        ]});
 export const columnVisibilityAtom = atom<{ [key: string]: boolean }>({
     with_metadata: false
 });

@@ -2,27 +2,35 @@ import { Box, Drawer, IconButton, Tooltip, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import TabViewer from '../TabViewer/TabViewer.tsx';
 import { useAtom } from 'jotai';
-import { drawerShownAtom } from './DrawerElementStore.ts';
+import {
+    closeDrawerAtom,
+    drawerShownAtom,
+    isFullWidthAtom
+} from './DrawerElementStore.ts';
 import { InformationVariantCircle } from 'mdi-material-ui';
 import { infoTitleAtom, infoContentAtom } from '../HomePage/InfoComponent.tsx';
+import { useSetAtom } from 'jotai';
 
 function DrawerElement() {
-    const [state, setState] = useAtom(drawerShownAtom);
+    const [drawerShown] = useAtom(drawerShownAtom);
+    const [isFullWidth] = useAtom(isFullWidthAtom);
+    const closeDrawer = useSetAtom(closeDrawerAtom);
     const [, setInfoTitle] = useAtom(infoTitleAtom);
     const [, setInfoContent] = useAtom(infoContentAtom);
 
     return (
         <Drawer
+            variant={"persistent"}
             anchor="left"
             PaperProps={{
                 sx: {
                     height: '90%',
                     top: '5%',
-                    width: '90%'
+                    width: isFullWidth ? '90%' : '45%'
                 }
             }}
-            open={state}
-            onClose={() => setState(false)}
+            open={drawerShown}
+            onClose={() => closeDrawer()}
         >
             <Box sx={{ padding: '0.5%' }} display="flex" alignItems="center">
                 <Box flexGrow={1}>
@@ -41,7 +49,7 @@ function DrawerElement() {
                             <InformationVariantCircle />
                         </Tooltip>
                     </IconButton>
-                    <IconButton onClick={() => setState(false)}>
+                    <IconButton onClick={() => closeDrawer()}>
                         <CloseIcon />
                     </IconButton>
                 </Box>
