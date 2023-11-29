@@ -148,14 +148,11 @@ const EgoNetworkNetwork = () => {
                     );
                 } else
                     return (
-                        // FIXME Node misses x,y
-                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                        // @ts-ignore ts2304
                         <EgoNetworkNetworkNode
                             key={node.id}
                             id={node.id}
                             size={node.radius}
-                            //color={'#ff7f00'}
+                            density={node.density}
                             animatedParams={style}
                         />
                     );

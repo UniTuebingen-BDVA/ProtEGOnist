@@ -9,7 +9,7 @@ import { multiSelectionAtom } from '../TabViewer/tabViewerStore';
 import RadarIcon from '@mui/icons-material/Radar';
 import * as d3 from 'd3';
 import {
-    egoNetworkNetworkNodesAtom,
+    egoNetworkNetworksAtom,
     updateDecollapseIdsAtom
 } from '../egoNetworkNetwork/egoNetworkNetworkStore.ts';
 
@@ -88,8 +88,8 @@ export const selectedProteinsAtom = atom(
 export const drugsPerProteinColorscaleAtom = atom((get) => {
     const drugsPerProtein = get(drugsPerProteinAtom);
     const quantifyNodesBy = get(quantifyNodesByAtom);
-    const egoNetworkNetworkNodes = get(egoNetworkNetworkNodesAtom);
-    const densityValues = Object.values(egoNetworkNetworkNodes).map(
+    const egoNetworkNetworkNodes = get(egoNetworkNetworksAtom).nodes;
+    const densityValues = egoNetworkNetworkNodes.map(
         (node) => node.density
     );
 
