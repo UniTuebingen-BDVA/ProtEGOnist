@@ -3,8 +3,8 @@ import pathlib
 from flask import Flask, request
 from server.python_scripts.example_reading import (
     read_example_string,
-    read_example_string_modified,
-    read_example_metagenome_2,
+    # read_example_string_modified,
+    # read_example_metagenome_2,
     read_example_IEEEcoAuthor,
     read_example_ecoli_full,
 )
@@ -26,8 +26,8 @@ print(here)
 
 EXAMPLES = {
     "string": read_example_string(here),
-    "string_modified": read_example_string_modified(here),
-    "metagenome": read_example_metagenome_2(here),
+    # "string_modified": read_example_string_modified(here),
+    # "metagenome": read_example_metagenome_2(here),
     "IEEE": read_example_IEEEcoAuthor(here),
     "ecoli": read_example_ecoli_full(here),
 }
