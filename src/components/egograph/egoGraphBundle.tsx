@@ -147,8 +147,12 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                         />
                         <text
                             textAnchor="middle"
-                            fontSize={outerRadius / 3}
-                            dy={`-${outerRadius / 2.5}`}
+                            fontSize={
+                                outerRadius / 3 < 30 ? 30 : outerRadius / 3
+                            }
+                            dy={`-${
+                                outerRadius / 3 < 30 ? 30 : outerRadius / 3
+                            }`}
                         >
                             <textPath
                                 startOffset={'50%'}
