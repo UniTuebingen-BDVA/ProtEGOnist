@@ -1,7 +1,7 @@
 import { useAtom, useSetAtom } from 'jotai';
 import {
     decollapseNodeAtom,
-    highlightedEdgesAtom,
+    highlightedEdgesAtom
 } from './egoNetworkNetworkStore';
 import { SpringValue, animated } from '@react-spring/web';
 import AdvancedTooltip from '../utilityComponents/advancedTooltip';
@@ -17,7 +17,7 @@ import { nameNodesByAtom, quantifyNodesByAtom } from '../../apiCalls';
 interface EgoNetworkNetworkNodeProps {
     id: string;
     size: number;
-    density:number;
+    density: number;
     animatedParams: {
         opacity: number | SpringValue<number>;
         transform: string | SpringValue<string>;
@@ -95,7 +95,7 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                 />
                 <text
                     textAnchor="middle"
-                    fontSize={size / 3}
+                    fontSize={size / 3 < 16 ? 16 : size / 3}
                     dy={`-${size / 10}`}
                 >
                     <textPath
