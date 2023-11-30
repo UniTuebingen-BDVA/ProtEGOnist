@@ -278,9 +278,8 @@ const RadarChart = (props: RadarChartProps) => {
                     _index
                 ) => {
                     return (
-                        <g key={classification}>
+                        <g key={classificationFull}>
                             <RadarLabel
-                                key={classification}
                                 label={classification}
                                 hoverLabel={classificationFull}
                                 startAngle={startAngle}
