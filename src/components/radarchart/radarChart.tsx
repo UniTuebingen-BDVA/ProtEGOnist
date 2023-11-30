@@ -234,7 +234,7 @@ const RadarChart = (props: RadarChartProps) => {
             )
         )
         .range(colorsRadar);
-    const baseRadiusInternal = baseRadius - 15 * (maxRingIndex + 1);
+    const baseRadiusInternal = baseRadius - 18 * (maxRingIndex + 1);
     const GUIDE_CIRCLE_RADIUS = baseRadiusInternal;
     const GUIDE_CIRCLE_STEP = baseRadiusInternal / 4;
     const GUIDE_CIRCLE_RADIUS_MIN = baseRadiusInternal / 4;
