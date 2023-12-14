@@ -80,13 +80,13 @@ const RadarLabel = memo(function RadarLabel(props: radarLabelProps) {
                     labelValueWithID('');
                 }}
             >
-                <path d={arc} fill="none" id={`${label}Arc`} />
+                <path d={arc} fill="none" id={`${hoverLabel}Arc`} />
                 <text fill={colorScale(hoverLabel)}>
                     <textPath
                         fontSize="14px"
                         textAnchor="middle"
                         alignmentBaseline="middle"
-                        xlinkHref={`#${label}Arc`}
+                        xlinkHref={`#${hoverLabel}Arc`}
                         fill={colorScale(hoverLabel)}
                         startOffset={'50%'}
                     >
