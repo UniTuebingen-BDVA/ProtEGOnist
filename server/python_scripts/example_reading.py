@@ -6,7 +6,7 @@ def read_example_string(here):
     # Read the STRING network from the input file
     try:
         network = nx.read_graphml(
-            here / "data" / "example_PPIs" / "graphml_string_cleaned.graphml"
+            here / "example_PPIs" / "graphml_string_cleaned.graphml"
         )
         print("Loaded string graph ", len(network.nodes))
     except FileNotFoundError:
@@ -14,13 +14,13 @@ def read_example_string(here):
     # Read the top intersections from the input file
     try:
         top_intersections_dist = parse_distance_matrix(
-            here / "data" / "example_PPIs" / "distance_matrix.txt.gz"
+            here / "example_PPIs" / "distance_matrix.txt.gz"
         )
     except FileNotFoundError:
         print(f"No json file found in {here / 'data'}. Make sure you added it.")
     try:
         table_data, classification_dict = read_metadata(
-            here / "data" / "example_PPIs" / "newMeta.csv",
+            here / "example_PPIs" / "newMeta.csv",
             "brite",
             network.nodes,
             sep="\t",
@@ -30,7 +30,7 @@ def read_example_string(here):
         print(f"No metadata file found in {here / 'data'}. Make sure you added it.")
 
     try:
-        with open(here / "data" / "example_PPIs" / "important_nodes.txt", "r") as f:
+        with open(here / "example_PPIs" / "important_nodes.txt", "r") as f:
             important_nodes = [line.strip() for line in f]
             print("Loaded relevant_proteins ", len(important_nodes))
 
@@ -57,7 +57,7 @@ def read_example_string_modified(here):
     # Read the STRING network from the input file
     try:
         network = nx.read_graphml(
-            here / "data" / "example_PPIs2" / "graphml_string_cleaned.graphml"
+            here / "example_PPIs2" / "graphml_string_cleaned.graphml"
         )
         print("Loaded string graph ", len(network.nodes))
     except FileNotFoundError:
@@ -65,13 +65,13 @@ def read_example_string_modified(here):
     # Read the top intersections from the input file
     try:
         top_intersections = parse_distance_matrix(
-            here / "data" / "example_PPIs2" / "distance_matrix.txt.gz"
+            here / "example_PPIs2" / "distance_matrix.txt.gz"
         )
     except FileNotFoundError:
         print(f"No json file found in {here / 'data'}. Make sure you added it.")
     try:
         table_data, classification_dict = read_metadata(
-            here / "data" / "example_PPIs2" / "metadata_proteins.csv",
+            here / "example_PPIs2" / "metadata_proteins.csv",
             "x_id",
             network.nodes,
         )
@@ -80,7 +80,7 @@ def read_example_string_modified(here):
         print(f"No metadata file found in {here / 'data'}. Make sure you added it.")
 
     try:
-        with open(here / "data" / "example_PPIs2" / "important_nodes.txt", "r") as f:
+        with open(here / "example_PPIs2" / "important_nodes.txt", "r") as f:
             important_nodes = [line.strip() for line in f]
             print("Loaded relevant_proteins ", len(important_nodes))
 
@@ -105,20 +105,20 @@ def read_example_string_modified(here):
 
 def read_example_IEEEcoAuthor(here):
     try:
-        network = nx.read_graphml(here / "data" / "IEEEcoAuthor" / "IEEECoAuthorData.graphml")
+        network = nx.read_graphml(here / "IEEEcoAuthor" / "IEEECoAuthorData.graphml")
         print("Loaded IEEE graph ", len(network.nodes))
     except FileNotFoundError:
         print(f"No graphml file found in {here / 'data'}. Make sure you added it.")
     # Read the top intersections from the input file
     try:
         top_intersections = parse_distance_matrix(
-            here / "data" / "IEEEcoAuthor" / "distance_IEEE.txt.gz"
+            here / "IEEEcoAuthor" / "distance_IEEE.txt.gz"
         )
     except FileNotFoundError:
         print(f"No json file found in {here / 'data'}. Make sure you added it.")
     try:
         table_data, classification_dict = read_metadata(
-            here / "data" / "IEEEcoAuthor" / "IEEEMetadata.csv",
+            here / "IEEEcoAuthor" / "IEEEMetadata.csv",
             "institution",
             network.nodes,
             sep=";",
@@ -128,7 +128,7 @@ def read_example_IEEEcoAuthor(here):
         print(f"No metadata file found in {here / 'data'}. Make sure you added it.")
 
     try:
-        with open(here / "data" / "IEEEcoAuthor" / "important_nodes_IEEE.txt", "r") as f:
+        with open(here / "IEEEcoAuthor" / "important_nodes_IEEE.txt", "r") as f:
             important_nodes = [line.strip() for line in f]
             print("Loaded relevant_proteins ", len(important_nodes))
 
@@ -160,22 +160,23 @@ def read_example_IEEEcoAuthor(here):
         ],
     }
 
+
 def read_example_ecoli_full(here):
     try:
-        network = nx.read_graphml(here / "data" / "ecoliFull" / "ecoliFull.graphml")
+        network = nx.read_graphml(here / "ecoliFull" / "ecoliFull.graphml")
         print("Loaded Ecoli graph ", len(network.nodes))
     except FileNotFoundError:
         print(f"No graphml file found in {here / 'data'}. Make sure you added it.")
     # Read the top intersections from the input file
     try:
         top_intersections = parse_distance_matrix(
-            here / "data" / "ecoliFull" / "distance_matrix.txt.gz"
+            here / "ecoliFull" / "distance_matrix.txt.gz"
         )
     except FileNotFoundError:
         print(f"No json file found in {here / 'data'}. Make sure you added it.")
     try:
         table_data, classification_dict = read_metadata(
-            here / "data" / "ecoliFull" / "metadata_final.csv",
+            here / "ecoliFull" / "metadata_final.csv",
             "BRITEClass",
             network.nodes,
             sep=";",
@@ -185,7 +186,7 @@ def read_example_ecoli_full(here):
         print(f"No metadata file found in {here / 'data'}. Make sure you added it.")
 
     try:
-        with open(here / "data" / "ecoliFull" / "important_nodes.txt", "r") as f:
+        with open(here / "ecoliFull" / "important_nodes.txt", "r") as f:
             important_nodes = [line.strip() for line in f]
             print("Loaded relevant_proteins ", len(important_nodes))
 
@@ -210,5 +211,4 @@ def read_example_ecoli_full(here):
         ],
         "start_radar": "147590",
         "start_selected": ["147590", "143960", "149273", "144554"],
-
     }
