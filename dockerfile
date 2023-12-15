@@ -9,6 +9,7 @@ COPY . .
 
 RUN corepack enable
 # Install Node.js dependencies
+RUN yarn install
 RUN yarn build
 
 FROM alpine:3.18
