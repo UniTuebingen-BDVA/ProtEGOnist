@@ -16,7 +16,7 @@ import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import { useAtom, useSetAtom } from 'jotai';
 import MenuIcon from '@mui/icons-material/Menu';
 
-import { serverBusyAtom } from '../../apiCalls';
+import { chosenSetAtom, serverBusyAtom } from '../../apiCalls';
 import { drawerShownAtom } from '../drawerElement/DrawerElementStore';
 import LogoText from '../../assets/LogoPathWhite.svg';
 import ContextMenu from '../utilityComponents/ContextMenu';
@@ -33,6 +33,16 @@ export const MainPage = (props: mainPageProps) => {
     const setStateDrawer = useSetAtom(drawerShownAtom);
     const [, setInfoTitle] = useAtom(infoTitleAtom);
     const [, setInfoContent] = useAtom(infoContentAtom);
+    const [chosenSet] = useAtom(chosenSetAtom);
+    let datasetLabel = '';
+    if (chosenSet === 'IEEE') {
+        datasetLabel = 'Data: IEEE VIS Co-Author Network (Isenberg et al., 2016)';
+    } else if (chosenSet === 'ecoli') {
+        datasetLabel =
+            'Data: Full E. coli K12 PPI obtained from STRING (Szklarczyk et al, 2015)';
+    } else if(chosenSet==='string'){
+        datasetLabel = "Data: DeeProM (Gonçalves et al., 2022)"
+    }
     return (
         <Grid container sx={{ height: '100vh', width: '100vw' }}>
             <ContextMenu />
@@ -65,17 +75,22 @@ export const MainPage = (props: mainPageProps) => {
                         }}
                     >
                         <Toolbar variant="dense">
-                            <IconButton
-                                size="large"
-                                edge="start"
-                                color="inherit"
-                                aria-label="menu"
-                                sx={{ mr: 2 }}
-                                onClick={() => setStateDrawer(true)}
-                            >
-                                <MenuIcon />
-                            </IconButton>
+                            {chosenSet !== null ? (
+                                <IconButton
+                                    size="large"
+                                    edge="start"
+                                    color="inherit"
+                                    aria-label="menu"
+                                    sx={{ mr: 2 }}
+                                    onClick={() => setStateDrawer(true)}
+                                >
+                                    <MenuIcon />
+                                </IconButton>
+                            ) : null}
                             <img src={LogoText} style={{ height: '60%' }} />
+                            <span style={{ marginLeft: '50px' }}>
+                                {datasetLabel}
+                            </span>
                             <span style={{ marginLeft: 'auto' }}>
                                 <IconButton
                                     onClick={() => {
