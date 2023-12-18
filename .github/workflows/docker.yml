@@ -36,6 +36,7 @@ jobs:
                   KNOWN_HOSTS: ${{ secrets.KNOWN_HOSTS_DOCKER }}
                   TARGET: ${{secrets.TARGET}}
               run: |
+                  mkdir -p ~/.ssh && chmod 700 ~/.ssh
                   echo "$SSH_CONFIG" > ~/.ssh/config
                   echo "$SSH_PRIVATE_KEY" > ~/.ssh/github-actions
                   chmod 600 ~/.ssh/config
@@ -50,6 +51,7 @@ jobs:
                   SERVER_DATA: ${{ secrets.SERVER_DATA }}
                   KNOWN_HOSTS: ${{ secrets.KNOWN_HOSTS_DOCKER }}
               run: |
+                  mkdir -p ~/.ssh && chmod 700 ~/.ssh
                   echo "$SSH_CONFIG" > ~/.ssh/config
                   echo "$SSH_PRIVATE_KEY" > ~/.ssh/github-actions
                   chmod 600 ~/.ssh/config
