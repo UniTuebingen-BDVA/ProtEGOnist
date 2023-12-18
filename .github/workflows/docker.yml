@@ -32,7 +32,7 @@ jobs:
               env:
                   SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
                   SSH_CONFIG: ${{ secrets.SSH_CONFIG }}
-                  SERVER_IP: ${{ secrets.SERVER_IP }}
+                  SERVER_IP: ${{ secrets.SERVER_IP }} #changed
                   KNOWN_HOSTS: ${{ secrets.KNOWN_HOSTS_DOCKER }}
                   TARGET: ${{secrets.TARGET}}
               run: |
