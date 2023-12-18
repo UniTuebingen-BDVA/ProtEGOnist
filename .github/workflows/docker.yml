@@ -24,30 +24,37 @@ jobs:
                   load: true # This is important, it will allow the image to be loaded to Docker environment
 
             - name: Save Docker image
-              run: docker save user/protegonist:latest | gzip > image.tar.gz
+              run: docker save user/protegonist:latest | gzip > image_protegonist.tar.gz
 
             - name: Install SSH client
               run: sudo apt-get install -qq -y openssh-client
             - name: Transfer Docker image to server
               env:
-                  DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+                  SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+                  SSH_CONFIG: ${{ secrets.SSH_CONFIG }}
                   SERVER_IP: ${{ secrets.SERVER_IP }}
-                  KNOWN_HOSTS: ${{ secrets.KNOWN_HOSTS }}
+                  KNOWN_HOSTS: ${{ secrets.KNOWN_HOSTS_DOCKER }}
+                  TARGET: ${{secrets.TARGET}}
               run: |
-                  echo "$DEPLOY_KEY" > deploy_key
-                  chmod 600 deploy_key
-                  scp -o UserKnownHostsFile=$KNOWN_HOSTS -i deploy_key image.tar.gz $DOCKER_USERNAME@$SERVER_IP:/tmp
+                  echo "$SSH_CONFIG" > ~/.ssh/config
+                  echo "$SSH_PRIVATE_KEY" > ~/.ssh/github-actions
+                  chmod 600 ~/.ssh/config
+                  chmod 600 ~/.ssh/github-actions
+                  scp -o UserKnownHostsFile=$KNOWN_HOSTS -i image_protegonist.tar.gz $SERVER_IP:$TARGET
 
             - name: Load and run Docker image on server
               env:
-                  DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+                  SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
                   SERVER_IP: ${{ secrets.SERVER_IP }}
+                  TARGET: ${{secrets.TARGET}}
                   SERVER_DATA: ${{ secrets.SERVER_DATA }}
-                  KNOWN_HOSTS: ${{ secrets.KNOWN_HOSTS }}
+                  KNOWN_HOSTS: ${{ secrets.KNOWN_HOSTS_DOCKER }}
               run: |
-                  echo "$DEPLOY_KEY" > deploy_key
-                  chmod 600 deploy_key
-                  ssh -o UserKnownHostsFile=$KNOWN_HOSTS -i deploy_key $DOCKER_USERNAME@$SERVER_IP <<EOF
-                    docker load < /tmp/image.tar.gz
+                  echo "$SSH_CONFIG" > ~/.ssh/config
+                  echo "$SSH_PRIVATE_KEY" > ~/.ssh/github-actions
+                  chmod 600 ~/.ssh/config
+                  chmod 600 ~/.ssh/github-actions
+                  ssh -o UserKnownHostsFile=$KNOWN_HOSTS -i SSH_PRIVATE_KEY $SERVER_IP <<EOF
+                    docker load < $TARGET/image_protegonist.tar.gz
                     docker run -v $SERVER_DATA:/data -dp 127.0.0.1:5000:5000 user/protegonist:latest
                   EOF
