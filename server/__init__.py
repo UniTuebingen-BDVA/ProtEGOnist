@@ -20,8 +20,6 @@ def create_app(input_path=""):
     DATA_PATH = pathlib.Path(input_path)
     app = Flask(__name__, static_folder="../dist", static_url_path="/")
 
-    print("dataPath", DATA_PATH)
-
     EXAMPLES = {
         "string": read_example_string(DATA_PATH),
         "IEEE": read_example_IEEEcoAuthor(DATA_PATH),
