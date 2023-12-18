@@ -20,11 +20,11 @@ jobs:
               with:
                   context: .
                   push: false
-                  tags: user/protegonist:latest
+                  tags: protegonist
                   load: true # This is important, it will allow the image to be loaded to Docker environment
 
             - name: Save Docker image
-              run: docker save user/protegonist:latest | gzip > image_protegonist.tar.gz
+              run: docker save protegonist | gzip > image_protegonist.tar.gz
 
             - name: Install SSH client
               run: sudo apt-get install -qq -y openssh-client
@@ -53,6 +53,7 @@ jobs:
                   TARGET: ${{secrets.TARGET}}
                   SERVER_DATA: ${{ secrets.SERVER_DATA }}
                   KNOWN_HOSTS: ${{ secrets.KNOWN_HOSTS_DOCKER }}
+                  PORTS: ${{ secrets.PORTS }}
               run: |
                   mkdir -p ~/.ssh && chmod 700 ~/.ssh
                   echo "$SSH_CONFIG" > ~/.ssh/config
@@ -62,6 +63,7 @@ jobs:
                   chmod 600 ~/.ssh/github-actions
                   chmod 600 ~/.ssh/known_hosts
                   ssh -o UserKnownHostsFile=~/.ssh/known_hosts $SERVER_IP <<EOF
+                    docker rm $(docker stop $(docker ps -a -q --filter ancestor="protegonist" --format="{{.ID}}"))
                     docker load --input $TARGET/image_protegonist.tar.gz
-                    docker run -v $SERVER_DATA/data -dp 127.0.0.1:5000:5000 user/protegonist:latest
+                    docker run -v $SERVER_DATA/data:/data -dp $PORTS protegonist
                   EOF
