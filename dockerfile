@@ -33,7 +33,7 @@ RUN pip install -r pipRequirements.txt
 RUN pip install -e .
 
 # Make port 5000 available to the world outside this container
-EXPOSE 9010
+EXPOSE 5000
 
 # The command that will be executed when the container is run
 CMD ["gunicorn","--workers", "3","--timeout","500","--graceful-timeout", "500", "--bind", "0.0.0.0:5000","wsgi:create_app('/data')"]
