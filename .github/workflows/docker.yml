@@ -62,6 +62,6 @@ jobs:
                   chmod 600 ~/.ssh/github-actions
                   chmod 600 ~/.ssh/known_hosts
                   ssh -o UserKnownHostsFile=~/.ssh/known_hosts $SERVER_IP <<EOF
-                    docker load --input $TARGET/image_protegonist.tar.gz
+                    docker load --input "$TARGET/image_protegonist.tar.gz"
                     docker run -v $SERVER_DATA:/data -dp 127.0.0.1:5000:5000 user/protegonist:latest
                   EOF
