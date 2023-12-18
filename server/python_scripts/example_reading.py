@@ -10,14 +10,14 @@ def read_example_string(here):
         )
         print("Loaded string graph ", len(network.nodes))
     except FileNotFoundError:
-        print(f"No graphml file found in {here / 'data'}. Make sure you added it.")
+        print(f"No graphml file found in {here}. Make sure you added it.")
     # Read the top intersections from the input file
     try:
         top_intersections_dist = parse_distance_matrix(
             here / "example_PPIs" / "distance_matrix.txt.gz"
         )
     except FileNotFoundError:
-        print(f"No json file found in {here / 'data'}. Make sure you added it.")
+        print(f"No json file found in {here}. Make sure you added it.")
     try:
         table_data, classification_dict = read_metadata(
             here / "example_PPIs" / "newMeta.csv",
@@ -27,7 +27,7 @@ def read_example_string(here):
         )
 
     except FileNotFoundError:
-        print(f"No metadata file found in {here / 'data'}. Make sure you added it.")
+        print(f"No metadata file found in {here}. Make sure you added it.")
 
     try:
         with open(here / "example_PPIs" / "important_nodes.txt", "r") as f:
@@ -35,7 +35,7 @@ def read_example_string(here):
             print("Loaded relevant_proteins ", len(important_nodes))
 
     except FileNotFoundError:
-        print(f"No metadata file found in {here / 'data'}. Make sure you added it.")
+        print(f"No metadata file found in {here}. Make sure you added it.")
 
     return {
         "network": network,
@@ -61,14 +61,14 @@ def read_example_string_modified(here):
         )
         print("Loaded string graph ", len(network.nodes))
     except FileNotFoundError:
-        print(f"No graphml file found in {here / 'data'}. Make sure you added it.")
+        print(f"No graphml file found in {here}. Make sure you added it.")
     # Read the top intersections from the input file
     try:
         top_intersections = parse_distance_matrix(
             here / "example_PPIs2" / "distance_matrix.txt.gz"
         )
     except FileNotFoundError:
-        print(f"No json file found in {here / 'data'}. Make sure you added it.")
+        print(f"No json file found in {here}. Make sure you added it.")
     try:
         table_data, classification_dict = read_metadata(
             here / "example_PPIs2" / "metadata_proteins.csv",
@@ -77,7 +77,7 @@ def read_example_string_modified(here):
         )
 
     except FileNotFoundError:
-        print(f"No metadata file found in {here / 'data'}. Make sure you added it.")
+        print(f"No metadata file found in {here}. Make sure you added it.")
 
     try:
         with open(here / "example_PPIs2" / "important_nodes.txt", "r") as f:
@@ -85,7 +85,7 @@ def read_example_string_modified(here):
             print("Loaded relevant_proteins ", len(important_nodes))
 
     except FileNotFoundError:
-        print(f"No metadata file found in {here / 'data'}. Make sure you added it.")
+        print(f"No metadata file found in {here}. Make sure you added it.")
 
     return {
         "network": network,
@@ -108,14 +108,14 @@ def read_example_IEEEcoAuthor(here):
         network = nx.read_graphml(here / "IEEEcoAuthor" / "IEEECoAuthorData.graphml")
         print("Loaded IEEE graph ", len(network.nodes))
     except FileNotFoundError:
-        print(f"No graphml file found in {here / 'data'}. Make sure you added it.")
+        print(f"No graphml file found in {here}. Make sure you added it.")
     # Read the top intersections from the input file
     try:
         top_intersections = parse_distance_matrix(
             here / "IEEEcoAuthor" / "distance_IEEE.txt.gz"
         )
     except FileNotFoundError:
-        print(f"No json file found in {here / 'data'}. Make sure you added it.")
+        print(f"No json file found in {here}. Make sure you added it.")
     try:
         table_data, classification_dict = read_metadata(
             here / "IEEEcoAuthor" / "IEEEMetadata.csv",
@@ -125,7 +125,7 @@ def read_example_IEEEcoAuthor(here):
         )
 
     except FileNotFoundError:
-        print(f"No metadata file found in {here / 'data'}. Make sure you added it.")
+        print(f"No metadata file found in {here}. Make sure you added it.")
 
     try:
         with open(here / "IEEEcoAuthor" / "important_nodes_IEEE.txt", "r") as f:
@@ -133,7 +133,7 @@ def read_example_IEEEcoAuthor(here):
             print("Loaded relevant_proteins ", len(important_nodes))
 
     except FileNotFoundError:
-        print(f"No metadata file found in {here / 'data'}. Make sure you added it.")
+        print(f"No metadata file found in {here}. Make sure you added it.")
 
     return {
         "network": network,
@@ -166,14 +166,14 @@ def read_example_ecoli_full(here):
         network = nx.read_graphml(here / "ecoliFull" / "ecoliFull.graphml")
         print("Loaded Ecoli graph ", len(network.nodes))
     except FileNotFoundError:
-        print(f"No graphml file found in {here / 'data'}. Make sure you added it.")
+        print(f"No graphml file found in {here}. Make sure you added it.")
     # Read the top intersections from the input file
     try:
         top_intersections = parse_distance_matrix(
             here / "ecoliFull" / "distance_matrix.txt.gz"
         )
     except FileNotFoundError:
-        print(f"No json file found in {here / 'data'}. Make sure you added it.")
+        print(f"No json file found in {here}. Make sure you added it.")
     try:
         table_data, classification_dict = read_metadata(
             here / "ecoliFull" / "metadata_final.csv",
@@ -183,7 +183,7 @@ def read_example_ecoli_full(here):
         )
 
     except FileNotFoundError:
-        print(f"No metadata file found in {here / 'data'}. Make sure you added it.")
+        print(f"No metadata file found in {hers}. Make sure you added it.")
 
     try:
         with open(here / "ecoliFull" / "important_nodes.txt", "r") as f:
@@ -191,7 +191,7 @@ def read_example_ecoli_full(here):
             print("Loaded relevant_proteins ", len(important_nodes))
 
     except FileNotFoundError:
-        print(f"No metadata file found in {here / 'data'}. Make sure you added it.")
+        print(f"No metadata file found in {here}. Make sure you added it.")
 
     return {
         "network": network,
