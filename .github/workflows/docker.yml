@@ -50,10 +50,8 @@ jobs:
                   SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
                   SSH_CONFIG: ${{ secrets.SSH_CONFIG }}
                   SERVER_IP: ${{ secrets.SERVER_IP }}
-                  TARGET: ${{secrets.TARGET}}
-                  SERVER_DATA: ${{ secrets.SERVER_DATA }}
                   KNOWN_HOSTS: ${{ secrets.KNOWN_HOSTS_DOCKER }}
-                  PORTS: ${{ secrets.PORTS }}
+                  UPDATE_COMMAND: ${{ secrets.UPDATE_COMMAND}}
               run: |
                   mkdir -p ~/.ssh && chmod 700 ~/.ssh
                   echo "$SSH_CONFIG" > ~/.ssh/config
@@ -62,8 +60,4 @@ jobs:
                   chmod 600 ~/.ssh/config
                   chmod 600 ~/.ssh/github-actions
                   chmod 600 ~/.ssh/known_hosts
-                  ssh -o UserKnownHostsFile=~/.ssh/known_hosts $SERVER_IP <<EOF
-                    docker rm $(docker stop $(docker ps -a -q --filter ancestor="protegonist" --format="{{.ID}}"))
-                    docker load --input $TARGET/image_protegonist.tar.gz
-                    docker run -v $SERVER_DATA/data:/data -dp $PORTS protegonist
-                  EOF
+                  ssh -o UserKnownHostsFile=~/.ssh/known_hosts $SERVER_IP <<$UPDATE_COMMAND
