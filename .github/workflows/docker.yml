@@ -1,4 +1,4 @@
-name: Build and Push Docker Image of Protegonist
+name: Build and Push Docker Image
 
 on:
     workflow_dispatch:
