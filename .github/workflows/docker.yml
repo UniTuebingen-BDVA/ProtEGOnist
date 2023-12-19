@@ -22,7 +22,7 @@ jobs:
                   context: .
                   push: false
                   tags: protegonist
-                  load: true # This is important, it will allow the image to be loaded to Docker environment.
+                  load: true # This is important, it will allow the image to be loaded to Docker environment
 
             - name: Save Docker image
               run: docker save protegonist | gzip > image_protegonist.tar.gz
