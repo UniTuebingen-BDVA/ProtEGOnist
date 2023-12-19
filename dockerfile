@@ -35,5 +35,5 @@ RUN pip install -e .
 # Make port 5001 available to the server
 EXPOSE 5001
 
-# The command that will be executed when the container is run
+# The command that will be executed when the container is run to then be proxied out to the host
 CMD ["gunicorn","--workers", "3","--timeout","500","--graceful-timeout", "500", "--bind", "0.0.0.0:5001","wsgi:create_app('/data')"]
