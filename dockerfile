@@ -32,7 +32,7 @@ RUN pip install -r pipRequirements.txt
 # Install the server package
 RUN pip install -e .
 
-# Make port 5001 available to the world outside this container
+# Make port 5001 available to the server
 EXPOSE 5001
 
 # The command that will be executed when the container is run
