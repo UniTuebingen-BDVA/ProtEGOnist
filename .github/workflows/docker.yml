@@ -51,7 +51,7 @@ jobs:
                   SSH_CONFIG: ${{ secrets.SSH_CONFIG }}
                   SERVER_IP: ${{ secrets.SERVER_IP }}
                   KNOWN_HOSTS: ${{ secrets.KNOWN_HOSTS_DOCKER }}
-                  UPDATE_COMMAND: ${{ secrets.UPDATE_COMMAND}}
+                  UPDATE_CMDS: ${{ secrets.UPDATE_CMDS}}
               run: |
                   mkdir -p ~/.ssh && chmod 700 ~/.ssh
                   echo "$SSH_CONFIG" > ~/.ssh/config
@@ -60,4 +60,4 @@ jobs:
                   chmod 600 ~/.ssh/config
                   chmod 600 ~/.ssh/github-actions
                   chmod 600 ~/.ssh/known_hosts
-                  ssh -o UserKnownHostsFile=~/.ssh/known_hosts $SERVER_IP <<$UPDATE_COMMAND
+                  ssh -o UserKnownHostsFile=~/.ssh/known_hosts $SERVER_IP <<$UPDATE_CMDS
