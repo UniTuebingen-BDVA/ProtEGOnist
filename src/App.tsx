@@ -3,7 +3,7 @@ import './App.css';
 
 import { useAtom } from 'jotai';
 import { CircularProgress, Box, createTheme } from '@mui/material';
-import ThemeProvider from '@mui/material/styles/ThemeProvider';
+import { ThemeProvider } from '@mui/material/styles';
 
 import RadarChartViewer from './components/radarchart/radarChartViewer.tsx';
 import { tarNodeAtom } from './components/radarchart/radarStore.ts';
@@ -23,7 +23,6 @@ import LogoBlue from './assets/LogoBlue.svg';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import { MainPage } from './components/HomePage/MainPage.tsx';
 import TabsElements from './components/HomePage/TabsElements.tsx';
-
 
 function App() {
     const [selectedExample] = useAtom(selectedExampleAtom);
@@ -78,7 +77,6 @@ function App() {
         egoNetworkNetworkOverviewData.nodes.length > 0
     ) {
         return (
-
             <MainPage columns={16} alignContent="center" theme={theme}>
                 {/* <!-- First Column --> */}
                 <Grid container xs={7} sx={{ height: '100%' }}>
@@ -102,7 +100,6 @@ function App() {
                             height: '45%',
                             textAlign: 'center'
                         }}
-
                     >
                         <RadarChartViewer
                             intersectionData={intersectionData}
@@ -110,7 +107,6 @@ function App() {
                         />
                     </Grid>
                 </Grid>
-
 
                 {/* <!-- Second Column --> */}
                 <Grid container xs={9} sx={{ height: '100%' }}>

@@ -1,4 +1,4 @@
-import { ThemeProvider } from '@emotion/react';
+import { ThemeProvider } from '@mui/material/styles';
 import { GitHub } from '@mui/icons-material';
 import {
     Backdrop,
