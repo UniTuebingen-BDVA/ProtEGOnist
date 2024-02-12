@@ -93,6 +93,19 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                     stroke="black"
                     strokeWidth="1"
                 />
+                <path
+                id={id+"_labelArc"}
+                fill='none'
+                stroke='none'
+                d={`
+                M 0 0
+                m 0, ${size}
+                a ${size},${size} 0 1,1,0 -${size * 2}
+                a ${size},${size} 0 1,1,0  ${size * 2}
+                `}
+                >
+
+                </path>
                 <text
                     textAnchor="middle"
                     fontSize={size / 3 < 16 ? 16 : size / 3}
@@ -100,12 +113,7 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                 >
                     <textPath
                         startOffset={'50%'}
-                        path={`
-                        M 0 0
-                        m 0, ${size}
-                        a ${size},${size} 0 1,1,0 -${size * 2}
-                        a ${size},${size} 0 1,1,0  ${size * 2}
-                        `}
+                        xlinkHref={'#'+id+"_labelArc"}
                     >
                         {getNodeName(id)}
                     </textPath>

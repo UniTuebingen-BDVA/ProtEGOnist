@@ -145,6 +145,22 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                             r={center.outerSize * (18 / 35)}
                             fill={'white'}
                         />
+                        <path
+                        id={center.id+"_labelArc"}
+                        fill="none"
+                        stroke="none"
+                        d={`
+                        M ${center.x} ${center.y}
+                        m 0, ${outerRadius}
+                        a ${outerRadius},${outerRadius} 0 1,1,0 -${
+                            outerRadius * 2
+                        }
+                        a ${outerRadius},${outerRadius} 0 1,1,0  ${
+                            outerRadius * 2
+                        }
+                        `}>
+
+                        </path>
                         <text
                             textAnchor="middle"
                             fontSize={
@@ -156,16 +172,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                         >
                             <textPath
                                 startOffset={'50%'}
-                                path={`
-                        M ${center.x} ${center.y}
-                        m 0, ${outerRadius}
-                        a ${outerRadius},${outerRadius} 0 1,1,0 -${
-                            outerRadius * 2
-                        }
-                        a ${outerRadius},${outerRadius} 0 1,1,0  ${
-                            outerRadius * 2
-                        }
-                        `}
+                                xlinkHref={'#'+center.id+"_labelArc"}
                             >
                                 {getNodeName(center.id)}
                             </textPath>
