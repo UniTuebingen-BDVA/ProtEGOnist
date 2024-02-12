@@ -172,7 +172,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                         >
                             <textPath
                                 startOffset={'50%'}
-                                xlinkHref={'#'+center.id+"_labelArc"}
+                                href={'#'+center.id+"_labelArc"}
                             >
                                 {getNodeName(center.id)}
                             </textPath>

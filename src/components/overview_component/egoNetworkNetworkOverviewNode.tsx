@@ -127,7 +127,7 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                 >
                     <textPath
                         startOffset={'50%'}
-                        xlinkHref={'#' + id + '_label'}
+                        href={'#' + id + '_label'}
                     >
                         {text}
                     </textPath>
