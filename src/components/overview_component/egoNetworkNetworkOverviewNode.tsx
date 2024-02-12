@@ -76,7 +76,7 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
         // join the protein names with a comma
         return uniqueNodeNames.join(', ');
     };
-    const text = size > 15 ? getNodeName(id) : '';
+    const text = size > 18 ? getNodeName(id) : '';
     const transform = `translate(${x}, ${y})`;
     return (
         <AdvancedTooltip nodeID={id} key={id}>
@@ -122,7 +122,7 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                 <text
                     width={30}
                     textAnchor="middle"
-                    fontSize={size / 2.5}
+                    fontSize={size / 2}
                     dy={'-0.35em'}
                 >
                     <textPath
