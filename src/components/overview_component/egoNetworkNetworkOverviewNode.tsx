@@ -84,7 +84,7 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                 key={id}
                 transform={transform}
                 onContextMenu={(event) => {
-                    setContextMenu(event, id);
+                    setContextMenu(event, id, "overview");
                 }}
                 onClick={() => handleClick(id)}
                 onMouseEnter={() => {
@@ -93,6 +93,7 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                 onMouseLeave={() => {
                     highlightNodeSet('');
                 }}
+                style={{"pointer-events": "all", "cursor": "context-menu"}}
             >
                 <path
                     id={id + '_label'}

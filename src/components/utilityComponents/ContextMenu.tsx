@@ -12,7 +12,7 @@ import {
     getEgoNetworkNetworkAtom,
     getRadarAtom
 } from '../../apiCalls';
-import { updateDecollapseIdsAtom } from '../egoNetworkNetwork/egoNetworkNetworkStore';
+import { updateDecollapseIdsAtom,isNodeCollapsedAtom, decollapseNodeAtom } from '../egoNetworkNetwork/egoNetworkNetworkStore';
 
 export default function ContextMenu() {
     const [contextMenu] = useAtom(contextMenuAtom);
@@ -22,6 +22,9 @@ export default function ContextMenu() {
     const setSelectedProteins = useSetAtom(selectedProteinsStoreAtom);
     const getEgoNetworkNetwork = useSetAtom(getEgoNetworkNetworkAtom);
     const updateDecollapseIds = useSetAtom(updateDecollapseIdsAtom);
+    const [isCollapsed] = useAtom(isNodeCollapsedAtom)
+    const setDecollapseID = useSetAtom(decollapseNodeAtom);
+
 
     const setRadar = () => {
         setRadarNode(contextMenu.triggeredId);
@@ -35,6 +38,8 @@ export default function ContextMenu() {
             : 'Add to'
         : '';
 
+    const changeCollapseString = contextMenu.triggerType === 'subnetwork' ? isCollapsed(contextMenu.triggeredId) ? 'Collapse' : 'Expand' : '';
+    
     const setSubnetwork = useCallback(() => {
         // Remove duplicates from the incoming `ids` array
         // Calculate proteins to delete and proteins to add
@@ -73,6 +78,8 @@ export default function ContextMenu() {
             <MenuItem
                 onClick={setSubnetwork}
             >{`${egoGraphSubnetworkString} Ego-graph subnetwork`}</MenuItem>
+            {contextMenu.triggerType === "subnetwork" && (
+            <MenuItem onClick={() =>{setDecollapseID(contextMenu.triggeredId);closeContext()}}>{`${changeCollapseString} Ego-graph`}</MenuItem>)}        
         </Menu>
     );
 }

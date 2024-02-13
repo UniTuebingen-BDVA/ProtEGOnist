@@ -65,13 +65,13 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                 transform={animatedParams.transform}
                 opacity={animatedParams.opacity}
                 onContextMenu={(event) => {
-                    setContextMenu(event, id);
+                    setContextMenu(event, id, 'subnetwork');
                 }}
                 onClick={() => setDecollapseID(id)}
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
-                style={{ cursor: 'pointer' }}
-            >
+                style={{"pointer-events": "all", "cursor": "context-menu"}}
+                >
                 <circle
                     r={size}
                     fill={color}
