@@ -78,6 +78,8 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
     };
     const text = size > 18 ? getNodeName(id) : '';
     const transform = `translate(${x}, ${y})`;
+    const radiusScaled = size + 4;
+
     return (
         <AdvancedTooltip nodeID={id} key={id}>
             <g
@@ -101,9 +103,9 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                     stroke="none"
                     d={`
                     M 0 0
-                    m 0, ${size}
-                    a ${size},${size} 0 1,1,0 -${size * 2}
-                    a ${size},${size} 0 1,1,0  ${size * 2}
+                    m 0, ${radiusScaled}
+                    a ${radiusScaled},${radiusScaled} 0 1,1,0 -${radiusScaled * 2}
+                    a ${radiusScaled},${radiusScaled} 0 1,1,0  ${radiusScaled * 2}
                     `}
                 />
                 <circle r={size} fill={color} stroke="black" strokeWidth="1" />
@@ -124,7 +126,7 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                     width={30}
                     textAnchor="middle"
                     fontSize={size / 2}
-                    dy={'-0.35em'}
+                    //dy={'-0.35em'}
                 >
                     <textPath
                         startOffset={'50%'}

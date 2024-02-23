@@ -37,6 +37,7 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
     const [tableData] = useAtom(tableAtom);
     const [nameNodesBy] = useAtom(nameNodesByAtom);
     const setContextMenu = useSetAtom(contextMenuAtom);
+    const scaledSize = size + 5;
 
     const color =
         quantifyNodesBy['label'] != 'default'
@@ -57,7 +58,6 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
         // join the protein names with a comma
         return uniqueNodeNames.join(', ');
     };
-
     return (
         <AdvancedTooltip nodeID={id} key={id}>
             <animated.g
@@ -99,9 +99,9 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                 stroke='none'
                 d={`
                 M 0 0
-                m 0, ${size}
-                a ${size},${size} 0 1,1,0 -${size * 2}
-                a ${size},${size} 0 1,1,0  ${size * 2}
+                m 0, ${scaledSize}
+                a ${scaledSize},${scaledSize} 0 1,1,0 -${scaledSize * 2}
+                a ${scaledSize},${scaledSize} 0 1,1,0  ${scaledSize * 2}
                 `}
                 >
 
@@ -109,7 +109,6 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                 <text
                     textAnchor="middle"
                     fontSize={size / 3 < 16 ? 16 : size / 3}
-                    dy={`-${size / 10}`}
                 >
                     <textPath
                         startOffset={'50%'}
