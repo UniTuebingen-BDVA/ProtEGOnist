@@ -125,7 +125,8 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                 <text
                     width={30}
                     textAnchor="middle"
-                    fontSize={size / 2}
+                    fontSize={size / 1.7}
+                    style={{ textShadow: '.01em  .01em .1px white, -.01em -.01em .1px white' }}
                     //dy={'-0.35em'}
                 >
                     <textPath

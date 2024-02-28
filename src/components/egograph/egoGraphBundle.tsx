@@ -111,7 +111,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
         () =>
             layout.centers.map((center) => {
                 const outerRadius = center.outerSize * (5 / 6);
-                const radiusScaled = center.outerSize + 20;
+                const radiusScaled = center.outerSize *1.1;
                 return (
                     <g
                         key={center.id}

@@ -37,7 +37,7 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
     const [tableData] = useAtom(tableAtom);
     const [nameNodesBy] = useAtom(nameNodesByAtom);
     const setContextMenu = useSetAtom(contextMenuAtom);
-    const scaledSize = size + 5;
+    const scaledSize = size *1.1;
 
     const color =
         quantifyNodesBy['label'] != 'default'

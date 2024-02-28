@@ -19,11 +19,10 @@ def read_graphml_to_network(path: str) -> Graph:
     return read_graphml(path)
 
 
-def create_ego_graph(network: Graph, node: str) -> dict:
+def create_ego_graph(ego_graph: EgoGraph, node: str) -> dict:
     """
     Create an ego graph from a networkX element.
     """
-    ego_graph = EgoGraph.from_string_network(node, network)
     ego_dict = {
         "node": node,
         "nodes": ego_graph.get_node_set(),
@@ -32,13 +31,14 @@ def create_ego_graph(network: Graph, node: str) -> dict:
     return ego_dict
 
 
-def create_ego_graphs_dicts_for_network(network: Graph) -> dict:
+def create_ego_graphs_dicts_for_network(dict_of_ego_graphs: dict) -> dict:
     """
     Create an ego graph for each node in a networkX element.
     """
     ego_graphs = {}
-    for node in network.nodes:
-        ego_graphs[node] = create_ego_graph(network, node)
+    for egoGraphKey in dict_of_ego_graphs:
+        ego_graph = dict_of_ego_graphs[egoGraphKey]
+        ego_graphs[egoGraphKey] = create_ego_graph(ego_graph, egoGraphKey)
     return ego_graphs
 
 
@@ -70,7 +70,6 @@ def ego_graphs_to_metadata(ego_graphs: dict, metadata: pd.DataFrame) -> pd.DataF
         all_nodes = degree_1_alters + degree_2_alters + [node]
         all_edges = ego_graph.get_edge_set()
         # current row index in metadata
-        print(metadata.index)
         metadata.loc[node, "number_of_nodes"] = len(all_nodes)
         metadata.loc[node, "number_of_edges"] = len(all_edges)
         metadata.loc[node, "average_degree"] = len(all_edges) / len(all_nodes)
@@ -130,7 +129,8 @@ def main():
     ego_graphs = create_ego_graphs_for_network(network)
     print(len(ego_graphs.keys()))
     # save the ego graphs as pickle file
-    # np.save(args.output, ego_graphs)
+    ego_graphs_dict = create_ego_graphs_dicts_for_network(ego_graphs)
+    np.save(args.output, ego_graphs_dict)
     # read the metadata
     metadata = pd.read_csv(
         args.metadata,
