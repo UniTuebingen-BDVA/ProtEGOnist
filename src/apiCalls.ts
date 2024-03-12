@@ -86,6 +86,7 @@ export const getMultiEgographBundleAtom = atom(
         const bumbleIdsToDelete = Object.keys(get(egoGraphBundlesAtom)).filter(
             (id) => !bundleIds.map((ids) => ids.join(',')).includes(id)
         );
+        console.log(newBundlesIds);
         if (newBundlesIds.length > 0) {
             set(egoNetworkNetworkBusyAtom, true);
             const newData = {};
@@ -214,28 +215,37 @@ export const getTableAtom = atom(
 export const getEgoNetworkNetworkAtom = atom(
     (get) => get(egoNetworkNetworksAtom),
     (get, set, ids: string[]) => {
-        let example = get(selectedExampleAtom);
-        set(egoNetworkNetworkBusyAtom, true);
-        axios
-            .get<egoNetworkNetwork>(
-                `/api/getEgoNetworkNetwork/${example}/${ids.join('+')}`
-            )
-            .then(
-                (result) => {
-                    set(
-                        accountedProteinsNeigborhoodAtom,
-                        result.data.nodes.map((node) => node.neighbors)
-                    );
-                    set(egoNetworkNetworksAtom, result.data);
-                    set(egoNetworkNetworkBusyAtom, false);
-                },
-                () => {
-                    console.error,
-                        console.log(
-                            `couldn't get egographswith ID ${ids.join(';')}`
+        if (ids.length > 0) {
+            let example = get(selectedExampleAtom);
+            set(egoNetworkNetworkBusyAtom, true);
+            axios
+                .get<egoNetworkNetwork>(
+                    `/api/getEgoNetworkNetwork/${example}/${ids.join('+')}`
+                )
+                .then(
+                    (result) => {
+                        set(
+                            accountedProteinsNeigborhoodAtom,
+                            result.data.nodes.map((node) => node.neighbors)
                         );
-                }
-            );
+                        set(egoNetworkNetworksAtom, result.data);
+                        set(egoNetworkNetworkBusyAtom, false);
+                    },
+                    () => {
+                        console.error,
+                            console.log(
+                                `couldn't get egographswith ID ${ids.join(';')}`
+                            );
+                    }
+                );
+        } else {
+            set(egoNetworkNetworksAtom, {
+                nodes: [],
+                edges: []
+            });
+             set(accountedProteinsNeigborhoodAtom, []);
+            set(egoNetworkNetworkBusyAtom, false);
+        }
     }
 );
 

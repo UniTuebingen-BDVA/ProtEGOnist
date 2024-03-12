@@ -53,8 +53,9 @@ const RadarCircle = memo(function RadarCircle(props: RadarCircleProps) {
         <AdvancedTooltip nodeID={id} key={id}>
             <animated.circle
                 onContextMenu={(event) => {
-                    setContextMenu(event, id);
+                    setContextMenu(event, id, 'radar');
                 }}
+                style={{"pointer-events": "all", "cursor": "context-menu"}}
                 key={id}
                 r={
                     CIRCLE_RADIUS +

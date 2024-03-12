@@ -156,7 +156,7 @@ def read_example_IEEEcoAuthor(here):
             "Huamin Qu",
             "Helwig Hauser",
             "Hanspeter Pfister",
-            "Wei Chen 0001",
+            "Wei Chen",
         ],
     }
 
