@@ -385,7 +385,6 @@ const RadarChart = (props: RadarChartProps) => {
                 textAnchor="middle"
                 fontSize="18px"
                 fontWeight="bold"
-                dy={'-0.35em'}
             >
                 <textPath
                     startOffset={'50%'}

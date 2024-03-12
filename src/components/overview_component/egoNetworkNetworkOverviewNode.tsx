@@ -76,15 +76,17 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
         // join the protein names with a comma
         return uniqueNodeNames.join(', ');
     };
-    const text = size > 15 ? getNodeName(id) : '';
+    const text = size > 18 ? getNodeName(id) : '';
     const transform = `translate(${x}, ${y})`;
+    const radiusScaled = size + 4;
+
     return (
         <AdvancedTooltip nodeID={id} key={id}>
             <g
                 key={id}
                 transform={transform}
                 onContextMenu={(event) => {
-                    setContextMenu(event, id);
+                    setContextMenu(event, id, "overview");
                 }}
                 onClick={() => handleClick(id)}
                 onMouseEnter={() => {
@@ -93,6 +95,7 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                 onMouseLeave={() => {
                     highlightNodeSet('');
                 }}
+                style={{"pointer-events": "all", "cursor": "context-menu"}}
             >
                 <path
                     id={id + '_label'}
@@ -100,9 +103,9 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                     stroke="none"
                     d={`
                     M 0 0
-                    m 0, ${size}
-                    a ${size},${size} 0 1,1,0 -${size * 2}
-                    a ${size},${size} 0 1,1,0  ${size * 2}
+                    m 0, ${radiusScaled}
+                    a ${radiusScaled},${radiusScaled} 0 1,1,0 -${radiusScaled * 2}
+                    a ${radiusScaled},${radiusScaled} 0 1,1,0  ${radiusScaled * 2}
                     `}
                 />
                 <circle r={size} fill={color} stroke="black" strokeWidth="1" />
@@ -122,12 +125,13 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                 <text
                     width={30}
                     textAnchor="middle"
-                    fontSize={size / 2.5}
-                    dy={'-0.35em'}
+                    fontSize={size / 1.7}
+                    style={{ textShadow: '.01em  .01em .1px white, -.01em -.01em .1px white' }}
+                    //dy={'-0.35em'}
                 >
                     <textPath
                         startOffset={'50%'}
-                        xlinkHref={'#' + id + '_label'}
+                        href={'#' + id + '_label'}
                     >
                         {text}
                     </textPath>

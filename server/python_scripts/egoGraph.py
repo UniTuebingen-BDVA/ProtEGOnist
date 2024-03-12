@@ -30,10 +30,10 @@ class EgoGraph:
     Methods:
         __init__(self, node, graph): Constructor.
         getGraphJSON(self): Returns the graph object as a JSON representation.
-        getNodes(self): Returns all nodes in the graph.
-        getEdges(self): Returns all edges in the graph.
-        getNeighbors(self): Returns all degree-1 and degree2 neighbors of the node.
-        getIntersection(self, target): Returns the intersection of the ego graph and the target ego graph.
+        get_node_set(self): Returns all nodes in the graph.
+        get_edge_set(self): Returns all edges in the graph.
+        get_neighbors(self): Returns all degree-1 and degree2 neighbors of the node.
+        get_intersection(self, target): Returns the intersection of the ego graph and the target ego graph.
     """
 
     def __init__(self, input_node: str | int, graph: nx.Graph):
@@ -150,9 +150,11 @@ class EgoGraph:
         node_link_data["centerNode"] = {
             "id": str(self.node) + "_" + str(self.node),
             "originalID": self.node,
-            "name": self.nx_graph.nodes[self.node]["name"]
-            if self.nx_graph.nodes[self.node]["name"]
-            else self.node,
+            "name": (
+                self.nx_graph.nodes[self.node]["name"]
+                if self.nx_graph.nodes[self.node]["name"]
+                else self.node
+            ),
         }
         return node_link_data
 

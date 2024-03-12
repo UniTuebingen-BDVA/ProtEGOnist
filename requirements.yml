@@ -1,12 +1,10 @@
-name: biovischallenge
+name: protEGOnist
 channels:
-  - defaults
+    - defaults
 dependencies:
-  - python=3.11
-  - seaborn
-  - scipy
-  - networkx
-  - jupyter
-  - flask
-  - openpyxl
-  - pytest
+    - python=3.11
+    - scipy
+    - networkx
+    - flask
+    - pandas
+    - gunicorn

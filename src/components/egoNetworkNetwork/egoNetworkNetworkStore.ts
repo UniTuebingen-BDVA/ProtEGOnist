@@ -206,6 +206,15 @@ export const decollapseEdgeAtom = atom(null, (get, set) => {
         set(getMultiEgographBundleAtom, currentIdArray);
     }
 });
+
+/**
+ * Read only aton to check if node is collapsed
+ */
+export const isNodeCollapsedAtom = atom((get) => (id: string) => {
+    const currentIdArray = get(decollapseIDsAtom).slice();
+    return currentIdArray.some((bundleIds) => bundleIds.includes(id));
+});
+
 /**
  * Write-only atom for decollapsing a single node
  */

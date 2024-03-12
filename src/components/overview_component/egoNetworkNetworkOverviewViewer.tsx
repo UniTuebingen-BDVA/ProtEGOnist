@@ -56,7 +56,7 @@ function EgoNetworkNetworkOverviewViewer() {
                             domain={[0, 100]}
                             range={['white', '#464646']}
                             type={'quantitative'}
-                            transform={`translate(${10},${10})`}
+                            transform={`translate(${6},${10})`}
                             title={
                                 'Percent of nodes represented in ego-graph subnetwork (right)'
                             }
@@ -70,6 +70,7 @@ function EgoNetworkNetworkOverviewViewer() {
                             domain={['In ego-graph subnetwork']}
                             range={['#ff7f00']}
                             type={'qualitative'}
+                            transform={`translate(${10},${0})`}
                             title={''}
                             render={true}
                         />
