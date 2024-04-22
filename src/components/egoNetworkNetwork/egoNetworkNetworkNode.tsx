@@ -70,7 +70,7 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                 onClick={() => setDecollapseID(id)}
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
-                style={{"pointer-events": "all", "cursor": "context-menu"}}
+                style={{"pointerEvents": "all", "cursor": "context-menu"}}
                 >
                 <circle
                     r={size}

@@ -1,5 +1,5 @@
 import { useTransition } from '@react-spring/web';
-import { intersectionDatum } from '../../egoGraphSchema';
+import { intersectionDatum } from '../../../egoGraphSchema';
 import RadarCircle from './radarCircle';
 import * as d3 from 'd3';
 import { memo } from 'react';

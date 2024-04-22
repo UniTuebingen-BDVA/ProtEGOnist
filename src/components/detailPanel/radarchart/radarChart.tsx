@@ -1,12 +1,12 @@
-import { intersectionDatum } from '../../egoGraphSchema';
+import { intersectionDatum } from '../../../egoGraphSchema';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import * as d3 from 'd3';
 import { tarNodeAtom } from './radarStore';
-import { getRadarAtom, nameNodesByAtom } from '../../apiCalls';
+import { getRadarAtom, nameNodesByAtom } from '../../../apiCalls';
 import RadarCircles from './radarCircles';
 import RadarLabel from './radarLabel';
-import { selectedProteinsAtom, tableAtom } from '../selectionTable/tableStore';
-import AdvancedTooltip from '../utilityComponents/advancedTooltip';
+import { selectedProteinsAtom, tableAtom } from '../../selectionTable/tableStore';
+import AdvancedTooltip from '../../utilityComponents/advancedTooltip';
 
 interface RadarChartProps {
     baseRadius: number;

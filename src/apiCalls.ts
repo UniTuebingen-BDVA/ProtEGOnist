@@ -13,7 +13,7 @@ import {
     intersectionAtom,
     tarNodeAtom,
     radarNodesAtom
-} from './components/radarchart/radarStore.ts';
+} from './components/detailPanel/radarchart/radarStore.ts';
 import {
     tableAtom,
     selectedProteinsAtom
@@ -243,7 +243,7 @@ export const getEgoNetworkNetworkAtom = atom(
                 nodes: [],
                 edges: []
             });
-             set(accountedProteinsNeigborhoodAtom, []);
+            set(accountedProteinsNeigborhoodAtom, []);
             set(egoNetworkNetworkBusyAtom, false);
         }
     }
