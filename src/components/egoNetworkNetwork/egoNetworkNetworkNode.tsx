@@ -67,7 +67,7 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                 onContextMenu={(event) => {
                     setContextMenu(event, id, 'subnetwork');
                 }}
-                onClick={() => setDecollapseID(id)}
+                onDoubleClick={() => setDecollapseID(id)}
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
                 style={{"pointer-events": "all", "cursor": "context-menu"}}

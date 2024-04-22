@@ -72,7 +72,7 @@ const EgoNetworkNetworkEdge = memo(function EgoNetworkNetworkEdge(
                         ? { cursor: 'pointer' }
                         : { cursor: 'inherit' }
                 }
-                onClick={() => {
+                onDoubleClick={() => {
                     setDecollapseEdge();
                 }}
                 onMouseEnter={() => {

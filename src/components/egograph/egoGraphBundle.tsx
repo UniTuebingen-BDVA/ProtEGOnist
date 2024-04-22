@@ -8,7 +8,7 @@ import { useAtom } from 'jotai';
 import { egoGraphBundlesLayoutAtom } from './egoGraphBundleStore';
 import { EgographNode } from './egographNode';
 import EgoGraphBand from './egoGraphBand.tsx';
-import { atom } from 'jotai';
+import { atom, useSetAtom } from 'jotai';
 import { focusAtom } from 'jotai-optics';
 import { splitAtom } from 'jotai/utils';
 import * as d3 from 'd3';
@@ -17,7 +17,6 @@ import {
     highlightedEdgesAtom
 } from '../egoNetworkNetwork/egoNetworkNetworkStore.ts';
 import { edgesClassificationAtom, nameNodesByAtom } from '../../apiCalls.ts';
-import { useSetAtom } from 'jotai/index';
 import { contextMenuAtom } from '../utilityComponents/contextMenuStore.ts';
 import { tableAtom } from '../selectionTable/tableStore';
 
@@ -115,7 +114,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                 return (
                     <g
                         key={center.id}
-                        onClick={() => setDecollapseID(center.id)}
+                        onDoubleClick={() => setDecollapseID(center.id)}
                         onContextMenu={(event) => {
                             setContextMenu(event, center.id, 'subnetwork');
                         }}
