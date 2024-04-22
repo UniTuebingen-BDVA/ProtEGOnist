@@ -111,13 +111,15 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
         () =>
             layout.centers.map((center) => {
                 const outerRadius = center.outerSize * (5 / 6);
+                const radiusScaled = center.outerSize *1.1;
                 return (
                     <g
                         key={center.id}
                         onClick={() => setDecollapseID(center.id)}
                         onContextMenu={(event) => {
-                            setContextMenu(event, center.id);
+                            setContextMenu(event, center.id, 'subnetwork');
                         }}
+                        style={{"pointer-events": "all", "cursor": "context-menu"}}
                     >
                         <circle
                             cx={center.x}
@@ -145,27 +147,31 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                             r={center.outerSize * (18 / 35)}
                             fill={'white'}
                         />
+                        <path
+                        id={center.id+"_labelArc"}
+                        fill="none"
+                        stroke="none"
+                        d={`
+                        M ${center.x} ${center.y}
+                        m 0, ${radiusScaled}
+                        a ${radiusScaled} ${radiusScaled} 0 1 1 0 -${radiusScaled*2}
+                        a ${radiusScaled},${radiusScaled} 0 1 1 0 ${radiusScaled* 2}
+                        `}>
+
+                        </path>
                         <text
                             textAnchor="middle"
                             fontSize={
-                                outerRadius / 3 < 30 ? 30 : outerRadius / 3
+                                outerRadius / 3 < 50 ? 50 : outerRadius / 3
                             }
-                            dy={`-${
-                                outerRadius / 3 < 30 ? 30 : outerRadius / 3
-                            }`}
+                            // dy={`-${
+                            //     outerRadius / 4.5 < 40 ? 40 : outerRadius / 4.5
+                            // }`}
                         >
                             <textPath
                                 startOffset={'50%'}
-                                path={`
-                        M ${center.x} ${center.y}
-                        m 0, ${outerRadius}
-                        a ${outerRadius},${outerRadius} 0 1,1,0 -${
-                            outerRadius * 2
-                        }
-                        a ${outerRadius},${outerRadius} 0 1,1,0  ${
-                            outerRadius * 2
-                        }
-                        `}
+                                href={'#'+center.id+"_labelArc"}
+                                letterSpacing={"-0em"}
                             >
                                 {getNodeName(center.id)}
                             </textPath>
