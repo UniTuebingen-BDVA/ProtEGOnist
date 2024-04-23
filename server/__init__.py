@@ -13,6 +13,7 @@ from server.python_scripts.sampleGraph import (
 )
 from server.python_scripts.egoNetworkNetwork import EgoNetworkNetwork
 from server.python_scripts.egoGraph import EgoGraph
+from server.python_scripts.input_parsing import create_data_network
 
 
 def create_app(input_path=""):
@@ -25,6 +26,10 @@ def create_app(input_path=""):
         "IEEE": read_example_IEEEcoAuthor(DATA_PATH),
         "ecoli": read_example_ecoli_full(DATA_PATH),
     }
+    @app.route("/api/process_input_data", methods=["GET"])
+    def process_input_data():
+        pass
+        
 
     @app.route("/api/get_labelling_keys/<example>", methods=["GET"])
     def get_labelling_keys(example: str):
