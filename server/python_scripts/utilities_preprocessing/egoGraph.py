@@ -83,6 +83,8 @@ class EgoGraph:
             node: The node that is the center of the ego graph.
             graph: The networkx graph object of the ego graph.
         """
+        if graph.has_node(node):
+            print("has node")
         egoGraph: nx.Graph = nx.ego_graph(graph, node, radius=2)
         return cls(node, egoGraph)
 

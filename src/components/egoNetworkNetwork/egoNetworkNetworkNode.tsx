@@ -10,9 +10,10 @@ import {
     drugsPerProteinColorscaleAtom,
     tableAtom
 } from '../selectionTable/tableStore';
-import { memo, useState } from 'react';
+import { memo, useMemo, useState } from 'react';
 import { contextMenuAtom } from '../utilityComponents/contextMenuStore';
 import { nameNodesByAtom, quantifyNodesByAtom } from '../../apiCalls';
+import { selectedEgoGraphsAtom } from './egoNetworkNetworkStore.ts';
 
 interface EgoNetworkNetworkNodeProps {
     id: string;
@@ -36,6 +37,9 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
     const [isHovered, setIsHovered] = useState(false);
     const [tableData] = useAtom(tableAtom);
     const [nameNodesBy] = useAtom(nameNodesByAtom);
+       const [selectedEgoGraphs, setSelectedEgoGraphs] = useAtom(
+        selectedEgoGraphsAtom
+    );
     const setContextMenu = useSetAtom(contextMenuAtom);
     const scaledSize = size *1.1;
 
@@ -58,6 +62,7 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
         // join the protein names with a comma
         return uniqueNodeNames.join(', ');
     };
+    const isSelected=useMemo(()=>selectedEgoGraphs.includes(id),[selectedEgoGraphs,id])
     return (
         <AdvancedTooltip nodeID={id} key={id}>
             <animated.g
@@ -67,7 +72,8 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                 onContextMenu={(event) => {
                     setContextMenu(event, id, 'subnetwork');
                 }}
-                onClick={() => setDecollapseID(id)}
+                onClick={() => setSelectedEgoGraphs(id)}
+                onDoubleClick={() => setDecollapseID(id)}
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
                 style={{"pointer-events": "all", "cursor": "context-menu"}}
@@ -75,9 +81,9 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                 <circle
                     r={size}
                     fill={color}
-                    stroke="black"
+                    stroke={isSelected?"red":"black"}
                     strokeWidth={
-                        highlightedEdges.ids.includes(id) || isHovered ? 3 : 1
+                        highlightedEdges.ids.includes(id) || isHovered || isSelected ? 3 : 1
                     }
                 />
                 <circle

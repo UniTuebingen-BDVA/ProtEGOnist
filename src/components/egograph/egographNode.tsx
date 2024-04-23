@@ -10,6 +10,8 @@ import {
     polarToCartesian,
     subtractAngle
 } from './polarUtilities';
+import { useSetAtom } from 'jotai';
+import { decollapseNodeAtom } from '../egoNetworkNetwork/egoNetworkNetworkStore.ts';
 
 type egographNodeProps = {
     nodeAtom: PrimitiveAtom<layoutNode>;
@@ -36,6 +38,8 @@ export const EgographNode = memo(function EgographNode(
     const [highlightedNodeIndices, setHighlightedNodeIndices] = useAtom(
         highlightedNodeIndicesAtom
     );
+
+    const setDecollapseID = useSetAtom(decollapseNodeAtom);
     const BOX_HEIGHT = egoRadius / 3;
     const centerPolarOuter = cartesianToPolar(
         globalToLocal([centerPoint.x, centerPoint.y], centerNode)
@@ -91,6 +95,7 @@ export const EgographNode = memo(function EgographNode(
                     onMouseLeave={() => {
                         setHighlightedNodeIndices([]);
                     }}
+                    onDoubleClick={() => setDecollapseID(node.originalID)}
                     cx={centerPoint.x}
                     cy={centerPoint.y}
                     r={egoRadius / 10}
@@ -109,6 +114,7 @@ export const EgographNode = memo(function EgographNode(
                     onMouseLeave={() => {
                         setHighlightedNodeIndices([]);
                     }}
+                    onDoubleClick={() => setDecollapseID(centerNode.id)}
                     d={`
           M ${p1Cartesian[0]} ${p1Cartesian[1]}
           A ${egoRadius} ${egoRadius} 0 0 1 ${p2Cartesian[0]} ${p2Cartesian[1]}
