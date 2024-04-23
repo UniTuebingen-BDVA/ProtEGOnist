@@ -8,7 +8,7 @@ import {
 } from './tableStore';
 import { Box, Typography } from '@mui/material';
 import { startDataOverview } from '../../apiCalls';
-import { selectedNodesAtom } from '../egograph/egoGraphBundleStore';
+import { selectedNodesAtom } from '../egoNetworkNetwork/egoNetworkNetworkStore.ts';
 
 const SelectionTable = () => {
     const [tableData] = useAtom(tableAtom);

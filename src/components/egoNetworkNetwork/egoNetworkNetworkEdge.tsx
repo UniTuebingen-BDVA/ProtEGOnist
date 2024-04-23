@@ -1,5 +1,5 @@
 import { animated, SpringValue } from '@react-spring/web';
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import { useAtom, useSetAtom } from 'jotai';
 import {
     decollapsedSizeAtom,
@@ -7,6 +7,7 @@ import {
     highlightedEdgesAtom
 } from './egoNetworkNetworkStore.ts';
 import * as d3 from 'd3';
+import { selectedBandsAtom } from './egoNetworkNetworkStore.ts';
 
 interface EgoNetworkNetworkEdgeProps {
     weight: number;
@@ -34,6 +35,13 @@ const EgoNetworkNetworkEdge = memo(function EgoNetworkNetworkEdge(
     const [highlightedEdges, setHighlightedEdges] =
         useAtom(highlightedEdgesAtom);
     const [decollapsedSize] = useAtom(decollapsedSizeAtom);
+    const [selectedBands, setSelectedBands] = useAtom(selectedBandsAtom);
+    const bandId = useMemo(() => nodeIds.join(','), [nodeIds]);
+
+    const isSelected = useMemo(
+        () => selectedBands.includes(bandId),
+        [nodeIds, selectedBands]
+    );
     //find max value in the decollapsedSize dictionary
     const maxDecollapsed: number = d3.max(Object.values(decollapsedSize));
     const maxRadius: number =
@@ -52,8 +60,10 @@ const EgoNetworkNetworkEdge = memo(function EgoNetworkNetworkEdge(
                 x2={animatedParams.x2}
                 y2={animatedParams.y2}
                 stroke={
-                    highlightedEdges.ids.includes(nodeIds[0]) &&
-                    highlightedEdges.ids.includes(nodeIds[1])
+                    isSelected
+                        ? 'red'
+                        : highlightedEdges.ids.includes(nodeIds[0]) &&
+                          highlightedEdges.ids.includes(nodeIds[1])
                         ? 'black'
                         : 'lightgray'
                 }
@@ -78,6 +88,7 @@ const EgoNetworkNetworkEdge = memo(function EgoNetworkNetworkEdge(
                 onMouseEnter={() => {
                     setHighlightedEdges(nodeIds);
                 }}
+                onClick={() => setSelectedBands(bandId)}
                 onMouseLeave={() => setHighlightedEdges([])}
             />
         </g>

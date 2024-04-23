@@ -11,8 +11,8 @@ import {
     polarCoordinate
 } from './polarUtilities';
 
-import { selectedBandsAtom } from './egoGraphBundleStore';
 import { useAtom } from 'jotai';
+import { selectedBandsAtom } from '../egoNetworkNetwork/egoNetworkNetworkStore.ts';
 interface EgoGraphBandProps {
     bandData: [
         string,

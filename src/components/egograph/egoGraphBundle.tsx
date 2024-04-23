@@ -7,7 +7,6 @@ import { atom, useAtom, useSetAtom } from 'jotai';
 
 import {
     egoGraphBundlesLayoutAtom,
-    selectedEgoGraphsAtom
 } from './egoGraphBundleStore';
 import { EgographNode } from './egographNode';
 import EgoGraphBand from './egoGraphBand.tsx';
@@ -16,7 +15,8 @@ import { splitAtom } from 'jotai/utils';
 import * as d3 from 'd3';
 import {
     decollapseNodeAtom,
-    highlightedEdgesAtom
+    highlightedEdgesAtom,
+    selectedEgoGraphsAtom
 } from '../egoNetworkNetwork/egoNetworkNetworkStore.ts';
 import { edgesClassificationAtom, nameNodesByAtom } from '../../apiCalls.ts';
 import { contextMenuAtom } from '../utilityComponents/contextMenuStore.ts';
