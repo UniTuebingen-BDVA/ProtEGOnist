@@ -268,6 +268,7 @@ const RadarChart = (props: RadarChartProps) => {
             {pieChartSegments.map(
                 (
                     {
+                        classification,
                         classificationFull,
                         startAngle,
                         endAngle,
@@ -279,10 +280,11 @@ const RadarChart = (props: RadarChartProps) => {
                     return (
                         <g key={classificationFull}>
                             <RadarLabel
+                                label={classification}
                                 hoverLabel={classificationFull}
                                 startAngle={startAngle}
                                 endAngle={endAngle}
-                                radius={TEXT_RADIUS + 9 * ringIndex}
+                                radius={TEXT_RADIUS + 16 * ringIndex}
                                 guideCircleRadius={GUIDE_CIRCLE_RADIUS}
                                 colorScale={colorScale}
                             />

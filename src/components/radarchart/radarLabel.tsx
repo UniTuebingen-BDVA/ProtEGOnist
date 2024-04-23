@@ -7,6 +7,7 @@ interface radarLabelProps {
     startAngle: number;
     endAngle: number;
     // labelAtom: PrimitiveAtom<{ value: string; short: string; long: string }>;
+    label: string;
     hoverLabel: string;
     guideCircleRadius: number;
     radius: number;
@@ -19,6 +20,7 @@ const RadarLabel = memo(function RadarLabel(props: radarLabelProps) {
     const {
         startAngle,
         endAngle,
+        label,
         hoverLabel,
         guideCircleRadius,
         radius,
@@ -81,7 +83,7 @@ const RadarLabel = memo(function RadarLabel(props: radarLabelProps) {
                 <path d={arc} fill="none" id={`${hoverLabel}Arc`} />
                 <text fill={colorScale(hoverLabel)}>
                     <textPath
-                        fontSize="9px"
+                        fontSize="14px"
                         textAnchor="middle"
                         alignmentBaseline="middle"
                         xlinkHref={`#${hoverLabel}Arc`}

@@ -32,7 +32,7 @@ function RadarChartViewer(props: RadarChartViewerProps) {
     // useEffect(() => {
     //     setSVGSize({ width: width, height: height });
     // }, [height, width]);
-    const svgSize = { width: 800, height: 350 };
+    const svgSize = { width: 500, height: 500 };
 
     return (
         <Paper
@@ -82,21 +82,22 @@ function RadarChartViewer(props: RadarChartViewerProps) {
                 </Grid>
                 <Grid xs={12}>
                     <svg
-                        viewBox={`0 0 ${svgSize.width} ${svgSize.height}`}
+                        width={'42%'}
+                        viewBox={`0 0 ${svgSize.width} ${svgSize.width}`}
                     >
                         <g
                             transform={
                                 'translate(' +
                                 String(svgSize.width / 2) +
                                 ',' +
-                                String(svgSize.height / 2) +
+                                String(svgSize.width / 2) +
                                 ')'
                             }
                         >
                             <RadarChart
                                 intersectionData={props.intersectionData}
                                 tarNode={props.tarNode}
-                                baseRadius={svgSize.height / 2}
+                                baseRadius={svgSize.width / 2}
                             />
                         </g>
                     </svg>
