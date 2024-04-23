@@ -24,6 +24,11 @@ import {
     egoNetworkNetworksAtom,
     updateEgoGraphBundleAtom
 } from './components/egoNetworkNetwork/egoNetworkNetworkStore.ts';
+
+import {
+    nodeAtom,
+    linkAtom
+} from './components/detailPanel/detailNodeLink/detailStore.ts';
 import { egoNetworkNetworksOverviewAtom } from './components/overview_component/egoNetworkNetworkOverviewStore.ts';
 
 export const serverBusyAtom = atom(false);
@@ -318,6 +323,28 @@ export const getEgoNetworkNetworkOverviewAtom = atom(
                         );
                 }
             );
+    }
+);
+
+export const getNodeLinkFromSelectionAtom = atom(
+    (_get) => {},
+    (_get, set) => {
+        let selectedNodesIds = get(selectedNodesAtom);
+        let payload = {
+            nodes: selectedNodesIds,
+            example: get(selectedExampleAtom)
+        };
+        axios
+            .all([axios.post('/api/getNodeLinkDiagram/', payload)])
+            .then(
+                axios.spread((nodesResponse, linksResponse) => {
+                    set(nodeAtom, nodesResponse.data);
+                    set(linkAtom, linksResponse.data);
+                })
+            )
+            .catch((error) => {
+                console.error(error);
+            });
     }
 );
 

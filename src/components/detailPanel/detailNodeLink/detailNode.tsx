@@ -27,7 +27,7 @@ const DetailNode = memo(function DetailNode(
           key={id}
           r={size}
           fill={"red"}
-          fillOpacity={0.7}
+          fillOpacity={1}
           // FIXME Type not fully correct
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore ts2304

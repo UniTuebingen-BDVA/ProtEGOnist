@@ -18,11 +18,11 @@ const DetailNodes = (props: DetailNodesProps) => {
       cx: node.cx,
       cy: node.cy,
       fill: node.fill,
-      opacity: 0
+      opacity: 1
     }),
     leave: () => async (next, _cancel) => {
       await next({
-        opacity: 0
+        opacity: 1
       });
     },
     update: (node) => async (next, _cancel) => {
