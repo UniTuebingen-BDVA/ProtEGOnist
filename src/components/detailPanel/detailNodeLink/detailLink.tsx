@@ -30,8 +30,8 @@ const DetailNode = memo(function DetailNode(
           y2={styleParam.y2}
           stroke={"black"}
           style={{ ...styleParam }}
-          strokeOpacity={1.0}
-          strokeWidth={size}
+          strokeOpacity={.7}
+          strokeWidth={.4}
       />
   </AdvancedTooltip>
 );

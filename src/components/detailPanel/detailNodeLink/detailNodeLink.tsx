@@ -1,8 +1,11 @@
 import DetailNodes from './detailNodes';
 import DetailLinks from './detailLinks';
+import { useAtom } from 'jotai';
+import { linkAtom, nodeAtom } from './detailStore';
 
 
 interface DetailNodeLinkProps {
+  transform: string;
 }
 
 // example data for DetailNodes
@@ -23,8 +26,10 @@ const links = [
   { id: 'E-A', x1: 150, y1: 200, x2: 100, y2: 100 }
 ];
 const DetailNodeLink = (props: DetailNodeLinkProps) => {
+    const [nodes] = useAtom(nodeAtom);
+    const [links] = useAtom(linkAtom);
     return (
-      <g>
+      <g transform={props.transform}>
         <DetailLinks links={links}/>
         <DetailNodes nodes={nodes}/> 
       </g>
