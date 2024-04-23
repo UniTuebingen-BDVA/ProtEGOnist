@@ -110,7 +110,6 @@ def read_metadata(path, classification, all_nodes, sep=","):
     nodes_without_metadata = all_nodes.difference(nodes_with_metadata)
     # add the nodes without metadata to the table
     for node in nodes_without_metadata:
-        # none_data = {name: None for name in table_data["columns"][1:-1]}
         table_data_temp[node] = {"with_metadata": False, "nodeID": node}
 
     table_data["rows"] = table_data_temp

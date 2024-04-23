@@ -62,6 +62,7 @@ def ego_graphs_to_metadata(ego_graphs: dict, metadata: pd.DataFrame) -> pd.DataF
     - level 1 neighbours
     - level 2 neighbours
     """
+
     for node in ego_graphs:
         ego_graph = ego_graphs[node]
         ego_graph_neighbors = ego_graph.get_neighbors()
@@ -124,10 +125,8 @@ def main():
         network = read_tsv_to_network(args.input)
     elif args.input.endswith(".graphml"):
         network = read_graphml_to_network(args.input)
-    print(len(network.nodes))
     # create the ego graphs
     ego_graphs = create_ego_graphs_for_network(network)
-    print(len(ego_graphs.keys()))
     # save the ego graphs as pickle file
     ego_graphs_dict = create_ego_graphs_dicts_for_network(ego_graphs)
     np.save(args.output, ego_graphs_dict)
@@ -138,7 +137,6 @@ def main():
         sep=args.separator,
         encoding="utf-8",
     )
-    print(metadata)
     # add metadata to the metadata dataframe
     metadata = ego_graphs_to_metadata(ego_graphs, metadata)
     # save the metadata
