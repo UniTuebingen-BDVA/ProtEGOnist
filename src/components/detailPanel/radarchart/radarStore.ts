@@ -1,5 +1,5 @@
 import { atom } from 'jotai';
-import { intersectionDatum } from '../../egoGraphSchema';
+import { intersectionDatum } from '../../../egoGraphSchema';
 
 export const changedNodesAtom = atom((get) => {
     return get(radarNodesAtom).changed;
