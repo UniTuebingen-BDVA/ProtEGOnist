@@ -592,3 +592,70 @@ export const interEdgesAtom = atom((get) => {
     }
     return interEdges;
 });
+const selectedEgoGraphsBaseAtom = atom<string[]>([]);
+const selectedBandsBaseAtom = atom<string[]>([]);
+/**
+ * Stores currently selected ego-graphs
+ */
+export const selectedEgoGraphsAtom = atom(
+    (get) => get(selectedEgoGraphsBaseAtom),
+    (get, set, value:string) => {
+        const prevSelection = get(selectedEgoGraphsBaseAtom).slice();
+        const valIdx = prevSelection.indexOf(value);
+        if (valIdx !== -1) {
+            prevSelection.splice(valIdx);
+        } else {
+            prevSelection.push(value);
+        }
+        set(selectedEgoGraphsBaseAtom, prevSelection);
+    }
+);
+/**
+ * stores currently selected bands
+ */
+export const selectedBandsAtom = atom(
+    (get) => get(selectedBandsBaseAtom),
+    (get, set, value:string) => {
+        const prevSelection = get(selectedBandsBaseAtom).slice();
+        const valIdx = prevSelection.indexOf(value);
+        if (valIdx !== -1) {
+            prevSelection.splice(valIdx);
+        } else {
+            prevSelection.push(value);
+        }
+        set(selectedBandsBaseAtom, prevSelection);
+    }
+);
+/**
+ * Stores currently selected nodes
+ */
+export const selectedNodesAtom = atom((get) => {
+    const nodes:string[] = [];
+    get(selectedBandsAtom).forEach((selectedBand) => {
+        const egoBundles = get(egoGraphBundlesAtom);
+        // find the intersection that matches the selected band
+        const containingBundle = Object.values(egoBundles).find((bundle) =>
+            Object.keys(bundle.intersections).includes(selectedBand)
+        );
+        let bandNodes:string[];
+        if(containingBundle){
+            bandNodes=containingBundle.intersections[selectedBand];
+        } else{
+            const egoNetworkNetwork = get(aggregateNetworkAtom);
+            const ids=selectedBand.split(',')
+            const first = egoNetworkNetwork.nodes.filter(d => d.id === ids[0])
+                .map(node =>node.neighbors).flat();
+            const second=egoNetworkNetwork.nodes.filter(d => d.id === ids[1])
+                .map(node =>node.neighbors).flat();
+            bandNodes=first.filter(d=>second.includes(d));
+        }
+        nodes.push(...bandNodes);
+    });
+    get(selectedEgoGraphsAtom).forEach((selectedEgoGraph) => {
+         const egoNetworkNetwork = get(aggregateNetworkAtom);
+         const egoNodes = egoNetworkNetwork.nodes.filter(d => d.id === selectedEgoGraph)
+                .map(node =>node.neighbors).flat()
+        nodes.push(...egoNodes)
+    });
+    return [...new Set(nodes)];
+});

@@ -91,7 +91,6 @@ export const getMultiEgographBundleAtom = atom(
         const bumbleIdsToDelete = Object.keys(get(egoGraphBundlesAtom)).filter(
             (id) => !bundleIds.map((ids) => ids.join(',')).includes(id)
         );
-        console.log(newBundlesIds);
         if (newBundlesIds.length > 0) {
             set(egoNetworkNetworkBusyAtom, true);
             const newData = {};
