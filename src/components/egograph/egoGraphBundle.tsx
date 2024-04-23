@@ -2,10 +2,13 @@
 // FIXME remove this once refactor is done
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import { ReactElement, useMemo } from 'react';
+import { ReactElement, useCallback, useMemo } from 'react';
 import { atom, useAtom, useSetAtom } from 'jotai';
 
-import { egoGraphBundlesLayoutAtom } from './egoGraphBundleStore';
+import {
+    egoGraphBundlesLayoutAtom,
+    selectedEgoGraphsAtom
+} from './egoGraphBundleStore';
 import { EgographNode } from './egographNode';
 import EgoGraphBand from './egoGraphBand.tsx';
 import { focusAtom } from 'jotai-optics';
@@ -59,6 +62,9 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
             }),
         [numEdgesMinMax]
     );
+    const [selectedEgoGraphs, setSelectedEgoGraphs] = useAtom(
+        selectedEgoGraphsAtom
+    );
 
     const highlightedNodeIndicesAtom = useMemo(() => atom<number[]>([]), []);
 
@@ -73,7 +79,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
     const setContextMenu = useSetAtom(contextMenuAtom);
     const setDecollapseID = useSetAtom(decollapseNodeAtom);
 
-    const getNodeName = (id) => {
+    const getNodeName = useCallback((id) => {
         // find the rows in the table that match the uniprot ID
         // const filteredRows = tableData.rows.filter((row) => {
         //     return row['nodeID'] === id;
@@ -87,7 +93,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
         const uniqueNodeNames = [...new Set(nodeNames)];
         // join the protein names with a comma
         return uniqueNodeNames.join(', ');
-    };
+    },[nameNodesBy, tableData.rows]);
     // generate a d3 categorcal color scale with 20 colors
     const [edgesClassification] = useAtom(edgesClassificationAtom);
 
@@ -117,6 +123,11 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                             'pointer-events': 'all',
                             cursor: 'context-menu'
                         }}
+                        onDoubleClick={() => setDecollapseID(center.id)}
+                        onClick={() => setSelectedEgoGraphs(center.id)}
+                        onContextMenu={(event) => {
+                            setContextMenu(event, center.id, 'subnetwork');
+                        }}
                     >
                         <circle
                             cx={center.x}
@@ -131,7 +142,9 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                             cy={center.y}
                             r={center.outerSize}
                             stroke={
-                                highlightedEdges.ids.includes(center.id)
+                                selectedEgoGraphs.includes(center.id)
+                                    ? 'red'
+                                    : highlightedEdges.ids.includes(center.id)
                                     ? 'black'
                                     : 'transparent'
                             }
@@ -179,11 +192,11 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                     </g>
                 );
             }),
-        [highlightedEdges, layout.centers, setDecollapseID]
+        [getNodeName, highlightedEdges.ids, layout.centers, selectedEgoGraphs, setContextMenu, setDecollapseID, setSelectedEgoGraphs]
     );
     // TODO: Do this somewhere better to prevent going through all nodes and edges multiple times!
     const nodeGroups = useMemo(() => {
-        const returnGroups = [];
+        const returnGroups:SVGGElement[] = [];
         layout.centers.map((center) => {
             const nodeGroup = [];
             layout.nodes
@@ -214,6 +227,10 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
             returnGroups.push(
                 <g
                     onDoubleClick={() => setDecollapseID(center.id)}
+                    onClick={() => setSelectedEgoGraphs(center.id)}
+                    onContextMenu={(event) => {
+                        setContextMenu(event, center.id, 'subnetwork');
+                    }}
                     key={center.id}
                 >
                     {nodeGroup}
@@ -221,16 +238,9 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
             );
         });
         return returnGroups;
-    }, [
-        colorScale,
-        highlightedNodeIndicesAtom,
-        layout.centers,
-        layout.nodes,
-        layout.radii,
-        nodeAtoms
-    ]);
+    }, [colorScale, highlightedNodeIndicesAtom, layout.centers, layout.nodes, layout.radii, nodeAtoms, setContextMenu, setDecollapseID, setSelectedEgoGraphs]);
     const edgeGroups = useMemo(() => {
-        const returnGroups = [];
+        const returnGroups:SVGGElement[] = [];
         layout.centers.map((center) => {
             const edgeGroup = [];
             layout.edges
@@ -276,18 +286,19 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                     );
                 });
             returnGroups.push(
-                <g onDoubleClick={() => setDecollapseID(center.id)}>
+                <g
+                    onDoubleClick={() => setDecollapseID(center.id)}
+                    onClick={() => setSelectedEgoGraphs(center.id)}
+                    onContextMenu={(event) => {
+                        setContextMenu(event, center.id, 'subnetwork');
+                    }}
+                >
                     {edgeGroup}
                 </g>
             );
         });
         return returnGroups;
-    }, [
-        edgesClassification,
-        highlightedNodeIndices,
-        layout.centers,
-        layout.edges
-    ]);
+    }, [edgesClassification, highlightedNodeIndices, layout.centers, layout.edges, setContextMenu, setDecollapseID, setSelectedEgoGraphs]);
     const bands = useMemo(() => {
         const returnBands: ReactElement[] = [];
         if (layout.bandData) {

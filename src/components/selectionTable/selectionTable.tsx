@@ -8,13 +8,13 @@ import {
 } from './tableStore';
 import { Box, Typography } from '@mui/material';
 import { startDataOverview } from '../../apiCalls';
-import { filteredIntersectionsAtom } from '../egograph/egoGraphBundleStore';
+import { selectedNodesAtom } from '../egograph/egoGraphBundleStore';
 
 const SelectionTable = () => {
     const [tableData] = useAtom(tableAtom);
     const [selectedProteins, setSelectedProteins] =
         useAtom(selectedProteinsAtom);
-    const [filteredIntersections] = useAtom(filteredIntersectionsAtom);
+    const [selectedNodes] = useAtom(selectedNodesAtom);
     const tableModel = useAtomValue(tableModelSelectedAtom);
     const [columnVisibility, setColumnVisibility] =
         useAtom(columnVisibilityAtom);
@@ -31,24 +31,24 @@ const SelectionTable = () => {
         ...tableData.columns,
         {
             field: 'selected',
-            headerName: 'Selected?',
+            headerName: 'Ego in Subnetwork',
             width: 100,
             valueGetter: (params) =>
                 selectedProteins.includes(params.row.nodeID) ? 'Yes' : 'No'
         },
         {
             field: 'overview',
-            headerName: 'Found in Overview?',
+            headerName: 'Found in Overview',
             width: 100,
             valueGetter: (params) =>
                 startDataOverview.includes(params.row.nodeID) ? 'Yes' : 'No'
         },
         {
             field: 'inBand',
-            headerName: 'In Intersection?',
+            headerName: 'Selected',
             width: 100,
             valueGetter: (params) =>
-                filteredIntersections.includes(params.row.nodeID) ? 'Yes' : 'No'
+                selectedNodes.includes(params.row.nodeID) ? 'Yes' : 'No'
         }
     ];
 
@@ -57,7 +57,6 @@ const SelectionTable = () => {
             <Typography
                 component={'span'}
                 variant="subtitle2"
-                component="div"
                 style={{ marginLeft: '1em' }}
             >
                 {/* *The data from this table corresponds to the data presented by Goncalves et al. (2022) in their supplementary table S5 "All Drug-Protein associations". */}

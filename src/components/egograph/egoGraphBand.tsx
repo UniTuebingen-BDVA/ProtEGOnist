@@ -11,7 +11,7 @@ import {
     polarCoordinate
 } from './polarUtilities';
 
-import { selectedBandAtom } from './egoGraphBundleStore';
+import { selectedBandsAtom } from './egoGraphBundleStore';
 import { useAtom } from 'jotai';
 interface EgoGraphBandProps {
     bandData: [
@@ -282,13 +282,8 @@ function offsetTips(
     tipPointControl: [number, number],
     connectorControl: [number, number],
     offsetDistance: number,
-    ownCenter: [number, number]
 ): [number, number][] {
     // calculate the vector between the two tip points
-    const fromCenterToOffsetPointMain = [
-        offsetPointMain[0] - ownCenter[0],
-        offsetPointMain[1] - ownCenter[1]
-    ];
     const tipVector = [
         offsetPointMain[0] - vectorAssist[0],
         offsetPointMain[1] - vectorAssist[1]
@@ -595,7 +590,6 @@ function getPath(
         tipPointControlCartesian,
         tipPoint2Cartesian,
         OFFSET_SCALE_1,
-        [start[0].graphCenterPos.x, start[0].graphCenterPos.y]
     );
 
     const distanceBetweenEndPoints = Math.sqrt(
@@ -620,7 +614,6 @@ function getPath(
         tipPointControlCartesian2,
         tipPoint4Cartesian,
         OFFSET_SCALE_2,
-        [end[0].graphCenterPos.x, end[0].graphCenterPos.y]
     );
     const arc1 = drawTip(
         p1Cartesian,
@@ -662,7 +655,7 @@ function getPath(
 
 const EgoGraphBand = (props: EgoGraphBandProps) => {
     const { bandData, color, twoCase } = props;
-    const [selectedBand, setSelectedBand] = useAtom(selectedBandAtom);
+    const [selectedBands, setSelectedBands] = useAtom(selectedBandsAtom);
     let pathData: { path: string[]; color: string; id: string }[] = [];
     if (Object.values(bandData[1]).length === 0) return null;
     if (Object.values(bandData[1]).length === 1) return null;
@@ -712,12 +705,10 @@ const EgoGraphBand = (props: EgoGraphBandProps) => {
                 className="band"
                 stroke={'red'}
                 opacity={1}
-                strokeWidth={selectedBand === pathDatum.id ? '4' : '0'}
+                strokeWidth={selectedBands.includes(pathDatum.id) ? '4' : '0'}
                 fill={pathDatum.color}
                 onClick={() => {
-                    setSelectedBand(
-                        selectedBand == pathDatum.id ? '' : pathDatum.id
-                    );
+                    setSelectedBands(pathDatum.id);
                 }}
             />
         </g>
