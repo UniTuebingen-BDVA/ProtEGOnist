@@ -77,6 +77,7 @@ export const selectedExampleAtom = atom(
     }
 );
 export const radarChartBusyAtom = atom(false);
+export const detailNodeLinkBusyAtom = atom(false);
 export const egoNetworkNetworkBusyAtom = atom(false);
 export const egoNetworkNetworkOverviewCoverageAtom = atom<{
     nodes: number;
@@ -328,6 +329,7 @@ export const getEgoNetworkNetworkOverviewAtom = atom(
 );
 
 export const getNodeLinkFromSelectionAtom = atom(null, (get, set) => {
+    set(detailNodeLinkBusyAtom, true);
     let selectedNodesIds = get(selectedNodesAtom);
     let payload = {
         ids: selectedNodesIds,
@@ -364,7 +366,7 @@ export const getNodeLinkFromSelectionAtom = atom(null, (get, set) => {
 
                 const radius = Math.sqrt(3 / Math.PI);
                 const blockX = 500 - 2 * radius;
-                const blockY = 290 - 2 * radius;
+                const blockY = 200 - 2 * radius;
 
                 node.x = Math.max(radius, Math.min(blockX, node.x));
                 node.y = Math.max(radius, Math.min(blockY, node.y));
@@ -397,8 +399,8 @@ export const getNodeLinkFromSelectionAtom = atom(null, (get, set) => {
                         .radius((d: egoNetworkNetworkNode) => d.size + 2)
                 )
                 .stop()
-                .tick(100);
-            // .force('boxing', boxingForce)
+                .tick(100)
+                .force('boxing', boxingForce);
             // .tick(5)
             // .stop();
 
@@ -413,7 +415,7 @@ export const getNodeLinkFromSelectionAtom = atom(null, (get, set) => {
             outEdges.forEach((edge) => {
                 edgeDict[edge.source.id + edge.target.id] = edge;
             });
-
+            set(detailNodeLinkBusyAtom, false);
             set(linkAtom, edgeDict);
         })
         .catch((error) => {

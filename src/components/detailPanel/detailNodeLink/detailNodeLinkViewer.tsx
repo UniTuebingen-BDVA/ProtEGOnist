@@ -1,11 +1,10 @@
 import { useAtom, useSetAtom } from 'jotai';
 import DetailView from '../detailView.tsx';
 import DetailNodeLink from './detailNodeLink.tsx';
-import { getNodeLinkFromSelectionAtom } from '../../../apiCalls.ts';
+import { getNodeLinkFromSelectionAtom,detailNodeLinkBusyAtom } from '../../../apiCalls.ts';
 import React from 'react';
 import { animated, useSpring } from '@react-spring/web';
 import { useGesture } from '@use-gesture/react';
-import Grid from '@mui/system/Unstable_Grid';
 import { ButtonGroup, IconButton,Tooltip } from '@mui/material';
 import { FitToPageOutline, MagnifyMinusOutline, MagnifyPlusOutline, Network } from 'mdi-material-ui';
 
@@ -13,7 +12,7 @@ interface DetailNodeLinkViewerProps {
 }
 
 function DetailNodeLinkViewer(props: DetailNodeLinkViewerProps) {
-  const detailBusy = false //useAtom(detailNodeLinkBusyAtom);
+  const detailBusy = false// useAtom(detailNodeLinkBusyAtom);
   const getNodeLink = useSetAtom(getNodeLinkFromSelectionAtom)
   const svgSize = { width: 500, height: 250};
   // prevent default pinch zoom
@@ -87,7 +86,9 @@ function DetailNodeLinkViewer(props: DetailNodeLinkViewerProps) {
   const nodeLink =()=>(
     <svg
       ref={ref}
-      width={'91%'} // somehow it gets the width of the wrong parent
+      //height={}
+      //display={"flex"}
+      width={'90%'}
       height={'100%'}
       viewBox={`0 0 ${svgSize.width} ${svgSize.height}`}
       style={{ position: 'absolute' }}
@@ -97,7 +98,7 @@ function DetailNodeLinkViewer(props: DetailNodeLinkViewerProps) {
         id="zoomableGroupNodeLink"
         style={style}
       >
-        <DetailNodeLink transform={`translate(${svgSize.width / 2}, ${svgSize.height / 2})`} />
+        <DetailNodeLink />
       </animated.g>
     </svg>
   )

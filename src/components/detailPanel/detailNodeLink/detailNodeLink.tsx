@@ -5,14 +5,13 @@ import { linkAtom, nodeAtom } from './detailStore';
 
 
 interface DetailNodeLinkProps {
-  transform: string;
 }
 
 const DetailNodeLink = (props: DetailNodeLinkProps) => {
     const [nodes] = useAtom(nodeAtom);
     const [links] = useAtom(linkAtom);
     return (
-      <g transform={props.transform}>
+      <g>
         <DetailLinks links={links}/>
         <DetailNodes nodes={nodes}/> 
       </g>

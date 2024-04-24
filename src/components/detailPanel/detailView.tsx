@@ -1,6 +1,6 @@
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import { useAtom } from 'jotai';
-import { ReactElement, useRef } from 'react';
+import { ReactElement } from 'react';
 import {
   Backdrop,
   CircularProgress,
@@ -30,7 +30,8 @@ function DetailView(props: DetailNodeLinkViewerProps) {
   const titleBarContentCols = props.titleBarContentCols ? props.titleBarContentCols : 0;
   const titleCols = 11 - titleBarContentCols;
   const contentOutsideGrid = props.contentOutsideGrid ? props.contentOutsideGrid : false; 
-  const gridContent = contentOutsideGrid ? () => props.content():() => <Grid xs={12}>{props.content()}</Grid> ;
+  const gridContent = contentOutsideGrid ? () => <></>:() => <Grid xs={12}>{props.content()}</Grid> ;
+  const outsideGridContent = contentOutsideGrid ? () => props.content() :() => <></> ;
   return (
       <>
           <Backdrop
@@ -43,6 +44,7 @@ function DetailView(props: DetailNodeLinkViewerProps) {
           >
               <CircularProgress color="inherit" />
           </Backdrop>
+          {outsideGridContent()}
           <Grid
               container
               spacing={0}
