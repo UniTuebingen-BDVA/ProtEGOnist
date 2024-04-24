@@ -40,25 +40,24 @@ jobs:
                   body: 'Image for the server deploy of ProtEGOnist.'
             - name: Run deploy script
               run: echo ${{ steps.create_release.outputs.browser_download_url }}
-
-      deploy:
+    deploy:
         runs-on: ubuntu-latest
         needs: build
         steps:
-          - name: Install SSH client
-            run: sudo apt-get install -qq -y openssh-client
-          - name: Load and run Docker image on server
-            env:
-                SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY_DEPLOY }}
-                SSH_CONFIG: ${{ secrets.CONFIG_SSH }}
-                SERVER_IP: ${{ secrets.SERVER_DEPLOY }}
-                UPDATE_RELEASE_CMD: ${{ secrets.UPDATE_RELEASE_CMD }}
-                DOWNLOAD_URL: ${{ needs.build.outputs.browser_download_url }}
-            run: |
-                mkdir -p ~/.ssh && chmod 700 ~/.ssh
-                echo "$DOWNLOAD_URL"
-                echo "$SSH_CONFIG" > ~/.ssh/config
-                echo "$SSH_PRIVATE_KEY" > ~/.ssh/github-actions
-                chmod 600 ~/.ssh/config
-                chmod 600 ~/.ssh/github-actions
-                ssh -F ~/.ssh/config $SERVER_IP $UPDATE_RELEASE_CMD $DOWNLOAD_URL
+            - name: Install SSH client
+              run: sudo apt-get install -qq -y openssh-client
+            - name: Load and run Docker image on server
+              env:
+                  SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY_DEPLOY }}
+                  SSH_CONFIG: ${{ secrets.CONFIG_SSH }}
+                  SERVER_IP: ${{ secrets.SERVER_DEPLOY }}
+                  UPDATE_RELEASE_CMD: ${{ secrets.UPDATE_RELEASE_CMD }}
+                  DOWNLOAD_URL: ${{ needs.build.outputs.browser_download_url }}
+              run: |
+                  mkdir -p ~/.ssh && chmod 700 ~/.ssh
+                  echo "$DOWNLOAD_URL"
+                  echo "$SSH_CONFIG" > ~/.ssh/config
+                  echo "$SSH_PRIVATE_KEY" > ~/.ssh/github-actions
+                  chmod 600 ~/.ssh/config
+                  chmod 600 ~/.ssh/github-actions
+                  ssh -F ~/.ssh/config $SERVER_IP $UPDATE_RELEASE_CMD $DOWNLOAD_URL
