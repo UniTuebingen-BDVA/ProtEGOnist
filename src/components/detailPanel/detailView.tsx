@@ -19,6 +19,7 @@ interface DetailNodeLinkViewerProps {
   name: string
   infoContent: string
   busy: boolean
+  contentOutsideGrid?: boolean // default is false
 }
 
 function DetailView(props: DetailNodeLinkViewerProps) {
@@ -27,10 +28,11 @@ function DetailView(props: DetailNodeLinkViewerProps) {
 
   const titleBarContent = props.titleBarContent ? props.titleBarContent : () => <></>;
   const titleBarContentCols = props.titleBarContentCols ? props.titleBarContentCols : 0;
-  const titleCols = 11 - titleBarContentCols; 
+  const titleCols = 11 - titleBarContentCols;
+  const contentOutsideGrid = props.contentOutsideGrid ? props.contentOutsideGrid : false; 
+  const gridContent = contentOutsideGrid ? () => props.content():() => <Grid xs={12}>{props.content()}</Grid> ;
   return (
-      <div
-      >
+      <>
           <Backdrop
               sx={{
                   color: '#fff',
@@ -58,7 +60,7 @@ function DetailView(props: DetailNodeLinkViewerProps) {
             <Grid xs={titleBarContentCols}>
                 {titleBarContent()}
             </Grid>
-            <Grid xs={1} >
+            <Grid xs={1} xsOffset="auto">
                 <IconButton
                     onClick={() => {
                         setInfoTitle(props.infoContent);
@@ -70,11 +72,10 @@ function DetailView(props: DetailNodeLinkViewerProps) {
                     </Tooltip>
                   </IconButton>
               </Grid>
-              <Grid xs={12}>
-                    <props.content/>
-              </Grid>
+              {gridContent()}
           </Grid>
-      </div>
+          
+      </>
   );
 }
 

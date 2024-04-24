@@ -37,10 +37,11 @@ function TabPanel(props: TabPanelProps) {
       hidden={value !== index}
       id={`detailPanel-tabpanel-${index}`}
       aria-labelledby={`detailPanel-tab-${index}`}
+      style={{ height: "100%", width: "100%" }}
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 1 }}>
+        <Box sx={{ display:'flex'}}>
           {children}
         </Box>
       )}

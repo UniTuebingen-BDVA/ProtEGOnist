@@ -15,7 +15,7 @@ interface DetailNodeLinkViewerProps {
 function DetailNodeLinkViewer(props: DetailNodeLinkViewerProps) {
   const detailBusy = false //useAtom(detailNodeLinkBusyAtom);
   const getNodeLink = useSetAtom(getNodeLinkFromSelectionAtom)
-  const svgSize = { width: 500, height: 290};
+  const svgSize = { width: 500, height: 250};
   // prevent default pinch zoom
   document.addEventListener('gesturestart', (e) => e.preventDefault());
   document.addEventListener('gesturechange', (e) => e.preventDefault());
@@ -87,8 +87,10 @@ function DetailNodeLinkViewer(props: DetailNodeLinkViewerProps) {
   const nodeLink =()=>(
     <svg
       ref={ref}
-      width={'100%'}
+      width={'91%'} // somehow it gets the width of the wrong parent
+      height={'100%'}
       viewBox={`0 0 ${svgSize.width} ${svgSize.height}`}
+      style={{ position: 'absolute' }}
     >
       <animated.g
         ref={ref}
@@ -137,7 +139,6 @@ function DetailNodeLinkViewer(props: DetailNodeLinkViewerProps) {
       </ButtonGroup>
   )
   return (
-    <div>
         <DetailView
                 content={nodeLink}
                 title={`Node Link View of selected Nodes`}
@@ -146,8 +147,8 @@ function DetailNodeLinkViewer(props: DetailNodeLinkViewerProps) {
                 busy={detailBusy}
                 titleBarContent={titleBarContent}
                 titleBarContentCols={5}
+                contentOutsideGrid={true}
             />
-    </div>
   );
 }
 
