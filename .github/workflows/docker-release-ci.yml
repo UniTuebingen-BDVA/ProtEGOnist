@@ -49,12 +49,11 @@ jobs:
                   SSH_CONFIG: ${{ secrets.CONFIG_SSH }}
                   SERVER_IP: ${{ secrets.SERVER_DEPLOY }}
                   UPDATE_RELEASE_CMD: ${{ secrets.UPDATE_RELEASE_CMD }}
-                  KEY_FILENAME: ${{ secrets.KEY_FILENAME }}
                   DOWNLOAD_URL: ${{ steps.create_release.outputs.browser_download_url }}
               run: |
                   mkdir -p ~/.ssh && chmod 700 ~/.ssh
                   echo "$SSH_CONFIG" > ~/.ssh/config
-                  echo "$SSH_PRIVATE_KEY" > ~/.ssh/"$KEY_FILENAME"
+                  echo "$SSH_PRIVATE_KEY" > ~/.ssh/github-actions
                   chmod 600 ~/.ssh/config
-                  chmod 600 ~/.ssh/"$KEY_FILENAME"
+                  chmod 600 ~/.ssh/github-actions
                   ssh $SERVER_IP $UPDATE_RELEASE_CMD $DOWNLOAD_URL
