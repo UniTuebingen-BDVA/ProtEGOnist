@@ -1,17 +1,18 @@
-import { intersectionDatum } from '../../egoGraphSchema';
+import { intersectionDatum } from '../../../egoGraphSchema';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import * as d3 from 'd3';
 import { tarNodeAtom } from './radarStore';
-import { getRadarAtom, nameNodesByAtom } from '../../apiCalls';
+import { getRadarAtom, nameNodesByAtom } from '../../../apiCalls';
 import RadarCircles from './radarCircles';
 import RadarLabel from './radarLabel';
-import { selectedProteinsAtom, tableAtom } from '../selectionTable/tableStore';
-import AdvancedTooltip from '../utilityComponents/advancedTooltip';
+import { selectedProteinsAtom, tableAtom } from '../../selectionTable/tableStore';
+import AdvancedTooltip from '../../utilityComponents/advancedTooltip';
 
 interface RadarChartProps {
     baseRadius: number;
     intersectionData: { [name: string | number]: intersectionDatum };
     tarNode: string;
+    transform: string;
 }
 
 const RadarChart = (props: RadarChartProps) => {
@@ -263,7 +264,7 @@ const RadarChart = (props: RadarChartProps) => {
         CIRCLE_RADIUS +
         intersectionLengthScale(tarNodeData.setSize) * CIRCLE_RADIUS;
     return (
-        <g>
+        <g transform={props.transform}>
             {/* labels and pie segments */}
             {pieChartSegments.map(
                 (

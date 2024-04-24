@@ -13,7 +13,7 @@ import {
     intersectionAtom,
     tarNodeAtom,
     radarNodesAtom
-} from './components/radarchart/radarStore.ts';
+} from './components/detailPanel/radarchart/radarStore.ts';
 import {
     tableAtom,
     selectedProteinsAtom
@@ -24,6 +24,11 @@ import {
     egoNetworkNetworksAtom,
     updateEgoGraphBundleAtom
 } from './components/egoNetworkNetwork/egoNetworkNetworkStore.ts';
+
+import {
+    nodeAtom,
+    linkAtom
+} from './components/detailPanel/detailNodeLink/detailStore.ts';
 import { egoNetworkNetworksOverviewAtom } from './components/overview_component/egoNetworkNetworkOverviewStore.ts';
 
 export const serverBusyAtom = atom(false);
@@ -86,7 +91,6 @@ export const getMultiEgographBundleAtom = atom(
         const bumbleIdsToDelete = Object.keys(get(egoGraphBundlesAtom)).filter(
             (id) => !bundleIds.map((ids) => ids.join(',')).includes(id)
         );
-        console.log(newBundlesIds);
         if (newBundlesIds.length > 0) {
             set(egoNetworkNetworkBusyAtom, true);
             const newData = {};
@@ -243,7 +247,7 @@ export const getEgoNetworkNetworkAtom = atom(
                 nodes: [],
                 edges: []
             });
-             set(accountedProteinsNeigborhoodAtom, []);
+            set(accountedProteinsNeigborhoodAtom, []);
             set(egoNetworkNetworkBusyAtom, false);
         }
     }
@@ -318,6 +322,28 @@ export const getEgoNetworkNetworkOverviewAtom = atom(
                         );
                 }
             );
+    }
+);
+
+export const getNodeLinkFromSelectionAtom = atom(
+    (_get) => {},
+    (_get, set) => {
+        let selectedNodesIds = get(selectedNodesAtom);
+        let payload = {
+            nodes: selectedNodesIds,
+            example: get(selectedExampleAtom)
+        };
+        axios
+            .all([axios.post('/api/getNodeLinkDiagram/', payload)])
+            .then(
+                axios.spread((nodesResponse, linksResponse) => {
+                    set(nodeAtom, nodesResponse.data);
+                    set(linkAtom, linksResponse.data);
+                })
+            )
+            .catch((error) => {
+                console.error(error);
+            });
     }
 );
 

@@ -9,7 +9,7 @@ import EgoNetworkNetworkOverviewEdge from './egoNetworkNetworkOverviewEdge';
 import { accountedProteinsNeigborhoodAtom } from '../../apiCalls.ts';
 import { selectedProteinsAtom } from '../selectionTable/tableStore';
 import * as d3 from 'd3';
-import { tarNodeAtom } from '../radarchart/radarStore.ts';
+import { tarNodeAtom } from '../detailPanel/radarchart/radarStore.ts';
 import { useMemo } from 'react';
 
 const EgoNetworkNetworkOverview = () => {

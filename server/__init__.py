@@ -119,6 +119,17 @@ def create_app(input_path=""):
         ego_network_network = get_ego_network(string_graph, split_target)
         return ego_network_network.get_graph_json()
 
+    @app.route("/api/getNodeLinkDiagram/", methods=["POST"])
+    def get_node_link_diagram():
+        """
+        Generate a node link diagram from the target nodes.
+        """
+        complete_graph = EXAMPLES[request.json["example"]]["network"]
+        target_nodes = request.json["ids"]
+        # get the subgraph of the target nodes in the complete graph
+        subgraph = complete_graph.subgraph(target_nodes)
+        print(subgraph)
+
     @app.route("/api/getEgoNetworkNetworkOverview/<example>", methods=["GET"])
     def get_ego_network_network_overview(example: str):
         """
