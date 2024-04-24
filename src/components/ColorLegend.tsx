@@ -8,7 +8,7 @@ import { isNumber } from '@mui/x-data-grid/internals';
 
 function ColorLegend(props) {
     const { range, domain, type, transform, title, render, unknown } = props;
-    const itemSize = 10;
+    const itemSize = 10*window.devicePixelRatio;
     let colors, labels, unknownBox, labelUnknown;
     let def = null;
 

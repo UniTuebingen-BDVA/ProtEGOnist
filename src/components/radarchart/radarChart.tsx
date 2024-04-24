@@ -227,14 +227,14 @@ const RadarChart = (props: RadarChartProps) => {
         '#cab2d6'
     ];
     const colorScale = d3
-        .scaleOrdinal()
+        .scaleOrdinal<string>()
         .domain(
             Object.values(sortedIntersectionData).map(
                 (d) => d[1].classification
             )
         )
         .range(colorsRadar);
-    const baseRadiusInternal = baseRadius - 18 * (maxRingIndex + 1);
+    const baseRadiusInternal = baseRadius - 18 * (maxRingIndex + 2);
     const GUIDE_CIRCLE_RADIUS = baseRadiusInternal;
     const GUIDE_CIRCLE_STEP = baseRadiusInternal / 4;
     const GUIDE_CIRCLE_RADIUS_MIN = baseRadiusInternal / 4;
@@ -262,13 +262,13 @@ const RadarChart = (props: RadarChartProps) => {
     const centerRadius =
         CIRCLE_RADIUS +
         intersectionLengthScale(tarNodeData.setSize) * CIRCLE_RADIUS;
+    console.log(pieChartSegments);
     return (
         <g>
             {/* labels and pie segments */}
             {pieChartSegments.map(
                 (
                     {
-                        classification,
                         classificationFull,
                         startAngle,
                         endAngle,
@@ -280,7 +280,6 @@ const RadarChart = (props: RadarChartProps) => {
                     return (
                         <g key={classificationFull}>
                             <RadarLabel
-                                label={classification}
                                 hoverLabel={classificationFull}
                                 startAngle={startAngle}
                                 endAngle={endAngle}
