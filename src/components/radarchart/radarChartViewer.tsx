@@ -32,7 +32,7 @@ function RadarChartViewer(props: RadarChartViewerProps) {
     // useEffect(() => {
     //     setSVGSize({ width: width, height: height });
     // }, [height, width]);
-    const svgSize = { width: 800, height: 400 };
+    const svgSize = { width: 800, height: 350 };
 
     return (
         <Paper

@@ -234,7 +234,7 @@ const RadarChart = (props: RadarChartProps) => {
             )
         )
         .range(colorsRadar);
-    const baseRadiusInternal = baseRadius - 18 * (maxRingIndex + 2);
+    const baseRadiusInternal = baseRadius - 18 * (maxRingIndex + 1);
     const GUIDE_CIRCLE_RADIUS = baseRadiusInternal;
     const GUIDE_CIRCLE_STEP = baseRadiusInternal / 4;
     const GUIDE_CIRCLE_RADIUS_MIN = baseRadiusInternal / 4;
@@ -262,7 +262,6 @@ const RadarChart = (props: RadarChartProps) => {
     const centerRadius =
         CIRCLE_RADIUS +
         intersectionLengthScale(tarNodeData.setSize) * CIRCLE_RADIUS;
-    console.log(pieChartSegments);
     return (
         <g>
             {/* labels and pie segments */}
@@ -283,7 +282,7 @@ const RadarChart = (props: RadarChartProps) => {
                                 hoverLabel={classificationFull}
                                 startAngle={startAngle}
                                 endAngle={endAngle}
-                                radius={TEXT_RADIUS + 16 * ringIndex}
+                                radius={TEXT_RADIUS + 9 * ringIndex}
                                 guideCircleRadius={GUIDE_CIRCLE_RADIUS}
                                 colorScale={colorScale}
                             />
