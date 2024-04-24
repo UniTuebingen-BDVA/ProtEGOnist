@@ -128,6 +128,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                         onContextMenu={(event) => {
                             setContextMenu(event, center.id, 'subnetwork');
                         }}
+                        style={{"pointerEvents": "all", "cursor": "context-menu"}}
                     >
                         <circle
                             cx={center.x}

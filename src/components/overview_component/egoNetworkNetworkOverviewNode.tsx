@@ -95,7 +95,7 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                 onMouseLeave={() => {
                     highlightNodeSet('');
                 }}
-                style={{"pointer-events": "all", "cursor": "context-menu"}}
+                style={{"pointerEvents": "all", "cursor": "context-menu"}}
             >
                 <path
                     id={id + '_label'}

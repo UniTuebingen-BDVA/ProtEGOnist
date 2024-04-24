@@ -1,13 +1,13 @@
 import { animated } from '@react-spring/web';
-import { intersectionDatum } from '../../egoGraphSchema';
-import { getRadarAtom } from '../../apiCalls';
+import { intersectionDatum } from '../../../egoGraphSchema';
+import { getRadarAtom } from '../../../apiCalls';
 import { useAtom, useAtomValue } from 'jotai';
 import * as d3 from 'd3';
-import { selectedProteinsAtom } from '../selectionTable/tableStore';
-import AdvancedTooltip from '../utilityComponents/advancedTooltip';
+import { selectedProteinsAtom } from '../../selectionTable/tableStore';
+import AdvancedTooltip from '../../utilityComponents/advancedTooltip';
 import { lastSelectedNodeAtom } from './radarStore';
 import { memo } from 'react';
-import { contextMenuAtom } from '../utilityComponents/contextMenuStore';
+import { contextMenuAtom } from '../../utilityComponents/contextMenuStore';
 
 interface RadarCircleProps {
     id: string;
@@ -55,7 +55,7 @@ const RadarCircle = memo(function RadarCircle(props: RadarCircleProps) {
                 onContextMenu={(event) => {
                     setContextMenu(event, id, 'radar');
                 }}
-                style={{"pointer-events": "all", "cursor": "context-menu"}}
+                style={{"pointerEvents": "all", "cursor": "context-menu"}}
                 key={id}
                 r={
                     CIRCLE_RADIUS +

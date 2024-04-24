@@ -5,8 +5,8 @@ import { useAtom } from 'jotai';
 import { CircularProgress, Box, createTheme } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 
-import RadarChartViewer from './components/radarchart/radarChartViewer.tsx';
-import { tarNodeAtom } from './components/radarchart/radarStore.ts';
+import RadarChartViewer from './components/detailPanel/radarchart/radarChartViewer.tsx';
+import { tarNodeAtom } from './components/detailPanel/radarchart/radarStore.ts';
 import EgoNetworkNetworkViewer from './components/egoNetworkNetwork/egoNetworkNetworkViewer.tsx';
 import { selectedProteinsAtom } from './components/selectionTable/tableStore.tsx';
 import {
@@ -23,6 +23,7 @@ import LogoBlue from './assets/LogoBlue.svg';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import { MainPage } from './components/HomePage/MainPage.tsx';
 import TabsElements from './components/HomePage/TabsElements.tsx';
+import DetailPanel from './components/detailPanel/detailPanel.tsx';
 
 function App() {
     const [selectedExample] = useAtom(selectedExampleAtom);
@@ -101,10 +102,7 @@ function App() {
                             textAlign: 'center'
                         }}
                     >
-                        <RadarChartViewer
-                            intersectionData={intersectionData}
-                            tarNode={tarNode}
-                        />
+                        <DetailPanel/>
                     </Grid>
                 </Grid>
 
