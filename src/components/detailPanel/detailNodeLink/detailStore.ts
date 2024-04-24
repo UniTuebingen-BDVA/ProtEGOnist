@@ -1,6 +1,9 @@
 import { atom } from 'jotai';
 
 // link atom
+/**
+ * Atom representing the link store.
+ */
 const linkStoreAtom = atom<{
     [key: string]: {
         source: {
@@ -21,6 +24,10 @@ const linkStoreAtom = atom<{
     };
 }>({});
 
+/**
+ * Atom representing the link data in the detail panel.
+ * @returns An array of link objects with x1, y1, x2, y2 coordinates.
+ */
 export const linkAtom = atom(
     (get) => {
         const linkDict = get(linkStoreAtom);

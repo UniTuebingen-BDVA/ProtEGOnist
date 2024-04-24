@@ -1,23 +1,31 @@
-import { useAtom, useSetAtom } from 'jotai';
-import { SpringValue, animated } from '@react-spring/web';
-import AdvancedTooltip from '../../utilityComponents/advancedTooltip';
-import { memo, useState } from 'react';
+import { useSetAtom } from 'jotai';
+import { animated } from '@react-spring/web';
+import { memo } from 'react';
 import { contextMenuAtom } from '../../utilityComponents/contextMenuStore';
 
+/**
+ * Represents the props for the DetailNode component.
+ */
 interface DetailNodeProps {
     id: string;
     size: number;
     styleParam: { [key: string]: number | string | undefined | null | boolean };
 }
 
+/**
+ * Renders a detail node link component.
+ *
+ * @component
+ * @param {DetailNodeProps} props - The props for the component.
+ * @returns {JSX.Element} The rendered detail node link component.
+ */
 const DetailNode = memo(function DetailNode(
     props: DetailNodeProps
 ) {
-  const { id, size,styleParam } = props;
+  const { id, styleParam } = props;
   const setContextMenu = useSetAtom(contextMenuAtom);
 
   return (
-
       <animated.line
           onContextMenu={(event) => {
               setContextMenu(event, id, 'radar');
@@ -31,7 +39,7 @@ const DetailNode = memo(function DetailNode(
           stroke={"black"}
           style={{ ...styleParam }}
           strokeOpacity={.7}
-          strokeWidth={.4}
+          strokeWidth={.1}
       />
 );
 });

@@ -7,6 +7,11 @@ import { linkAtom, nodeAtom } from './detailStore';
 interface DetailNodeLinkProps {
 }
 
+/**
+ * Renders the detail panel for node-link visualization.
+ * @param {DetailNodeLinkProps} props - The props for the DetailNodeLink component.
+ * @returns {JSX.Element} The rendered detail panel.
+ */
 const DetailNodeLink = (props: DetailNodeLinkProps) => {
     const [nodes] = useAtom(nodeAtom);
     const [links] = useAtom(linkAtom);

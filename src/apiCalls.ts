@@ -345,7 +345,6 @@ export const getNodeLinkFromSelectionAtom = atom(null, (get, set) => {
             const outNodes = nodes.map((node) => {
                 return {
                     id: node,
-                    fill: 'red',
                     size: 2,
                     x: Math.random(),
                     y: Math.random()
@@ -419,6 +418,7 @@ export const getNodeLinkFromSelectionAtom = atom(null, (get, set) => {
             set(linkAtom, edgeDict);
         })
         .catch((error) => {
+            set(detailNodeLinkBusyAtom, false);
             console.error(error);
         });
 });
