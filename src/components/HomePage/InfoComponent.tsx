@@ -67,6 +67,21 @@ const contents = {
             </p>
         </div>
     ),
+    detailNodeLink: (
+        <div>
+            <p>
+                The Detail Node Link Diagram shows the selected nodes and their links.
+                The selection is based on intersections and ego-graphs selected in the ego-graph subnetwork.
+            </p>
+            <p>
+                <b>Use the buttons</b> to zoom in and out, fit the view, or to get the node-link diagram based on your selection.
+            </p>
+            <p>
+                <b>Right click on</b> ego-graphs to open a context-menu for adding
+                ego-graphs to the ego-graph subnetwork or selecting it as the center for the radar chart..
+            </p>
+        </div>
+    ),
     networkOverview: (
         <div>
             <p>

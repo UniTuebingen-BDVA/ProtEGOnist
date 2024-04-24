@@ -3,6 +3,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import axios from 'axios';
+import * as d3 from 'd3';
 import { Atom, atom } from 'jotai';
 import {
     egoGraph,
@@ -22,7 +23,8 @@ import { GridColDef, GridRowsProp } from '@mui/x-data-grid';
 import {
     egoGraphBundlesAtom,
     egoNetworkNetworksAtom,
-    updateEgoGraphBundleAtom
+    updateEgoGraphBundleAtom,
+    selectedNodesAtom
 } from './components/egoNetworkNetwork/egoNetworkNetworkStore.ts';
 
 import {
@@ -75,6 +77,7 @@ export const selectedExampleAtom = atom(
     }
 );
 export const radarChartBusyAtom = atom(false);
+export const detailNodeLinkBusyAtom = atom(false);
 export const egoNetworkNetworkBusyAtom = atom(false);
 export const egoNetworkNetworkOverviewCoverageAtom = atom<{
     nodes: number;
@@ -325,26 +328,99 @@ export const getEgoNetworkNetworkOverviewAtom = atom(
     }
 );
 
-export const getNodeLinkFromSelectionAtom = atom(
-    (_get) => {},
-    (_get, set) => {
-        let selectedNodesIds = get(selectedNodesAtom);
-        let payload = {
-            nodes: selectedNodesIds,
-            example: get(selectedExampleAtom)
-        };
-        axios
-            .all([axios.post('/api/getNodeLinkDiagram/', payload)])
-            .then(
-                axios.spread((nodesResponse, linksResponse) => {
-                    set(nodeAtom, nodesResponse.data);
-                    set(linkAtom, linksResponse.data);
-                })
-            )
-            .catch((error) => {
-                console.error(error);
+export const getNodeLinkFromSelectionAtom = atom(null, (get, set) => {
+    set(detailNodeLinkBusyAtom, true);
+    let selectedNodesIds = get(selectedNodesAtom);
+    let payload = {
+        ids: selectedNodesIds,
+        example: get(selectedExampleAtom)
+    };
+    axios
+        .post('/api/getNodeLinkDiagram/', payload)
+        .then((result) => {
+            console.log(result);
+            const nodes = result.data.nodes;
+            const edges = result.data.edges;
+
+            const outNodes = nodes.map((node) => {
+                return {
+                    id: node,
+                    size: 2,
+                    x: Math.random(),
+                    y: Math.random()
+                };
             });
-    }
-);
+            const outEdges = edges.map((edge) => {
+                return {
+                    source: edge[0],
+                    target: edge[1],
+                    weight: 1
+                };
+            });
+            function blockNodeCoordinates(node: egoNetworkNetworkNode) {
+                // This code is for keeping the nodes within the svg canvas.
+                // The size of the nodes is scaled using a d3 scale function.
+                //The blockX and blockY variables are used to set the boundaries of the nodes.
+                //The node.x and node.y variables are set to be within the bounds of the svg canvas.
+
+                const radius = Math.sqrt(3 / Math.PI);
+                const blockX = 500 - 2 * radius;
+                const blockY = 200 - 2 * radius;
+
+                node.x = Math.max(radius, Math.min(blockX, node.x));
+                node.y = Math.max(radius, Math.min(blockY, node.y));
+                //return node;
+            }
+            function boxingForce() {
+                outNodes.forEach((node) => {
+                    //node = blockNodeCoordinates(scaleSize, node, svgSize);
+                    blockNodeCoordinates(node);
+                });
+            }
+            d3.forceSimulation(outNodes)
+                .force('center', d3.forceCenter(0, 0))
+                .force(
+                    'charge',
+                    d3.forceManyBody().strength(() => -5)
+                )
+                .force(
+                    'link',
+                    d3
+                        .forceLink(outEdges)
+                        .id((d: egoNetworkNetworkNode) => d.id)
+                        .distance((d) => 2)
+                        .strength(0.1)
+                )
+                .force(
+                    'collision',
+                    d3
+                        .forceCollide()
+                        .radius((d: egoNetworkNetworkNode) => d.size + 2)
+                )
+                .stop()
+                .tick(100)
+                .force('boxing', boxingForce);
+            // .tick(5)
+            // .stop();
+
+            // make object with key as node id and value as node object
+            const nodeDict = {};
+            outNodes.forEach((node) => {
+                nodeDict[node.id] = node;
+            });
+            set(nodeAtom, nodeDict);
+            // make object with key as edge id and value as edge object
+            const edgeDict = {};
+            outEdges.forEach((edge) => {
+                edgeDict[edge.source.id + edge.target.id] = edge;
+            });
+            set(detailNodeLinkBusyAtom, false);
+            set(linkAtom, edgeDict);
+        })
+        .catch((error) => {
+            set(detailNodeLinkBusyAtom, false);
+            console.error(error);
+        });
+});
 
 export let startDataOverview;

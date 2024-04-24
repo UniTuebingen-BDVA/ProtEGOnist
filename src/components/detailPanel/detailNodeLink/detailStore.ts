@@ -1,33 +1,56 @@
 import { atom } from 'jotai';
 
 // link atom
+/**
+ * Atom representing the link store.
+ */
 const linkStoreAtom = atom<{
-    [key: string]: { source: string; target: string; id: string };
+    [key: string]: {
+        source: {
+            id: string;
+            fill: string;
+            size: number;
+            x: number;
+            y: number;
+        };
+        target: {
+            id: string;
+            fill: string;
+            size: number;
+            x: number;
+            y: number;
+        };
+        id: string;
+    };
 }>({});
 
+/**
+ * Atom representing the link data in the detail panel.
+ * @returns An array of link objects with x1, y1, x2, y2 coordinates.
+ */
 export const linkAtom = atom(
     (get) => {
         const linkDict = get(linkStoreAtom);
         // get x1, y1, x2, y2
         const links = Object.values(linkDict).map((link) => {
+            const sourceNode = link.source;
+            const targetNode = link.target;
             return {
                 id: link.id,
-                x1: get(nodeStoreAtom)[link.source].cx,
-                y1: get(nodeStoreAtom)[link.source].cy,
-                x2: get(nodeStoreAtom)[link.target].cx,
-                y2: get(nodeStoreAtom)[link.target].cy
+                x1: sourceNode.x,
+                y1: sourceNode.y,
+                x2: targetNode.x,
+                y2: targetNode.y
             };
         });
         return links;
     },
-    (_get, set, links: { source: string; target: string; id: string }[]) => {
-        const linkDict: {
-            [key: string]: { source: string; target: string; id: string };
-        } = {};
-        links.forEach((link) => {
-            linkDict[link.id] = link;
-        });
-        set(linkStoreAtom, linkDict);
+    (
+        _get,
+        set,
+        links: { [key: string]: { source: string; target: string; id: string } }
+    ) => {
+        set(linkStoreAtom, links);
     }
 );
 // node atom
@@ -36,38 +59,42 @@ const nodeStoreAtom = atom<{
         id: string;
         fill: string;
         size: number;
-        cx: number;
-        cy: number;
+        x: number;
+        y: number;
     };
 }>({});
 
+export const nodeKeysAtom = atom((get) => {
+    const nodes = get(nodeStoreAtom);
+    return Object.keys(nodes);
+});
+
+const selectedNodeAtomStore = atom('');
+export const selectedNodeAtom = atom(
+    (get) => get(selectedNodeAtomStore),
+    (_get, set, value: string) => {
+        set(selectedNodeAtomStore, value);
+    }
+);
+
 export const nodeAtom = atom(
     (get) => {
-        return get(nodeStoreAtom);
+        const nodes = get(nodeStoreAtom);
+        return Object.values(nodes);
     },
     (
         _get,
         set,
         nodes: {
-            id: string;
-            fill: string;
-            size: number;
-            cx: number;
-            cy: number;
-        }[]
-    ) => {
-        const nodeDict: {
             [key: string]: {
                 id: string;
                 fill: string;
                 size: number;
-                cx: number;
-                cy: number;
+                x: number;
+                y: number;
             };
-        } = {};
-        nodes.forEach((node) => {
-            nodeDict[node.id] = node;
-        });
-        set(nodeStoreAtom, nodeDict);
+        }
+    ) => {
+        set(nodeStoreAtom, nodes);
     }
 );
