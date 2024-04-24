@@ -52,12 +52,15 @@ jobs:
                   SSH_CONFIG: ${{ secrets.CONFIG_SSH }}
                   SERVER_IP: ${{ secrets.SERVER_DEPLOY }}
                   UPDATE_RELEASE_CMD: ${{ secrets.UPDATE_RELEASE_CMD }}
+                  KNOWN_HOSTS: ${{ secrets.KNOWN_HOSTS }}
                   DOWNLOAD_URL: ${{ needs.build.outputs.browser_download_url }}
               run: |
                   mkdir -p ~/.ssh && chmod 700 ~/.ssh
                   echo "$DOWNLOAD_URL"
                   echo "$SSH_CONFIG" > ~/.ssh/config
                   echo "$SSH_PRIVATE_KEY" > ~/.ssh/github-actions
+                  echo "$KNOWN_HOSTS" > ~/.ssh/known_hosts
                   chmod 600 ~/.ssh/config
                   chmod 600 ~/.ssh/github-actions
-                  ssh -F ~/.ssh/config $SERVER_IP $UPDATE_RELEASE_CMD $DOWNLOAD_URL
+                  chmod 600 ~/.ssh/known_hosts
+                  ssh -F ~/.ssh/config  -o UserKnownHostsFile=~/.ssh/known_hosts $SERVER_IP $UPDATE_RELEASE_CMD $DOWNLOAD_URL
