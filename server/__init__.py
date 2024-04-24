@@ -123,7 +123,10 @@ def create_app(input_path=""):
         target_nodes = request.json["ids"]
         # get the subgraph of the target nodes in the complete graph
         subgraph = complete_graph.subgraph(target_nodes)
-        print(subgraph)
+        return {
+            "nodes": list(subgraph.nodes),
+            "edges": list(subgraph.edges),
+        }
 
     @app.route("/api/getEgoNetworkNetworkOverview/<example>", methods=["GET"])
     def get_ego_network_network_overview(example: str):

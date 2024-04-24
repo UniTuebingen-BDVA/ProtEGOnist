@@ -3,45 +3,87 @@ import { SpringValue, animated } from '@react-spring/web';
 import AdvancedTooltip from '../../utilityComponents/advancedTooltip';
 import { memo, useState } from 'react';
 import { contextMenuAtom } from '../../utilityComponents/contextMenuStore';
+import { selectedProteinsAtom } from '../../selectionTable/tableStore';
+import { selectedNodeAtom } from './detailStore';
 
+/**
+ * Represents the props for the DetailNode component.
+ */
 interface DetailNodeProps {
     id: string;
     size: number;
     styleParam: { [key: string]: number | string | undefined | null | boolean };
-
 }
 
-const DetailNode = memo(function DetailNode(
-    props: DetailNodeProps
-) {
-  const { id, size,styleParam } = props;
-  const setContextMenu = useSetAtom(contextMenuAtom);
+/**
+ * Represents a detail node component.
+ * @param props - The props for the DetailNode component.
+ * @returns The rendered DetailNode component.
+ */
+const DetailNode = memo(function DetailNode(props: DetailNodeProps) {
+    const { id, size, styleParam } = props;
+    const setContextMenu = useSetAtom(contextMenuAtom);
+    const [nodesInSubnetwork] = useAtom(selectedProteinsAtom);
+    const [selectedNode, setSelectedNode] = useAtom(selectedNodeAtom);
 
-  return (
-   <AdvancedTooltip nodeID={id} key={id}>
-      <animated.circle
-          onContextMenu={(event) => {
-              setContextMenu(event, id, 'radar');
-          }}
-          style={{"pointerEvents": "all", "cursor": "context-menu"}}
-          key={id}
-          r={size}
-          fill={"red"}
-          fillOpacity={1}
-          // FIXME Type not fully correct
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore ts2304
-          cx={styleParam.cx}
-          // FIXME Type not fully correct
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore ts2304
-          cy={styleParam.cy}
-          stroke={"orange"}
-          style={{ ...styleParam }}
-          strokeOpacity={1.0}
-          strokeWidth={1}
-      />
-  </AdvancedTooltip>
-);
+    const color = (id) => {
+        if (selectedNode !== '') {
+            if (id === selectedNode) {
+                return 'red';
+            }
+            return '#dddddd';
+        }
+
+        if (nodesInSubnetwork.includes(id)) {
+            return '#ff7f00';
+        }
+        return 'gray';
+    };
+
+    const nodeSize = (id) => {
+        if (selectedNode !== '') {
+            if (id === selectedNode) {
+                return '5';
+            }
+            return '1';
+        }
+        if (nodesInSubnetwork.includes(id)) {
+            return 5;
+        }
+        return 2;
+    };
+    return (
+        <AdvancedTooltip nodeID={id} key={id}>
+            <animated.circle
+                /**
+                 * Handles the context menu event for the circle.
+                 * @param event - The context menu event.
+                 */
+                onContextMenu={(event) => {
+                    setContextMenu(event, id, 'radar');
+                }}
+                onClick={() => {
+                    setSelectedNode(id);
+                }}
+                style={{ pointerEvents: 'all', cursor: 'context-menu' }}
+                key={id}
+                r={nodeSize(id)}
+                fill={color(id)}
+                fillOpacity={1}
+                // FIXME Type not fully correct
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore ts2304
+                cx={styleParam.cx}
+                // FIXME Type not fully correct
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore ts2304
+                cy={styleParam.cy}
+                stroke={'black'}
+                style={{ ...styleParam }}
+                strokeOpacity={1.0}
+                strokeWidth={0.2}
+            />
+        </AdvancedTooltip>
+    );
 });
 export default DetailNode;

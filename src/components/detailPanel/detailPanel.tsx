@@ -37,10 +37,11 @@ function TabPanel(props: TabPanelProps) {
       hidden={value !== index}
       id={`detailPanel-tabpanel-${index}`}
       aria-labelledby={`detailPanel-tab-${index}`}
+      style={{ height: "100%", width: "90%" }}
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 1 }}>
+        <Box sx={{ display:'flex'}}>
           {children}
         </Box>
       )}
@@ -101,12 +102,11 @@ export default function DetailPanel() {
 
   return (
     <Paper
-      sx={{
-        flexGrow: 1,
-        bgcolor: 'background.paper',
-        display: 'flex',
+    style={{
         width: '100%',
         height: '100%',
+        display: 'flex',
+        position: 'relative'
       }}
     >
       <StyledTabs

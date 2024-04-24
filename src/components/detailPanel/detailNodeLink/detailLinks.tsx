@@ -1,6 +1,9 @@
 import { useTransition } from '@react-spring/web';
 import DetailLink from './detailLink';
 
+/**
+ * Props for the DetailLinks component.
+ */
 interface DetailLinksProps {
   links: {
     id: string;
@@ -11,6 +14,11 @@ interface DetailLinksProps {
   }[];
 }
 
+/**
+ * Renders the detail links component.
+ * @param {DetailLinksProps} props - The component props.
+ * @returns {JSX.Element} The rendered detail links component.
+ */
 const DetailLinks = (props: DetailLinksProps) => {
   const transitions = useTransition(props.links, {
     keys: (link) => link.id,
