@@ -387,17 +387,21 @@ export const getNodeLinkFromSelectionAtom = atom(null, (get, set) => {
                     d3
                         .forceLink(outEdges)
                         .id((d: egoNetworkNetworkNode) => d.id)
-                        .distance((d) => 1)
+                        .distance((d) => 2)
+                        .strength(0.1)
                 )
                 .force(
                     'collision',
                     d3
                         .forceCollide()
-                        .radius((d: egoNetworkNetworkNode) => d.size + 1)
+                        .radius((d: egoNetworkNetworkNode) => d.size + 2)
                 )
-                //.force('boxing', boxingForce)
                 .stop()
                 .tick(100);
+            // .force('boxing', boxingForce)
+            // .tick(5)
+            // .stop();
+
             // make object with key as node id and value as node object
             const nodeDict = {};
             outNodes.forEach((node) => {

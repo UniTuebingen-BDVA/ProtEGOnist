@@ -14,20 +14,22 @@ import { InformationVariantCircle } from 'mdi-material-ui';
 interface DetailNodeLinkViewerProps {
   content: () => ReactElement
   title: string
+  titleBarContent?: () => ReactElement
+  titleBarContentCols?: number
   name: string
   infoContent: string
   busy: boolean
-  contentSize: { width: number, height: number, percentWidth: number }
 }
 
 function DetailView(props: DetailNodeLinkViewerProps) {
-  const ref = useRef(null);
   const [_infoContent, setInfoContent] = useAtom(infoContentAtom);
   const [_infoTitle, setInfoTitle] = useAtom(infoTitleAtom);
 
+  const titleBarContent = props.titleBarContent ? props.titleBarContent : () => <></>;
+  const titleBarContentCols = props.titleBarContentCols ? props.titleBarContentCols : 0;
+  const titleCols = 11 - titleBarContentCols; 
   return (
       <div
-          ref={ref}
       >
           <Backdrop
               sx={{
@@ -48,40 +50,28 @@ function DetailView(props: DetailNodeLinkViewerProps) {
                   height: '100%',
               }}
           >
-              <Grid xs={11}>
-                  <Typography component={'span'} style={{ color: 'black' }}>
-                      {props.title}
-                  </Typography>
-              </Grid>
-              <Grid xs={1} sx={{ display: 'flex' }}>
-                  <IconButton
-                      onClick={() => {
-                          setInfoTitle(props.infoContent);
-                          setInfoContent(props.infoContent);
-                      }}
-                  >
-                      <Tooltip title={`Information about the ${props.name}`}>
-                          <InformationVariantCircle />
-                      </Tooltip>
+            <Grid xs={titleCols}>
+                <Typography component={'span'} style={{ color: 'black' }}>
+                    {props.title}
+                </Typography>
+            </Grid>
+            <Grid xs={titleBarContentCols}>
+                {titleBarContent()}
+            </Grid>
+            <Grid xs={1} >
+                <IconButton
+                    onClick={() => {
+                        setInfoTitle(props.infoContent);
+                        setInfoContent(props.infoContent);
+                    }}
+                >
+                    <Tooltip title={`Information about the ${props.name}`}>
+                        <InformationVariantCircle />
+                    </Tooltip>
                   </IconButton>
               </Grid>
               <Grid xs={12}>
-                  <svg
-                      width={props.contentSize.percentWidth + '%'}
-                      viewBox={`0 0 ${props.contentSize.width} ${props.contentSize.height}`}
-                  >
-                      <g
-                          // transform={
-                          //     'translate(' +
-                          //     String(props.contentSize.width / 2) +
-                          //     ',' +
-                          //     String(props.contentSize.height / 2) +
-                          //     ')'
-                          // }
-                      >
-                          <props.content/>
-                      </g>
-                  </svg>
+                    <props.content/>
               </Grid>
           </Grid>
       </div>
