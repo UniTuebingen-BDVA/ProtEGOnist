@@ -17,7 +17,7 @@ const DetailNode = memo(function DetailNode(
   const setContextMenu = useSetAtom(contextMenuAtom);
 
   return (
-   <AdvancedTooltip nodeID={id} key={id}>
+
       <animated.line
           onContextMenu={(event) => {
               setContextMenu(event, id, 'radar');
@@ -33,7 +33,6 @@ const DetailNode = memo(function DetailNode(
           strokeOpacity={.7}
           strokeWidth={.4}
       />
-  </AdvancedTooltip>
 );
 });
 export default DetailNode;

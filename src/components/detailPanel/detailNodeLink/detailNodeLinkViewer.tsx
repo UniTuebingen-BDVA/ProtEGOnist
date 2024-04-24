@@ -6,7 +6,9 @@ import React from 'react';
 import { animated, useSpring } from '@react-spring/web';
 import { useGesture } from '@use-gesture/react';
 import { ButtonGroup, IconButton,Tooltip } from '@mui/material';
-import { FitToPageOutline, MagnifyMinusOutline, MagnifyPlusOutline, Network } from 'mdi-material-ui';
+import { FitToPageOutline, MagnifyMinusOutline, MagnifyPlusOutline } from 'mdi-material-ui';
+import HubIcon from '@mui/icons-material/Hub';
+
 
 interface DetailNodeLinkViewerProps {
 }
@@ -134,7 +136,7 @@ function DetailNodeLinkViewer(props: DetailNodeLinkViewerProps) {
 
                   }}
               >
-                  <Network />
+                  <HubIcon />
               </IconButton>
           </Tooltip>
       </ButtonGroup>
