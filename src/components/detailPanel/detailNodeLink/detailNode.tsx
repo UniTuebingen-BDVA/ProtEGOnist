@@ -4,6 +4,7 @@ import AdvancedTooltip from '../../utilityComponents/advancedTooltip';
 import { memo, useState } from 'react';
 import { contextMenuAtom } from '../../utilityComponents/contextMenuStore';
 import { selectedProteinsAtom } from '../../selectionTable/tableStore';
+import { selectedNodeAtom } from './detailStore';
 
 /**
  * Represents the props for the DetailNode component.
@@ -23,6 +24,34 @@ const DetailNode = memo(function DetailNode(props: DetailNodeProps) {
     const { id, size, styleParam } = props;
     const setContextMenu = useSetAtom(contextMenuAtom);
     const [nodesInSubnetwork] = useAtom(selectedProteinsAtom);
+    const [selectedNode, setSelectedNode] = useAtom(selectedNodeAtom);
+
+    const color = (id) => {
+        if (selectedNode !== '') {
+            if (id === selectedNode) {
+                return 'red';
+            }
+            return '#dddddd';
+        }
+
+        if (nodesInSubnetwork.includes(id)) {
+            return '#ff7f00';
+        }
+        return 'gray';
+    };
+
+    const nodeSize = (id) => {
+        if (selectedNode !== '') {
+            if (id === selectedNode) {
+                return '5';
+            }
+            return '1';
+        }
+        if (nodesInSubnetwork.includes(id)) {
+            return 5;
+        }
+        return 2;
+    };
     return (
         <AdvancedTooltip nodeID={id} key={id}>
             <animated.circle
@@ -33,10 +62,13 @@ const DetailNode = memo(function DetailNode(props: DetailNodeProps) {
                 onContextMenu={(event) => {
                     setContextMenu(event, id, 'radar');
                 }}
+                onClick={() => {
+                    setSelectedNode(id);
+                }}
                 style={{ pointerEvents: 'all', cursor: 'context-menu' }}
                 key={id}
-                r={nodesInSubnetwork.includes(id) ? size * 2 : size}
-                fill={nodesInSubnetwork.includes(id) ? '#ff7f00' : 'gray'}
+                r={nodeSize(id)}
+                fill={color(id)}
                 fillOpacity={1}
                 // FIXME Type not fully correct
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment

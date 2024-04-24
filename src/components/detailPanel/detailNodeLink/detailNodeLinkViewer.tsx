@@ -8,13 +8,21 @@ import {
 import React from 'react';
 import { animated, useSpring } from '@react-spring/web';
 import { useGesture } from '@use-gesture/react';
-import { ButtonGroup, IconButton, Tooltip } from '@mui/material';
+import {
+    Autocomplete,
+    ButtonGroup,
+    IconButton,
+    TextField,
+    Tooltip
+} from '@mui/material';
 import {
     FitToPageOutline,
     MagnifyMinusOutline,
     MagnifyPlusOutline
 } from 'mdi-material-ui';
 import SyncIcon from '@mui/icons-material/Sync';
+import { nodeKeysAtom, selectedNodeAtom } from './detailStore.ts';
+import Grid from '@mui/system/Unstable_Grid/Grid';
 
 interface DetailNodeLinkViewerProps {}
 
@@ -27,6 +35,8 @@ interface DetailNodeLinkViewerProps {}
 function DetailNodeLinkViewer(props: DetailNodeLinkViewerProps) {
     const [detailBusy] = useAtom(detailNodeLinkBusyAtom);
     const getNodeLink = useSetAtom(getNodeLinkFromSelectionAtom);
+    const [searchedNode, setSearchedNode] = useAtom(selectedNodeAtom);
+    const [getNodeKeys] = useAtom(nodeKeysAtom);
     const svgSize = { width: 500, height: 250 };
     // prevent default pinch zoom
     document.addEventListener('gesturestart', (e) => e.preventDefault());
@@ -97,40 +107,60 @@ function DetailNodeLinkViewer(props: DetailNodeLinkViewerProps) {
     );
 
     const titleBarContent = () => (
-        <ButtonGroup>
-            <IconButton
-                onClick={() => {
-                    zoom(0.2);
-                }}
-            >
-                <MagnifyPlusOutline />
-            </IconButton>
-            <IconButton
-                onClick={() => {
-                    zoom(-0.2);
-                }}
-            >
-                <MagnifyMinusOutline />
-            </IconButton>
-            <Tooltip title="Fit to view">
+        <Grid container>
+            <Grid xs={6}>
+                <Autocomplete
+                    id="nodeSearch"
+                    freeSolo
+                    options={getNodeKeys}
+                    inputValue={searchedNode}
+                    renderInput={(params) => (
+                        <TextField {...params} label="nodeSearch" />
+                    )}
+                    onInputChange={(_ev, val) => setSearchedNode(val)}
+                />
+            </Grid>
+            <Grid xs={1}>
                 <IconButton
                     onClick={() => {
-                        resetZoomPosition();
+                        zoom(0.2);
                     }}
                 >
-                    <FitToPageOutline />
+                    <MagnifyPlusOutline />
                 </IconButton>
-            </Tooltip>
-            <Tooltip title="DetailNodeLinkViewer">
+            </Grid>
+            <Grid xs={1}>
                 <IconButton
                     onClick={() => {
-                        getNodeLink();
+                        zoom(-0.2);
                     }}
                 >
-                    <SyncIcon />
+                    <MagnifyMinusOutline />
                 </IconButton>
-            </Tooltip>
-        </ButtonGroup>
+            </Grid>
+            <Grid xs={1}>
+                <Tooltip title="Fit to view">
+                    <IconButton
+                        onClick={() => {
+                            resetZoomPosition();
+                        }}
+                    >
+                        <FitToPageOutline />
+                    </IconButton>
+                </Tooltip>
+            </Grid>
+            <Grid xs={1}>
+                <Tooltip title="DetailNodeLinkViewer">
+                    <IconButton
+                        onClick={() => {
+                            getNodeLink();
+                        }}
+                    >
+                        <SyncIcon />
+                    </IconButton>
+                </Tooltip>
+            </Grid>
+        </Grid>
     );
     return (
         <DetailView
@@ -139,7 +169,7 @@ function DetailNodeLinkViewer(props: DetailNodeLinkViewerProps) {
             infoContent={'detailNodeLink'}
             busy={detailBusy}
             titleBarContent={titleBarContent}
-            titleBarContentCols={5}
+            titleBarContentCols={8}
             contentOutsideGrid={true}
         >
             <svg

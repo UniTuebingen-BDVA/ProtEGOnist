@@ -64,6 +64,19 @@ const nodeStoreAtom = atom<{
     };
 }>({});
 
+export const nodeKeysAtom = atom((get) => {
+    const nodes = get(nodeStoreAtom);
+    return Object.keys(nodes);
+});
+
+const selectedNodeAtomStore = atom('');
+export const selectedNodeAtom = atom(
+    (get) => get(selectedNodeAtomStore),
+    (_get, set, value: string) => {
+        set(selectedNodeAtomStore, value);
+    }
+);
+
 export const nodeAtom = atom(
     (get) => {
         const nodes = get(nodeStoreAtom);
