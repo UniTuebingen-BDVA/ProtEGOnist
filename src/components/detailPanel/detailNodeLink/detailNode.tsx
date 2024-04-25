@@ -28,7 +28,7 @@ const DetailNode = memo(function DetailNode(props: DetailNodeProps) {
     const [selectedNode, setSelectedNode] = useAtom(selectedNodeAtom);
 
     const color = (id, component) => {
-        if (selectedNode !== '') {
+        if (selectedNode) {
             if (id === selectedNode) {
                 return 'red';
             }
@@ -47,7 +47,7 @@ const DetailNode = memo(function DetailNode(props: DetailNodeProps) {
     };
 
     const nodeSize = (id) => {
-        if (selectedNode !== '') {
+        if (selectedNode) {
             if (id === selectedNode) {
                 return '5';
             }
