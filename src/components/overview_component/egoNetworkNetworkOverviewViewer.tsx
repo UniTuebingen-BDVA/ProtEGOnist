@@ -11,6 +11,7 @@ import {
     getEgoNetworkNetworkOverviewAtom
 } from '../../apiCalls.ts';
 import { useRef } from 'react';
+import { calculateTextWidth, splitString, svgFontSize } from '../../UtilityFunctions.ts';
 
 function EgoNetworkNetworkOverviewViewer() {
     const ref = useRef(null);
@@ -22,6 +23,20 @@ function EgoNetworkNetworkOverviewViewer() {
     const [egoNetworkNetworkOverviewData] = useAtom(
         getEgoNetworkNetworkOverviewAtom
     );
+    const gapBetweenLegends = 10;
+    const firstLegendTitle =
+        'Percent of nodes represented in ego-graph subnetwork (right)';
+    const secondLegendDomain = 'In ego-graph subnetwork';
+    const firstLegendTitleSplit = splitString(firstLegendTitle);
+    const heightFirstLegendTitle = firstLegendTitleSplit.length * svgFontSize*1.5;
+    const widthFirstLegendBody=4*svgFontSize;
+    const xTranslateSecondLegend =
+        calculateTextWidth(firstLegendTitleSplit) + gapBetweenLegends;
+    const xTranslateThirdLegend =
+        xTranslateSecondLegend +
+        calculateTextWidth([secondLegendDomain]) +
+        svgFontSize +
+        gapBetweenLegends;
 
     return (
         <Paper
@@ -62,50 +77,43 @@ function EgoNetworkNetworkOverviewViewer() {
                         </Tooltip>
                     </IconButton>
                 </Grid>
-                <Grid
-                    xs={12}
-                    sx={{ top: '10%', position: 'absolute', height: '90%' }}
-                >
+                <Grid xs={12} sx={{ top: '11%', position: 'absolute' }}>
                     <svg
                         width={'100%'}
                         height={'100%'}
-                        viewBox={`0 0 ${svgSize.width + 40} ${
-                            svgSize.height + 40
+                        preserveAspectRatio={'xMinYMin'}
+                        viewBox={`0 0 ${svgSize.width + widthFirstLegendBody} ${
+                            svgSize.height + heightFirstLegendTitle
                         }`}
                     >
                         <ColorLegend
                             domain={[0, 100]}
                             range={['white', '#464646']}
                             type={'quantitative'}
-                            transform={`translate(${6},${13})`}
-                            title={
-                                'Percent of nodes represented in ego-graph subnetwork (right)'
-                            }
+                            transform={`translate(${6},${svgFontSize / 2})`}
+                            titleParts={firstLegendTitleSplit}
                             render={true}
+                            fontSize={svgFontSize}
                         />
-                        <g transform={`translate(300,0)`}>
-                            {' '}
-                            <ColorLegend
-                                domain={['In ego-graph subnetwork']}
-                                range={['#ff7f00']}
-                                type={'qualitative'}
-                                transform={`translate(${10},${0})`}
-                                title={''}
-                                render={true}
-                            />
-                        </g>
-                        <g transform={`translate(450,0)`}>
-                            {' '}
-                            <ColorLegend
-                                domain={['Radar center']}
-                                range={['#ffff99']}
-                                type={'qualitative'}
-                                title={''}
-                                render={true}
-                            />
-                        </g>
-
-                        <g transform={`translate(40,40)`}>
+                        <ColorLegend
+                            domain={[secondLegendDomain]}
+                            range={['#ff7f00']}
+                            type={'qualitative'}
+                            transform={`translate(${xTranslateSecondLegend},${svgFontSize / 2})`}
+                            titleParts={[]}
+                            render={true}
+                            fontSize={svgFontSize}
+                        />
+                        <ColorLegend
+                            domain={['Radar center']}
+                            range={['#ffff99']}
+                            type={'qualitative'}
+                            transform={`translate(${xTranslateThirdLegend},${svgFontSize / 2})`}
+                            titleParts={[]}
+                            render={true}
+                            fontSize={svgFontSize}
+                        />
+                        <g transform={`translate(${widthFirstLegendBody},${heightFirstLegendTitle})`}>
                             <EgoNetworkNetworkOverview />
                         </g>
                     </svg>

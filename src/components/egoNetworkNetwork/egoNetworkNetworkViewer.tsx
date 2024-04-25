@@ -33,7 +33,8 @@ import {
     SetCenter
 } from 'mdi-material-ui';
 import { infoContentAtom, infoTitleAtom } from '../HomePage/InfoComponent.tsx';
-import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
+import Grid from '@mui/material/Unstable_Grid2';
+import { splitString,svgFontSize } from '../../UtilityFunctions.ts'; // Grid version 2
 
 function EgoNetworkNetworkViewer() {
     const [egoNetworkNetworkBusy] = useAtom(egoNetworkNetworkBusyAtom);
@@ -140,6 +141,7 @@ function EgoNetworkNetworkViewer() {
                 // @ts-ignore ts2304
                 width={'100%'}
                 height={'100%'}
+                preserveAspectRatio={'xMinYMin'}
                 ref={ref}
                 viewBox={`0 0 ${svgSize.width} ${svgSize.height}`}
                 style={{ position: 'absolute' }}
@@ -159,21 +161,23 @@ function EgoNetworkNetworkViewer() {
                     range={colorscale.range()}
                     unknown={colorscale.unknown()}
                     type={'quantitative'}
-                    transform={`translate(${10},${10})`}
-                    title={`Quantification via ${
+                    transform={`translate(${10},${30})`}
+                    titleParts={splitString(`Quantification via ${
                         quantifyBy['label'] != 'default'
                             ? quantifyBy['label']
                             : 'density'
-                    }`}
+                    }`)}
                     render={true}
+                    fontSize={svgFontSize}
                 />
                 <ColorLegend
                     domain={['few interactions', 'many interactions']}
                     range={['#f6e9ea', '#860028']}
                     type={'quantitative'}
-                    transform={`translate(${10},${150})`}
-                    title={'Node connectivity within ego-graph'}
+                    transform={`translate(${10},${160+svgFontSize})`}
+                    titleParts={splitString('Node connectivity within ego-graph')}
                     render={renderSecondLegend}
+                    fontSize={svgFontSize}
                 />
             </animated.svg>
             <Grid

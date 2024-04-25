@@ -178,6 +178,7 @@ function DetailNodeLinkViewer(props: DetailNodeLinkViewerProps) {
                 //display={"flex"}
                 width={'90%'}
                 height={'100%'}
+                preserveAspectRatio={'xMinYMin'}
                 viewBox={`0 0 ${svgSize.width} ${svgSize.height}`}
                 style={{ position: 'absolute' }}
             >

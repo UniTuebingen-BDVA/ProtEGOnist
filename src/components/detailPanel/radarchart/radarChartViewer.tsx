@@ -22,6 +22,7 @@ function RadarChartViewer(props: RadarChartViewerProps) {
             busy={radarBusy}
         >
             <svg
+                preserveAspectRatio={'xMinYMin'}
                 width={'45%'}
                 viewBox={`0 0 ${svgSize.width} ${svgSize.height}`}
             >

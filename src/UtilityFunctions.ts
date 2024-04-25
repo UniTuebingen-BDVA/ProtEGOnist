@@ -24,7 +24,35 @@ export function midPointPolar2PI(p1Theta: number, p2Theta: number) {
         return p1Theta + offsetFromP1;
     }
 }
-
+export const svgFontSize=10*window.devicePixelRatio*0.9;
+export function calculateTextWidth(textParts:string[]){
+    let maxLength=Math.max(...textParts.map(d=>d.length))
+    return maxLength*svgFontSize/1.6;
+}
+export function splitString(title:string){
+    let titleParts: string[] = [];
+    if (title.length > 50) {
+        const words = title.split(' ');
+        let charCount = 0;
+        let currWord = '';
+        for (let i = 0; i < words.length; i++) {
+            if (charCount < 25) {
+                charCount += words[i].length;
+                currWord += words[i] + ' ';
+            } else {
+                titleParts.push(currWord);
+                currWord = [words[i]+' '];
+                charCount = words[i].length;
+            }
+            if (i === words.length - 1) {
+                titleParts.push(currWord);
+            }
+        }
+    } else {
+        titleParts = [title];
+    }
+    return titleParts
+}
 export function getPartialRanges(
     numRanges: number
 ): [[number, number], [number, number]][] {
