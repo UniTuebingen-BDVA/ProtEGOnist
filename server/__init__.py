@@ -1,6 +1,10 @@
 import json
 import pathlib
 from flask import Flask, request
+import tempfile
+import uuid
+import traceback
+
 from server.python_scripts.example_reading import (
     read_example_string,
     read_example_IEEEcoAuthor,
@@ -15,6 +19,11 @@ from server.python_scripts.egoNetworkNetwork import EgoNetworkNetwork
 from server.python_scripts.egoGraph import EgoGraph
 from server.python_scripts.input_parsing import create_data_network
 
+def get_and_save_path(data, key):
+    file = data.get(key)
+    file_path = pathlib.Path(tempfile.gettempdir()) / file.filename
+    file.save(file_path)
+    return str(file_path)
 
 def create_app(input_path=""):
     dev_Flag = True
@@ -26,9 +35,48 @@ def create_app(input_path=""):
         "IEEE": read_example_IEEEcoAuthor(DATA_PATH),
         "ecoli": read_example_ecoli_full(DATA_PATH),
     }
-    @app.route("/api/process_input_data", methods=["GET"])
+
+
+    @app.route("/api/process_input_data", methods=["POST"])
     def process_input_data():
-        pass
+        try:
+            # create random id for key in dictionary
+            random_id = str(uuid.uuid4())
+
+            data = request.files
+            network_file_path = get_and_save_path(data, "network")
+            metadata_file_path = get_and_save_path(data, "metadata")
+            nodes_file_path = get_and_save_path(data, "nodes_interest")
+                        
+            max_nodes = 100
+            min_coverage = 0.95
+
+            key_classification = "institution"
+            
+            network_data_files = create_data_network(network_file_path, metadata_file_path, nodes_file_path, max_nodes, min_coverage, key_classification)
+            network_data_client = {
+                "name_nodes": "nodeID",
+                "classify_by": key_classification,
+                "quantify_by": "Documents",
+                "quantify_type": "quantitative",
+                "show_tooltip": [
+                    "institution",
+                    "nodeID"
+                ]
+
+            }
+
+            # Combine the two dictionaries
+            network_data = {**network_data_files, **network_data_client}
+            
+            EXAMPLES[random_id] = network_data
+            network_network = network_data["network"]
+            # app.logger.info(f"Network created with {len(network_network.nodes)} nodes and {len(network_network.edges)} edges")
+
+            return random_id
+        except Exception:
+            print(traceback.format_exc())
+            return "Error"
         
 
     @app.route("/api/get_labelling_keys/<example>", methods=["GET"])
@@ -105,9 +153,10 @@ def create_app(input_path=""):
 
         return json.dumps(intersection_dict)
 
-    @app.route("/api/getTableData/<type>", methods=["GET"])
-    def get_table_data(type: str):
-        return json.dumps(EXAMPLES[type]["metadata"])
+    @app.route("/api/getTableData/<dataID>", methods=["GET"])
+    def get_table_data(dataID: str):
+        json_data = json.dumps(EXAMPLES[dataID]["metadata"])
+        return json.dumps(EXAMPLES[dataID]["metadata"])
 
     @app.route("/api/getEgoNetworkNetwork/<example>/<targetNodes>", methods=["GET"])
     def get_ego_network_network(example: str, targetNodes: str):

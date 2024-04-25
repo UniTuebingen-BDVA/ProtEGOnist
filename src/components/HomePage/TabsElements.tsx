@@ -9,6 +9,7 @@ import AboutPage from './AboutPage';
 import ExamplesPage from './PredefinedExamples';
 import { Alert, Link } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
+import InputFilesForm from './InputFiles';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -82,22 +83,8 @@ export default function TabsElements() {
                     <AboutPage setTab={setValue} />
                 </TabPanel>
                 <TabPanel value={value} index={1} dir={theme.direction}>
-                    <Alert severity="warning">
-                        This page is still under construction. <br />
-                        Please check back later for updates or check our
-                        provided examples. <br />
-                        <Link
-                            component="button"
-                            variant="body2"
-                            onClick={() => {
-                                setValue(2);
-                            }}
-                        >
-                            See examples
-                        </Link>
-                    </Alert>
 
-                    {/* <InputFilesForm /> */}
+                    <InputFilesForm />
                 </TabPanel>
                 <TabPanel value={value} index={2} dir={theme.direction}>
                     <ExamplesPage />

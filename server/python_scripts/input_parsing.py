@@ -6,6 +6,7 @@ from server.python_scripts.utilities_preprocessing.generate_ego_graphs import (
     read_graphml_to_network,
     read_tsv_to_network,
 )
+from server.python_scripts.dataIO import is_number
 
 from server.python_scripts.utilities_preprocessing.generate_distance_matrix import (
     create_distance_matrix_from_dict
@@ -85,7 +86,7 @@ def create_set_overview_nodes(network: Graph, ego_graphs: dict, nodes_to_account
     """
     adapted_ego_graphs = {node: ego_graphs[node]["edges"] for node in ego_graphs.keys()}
     # Get Edges of network
-    network_edges = set([tuple(sorted(edge)) for edge in list(set(network.edges))])
+    network_edges = set([tuple(sorted([edge[0],edge[1]])) for edge in list(set(network.edges))])
     nodes_for_overview = heuristic_set_cover(
         adapted_ego_graphs, network_edges, nodes_to_account, nodes_to_start, max_nodes, min_edge_coverage
     )
@@ -138,13 +139,15 @@ def process_metadata(metadata: pd.DataFrame, all_nodes_network: set, classificat
 
     metadata["with_metadata"] = [True] * metadata.shape[0]
     metadata["found_in_network"] = [node in all_nodes_network for node in metadata.index]
+    metadata["nodeID"] = metadata.index
     # add the nodes without metadata to the table
     for node in nodes_without_metadata:
         metadata.loc[node] = [False] * metadata.shape[1]
         metadata.loc[node, "with_metadata"] = False
         metadata.loc[node, "found_in_network"] = True
         metadata.loc[node, "nodeID"] = node
-
+    # replace nan by ""
+    metadata = metadata.fillna("")
     # Get Columns
     columns = list(metadata.columns)
     # expand columns
@@ -152,8 +155,7 @@ def process_metadata(metadata: pd.DataFrame, all_nodes_network: set, classificat
     table_data["columns"] = [{"field": field, "headerName": field, "width": 150} for field in columns]
     # Get Rows
     data_as_dict = metadata.to_dict(orient="index")
-    table_data["rows"] = data_as_dict
-    
+    table_data["rows"] = { key: {name: is_number(value) for name, value in value.items()} for key, value in data_as_dict.items()}
     if classification_key is not None:
         classification_dict = {
             key: value[classification_key] for key, value in data_as_dict.items()
@@ -224,7 +226,7 @@ def create_data_network(network_file: str, metadata_file: str, list_nodes_for_ov
         "metadata": processed_metadata,
         "overview_nodes": nodes_for_overview,
         "top_intersections": top_intersections_dict,
-        "classification_dict": classification_dict,
+        "classification": classification_dict,
         "start_radar": start_radar_chart,
         "start_selected": start_subnetwork
 

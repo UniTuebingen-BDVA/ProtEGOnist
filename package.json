@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "server": "python ./wsgi.py",
+    "server": "python -u ./wsgi.py",
     "dev": "concurrently \"yarn run server\" \"vite\"",
     "build": "vite build",
     "test": "NODE_OPTIONS=\"--loader ts-node/esm\" mocha src/tests",

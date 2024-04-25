@@ -1,5 +1,5 @@
 from networkx import read_weighted_edgelist, read_graphml, Graph
-from egoGraph import EgoGraph
+from server.python_scripts.egoGraph import EgoGraph
 import numpy as np
 import pandas as pd
 import argparse
