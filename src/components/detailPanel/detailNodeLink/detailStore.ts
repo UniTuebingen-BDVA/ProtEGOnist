@@ -4,25 +4,27 @@ import { atom } from 'jotai';
 /**
  * Atom representing the link store.
  */
-const linkStoreAtom = atom<{
-    [key: string]: {
-        source: {
+const linkStoreAtom = atom<
+    {
+        [key: string]: {
+            source: {
+                id: string;
+                fill: string;
+                size: number;
+                x: number;
+                y: number;
+            };
+            target: {
+                id: string;
+                fill: string;
+                size: number;
+                x: number;
+                y: number;
+            };
             id: string;
-            fill: string;
-            size: number;
-            x: number;
-            y: number;
         };
-        target: {
-            id: string;
-            fill: string;
-            size: number;
-            x: number;
-            y: number;
-        };
-        id: string;
-    };
-}>({});
+    }[]
+>([{}]);
 
 /**
  * Atom representing the link data in the detail panel.
@@ -30,8 +32,11 @@ const linkStoreAtom = atom<{
  */
 export const linkAtom = atom(
     (get) => {
-        const linkDict = get(linkStoreAtom);
+        const linkDictArray = get(linkStoreAtom);
         // get x1, y1, x2, y2
+        const linkDict = linkDictArray.reduce((acc, val) => {
+            return { ...acc, ...val };
+        }, {});
         const links = Object.values(linkDict).map((link) => {
             const sourceNode = link.source;
             const targetNode = link.target;
@@ -48,24 +53,47 @@ export const linkAtom = atom(
     (
         _get,
         set,
-        links: { [key: string]: { source: string; target: string; id: string } }
+        links: {
+            [key: string]: {
+                source: {
+                    id: string;
+                    fill: string;
+                    size: number;
+                    x: number;
+                    y: number;
+                };
+                target: {
+                    id: string;
+                    fill: string;
+                    size: number;
+                    x: number;
+                    y: number;
+                };
+                id: string;
+            };
+        }[]
     ) => {
         set(linkStoreAtom, links);
     }
 );
 // node atom
-const nodeStoreAtom = atom<{
-    [key: string]: {
-        id: string;
-        fill: string;
-        size: number;
-        x: number;
-        y: number;
-    };
-}>({});
+const nodeStoreAtom = atom<
+    {
+        [key: string]: {
+            id: string;
+            component: number;
+            size: number;
+            x: number;
+            y: number;
+        };
+    }[]
+>([{}]);
 
 export const nodeKeysAtom = atom((get) => {
-    const nodes = get(nodeStoreAtom);
+    const nodesAtom = get(nodeStoreAtom);
+    const nodes = nodesAtom.reduce((acc, val) => {
+        return { ...acc, ...val };
+    }, {});
     return Object.keys(nodes);
 });
 
@@ -79,7 +107,11 @@ export const selectedNodeAtom = atom(
 
 export const nodeAtom = atom(
     (get) => {
-        const nodes = get(nodeStoreAtom);
+        const nodesArray = get(nodeStoreAtom);
+        // merge all nodes
+        const nodes = nodesArray.reduce((acc, val) => {
+            return { ...acc, ...val };
+        }, {});
         return Object.values(nodes);
     },
     (
@@ -88,12 +120,12 @@ export const nodeAtom = atom(
         nodes: {
             [key: string]: {
                 id: string;
-                fill: string;
+                component: number;
                 size: number;
                 x: number;
                 y: number;
             };
-        }
+        }[]
     ) => {
         set(nodeStoreAtom, nodes);
     }

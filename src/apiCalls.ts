@@ -32,6 +32,7 @@ import {
     linkAtom
 } from './components/detailPanel/detailNodeLink/detailStore.ts';
 import { egoNetworkNetworksOverviewAtom } from './components/overview_component/egoNetworkNetworkOverviewStore.ts';
+import { connect } from 'http2';
 
 export const serverBusyAtom = atom(false);
 export const showOnTooltipAtom = atom([]);
@@ -328,97 +329,145 @@ export const getEgoNetworkNetworkOverviewAtom = atom(
     }
 );
 
+// response type for getNodeLinkFromSelectionAtom
+type resultNodeLink = { nodes: string[]; edges: string[] }[];
+type node = { id: string; size: number; x: number; y: number };
+type edge = { source: node; target: node; weight: number };
+
+function processNodesAndLinks(
+    nodes: string[],
+    links: string[][],
+    center: [number, number],
+    component: number
+): {
+    nodes: node[];
+    edges: edge[];
+} {
+    const outNodes = nodes.map((node) => {
+        return {
+            id: node,
+            component: component,
+            size: 2,
+            x: Math.random(),
+            y: Math.random()
+        };
+    });
+    const outEdges = links.map((edge) => {
+        return {
+            source: edge[0],
+            target: edge[1],
+            weight: 1
+        };
+    });
+    function blockNodeCoordinates(node: node) {
+        // This code is for keeping the nodes within the svg canvas.
+        // The size of the nodes is scaled using a d3 scale function.
+        //The blockX and blockY variables are used to set the boundaries of the nodes.
+        //The node.x and node.y variables are set to be within the bounds of the svg canvas.
+
+        const radius = Math.sqrt(3 / Math.PI);
+        const blockX = 500 - 2 * radius;
+        const blockY = 200 - 2 * radius;
+
+        node.x = Math.max(radius, Math.min(blockX, node.x));
+        node.y = Math.max(radius, Math.min(blockY, node.y));
+        //return node;
+    }
+    function boxingForce() {
+        outNodes.forEach((node) => {
+            //node = blockNodeCoordinates(scaleSize, node, svgSize);
+            blockNodeCoordinates(node);
+        });
+    }
+    d3.forceSimulation(outNodes)
+        .force('center', d3.forceCenter(...center))
+        .force(
+            'charge',
+            d3.forceManyBody().strength(() => -5)
+        )
+        .force(
+            'link',
+            d3
+                .forceLink(outEdges)
+                .id((d: node) => d.id)
+                .distance(2)
+                .strength(0.1)
+        )
+        .force(
+            'collision',
+            d3.forceCollide().radius((d: node) => d.size + 2)
+        )
+        .stop()
+        .tick(100)
+        .force('boxing', boxingForce);
+    // .tick(5)
+    // .stop();
+    return { outNodes, outEdges };
+}
+
 export const getNodeLinkFromSelectionAtom = atom(null, (get, set) => {
     set(detailNodeLinkBusyAtom, true);
-    let selectedNodesIds = get(selectedNodesAtom);
-    let payload = {
+    const selectedNodesIds = get(selectedNodesAtom);
+    const payload = {
         ids: selectedNodesIds,
         example: get(selectedExampleAtom)
     };
     axios
-        .post('/api/getNodeLinkDiagram/', payload)
+        .post<resultNodeLink>('/api/getNodeLinkDiagram/', payload)
         .then((result) => {
             console.log(result);
-            const nodes = result.data.nodes;
-            const edges = result.data.edges;
+            const components: resultNodeLink = result.data;
+            const largestComponent = components[0];
 
-            const outNodes = nodes.map((node) => {
-                return {
-                    id: node,
-                    size: 2,
-                    x: Math.random(),
-                    y: Math.random()
-                };
-            });
-            const outEdges = edges.map((edge) => {
-                return {
-                    source: edge[0],
-                    target: edge[1],
-                    weight: 1
-                };
-            });
-            function blockNodeCoordinates(node: egoNetworkNetworkNode) {
-                // This code is for keeping the nodes within the svg canvas.
-                // The size of the nodes is scaled using a d3 scale function.
-                //The blockX and blockY variables are used to set the boundaries of the nodes.
-                //The node.x and node.y variables are set to be within the bounds of the svg canvas.
-
-                const radius = Math.sqrt(3 / Math.PI);
-                const blockX = 500 - 2 * radius;
-                const blockY = 200 - 2 * radius;
-
-                node.x = Math.max(radius, Math.min(blockX, node.x));
-                node.y = Math.max(radius, Math.min(blockY, node.y));
-                //return node;
-            }
-            function boxingForce() {
-                outNodes.forEach((node) => {
-                    //node = blockNodeCoordinates(scaleSize, node, svgSize);
-                    blockNodeCoordinates(node);
-                });
-            }
-            d3.forceSimulation(outNodes)
-                .force('center', d3.forceCenter(0, 0))
-                .force(
-                    'charge',
-                    d3.forceManyBody().strength(() => -5)
-                )
-                .force(
-                    'link',
-                    d3
-                        .forceLink(outEdges)
-                        .id((d: egoNetworkNetworkNode) => d.id)
-                        .distance((d) => 2)
-                        .strength(0.1)
-                )
-                .force(
-                    'collision',
-                    d3
-                        .forceCollide()
-                        .radius((d: egoNetworkNetworkNode) => d.size + 2)
-                )
-                .stop()
-                .tick(100)
-                .force('boxing', boxingForce);
-            // .tick(5)
-            // .stop();
-
+            const { outNodes, outEdges } = processNodesAndLinks(
+                largestComponent.nodes,
+                largestComponent.edges,
+                [500, 200],
+                0
+            );
             // make object with key as node id and value as node object
             const nodeDict = {};
+            let min_x = Infinity;
+            let max_y = -Infinity;
             outNodes.forEach((node) => {
+                min_x = Math.min(min_x, node.x);
+                max_y = Math.max(max_y, node.y);
                 nodeDict[node.id] = node;
             });
-            set(nodeAtom, nodeDict);
             // make object with key as edge id and value as edge object
             const edgeDict = {};
             outEdges.forEach((edge) => {
                 edgeDict[edge.source.id + edge.target.id] = edge;
             });
+            const nodes = [nodeDict];
+            const edges = [edgeDict];
+            if (components.length > 1) {
+                let xOffset = 0;
+                for (let i = 1; i < components.length; i++) {
+                    const { outNodes, outEdges } = processNodesAndLinks(
+                        components[i].nodes,
+                        components[i].edges,
+                        [min_x, max_y + 10],
+                        i
+                    );
+                    xOffset += outNodes.length * 2;
+                    const nodeDictComp = {};
+                    outNodes.forEach((node) => {
+                        nodeDictComp[node.id] = node;
+                    });
+                    const edgeDictComp = {};
+                    outEdges.forEach((edge) => {
+                        edgeDictComp[edge.source.id + edge.target.id] = edge;
+                    });
+                    nodes.push(nodeDictComp);
+                    edges.push(edgeDictComp);
+                }
+            }
             set(detailNodeLinkBusyAtom, false);
-            set(linkAtom, edgeDict);
+            set(nodeAtom, nodes);
+            set(linkAtom, edges);
         })
         .catch((error) => {
-            set(detailNodeLinkBusyAtom, false);
             console.error(error);
         });
 });
