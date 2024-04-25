@@ -8,6 +8,7 @@ import AdvancedTooltip from '../../utilityComponents/advancedTooltip';
 import { lastSelectedNodeAtom } from './radarStore';
 import { memo } from 'react';
 import { contextMenuAtom } from '../../utilityComponents/contextMenuStore';
+import { hoverAtom } from '../../utilityComponents/hoverStore';
 
 interface RadarCircleProps {
     id: string;
@@ -37,13 +38,20 @@ const RadarCircle = memo(function RadarCircle(props: RadarCircleProps) {
     const selectedProteins = useAtomValue(selectedProteinsAtom);
     const [lastSelectedNode] = useAtom(lastSelectedNodeAtom);
     const [_contextMenu, setContextMenu] = useAtom(contextMenuAtom);
+    const [hoveredNode, setHoveredNode] = useAtom(hoverAtom);
 
     const color = String(colorScale(intersectionDatum.classification));
-    const strokeColor: string = selectedProteins.includes(id)
-        ? 'orange'
-        : id == lastSelectedNode
-        ? 'red'
-        : color;
+    const strokeColor = (id: string) => {
+        if (hoveredNode === id) {
+            return 'red';
+        } else if (selectedProteins.includes(id)) {
+            return 'orange';
+        } else if (id == lastSelectedNode) {
+            ('Blue');
+        } else {
+            color;
+        }
+    };
     const strokeWidth =
         selectedProteins.includes(id) || id == lastSelectedNode ? 3 : 1;
     const strokeOpacity =
@@ -55,7 +63,7 @@ const RadarCircle = memo(function RadarCircle(props: RadarCircleProps) {
                 onContextMenu={(event) => {
                     setContextMenu(event, id, 'radar');
                 }}
-                style={{"pointerEvents": "all", "cursor": "context-menu"}}
+                style={{ pointerEvents: 'all', cursor: 'context-menu' }}
                 key={id}
                 r={
                     CIRCLE_RADIUS +
@@ -72,12 +80,18 @@ const RadarCircle = memo(function RadarCircle(props: RadarCircleProps) {
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore ts2304
                 cy={styleParam.cy}
-                stroke={strokeColor}
+                stroke={strokeColor(id)}
                 style={{ ...styleParam }}
                 strokeOpacity={strokeOpacity}
                 strokeWidth={strokeWidth}
                 onClick={(_event) => {
                     getRadarData(id);
+                }}
+                onMouseEnter={() => {
+                    setHoveredNode(id);
+                }}
+                onMouseLeave={() => {
+                    setHoveredNode('');
                 }}
             />
         </AdvancedTooltip>

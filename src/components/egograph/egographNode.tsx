@@ -12,6 +12,7 @@ import {
 } from './polarUtilities';
 import { useSetAtom } from 'jotai';
 import { decollapseNodeAtom } from '../egoNetworkNetwork/egoNetworkNetworkStore.ts';
+import { hoverAtom } from '../utilityComponents/hoverStore.ts';
 
 type egographNodeProps = {
     nodeAtom: PrimitiveAtom<layoutNode>;
@@ -38,6 +39,7 @@ export const EgographNode = memo(function EgographNode(
     const [highlightedNodeIndices, setHighlightedNodeIndices] = useAtom(
         highlightedNodeIndicesAtom
     );
+    const [hoveredNode, setHoveredNode] = useAtom(hoverAtom);
 
     const setDecollapseID = useSetAtom(decollapseNodeAtom);
     const BOX_HEIGHT = egoRadius / 3;
@@ -91,9 +93,11 @@ export const EgographNode = memo(function EgographNode(
                 <circle
                     onMouseEnter={() => {
                         setHighlightedNodeIndices(node.identityNodes);
+                        setHoveredNode(node.originalID);
                     }}
                     onMouseLeave={() => {
                         setHighlightedNodeIndices([]);
+                        setHoveredNode('');
                     }}
                     onDoubleClick={() => setDecollapseID(node.originalID)}
                     cx={centerPoint.x}
@@ -110,9 +114,11 @@ export const EgographNode = memo(function EgographNode(
                 <path
                     onMouseEnter={() => {
                         setHighlightedNodeIndices(node.identityNodes);
+                        setHoveredNode(node.originalID);
                     }}
                     onMouseLeave={() => {
                         setHighlightedNodeIndices([]);
+                        setHoveredNode('');
                     }}
                     onDoubleClick={() => setDecollapseID(centerNode.id)}
                     d={`

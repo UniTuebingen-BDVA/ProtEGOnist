@@ -5,8 +5,12 @@ import { tarNodeAtom } from './radarStore';
 import { getRadarAtom, nameNodesByAtom } from '../../../apiCalls';
 import RadarCircles from './radarCircles';
 import RadarLabel from './radarLabel';
-import { selectedProteinsAtom, tableAtom } from '../../selectionTable/tableStore';
+import {
+    selectedProteinsAtom,
+    tableAtom
+} from '../../selectionTable/tableStore';
 import AdvancedTooltip from '../../utilityComponents/advancedTooltip';
+import { hoverAtom } from '../../utilityComponents/hoverStore';
 
 interface RadarChartProps {
     baseRadius: number;
@@ -22,6 +26,7 @@ const RadarChart = (props: RadarChartProps) => {
     const setSelectedProteins = useSetAtom(selectedProteinsAtom);
     const [tableData] = useAtom(tableAtom);
     const [nameNodesBy] = useAtom(nameNodesByAtom);
+    const [hoveredNode, setHoveredNode] = useAtom(hoverAtom);
 
     const intersectionDataClone = structuredClone(intersectionData);
     //generate a linear scale for the size of the intersection property in each intersectionDatum
@@ -376,6 +381,12 @@ const RadarChart = (props: RadarChartProps) => {
                         fill={'#ffff99'}
                         onClick={() => {
                             setSelectedProteins([tarNode]);
+                        }}
+                        onMouseEnter={() => {
+                            setHoveredNode(tarNode);
+                        }}
+                        onMouseLeave={() => {
+                            setHoveredNode('');
                         }}
                     />
                 </g>

@@ -14,6 +14,7 @@ import { highlightNodeAtom } from './egoNetworkNetworkOverviewStore';
 import { memo, useCallback } from 'react';
 import { updateDecollapseIdsAtom } from '../egoNetworkNetwork/egoNetworkNetworkStore.ts';
 import { contextMenuAtom } from '../utilityComponents/contextMenuStore.ts';
+import { hoverAtom } from '../utilityComponents/hoverStore.ts';
 
 interface EgoNetworkNetworkNodeProps {
     id: string;
@@ -31,6 +32,7 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
     const getNetworkAndRadar = useSetAtom(getEgoNetworkAndRadar);
     const getEgoNetworkNetwork = useSetAtom(getEgoNetworkNetworkAtom);
     const highlightNodeSet = useSetAtom(highlightNodeAtom);
+    const [hoveredNode, setHoveredNode] = useAtom(hoverAtom);
     const updateDecollapseIds = useSetAtom(updateDecollapseIdsAtom);
     const [tableData] = useAtom(tableAtom);
     const [nameNodesBy] = useAtom(nameNodesByAtom);
@@ -79,6 +81,20 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
     const text = size > 18 ? getNodeName(id) : '';
     const transform = `translate(${x}, ${y})`;
     const radiusScaled = size + 4;
+    const strokeColor = (id: string) => {
+        if (hoveredNode === id) {
+            return 'red';
+        } else {
+            return 'black';
+        }
+    };
+    const strokeWidth = (id: string) => {
+        if (hoveredNode === id) {
+            return 5;
+        } else {
+            return 1;
+        }
+    };
 
     return (
         <AdvancedTooltip nodeID={id} key={id}>
@@ -86,16 +102,18 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                 key={id}
                 transform={transform}
                 onContextMenu={(event) => {
-                    setContextMenu(event, id, "overview");
+                    setContextMenu(event, id, 'overview');
                 }}
                 onClick={() => handleClick(id)}
                 onMouseEnter={() => {
                     highlightNodeSet(id);
+                    setHoveredNode(id);
                 }}
                 onMouseLeave={() => {
                     highlightNodeSet('');
+                    setHoveredNode('');
                 }}
-                style={{"pointerEvents": "all", "cursor": "context-menu"}}
+                style={{ pointerEvents: 'all', cursor: 'context-menu' }}
             >
                 <path
                     id={id + '_label'}
@@ -108,7 +126,12 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                     a ${radiusScaled},${radiusScaled} 0 1,1,0  ${radiusScaled * 2}
                     `}
                 />
-                <circle r={size} fill={color} stroke="black" strokeWidth="1" />
+                <circle
+                    r={size}
+                    fill={color}
+                    stroke={strokeColor(id)}
+                    strokeWidth={strokeWidth(id)}
+                />
                 <circle
                     r={(size * 2) / 3}
                     fill={'none'}
@@ -126,13 +149,13 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                     width={30}
                     textAnchor="middle"
                     fontSize={size / 1.7}
-                    style={{ textShadow: '.01em  .01em .1px white, -.01em -.01em .1px white' }}
+                    style={{
+                        textShadow:
+                            '.01em  .01em .1px white, -.01em -.01em .1px white'
+                    }}
                     //dy={'-0.35em'}
                 >
-                    <textPath
-                        startOffset={'50%'}
-                        href={'#' + id + '_label'}
-                    >
+                    <textPath startOffset={'50%'} href={'#' + id + '_label'}>
                         {text}
                     </textPath>
                 </text>
