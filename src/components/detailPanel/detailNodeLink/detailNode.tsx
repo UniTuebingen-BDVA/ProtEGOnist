@@ -91,7 +91,7 @@ const DetailNode = memo(function DetailNode(props: DetailNodeProps) {
                     setHoveredNode(id);
                 }}
                 onMouseLeave={() => {
-                    setHoveredNode(null);
+                    setHoveredNode('');
                 }}
                 style={{ pointerEvents: 'all', cursor: 'context-menu' }}
                 key={id}

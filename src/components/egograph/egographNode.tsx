@@ -41,14 +41,14 @@ export const EgographNode = memo(function EgographNode(
     );
     const [hoveredNode, setHoveredNode] = useAtom(hoverAtom);
 
-    useEffect(()=>{
-        console.log(node)
-        if(hoveredNode===node.originalID){
-            setHighlightedNodeIndices(node.identityNodes)
-        } else if(hoveredNode===''){
-            setHighlightedNodeIndices([])
+    useEffect(() => {
+        console.log(node);
+        if (hoveredNode === node.originalID) {
+            setHighlightedNodeIndices(node.identityNodes);
+        } else if (hoveredNode === '') {
+            setHighlightedNodeIndices([]);
         }
-    },[hoveredNode, node, setHighlightedNodeIndices])
+    }, [hoveredNode, node]);
     const setDecollapseID = useSetAtom(decollapseNodeAtom);
     const BOX_HEIGHT = egoRadius / 3;
     const centerPolarOuter = cartesianToPolar(
