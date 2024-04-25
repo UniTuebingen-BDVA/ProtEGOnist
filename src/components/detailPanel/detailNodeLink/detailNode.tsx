@@ -12,6 +12,7 @@ import { selectedNodeAtom } from './detailStore';
 interface DetailNodeProps {
     id: string;
     size: number;
+    component: number;
     styleParam: { [key: string]: number | string | undefined | null | boolean };
 }
 
@@ -21,12 +22,12 @@ interface DetailNodeProps {
  * @returns The rendered DetailNode component.
  */
 const DetailNode = memo(function DetailNode(props: DetailNodeProps) {
-    const { id, size, styleParam } = props;
+    const { id, size, component, styleParam } = props;
     const setContextMenu = useSetAtom(contextMenuAtom);
     const [nodesInSubnetwork] = useAtom(selectedProteinsAtom);
     const [selectedNode, setSelectedNode] = useAtom(selectedNodeAtom);
 
-    const color = (id) => {
+    const color = (id, component) => {
         if (selectedNode !== '') {
             if (id === selectedNode) {
                 return 'red';
@@ -37,7 +38,12 @@ const DetailNode = memo(function DetailNode(props: DetailNodeProps) {
         if (nodesInSubnetwork.includes(id)) {
             return '#ff7f00';
         }
-        return 'gray';
+        // else color depends on component
+        if (component === 0) {
+            return 'grey';
+        } else {
+            return '#00ff00';
+        }
     };
 
     const nodeSize = (id) => {
@@ -68,7 +74,7 @@ const DetailNode = memo(function DetailNode(props: DetailNodeProps) {
                 style={{ pointerEvents: 'all', cursor: 'context-menu' }}
                 key={id}
                 r={nodeSize(id)}
-                fill={color(id)}
+                fill={color(id, component)}
                 fillOpacity={1}
                 // FIXME Type not fully correct
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
