@@ -9,7 +9,7 @@ interface DetailNodesProps {
         id: string;
         x: number;
         y: number;
-        fill: string;
+        component: 0;
         size: number;
     }[];
 }
@@ -46,6 +46,7 @@ const DetailNodes = (props: DetailNodesProps) => {
                 <DetailNode
                     key={node.id}
                     id={node.id}
+                    component={node.component}
                     size={node.size}
                     styleParam={style}
                 />

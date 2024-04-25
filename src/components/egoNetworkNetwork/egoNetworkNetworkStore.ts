@@ -652,7 +652,7 @@ export const selectedNodesAtom = atom((get) => {
         nodes.push(...bandNodes);
     });
     get(selectedEgoGraphsAtom).forEach((selectedEgoGraph) => {
-         const egoNetworkNetwork = get(aggregateNetworkAtom);
+         const egoNetworkNetwork = get(egoNetworkNetworkDeepCopyAtom);
          const egoNodes = egoNetworkNetwork.nodes.filter(d => d.id === selectedEgoGraph)
                 .map(node =>node.neighbors).flat()
         nodes.push(...egoNodes)

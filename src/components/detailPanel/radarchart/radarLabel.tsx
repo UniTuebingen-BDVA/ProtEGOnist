@@ -1,6 +1,6 @@
 // import { PrimitiveAtom, useAtom } from 'jotai';
-import { useAtom } from 'jotai';
-import { labelsAtoms } from './radarStore';
+import { useAtom, useSetAtom } from 'jotai';
+import { hoveredLabelAtom, labelsAtoms } from './radarStore';
 import { memo } from 'react';
 
 interface radarLabelProps {
@@ -35,7 +35,8 @@ const RadarLabel = memo(function RadarLabel(props: radarLabelProps) {
     const arcLength = endAltered - startAltered;
     const largeArcFlag =
         arcLength > Math.PI ? (flipLabel ? 0 : 1) : flipLabel ? 1 : 0;
-    const [labelValue, labelValueWithID] = useAtom(labelsAtoms);
+    const setHoveredLabel = useSetAtom(hoveredLabelAtom);
+    const [labels]=useAtom(labelsAtoms);
     // draw the arc from startAngle to endAngle clockwise
     // center the text label such that it is centered along the arc
     let arc = '';
@@ -65,19 +66,18 @@ const RadarLabel = memo(function RadarLabel(props: radarLabelProps) {
                 fill={colorScale(hoverLabel)}
                 opacity={0.1}
                 onMouseEnter={() => {
-                    labelValueWithID(hoverLabel);
+                    setHoveredLabel(hoverLabel);
                 }}
                 onMouseLeave={() => {
-                    labelValueWithID('');
+                    setHoveredLabel('');
                 }}
             />
             <g
                 onMouseEnter={() => {
-                    console.log('hovering');
-                    labelValueWithID(hoverLabel);
+                    setHoveredLabel(hoverLabel);
                 }}
                 onMouseLeave={() => {
-                    labelValueWithID('');
+                    setHoveredLabel('');
                 }}
             >
                 <path d={arc} fill="none" id={`${hoverLabel}Arc`} />
@@ -90,8 +90,8 @@ const RadarLabel = memo(function RadarLabel(props: radarLabelProps) {
                         fill={colorScale(hoverLabel)}
                         startOffset={'50%'}
                     >
-                        {labelValue[hoverLabel]
-                            ? labelValue[hoverLabel].value
+                        {labels[hoverLabel]
+                            ? labels[hoverLabel].value
                             : ''}
                     </textPath>
                 </text>

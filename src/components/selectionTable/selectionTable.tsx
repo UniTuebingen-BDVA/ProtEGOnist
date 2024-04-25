@@ -1,4 +1,4 @@
-import { DataGrid, GridToolbar, GridFilterModel } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar, GridFilterModel, GridValidRowModel } from '@mui/x-data-grid';
 import { useAtom, useAtomValue } from 'jotai';
 import {
     selectedProteinsAtom,
@@ -9,6 +9,7 @@ import {
 import { Box, Typography } from '@mui/material';
 import { startDataOverview } from '../../apiCalls';
 import { selectedNodesAtom } from '../egoNetworkNetwork/egoNetworkNetworkStore.ts';
+import { useMemo } from 'react';
 
 const SelectionTable = () => {
     const [tableData] = useAtom(tableAtom);
@@ -18,39 +19,40 @@ const SelectionTable = () => {
     const tableModel = useAtomValue(tableModelSelectedAtom);
     const [columnVisibility, setColumnVisibility] =
         useAtom(columnVisibilityAtom);
-    const rows = Object.entries(tableData.rows).map(([key, value], index) => {
+    const rows = useMemo(()=>Object.entries(tableData.rows).map(([key, value], index) => {
         return { ...value, nodeID: key, ID: index };
-    });
+    }),[tableData.rows]);
 
     const initFilterModel: GridFilterModel = {
         items: [
             { id: 1, field: 'with_metadata', operator: 'equals', value: 'true' }
         ]
     };
-    const columns = [
+    const columns = useMemo(()=>[
         ...tableData.columns,
         {
             field: 'selected',
             headerName: 'Ego in Subnetwork',
             width: 100,
-            valueGetter: (params) =>
-                selectedProteins.includes(params.row.nodeID) ? 'Yes' : 'No'
+            valueGetter: (_value,row:GridValidRowModel) => {
+                return(selectedProteins.includes(row.nodeID) ? 'Yes' : 'No')
+            }
         },
         {
             field: 'overview',
             headerName: 'Found in Overview',
             width: 100,
-            valueGetter: (params) =>
-                startDataOverview.includes(params.row.nodeID) ? 'Yes' : 'No'
+            valueGetter: (_value,row) =>
+                startDataOverview.includes(row.nodeID) ? 'Yes' : 'No'
         },
         {
             field: 'inBand',
             headerName: 'Selected',
             width: 100,
-            valueGetter: (params) =>
-                selectedNodes.includes(params.row.nodeID) ? 'Yes' : 'No'
+            valueGetter: (_value,row) =>
+                selectedNodes.includes(row.nodeID) ? 'Yes' : 'No'
         }
-    ];
+    ],[selectedNodes, selectedProteins, tableData.columns]);
 
     return (
         <Box style={{ maxWidth: '100%', width: '100%', height: '100%' }}>

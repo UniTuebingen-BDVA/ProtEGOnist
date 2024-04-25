@@ -2,7 +2,6 @@ import EgoNetworkNetworkOverview from './egoNetworkNetworkOverview.tsx';
 import { IconButton, Paper, Tooltip, Typography } from '@mui/material';
 import { useAtom } from 'jotai';
 import { egoNetworkNetworkSizeAtom } from './egoNetworkNetworkOverviewStore.ts';
-import { useRef } from 'react';
 import ColorLegend from '../ColorLegend.tsx';
 import { InformationVariantCircle } from 'mdi-material-ui';
 import { infoContentAtom, infoTitleAtom } from '../HomePage/InfoComponent.tsx';
@@ -11,6 +10,8 @@ import {
     egoNetworkNetworkOverviewCoverageAtom,
     getEgoNetworkNetworkOverviewAtom
 } from '../../apiCalls.ts';
+import { useRef } from 'react';
+import { calculateTextWidth, splitString, svgFontSize } from '../../UtilityFunctions.ts';
 
 function EgoNetworkNetworkOverviewViewer() {
     const ref = useRef(null);
@@ -22,6 +23,20 @@ function EgoNetworkNetworkOverviewViewer() {
     const [egoNetworkNetworkOverviewData] = useAtom(
         getEgoNetworkNetworkOverviewAtom
     );
+    const gapBetweenLegends = 10;
+    const firstLegendTitle =
+        'Percent of nodes represented in ego-graph subnetwork (right)';
+    const secondLegendDomain = 'In ego-graph subnetwork';
+    const firstLegendTitleSplit = splitString(firstLegendTitle);
+    const heightFirstLegendTitle = firstLegendTitleSplit.length * svgFontSize*1.5;
+    const widthFirstLegendBody=4*svgFontSize;
+    const xTranslateSecondLegend =
+        calculateTextWidth(firstLegendTitleSplit) + gapBetweenLegends;
+    const xTranslateThirdLegend =
+        xTranslateSecondLegend +
+        calculateTextWidth([secondLegendDomain]) +
+        svgFontSize +
+        gapBetweenLegends;
 
     return (
         <Paper
@@ -41,7 +56,7 @@ function EgoNetworkNetworkOverviewViewer() {
                     width: '100%'
                 }}
             >
-                <Grid xs={12}>
+                <Grid xs={11}>
                     <Typography component={'span'} style={{ color: 'black' }}>
                         Network overview:{' '}
                         {egoNetworkNetworkOverviewData.nodes.length} ego-graphs
@@ -49,43 +64,6 @@ function EgoNetworkNetworkOverviewViewer() {
                         nodes and {(100 * coverage.edges).toFixed(2)}% of the
                         edges of the given network.
                     </Typography>
-                </Grid>
-                <Grid xs={5}>
-                    <svg height={'100%'} width={'100%'} viewBox="0 0 300 200">
-                        <ColorLegend
-                            domain={[0, 100]}
-                            range={['white', '#464646']}
-                            type={'quantitative'}
-                            transform={`translate(${6},${10})`}
-                            title={
-                                'Percent of nodes represented in ego-graph subnetwork (right)'
-                            }
-                            render={true}
-                        />
-                    </svg>
-                </Grid>
-                <Grid xs={3}>
-                    <svg height={'100%'} width={'100%'} viewBox="0 0 200 100">
-                        <ColorLegend
-                            domain={['In ego-graph subnetwork']}
-                            range={['#ff7f00']}
-                            type={'qualitative'}
-                            transform={`translate(${10},${0})`}
-                            title={''}
-                            render={true}
-                        />
-                    </svg>
-                </Grid>
-                <Grid xs={3}>
-                    <svg height={'100%'} width={'100%'} viewBox="0 0 200 100">
-                        <ColorLegend
-                            domain={['Radar center']}
-                            range={['#ffff99']}
-                            type={'qualitative'}
-                            title={''}
-                            render={true}
-                        />
-                    </svg>
                 </Grid>
                 <Grid xs={1} xsOffset="auto">
                     <IconButton
@@ -99,19 +77,43 @@ function EgoNetworkNetworkOverviewViewer() {
                         </Tooltip>
                     </IconButton>
                 </Grid>
-                <Grid xs={12} sx={{ top: '10%', position: 'absolute' }}>
+                <Grid xs={12} sx={{ top: '11%', position: 'absolute' }}>
                     <svg
                         width={'100%'}
                         height={'100%'}
-                        viewBox={`0 0 ${svgSize.width * 1.05} ${
-                            svgSize.height * 1.05
+                        preserveAspectRatio={'xMinYMin'}
+                        viewBox={`0 0 ${svgSize.width + widthFirstLegendBody} ${
+                            svgSize.height + heightFirstLegendTitle
                         }`}
                     >
-                        <g
-                            transform={`translate(${svgSize.width / 20},${
-                                svgSize.height / 20
-                            })`}
-                        >
+                        <ColorLegend
+                            domain={[0, 100]}
+                            range={['white', '#464646']}
+                            type={'quantitative'}
+                            transform={`translate(${6},${svgFontSize / 2})`}
+                            titleParts={firstLegendTitleSplit}
+                            render={true}
+                            fontSize={svgFontSize}
+                        />
+                        <ColorLegend
+                            domain={[secondLegendDomain]}
+                            range={['#ff7f00']}
+                            type={'qualitative'}
+                            transform={`translate(${xTranslateSecondLegend},${svgFontSize / 2})`}
+                            titleParts={[]}
+                            render={true}
+                            fontSize={svgFontSize}
+                        />
+                        <ColorLegend
+                            domain={['Radar center']}
+                            range={['#ffff99']}
+                            type={'qualitative'}
+                            transform={`translate(${xTranslateThirdLegend},${svgFontSize / 2})`}
+                            titleParts={[]}
+                            render={true}
+                            fontSize={svgFontSize}
+                        />
+                        <g transform={`translate(${widthFirstLegendBody},${heightFirstLegendTitle})`}>
                             <EgoNetworkNetworkOverview />
                         </g>
                     </svg>
