@@ -7,6 +7,7 @@ import RadarCircles from './radarCircles';
 import RadarLabel from './radarLabel';
 import { selectedProteinsAtom, tableAtom } from '../../selectionTable/tableStore';
 import AdvancedTooltip from '../../utilityComponents/advancedTooltip';
+import { svgFontSize } from '../../../UtilityFunctions.ts';
 
 interface RadarChartProps {
     baseRadius: number;
@@ -235,7 +236,7 @@ const RadarChart = (props: RadarChartProps) => {
             )
         )
         .range(colorsRadar);
-    const baseRadiusInternal = baseRadius - 18 * (maxRingIndex + 1);
+    const baseRadiusInternal = baseRadius - 13 * (maxRingIndex + 1);
     const GUIDE_CIRCLE_RADIUS = baseRadiusInternal;
     const GUIDE_CIRCLE_STEP = baseRadiusInternal / 4;
     const GUIDE_CIRCLE_RADIUS_MIN = baseRadiusInternal / 4;
@@ -285,7 +286,7 @@ const RadarChart = (props: RadarChartProps) => {
                                 hoverLabel={classificationFull}
                                 startAngle={startAngle}
                                 endAngle={endAngle}
-                                radius={TEXT_RADIUS + 16 * ringIndex}
+                                radius={TEXT_RADIUS + 11 * ringIndex}
                                 guideCircleRadius={GUIDE_CIRCLE_RADIUS}
                                 colorScale={colorScale}
                             />
@@ -331,7 +332,7 @@ const RadarChart = (props: RadarChartProps) => {
                                     y={y}
                                     dx="1em"
                                     textAnchor="middle"
-                                    fontSize="12px"
+                                    fontSize={svgFontSize}
                                     opacity={0.5}
                                 >
                                     {1 - radius / GUIDE_CIRCLE_RADIUS}
@@ -384,7 +385,7 @@ const RadarChart = (props: RadarChartProps) => {
             <text
                 width={30}
                 textAnchor="middle"
-                fontSize="18px"
+                fontSize={svgFontSize}
                 fontWeight="bold"
             >
                 <textPath

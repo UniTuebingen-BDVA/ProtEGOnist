@@ -2,6 +2,7 @@
 import { useAtom, useSetAtom } from 'jotai';
 import { hoveredLabelAtom, labelsAtoms } from './radarStore';
 import { memo } from 'react';
+import { svgFontSize } from '../../../UtilityFunctions.ts';
 
 interface radarLabelProps {
     startAngle: number;
@@ -83,16 +84,14 @@ const RadarLabel = memo(function RadarLabel(props: radarLabelProps) {
                 <path d={arc} fill="none" id={`${hoverLabel}Arc`} />
                 <text fill={colorScale(hoverLabel)}>
                     <textPath
-                        fontSize="14px"
+                        fontSize={svgFontSize}
                         textAnchor="middle"
                         alignmentBaseline="middle"
                         xlinkHref={`#${hoverLabel}Arc`}
                         fill={colorScale(hoverLabel)}
                         startOffset={'50%'}
                     >
-                        {labels[hoverLabel]
-                            ? labels[hoverLabel].value
-                            : ''}
+                        {labels[hoverLabel] ? labels[hoverLabel].value : ''}
                     </textPath>
                 </text>
             </g>

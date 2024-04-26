@@ -44,7 +44,7 @@ export const MainPage = (props: mainPageProps) => {
         datasetLabel = "Data: DeeProM (Gonçalves et al., 2022)"
     }
     return (
-        <Grid container sx={{ height: '100vh', width: '100vw' }}>
+        <Grid container sx={{ height: '100vh', maxHeight:'100vh', width: '100vw',overflow:"hidden" }}>
             <ContextMenu />
             <ThemeProvider theme={props.theme}>
                 <Backdrop

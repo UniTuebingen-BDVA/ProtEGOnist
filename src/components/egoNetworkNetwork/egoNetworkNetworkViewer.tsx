@@ -19,7 +19,7 @@ import {
 import ColorLegend from '../ColorLegend.tsx';
 import { drugsPerProteinColorscaleAtom } from '../selectionTable/tableStore.tsx';
 import { animated, useSpring } from '@react-spring/web';
-import React from 'react';
+import React, {useEffect, useRef } from 'react';
 import {
     egoNetworkNetworkBusyAtom,
     quantifyNodesByAtom
@@ -34,7 +34,8 @@ import {
 } from 'mdi-material-ui';
 import { infoContentAtom, infoTitleAtom } from '../HomePage/InfoComponent.tsx';
 import Grid from '@mui/material/Unstable_Grid2';
-import { splitString,svgFontSize } from '../../UtilityFunctions.ts'; // Grid version 2
+import { splitString, svgFontSize } from '../../UtilityFunctions.ts';
+import { resizeEffect, subNetworkSVGSizeAtom } from '../../uiStore.tsx'; // Grid version 2
 
 function EgoNetworkNetworkViewer() {
     const [egoNetworkNetworkBusy] = useAtom(egoNetworkNetworkBusyAtom);
@@ -44,7 +45,8 @@ function EgoNetworkNetworkViewer() {
     const [quantifyBy] = useAtom(quantifyNodesByAtom);
     const [_infoContent, setInfoContent] = useAtom(infoContentAtom);
     const [_infoTitle, setInfoTitle] = useAtom(infoTitleAtom);
-    const svgSize = { width: 1000, height: 900 };
+    const [svgSize, setSvgSize] = useAtom(subNetworkSVGSizeAtom);
+    const containerRef = useRef<HTMLDivElement>(null);
 
     // prevent default pinch zoom
     document.addEventListener('gesturestart', (e) => e.preventDefault());
@@ -55,10 +57,12 @@ function EgoNetworkNetworkViewer() {
         scale: 1
     }));
     const ref = React.useRef<SVGSVGElement>(null);
+
     function zoom(val: number) {
         const target = style.scale.get() + val;
         api.start({ scale: target > 0 ? target : 0 });
     }
+
     function resetZoomPosition() {
         // when called set the zoom to fit the svg-group zoomableGroup
         // get the svg-group zoomableGroup
@@ -88,6 +92,7 @@ function EgoNetworkNetworkViewer() {
             scale: scale
         });
     }
+
     useGesture(
         {
             onWheel: ({ delta: [, dy] }) => {
@@ -113,6 +118,9 @@ function EgoNetworkNetworkViewer() {
         }
     );
     const renderSecondLegend = decollapseIDsArray.length > 0;
+    useEffect(() => {
+                resizeEffect(containerRef,setSvgSize)
+    }, [setSvgSize]);
     return (
         <Paper
             style={{
@@ -124,6 +132,7 @@ function EgoNetworkNetworkViewer() {
                 //justifyContent: 'center',
                 position: 'relative'
             }}
+            ref={containerRef}
         >
             <Backdrop
                 sx={{
@@ -162,11 +171,13 @@ function EgoNetworkNetworkViewer() {
                     unknown={colorscale.unknown()}
                     type={'quantitative'}
                     transform={`translate(${10},${30})`}
-                    titleParts={splitString(`Quantification via ${
-                        quantifyBy['label'] != 'default'
-                            ? quantifyBy['label']
-                            : 'density'
-                    }`)}
+                    titleParts={splitString(
+                        `Quantification via ${
+                            quantifyBy['label'] != 'default'
+                                ? quantifyBy['label']
+                                : 'density'
+                        }`
+                    )}
                     render={true}
                     fontSize={svgFontSize}
                 />
@@ -174,8 +185,10 @@ function EgoNetworkNetworkViewer() {
                     domain={['few interactions', 'many interactions']}
                     range={['#f6e9ea', '#860028']}
                     type={'quantitative'}
-                    transform={`translate(${10},${160+svgFontSize})`}
-                    titleParts={splitString('Node connectivity within ego-graph')}
+                    transform={`translate(${10},${160 + svgFontSize})`}
+                    titleParts={splitString(
+                        'Node connectivity within ego-graph'
+                    )}
                     render={renderSecondLegend}
                     fontSize={svgFontSize}
                 />

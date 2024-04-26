@@ -1,7 +1,6 @@
 import EgoNetworkNetworkOverview from './egoNetworkNetworkOverview.tsx';
 import { IconButton, Paper, Tooltip, Typography } from '@mui/material';
 import { useAtom } from 'jotai';
-import { egoNetworkNetworkSizeAtom } from './egoNetworkNetworkOverviewStore.ts';
 import ColorLegend from '../ColorLegend.tsx';
 import { InformationVariantCircle } from 'mdi-material-ui';
 import { infoContentAtom, infoTitleAtom } from '../HomePage/InfoComponent.tsx';
@@ -10,13 +9,19 @@ import {
     egoNetworkNetworkOverviewCoverageAtom,
     getEgoNetworkNetworkOverviewAtom
 } from '../../apiCalls.ts';
-import { useRef } from 'react';
-import { calculateTextWidth, splitString, svgFontSize } from '../../UtilityFunctions.ts';
+import { useEffect, useRef } from 'react';
+import {
+    calculateTextWidth,
+    splitString,
+    svgFontSize
+} from '../../UtilityFunctions.ts';
+import { overviewSVGSizeAtom, resizeEffect } from '../../uiStore.tsx';
 
 function EgoNetworkNetworkOverviewViewer() {
     const ref = useRef(null);
+    const containerRef = useRef<HTMLDivElement>(null);
 
-    const [svgSize] = useAtom(egoNetworkNetworkSizeAtom);
+    const [svgSize, setSvgSize] = useAtom(overviewSVGSizeAtom);
     const [_infoContent, setInfoContent] = useAtom(infoContentAtom);
     const [_infoTitle, setInfoTitle] = useAtom(infoTitleAtom);
     const [coverage] = useAtom(egoNetworkNetworkOverviewCoverageAtom);
@@ -28,8 +33,9 @@ function EgoNetworkNetworkOverviewViewer() {
         'Percent of nodes represented in ego-graph subnetwork (right)';
     const secondLegendDomain = 'In ego-graph subnetwork';
     const firstLegendTitleSplit = splitString(firstLegendTitle);
-    const heightFirstLegendTitle = firstLegendTitleSplit.length * svgFontSize*1.5;
-    const widthFirstLegendBody=4*svgFontSize;
+    const heightFirstLegendTitle =
+        firstLegendTitleSplit.length * svgFontSize * 1.5;
+    const widthFirstLegendBody = 4 * svgFontSize;
     const xTranslateSecondLegend =
         calculateTextWidth(firstLegendTitleSplit) + gapBetweenLegends;
     const xTranslateThirdLegend =
@@ -37,6 +43,10 @@ function EgoNetworkNetworkOverviewViewer() {
         calculateTextWidth([secondLegendDomain]) +
         svgFontSize +
         gapBetweenLegends;
+
+    useEffect(() => {
+        resizeEffect(containerRef,setSvgSize)
+    }, [setSvgSize]);
 
     return (
         <Paper
@@ -77,7 +87,11 @@ function EgoNetworkNetworkOverviewViewer() {
                         </Tooltip>
                     </IconButton>
                 </Grid>
-                <Grid xs={12} sx={{ top: '11%', position: 'absolute' }}>
+                <Grid
+                    xs={12}
+                    sx={{ top: '10%', height: '90%', position: 'absolute' }}
+                    ref={containerRef}
+                >
                     <svg
                         width={'100%'}
                         height={'100%'}
@@ -113,7 +127,9 @@ function EgoNetworkNetworkOverviewViewer() {
                             render={true}
                             fontSize={svgFontSize}
                         />
-                        <g transform={`translate(${widthFirstLegendBody},${heightFirstLegendTitle})`}>
+                        <g
+                            transform={`translate(${widthFirstLegendBody},${heightFirstLegendTitle})`}
+                        >
                             <EgoNetworkNetworkOverview />
                         </g>
                     </svg>

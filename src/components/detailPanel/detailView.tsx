@@ -1,6 +1,6 @@
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
-import { useAtom } from 'jotai';
-import { ReactElement } from 'react';
+import { useAtom, useSetAtom } from 'jotai';
+import { ReactElement, useEffect, useRef } from 'react';
 import {
     Backdrop,
     CircularProgress,
@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import { infoContentAtom, infoTitleAtom } from '../HomePage/InfoComponent.tsx';
 import { InformationVariantCircle } from 'mdi-material-ui';
+import { detailedSVGSizeAtom, resizeEffect } from '../../uiStore.tsx';
 
 interface DetailNodeLinkViewerProps {
     children?: React.ReactNode;
@@ -25,6 +26,8 @@ interface DetailNodeLinkViewerProps {
 function DetailView(props: DetailNodeLinkViewerProps) {
     const [_infoContent, setInfoContent] = useAtom(infoContentAtom);
     const [_infoTitle, setInfoTitle] = useAtom(infoTitleAtom);
+    const setSvgSize=useSetAtom(detailedSVGSizeAtom);
+    const containerRef=useRef<HTMLDivElement>()
 
     const titleBarContent = props.titleBarContent
         ? props.titleBarContent
@@ -38,10 +41,13 @@ function DetailView(props: DetailNodeLinkViewerProps) {
         : false;
     const gridContent = contentOutsideGrid
         ? () => <></>
-        : () => <Grid xs={12}>{props.children}</Grid>;
+        : () => <Grid xs={12} ref={containerRef} sx={{height:"100%"}}>{props.children}</Grid>;
     const outsideGridContent = contentOutsideGrid
         ? () => props.children
         : () => <></>;
+    useEffect(() => {
+        resizeEffect(containerRef,setSvgSize)
+    }, [setSvgSize]);
     return (
         <>
             <Backdrop
@@ -58,11 +64,7 @@ function DetailView(props: DetailNodeLinkViewerProps) {
             <Grid
                 container
                 spacing={0}
-                sx={{
-                    top: 10,
-                    width: '100%',
-                    height: '100%'
-                }}
+                sx={{height:"100%"}}
             >
                 <Grid xs={titleCols}>
                     <Typography component={'span'} style={{ color: 'black' }}>

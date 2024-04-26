@@ -1,11 +1,10 @@
 import { useEffect } from 'react';
 import './App.css';
 
-import { useAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import { CircularProgress, Box, createTheme } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 
-import RadarChartViewer from './components/detailPanel/radarchart/radarChartViewer.tsx';
 import { tarNodeAtom } from './components/detailPanel/radarchart/radarStore.ts';
 import EgoNetworkNetworkViewer from './components/egoNetworkNetwork/egoNetworkNetworkViewer.tsx';
 import { selectedProteinsAtom } from './components/selectionTable/tableStore.tsx';
@@ -24,6 +23,7 @@ import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import { MainPage } from './components/HomePage/MainPage.tsx';
 import TabsElements from './components/HomePage/TabsElements.tsx';
 import DetailPanel from './components/detailPanel/detailPanel.tsx';
+import { windowSizeAtom } from './uiStore.tsx';
 
 function App() {
     const [selectedExample] = useAtom(selectedExampleAtom);
@@ -37,6 +37,7 @@ function App() {
     const [egoNetworkNetworkOverviewData, getEgoNetworkNetworkOverviewData] =
         useAtom(getEgoNetworkNetworkOverviewAtom);
     const [tarNode, setTarNode] = useAtom(tarNodeAtom);
+    const setWindowSize=useSetAtom(windowSizeAtom);
     const theme = createTheme({
         palette: {
             primary: {
@@ -47,7 +48,12 @@ function App() {
             }
         }
     });
-
+    useEffect(()=>{
+        window.addEventListener('resize',setWindowSize)
+        return () => {
+            window.removeEventListener('resize',setWindowSize)
+        }
+    },[setWindowSize])
     useEffect(() => {
         if (selectedExample) {
             getTableData();
