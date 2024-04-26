@@ -80,12 +80,8 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
     const setDecollapseID = useSetAtom(decollapseNodeAtom);
 
     const getNodeName = useCallback((id) => {
-        // find the rows in the table that match the uniprot ID
-        // const filteredRows = tableData.rows.filter((row) => {
-        //     return row['nodeID'] === id;
-        // });
-        const nodeData = tableData.rows[id];
 
+        const nodeData = tableData.rows[id];
         const nodeNames = (nodeData?.[nameNodesBy] ?? nodeData.nodeID).split(
             ';'
         );
@@ -93,7 +89,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
         const uniqueNodeNames = [...new Set(nodeNames)];
         // join the protein names with a comma
         return uniqueNodeNames.join(', ');
-    },[nameNodesBy, tableData.rows]);
+    }, [nameNodesBy, tableData.rows]);
     // generate a d3 categorcal color scale with 20 colors
     const [edgesClassification] = useAtom(edgesClassificationAtom);
 
@@ -128,7 +124,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                         onContextMenu={(event) => {
                             setContextMenu(event, center.id, 'subnetwork');
                         }}
-                        style={{"pointerEvents": "all", "cursor": "context-menu"}}
+                        style={{ "pointerEvents": "all", "cursor": "context-menu" }}
                     >
                         <circle
                             cx={center.x}
@@ -146,8 +142,8 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                                 selectedEgoGraphs.includes(center.id)
                                     ? 'red'
                                     : highlightedEdges.ids.includes(center.id)
-                                    ? 'black'
-                                    : 'transparent'
+                                        ? 'black'
+                                        : 'transparent'
                             }
                             strokeWidth={7}
                             fill={'none'}
@@ -165,12 +161,10 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                             d={`
                         M ${center.x} ${center.y}
                         m 0, ${radiusScaled}
-                        a ${radiusScaled} ${radiusScaled} 0 1 1 0 -${
-                            radiusScaled * 2
-                        }
-                        a ${radiusScaled},${radiusScaled} 0 1 1 0 ${
-                            radiusScaled * 2
-                        }
+                        a ${radiusScaled} ${radiusScaled} 0 1 1 0 -${radiusScaled * 2
+                                }
+                        a ${radiusScaled},${radiusScaled} 0 1 1 0 ${radiusScaled * 2
+                                }
                         `}
                         ></path>
                         <text
@@ -178,9 +172,9 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                             fontSize={
                                 outerRadius / 3 < 50 ? 50 : outerRadius / 3
                             }
-                            // dy={`-${
-                            //     outerRadius / 4.5 < 40 ? 40 : outerRadius / 4.5
-                            // }`}
+                        // dy={`-${
+                        //     outerRadius / 4.5 < 40 ? 40 : outerRadius / 4.5
+                        // }`}
                         >
                             <textPath
                                 startOffset={'50%'}
@@ -197,7 +191,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
     );
     // TODO: Do this somewhere better to prevent going through all nodes and edges multiple times!
     const nodeGroups = useMemo(() => {
-        const returnGroups:SVGGElement[] = [];
+        const returnGroups: SVGGElement[] = [];
         layout.centers.map((center) => {
             const nodeGroup = [];
             layout.nodes
@@ -241,7 +235,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
         return returnGroups;
     }, [colorScale, highlightedNodeIndicesAtom, layout.centers, layout.nodes, layout.radii, nodeAtoms, setContextMenu, setDecollapseID, setSelectedEgoGraphs]);
     const edgeGroups = useMemo(() => {
-        const returnGroups:SVGGElement[] = [];
+        const returnGroups: SVGGElement[] = [];
         layout.centers.map((center) => {
             const edgeGroup = [];
             layout.edges

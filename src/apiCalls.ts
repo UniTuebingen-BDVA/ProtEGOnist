@@ -40,6 +40,14 @@ export const chosenSetAtom = atom(null);
 export const edgesClassificationAtom = atom<{ [key: string]: number } | null>(
     null
 );
+export const uploadingDataAtom = atom(false);
+export const uploadStatus = atom(
+    (_get) => {},
+    (get, set) => {
+        let example = get(uploadingDataAtom);
+        set(uploadingDataAtom, !example);
+    }
+);
 
 export const selectedExampleAtom = atom(
     (get) => get(chosenSetAtom),

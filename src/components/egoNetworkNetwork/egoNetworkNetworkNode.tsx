@@ -37,11 +37,11 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
     const [isHovered, setIsHovered] = useState(false);
     const [tableData] = useAtom(tableAtom);
     const [nameNodesBy] = useAtom(nameNodesByAtom);
-       const [selectedEgoGraphs, setSelectedEgoGraphs] = useAtom(
+    const [selectedEgoGraphs, setSelectedEgoGraphs] = useAtom(
         selectedEgoGraphsAtom
     );
     const setContextMenu = useSetAtom(contextMenuAtom);
-    const scaledSize = size *1.1;
+    const scaledSize = size * 1.1;
 
     const color =
         quantifyNodesBy['label'] != 'default'
@@ -62,7 +62,7 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
         // join the protein names with a comma
         return uniqueNodeNames.join(', ');
     };
-    const isSelected=useMemo(()=>selectedEgoGraphs.includes(id),[selectedEgoGraphs,id])
+    const isSelected = useMemo(() => selectedEgoGraphs.includes(id), [selectedEgoGraphs, id])
     return (
         <AdvancedTooltip nodeID={id} key={id}>
             <animated.g
@@ -76,12 +76,12 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                 onDoubleClick={() => setDecollapseID(id)}
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
-                style={{"pointerEvents": "all", "cursor": "context-menu"}}
-                >
+                style={{ "pointerEvents": "all", "cursor": "context-menu" }}
+            >
                 <circle
                     r={size}
                     fill={color}
-                    stroke={isSelected?"red":"black"}
+                    stroke={isSelected ? "red" : "black"}
                     strokeWidth={
                         highlightedEdges.ids.includes(id) || isHovered || isSelected ? 3 : 1
                     }
@@ -100,10 +100,10 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                     strokeWidth="1"
                 />
                 <path
-                id={id+"_labelArc"}
-                fill='none'
-                stroke='none'
-                d={`
+                    id={id + "_labelArc"}
+                    fill='none'
+                    stroke='none'
+                    d={`
                 M 0 0
                 m 0, ${scaledSize}
                 a ${scaledSize},${scaledSize} 0 1,1,0 -${scaledSize * 2}
@@ -118,7 +118,7 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                 >
                     <textPath
                         startOffset={'50%'}
-                        href={'#'+id+"_labelArc"}
+                        href={'#' + id + "_labelArc"}
                     >
                         {getNodeName(id)}
                     </textPath>

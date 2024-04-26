@@ -21,35 +21,43 @@ import {
     Tab,
     Tabs,
     TextField,
-    Tooltip,
-    Theme,
-    createTheme,
-    Input,
-    FormHelperText
+
 } from '@mui/material';
-import { Help } from '@mui/icons-material';
 import React from 'react';
-import axios from 'axios';
-import { selectedExampleAtom } from '../../apiCalls';
+import { selectedExampleAtom, uploadStatus } from '../../apiCalls';
 import { useAtom } from 'jotai';
-import { padding } from '@mui/system';
 
 const InputFilesForm = (props) => {
-    let allFilesChosen = true;
-    const [dataProcess, setDataProcess] = useAtom(selectedExampleAtom);
     const [networkFile, setNetworkFile] = React.useState(null);
-    const [allNodes, setAllNodes] = React.useState(new Set());
     const [nodesOfInterestFile, setNodesOfInterestFile] = React.useState(null);
-    const [notFoundNodes, setNotFoundNodes] = React.useState(new Set());
     const [metadataFile, setMetadataFile] = React.useState(null);
-    const [isLoading, setIsLoading] = React.useState(false);
     const [error, setError] = React.useState('');
+    const [keyNodeName, setKeyNodeName] = React.useState('');
     const [keysMetadata, setKeysMetadata] = React.useState([]);
+    const [keysTooltipInfo, setKeysTooltipInfo] = React.useState([]);
     const [keyClassification, setKeyClassification] = React.useState('');
     const [maxNodes, setMaxNodes] = React.useState(100);
     const [minCoverage, setMinCoverage] = React.useState(0.95);
     const [_dataProcess, setExampleChosen] = useAtom(selectedExampleAtom);
+    const [_uploadingData, toggleUpload] = useAtom(uploadStatus);
 
+    const handleMetadataParsing = (file) => {
+
+        // Read only the first line of the file
+        let reader = new FileReader();
+        reader.onload = function (e) {
+            let content = e.target.result;
+            let lines = content.split('\n');
+            let keys = lines[0].split(';');
+            let keysMetadataTemp = keys.map((key) => {
+                return { value: key, label: key };
+            });
+            setKeysMetadata(keysMetadataTemp);
+        };
+        reader.readAsText(file);
+        setMetadataFile(file);
+
+    }
 
     const handleChangeKeyClassification = (event) => {
         setKeyClassification(event.target.value);
@@ -59,6 +67,14 @@ const InputFilesForm = (props) => {
         formData.append('network', networkFile);
         formData.append('metadata', metadataFile);
         formData.append('nodes_interest', nodesOfInterestFile);
+        formData.append('max_nodes', String(maxNodes));
+        formData.append('min_coverage', String(minCoverage));
+        formData.append('key_classification', keyClassification);
+        formData.append('key_node_name', keyNodeName);
+        // keysTooltipInfo.forEach((key) => {
+        formData.append('keys_tooltip_info', JSON.stringify(keysTooltipInfo));
+        // })
+        toggleUpload();
         fetch('/api/process_input_data', {
             method: 'POST',
             body: formData
@@ -68,30 +84,7 @@ const InputFilesForm = (props) => {
                 setExampleChosen(data);
             })
 
-        //         setAllNodes(allNodesTemp);
-        //         if (nodesOfInterestFile !== null) {
-        //             // Get intersection with all nodes
-        //             let notFound = new Set(
-        //                 [...nodesOfInterestFile].filter((x) => !allNodesTemp.has(x))
-        //             );
-        //             if (notFound.size > 0) {
-        //                 // Raise error
-        //                 // setNotFoundNodes(notFound)
-        //                 let notFoundNodesString = Array.from(notFound).reduce(
-        //                     (node, curr) => curr + ', ' + node,
-        //                     ''
-        //                 );
-        //                 let erroMessage = `The following nodes were not found in the given network: ${notFoundNodesString}`;
-        //                 setError(erroMessage);
-        //             } else {
-        //                 setError('');
-        //             }
-        //         }
-        //     })
-        //     .catch((error) => {
-        //         console.error(error);
-        //         setError(error);
-        //     });
+
     };
 
 
@@ -134,179 +127,68 @@ const InputFilesForm = (props) => {
                     value={minCoverage}
                     onChange={(e) => setMinCoverage(parseFloat(e.target.value))}
                     helperText="Please the maximal number of nodes to be considered for the overview"
+                    InputProps={{ inputProps: { min: 0, max: 1, step: 0.01 } }}
                 />
 
 
-                <TextField onChange={(x) => setMetadataFile(x.target.files[0])} style={{ padding: "0.5em" }} id="metadata-file" type="file" label="Metata file" InputLabelProps={{ shrink: true }} />
+                <TextField onChange={(x) => handleMetadataParsing(x.target.files[0])} style={{ padding: "0.5em" }} id="metadata-file" type="file" label="Metata file" InputLabelProps={{ shrink: true }} />
+                {
+                    keysMetadata.length > 0 ? (
+                        <>
+                            <TextField
+                                id="select-key-classification"
+                                select
+                                label="Select key for classification"
+                                value={keyClassification}
+                                onChange={handleChangeKeyClassification}
+                                helperText="Please select the column of the metadata for the classification of nodes"
+                            >
+                                {keysMetadata.map((option) => (
+                                    <MenuItem key={option.value} value={option.value}>
+                                        {option.label}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
+                            <TextField
+                                id="select-node-name"
+                                select
+                                label="Select key for node naming"
+                                value={keyNodeName}
+                                onChange={(e) => setKeyNodeName(e.target.value)}
+                                helperText="Please select the column of the metadata used for naming the nodes"
+                            >
+                                {keysMetadata.map((option) => (
+                                    <MenuItem key={option.value} value={option.value}>
+                                        {option.label}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
+                            <TextField
+                                id="select-tooltip-info"
+                                select
+                                label="Select keys for disply in the tooltip"
+                                value={keysTooltipInfo}
+                                onChange={(e) => setKeysTooltipInfo(e.target.value)}
+                                helperText="Please select the column of the metadata used for naming the nodes"
+                                SelectProps={{ multiple: true }}
+                            >
+                                {keysMetadata.map((option) => (
+                                    <MenuItem key={option.value} value={option.value}>
+                                        {option.label}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
+                        </>
+                    ) : null
+                }
 
-                <TextField
-                    id="select-key-classification"
-                    select
-                    label="Select"
-                    value={keyClassification}
-                    onChange={handleChangeKeyClassification}
-                    helperText="Please select the column of the metadata for the classification of nodes"
-                >
-                    {keysMetadata.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                            {option.label}
-                        </MenuItem>
-                    ))}
-                </TextField>
                 <Button variant="contained" color="primary" component="span" onClick={handleSubmit}>
                     Upload
                 </Button>
 
             </FormControl>
 
-            {/* <ListItem>
-                <Typography component={'span'}>
-                    Network in form of Interaction file
-                    <Tooltip
-                        title={
-                            'All networks should be provided as a TSV file with all undirected interactions between nodes. Each line consists of two nodes and a value '
-                        }
-                    >
-                        <Help />
-                    </Tooltip>
-                </Typography>
-            </ListItem>
-            <ListItem>
-                <Typography component={'span'}>
-                    <Button
-                        variant="contained"
-                        component="label"
-                        size="small"
-                    >
-                        Select Interaction File
-                        <input
-                            type="file"
-                            multiple
-                            style={{ display: 'none' }}
-                            onChange={(event) => {
-                                const formData = new FormData();
-                                let filePath = event.target.files[0];
-                                formData.append('network', filePath);
-                                axios
-                                    .post('/api/ParseNetwork/', formData)
-                                    .then((response) => {
-                                        let allNodesTemp = new Set(
-                                            response.data
-                                        );
-                                        setAllNodes(allNodesTemp);
-                                        if (nodesOfInterestFile !== null) {
-                                            // Get intersection with all nodes
-                                            let notFound = new Set(
-                                                [
-                                                    ...nodesOfInterestFile
-                                                ].filter(
-                                                    (x) =>
-                                                        !allNodesTemp.has(x)
-                                                )
-                                            );
-                                            if (notFound.size > 0) {
-                                                // Raise error
-                                                // setNotFoundNodes(notFound)
-                                                let notFoundNodesString =
-                                                    Array.from(
-                                                        notFound
-                                                    ).reduce(
-                                                        (node, curr) =>
-                                                            curr +
-                                                            ', ' +
-                                                            node,
-                                                        ''
-                                                    );
-                                                let erroMessage = `The following nodes were not found in the given network: ${notFoundNodesString}`;
-                                                setError(erroMessage);
-                                            } else {
-                                                setError('');
-                                            }
-                                        }
-                                    })
-                                    .catch((error) => {
-                                        console.error(error);
-                                        setError(error);
-                                    });
-                            }}
-                        />
-                    </Button>
-                </Typography>
-            </ListItem>
-            <ListItem>
-                <Typography component={'span'}>
-                    Nodes of interest
-                    <Tooltip
-                        title={
-                            'Using these nodes, ProtEGOnist will try to use the minimal set of EGO-groups to provide an overview of the data'
-                        }
-                    >
-                        <Help />
-                    </Tooltip>
-                </Typography>
-            </ListItem>
-            <ListItem>
-                <Typography component={'span'}>
-                    <Button
-                        variant="contained"
-                        size="small"
-                        // disabled={isLoading}
-                        component="label"
-                    >
-                        Select nodes of interest
-                        <input
-                            type="file"
-                            style={{ display: 'none' }}
-                            onChange={(event) => {
 
-                            }}
-                        />
-                    </Button>
-                </Typography>
-            </ListItem>
-            <ListItem>
-                <Typography component={'span'}>
-                    Metadata on the nodes
-                    <Tooltip
-                        title={
-                            'By providing metadata, you can explore different the classes of the most similar EGO-groups with respect of the classes you provide'
-                        }
-                    >
-                        <Help />
-                    </Tooltip>
-                </Typography>
-            </ListItem>
-            <ListItem>
-                <Typography component={'span'}>
-                    <Button
-                        variant="contained"
-                        size="small"
-                        component="label"
-                    >
-                        Select Classification of nodes
-                        <input
-                            type="file"
-                            multiple
-                            style={{ display: 'none' }}
-                            onChange={(event) => { }}
-                        />
-                    </Button>
-                </Typography>
-            </ListItem> */}
-
-
-            {/* {allFilesChosen && error.length == 0 ? (
-                <Button
-                    variant="contained"
-                    size="small"
-                    onClick={(e) => {
-                        console.log('Start');
-                        setDataProcess('string');
-                    }}
-                >
-                    Explore
-                </Button>
-            ) : null} */}
         </Container>
     );
 };

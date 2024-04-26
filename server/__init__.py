@@ -30,7 +30,7 @@ def create_app(input_path=""):
     DATA_PATH = pathlib.Path(input_path)
     app = Flask(__name__, static_folder="../dist", static_url_path="/")
 
-    EXAMPLES = {
+    DATA_LOADED = {
         "string": read_example_string(DATA_PATH),
         "IEEE": read_example_IEEEcoAuthor(DATA_PATH),
         "ecoli": read_example_ecoli_full(DATA_PATH),
@@ -48,31 +48,31 @@ def create_app(input_path=""):
             metadata_file_path = get_and_save_path(data, "metadata")
             nodes_file_path = get_and_save_path(data, "nodes_interest")
                         
-            max_nodes = 100
-            min_coverage = 0.95
+            max_nodes = int(request.form.get("max_nodes"))
+            min_coverage = float(request.form.get("min_coverage"))
 
-            key_classification = "institution"
-            
+            key_classification = request.form.get("key_classification")
+            key_node_name = request.form.get("key_node_name")
+            keys_tooltip_info = request.form.get("keys_tooltip_info")
+            print(f"keys_tooltip_info: {keys_tooltip_info}")
+            # string to array, replace "[" or "]" and split by ","
+            keys_tooltip_info = keys_tooltip_info.replace('"',"").replace("[", "").replace("]", "").split(",")
+            print(f"keys_tooltip_info: {keys_tooltip_info}")
+
+
+            app.logger.info(f"max_nodes: {max_nodes}, min_coverage: {min_coverage}")            
             network_data_files = create_data_network(network_file_path, metadata_file_path, nodes_file_path, max_nodes, min_coverage, key_classification)
             network_data_client = {
-                "name_nodes": "nodeID",
+                "name_nodes": key_node_name,
                 "classify_by": key_classification,
-                "quantify_by": "Documents",
+                "quantify_by": "default",
                 "quantify_type": "quantitative",
-                "show_tooltip": [
-                    "institution",
-                    "nodeID"
-                ]
-
+                "show_tooltip": keys_tooltip_info,
             }
 
             # Combine the two dictionaries
             network_data = {**network_data_files, **network_data_client}
-            
-            EXAMPLES[random_id] = network_data
-            network_network = network_data["network"]
-            # app.logger.info(f"Network created with {len(network_network.nodes)} nodes and {len(network_network.edges)} edges")
-
+            DATA_LOADED[random_id] = network_data
             return random_id
         except Exception:
             print(traceback.format_exc())
@@ -82,7 +82,7 @@ def create_app(input_path=""):
     @app.route("/api/get_labelling_keys/<example>", methods=["GET"])
     def get_labelling_keys(example: str):
         try:
-            example_data = EXAMPLES[example]
+            example_data = DATA_LOADED[example]
             labelling_keys = {
                 "nameNodesBy": example_data["name_nodes"],
                 "classifyBy": example_data["classify_by"],
@@ -116,7 +116,7 @@ def create_app(input_path=""):
     @app.route("/api/egograph_bundle", methods=["POST"])
     def test_data_egograph_bundle():
         example = request.json["example"]
-        string_graph = EXAMPLES[example]["network"]
+        string_graph = DATA_LOADED[example]["network"]
         target_nodes = request.json["ids"]
         json_data = generate_ego_graph_bundle(string_graph, target_nodes)
         return json_data
@@ -130,9 +130,9 @@ def create_app(input_path=""):
         """
         Generate a test ego radar plot using nx.gorogovtsev_goltsev_mendes_graph and generating 40 ego networks from it.
         """
-        top_intersections = EXAMPLES[example]["top_intersections"]
-        uniprot_brite_dict = EXAMPLES[example]["classification"]
-        string_graph = EXAMPLES[example]["network"]
+        top_intersections = DATA_LOADED[example]["top_intersections"]
+        uniprot_brite_dict = DATA_LOADED[example]["classification"]
+        string_graph = DATA_LOADED[example]["network"]
         if dev_Flag:
             # get top intersections for target node
             intersections = top_intersections[targetNode]
@@ -155,15 +155,14 @@ def create_app(input_path=""):
 
     @app.route("/api/getTableData/<dataID>", methods=["GET"])
     def get_table_data(dataID: str):
-        json_data = json.dumps(EXAMPLES[dataID]["metadata"])
-        return json.dumps(EXAMPLES[dataID]["metadata"])
+        return json.dumps(DATA_LOADED[dataID]["metadata"])
 
     @app.route("/api/getEgoNetworkNetwork/<example>/<targetNodes>", methods=["GET"])
     def get_ego_network_network(example: str, targetNodes: str):
         """
         Generate a network of ego networks from the target nodes.
         """
-        string_graph = EXAMPLES[example]["network"]
+        string_graph = DATA_LOADED[example]["network"]
         split_target = targetNodes.split("+")
         ego_network_network = get_ego_network(string_graph, split_target)
         return ego_network_network.get_graph_json()
@@ -173,7 +172,7 @@ def create_app(input_path=""):
         """
         Generate a node link diagram from the target nodes.
         """
-        complete_graph = EXAMPLES[request.json["example"]]["network"]
+        complete_graph = DATA_LOADED[request.json["example"]]["network"]
         target_nodes = request.json["ids"]
         # get the subgraph of the target nodes in the complete graph
         subgraph = complete_graph.subgraph(target_nodes)
@@ -184,8 +183,8 @@ def create_app(input_path=""):
         """
         Generate a network of ego networks from the target nodes.
         """
-        string_graph = EXAMPLES[example]["network"]
-        overview_nodes = EXAMPLES[example]["overview_nodes"]
+        string_graph = DATA_LOADED[example]["network"]
+        overview_nodes = DATA_LOADED[example]["overview_nodes"]
         ego_networks = get_ego_network(string_graph, overview_nodes, True)
         return json.dumps(
             {

@@ -15,7 +15,8 @@ import {
     getTableAtom,
     getEgoNetworkNetworkOverviewAtom,
     startDataOverview,
-    selectedExampleAtom
+    selectedExampleAtom,
+    uploadingDataAtom
 } from './apiCalls.ts';
 import EgoNetworkNetworkOverviewViewer from './components/overview_component/egoNetworkNetworkOverviewViewer.tsx';
 import LogoBlue from './assets/LogoBlue.svg';
@@ -27,6 +28,7 @@ import DetailPanel from './components/detailPanel/detailPanel.tsx';
 
 function App() {
     const [selectedExample] = useAtom(selectedExampleAtom);
+    const [uploadingData] = useAtom(uploadingDataAtom);
     const [tableData, getTableData] = useAtom(getTableAtom);
     const [intersectionData, getRadarData] = useAtom(getRadarAtom);
     const [_selectedProteins, setSelectedProteins] =
@@ -51,13 +53,6 @@ function App() {
     useEffect(() => {
         if (selectedExample) {
             getTableData();
-            //ForUseCase
-            // setTarNode('P61978');
-            // getRadarData('P61978');
-            // Chosen starts
-
-            // For useCase
-            // setSelectedProteins(['P61978', 'O43447', 'Q14498', 'Q92922']);
             getEgoNetworkNetworkOverviewData(startDataOverview);
         }
     }, [
@@ -102,7 +97,7 @@ function App() {
                             textAlign: 'center'
                         }}
                     >
-                        <DetailPanel/>
+                        <DetailPanel />
                     </Grid>
                 </Grid>
 
@@ -118,7 +113,7 @@ function App() {
                 </Grid>
             </MainPage>
         );
-    } else if (selectedExample) {
+    } else if (selectedExample || uploadingData) {
         return (
             <ThemeProvider theme={theme}>
                 <Box
