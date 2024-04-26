@@ -1,5 +1,6 @@
 import json
 import pathlib
+import networkx as nx
 from flask import Flask, request
 import tempfile
 import uuid
@@ -176,7 +177,20 @@ def create_app(input_path=""):
         target_nodes = request.json["ids"]
         # get the subgraph of the target nodes in the complete graph
         subgraph = complete_graph.subgraph(target_nodes)
-        print(subgraph)
+        # components
+        components = [
+            subgraph.subgraph(c).copy()
+            for c in sorted(nx.connected_components(subgraph), key=len, reverse=True)
+        ]
+        #
+        out_data = [
+            {
+                "nodes": list(comp.nodes),
+                "edges": list(comp.edges),
+            }
+            for comp in components
+        ]
+        return out_data
 
     @app.route("/api/getEgoNetworkNetworkOverview/<example>", methods=["GET"])
     def get_ego_network_network_overview(example: str):

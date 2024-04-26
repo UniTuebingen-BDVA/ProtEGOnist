@@ -228,7 +228,7 @@ const RadarChart = (props: RadarChartProps) => {
         '#cab2d6'
     ];
     const colorScale = d3
-        .scaleOrdinal()
+        .scaleOrdinal<string>()
         .domain(
             Object.values(sortedIntersectionData).map(
                 (d) => d[1].classification

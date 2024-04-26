@@ -25,15 +25,16 @@ import {
     quantifyNodesByAtom
 } from '../../apiCalls.ts';
 import {
-    SetCenter,
-    SetAll,
+    FitToPageOutline,
     InformationVariantCircle,
-    MagnifyPlusOutline,
     MagnifyMinusOutline,
-    FitToPageOutline
+    MagnifyPlusOutline,
+    SetAll,
+    SetCenter
 } from 'mdi-material-ui';
 import { infoContentAtom, infoTitleAtom } from '../HomePage/InfoComponent.tsx';
-import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
+import Grid from '@mui/material/Unstable_Grid2';
+import { splitString,svgFontSize } from '../../UtilityFunctions.ts'; // Grid version 2
 
 function EgoNetworkNetworkViewer() {
     const [egoNetworkNetworkBusy] = useAtom(egoNetworkNetworkBusyAtom);
@@ -43,7 +44,7 @@ function EgoNetworkNetworkViewer() {
     const [quantifyBy] = useAtom(quantifyNodesByAtom);
     const [_infoContent, setInfoContent] = useAtom(infoContentAtom);
     const [_infoTitle, setInfoTitle] = useAtom(infoTitleAtom);
-    const svgSize = { width: 500, height: 500 };
+    const svgSize = { width: 1000, height: 900 };
 
     // prevent default pinch zoom
     document.addEventListener('gesturestart', (e) => e.preventDefault());
@@ -140,8 +141,9 @@ function EgoNetworkNetworkViewer() {
                 // @ts-ignore ts2304
                 width={'100%'}
                 height={'100%'}
+                preserveAspectRatio={'xMinYMin'}
                 ref={ref}
-                viewBox={`0 0 ${svgSize.width} ${svgSize.width}`}
+                viewBox={`0 0 ${svgSize.width} ${svgSize.height}`}
                 style={{ position: 'absolute' }}
             >
                 <animated.g
@@ -154,6 +156,29 @@ function EgoNetworkNetworkViewer() {
                 >
                     <EgoNetworkNetwork />
                 </animated.g>
+                <ColorLegend
+                    domain={colorscale.domain()}
+                    range={colorscale.range()}
+                    unknown={colorscale.unknown()}
+                    type={'quantitative'}
+                    transform={`translate(${10},${30})`}
+                    titleParts={splitString(`Quantification via ${
+                        quantifyBy['label'] != 'default'
+                            ? quantifyBy['label']
+                            : 'density'
+                    }`)}
+                    render={true}
+                    fontSize={svgFontSize}
+                />
+                <ColorLegend
+                    domain={['few interactions', 'many interactions']}
+                    range={['#f6e9ea', '#860028']}
+                    type={'quantitative'}
+                    transform={`translate(${10},${160+svgFontSize})`}
+                    titleParts={splitString('Node connectivity within ego-graph')}
+                    render={renderSecondLegend}
+                    fontSize={svgFontSize}
+                />
             </animated.svg>
             <Grid
                 container
@@ -164,33 +189,7 @@ function EgoNetworkNetworkViewer() {
                     width: '100%'
                 }}
             >
-                <Grid xs={2}>
-                    <svg height={'100%'} width={'100%'} viewBox="0 0 200 300">
-                        <ColorLegend
-                            domain={colorscale.domain()}
-                            range={colorscale.range()}
-                            unknown={colorscale.unknown()}
-                            type={'quantitative'}
-                            transform={`translate(${10},${10})`}
-                            title={`Quantification via ${
-                                quantifyBy['label'] != 'default'
-                                    ? quantifyBy['label']
-                                    : 'density'
-                            }`}
-                            render={true}
-                        />
-                        <ColorLegend
-                            domain={['few interactions', 'many interactions']}
-                            range={['#f6e9ea', '#860028']}
-                            type={'quantitative'}
-                            transform={`translate(${10},${150})`}
-                            title={'Node connectivity within ego-graph'}
-                            render={renderSecondLegend}
-                        />
-                    </svg>
-                </Grid>
-
-                <Grid xs={6}>
+                <Grid xs={8}>
                     <Typography
                         sx={{
                             color: 'black'

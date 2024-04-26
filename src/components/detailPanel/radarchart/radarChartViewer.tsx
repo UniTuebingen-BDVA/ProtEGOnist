@@ -13,24 +13,28 @@ function RadarChartViewer(props: RadarChartViewerProps) {
     const [radarBusy] = useAtom(radarChartBusyAtom);
     const [classifyBy] = useAtom(classifyByAtom);
 
-
-    const svgSize = { width: 500, height: 500, percentWidth: 45};
-    const radChart = ()=>(<RadarChart
-    intersectionData={props.intersectionData}
-    tarNode={props.tarNode}
-    baseRadius={svgSize.width / 2}
-    transform={`translate(${svgSize.width/2}, ${svgSize.height/2})`}
-    />)
+    const svgSize = { width: 500, height: 500 };
     return (
         <DetailView
-            content={radChart}
             title={`Neighborhood of selected node (radar center) classified by ${classifyBy}`}
-            name='Radar Chart'
+            name="Radar Chart"
             infoContent={'radarChart'}
             busy={radarBusy}
-            contentSize={svgSize}
-        />
-    )
+        >
+            <svg
+                preserveAspectRatio={'xMinYMin'}
+                width={'45%'}
+                viewBox={`0 0 ${svgSize.width} ${svgSize.height}`}
+            >
+                <RadarChart
+                    intersectionData={props.intersectionData}
+                    tarNode={props.tarNode}
+                    baseRadius={svgSize.width / 2}
+                    transform={`translate(${svgSize.width / 2}, ${svgSize.height / 2})`}
+                />
+            </svg>
+        </DetailView>
+    );
 }
 
 export default RadarChartViewer;

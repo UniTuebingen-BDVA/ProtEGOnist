@@ -36,9 +36,7 @@ export const tarNodeAtom = atom(
     }
 );
 
-export const lableInternalAtom = atom<{
-    [name: string]: { value: string; short: string; long: string };
-}>({});
+export const hoveredLabelAtom=atom<string>('')
 
 const defaultLabels = atom((get) => {
     const labels = Object.values(get(intersectionAtom)).map(
@@ -60,12 +58,11 @@ const defaultLabels = atom((get) => {
 
 export const labelsAtoms = atom(
     (get) => {
-        return Object.keys(get(lableInternalAtom)).length > 0
-            ? get(lableInternalAtom)
-            : get(defaultLabels);
-    },
-    (get, set, id: string) => {
-        const labels = Object.values(get(intersectionAtom)).map(
+        const hoveredLabel=get(hoveredLabelAtom);
+        if(hoveredLabel===''){
+            return get(defaultLabels)
+        } else{
+            const labels = Object.values(get(intersectionAtom)).map(
             (d) => d.classification
         );
         const uniqueLabels = [...new Set(labels)];
@@ -75,12 +72,13 @@ export const labelsAtoms = atom(
         uniqueLabels.forEach((d) => {
             const shortenedLabel = d.length > 15 ? d.slice(0, 15) + '...' : d;
             labelsInternal[d] = {
-                value: id == '' ? shortenedLabel : id == d ? d : '',
+                value: hoveredLabel == '' ? shortenedLabel : hoveredLabel == d ? d : '',
                 short: shortenedLabel,
                 long: d
             };
         });
-        set(lableInternalAtom, labelsInternal);
+        return labelsInternal
+        }
     }
 );
 
