@@ -8,7 +8,7 @@ import AdvancedTooltip from '../../utilityComponents/advancedTooltip';
 import { lastSelectedNodeAtom } from './radarStore';
 import { memo } from 'react';
 import { contextMenuAtom } from '../../utilityComponents/contextMenuStore';
-import { hoverAtom } from '../../utilityComponents/hoverStore';
+import { hoverAtom, hoverColor } from '../../utilityComponents/hoverStore';
 
 interface RadarCircleProps {
     id: string;
@@ -43,7 +43,7 @@ const RadarCircle = memo(function RadarCircle(props: RadarCircleProps) {
     const color = String(colorScale(intersectionDatum.classification));
     const strokeColor = (id: string) => {
         if (hoveredNode === id) {
-            return 'red';
+            return hoverColor;
         } else if (selectedProteins.includes(id)) {
             return 'orange';
         } else if (id == lastSelectedNode) {

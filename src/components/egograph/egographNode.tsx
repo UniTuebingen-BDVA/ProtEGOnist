@@ -42,7 +42,6 @@ export const EgographNode = memo(function EgographNode(
     const [hoveredNode, setHoveredNode] = useAtom(hoverAtom);
 
     useEffect(() => {
-        console.log(node);
         if (hoveredNode === node.originalID) {
             setHighlightedNodeIndices(node.identityNodes);
         } else if (hoveredNode === '') {

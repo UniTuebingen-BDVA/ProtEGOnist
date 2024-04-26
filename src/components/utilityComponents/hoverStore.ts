@@ -1,5 +1,6 @@
 import { atom } from 'jotai';
 
+export const hoverColor = '#6db463';
 const hoverStoreAtom = atom('');
 
 export const hoverAtom = atom(

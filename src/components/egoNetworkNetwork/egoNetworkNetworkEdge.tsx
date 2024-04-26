@@ -8,6 +8,7 @@ import {
 } from './egoNetworkNetworkStore.ts';
 import * as d3 from 'd3';
 import { selectedBandsAtom } from './egoNetworkNetworkStore.ts';
+import { hoverColor } from '../utilityComponents/hoverStore.ts';
 
 interface EgoNetworkNetworkEdgeProps {
     weight: number;
@@ -61,11 +62,11 @@ const EgoNetworkNetworkEdge = memo(function EgoNetworkNetworkEdge(
                 y2={animatedParams.y2}
                 stroke={
                     isSelected
-                        ? 'red'
+                        ? hoverColor
                         : highlightedEdges.ids.includes(nodeIds[0]) &&
-                          highlightedEdges.ids.includes(nodeIds[1])
-                        ? 'black'
-                        : 'lightgray'
+                            highlightedEdges.ids.includes(nodeIds[1])
+                          ? 'black'
+                          : 'lightgray'
                 }
                 strokeWidth={strokeWidth}
             />

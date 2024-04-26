@@ -11,7 +11,7 @@ import { memo, useMemo, useState } from 'react';
 import { contextMenuAtom } from '../utilityComponents/contextMenuStore';
 import { nameNodesByAtom, quantifyNodesByAtom } from '../../apiCalls';
 import { selectedEgoGraphsAtom } from './egoNetworkNetworkStore.ts';
-import { hoverAtom } from '../utilityComponents/hoverStore.ts';
+import { hoverAtom, hoverColor } from '../utilityComponents/hoverStore.ts';
 
 interface EgoNetworkNetworkNodeProps {
     id: string;
@@ -46,10 +46,10 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
         [selectedEgoGraphs, id]
     );
     const strokeColor = () => {
-        if(isLocallyHovered || !(isHovered || isSelected)){
+        if (isLocallyHovered || !(isHovered || isSelected)) {
             return 'black';
         } else {
-            return 'red'
+            return hoverColor;
         }
     };
     const strokeWidth = isLocallyHovered || isHovered || isSelected ? 3 : 1;

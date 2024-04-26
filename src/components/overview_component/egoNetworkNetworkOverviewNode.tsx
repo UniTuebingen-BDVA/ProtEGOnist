@@ -14,7 +14,7 @@ import { highlightNodeAtom } from './egoNetworkNetworkOverviewStore';
 import { memo, useCallback } from 'react';
 import { updateDecollapseIdsAtom } from '../egoNetworkNetwork/egoNetworkNetworkStore.ts';
 import { contextMenuAtom } from '../utilityComponents/contextMenuStore.ts';
-import { hoverAtom } from '../utilityComponents/hoverStore.ts';
+import { hoverAtom, hoverColor } from '../utilityComponents/hoverStore.ts';
 
 interface EgoNetworkNetworkNodeProps {
     id: string;
@@ -83,7 +83,7 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
     const radiusScaled = size + 4;
     const strokeColor = (id: string) => {
         if (hoveredNode === id) {
-            return 'red';
+            return hoverColor;
         } else {
             return 'black';
         }

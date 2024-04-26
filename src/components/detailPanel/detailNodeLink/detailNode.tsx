@@ -5,7 +5,7 @@ import { memo, useState } from 'react';
 import { contextMenuAtom } from '../../utilityComponents/contextMenuStore';
 import { selectedProteinsAtom } from '../../selectionTable/tableStore';
 import { selectedNodeAtom } from './detailStore';
-import { hoverAtom } from '../../utilityComponents/hoverStore';
+import { hoverAtom, hoverColor } from '../../utilityComponents/hoverStore';
 
 /**
  * Represents the props for the DetailNode component.
@@ -32,7 +32,7 @@ const DetailNode = memo(function DetailNode(props: DetailNodeProps) {
     const color = (id, component) => {
         if (selectedNode) {
             if (id === selectedNode) {
-                return 'red';
+                return hoverColor;
             }
             return '#dddddd';
         }
@@ -50,7 +50,7 @@ const DetailNode = memo(function DetailNode(props: DetailNodeProps) {
 
     const strokeColor = (id: string) => {
         if (id === hoveredNode) {
-            return 'red';
+            return hoverColor;
         }
         return 'black';
     };
