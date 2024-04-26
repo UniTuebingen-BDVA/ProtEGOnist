@@ -33,10 +33,10 @@ const contents = {
                 overlap of the respective ego-graph neighborhoods.
             </p>
             <p>
-                <b>Click on</b> nodes or links to decollapse ego-graphs to show the
-                detailed internal structure including all contained elements and
-                their interactions. Similarly, collapse nodes by clicking on the
-                ego-graphs.
+                <b>Click on</b> nodes or links to decollapse ego-graphs to show
+                the detailed internal structure including all contained elements
+                and their interactions. Similarly, collapse nodes by clicking on
+                the ego-graphs.
             </p>
             <p>
                 Groups of up to three connected ego-graphs can be decollapsed
@@ -44,12 +44,13 @@ const contents = {
                 elements are shared between the ego-graphs.
             </p>
             <p>
-                <b>Click on</b> bands in groups of decollapsed ego-graphs to select
-                them for detailed investigation using the selection table.
+                <b>Click on</b> bands in groups of decollapsed ego-graphs to
+                select them for detailed investigation using the selection
+                table.
             </p>
             <p>
-                <b>Right click on</b> ego-graphs to open a context-menu for node-deletion
-                or to view them in the radar chart.
+                <b>Right click on</b> ego-graphs to open a context-menu for
+                node-deletion or to view them in the radar chart.
             </p>
         </div>
     ),
@@ -57,28 +58,40 @@ const contents = {
         <div>
             <p>
                 The radar chart visualizes an ego-graph of interest and the its
-                similarity to other ego-graphs. The 30 most similar
-                ego-graphs are displayed.
+                similarity to other ego-graphs. The 30 most similar ego-graphs
+                are displayed.
             </p>
-            <p><b>Click on</b> ego-graphs to change the center.</p>
             <p>
-                <b>Right click on</b> ego-graphs to open a context-menu for adding
-                ego-graphs to the ego-graph subnetwork.
+                <b>Click on</b> ego-graphs to change the center.
+            </p>
+            <p>
+                <b>Right click on</b> ego-graphs to open a context-menu for
+                adding ego-graphs to the ego-graph subnetwork.
             </p>
         </div>
     ),
     detailNodeLink: (
         <div>
             <p>
-                The Detail Node Link Diagram shows the selected nodes and their links.
-                The selection is based on intersections and ego-graphs selected in the ego-graph subnetwork.
+                The Detail Node Link Diagram shows the selected nodes and their
+                links. The selection is based on intersections and ego-graphs
+                selected in the ego-graph subnetwork.
             </p>
             <p>
-                <b>Use the buttons</b> to zoom in and out, fit the view, or to get the node-link diagram based on your selection.
+                <b>Use the buttons</b> to zoom in and out, fit the view, or to
+                get the node-link diagram based on your selection.
             </p>
             <p>
-                <b>Right click on</b> ego-graphs to open a context-menu for adding
-                ego-graphs to the ego-graph subnetwork or selecting it as the center for the radar chart..
+                <b>Right click on</b> ego-graphs to open a context-menu for
+                adding ego-graphs to the ego-graph subnetwork or selecting it as
+                the center for the radar chart..
+            </p>
+            <p>
+                Disconencted components and orphans nodes are placed below the
+                main diagram (shown in green). These can occur for degree-2
+                alters in intersections that are only reachable by degree-1
+                alters that are not part of the intersection as they are
+                degree-3 alters of other egos.
             </p>
         </div>
     ),
@@ -95,8 +108,9 @@ const contents = {
                 subnetwork and set them as center of the radar chart.
             </p>
             <p>
-                <b>Right click on</b> ego-graphs to open a context-menu for adding
-                ego-graphs to the ego-graph subnetwork or to view them in the radar chart.
+                <b>Right click on</b> ego-graphs to open a context-menu for
+                adding ego-graphs to the ego-graph subnetwork or to view them in
+                the radar chart.
             </p>
         </div>
     ),
@@ -104,9 +118,9 @@ const contents = {
         <div>
             <p>The Data Table contains information about all elements.</p>
             <p>
-                <b>Use the checkboxes</b> to add elements to the ego-graph subnetwork
-                or <b>click on the radar symbol</b> to place them as the center in the
-                radar chart.
+                <b>Use the checkboxes</b> to add elements to the ego-graph
+                subnetwork or <b>click on the radar symbol</b> to place them as
+                the center in the radar chart.
             </p>
         </div>
     ),
@@ -126,8 +140,9 @@ const contents = {
                 compare protein functions, and detailed ego-graph subnetworks
                 for interactive exploration. Our design aims to reduce visual
                 complexity while enabling detailed exploration, and facilitating
-                the discovery of meaningful patterns in PPI networks. The ProtEGOnist
-                approach can be applied to other data sets, e.g. social networks.
+                the discovery of meaningful patterns in PPI networks. The
+                ProtEGOnist approach can be applied to other data sets, e.g.
+                social networks.
             </p>
         </div>
     )

@@ -36,18 +36,8 @@ export const EgographNode = memo(function EgographNode(
         centerNode
     } = props;
     const [node, _setNode] = useAtom(nodeAtom);
-    const [highlightedNodeIndices, setHighlightedNodeIndices] = useAtom(
-        highlightedNodeIndicesAtom
-    );
-    const [hoveredNode, setHoveredNode] = useAtom(hoverAtom);
-
-    useEffect(() => {
-        if (hoveredNode === node.originalID) {
-            setHighlightedNodeIndices(node.identityNodes);
-        } else if (hoveredNode === '') {
-            setHighlightedNodeIndices([]);
-        }
-    }, [hoveredNode, node]);
+    const [_hoveredNode, setHoveredNode] = useAtom(hoverAtom);
+    const [highlightedNodeIndices] = useAtom(highlightedNodeIndicesAtom);
     const setDecollapseID = useSetAtom(decollapseNodeAtom);
     const BOX_HEIGHT = egoRadius / 3;
     const centerPolarOuter = cartesianToPolar(
