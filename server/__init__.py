@@ -48,8 +48,11 @@ def create_app(input_path=""):
             for key in DATA_LOADED:
                 if "protInput" in key:
                     # Check if datatime is older than 1 day
-                    if datetime.timestamp(datetime.now()) - DATA_LOADED[key]["timestamp"] > 86400:
+                    getTimestamp = DATA_LOADED[key].get("timestamp")[0]
+                    if datetime.timestamp(datetime.now()) - getTimestamp > 86400:
+                        app.logger.info("DELETING OLD DATA")
                         del DATA_LOADED[key]
+
             # create random id for key in dictionary
             random_id = f"protInput{str(uuid.uuid4())}"
 
@@ -67,14 +70,16 @@ def create_app(input_path=""):
             keys_tooltip_info = request.form.get("keys_tooltip_info").strip()
             # string to array, replace "[" or "]" and split by ","
             keys_tooltip_info = keys_tooltip_info.replace('"',"").replace("[", "").replace("]", "").split(",")
+            key_quantify_by = request.form.get("key_quantification").strip()
+            key_quantify_type = request.form.get("keytype_quantification").strip()
             app.logger.info(f"max_nodes: {max_nodes}, min_coverage: {min_coverage}")            
             network_data_files = create_data_network(network_file_path, metadata_file_path, nodes_file_path, max_nodes, min_coverage, key_classification)
 
             network_data_client = {
                 "name_nodes": key_node_name if key_node_name != "" else "nodeID",
                 "classify_by": key_classification,
-                "quantify_by": "default",
-                "quantify_type": "quantitative",
+                "quantify_by": key_quantify_by if key_quantify_by != "" else "default",
+                "quantify_type": key_quantify_type if key_quantify_type != "" else "quantitative",
                 "show_tooltip": keys_tooltip_info if len(keys_tooltip_info)>0 else ["number_of_nodes"],
             }
 
@@ -87,7 +92,7 @@ def create_app(input_path=""):
             return random_id
         except Exception:
             print(traceback.format_exc())
-            return "Error"
+            return "Error", 404
         
 
     @app.route("/api/get_labelling_keys/<example>", methods=["GET"])

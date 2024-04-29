@@ -39,7 +39,9 @@ def heuristic_set_cover(dict: dict, network_edges: set, account: array = None, s
     found_edges = set()
     keys_to_choose = []
     # If the user provides a start set, we start with this set
-    if start_set != None:
+    if start_set == None:
+        start_set = []
+    if len(start_set) > 0 and start_set:
         start_set = set(start_set)
         # check that the start set is in the keys to account
         start_set = set([node for node in start_set if node in keys_to_account])

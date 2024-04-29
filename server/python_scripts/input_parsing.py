@@ -82,6 +82,8 @@ def parse_nodes_start(nodes_to_start: str) -> list:
     Returns:
         list: A list of nodes to start.
     """
+    if nodes_to_start == None:
+        return None
     with open(nodes_to_start, "r") as f:
         nodes_to_start = f.read()
 

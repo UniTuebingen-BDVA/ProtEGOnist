@@ -1,31 +1,20 @@
 import {
     Container,
     Box,
-    Typography,
     Alert,
     Button,
-    CircularProgress,
-    createStyles,
     FormControl,
-    FormControlLabel,
-    InputLabel,
     List,
     ListItem,
-    ListSubheader,
-    makeStyles,
     MenuItem,
-    Radio,
-    RadioGroup,
-    Select,
-    Switch,
-    Tab,
-    Tabs,
     TextField,
+    FormLabel,
 
 } from '@mui/material';
 import React from 'react';
 import { selectedExampleAtom, uploadStatus } from '../../apiCalls';
 import { useAtom } from 'jotai';
+import { set } from 'optics-ts';
 
 const InputFilesForm = (props) => {
     const [networkFile, setNetworkFile] = React.useState(null);
@@ -36,10 +25,17 @@ const InputFilesForm = (props) => {
     const [keysMetadata, setKeysMetadata] = React.useState([]);
     const [keysTooltipInfo, setKeysTooltipInfo] = React.useState([]);
     const [keyClassification, setKeyClassification] = React.useState('');
+    const [keytypeQuantification, setKeytypeQuantification] = React.useState('');
     const [maxNodes, setMaxNodes] = React.useState(100);
     const [minCoverage, setMinCoverage] = React.useState(0.95);
     const [_dataProcess, setExampleChosen] = useAtom(selectedExampleAtom);
     const [_uploadingData, toggleUpload] = useAtom(uploadStatus);
+    const [keyQuantification, setKeyQuantification] = React.useState('');
+    const typesQuantification = [
+        { value: 'quantitative', label: 'Numerical values' },
+        { value: 'categorical', label: 'Categorical' },
+    ];
+
 
     const handleMetadataParsing = (file) => {
 
@@ -58,6 +54,9 @@ const InputFilesForm = (props) => {
         setMetadataFile(file);
 
     }
+    const handleChangeKeyQuantification = (event) => {
+        setKeyQuantification(event.target.value);
+    }
 
     const handleChangeKeyClassification = (event) => {
         setKeyClassification(event.target.value);
@@ -69,20 +68,38 @@ const InputFilesForm = (props) => {
         formData.append('nodes_interest', nodesOfInterestFile);
         formData.append('max_nodes', String(maxNodes));
         formData.append('min_coverage', String(minCoverage));
+        formData.append('key_quantification', keyQuantification);
+        formData.append('keytype_quantification', keytypeQuantification);
         formData.append('key_classification', keyClassification);
         formData.append('key_node_name', keyNodeName);
-        // keysTooltipInfo.forEach((key) => {
         formData.append('keys_tooltip_info', JSON.stringify(keysTooltipInfo));
-        // })
         toggleUpload();
         fetch('/api/process_input_data', {
             method: 'POST',
             body: formData
         })
-            .then(response => response.text())
+            .then(response => {
+                // Check if the response is ok
+                if (!response.ok) {
+                    return 'Error';
+                }
+                return response.text();
+
+            }
+
+            )
+
             .then(data => {
-                setExampleChosen(data);
+                if (data !== 'Error') {
+
+                    setExampleChosen(data);
+                } else {
+                    setError('Error');
+                }
             })
+            .catch((error) => {
+                setError(error);
+            });
 
 
     };
@@ -109,9 +126,14 @@ const InputFilesForm = (props) => {
             ) : null}
 
             <FormControl >
+                <FormLabel className="titles-form">Network data</FormLabel>
+
 
                 <TextField onChange={(x) => setNetworkFile(x.target.files[0])} style={{ padding: "0.5em" }} id="network-file" type="file" required={true} label="Network file" InputLabelProps={{ shrink: true }} />
+                <FormLabel className="titles-form">Parameters for the computation of an overview visualization</FormLabel>
+
                 <TextField onChange={(x) => setNodesOfInterestFile(x.target.files[0])} style={{ padding: "0.5em" }} id="nodes-interest" type="file" label="Nodes of interset" InputLabelProps={{ shrink: true }} />
+
                 <TextField
                     id="max-nodes"
                     label="Max nodes"
@@ -130,11 +152,42 @@ const InputFilesForm = (props) => {
                     InputProps={{ inputProps: { min: 0, max: 1, step: 0.01 } }}
                 />
 
+                <FormLabel className="titles-form">Metadata</FormLabel>
 
                 <TextField onChange={(x) => handleMetadataParsing(x.target.files[0])} style={{ padding: "0.5em" }} id="metadata-file" type="file" label="Metata file" InputLabelProps={{ shrink: true }} />
                 {
                     keysMetadata.length > 0 ? (
                         <>
+                            <FormLabel className="subtitles-form">Metadata for the quantification of nodes</FormLabel>
+                            <TextField
+                                id="select-key-quantification"
+                                select
+                                label="Select key for node quantification"
+                                value={keyQuantification}
+                                onChange={handleChangeKeyQuantification}
+                                helperText="Please select the column of the metadata for the quantification of nodes"
+                            >
+                                {keysMetadata.map((option) => (
+                                    <MenuItem key={option.value} value={option.value}>
+                                        {option.label}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
+                            <TextField
+                                id="select-keytype-quantification"
+                                select
+                                label="Select type of the key for node quantification"
+                                value={keytypeQuantification}
+                                onChange={(e) => setKeytypeQuantification(e.target.value)}
+                                helperText="Please select the type of column of the metadata for the quantification of nodes"
+                            >
+                                {typesQuantification.map((option) => (
+                                    <MenuItem key={option.value} value={option.value}>
+                                        {option.label}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
+                            <FormLabel className="subtitles-form">Metadata for the Radar Chart classification</FormLabel>
                             <TextField
                                 id="select-key-classification"
                                 select
@@ -149,6 +202,9 @@ const InputFilesForm = (props) => {
                                     </MenuItem>
                                 ))}
                             </TextField>
+
+                            <FormLabel className="subtitles-form">Column with the name of the nodes</FormLabel>
+
                             <TextField
                                 id="select-node-name"
                                 select
@@ -163,6 +219,8 @@ const InputFilesForm = (props) => {
                                     </MenuItem>
                                 ))}
                             </TextField>
+                            <FormLabel className="subtitles-form">Columns that are showed in the tooltip</FormLabel>
+
                             <TextField
                                 id="select-tooltip-info"
                                 select
