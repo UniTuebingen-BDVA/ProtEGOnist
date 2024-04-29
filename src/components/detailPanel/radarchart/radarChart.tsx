@@ -78,7 +78,7 @@ const RadarChart = (props: RadarChartProps) => {
     ) {
         classificationProportionsalternating.push(
             classificationProportionsSorted[
-                classificationProportionsSorted.length - 1 - i
+            classificationProportionsSorted.length - 1 - i
             ]
         );
         classificationProportionsalternating.push(
@@ -88,7 +88,7 @@ const RadarChart = (props: RadarChartProps) => {
     if (classificationProportionsSorted.length % 2 !== 0) {
         classificationProportionsalternating.push(
             classificationProportionsSorted[
-                Math.floor(classificationProportionsSorted.length / 2)
+            Math.floor(classificationProportionsSorted.length / 2)
             ]
         );
     }
@@ -183,7 +183,7 @@ const RadarChart = (props: RadarChartProps) => {
             if (
                 segment.midAngle - segment.labelAngleWidth / 2 >
                 segmentWithRingIndex.midAngle +
-                    segmentWithRingIndex.labelAngleWidth / 2
+                segmentWithRingIndex.labelAngleWidth / 2
             ) {
                 // remove the ringIndex from unavailableRingIndices and add it to availableRingIndices
                 unavailableRingIndices.splice(
@@ -252,7 +252,7 @@ const RadarChart = (props: RadarChartProps) => {
         // });
         const nodeData = tableData.rows[id];
 
-        const nodeNames = (nodeData?.[nameNodesBy] ?? nodeData.nodeID).split(
+        const nodeNames = String(nodeData?.[nameNodesBy] ?? nodeData.nodeID).split(
             ';'
         );
         // generate set of unique protein names
@@ -360,12 +360,10 @@ const RadarChart = (props: RadarChartProps) => {
                         d={`
                     M 0 0
                     m 0, ${centerRadius}
-                    a ${centerRadius},${centerRadius} 0 1,1,0 -${
-                        centerRadius * 2
-                    }
-                    a ${centerRadius},${centerRadius} 0 1,1,0  ${
-                        centerRadius * 2
-                    }
+                    a ${centerRadius},${centerRadius} 0 1,1,0 -${centerRadius * 2
+                            }
+                    a ${centerRadius},${centerRadius} 0 1,1,0  ${centerRadius * 2
+                            }
                     `}
                     />
                     <circle

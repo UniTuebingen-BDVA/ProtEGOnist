@@ -30,7 +30,7 @@ const TooltipContent = memo(function TooltipContent({
     const nodeData = tableData.rows[nodeID];
 
     // split data if available
-    const proteinNames = (nodeData?.[nameNodesBy] ?? '')
+    const proteinNames = (String(nodeData?.[nameNodesBy]) ?? '')
         .split(';')
         .filter((x) => x !== '');
     let tooltipData = {};

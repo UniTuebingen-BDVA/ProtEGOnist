@@ -22,6 +22,8 @@ from server.python_scripts.input_parsing import create_data_network
 
 def get_and_save_path(data, key):
     file = data.get(key)
+    if file is None:
+        return None
     file_path = pathlib.Path(tempfile.gettempdir()) / file.filename
     file.save(file_path)
     return str(file_path)
@@ -32,9 +34,9 @@ def create_app(input_path=""):
     app = Flask(__name__, static_folder="../dist", static_url_path="/")
 
     DATA_LOADED = {
-        "string": read_example_string(DATA_PATH),
-        "IEEE": read_example_IEEEcoAuthor(DATA_PATH),
-        "ecoli": read_example_ecoli_full(DATA_PATH),
+        # "string": read_example_string(DATA_PATH),
+        # "IEEE": read_example_IEEEcoAuthor(DATA_PATH),
+        # "ecoli": read_example_ecoli_full(DATA_PATH),
     }
 
 
@@ -52,23 +54,23 @@ def create_app(input_path=""):
             max_nodes = int(request.form.get("max_nodes"))
             min_coverage = float(request.form.get("min_coverage"))
 
-            key_classification = request.form.get("key_classification")
-            key_node_name = request.form.get("key_node_name")
-            keys_tooltip_info = request.form.get("keys_tooltip_info")
+            key_classification = request.form.get("key_classification").strip()
+            key_classification = key_classification if key_classification != "" else "number_of_nodes"
+            key_node_name = request.form.get("key_node_name").strip()
+            keys_tooltip_info = request.form.get("keys_tooltip_info").strip()
             print(f"keys_tooltip_info: {keys_tooltip_info}")
             # string to array, replace "[" or "]" and split by ","
             keys_tooltip_info = keys_tooltip_info.replace('"',"").replace("[", "").replace("]", "").split(",")
             print(f"keys_tooltip_info: {keys_tooltip_info}")
-
-
             app.logger.info(f"max_nodes: {max_nodes}, min_coverage: {min_coverage}")            
             network_data_files = create_data_network(network_file_path, metadata_file_path, nodes_file_path, max_nodes, min_coverage, key_classification)
+
             network_data_client = {
-                "name_nodes": key_node_name,
+                "name_nodes": key_node_name if key_node_name != "" else "nodeID",
                 "classify_by": key_classification,
                 "quantify_by": "default",
                 "quantify_type": "quantitative",
-                "show_tooltip": keys_tooltip_info,
+                "show_tooltip": keys_tooltip_info if len(keys_tooltip_info)>0 else ["number_of_nodes"],
             }
 
             # Combine the two dictionaries

@@ -15,6 +15,8 @@ from server.python_scripts.utilities_preprocessing.generate_distance_matrix impo
 from server.python_scripts.utilities_preprocessing.generate_overview_nodes import (
     heuristic_set_cover
 )
+from datetime import datetime
+
 
 from networkx import Graph
 import pandas as pd
@@ -61,12 +63,15 @@ def create_metadata(ego_graphs: dict, metadata_path: str, separator: str) -> pd.
     Returns:
         dict: A dictionary containing metadata derived from ego graphs.
     """
-    # TODO: What to do if no metadata is available?
-    metadata = pd.read_csv(metadata_path, 
-        index_col=0,
-        sep=separator,
-        encoding="utf-8"
-    )
+    if metadata_path != None:
+        metadata = pd.read_csv(metadata_path, 
+            index_col=0,
+            sep=separator,
+            encoding="utf-8"
+        )
+        metadata.index = metadata.index.astype(str)
+    else:
+        metadata = pd.DataFrame()
     return ego_graphs_to_metadata(ego_graphs, metadata)
 
 def create_set_overview_nodes(network: Graph, ego_graphs: dict, nodes_to_account: list = None, nodes_to_start: list = None, max_nodes: int = 100, min_edge_coverage: float = 0.99) -> list:
@@ -123,7 +128,7 @@ def save_data_network( network: Graph, metadata: pd.DataFrame, nodes_for_overvie
     # Save the nodes for the overview to the temporary folder
     # Save the distance matrix to the temporary folder
 
-def process_metadata(metadata: pd.DataFrame, all_nodes_network: set, classification_key: str = None) -> tuple:
+def process_metadata(metadata: pd.DataFrame, all_nodes_network: set, classification_key: str = None, naming_key: str = "nodeID") -> tuple:
     """
     Process the metadata.
 
@@ -148,14 +153,17 @@ def process_metadata(metadata: pd.DataFrame, all_nodes_network: set, classificat
         metadata.loc[node, "nodeID"] = node
     # replace nan by ""
     metadata = metadata.fillna("")
+    # set type of naming_key to string
+    metadata[naming_key] = metadata[naming_key].astype(str)
+    # Set nodeID as index
+    metadata = metadata.set_index("nodeID")
+    metadata["nodeID"] = metadata.index
+    metadata["nodeID"] = metadata["nodeID"].astype(str)
     # Get Columns
     columns = list(metadata.columns)
-    # expand columns
-    columns = columns + ["with_metadata", "found_in_network"]
     table_data["columns"] = [{"field": field, "headerName": field, "width": 150} for field in columns]
-    # Get Rows
     data_as_dict = metadata.to_dict(orient="index")
-    table_data["rows"] = { key: {name: is_number(value) for name, value in value.items()} for key, value in data_as_dict.items()}
+    table_data["rows"] = { key: {name: is_number(value) for name, value in values.items()} for key, values in data_as_dict.items()}
     if classification_key is not None:
         classification_dict = {
             key: value[classification_key] for key, value in data_as_dict.items()
@@ -189,7 +197,26 @@ def process_distance_matrix(distance_matrix: np.ndarray, header:list, threshold_
     return top_intersections_dict
 
 
+def identify_separator(metadata_file: str) -> str:
+    """
+    Identify the separator used in the metadata file.
 
+    Args:
+        metadata_file (str): The path to the metadata file.
+
+    Returns:
+        str: The separator used in the metadata file.
+    """
+    with open(metadata_file, "r") as f:
+        line = f.readline()
+        if "\t" in line:
+            separator = "\t"
+        elif ";" in line:
+            separator = ";"
+        else:
+            separator = ","
+        
+    return separator
 
 
 def create_data_network(network_file: str, metadata_file: str, list_nodes_for_overview: str, max_nodes_overview: int, min_coverage_overview:float, classification_key:str=None) -> dict:
@@ -210,8 +237,9 @@ def create_data_network(network_file: str, metadata_file: str, list_nodes_for_ov
     """
     network = parse_network(network_file)
     ego_graphs, ego_graphs_as_dicts = create_ego_graphs(network)
-    # TODO: Get separator from metadata file.
     separator = ";"
+    if metadata_file != None:
+        separator = identify_separator(metadata_file)
     metadata = create_metadata(ego_graphs, metadata_file, separator)
     all_nodes = set(network.nodes)
     nodes_with_metadata = set(metadata.index)
@@ -221,7 +249,9 @@ def create_data_network(network_file: str, metadata_file: str, list_nodes_for_ov
     top_intersections_dict = process_distance_matrix(distance_matrix, order_distance_matrix, threshold_top_intersections=25)
     start_radar_chart = nodes_for_overview[0]
     start_subnetwork = nodes_for_overview[0:5]
+    # print(f"Network: {processed_metadata['rows']}, Metadata: {processed_metadata['columns']}, Overview: {nodes_for_overview}, Distance Matrix: {distance_matrix}, Nodes: {order_distance_matrix}")
     return {
+        "timestamp":  datetime.timestamp(datetime.now()),
         "network": network,
         "metadata": processed_metadata,
         "overview_nodes": nodes_for_overview,

@@ -68,7 +68,7 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
         // });
         const nodeData = tableData.rows[id];
 
-        const nodeNames = (nodeData?.[nameNodesBy] ?? nodeData.nodeID).split(
+        const nodeNames = String(nodeData?.[nameNodesBy] ?? nodeData.nodeID).split(
             ';'
         );
         // generate set of unique protein names
@@ -95,7 +95,7 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                 onMouseLeave={() => {
                     highlightNodeSet('');
                 }}
-                style={{"pointerEvents": "all", "cursor": "context-menu"}}
+                style={{ "pointerEvents": "all", "cursor": "context-menu" }}
             >
                 <path
                     id={id + '_label'}
@@ -127,7 +127,7 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                     textAnchor="middle"
                     fontSize={size / 1.7}
                     style={{ textShadow: '.01em  .01em .1px white, -.01em -.01em .1px white' }}
-                    //dy={'-0.35em'}
+                //dy={'-0.35em'}
                 >
                     <textPath
                         startOffset={'50%'}

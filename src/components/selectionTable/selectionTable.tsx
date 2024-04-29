@@ -19,40 +19,40 @@ const SelectionTable = () => {
     const tableModel = useAtomValue(tableModelSelectedAtom);
     const [columnVisibility, setColumnVisibility] =
         useAtom(columnVisibilityAtom);
-    const rows = useMemo(()=>Object.entries(tableData.rows).map(([key, value], index) => {
+    const rows = useMemo(() => Object.entries(tableData.rows).map(([key, value], index) => {
         return { ...value, nodeID: key, ID: index };
-    }),[tableData.rows]);
+    }), [tableData.rows]);
 
     const initFilterModel: GridFilterModel = {
         items: [
             { id: 1, field: 'with_metadata', operator: 'equals', value: 'true' }
         ]
     };
-    const columns = useMemo(()=>[
+    const columns = useMemo(() => [
         ...tableData.columns,
         {
-            field: 'selected',
+            field: 'selected_for_subnetwork',
             headerName: 'Ego in Subnetwork',
             width: 100,
-            valueGetter: (_value,row:GridValidRowModel) => {
-                return(selectedProteins.includes(row.nodeID) ? 'Yes' : 'No')
+            valueGetter: (_value, row: GridValidRowModel) => {
+                return (selectedProteins.includes(row.nodeID) ? 'Yes' : 'No')
             }
         },
         {
-            field: 'overview',
+            field: 'found_in_overview_graph',
             headerName: 'Found in Overview',
             width: 100,
-            valueGetter: (_value,row) =>
+            valueGetter: (_value, row) =>
                 startDataOverview.includes(row.nodeID) ? 'Yes' : 'No'
         },
         {
-            field: 'inBand',
+            field: 'found_in_selected_band_or_ego',
             headerName: 'Selected',
             width: 100,
-            valueGetter: (_value,row) =>
+            valueGetter: (_value, row) =>
                 selectedNodes.includes(row.nodeID) ? 'Yes' : 'No'
         }
-    ],[selectedNodes, selectedProteins, tableData.columns]);
+    ], [selectedNodes, selectedProteins, tableData.columns]);
 
     return (
         <Box style={{ maxWidth: '100%', width: '100%', height: '100%' }}>
@@ -82,8 +82,6 @@ const SelectionTable = () => {
                 disableRowSelectionOnClick
                 disableDensitySelector
                 rowSelectionModel={tableModel}
-                // isRowSelectable={(params: GridRowParams) => params.row.nodeID !== "not found"}
-
                 onRowSelectionModelChange={(selection) => {
                     // when the model changes, we need to update the network data
                     // for this we call getEgoNetworkNetworkData with the IDs of the selected rows

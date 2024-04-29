@@ -71,11 +71,13 @@ def ego_graphs_to_metadata(ego_graphs: dict, metadata: pd.DataFrame) -> pd.DataF
         all_nodes = degree_1_alters + degree_2_alters + [node]
         all_edges = ego_graph.get_edge_set()
         # current row index in metadata
-        metadata.loc[node, "number_of_nodes"] = len(all_nodes)
-        metadata.loc[node, "number_of_edges"] = len(all_edges)
-        metadata.loc[node, "average_degree"] = len(all_edges) / len(all_nodes)
-        metadata.loc[node, "degree_1_alters"] = len(degree_1_alters)
-        metadata.loc[node, "degree_2_alters"] = len(degree_2_alters)
+        node = str(node)
+        metadata.at[node, "number_of_nodes"] = len(all_nodes)
+        metadata.at[node, "number_of_edges"] = len(all_edges)
+        metadata.at[node, "average_degree"] = len(all_edges) / len(all_nodes)
+        metadata.at[node, "degree_1_alters"] = len(degree_1_alters)
+        metadata.at[node, "degree_2_alters"] = len(degree_2_alters)
+    print(metadata)
     return metadata
 
 
