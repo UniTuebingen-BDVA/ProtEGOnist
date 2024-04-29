@@ -73,7 +73,20 @@ def create_metadata(ego_graphs: dict, metadata_path: str, separator: str) -> pd.
     else:
         metadata = pd.DataFrame()
     return ego_graphs_to_metadata(ego_graphs, metadata)
+def parse_nodes_start(nodes_to_start: str) -> list:
+    """
+    Parse the nodes to start from the given string.
 
+    Args:
+        nodes_to_start (str): The string containing the nodes to start.
+
+    Returns:
+        list: A list of nodes to start.
+    """
+    with open(nodes_to_start, "r") as f:
+        nodes_to_start = f.read()
+        
+    return nodes_to_start.strip().split("\n") if nodes_to_start != None else None
 def create_set_overview_nodes(network: Graph, ego_graphs: dict, nodes_to_account: list = None, nodes_to_start: list = None, max_nodes: int = 100, min_edge_coverage: float = 0.99) -> list:
     """
     Create a set of overview nodes based on the network, ego graphs, and nodes to account.
@@ -92,8 +105,9 @@ def create_set_overview_nodes(network: Graph, ego_graphs: dict, nodes_to_account
     adapted_ego_graphs = {node: ego_graphs[node]["edges"] for node in ego_graphs.keys()}
     # Get Edges of network
     network_edges = set([tuple(sorted([edge[0],edge[1]])) for edge in list(set(network.edges))])
+    parsed_nodes_to_start = parse_nodes_start(nodes_to_start)
     nodes_for_overview = heuristic_set_cover(
-        adapted_ego_graphs, network_edges, nodes_to_account, nodes_to_start, max_nodes, min_edge_coverage
+        adapted_ego_graphs, network_edges, nodes_to_account, parsed_nodes_to_start, max_nodes, min_edge_coverage
     )
     return nodes_for_overview
 
@@ -240,11 +254,13 @@ def create_data_network(network_file: str, metadata_file: str, list_nodes_for_ov
     separator = ";"
     if metadata_file != None:
         separator = identify_separator(metadata_file)
+
     metadata = create_metadata(ego_graphs, metadata_file, separator)
     all_nodes = set(network.nodes)
     nodes_with_metadata = set(metadata.index)
     processed_metadata, classification_dict = process_metadata(metadata, all_nodes, classification_key)
     nodes_for_overview = create_set_overview_nodes(network, ego_graphs_as_dicts, nodes_with_metadata, list_nodes_for_overview, max_nodes_overview, min_coverage_overview)
+    print(f"Nodes for overview: {nodes_for_overview}")
     distance_matrix, order_distance_matrix = create_distance_matrix(ego_graphs_as_dicts)
     top_intersections_dict = process_distance_matrix(distance_matrix, order_distance_matrix, threshold_top_intersections=25)
     start_radar_chart = nodes_for_overview[0]

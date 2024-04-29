@@ -23,6 +23,7 @@ def heuristic_set_cover(dict: dict, network_edges: set, account: array = None, s
     # deepcopy the dictionary
     dict_copy = copy.deepcopy(dict)
     start_time = time.time()
+    print(start_set)
     print("Start set cover")
     print(start_time)
     all_edges = set()
@@ -37,6 +38,31 @@ def heuristic_set_cover(dict: dict, network_edges: set, account: array = None, s
     print(len(keys_to_account))
     found_edges = set()
     keys_to_choose = []
+    # If the user provides a start set, we start with this set
+    if start_set != None:
+        start_set = set(start_set)
+        # check that the start set is in the keys to account
+        start_set = set([node for node in start_set if node in keys_to_account])
+        keys_to_choose = list(start_set)
+        # remove the start set from the keys to account
+        keys_to_account = [node for node in keys_to_account if node not in start_set]
+        # remove the start set from the dict
+        for node in start_set:
+            found_edges.update(dict_copy[node])
+            del dict_copy[node]
+        # remove the found edges from the other keys
+        to_delete = []
+        for key in dict_copy.keys():
+            dict_copy[key] = dict_copy[key].difference(found_edges)
+            if len(dict_copy[key]) == 0:
+                to_delete.append(key)
+        # If any key has no edges left, remove it from the dict, but only if it is not in the start set
+        for key in to_delete:
+            if key in start_set:
+                continue
+            elif key in keys_to_account:
+                keys_to_account.remove(key)
+            del dict_copy[key]
     print("Elapsed time all edges creation", time.time() - start_time)
     i = 0
     whole_network_edges = network_edges
@@ -55,7 +81,9 @@ def heuristic_set_cover(dict: dict, network_edges: set, account: array = None, s
             if len(dict_copy[key]) == 0:
                 to_delete.append(key)
         for key in to_delete:
-            if key in keys_to_account:
+            if key in start_set:
+                continue
+            elif key in keys_to_account:
                 keys_to_account.remove(key)
             del dict_copy[key]
         print("Elapsed time on round", time.time() - start_time, "round", i)
