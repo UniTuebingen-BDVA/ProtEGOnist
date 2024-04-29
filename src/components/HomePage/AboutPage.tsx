@@ -10,12 +10,10 @@ const AboutPage = (props) => {
                 networks. The input for ProtEGOnist is the following:
             </Typography>
             <ol>
-                <li> A network in the form of an edge list (csv file) </li>
-                <li> A list of proteins of interest (csv file) </li>
+                <li> A network in the form of an edge list (tsv file) or a GraphML file</li>
+                <li> (optional) A list of proteins of interest (txt file) that have to be shown in the overview. This should be a small set, since ProtEGOnist is going to compute an set that maximizes edge coverage.</li>
                 <li>
-                    {' '}
-                    A metadata file including all nodes (csv file) and at least
-                    one categorical class where each node is found{' '}
+                    (optional) A metadata file including all nodes (csv file). It should include one categorical column that can be used to shows division in the Radar Chart and either a numerical or a categorical column (i.e. elements divided by semicolons ) con quantify each node.
                 </li>
             </ol>
             <Typography component={'span'} variant={'subtitle1'}>
