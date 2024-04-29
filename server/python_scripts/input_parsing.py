@@ -15,7 +15,6 @@ from server.python_scripts.utilities_preprocessing.generate_distance_matrix impo
 from server.python_scripts.utilities_preprocessing.generate_overview_nodes import (
     heuristic_set_cover
 )
-from datetime import datetime
 
 
 from networkx import Graph
@@ -85,7 +84,7 @@ def parse_nodes_start(nodes_to_start: str) -> list:
     """
     with open(nodes_to_start, "r") as f:
         nodes_to_start = f.read()
-        
+
     return nodes_to_start.strip().split("\n") if nodes_to_start != None else None
 def create_set_overview_nodes(network: Graph, ego_graphs: dict, nodes_to_account: list = None, nodes_to_start: list = None, max_nodes: int = 100, min_edge_coverage: float = 0.99) -> list:
     """
@@ -267,7 +266,6 @@ def create_data_network(network_file: str, metadata_file: str, list_nodes_for_ov
     start_subnetwork = nodes_for_overview[0:5]
     # print(f"Network: {processed_metadata['rows']}, Metadata: {processed_metadata['columns']}, Overview: {nodes_for_overview}, Distance Matrix: {distance_matrix}, Nodes: {order_distance_matrix}")
     return {
-        "timestamp":  datetime.timestamp(datetime.now()),
         "network": network,
         "metadata": processed_metadata,
         "overview_nodes": nodes_for_overview,

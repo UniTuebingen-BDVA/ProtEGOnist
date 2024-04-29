@@ -5,6 +5,7 @@ from flask import Flask, request
 import tempfile
 import uuid
 import traceback
+from datetime import datetime
 
 from server.python_scripts.example_reading import (
     read_example_string,
@@ -43,8 +44,14 @@ def create_app(input_path=""):
     @app.route("/api/process_input_data", methods=["POST"])
     def process_input_data():
         try:
+            # Check other keys in DATA_LOADED with protInput
+            for key in DATA_LOADED:
+                if "protInput" in key:
+                    # Check if datatime is older than 1 day
+                    if datetime.timestamp(datetime.now()) - DATA_LOADED[key]["timestamp"] > 86400:
+                        del DATA_LOADED[key]
             # create random id for key in dictionary
-            random_id = str(uuid.uuid4())
+            random_id = f"protInput{str(uuid.uuid4())}"
 
             data = request.files
             network_file_path = get_and_save_path(data, "network")
@@ -58,10 +65,8 @@ def create_app(input_path=""):
             key_classification = key_classification if key_classification != "" else "number_of_nodes"
             key_node_name = request.form.get("key_node_name").strip()
             keys_tooltip_info = request.form.get("keys_tooltip_info").strip()
-            print(f"keys_tooltip_info: {keys_tooltip_info}")
             # string to array, replace "[" or "]" and split by ","
             keys_tooltip_info = keys_tooltip_info.replace('"',"").replace("[", "").replace("]", "").split(",")
-            print(f"keys_tooltip_info: {keys_tooltip_info}")
             app.logger.info(f"max_nodes: {max_nodes}, min_coverage: {min_coverage}")            
             network_data_files = create_data_network(network_file_path, metadata_file_path, nodes_file_path, max_nodes, min_coverage, key_classification)
 
@@ -75,6 +80,9 @@ def create_app(input_path=""):
 
             # Combine the two dictionaries
             network_data = {**network_data_files, **network_data_client}
+            # add a timestamp to the data
+            network_data["timestamp"] = datetime.timestamp(datetime.now()),
+
             DATA_LOADED[random_id] = network_data
             return random_id
         except Exception:
