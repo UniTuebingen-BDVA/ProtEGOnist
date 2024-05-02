@@ -44,7 +44,7 @@ const InputFilesForm = (props) => {
         let reader = new FileReader();
         reader.onload = function (e) {
             let content = e.target.result;
-            let lines = content[0].split('\n');
+            let lines = content.split('\n');
             // get separator from header
             let header = lines[0];
             let separator = header.includes(';') ? ';' : header.includes(",") ? ',' : '\t';
