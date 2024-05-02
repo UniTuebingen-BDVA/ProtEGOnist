@@ -5,11 +5,13 @@ import pandas as pd
 import argparse
 
 
-def read_tsv_to_network(path: str) -> Graph:
+def read_tsv_to_network(path: str, delimiterOwn="\t") -> Graph:
     """
     Read a tsv file into a networkX element.
     """
-    return read_weighted_edgelist(path, delimiter="\t")
+    if delimiterOwn == "":
+        return read_weighted_edgelist(path)
+    return read_weighted_edgelist(path, delimiter=delimiterOwn)
 
 
 def read_graphml_to_network(path: str) -> Graph:
@@ -137,6 +139,7 @@ def main():
         args.metadata,
         index_col=0,
         sep=args.separator,
+        quotechar='"',
         encoding="utf-8",
     )
     # add metadata to the metadata dataframe

@@ -20,6 +20,32 @@ from server.python_scripts.utilities_preprocessing.generate_overview_nodes impor
 from networkx import Graph
 import pandas as pd
 
+def identify_separator(metadata_file: str) -> str:
+    """
+    Identify the separator used in the metadata file.
+
+    Args:
+        metadata_file (str): The path to the metadata file.
+
+    Returns:
+        str: The separator used in the metadata file.
+    """
+    with open(metadata_file, "r") as f:
+        line = f.readline()
+        while line.startswith("#"):
+            line = f.readline()
+        if "\t" in line:
+            separator = "\t"
+        elif ";" in line:
+            separator = ";"
+        elif "," in line:
+            separator = ","
+        else:
+            separator = ""
+        
+    return separator
+
+
 def parse_network(network_path: str) -> Graph:
     """
     Parse the network from the given path.
@@ -30,8 +56,10 @@ def parse_network(network_path: str) -> Graph:
     Returns:
         Graph: The parsed network as a Graph object.
     """
-    if network_path.endswith(".tsv"):
-        network = read_tsv_to_network(network_path)
+    if network_path.endswith(".tsv") or network_path.endswith(".txt") or network_path.endswith(".csv"):
+        # Test for the separator
+        separator = identify_separator(network_path)
+        network = read_tsv_to_network(network_path, separator)
     elif network_path.endswith(".graphml"):
         network = read_graphml_to_network(network_path)
     return network
@@ -212,26 +240,6 @@ def process_distance_matrix(distance_matrix: np.ndarray, header:list, threshold_
     return top_intersections_dict
 
 
-def identify_separator(metadata_file: str) -> str:
-    """
-    Identify the separator used in the metadata file.
-
-    Args:
-        metadata_file (str): The path to the metadata file.
-
-    Returns:
-        str: The separator used in the metadata file.
-    """
-    with open(metadata_file, "r") as f:
-        line = f.readline()
-        if "\t" in line:
-            separator = "\t"
-        elif ";" in line:
-            separator = ";"
-        else:
-            separator = ","
-        
-    return separator
 
 
 def create_data_network(network_file: str, metadata_file: str, list_nodes_for_overview: str, max_nodes_overview: int, min_coverage_overview:float, classification_key:str=None) -> dict:
@@ -251,6 +259,7 @@ def create_data_network(network_file: str, metadata_file: str, list_nodes_for_ov
         dict: A dictionary containing the data network.
     """
     network = parse_network(network_file)
+    print(f"Loaded network with {len(network.nodes)} nodes")
     ego_graphs, ego_graphs_as_dicts = create_ego_graphs(network)
     separator = ";"
     if metadata_file != None:

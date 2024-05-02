@@ -123,7 +123,7 @@ const InputFilesForm = (props) => {
             {error.length > 1 ? (
                 <List>
 
-                    <ListItem >
+                    <ListItem key="error" >
                         <Alert style={{ "width": "50vw" }} severity={'warning'}>
                             Something went wrong.
                             <Box>{error}</Box>
