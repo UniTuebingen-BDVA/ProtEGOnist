@@ -44,7 +44,10 @@ const InputFilesForm = (props) => {
         reader.onload = function (e) {
             let content = e.target.result;
             let lines = content.split('\n');
-            let keys = lines[0].split(';');
+            // get separator from header
+            let header = lines[0];
+            let separator = header.includes(';') ? ';' : header.includes(",") ? ',' : '\t';
+            let keys = header.split(separator);
             let keysMetadataTemp = keys.map((key) => {
                 return { value: key, label: key };
             });

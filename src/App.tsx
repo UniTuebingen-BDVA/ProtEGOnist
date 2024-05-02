@@ -121,20 +121,39 @@ function App() {
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
+                        flexDirection: 'column',
                         height: '100vh'
-                    }}
-                >
-                    <img
-                        src={LogoBlue}
-                        style={{
-                            height: '18vh',
-                            top: '41vh',
-                            position: 'fixed'
+                    }}>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            height: '45vh'
                         }}
-                    />
-                    <CircularProgress size={'30vh'} />
+                    >
+                        <img
+                            src={LogoBlue}
+                            style={{
+                                height: '18vh',
+                                top: '41vh',
+                                position: 'fixed'
+                            }}
+                        />
+                        <CircularProgress size={'30vh'} />
+
+                    </Box>
+                    {uploadingData && (
+                        <span
+                            style={{
+                                fontSize: '1.5em',
+                                textAlign: 'center',
+                                color: 'black'
+                            }}
+                        > Depending on the size of your data, this upload might take a while.</span>
+                    )}
                 </Box>
-            </ThemeProvider>
+            </ThemeProvider >
         );
     } else {
         return (
