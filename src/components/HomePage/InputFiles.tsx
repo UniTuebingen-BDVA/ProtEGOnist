@@ -14,26 +14,27 @@ import {
 import React from 'react';
 import { selectedExampleAtom, uploadStatus } from '../../apiCalls';
 import { useAtom } from 'jotai';
-import { set } from 'optics-ts';
+
 
 const InputFilesForm = (props) => {
     const [networkFile, setNetworkFile] = React.useState(null);
     const [nodesOfInterestFile, setNodesOfInterestFile] = React.useState(null);
     const [metadataFile, setMetadataFile] = React.useState(null);
     const [error, setError] = React.useState('');
-    const [keyNodeName, setKeyNodeName] = React.useState('');
-    const [keysMetadata, setKeysMetadata] = React.useState([]);
+    const [keyNodeName, setKeyNodeName] = React.useState('default');
+    const [keysMetadata, setKeysMetadata] = React.useState(['default']);
     const [keysTooltipInfo, setKeysTooltipInfo] = React.useState([]);
-    const [keyClassification, setKeyClassification] = React.useState('');
-    const [keytypeQuantification, setKeytypeQuantification] = React.useState('');
+    const [keyClassification, setKeyClassification] = React.useState('default');
+    const [keytypeQuantification, setKeytypeQuantification] = React.useState('default');
     const [maxNodes, setMaxNodes] = React.useState(100);
     const [minCoverage, setMinCoverage] = React.useState(0.95);
     const [_dataProcess, setExampleChosen] = useAtom(selectedExampleAtom);
     const [_uploadingData, toggleUpload] = useAtom(uploadStatus);
-    const [keyQuantification, setKeyQuantification] = React.useState('');
+    const [keyQuantification, setKeyQuantification] = React.useState('default');
     const typesQuantification = [
         { value: 'quantitative', label: 'Numerical values' },
         { value: 'categorical', label: 'Categorical' },
+        { value: 'default', label: 'Numerical values' },
     ];
 
 
@@ -43,7 +44,7 @@ const InputFilesForm = (props) => {
         let reader = new FileReader();
         reader.onload = function (e) {
             let content = e.target.result;
-            let lines = content.split('\n');
+            let lines = content[0].split('\n');
             // get separator from header
             let header = lines[0];
             let separator = header.includes(';') ? ';' : header.includes(",") ? ',' : '\t';
@@ -51,7 +52,7 @@ const InputFilesForm = (props) => {
             let keysMetadataTemp = keys.map((key) => {
                 return { value: key, label: key };
             });
-            setKeysMetadata(keysMetadataTemp);
+            setKeysMetadata([...keysMetadataTemp, { "value": "default", "label": "default" }]);
         };
         reader.readAsText(file);
         setMetadataFile(file);
@@ -66,6 +67,10 @@ const InputFilesForm = (props) => {
     }
     const handleSubmit = (e) => {
         const formData = new FormData();
+        if (networkFile === null) {
+            setError('Please provide a network file');
+            return;
+        }
         formData.append('network', networkFile);
         formData.append('metadata', metadataFile);
         formData.append('nodes_interest', nodesOfInterestFile);
@@ -118,8 +123,8 @@ const InputFilesForm = (props) => {
             {error.length > 1 ? (
                 <List>
 
-                    <ListItem>
-                        <Alert severity={'warning'}>
+                    <ListItem >
+                        <Alert style={{ "width": "50vw" }} severity={'warning'}>
                             Something went wrong.
                             <Box>{error}</Box>
                             Please check your input files!
@@ -128,20 +133,23 @@ const InputFilesForm = (props) => {
                 </List>
             ) : null}
 
-            <FormControl >
+            <FormControl style={{ "width": "50vw" }}>
                 <FormLabel className="titles-form">Network data</FormLabel>
 
 
-                <TextField onChange={(x) => setNetworkFile(x.target.files[0])} style={{ padding: "0.5em" }} id="network-file" type="file" required={true} label="Network file" InputLabelProps={{ shrink: true }} />
+                <TextField onChange={(x) => setNetworkFile(x.target.files[0])} id="network-file" type="file" required={true} label="Network file" InputLabelProps={{ shrink: true }} style={{ padding: "0.5em" }} />
                 <FormLabel className="titles-form">Parameters for the computation of an overview visualization</FormLabel>
 
-                <TextField onChange={(x) => setNodesOfInterestFile(x.target.files[0])} style={{ padding: "0.5em" }} id="nodes-interest" type="file" label="Nodes of interset" InputLabelProps={{ shrink: true }} />
+                <TextField
+                    onChange={(x) => setNodesOfInterestFile(x.target.files[0])}
+                    style={{ padding: "0.5em" }} id="nodes-interest" type="file" label="Nodes of interset" InputLabelProps={{ shrink: true }} />
 
                 <TextField
                     id="max-nodes"
                     label="Max nodes"
                     type={'number'}
                     value={maxNodes}
+                    style={{ padding: "0.5em" }}
                     onChange={(e) => setMaxNodes(parseInt(e.target.value))}
                     helperText="Please the maximal number of nodes to be considered for the overview"
                 />
@@ -150,6 +158,7 @@ const InputFilesForm = (props) => {
                     label="Min. Edge Coverage"
                     type={'number'}
                     value={minCoverage}
+                    style={{ padding: "0.5em" }}
                     onChange={(e) => setMinCoverage(parseFloat(e.target.value))}
                     helperText="Please the maximal number of nodes to be considered for the overview"
                     InputProps={{ inputProps: { min: 0, max: 1, step: 0.01 } }}
@@ -159,7 +168,7 @@ const InputFilesForm = (props) => {
 
                 <TextField onChange={(x) => handleMetadataParsing(x.target.files[0])} style={{ padding: "0.5em" }} id="metadata-file" type="file" label="Metata file" InputLabelProps={{ shrink: true }} />
                 {
-                    keysMetadata.length > 0 ? (
+                    metadataFile ? (
                         <>
                             <FormLabel className="subtitles-form">Metadata for the quantification of nodes</FormLabel>
                             <TextField
@@ -168,6 +177,8 @@ const InputFilesForm = (props) => {
                                 label="Select key for node quantification"
                                 value={keyQuantification}
                                 onChange={handleChangeKeyQuantification}
+                                style={{ padding: "0.5em" }}
+
                                 helperText="Please select the column of the metadata for the quantification of nodes"
                             >
                                 {keysMetadata.map((option) => (
@@ -179,6 +190,8 @@ const InputFilesForm = (props) => {
                             <TextField
                                 id="select-keytype-quantification"
                                 select
+                                style={{ padding: "0.5em" }}
+
                                 label="Select type of the key for node quantification"
                                 value={keytypeQuantification}
                                 onChange={(e) => setKeytypeQuantification(e.target.value)}
@@ -192,6 +205,8 @@ const InputFilesForm = (props) => {
                             </TextField>
                             <FormLabel className="subtitles-form">Metadata for the Radar Chart classification</FormLabel>
                             <TextField
+                                style={{ padding: "0.5em" }}
+
                                 id="select-key-classification"
                                 select
                                 label="Select key for classification"
@@ -209,6 +224,8 @@ const InputFilesForm = (props) => {
                             <FormLabel className="subtitles-form">Column with the name of the nodes</FormLabel>
 
                             <TextField
+                                style={{ padding: "0.5em" }}
+
                                 id="select-node-name"
                                 select
                                 label="Select key for node naming"
@@ -225,9 +242,11 @@ const InputFilesForm = (props) => {
                             <FormLabel className="subtitles-form">Columns that are showed in the tooltip</FormLabel>
 
                             <TextField
+                                style={{ padding: "0.5em" }}
+
                                 id="select-tooltip-info"
                                 select
-                                label="Select keys for disply in the tooltip"
+                                label="Select keys for display in the tooltip"
                                 value={keysTooltipInfo}
                                 onChange={(e) => setKeysTooltipInfo(e.target.value)}
                                 helperText="Please select the column of the metadata used for naming the nodes"

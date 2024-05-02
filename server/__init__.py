@@ -65,7 +65,7 @@ def create_app(input_path=""):
             min_coverage = float(request.form.get("min_coverage"))
 
             key_classification = request.form.get("key_classification").strip()
-            key_classification = key_classification if key_classification != "" else "number_of_nodes"
+            key_classification =  "number_of_nodes" if key_classification in ["default", ""] else  key_classification
             key_node_name = request.form.get("key_node_name").strip()
             keys_tooltip_info = request.form.get("keys_tooltip_info").strip()
             # string to array, replace "[" or "]" and split by ","
@@ -76,10 +76,10 @@ def create_app(input_path=""):
             network_data_files = create_data_network(network_file_path, metadata_file_path, nodes_file_path, max_nodes, min_coverage, key_classification)
 
             network_data_client = {
-                "name_nodes": key_node_name if key_node_name != "" else "nodeID",
+                "name_nodes": "nodeID" if key_node_name in ["", "default"] else key_node_name, # default is ["nodeID"]
                 "classify_by": key_classification,
-                "quantify_by": key_quantify_by if key_quantify_by != "" else "default",
-                "quantify_type": key_quantify_type if key_quantify_type != "" else "quantitative",
+                "quantify_by": "default" if key_quantify_by in ["", "default"] else key_quantify_by,
+                "quantify_type": "quantitative" if key_quantify_type in ["", "default"] else "quantitative",
                 "show_tooltip": keys_tooltip_info if len(keys_tooltip_info)>0 else ["number_of_nodes"],
             }
 
