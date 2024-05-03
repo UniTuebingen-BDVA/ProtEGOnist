@@ -42,7 +42,7 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
     );
     const setContextMenu = useSetAtom(contextMenuAtom);
     const scaledSize = size *1.1;
-
+    console.log(size);
     const color =
         quantifyNodesBy['label'] != 'default'
             ? colorscale(drugsPerProtein[id])

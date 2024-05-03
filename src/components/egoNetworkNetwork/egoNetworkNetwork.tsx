@@ -5,8 +5,9 @@ import EgoNetworkNetworkEdge from './egoNetworkNetworkEdge.tsx';
 import EgoGraphBundle from '../egograph/egoGraphBundle.tsx';
 import { animated, useTransition } from '@react-spring/web';
 import { egoGraphBundlesLayoutAtom } from '../egograph/egoGraphBundleStore.ts';
+import { useMemo, useState } from 'react';
 
-const EgoNetworkNetwork = () => {
+const EgoNetworkNetwork = (props) => {
     const [{ nodes, edges }] = useAtom(aggregateNetworkAtom);
     const [interEdges] = useAtom(interEdgesAtom);
     const [layouts] = useAtom(egoGraphBundlesLayoutAtom);
@@ -21,7 +22,10 @@ const EgoNetworkNetwork = () => {
             async (next, _cancel) => {
                 await next({
                     transform: `translate(${x},${y})`,
-                    delay: 100
+                    delay: 100,
+                    onRest: () => {
+                        props.setNodesPlaced(true);
+                    }
                 });
             },
         leave: () => async (next, _cancel) => {

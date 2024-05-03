@@ -16,7 +16,6 @@ function RadarChartViewer(props: RadarChartViewerProps) {
     const [classifyBy] = useAtom(classifyByAtom);
 
     const [svgSize] = useAtom(detailedSVGSizeAtom);
-    console.log(svgSize)
     const baseRadius=svgSize.width > svgSize.height
                             ? svgSize.height / 2
                             : svgSize.width / 2;
