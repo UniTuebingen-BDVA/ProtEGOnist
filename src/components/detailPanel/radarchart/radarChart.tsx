@@ -1,13 +1,17 @@
 import { intersectionDatum } from '../../../egoGraphSchema';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import * as d3 from 'd3';
-import { tarNodeAtom } from './radarStore';
+import { labelsAtoms, tarNodeAtom } from './radarStore';
 import { getRadarAtom, nameNodesByAtom } from '../../../apiCalls';
 import RadarCircles from './radarCircles';
 import RadarLabel from './radarLabel';
-import { selectedProteinsAtom, tableAtom } from '../../selectionTable/tableStore';
+import {
+    selectedProteinsAtom,
+    tableAtom
+} from '../../selectionTable/tableStore';
 import AdvancedTooltip from '../../utilityComponents/advancedTooltip';
-import { svgFontSize } from '../../../UtilityFunctions.ts';
+import { svgFontSizeAtom } from '../../../uiStore.tsx';
+import { calculateTextWidth } from '../../../UtilityFunctions.ts';
 
 interface RadarChartProps {
     baseRadius: number;
@@ -23,6 +27,8 @@ const RadarChart = (props: RadarChartProps) => {
     const setSelectedProteins = useSetAtom(selectedProteinsAtom);
     const [tableData] = useAtom(tableAtom);
     const [nameNodesBy] = useAtom(nameNodesByAtom);
+    const [svgFontSize] = useAtom(svgFontSizeAtom);
+    const [labels]=useAtom(labelsAtoms);
 
     const intersectionDataClone = structuredClone(intersectionData);
     //generate a linear scale for the size of the intersection property in each intersectionDatum
@@ -120,16 +126,18 @@ const RadarChart = (props: RadarChartProps) => {
         (acc, { classification, angle }) => {
             // limit label length to 15 characters
             const classificationInternal =
-                classification.length > 15
-                    ? classification.slice(0, 15) + '...'
-                    : classification;
+                labels[classification].short;
             const startAngle =
                 acc.length > 0 ? acc[acc.length - 1].endAngle : 0;
             const endAngle = startAngle + angle;
             const midAngle = (startAngle + endAngle) / 2;
             // estimate the angular width of the label text at TEXT_RADIUS in radians
             const labelAngleWidth =
-                (classificationInternal.length * 1.9 * Math.PI) / 180; // 10px per character
+                2 *
+                Math.PI *
+                ((calculateTextWidth([classificationInternal], svgFontSize) *
+                    1.2) /
+                    (Math.PI * 2 * (baseRadius + svgFontSize))); // 10px per character
             acc.push({
                 classification: classificationInternal,
                 classificationFull: classification,
@@ -236,7 +244,9 @@ const RadarChart = (props: RadarChartProps) => {
             )
         )
         .range(colorsRadar);
-    const baseRadiusInternal = baseRadius - 13 * (maxRingIndex + 1);
+    const fontGap = 2;
+    const baseRadiusInternal =
+        baseRadius - (svgFontSize + fontGap) * (maxRingIndex + 1);
     const GUIDE_CIRCLE_RADIUS = baseRadiusInternal;
     const GUIDE_CIRCLE_STEP = baseRadiusInternal / 4;
     const GUIDE_CIRCLE_RADIUS_MIN = baseRadiusInternal / 4;
@@ -270,7 +280,6 @@ const RadarChart = (props: RadarChartProps) => {
             {pieChartSegments.map(
                 (
                     {
-                        classification,
                         classificationFull,
                         startAngle,
                         endAngle,
@@ -282,11 +291,13 @@ const RadarChart = (props: RadarChartProps) => {
                     return (
                         <g key={classificationFull}>
                             <RadarLabel
-                                label={classification}
                                 hoverLabel={classificationFull}
                                 startAngle={startAngle}
                                 endAngle={endAngle}
-                                radius={TEXT_RADIUS + 11 * ringIndex}
+                                radius={
+                                    TEXT_RADIUS +
+                                    (svgFontSize + fontGap) * ringIndex
+                                }
                                 guideCircleRadius={GUIDE_CIRCLE_RADIUS}
                                 colorScale={colorScale}
                             />

@@ -13,9 +13,8 @@ import { useEffect, useRef } from 'react';
 import {
     calculateTextWidth,
     splitString,
-    svgFontSize
 } from '../../UtilityFunctions.ts';
-import { overviewSVGSizeAtom, resizeEffect } from '../../uiStore.tsx';
+import { overviewSVGSizeAtom, resizeEffect, svgFontSizeAtom } from '../../uiStore.tsx';
 
 function EgoNetworkNetworkOverviewViewer() {
     const ref = useRef(null);
@@ -28,6 +27,7 @@ function EgoNetworkNetworkOverviewViewer() {
     const [egoNetworkNetworkOverviewData] = useAtom(
         getEgoNetworkNetworkOverviewAtom
     );
+    const [svgFontSize] = useAtom(svgFontSizeAtom)
     const gapBetweenLegends = 10;
     const firstLegendTitle =
         'Percent of nodes represented in ego-graph subnetwork (right)';
@@ -37,10 +37,10 @@ function EgoNetworkNetworkOverviewViewer() {
         firstLegendTitleSplit.length * svgFontSize * 1.5;
     const widthFirstLegendBody = 4 * svgFontSize;
     const xTranslateSecondLegend =
-        calculateTextWidth(firstLegendTitleSplit) + gapBetweenLegends;
+        calculateTextWidth(firstLegendTitleSplit,svgFontSize) + gapBetweenLegends;
     const xTranslateThirdLegend =
         xTranslateSecondLegend +
-        calculateTextWidth([secondLegendDomain]) +
+        calculateTextWidth([secondLegendDomain],svgFontSize) +
         svgFontSize +
         gapBetweenLegends;
 

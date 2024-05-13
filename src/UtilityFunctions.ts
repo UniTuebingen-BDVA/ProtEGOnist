@@ -24,10 +24,9 @@ export function midPointPolar2PI(p1Theta: number, p2Theta: number) {
         return p1Theta + offsetFromP1;
     }
 }
-export const svgFontSize=10*window.devicePixelRatio*0.8
-export function calculateTextWidth(textParts:string[]){
-    let maxLength=Math.max(...textParts.map(d=>d.length))
-    return maxLength*svgFontSize/1.6;
+export function calculateTextWidth(textParts:string[], fontSize){
+    const maxLength=Math.max(...textParts.map(d=>d.length))
+    return maxLength*fontSize/1.6;
 }
 export function splitString(title:string){
     let titleParts: string[] = [];

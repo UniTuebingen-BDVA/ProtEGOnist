@@ -36,9 +36,9 @@ export const tarNodeAtom = atom(
     }
 );
 
-export const hoveredLabelAtom=atom<string>('')
+export const hoveredLabelAtom = atom<string>('');
 
-const defaultLabels = atom((get) => {
+const defaultLabelsAtom = atom((get) => {
     const labels = Object.values(get(intersectionAtom)).map(
         (d) => d.classification
     );
@@ -47,39 +47,37 @@ const defaultLabels = atom((get) => {
         [name: string]: { value: string; short: string; long: string };
     } = {};
     uniqueLabels.forEach((d) => {
+        const short = d.length > 15 ? d.slice(0, 15) + '...' : d;
         labelsInternal[d] = {
-            value: d.length > 15 ? d.slice(0, 15) + '...' : d,
-            short: d.length > 15 ? d.slice(0, 15) + '...' : d,
+            value: short,
+            short: short,
             long: d
         };
     });
     return labelsInternal;
 });
 
-export const labelsAtoms = atom(
-    (get) => {
-        const hoveredLabel=get(hoveredLabelAtom);
-        if(hoveredLabel===''){
-            return get(defaultLabels)
-        } else{
-            const labels = Object.values(get(intersectionAtom)).map(
-            (d) => d.classification
-        );
-        const uniqueLabels = [...new Set(labels)];
+export const labelsAtoms = atom((get) => {
+    const hoveredLabel = get(hoveredLabelAtom);
+    const defaultLabels = get(defaultLabelsAtom);
+    if (hoveredLabel === '') {
+        return defaultLabels;
+    } else {
         const labelsInternal: {
             [name: string]: { value: string; short: string; long: string };
         } = {};
-        uniqueLabels.forEach((d) => {
-            const shortenedLabel = d.length > 15 ? d.slice(0, 15) + '...' : d;
-            labelsInternal[d] = {
-                value: hoveredLabel == '' ? shortenedLabel : hoveredLabel == d ? d : '',
-                short: shortenedLabel,
-                long: d
-            };
+        Object.keys(defaultLabels).forEach((key) => {
+            if (key === hoveredLabel) {
+                labelsInternal[key] = {
+                    ...defaultLabels[key],
+                    value: defaultLabels[key].long
+                };
+            } else {
+                labelsInternal[key] = { ...defaultLabels[key], value: '' };
+            }
         });
-        return labelsInternal
-        }
+        return labelsInternal;
     }
-);
+});
 
 export const lastSelectedNodeAtom = atom<string>('');
