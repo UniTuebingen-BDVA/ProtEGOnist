@@ -82,10 +82,7 @@ export const EgographNode = memo(function EgographNode(
         centerNode
     );
     return (
-        <AdvancedTooltip
-            nodeID={node.originalID}
-            additionalData={`Num edges ${node.numEdges}`}
-        >
+        <>
             {node.originalID == centerNode.id ? (
                 <circle
                     onMouseEnter={() => {
@@ -127,8 +124,10 @@ export const EgographNode = memo(function EgographNode(
                             ? 'black'
                             : 'none'
                     }
-                />
+                >
+                    <title>{node.originalID}</title>
+                </path>
             )}
-        </AdvancedTooltip>
+        </>
     );
 });
