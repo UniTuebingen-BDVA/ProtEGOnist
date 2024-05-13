@@ -356,7 +356,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
             Object.entries(layout.bandData).forEach((band, i) => {
                 returnBands.push(
                     <EgoGraphBand
-                        key={i}
+                        key={nodeId + 'band_' + i}
                         bandData={band}
                         color={
                             band[0].split(',').length === 3
