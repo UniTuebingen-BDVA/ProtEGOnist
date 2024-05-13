@@ -8,7 +8,7 @@ import { isNumber } from '@mui/x-data-grid/internals';
 
 interface ColorLegendProps {
     range: string[];
-    domain: string[] | [number, number];
+    domain: string[] | number[];
     type: 'quantitative' | 'qualitative';
     transform: string;
     titleParts: string[];

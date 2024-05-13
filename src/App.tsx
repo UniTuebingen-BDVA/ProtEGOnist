@@ -1,21 +1,20 @@
 import { useEffect } from 'react';
 import './App.css';
 
-import { useAtom } from 'jotai';
-import { CircularProgress, Box, createTheme } from '@mui/material';
+import { useAtom, useSetAtom } from 'jotai';
+import { Box, CircularProgress, createTheme } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 
-import RadarChartViewer from './components/detailPanel/radarchart/radarChartViewer.tsx';
 import { tarNodeAtom } from './components/detailPanel/radarchart/radarStore.ts';
 import EgoNetworkNetworkViewer from './components/egoNetworkNetwork/egoNetworkNetworkViewer.tsx';
 import { selectedProteinsAtom } from './components/selectionTable/tableStore.tsx';
 import {
     getEgoNetworkNetworkAtom,
+    getEgoNetworkNetworkOverviewAtom,
     getRadarAtom,
     getTableAtom,
-    getEgoNetworkNetworkOverviewAtom,
-    startDataOverview,
-    selectedExampleAtom
+    selectedExampleAtom,
+    startDataOverview
 } from './apiCalls.ts';
 import EgoNetworkNetworkOverviewViewer from './components/overview_component/egoNetworkNetworkOverviewViewer.tsx';
 import LogoBlue from './assets/LogoBlue.svg';
@@ -24,6 +23,7 @@ import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import { MainPage } from './components/HomePage/MainPage.tsx';
 import TabsElements from './components/HomePage/TabsElements.tsx';
 import DetailPanel from './components/detailPanel/detailPanel.tsx';
+import { remToPxAtom, svgFontSizeAtom, windowSizeAtom } from './uiStore.tsx';
 
 function App() {
     const [selectedExample] = useAtom(selectedExampleAtom);
@@ -37,6 +37,8 @@ function App() {
     const [egoNetworkNetworkOverviewData, getEgoNetworkNetworkOverviewData] =
         useAtom(getEgoNetworkNetworkOverviewAtom);
     const [tarNode, setTarNode] = useAtom(tarNodeAtom);
+    const updateFontSize = useSetAtom(remToPxAtom);
+    const setWindowSize = useSetAtom(windowSizeAtom);
     const theme = createTheme({
         palette: {
             primary: {
@@ -47,7 +49,18 @@ function App() {
             }
         }
     });
-
+    useEffect(() => {
+        window.addEventListener('resize', () => {
+            setWindowSize();
+            updateFontSize();
+        });
+        return () => {
+            window.removeEventListener('resize', () => {
+                setWindowSize();
+                updateFontSize();
+            });
+        };
+    }, [setWindowSize, updateFontSize]);
     useEffect(() => {
         if (selectedExample) {
             getTableData();
@@ -102,7 +115,7 @@ function App() {
                             textAlign: 'center'
                         }}
                     >
-                        <DetailPanel/>
+                        <DetailPanel />
                     </Grid>
                 </Grid>
 
