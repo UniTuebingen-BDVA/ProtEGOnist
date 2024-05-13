@@ -318,7 +318,12 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                     }
                     edgeGroup.push(
                         <line
-                            key={String(edge.source) + String(edge.target)}
+                            key={
+                                nodeId +
+                                '_edge_' +
+                                String(edge.source) +
+                                String(edge.target)
+                            }
                             style={{ pointerEvents: 'none' }}
                             x1={edge.x1}
                             x2={edge.x2}
@@ -330,6 +335,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                 });
             returnGroups.push(
                 <g
+                    key={nodeId + '_edgeGroup_' + center.id}
                     onDoubleClick={() => setDecollapseID(center.id)}
                     onClick={() => setSelectedEgoGraphs(center.id)}
                     onContextMenu={(event) => {
