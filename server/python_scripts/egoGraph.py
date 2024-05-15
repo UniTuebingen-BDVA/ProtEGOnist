@@ -95,6 +95,8 @@ class EgoGraph:
         all_edges = set(self.nx_graph.edges)
         all_edges_sorted = set()
         for edge in all_edges:
+            if len(edge) == 3: # Means it has a weight
+                edge = (edge[0], edge[1])
             all_edges_sorted.add(tuple(sorted(edge)))
         return all_edges_sorted
 

@@ -39,7 +39,6 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
         [egoGraphBundleAtom]
     );
     const nodesAtomsAtom = useMemo(() => splitAtom(nodeAtom), [nodeAtom]);
-
     const numEdgesMinMax = useMemo(
         () =>
             atom((get) => {
@@ -78,25 +77,17 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
     const [hoveredNode]=useAtom(hoverAtom);
 
 
+    const getNodeName = useCallback((id) => {
 
-    const getNodeName = useCallback(
-        (id) => {
-            // find the rows in the table that match the uniprot ID
-            // const filteredRows = tableData.rows.filter((row) => {
-            //     return row['nodeID'] === id;
-            // });
-            const nodeData = tableData.rows[id];
-
-            const nodeNames = (
-                nodeData?.[nameNodesBy] ?? nodeData.nodeID
-            ).split(';');
-            // generate set of unique protein names
-            const uniqueNodeNames = [...new Set(nodeNames)];
-            // join the protein names with a comma
-            return uniqueNodeNames.join(', ');
-        },
-        [nameNodesBy, tableData.rows]
-    );
+        const nodeData = tableData.rows[id];
+        const nodeNames = String(nodeData?.[nameNodesBy] ?? nodeData.nodeID).split(
+            ';'
+        );
+        // generate set of unique protein names
+        const uniqueNodeNames = [...new Set(nodeNames)];
+        // join the protein names with a comma
+        return uniqueNodeNames.join(', ');
+    }, [nameNodesBy, tableData.rows]);
     // generate a d3 categorcal color scale with 20 colors
     const [edgesClassification] = useAtom(edgesClassificationAtom);
 

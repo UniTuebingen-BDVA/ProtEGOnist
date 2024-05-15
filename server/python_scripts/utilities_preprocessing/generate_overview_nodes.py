@@ -1,6 +1,5 @@
 import array
 import numpy as np
-from pulp import LpProblem, LpMaximize, LpVariable
 import time
 import copy
 import argparse
@@ -17,62 +16,14 @@ def parse_ego_dict(path: str) -> dict:
     return ego_dict
 
 
-def get_best_coverage_of_edges(dict: dict):
-    """
-    reduce the number of sets needed to get the best coverage of edges from a dictionary of ego graphs.
-    """
-    start_time = time.time()
-    print("Start set cover")
-    print(start_time)
-    all_edges = set()
-    for node in dict.keys():
-        all_edges.update(dict[node])
-    universal_set = all_edges
-    print("Elapsed time all edges creation", time.time() - start_time)
-    subsets = dict
-    # Create a binary decision variable for each subset
-    x = {subset: LpVariable(name=f'x_{subset}', cat='Binary')
-         for subset in subsets}
-    # print(x)
-
-    # Create the Inexact Cover problem
-    k = 100  # Maximum number of subsets to select
-    problem = LpProblem("Inexact_Cover_Problem", LpMaximize)
-
-    # Objective: maximize coverage while selecting at most k subsets
-    problem += sum(x[nodes] for nodes in subsets.keys())
-    print("Elapsed time object creation", time.time() - start_time)
-
-    # Constraints: ensure all elements in the universal set are covered
-    for element in universal_set:
-        problem += sum(x[nodes] for nodes in subsets.keys()
-                       if element in subsets[nodes]) >= 1
-
-    print("Elapsed time constrain1 creation", time.time() - start_time)
-    # Constraint: limit the number of selected subsets to at most k
-    problem += sum(x[nodes] for nodes in subsets.keys()) <= k
-
-    print("Elapsed time constrain2 creation", time.time() - start_time)
-
-    # Solve the problem
-    problem.solve()
-
-    print("Elapsed time problem solving", time.time() - start_time)
-
-    # Extract the selected subsets
-    selected_subsets = [
-        subset for subset in subsets if x[subset].varValue == 1]
-
-    return selected_subsets
-
-
-def heuristic_set_cover(dict: dict, network_edges: set, account: array = None):
+def heuristic_set_cover(dict: dict, network_edges: set, account: array = None, start_set: array = None, max_nodes:int=100, min_edge_coverage:float=0.99):
     """
     Return the set of subsets that covers the most edges.
     """
     # deepcopy the dictionary
     dict_copy = copy.deepcopy(dict)
     start_time = time.time()
+    print(start_set)
     print("Start set cover")
     print(start_time)
     all_edges = set()
@@ -87,10 +38,37 @@ def heuristic_set_cover(dict: dict, network_edges: set, account: array = None):
     print(len(keys_to_account))
     found_edges = set()
     keys_to_choose = []
+    # If the user provides a start set, we start with this set
+    if start_set == None:
+        start_set = []
+    if len(start_set) > 0 and start_set:
+        start_set = set(start_set)
+        # check that the start set is in the keys to account
+        start_set = set([node for node in start_set if node in keys_to_account])
+        keys_to_choose = list(start_set)
+        # remove the start set from the keys to account
+        keys_to_account = [node for node in keys_to_account if node not in start_set]
+        # remove the start set from the dict
+        for node in start_set:
+            found_edges.update(dict_copy[node])
+            del dict_copy[node]
+        # remove the found edges from the other keys
+        to_delete = []
+        for key in dict_copy.keys():
+            dict_copy[key] = dict_copy[key].difference(found_edges)
+            if len(dict_copy[key]) == 0:
+                to_delete.append(key)
+        # If any key has no edges left, remove it from the dict, but only if it is not in the start set
+        for key in to_delete:
+            if key in start_set:
+                continue
+            elif key in keys_to_account:
+                keys_to_account.remove(key)
+            del dict_copy[key]
     print("Elapsed time all edges creation", time.time() - start_time)
     i = 0
     whole_network_edges = network_edges
-    while len(found_edges)/len(whole_network_edges) < 0.99 and len(keys_to_choose) < 100 and len(keys_to_account) > 0:
+    while len(found_edges)/len(whole_network_edges) < min_edge_coverage and len(keys_to_choose) < max_nodes and len(keys_to_account) > 0:
         keys_by_length = sorted(
             keys_to_account, key=lambda x: len(dict_copy[x]) if x in dict_copy.keys() else 0)
         best_key = keys_by_length.pop()
@@ -105,7 +83,9 @@ def heuristic_set_cover(dict: dict, network_edges: set, account: array = None):
             if len(dict_copy[key]) == 0:
                 to_delete.append(key)
         for key in to_delete:
-            if key in keys_to_account:
+            if key in start_set:
+                continue
+            elif key in keys_to_account:
                 keys_to_account.remove(key)
             del dict_copy[key]
         print("Elapsed time on round", time.time() - start_time, "round", i)
@@ -198,4 +178,5 @@ def main():
             f.write(str(s) + "\n")
 
 
-main()
+if __name__ == "__main__":
+    main()

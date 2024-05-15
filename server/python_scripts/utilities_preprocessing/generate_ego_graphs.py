@@ -1,15 +1,17 @@
 from networkx import read_weighted_edgelist, read_graphml, Graph
-from egoGraph import EgoGraph
+from server.python_scripts.egoGraph import EgoGraph
 import numpy as np
 import pandas as pd
 import argparse
 
 
-def read_tsv_to_network(path: str) -> Graph:
+def read_tsv_to_network(path: str, delimiterOwn="\t") -> Graph:
     """
     Read a tsv file into a networkX element.
     """
-    return read_weighted_edgelist(path, delimiter="\t")
+    if delimiterOwn == "":
+        return read_weighted_edgelist(path)
+    return read_weighted_edgelist(path, delimiter=delimiterOwn)
 
 
 def read_graphml_to_network(path: str) -> Graph:
@@ -62,6 +64,7 @@ def ego_graphs_to_metadata(ego_graphs: dict, metadata: pd.DataFrame) -> pd.DataF
     - level 1 neighbours
     - level 2 neighbours
     """
+
     for node in ego_graphs:
         ego_graph = ego_graphs[node]
         ego_graph_neighbors = ego_graph.get_neighbors()
@@ -70,11 +73,13 @@ def ego_graphs_to_metadata(ego_graphs: dict, metadata: pd.DataFrame) -> pd.DataF
         all_nodes = degree_1_alters + degree_2_alters + [node]
         all_edges = ego_graph.get_edge_set()
         # current row index in metadata
-        metadata.loc[node, "number_of_nodes"] = len(all_nodes)
-        metadata.loc[node, "number_of_edges"] = len(all_edges)
-        metadata.loc[node, "average_degree"] = len(all_edges) / len(all_nodes)
-        metadata.loc[node, "degree_1_alters"] = len(degree_1_alters)
-        metadata.loc[node, "degree_2_alters"] = len(degree_2_alters)
+        node = str(node)
+        metadata.at[node, "number_of_nodes"] = len(all_nodes)
+        metadata.at[node, "number_of_edges"] = len(all_edges)
+        metadata.at[node, "average_degree"] = len(all_edges) / len(all_nodes)
+        metadata.at[node, "degree_1_alters"] = len(degree_1_alters)
+        metadata.at[node, "degree_2_alters"] = len(degree_2_alters)
+    print(metadata)
     return metadata
 
 
@@ -124,10 +129,8 @@ def main():
         network = read_tsv_to_network(args.input)
     elif args.input.endswith(".graphml"):
         network = read_graphml_to_network(args.input)
-    print(len(network.nodes))
     # create the ego graphs
     ego_graphs = create_ego_graphs_for_network(network)
-    print(len(ego_graphs.keys()))
     # save the ego graphs as pickle file
     ego_graphs_dict = create_ego_graphs_dicts_for_network(ego_graphs)
     np.save(args.output, ego_graphs_dict)
@@ -136,9 +139,9 @@ def main():
         args.metadata,
         index_col=0,
         sep=args.separator,
+        quotechar='"',
         encoding="utf-8",
     )
-    print(metadata)
     # add metadata to the metadata dataframe
     metadata = ego_graphs_to_metadata(ego_graphs, metadata)
     # save the metadata

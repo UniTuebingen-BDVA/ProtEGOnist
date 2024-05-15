@@ -183,7 +183,7 @@ def read_example_ecoli_full(here):
         )
 
     except FileNotFoundError:
-        print(f"No metadata file found in {hers}. Make sure you added it.")
+        print(f"No metadata file found in {here}. Make sure you added it.")
 
     try:
         with open(here / "ecoliFull" / "important_nodes.txt", "r") as f:

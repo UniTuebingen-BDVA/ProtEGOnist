@@ -69,7 +69,7 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
         // });
         const nodeData = tableData.rows[id];
 
-        const nodeNames = (nodeData?.[nameNodesBy] ?? nodeData.nodeID).split(
+        const nodeNames = String(nodeData?.[nameNodesBy] ?? nodeData.nodeID).split(
             ';'
         );
         // generate set of unique protein names

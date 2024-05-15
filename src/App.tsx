@@ -14,7 +14,9 @@ import {
     getRadarAtom,
     getTableAtom,
     selectedExampleAtom,
-    startDataOverview
+    startDataOverview,
+    selectedExampleAtom,
+    uploadingDataAtom
 } from './apiCalls.ts';
 import EgoNetworkNetworkOverviewViewer from './components/overview_component/egoNetworkNetworkOverviewViewer.tsx';
 import LogoBlue from './assets/LogoBlue.svg';
@@ -27,6 +29,7 @@ import { remToPxAtom, svgFontSizeAtom, windowSizeAtom } from './uiStore.tsx';
 
 function App() {
     const [selectedExample] = useAtom(selectedExampleAtom);
+    const [uploadingData] = useAtom(uploadingDataAtom);
     const [tableData, getTableData] = useAtom(getTableAtom);
     const [intersectionData, getRadarData] = useAtom(getRadarAtom);
     const [_selectedProteins, setSelectedProteins] =
@@ -64,13 +67,6 @@ function App() {
     useEffect(() => {
         if (selectedExample) {
             getTableData();
-            //ForUseCase
-            // setTarNode('P61978');
-            // getRadarData('P61978');
-            // Chosen starts
-
-            // For useCase
-            // setSelectedProteins(['P61978', 'O43447', 'Q14498', 'Q92922']);
             getEgoNetworkNetworkOverviewData(startDataOverview);
         }
     }, [
@@ -131,7 +127,7 @@ function App() {
                 </Grid>
             </MainPage>
         );
-    } else if (selectedExample) {
+    } else if (selectedExample || uploadingData) {
         return (
             <ThemeProvider theme={theme}>
                 <Box
@@ -139,20 +135,39 @@ function App() {
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
+                        flexDirection: 'column',
                         height: '100vh'
-                    }}
-                >
-                    <img
-                        src={LogoBlue}
-                        style={{
-                            height: '18vh',
-                            top: '41vh',
-                            position: 'fixed'
+                    }}>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            height: '45vh'
                         }}
-                    />
-                    <CircularProgress size={'30vh'} />
+                    >
+                        <img
+                            src={LogoBlue}
+                            style={{
+                                height: '18vh',
+                                top: '41vh',
+                                position: 'fixed'
+                            }}
+                        />
+                        <CircularProgress size={'30vh'} />
+
+                    </Box>
+                    {uploadingData && (
+                        <span
+                            style={{
+                                fontSize: '1.5em',
+                                textAlign: 'center',
+                                color: 'black'
+                            }}
+                        > Depending on the size of your data, this upload might take a while.</span>
+                    )}
                 </Box>
-            </ThemeProvider>
+            </ThemeProvider >
         );
     } else {
         return (

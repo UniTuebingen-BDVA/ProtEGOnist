@@ -6,16 +6,14 @@ const AboutPage = (props) => {
         <Container>
             <Typography component={'span'}>
                 ProtEGOnist is a new visualization tool that allows users to
-                explore large networks by using an approach based on ego
+                explore large small-world networks by using an approach based on ego
                 networks. The input for ProtEGOnist is the following:
             </Typography>
             <ol>
-                <li> A network in the form of an edge list (csv file) </li>
-                <li> A list of proteins of interest (csv file) </li>
+                <li> A network in the form of an edge list (tsv file) or a GraphML file. Take into account that our approach has been focused on undirected networks. Directed networks can be uploaded, but the interpretation might might differ. </li>
+                <li> (optional) A list of proteins of interest (txt file) that have to be shown in the overview. This should be a small set, since ProtEGOnist is going to compute an set that maximizes edge coverage.</li>
                 <li>
-                    {' '}
-                    A metadata file including all nodes (csv file) and at least
-                    one categorical class where each node is found{' '}
+                    (optional) A metadata file including all nodes (csv file). It should include one categorical column that can be used to shows division in the Radar Chart and either a numerical or a categorical column (i.e. elements divided by semicolons ) to quantify each node.
                 </li>
             </ol>
             <Typography component={'span'} variant={'subtitle1'}>
