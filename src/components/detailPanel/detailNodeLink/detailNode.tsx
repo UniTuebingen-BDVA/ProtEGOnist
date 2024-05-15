@@ -1,6 +1,5 @@
 import { useAtom, useSetAtom } from 'jotai';
 import { SpringValue, animated } from '@react-spring/web';
-import AdvancedTooltip from '../../utilityComponents/advancedTooltip';
 import { memo, useState } from 'react';
 import { contextMenuAtom } from '../../utilityComponents/contextMenuStore';
 import { selectedProteinsAtom } from '../../selectionTable/tableStore';
@@ -75,43 +74,43 @@ const DetailNode = memo(function DetailNode(props: DetailNodeProps) {
         return 2;
     };
     return (
-        <AdvancedTooltip nodeID={id} key={id}>
-            <animated.circle
-                /**
-                 * Handles the context menu event for the circle.
-                 * @param event - The context menu event.
-                 */
-                onContextMenu={(event) => {
-                    setContextMenu(event, id, 'radar');
-                }}
-                onClick={() => {
-                    setSelectedNode(id);
-                }}
-                onMouseEnter={() => {
-                    setHoveredNode(id);
-                }}
-                onMouseLeave={() => {
-                    setHoveredNode('');
-                }}
-                style={{ pointerEvents: 'all', cursor: 'context-menu' }}
-                key={id}
-                r={nodeSize(id)}
-                fill={color(id, component)}
-                fillOpacity={1}
-                // FIXME Type not fully correct
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore ts2304
-                cx={styleParam.cx}
-                // FIXME Type not fully correct
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore ts2304
-                cy={styleParam.cy}
-                stroke={strokeColor(id)}
-                style={{ ...styleParam }}
-                strokeOpacity={1.0}
-                strokeWidth={strokeWidth(id)}
-            />
-        </AdvancedTooltip>
+        <animated.circle
+            /**
+             * Handles the context menu event for the circle.
+             * @param event - The context menu event.
+             */
+            onContextMenu={(event) => {
+                setContextMenu(event, id, 'radar');
+            }}
+            onClick={() => {
+                setSelectedNode(id);
+            }}
+            onMouseEnter={() => {
+                setHoveredNode(id);
+            }}
+            onMouseLeave={() => {
+                setHoveredNode('');
+            }}
+            style={{ pointerEvents: 'all', cursor: 'context-menu' }}
+            key={id}
+            r={nodeSize(id)}
+            fill={color(id, component)}
+            fillOpacity={1}
+            // FIXME Type not fully correct
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore ts2304
+            cx={styleParam.cx}
+            // FIXME Type not fully correct
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore ts2304
+            cy={styleParam.cy}
+            stroke={strokeColor(id)}
+            style={{ ...styleParam }}
+            strokeOpacity={1.0}
+            strokeWidth={strokeWidth(id)}
+        >
+            <title>{id}</title>
+        </animated.circle>
     );
 });
 export default DetailNode;

@@ -36,6 +36,7 @@ import { infoContentAtom, infoTitleAtom } from '../HomePage/InfoComponent.tsx';
 import Grid from '@mui/material/Unstable_Grid2';
 import { subNetworkSVGSizeAtom, svgFontSizeAtom } from '../../uiStore.tsx'; // Grid version 2
 import { splitString } from '../../UtilityFunctions.ts';
+import { TooltipWindow } from '../utilityComponents/tooltipWindow.tsx';
 
 function EgoNetworkNetworkViewer() {
     const [egoNetworkNetworkBusy] = useAtom(egoNetworkNetworkBusyAtom);
@@ -43,7 +44,7 @@ function EgoNetworkNetworkViewer() {
     const [colorscale] = useAtom(drugsPerProteinColorscaleAtom);
     const [decollapseIDsArray] = useAtom(decollapseIDsAtom);
     const [quantifyBy] = useAtom(quantifyNodesByAtom);
-    const [svgFontSize] = useAtom(svgFontSizeAtom)
+    const [svgFontSize] = useAtom(svgFontSizeAtom);
     const [_infoContent, setInfoContent] = useAtom(infoContentAtom);
     const [_infoTitle, setInfoTitle] = useAtom(infoTitleAtom);
     const [svgSize, setSvgSize] = useAtom(subNetworkSVGSizeAtom);
@@ -310,6 +311,7 @@ function EgoNetworkNetworkViewer() {
                     </Tooltip>
                 </Grid>
             </Grid>
+            <TooltipWindow />
         </Paper>
     );
 }
