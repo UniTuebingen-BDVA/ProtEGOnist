@@ -85,7 +85,6 @@ function EgoNetworkNetworkViewer() {
         if (groupRef.current && ref.current) {
             // get the bounding box of the svg-group zoomableGroup
             const bbox = groupRef.current.getBBox();
-            console.log(bbox);
             // scale the svg-group zoomableGroup to fit the svg either if its width or height is bigger or smaller than the svg
             const scale = Math.min(
                 svgSize.width / bbox.width,

@@ -13,7 +13,7 @@ export const remToPxAtom = atom(
         )
 );
 export const svgFontSizeAtom = atom(
-    (get) => get(remToPxAtom)/1.5
+    (get) => get(remToPxAtom)/1.7
 );
 const windowSizeBaseAtom = atom({
     width: window.innerWidth,
