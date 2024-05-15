@@ -1,7 +1,6 @@
 import { useAtom, useSetAtom } from 'jotai';
 import { decollapseNodeAtom } from './egoNetworkNetworkStore';
 import { animated, SpringValue } from '@react-spring/web';
-import AdvancedTooltip from '../utilityComponents/advancedTooltip';
 import {
     drugsPerProteinAtom,
     drugsPerProteinColorscaleAtom,
@@ -73,66 +72,62 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
         return uniqueNodeNames.join(', ');
     };
     return (
-        <AdvancedTooltip nodeID={id} key={id}>
-            <animated.g
-                key={id}
-                transform={animatedParams.transform}
-                opacity={animatedParams.opacity}
-                onContextMenu={(event) => {
-                    setContextMenu(event, id, 'subnetwork');
-                }}
-                onClick={() => setSelectedEgoGraphs(id)}
-                onDoubleClick={() => setDecollapseID(id)}
-                onMouseEnter={() => {
-                    setHoveredNode(id);
-                    setIsLocallyHovered(true);
-                }}
-                onMouseLeave={() => {
-                    setHoveredNode('');
-                    setIsLocallyHovered(false);
-                }}
-                style={{ pointerEvents: 'all', cursor: 'context-menu' }}
-            >
-                <circle
-                    r={size}
-                    fill={color}
-                    stroke={strokeColor()}
-                    strokeWidth={strokeWidth}
-                />
-                <circle
-                    r={(size * 2) / 3}
-                    fill={'none'}
-                    stroke="black"
-                    strokeWidth="1"
-                />
-                <circle
-                    r={size * 0.05 > 1 ? size * 0.05 : 1}
-                    opacity={0.75}
-                    fill={'black'}
-                    stroke="black"
-                    strokeWidth="1"
-                />
-                <path
-                    id={id + '_labelArc'}
-                    fill="none"
-                    stroke="none"
-                    d={`
+        <animated.g
+            key={id}
+            transform={animatedParams.transform}
+            opacity={animatedParams.opacity}
+            onContextMenu={(event) => {
+                setContextMenu(event, id, 'subnetwork');
+            }}
+            onClick={() => setSelectedEgoGraphs(id)}
+            onDoubleClick={() => setDecollapseID(id)}
+            onMouseEnter={() => {
+                setHoveredNode(id);
+                setIsLocallyHovered(true);
+            }}
+            onMouseLeave={() => {
+                setHoveredNode('');
+                setIsLocallyHovered(false);
+            }}
+            style={{ pointerEvents: 'all', cursor: 'context-menu' }}
+        >
+            <circle
+                r={size}
+                fill={color}
+                stroke={strokeColor()}
+                strokeWidth={strokeWidth}
+            />
+            <circle
+                r={(size * 2) / 3}
+                fill={'none'}
+                stroke="black"
+                strokeWidth="1"
+            />
+            <circle
+                r={size * 0.05 > 1 ? size * 0.05 : 1}
+                opacity={0.75}
+                fill={'black'}
+                stroke="black"
+                strokeWidth="1"
+            />
+            <path
+                id={id + '_labelArc'}
+                fill="none"
+                stroke="none"
+                d={`
                 M 0 0
                 m 0, ${scaledSize}
                 a ${scaledSize},${scaledSize} 0 1,1,0 -${scaledSize * 2}
                 a ${scaledSize},${scaledSize} 0 1,1,0  ${scaledSize * 2}
                 `}
-                ></path>
-                <text
-                    textAnchor="middle"
-                    fontSize={size / 3 < 16 ? 16 : size / 3}
-                >
-                    <textPath startOffset={'50%'} href={'#' + id + '_labelArc'}>
-                        {getNodeName(id)}
-                    </textPath>
-                </text>
-            </animated.g>
-        </AdvancedTooltip>
+            ></path>
+            <text textAnchor="middle" fontSize={size / 3 < 16 ? 16 : size / 3}>
+                <textPath startOffset={'50%'} href={'#' + id + '_labelArc'}>
+                    {getNodeName(id)}
+                </textPath>
+            </text>
+            <title>{id}</title>
+        </animated.g>
     );
 });
 

@@ -9,7 +9,6 @@ import {
     selectedProteinsAtom,
     tableAtom
 } from '../../selectionTable/tableStore';
-import AdvancedTooltip from '../../utilityComponents/advancedTooltip';
 import { hoverAtom } from '../../utilityComponents/hoverStore';
 import { svgFontSizeAtom } from '../../../uiStore.tsx';
 import { calculateTextWidth } from '../../../UtilityFunctions.ts';
@@ -30,7 +29,7 @@ const RadarChart = (props: RadarChartProps) => {
     const [nameNodesBy] = useAtom(nameNodesByAtom);
     const [hoveredNode, setHoveredNode] = useAtom(hoverAtom);
     const [svgFontSize] = useAtom(svgFontSizeAtom);
-    const [labels]=useAtom(labelsAtoms);
+    const [labels] = useAtom(labelsAtoms);
 
     const intersectionDataClone = structuredClone(intersectionData);
     //generate a linear scale for the size of the intersection property in each intersectionDatum
@@ -127,8 +126,7 @@ const RadarChart = (props: RadarChartProps) => {
     const pieChartSegments = angles.reduce(
         (acc, { classification, angle }) => {
             // limit label length to 15 characters
-            const classificationInternal =
-                labels[classification].short;
+            const classificationInternal = labels[classification].short;
             const startAngle =
                 acc.length > 0 ? acc[acc.length - 1].endAngle : 0;
             const endAngle = startAngle + angle;
@@ -365,13 +363,12 @@ const RadarChart = (props: RadarChartProps) => {
                     colorScale={colorScale}
                 />
             }
-            <AdvancedTooltip nodeID={tarNode} key={tarNode}>
-                <g>
-                    <path
-                        id={tarNode + '_label'}
-                        fill={'none'}
-                        stroke="none"
-                        d={`
+            <g>
+                <path
+                    id={tarNode + '_label'}
+                    fill={'none'}
+                    stroke="none"
+                    d={`
                     M 0 0
                     m 0, ${centerRadius}
                     a ${centerRadius},${centerRadius} 0 1,1,0 -${
@@ -381,25 +378,25 @@ const RadarChart = (props: RadarChartProps) => {
                         centerRadius * 2
                     }
                     `}
-                    />
-                    <circle
-                        cx={0}
-                        cy={0}
-                        r={centerRadius}
-                        stroke={'black'}
-                        fill={'#ffff99'}
-                        onClick={() => {
-                            setSelectedProteins([tarNode]);
-                        }}
-                        onMouseEnter={() => {
-                            setHoveredNode(tarNode);
-                        }}
-                        onMouseLeave={() => {
-                            setHoveredNode('');
-                        }}
-                    />
-                </g>
-            </AdvancedTooltip>
+                />
+                <circle
+                    cx={0}
+                    cy={0}
+                    r={centerRadius}
+                    stroke={'black'}
+                    fill={'#ffff99'}
+                    onClick={() => {
+                        setSelectedProteins([tarNode]);
+                    }}
+                    onMouseEnter={() => {
+                        setHoveredNode(tarNode);
+                    }}
+                    onMouseLeave={() => {
+                        setHoveredNode('');
+                    }}
+                />
+                <title>{tarNode}</title>
+            </g>
 
             <text
                 width={30}

@@ -4,7 +4,6 @@ import { getRadarAtom } from '../../../apiCalls';
 import { useAtom, useAtomValue } from 'jotai';
 import * as d3 from 'd3';
 import { selectedProteinsAtom } from '../../selectionTable/tableStore';
-import AdvancedTooltip from '../../utilityComponents/advancedTooltip';
 import { lastSelectedNodeAtom } from './radarStore';
 import { memo } from 'react';
 import { contextMenuAtom } from '../../utilityComponents/contextMenuStore';
@@ -58,43 +57,43 @@ const RadarCircle = memo(function RadarCircle(props: RadarCircleProps) {
         selectedProteins.includes(id) || id == lastSelectedNode ? 1 : 0.8;
 
     return (
-        <AdvancedTooltip nodeID={id} key={id}>
-            <animated.circle
-                onContextMenu={(event) => {
-                    setContextMenu(event, id, 'radar');
-                }}
-                style={{ pointerEvents: 'all', cursor: 'context-menu' }}
-                key={id}
-                r={
-                    CIRCLE_RADIUS +
-                    intersectionLengthScale(intersectionDatum.setSize) *
-                        CIRCLE_RADIUS
-                }
-                fill={color}
-                fillOpacity={0.7}
-                // FIXME Type not fully correct
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore ts2304
-                cx={styleParam.cx}
-                // FIXME Type not fully correct
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore ts2304
-                cy={styleParam.cy}
-                stroke={strokeColor(id)}
-                style={{ ...styleParam }}
-                strokeOpacity={strokeOpacity}
-                strokeWidth={strokeWidth}
-                onClick={(_event) => {
-                    getRadarData(id);
-                }}
-                onMouseEnter={() => {
-                    setHoveredNode(id);
-                }}
-                onMouseLeave={() => {
-                    setHoveredNode('');
-                }}
-            />
-        </AdvancedTooltip>
+        <animated.circle
+            onContextMenu={(event) => {
+                setContextMenu(event, id, 'radar');
+            }}
+            style={{ pointerEvents: 'all', cursor: 'context-menu' }}
+            key={id}
+            r={
+                CIRCLE_RADIUS +
+                intersectionLengthScale(intersectionDatum.setSize) *
+                    CIRCLE_RADIUS
+            }
+            fill={color}
+            fillOpacity={0.7}
+            // FIXME Type not fully correct
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore ts2304
+            cx={styleParam.cx}
+            // FIXME Type not fully correct
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore ts2304
+            cy={styleParam.cy}
+            stroke={strokeColor(id)}
+            style={{ ...styleParam }}
+            strokeOpacity={strokeOpacity}
+            strokeWidth={strokeWidth}
+            onClick={(_event) => {
+                getRadarData(id);
+            }}
+            onMouseEnter={() => {
+                setHoveredNode(id);
+            }}
+            onMouseLeave={() => {
+                setHoveredNode('');
+            }}
+        >
+            <title>{id}</title>
+        </animated.circle>
     );
 });
 
