@@ -35,9 +35,9 @@ def create_app(input_path=""):
     app = Flask(__name__, static_folder="../dist", static_url_path="/")
 
     DATA_LOADED = {
-        # "string": read_example_string(DATA_PATH),
-        # "IEEE": read_example_IEEEcoAuthor(DATA_PATH),
-        # "ecoli": read_example_ecoli_full(DATA_PATH),
+        "string": read_example_string(DATA_PATH),
+        "IEEE": read_example_IEEEcoAuthor(DATA_PATH),
+        "ecoli": read_example_ecoli_full(DATA_PATH),
     }
 
 

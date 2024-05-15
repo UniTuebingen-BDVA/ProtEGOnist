@@ -13,7 +13,6 @@ import {
     getEgoNetworkNetworkOverviewAtom,
     getRadarAtom,
     getTableAtom,
-    selectedExampleAtom,
     startDataOverview,
     selectedExampleAtom,
     uploadingDataAtom
@@ -25,7 +24,7 @@ import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import { MainPage } from './components/HomePage/MainPage.tsx';
 import TabsElements from './components/HomePage/TabsElements.tsx';
 import DetailPanel from './components/detailPanel/detailPanel.tsx';
-import { remToPxAtom, svgFontSizeAtom, windowSizeAtom } from './uiStore.tsx';
+import { remToPxAtom, windowSizeAtom } from './uiStore.tsx';
 
 function App() {
     const [selectedExample] = useAtom(selectedExampleAtom);
