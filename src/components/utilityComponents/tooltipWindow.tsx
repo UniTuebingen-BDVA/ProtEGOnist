@@ -2,7 +2,12 @@ import { useAtom } from 'jotai';
 import { tableAtom } from '../selectionTable/tableStore';
 import { nameNodesByAtom, showOnTooltipAtom } from '../../apiCalls';
 import { forwardRef, memo } from 'react';
-import { isHoveredAtom, hoverIdAtom } from './hoverStore';
+import {
+    isHoveredAtom,
+    hoverIdAtom,
+    hoverAtom,
+    hoverStorePersistAtom
+} from './hoverStore';
 import { Paper, Slide } from '@mui/material';
 
 //generate a custom content for the tooltipwindow based on the selectedNode
@@ -93,13 +98,13 @@ export const TooltipWindow = memo(
         props: {},
         ref: React.MutableRefObject<HTMLElement>
     ) {
-        const [isHovered] = useAtom(isHoveredAtom);
-        const [hoverId] = useAtom(hoverIdAtom);
+        const [hoverId] = useAtom(hoverAtom);
+        const [hoverStorePersist] = useAtom(hoverStorePersistAtom);
 
         return (
             <Slide
                 direction="up"
-                in={isHovered}
+                in={hoverId !== ''}
                 timeout={500}
                 container={ref.current}
             >
@@ -114,7 +119,7 @@ export const TooltipWindow = memo(
                         width: '30%'
                     }}
                 >
-                    <TooltipContent hoveredNode={hoverId} />
+                    <TooltipContent hoveredNode={hoverStorePersist} />
                 </Paper>
             </Slide>
         );
