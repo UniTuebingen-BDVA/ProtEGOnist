@@ -112,13 +112,12 @@ function DetailNodeLinkViewer(props: DetailNodeLinkViewerProps) {
             <Grid xs={6}>
                 <Autocomplete
                     id="nodeSearch"
-                    freeSolo
                     options={getNodeKeys}
-                    inputValue={searchedNode}
+                    value={searchedNode}
                     renderInput={(params) => (
                         <TextField {...params} label="nodeSearch" />
                     )}
-                    onInputChange={(_ev, val) => setSearchedNode(val)}
+                    onChange={(_ev, val) => setSearchedNode(val)}
                 />
             </Grid>
             <Grid xs={1}>

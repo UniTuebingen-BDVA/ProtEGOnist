@@ -10,6 +10,7 @@ import {
     tableAtom
 } from '../../selectionTable/tableStore';
 import AdvancedTooltip from '../../utilityComponents/advancedTooltip';
+import { hoverAtom } from '../../utilityComponents/hoverStore';
 import { svgFontSizeAtom } from '../../../uiStore.tsx';
 import { calculateTextWidth } from '../../../UtilityFunctions.ts';
 
@@ -27,6 +28,7 @@ const RadarChart = (props: RadarChartProps) => {
     const setSelectedProteins = useSetAtom(selectedProteinsAtom);
     const [tableData] = useAtom(tableAtom);
     const [nameNodesBy] = useAtom(nameNodesByAtom);
+    const [hoveredNode, setHoveredNode] = useAtom(hoverAtom);
     const [svgFontSize] = useAtom(svgFontSizeAtom);
     const [labels]=useAtom(labelsAtoms);
 
@@ -388,6 +390,12 @@ const RadarChart = (props: RadarChartProps) => {
                         fill={'#ffff99'}
                         onClick={() => {
                             setSelectedProteins([tarNode]);
+                        }}
+                        onMouseEnter={() => {
+                            setHoveredNode(tarNode);
+                        }}
+                        onMouseLeave={() => {
+                            setHoveredNode('');
                         }}
                     />
                 </g>

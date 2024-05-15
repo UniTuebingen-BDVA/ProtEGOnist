@@ -1,9 +1,6 @@
 import { useAtom, useSetAtom } from 'jotai';
-import {
-    decollapseNodeAtom,
-    highlightedEdgesAtom
-} from './egoNetworkNetworkStore';
-import { SpringValue, animated } from '@react-spring/web';
+import { decollapseNodeAtom } from './egoNetworkNetworkStore';
+import { animated, SpringValue } from '@react-spring/web';
 import AdvancedTooltip from '../utilityComponents/advancedTooltip';
 import {
     drugsPerProteinAtom,
@@ -14,6 +11,7 @@ import { memo, useMemo, useState } from 'react';
 import { contextMenuAtom } from '../utilityComponents/contextMenuStore';
 import { nameNodesByAtom, quantifyNodesByAtom } from '../../apiCalls';
 import { selectedEgoGraphsAtom } from './egoNetworkNetworkStore.ts';
+import { hoverAtom, hoverColor } from '../utilityComponents/hoverStore.ts';
 
 interface EgoNetworkNetworkNodeProps {
     id: string;
@@ -33,16 +31,29 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
     const [colorscale] = useAtom(drugsPerProteinColorscaleAtom);
     const [drugsPerProtein] = useAtom(drugsPerProteinAtom);
     const [quantifyNodesBy] = useAtom(quantifyNodesByAtom);
-    const [highlightedEdges] = useAtom(highlightedEdgesAtom);
-    const [isHovered, setIsHovered] = useState(false);
     const [tableData] = useAtom(tableAtom);
     const [nameNodesBy] = useAtom(nameNodesByAtom);
-       const [selectedEgoGraphs, setSelectedEgoGraphs] = useAtom(
+    const [selectedEgoGraphs, setSelectedEgoGraphs] = useAtom(
         selectedEgoGraphsAtom
     );
+    const [hoveredNode, setHoveredNode] = useAtom(hoverAtom);
+    const [isLocallyHovered, setIsLocallyHovered] = useState(false);
     const setContextMenu = useSetAtom(contextMenuAtom);
+    const scaledSize = size * 1.1;
+    const isHovered = hoveredNode === id;
+    const isSelected = useMemo(
+        () => selectedEgoGraphs.includes(id),
+        [selectedEgoGraphs, id]
+    );
+    const strokeColor = () => {
+        if (isLocallyHovered || !(isHovered || isSelected)) {
+            return 'black';
+        } else {
+            return hoverColor;
+        }
+    };
+    const strokeWidth = isLocallyHovered || isHovered || isSelected ? 3 : 1;
     const scaledSize = size *1.1;
-    console.log(size);
     const color =
         quantifyNodesBy['label'] != 'default'
             ? colorscale(drugsPerProtein[id])
@@ -62,7 +73,6 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
         // join the protein names with a comma
         return uniqueNodeNames.join(', ');
     };
-    const isSelected=useMemo(()=>selectedEgoGraphs.includes(id),[selectedEgoGraphs,id])
     return (
         <AdvancedTooltip nodeID={id} key={id}>
             <animated.g
@@ -74,17 +84,21 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                 }}
                 onClick={() => setSelectedEgoGraphs(id)}
                 onDoubleClick={() => setDecollapseID(id)}
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
-                style={{"pointerEvents": "all", "cursor": "context-menu"}}
-                >
+                onMouseEnter={() => {
+                    setHoveredNode(id);
+                    setIsLocallyHovered(true);
+                }}
+                onMouseLeave={() => {
+                    setHoveredNode('');
+                    setIsLocallyHovered(false);
+                }}
+                style={{ pointerEvents: 'all', cursor: 'context-menu' }}
+            >
                 <circle
                     r={size}
                     fill={color}
-                    stroke={isSelected?"red":"black"}
-                    strokeWidth={
-                        highlightedEdges.ids.includes(id) || isHovered || isSelected ? 3 : 1
-                    }
+                    stroke={strokeColor()}
+                    strokeWidth={strokeWidth}
                 />
                 <circle
                     r={(size * 2) / 3}
@@ -100,26 +114,21 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                     strokeWidth="1"
                 />
                 <path
-                id={id+"_labelArc"}
-                fill='none'
-                stroke='none'
-                d={`
+                    id={id + '_labelArc'}
+                    fill="none"
+                    stroke="none"
+                    d={`
                 M 0 0
                 m 0, ${scaledSize}
                 a ${scaledSize},${scaledSize} 0 1,1,0 -${scaledSize * 2}
                 a ${scaledSize},${scaledSize} 0 1,1,0  ${scaledSize * 2}
                 `}
-                >
-
-                </path>
+                ></path>
                 <text
                     textAnchor="middle"
                     fontSize={size / 3 < 16 ? 16 : size / 3}
                 >
-                    <textPath
-                        startOffset={'50%'}
-                        href={'#'+id+"_labelArc"}
-                    >
+                    <textPath startOffset={'50%'} href={'#' + id + '_labelArc'}>
                         {getNodeName(id)}
                     </textPath>
                 </text>

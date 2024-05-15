@@ -5,6 +5,7 @@ import { memo, useState } from 'react';
 import { contextMenuAtom } from '../../utilityComponents/contextMenuStore';
 import { selectedProteinsAtom } from '../../selectionTable/tableStore';
 import { selectedNodeAtom } from './detailStore';
+import { hoverAtom, hoverColor } from '../../utilityComponents/hoverStore';
 
 /**
  * Represents the props for the DetailNode component.
@@ -26,11 +27,12 @@ const DetailNode = memo(function DetailNode(props: DetailNodeProps) {
     const setContextMenu = useSetAtom(contextMenuAtom);
     const [nodesInSubnetwork] = useAtom(selectedProteinsAtom);
     const [selectedNode, setSelectedNode] = useAtom(selectedNodeAtom);
+    const [hoveredNode, setHoveredNode] = useAtom(hoverAtom);
 
     const color = (id, component) => {
-        if (selectedNode !== '') {
+        if (selectedNode) {
             if (id === selectedNode) {
-                return 'red';
+                return hoverColor;
             }
             return '#dddddd';
         }
@@ -46,8 +48,22 @@ const DetailNode = memo(function DetailNode(props: DetailNodeProps) {
         }
     };
 
+    const strokeColor = (id: string) => {
+        if (id === hoveredNode) {
+            return hoverColor;
+        }
+        return 'black';
+    };
+
+    const strokeWidth = (id: string) => {
+        if (id === hoveredNode) {
+            return 3;
+        }
+        return 0.2;
+    };
+
     const nodeSize = (id) => {
-        if (selectedNode !== '') {
+        if (selectedNode) {
             if (id === selectedNode) {
                 return '5';
             }
@@ -71,6 +87,12 @@ const DetailNode = memo(function DetailNode(props: DetailNodeProps) {
                 onClick={() => {
                     setSelectedNode(id);
                 }}
+                onMouseEnter={() => {
+                    setHoveredNode(id);
+                }}
+                onMouseLeave={() => {
+                    setHoveredNode('');
+                }}
                 style={{ pointerEvents: 'all', cursor: 'context-menu' }}
                 key={id}
                 r={nodeSize(id)}
@@ -84,10 +106,10 @@ const DetailNode = memo(function DetailNode(props: DetailNodeProps) {
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore ts2304
                 cy={styleParam.cy}
-                stroke={'black'}
+                stroke={strokeColor(id)}
                 style={{ ...styleParam }}
                 strokeOpacity={1.0}
-                strokeWidth={0.2}
+                strokeWidth={strokeWidth(id)}
             />
         </AdvancedTooltip>
     );
