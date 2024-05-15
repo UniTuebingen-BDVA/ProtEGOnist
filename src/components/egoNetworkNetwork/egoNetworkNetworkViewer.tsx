@@ -36,6 +36,7 @@ import { infoContentAtom, infoTitleAtom } from '../HomePage/InfoComponent.tsx';
 import Grid from '@mui/material/Unstable_Grid2';
 import { subNetworkSVGSizeAtom, svgFontSizeAtom } from '../../uiStore.tsx'; // Grid version 2
 import { splitString } from '../../UtilityFunctions.ts';
+import { TooltipWindow } from '../utilityComponents/tooltipWindow.tsx';
 
 function EgoNetworkNetworkViewer() {
     const [egoNetworkNetworkBusy] = useAtom(egoNetworkNetworkBusyAtom);
@@ -43,7 +44,7 @@ function EgoNetworkNetworkViewer() {
     const [colorscale] = useAtom(drugsPerProteinColorscaleAtom);
     const [decollapseIDsArray] = useAtom(decollapseIDsAtom);
     const [quantifyBy] = useAtom(quantifyNodesByAtom);
-    const [svgFontSize] = useAtom(svgFontSizeAtom)
+    const [svgFontSize] = useAtom(svgFontSizeAtom);
     const [_infoContent, setInfoContent] = useAtom(infoContentAtom);
     const [_infoTitle, setInfoTitle] = useAtom(infoTitleAtom);
     const [svgSize, setSvgSize] = useAtom(subNetworkSVGSizeAtom);
@@ -85,7 +86,6 @@ function EgoNetworkNetworkViewer() {
         if (groupRef.current && ref.current) {
             // get the bounding box of the svg-group zoomableGroup
             const bbox = groupRef.current.getBBox();
-            console.log(bbox);
             // scale the svg-group zoomableGroup to fit the svg either if its width or height is bigger or smaller than the svg
             const scale = Math.min(
                 svgSize.width / bbox.width,
@@ -310,6 +310,7 @@ function EgoNetworkNetworkViewer() {
                     </Tooltip>
                 </Grid>
             </Grid>
+            <TooltipWindow ref={containerRef} />
         </Paper>
     );
 }

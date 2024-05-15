@@ -2,7 +2,7 @@
 // FIXME remove this once refactor is done
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import { ReactElement, useCallback, useMemo, useEffect } from 'react';
+import { ReactElement, useCallback, useEffect, useMemo } from 'react';
 import { atom, useAtom, useSetAtom } from 'jotai';
 
 import { egoGraphBundlesLayoutAtom } from './egoGraphBundleStore';
@@ -66,39 +66,18 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
         selectedEgoGraphsAtom
     );
 
-    const highlightedNodeIndicesAtom = useMemo(() => atom<number[]>([]), []);
-
     const [isLoaded] = useAtom(isLoadedAtom);
     const [layout] = useAtom(egoGraphBundleAtom);
     const [nodeAtoms] = useAtom(nodesAtomsAtom);
     const [colorScale] = useAtom(colorScaleAtom);
-    const [highlightedNodeIndices, setHighlightedNodeIndices] = useAtom(
-        highlightedNodeIndicesAtom
-    );
     const [highlightedEdges] = useAtom(highlightedEdgesAtom);
     const [tableData] = useAtom(tableAtom);
     const [nameNodesBy] = useAtom(nameNodesByAtom);
     const setContextMenu = useSetAtom(contextMenuAtom);
     const setDecollapseID = useSetAtom(decollapseNodeAtom);
+    const [hoveredNode]=useAtom(hoverAtom);
 
-    const [hoveredNode] = useAtom(hoverAtom);
 
-    const nodeIdentityNodes = useMemo(() => {
-        const nodeIdentityNodes = {};
-        layout.nodes.forEach((node) => {
-            nodeIdentityNodes[node.name] = node.identityNodes;
-        });
-        return nodeIdentityNodes;
-    }, [layout.nodes]);
-
-    useEffect(() => {
-        if (hoveredNode in nodeIdentityNodes) {
-            const idNodes = nodeIdentityNodes[hoveredNode];
-            setHighlightedNodeIndices(idNodes);
-        } else if (hoveredNode === '') {
-            setHighlightedNodeIndices([]);
-        }
-    }, [hoveredNode, nodeIdentityNodes, setHighlightedNodeIndices]);
 
     const getNodeName = useCallback(
         (id) => {
@@ -152,7 +131,6 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                         onContextMenu={(event) => {
                             setContextMenu(event, center.id, 'subnetwork');
                         }}
-                        style={{ pointerEvents: 'all', cursor: 'context-menu' }}
                     >
                         <circle
                             cx={center.x}
@@ -246,9 +224,6 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                             egoRadius={layout.radii[center.id]}
                             centerNode={center}
                             nodeAtom={nodeAtoms[node.index]}
-                            highlightedNodeIndicesAtom={
-                                highlightedNodeIndicesAtom
-                            }
                             fill={
                                 node.firstLast
                                     ? 'red'
@@ -273,7 +248,6 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
         return returnGroups;
     }, [
         colorScale,
-        highlightedNodeIndicesAtom,
         layout.centers,
         layout.nodes,
         layout.radii,
@@ -290,8 +264,8 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                 .filter(
                     (edge) =>
                         edge.id.split('_')[0] === center.id &&
-                        (highlightedNodeIndices.includes(edge.sourceIndex) ||
-                            highlightedNodeIndices.includes(edge.targetIndex))
+                        (layout.nodes[edge.sourceIndex].originalID===hoveredNode ||
+                            layout.nodes[edge.targetIndex].originalID===hoveredNode)
                 )
                 .map((edge) => {
                     let colorEdge: string;
@@ -306,7 +280,6 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                             temp_edge_target
                         ]);
                         const keyEdges = `${sortedEdges[0]}_${sortedEdges[1]}`;
-                        // console.log(edgesClassification[keyEdges])
                         const edgeValue: number | null =
                             edgesClassification?.[keyEdges] ?? null;
                         if (edgeValue !== null) {
@@ -347,15 +320,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
             );
         });
         return returnGroups;
-    }, [
-        edgesClassification,
-        highlightedNodeIndices,
-        layout.centers,
-        layout.edges,
-        setContextMenu,
-        setDecollapseID,
-        setSelectedEgoGraphs
-    ]);
+    }, [edgesClassification, hoveredNode, layout.centers, layout.edges, layout.nodes, nodeId, setContextMenu, setDecollapseID, setSelectedEgoGraphs]);
     const bands = useMemo(() => {
         const returnBands: ReactElement[] = [];
         if (layout.bandData) {
@@ -375,60 +340,15 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
             });
         }
         return returnBands;
-    }, [layout.bandData]);
+    }, [layout.bandData, nodeId]);
 
-    const lines = useMemo(
-        () =>
-            layout.edges
-                .filter(
-                    (edge) =>
-                        highlightedNodeIndices.includes(edge.sourceIndex) ||
-                        highlightedNodeIndices.includes(edge.targetIndex)
-                )
-                .map((edge) => {
-                    let colorEdge: string;
-                    // show edge if any node with the same original ID as source/target is hovered
-                    if (edgesClassification === null) {
-                        colorEdge = '#67001f';
-                    } else {
-                        const temp_edge_source = edge.source.split('_')[1];
-                        const temp_edge_target = edge.target.split('_')[1];
-                        const sortedEdges = d3.sort([
-                            temp_edge_source,
-                            temp_edge_target
-                        ]);
-                        const keyEdges = `${sortedEdges[0]}_${sortedEdges[1]}`;
-                        // console.log(edgesClassification[keyEdges])
-                        const edgeValue: number | null =
-                            edgesClassification?.[keyEdges] ?? null;
-                        if (edgeValue !== null) {
-                            colorEdge = edgeValue === '-1' ? 'red' : 'blue';
-                            // TODO make a color scale
-                        } else {
-                            colorEdge = '#67001f';
-                        }
-                    }
-                    return (
-                        <line
-                            key={String(edge.source) + String(edge.target)}
-                            style={{ pointerEvents: 'none' }}
-                            x1={edge.x1}
-                            x2={edge.x2}
-                            y1={edge.y1}
-                            y2={edge.y2}
-                            stroke={colorEdge}
-                        />
-                    );
-                }),
-        [highlightedNodeIndices, layout.edges, edgesClassification]
-    );
     const [foregroundBands, backgroundBands] = useMemo(() => {
         const foregroundBands: ReactElement[] = [];
         const backgroundBands: ReactElement[] = [];
         layout.identityEdges.forEach((edge) => {
             const isHighlighted =
-                highlightedNodeIndices.includes(edge.sourceIndex) ||
-                highlightedNodeIndices.includes(edge.targetIndex);
+                layout.nodes[edge.sourceIndex].originalID===hoveredNode ||
+                            layout.nodes[edge.targetIndex].originalID===hoveredNode
             if (isHighlighted) {
                 foregroundBands.push(
                     <line
@@ -441,24 +361,10 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                         stroke={'black'}
                     />
                 );
-            } /* else {
-                if (!edge.alwaysDraw) {
-                    backgroundBands.push(
-                        <line
-                            key={edge.id}
-                            x1={edge.x1}
-                            x2={edge.x2}
-                            y1={edge.y1}
-                            y2={edge.y2}
-                            stroke={'#d0d0d0'}
-                            opacity={1}
-                        />
-                    );
-                }
-            }*/
+            }
         });
         return [foregroundBands, backgroundBands];
-    }, [highlightedNodeIndices, layout.identityEdges]);
+    }, [hoveredNode, layout.identityEdges, layout.nodes]);
     return isLoaded ? (
         <g transform={`translate(${x},${y})`}>
             {backgroundCircles}
