@@ -2,8 +2,8 @@ import { useAtom } from 'jotai';
 import { tableAtom } from '../selectionTable/tableStore';
 import { nameNodesByAtom, showOnTooltipAtom } from '../../apiCalls';
 import { memo } from 'react';
-import { hoverAtom } from './hoverStore';
-import { Paper } from '@mui/material';
+import { isHoveredAtom, hoverIdAtom } from './hoverStore';
+import { Grow, Paper } from '@mui/material';
 
 //generate a custom content for the tooltipwindow based on the selectedNode
 const TooltipContent = memo(function TooltipContent(props: {
@@ -89,24 +89,24 @@ const TooltipContent = memo(function TooltipContent(props: {
 
 // display the tooltip content in a fixed position window
 export const TooltipWindow = memo(function tooltipWindow() {
-    const [hoveredNode] = useAtom(hoverAtom);
+    const [isHovered] = useAtom(isHoveredAtom);
+    const [hoverId] = useAtom(hoverIdAtom);
 
     return (
-        <Paper
-            elevation={3}
-            color="grey"
-            style={{
-                position: 'absolute',
-                bottom: '10px',
-                left: '10px',
-                padding: hoveredNode === '' ? '0%' : '10px',
-                // if hoveredNode is empty, hide the tooltip
-                width: hoveredNode === '' ? '0%' : '30%',
-                transition: 'all .5s ease'
-            }}
-        >
-            {/* display the tooltip content coditionally */}
-            {hoveredNode !== '' && <TooltipContent hoveredNode={hoveredNode} />}
-        </Paper>
+        <Grow in={isHovered}>
+            <Paper
+                elevation={3}
+                color="grey"
+                style={{
+                    position: 'absolute',
+                    bottom: '10px',
+                    left: '10px',
+                    padding: '10px',
+                    width: '30%'
+                }}
+            >
+                <TooltipContent hoveredNode={hoverId} />
+            </Paper>
+        </Grow>
     );
 });

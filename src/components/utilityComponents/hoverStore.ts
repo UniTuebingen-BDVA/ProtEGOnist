@@ -1,11 +1,12 @@
 import { atom } from 'jotai';
 
 export const hoverColor = '#6db463';
-const hoverStoreAtom = atom('');
+export const isHoveredAtom = atom(false);
+export const hoverIdAtom = atom('');
 
-export const hoverAtom = atom(
-    (get) => get(hoverStoreAtom),
-    (_get, set, value: string) => {
-        set(hoverStoreAtom, value);
+export const hoverAtom = atom(null, (_get, set, value: string) => {
+    set(isHoveredAtom, value !== '');
+    if (value !== '') {
+        set(hoverIdAtom, value);
     }
-);
+});
