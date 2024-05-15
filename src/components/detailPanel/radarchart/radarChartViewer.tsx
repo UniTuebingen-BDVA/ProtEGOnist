@@ -3,6 +3,8 @@ import RadarChart from './radarChart.tsx';
 import { useAtom } from 'jotai';
 import DetailView from '../detailView.tsx';
 import { classifyByAtom, radarChartBusyAtom } from '../../../apiCalls.ts';
+import { detailedSVGSizeAtom } from '../../../uiStore.tsx';
+import { Box } from '@mui/material';
 
 interface RadarChartViewerProps {
     intersectionData: { [name: string | number]: intersectionDatum };
@@ -13,7 +15,10 @@ function RadarChartViewer(props: RadarChartViewerProps) {
     const [radarBusy] = useAtom(radarChartBusyAtom);
     const [classifyBy] = useAtom(classifyByAtom);
 
-    const svgSize = { width: 500, height: 500 };
+    const [svgSize] = useAtom(detailedSVGSizeAtom);
+    const baseRadius=svgSize.width > svgSize.height
+                            ? svgSize.height / 2
+                            : svgSize.width / 2;
     return (
         <DetailView
             title={`Neighborhood of selected node (radar center) classified by ${classifyBy}`}
@@ -23,14 +28,14 @@ function RadarChartViewer(props: RadarChartViewerProps) {
         >
             <svg
                 preserveAspectRatio={'xMinYMin'}
-                width={'45%'}
+                height={"90%"}
                 viewBox={`0 0 ${svgSize.width} ${svgSize.height}`}
             >
                 <RadarChart
                     intersectionData={props.intersectionData}
                     tarNode={props.tarNode}
-                    baseRadius={svgSize.width / 2}
-                    transform={`translate(${svgSize.width / 2}, ${svgSize.height / 2})`}
+                    baseRadius={baseRadius}
+                    transform={`translate(${svgSize.width/2}, ${svgSize.height/2})`}
                 />
             </svg>
         </DetailView>

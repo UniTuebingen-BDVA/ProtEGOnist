@@ -23,6 +23,7 @@ import {
 import SyncIcon from '@mui/icons-material/Sync';
 import { nodeKeysAtom, selectedNodeAtom } from './detailStore.ts';
 import Grid from '@mui/system/Unstable_Grid/Grid';
+import { detailedSVGSizeAtom } from '../../../uiStore.tsx';
 
 interface DetailNodeLinkViewerProps {}
 
@@ -37,7 +38,7 @@ function DetailNodeLinkViewer(props: DetailNodeLinkViewerProps) {
     const getNodeLink = useSetAtom(getNodeLinkFromSelectionAtom);
     const [searchedNode, setSearchedNode] = useAtom(selectedNodeAtom);
     const [getNodeKeys] = useAtom(nodeKeysAtom);
-    const svgSize = { width: 500, height: 250 };
+    const [svgSize] = useAtom(detailedSVGSizeAtom)
     // prevent default pinch zoom
     document.addEventListener('gesturestart', (e) => e.preventDefault());
     document.addEventListener('gesturechange', (e) => e.preventDefault());

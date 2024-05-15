@@ -53,6 +53,7 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
         }
     };
     const strokeWidth = isLocallyHovered || isHovered || isSelected ? 3 : 1;
+    const scaledSize = size *1.1;
     const color =
         quantifyNodesBy['label'] != 'default'
             ? colorscale(drugsPerProtein[id])
