@@ -91,9 +91,6 @@ const TooltipContent = memo(function TooltipContent(props: {
 export const TooltipWindow = memo(function tooltipWindow() {
     const [hoveredNode] = useAtom(hoverAtom);
 
-    if (!hoveredNode) {
-        return null;
-    }
     return (
         <Paper
             elevation={3}
@@ -102,11 +99,14 @@ export const TooltipWindow = memo(function tooltipWindow() {
                 position: 'absolute',
                 bottom: '10px',
                 left: '10px',
-                padding: '10px',
-                width: '30%'
+                padding: hoveredNode === '' ? '0%' : '10px',
+                // if hoveredNode is empty, hide the tooltip
+                width: hoveredNode === '' ? '0%' : '30%',
+                transition: 'all .5s ease'
             }}
         >
-            <TooltipContent hoveredNode={hoveredNode} />
+            {/* display the tooltip content coditionally */}
+            {hoveredNode !== '' && <TooltipContent hoveredNode={hoveredNode} />}
         </Paper>
     );
 });
