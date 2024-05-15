@@ -16,7 +16,6 @@ import { hoverAtom } from '../utilityComponents/hoverStore.ts';
 
 type egographNodeProps = {
     nodeAtom: PrimitiveAtom<layoutNode>;
-    highlightedNodeIndicesAtom: PrimitiveAtom<number[]>;
     centerPoint: { x: number; y: number };
     nodeRadius: number;
     egoRadius: number;
@@ -28,7 +27,6 @@ export const EgographNode = memo(function EgographNode(
 ) {
     const {
         nodeAtom,
-        highlightedNodeIndicesAtom,
         centerPoint,
         nodeRadius,
         fill,
@@ -36,8 +34,7 @@ export const EgographNode = memo(function EgographNode(
         centerNode
     } = props;
     const [node, _setNode] = useAtom(nodeAtom);
-    const [_hoveredNode, setHoveredNode] = useAtom(hoverAtom);
-    const [highlightedNodeIndices] = useAtom(highlightedNodeIndicesAtom);
+    const [hoveredNode, setHoveredNode] = useAtom(hoverAtom);
     const setDecollapseID = useSetAtom(decollapseNodeAtom);
     const BOX_HEIGHT = egoRadius / 3;
     const centerPolarOuter = cartesianToPolar(
@@ -97,7 +94,7 @@ export const EgographNode = memo(function EgographNode(
                     r={egoRadius / 10}
                     fill={fill}
                     stroke={
-                        highlightedNodeIndices.includes(node.index)
+                        node.originalID===hoveredNode
                             ? 'black'
                             : 'none'
                     }
@@ -120,7 +117,7 @@ export const EgographNode = memo(function EgographNode(
         `}
                     fill={fill}
                     stroke={
-                        highlightedNodeIndices.includes(node.index)
+                        node.originalID===hoveredNode
                             ? 'black'
                             : 'none'
                     }
