@@ -311,7 +311,7 @@ function EgoNetworkNetworkViewer() {
                     </Tooltip>
                 </Grid>
             </Grid>
-            <TooltipWindow />
+            <TooltipWindow ref={containerRef} />
         </Paper>
     );
 }

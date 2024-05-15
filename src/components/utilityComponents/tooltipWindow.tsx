@@ -1,9 +1,9 @@
 import { useAtom } from 'jotai';
 import { tableAtom } from '../selectionTable/tableStore';
 import { nameNodesByAtom, showOnTooltipAtom } from '../../apiCalls';
-import { memo } from 'react';
+import { forwardRef, memo } from 'react';
 import { isHoveredAtom, hoverIdAtom } from './hoverStore';
-import { Grow, Paper } from '@mui/material';
+import { Paper, Slide } from '@mui/material';
 
 //generate a custom content for the tooltipwindow based on the selectedNode
 const TooltipContent = memo(function TooltipContent(props: {
@@ -88,25 +88,35 @@ const TooltipContent = memo(function TooltipContent(props: {
 });
 
 // display the tooltip content in a fixed position window
-export const TooltipWindow = memo(function tooltipWindow() {
-    const [isHovered] = useAtom(isHoveredAtom);
-    const [hoverId] = useAtom(hoverIdAtom);
+export const TooltipWindow = memo(
+    forwardRef(function tooltipWindow(
+        props: {},
+        ref: React.MutableRefObject<HTMLElement>
+    ) {
+        const [isHovered] = useAtom(isHoveredAtom);
+        const [hoverId] = useAtom(hoverIdAtom);
 
-    return (
-        <Grow in={isHovered}>
-            <Paper
-                elevation={3}
-                color="grey"
-                style={{
-                    position: 'absolute',
-                    bottom: '10px',
-                    left: '10px',
-                    padding: '10px',
-                    width: '30%'
-                }}
+        return (
+            <Slide
+                direction="up"
+                in={isHovered}
+                timeout={500}
+                container={ref.current}
             >
-                <TooltipContent hoveredNode={hoverId} />
-            </Paper>
-        </Grow>
-    );
-});
+                <Paper
+                    elevation={3}
+                    color="grey"
+                    style={{
+                        position: 'absolute',
+                        bottom: '10px',
+                        left: '10px',
+                        padding: '10px',
+                        width: '30%'
+                    }}
+                >
+                    <TooltipContent hoveredNode={hoverId} />
+                </Paper>
+            </Slide>
+        );
+    })
+);
