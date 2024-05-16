@@ -27,7 +27,7 @@ const RadarChart = (props: RadarChartProps) => {
     const setSelectedProteins = useSetAtom(selectedProteinsAtom);
     const [tableData] = useAtom(tableAtom);
     const [nameNodesBy] = useAtom(nameNodesByAtom);
-    const [hoveredNode, setHoveredNode] = useAtom(hoverAtom);
+    const [_hoveredNode, setHoveredNode] = useAtom(hoverAtom);
     const [svgFontSize] = useAtom(svgFontSizeAtom);
     const [labels] = useAtom(labelsAtoms);
 
