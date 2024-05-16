@@ -69,10 +69,13 @@ export interface egoGraphLayout {
 /**
  * Calculates the needed radius for the ego graph such that the nodes are not overlapping and evenly distributed
  */
-function calculateRadius(amount: number, nodeSize = 5) {
-    const radius = (amount * nodeSize * 1) / (2 * Math.PI);
+function calculateRadius(
+    amount: number,
+    scale: d3.ScaleLinear<number, number>
+) {
+    const radius = scale(amount);
 
-    return Math.max(radius, 50);
+    return radius;
 }
 
 /**
@@ -562,7 +565,6 @@ function sortIntersectionByDistance(
     });
 }
 
-
 function calculateXRanges(
     proportions: { id: string; proportion: number }[],
     centerId: string,
@@ -571,11 +573,11 @@ function calculateXRanges(
     let fullRange = 2 * Math.PI;
     const offset = (1 / 50) * Math.PI;
     let currPos = 0;
-    if(sharedMode) {
+    if (sharedMode) {
         fullRange =
             fullRange -
             (proportions.filter((d) => d.proportion > 0).length + 2) * offset;
-    } else{
+    } else {
         fullRange =
             fullRange -
             proportions.filter((d) => d.proportion > 0).length * offset;
@@ -612,6 +614,19 @@ export function calculateLayout(
     // create a nodeDict for all nodes in all ego-graphs
     const nodeDict = {};
     const decollapsedRadii: { [key: string]: number } = {};
+    // get min and max number of nodes in ego-graphs
+    const nodeNumbers = egoGraphs.map((d) =>
+        decollapseMode === 'shared'
+            ? egoGraphs.length === 1
+                ? d.nodes.length
+                : d.nodes.length - intersections[d.centerNode.originalID].length
+            : d.nodes.length
+    );
+    const minNodes = Math.min(...nodeNumbers);
+    const maxNodes = Math.max(...nodeNumbers);
+    // make a scale for the radii such that the resulting area scale with the number of nodes mapping to the rane 20-100
+    const scale = d3.scaleSqrt().domain([minNodes, maxNodes]).range([70, 200]);
+
     egoGraphs.forEach((egoGraph) => {
         egoGraph.nodes.forEach((node) => (nodeDict[node.id] = node));
         decollapsedRadii[egoGraph.centerNode.originalID] = calculateRadius(
@@ -620,7 +635,8 @@ export function calculateLayout(
                     ? egoGraph.nodes.length
                     : egoGraph.nodes.length -
                       intersections[egoGraph.centerNode.originalID].length
-                : egoGraph.nodes.length
+                : egoGraph.nodes.length,
+            scale
         );
     });
     // sort each array in egsGraphs alphabetically by centerNode originalId
