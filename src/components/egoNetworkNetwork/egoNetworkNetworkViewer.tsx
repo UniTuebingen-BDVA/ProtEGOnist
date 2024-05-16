@@ -155,7 +155,6 @@ function EgoNetworkNetworkViewer() {
             resetZoomPosition();
         }
     }, [nodesPlaced, resetZoomPosition]);
-    // @ts-ignore
     return (
         <Paper
             style={{

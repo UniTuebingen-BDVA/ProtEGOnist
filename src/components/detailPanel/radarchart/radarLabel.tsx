@@ -25,8 +25,6 @@ const RadarLabel = memo(function RadarLabel(props: radarLabelProps) {
         radius,
         colorScale
     } = props;
-    const arcLengthUnaltered = endAngle - startAngle;
-    const labelOffset = arcLengthUnaltered > Math.PI ? 0 : Math.PI / 2;
     const midAngle = (startAngle + endAngle) / 2;
     const startEnd=midAngle>Math.PI?midAngle-Math.PI:midAngle+Math.PI;
     const flipLabel = midAngle > 0 && midAngle < Math.PI;

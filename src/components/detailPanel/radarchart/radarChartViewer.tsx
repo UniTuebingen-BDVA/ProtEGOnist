@@ -4,7 +4,6 @@ import { useAtom } from 'jotai';
 import DetailView from '../detailView.tsx';
 import { classifyByAtom, radarChartBusyAtom } from '../../../apiCalls.ts';
 import { detailedSVGSizeAtom } from '../../../uiStore.tsx';
-import { Box } from '@mui/material';
 
 interface RadarChartViewerProps {
     intersectionData: { [name: string | number]: intersectionDatum };

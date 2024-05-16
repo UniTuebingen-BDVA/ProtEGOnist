@@ -26,8 +26,8 @@ interface DetailNodeLinkViewerProps {
 function DetailView(props: DetailNodeLinkViewerProps) {
     const [_infoContent, setInfoContent] = useAtom(infoContentAtom);
     const [_infoTitle, setInfoTitle] = useAtom(infoTitleAtom);
-    const setSvgSize=useSetAtom(detailedSVGSizeAtom);
-    const containerRef=useRef<HTMLDivElement>()
+    const setSvgSize = useSetAtom(detailedSVGSizeAtom);
+    const containerRef = useRef<HTMLDivElement>();
 
     const titleBarContent = props.titleBarContent
         ? props.titleBarContent
@@ -41,12 +41,16 @@ function DetailView(props: DetailNodeLinkViewerProps) {
         : false;
     const gridContent = contentOutsideGrid
         ? () => <></>
-        : () => <Grid xs={12} ref={containerRef} sx={{height:"100%"}}>{props.children}</Grid>;
+        : () => (
+              <Grid xs={12} sx={{ height: '100%' }}>
+                  {props.children}
+              </Grid>
+          );
     const outsideGridContent = contentOutsideGrid
         ? () => props.children
         : () => <></>;
     useEffect(() => {
-        resizeEffect(containerRef,setSvgSize)
+        resizeEffect(containerRef, setSvgSize);
     }, [setSvgSize]);
     return (
         <>
@@ -64,7 +68,8 @@ function DetailView(props: DetailNodeLinkViewerProps) {
             <Grid
                 container
                 spacing={0}
-                sx={{height:"100%"}}
+                sx={{ height: '100%' }}
+                ref={containerRef}
             >
                 <Grid xs={titleCols}>
                     <Typography component={'span'} style={{ color: 'black' }}>

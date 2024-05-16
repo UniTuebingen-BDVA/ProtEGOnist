@@ -12,13 +12,13 @@ interface DetailNodeLinkProps {
  * @param {DetailNodeLinkProps} props - The props for the DetailNodeLink component.
  * @returns {JSX.Element} The rendered detail panel.
  */
-const DetailNodeLink = (props: DetailNodeLinkProps) => {
+const DetailNodeLink = () => {
     const [nodes] = useAtom(nodeAtom);
     const [links] = useAtom(linkAtom);
     return (
       <g>
         <DetailLinks links={links}/>
-        <DetailNodes nodes={nodes}/> 
+        <DetailNodes nodes={nodes}/>
       </g>
     );
 }

@@ -2,19 +2,13 @@ import { useAtom, useSetAtom } from 'jotai';
 import DetailView from '../detailView.tsx';
 import DetailNodeLink from './detailNodeLink.tsx';
 import {
-    getNodeLinkFromSelectionAtom,
-    detailNodeLinkBusyAtom
+    detailNodeLinkBusyAtom,
+    getNodeLinkFromSelectionAtom
 } from '../../../apiCalls.ts';
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { animated, useSpring } from '@react-spring/web';
 import { useGesture } from '@use-gesture/react';
-import {
-    Autocomplete,
-    ButtonGroup,
-    IconButton,
-    TextField,
-    Tooltip
-} from '@mui/material';
+import { Autocomplete, IconButton, TextField, Tooltip } from '@mui/material';
 import {
     FitToPageOutline,
     MagnifyMinusOutline,
@@ -38,59 +32,66 @@ function DetailNodeLinkViewer(props: DetailNodeLinkViewerProps) {
     const getNodeLink = useSetAtom(getNodeLinkFromSelectionAtom);
     const [searchedNode, setSearchedNode] = useAtom(selectedNodeAtom);
     const [getNodeKeys] = useAtom(nodeKeysAtom);
-    const [svgSize] = useAtom(detailedSVGSizeAtom)
+    const [svgSize] = useAtom(detailedSVGSizeAtom);
+
     // prevent default pinch zoom
     document.addEventListener('gesturestart', (e) => e.preventDefault());
     document.addEventListener('gesturechange', (e) => e.preventDefault());
     const [style, api] = useSpring(() => ({
-        x: svgSize.width / 2,
-        y: svgSize.height / 2,
+        x: 0,
+        y: 0,
         scale: 1
     }));
     const ref = React.useRef<SVGSVGElement>(null);
-    function zoom(val: number) {
+    const groupRef = React.useRef<SVGGElement>(null);
+
+    const zoom = useCallback((val: number) =>{
         const target = style.scale.get() + val;
-        api.start({ scale: target > 0 ? target : 0 });
-    }
-    function resetZoomPosition() {
+        void api.start({ scale: target > 0 ? target : 0 });
+    },[api,style])
+
+    const resetZoomPosition = useCallback(() => {
         // when called set the zoom to fit the svg-group zoomableGroup
         // get the svg-group zoomableGroup
-        const zoomableGroup: SVGSVGElement = document.querySelector(
-            '#zoomableGroupNodeLink'
-        );
-        // get the bounding box of the svg-group zoomableGroup
-        const bbox = zoomableGroup.getBBox();
-        // scale the svg-group zoomableGroup to fit the svg either if its width or height is bigger or smaller than the svg
-        const scale = Math.min(
-            svgSize.width / bbox.width,
-            svgSize.height / bbox.height
-        );
-        // get the center of the svg
-        const centerX = svgSize.width / 2;
-        const centerY = svgSize.height / 2;
-        // get the center of the svg-group zoomableGroup
-        const bboxCenterX = bbox.x + bbox.width / 2;
-        const bboxCenterY = bbox.y + bbox.height / 2;
-        // get the translation of the svg-group zoomableGroup
-        const translateX = centerX - bboxCenterX * scale;
-        const translateY = centerY - bboxCenterY * scale;
+        if (groupRef.current && ref.current) {
+            // get the bounding box of the svg-group zoomableGroup
+            const bbox = groupRef.current.getBBox();
+            // get the bounding box of the svg-group zoomableGroup
+            // scale the svg-group zoomableGroup to fit the svg either if its width or height is bigger or smaller than the svg
+            const scale = Math.min(
+                svgSize.width / bbox.width,
+                svgSize.height / bbox.height
+            );
+            // get the center of the svg
+            const centerX = svgSize.width / 2;
+            const centerY = svgSize.height / 2;
+            // get the center of the svg-group zoomableGroup
+            const bboxCenterX = bbox.x + bbox.width / 2;
+            const bboxCenterY = bbox.y + bbox.height / 2;
+            // get the translation of the svg-group zoomableGroup
+            const translateX = centerX - bboxCenterX * scale;
+            const translateY = centerY - bboxCenterY * scale;
 
-        // set the scale and translate
-        api.start({
-            x: translateX,
-            y: translateY,
-            scale: scale
-        });
-    }
+            // set the scale and translate
+            void api.start({
+                x: translateX,
+                y: translateY,
+                scale: scale
+            });
+        }
+    }, [api, svgSize.width,svgSize.height]);
+    useEffect(() => {
+            resetZoomPosition();
+    }, [resetZoomPosition]);
     useGesture(
         {
             onWheel: ({ delta: [, dy] }) => {
                 // todo: if we want to have a scrolling webpage: https://stackoverflow.com/questions/57358640/cancel-wheel-event-with-e-preventdefault-in-react-event-bubbling
                 const target = style.scale.get() - dy * 0.001;
-                api.start({ scale: target > 0 ? target : 0 });
+                void api.start({ scale: target > 0 ? target : 0 });
             },
             onDrag: ({ offset: [x, y] }) => {
-                api.start({ x, y });
+                void api.start({ x, y });
             }
         },
         {
@@ -174,17 +175,15 @@ function DetailNodeLinkViewer(props: DetailNodeLinkViewerProps) {
         >
             <svg
                 ref={ref}
-                //height={}
-                //display={"flex"}
                 width={'90%'}
                 height={'100%'}
                 preserveAspectRatio={'xMinYMin'}
+                style={{position:"absolute", left:"10%"}}
                 viewBox={`0 0 ${svgSize.width} ${svgSize.height}`}
-                style={{ position: 'absolute' }}
             >
-                <animated.g ref={ref} id="zoomableGroupNodeLink" style={style}>
-                    <DetailNodeLink />
-                </animated.g>
+                    <animated.g ref={groupRef} style={style}>
+                        <DetailNodeLink/>
+                    </animated.g>
             </svg>
         </DetailView>
     );
