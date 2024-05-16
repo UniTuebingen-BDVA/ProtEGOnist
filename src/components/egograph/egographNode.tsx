@@ -1,6 +1,5 @@
 import { PrimitiveAtom, useAtom } from 'jotai';
 import { layoutNode } from './egolayout';
-import AdvancedTooltip from '../utilityComponents/advancedTooltip';
 import { memo } from 'react';
 import {
     addAngle,
@@ -10,10 +9,12 @@ import {
     polarToCartesian,
     subtractAngle
 } from './polarUtilities';
+import { useSetAtom } from 'jotai';
+import { decollapseNodeAtom } from '../egoNetworkNetwork/egoNetworkNetworkStore.ts';
+import { hoverAtom } from '../utilityComponents/hoverStore.ts';
 
 type egographNodeProps = {
     nodeAtom: PrimitiveAtom<layoutNode>;
-    highlightedNodeIndicesAtom: PrimitiveAtom<number[]>;
     centerPoint: { x: number; y: number };
     nodeRadius: number;
     egoRadius: number;
@@ -25,7 +26,6 @@ export const EgographNode = memo(function EgographNode(
 ) {
     const {
         nodeAtom,
-        highlightedNodeIndicesAtom,
         centerPoint,
         nodeRadius,
         fill,
@@ -33,9 +33,8 @@ export const EgographNode = memo(function EgographNode(
         centerNode
     } = props;
     const [node, _setNode] = useAtom(nodeAtom);
-    const [highlightedNodeIndices, setHighlightedNodeIndices] = useAtom(
-        highlightedNodeIndicesAtom
-    );
+    const [hoveredNode, setHoveredNode] = useAtom(hoverAtom);
+    const setDecollapseID = useSetAtom(decollapseNodeAtom);
     const BOX_HEIGHT = egoRadius / 3;
     const centerPolarOuter = cartesianToPolar(
         globalToLocal([centerPoint.x, centerPoint.y], centerNode)
@@ -79,24 +78,22 @@ export const EgographNode = memo(function EgographNode(
         centerNode
     );
     return (
-        <AdvancedTooltip
-            nodeID={node.originalID}
-            additionalData={`Num edges ${node.numEdges}`}
-        >
+        <>
             {node.originalID == centerNode.id ? (
                 <circle
                     onMouseEnter={() => {
-                        setHighlightedNodeIndices(node.identityNodes);
+                        setHoveredNode(node.originalID);
                     }}
                     onMouseLeave={() => {
-                        setHighlightedNodeIndices([]);
+                        setHoveredNode('');
                     }}
+                    onDoubleClick={() => setDecollapseID(node.originalID)}
                     cx={centerPoint.x}
                     cy={centerPoint.y}
                     r={egoRadius / 10}
                     fill={fill}
                     stroke={
-                        highlightedNodeIndices.includes(node.index)
+                        node.originalID===hoveredNode
                             ? 'black'
                             : 'none'
                     }
@@ -104,11 +101,12 @@ export const EgographNode = memo(function EgographNode(
             ) : (
                 <path
                     onMouseEnter={() => {
-                        setHighlightedNodeIndices(node.identityNodes);
+                        setHoveredNode(node.originalID);
                     }}
                     onMouseLeave={() => {
-                        setHighlightedNodeIndices([]);
+                        setHoveredNode('');
                     }}
+                    onDoubleClick={() => setDecollapseID(centerNode.id)}
                     d={`
           M ${p1Cartesian[0]} ${p1Cartesian[1]}
           A ${egoRadius} ${egoRadius} 0 0 1 ${p2Cartesian[0]} ${p2Cartesian[1]}
@@ -118,12 +116,14 @@ export const EgographNode = memo(function EgographNode(
         `}
                     fill={fill}
                     stroke={
-                        highlightedNodeIndices.includes(node.index)
+                        node.originalID===hoveredNode
                             ? 'black'
                             : 'none'
                     }
-                />
+                >
+                    <title>{node.originalID}</title>
+                </path>
             )}
-        </AdvancedTooltip>
+        </>
     );
 });

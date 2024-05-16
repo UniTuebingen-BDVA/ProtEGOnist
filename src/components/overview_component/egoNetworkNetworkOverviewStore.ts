@@ -4,18 +4,17 @@ import {
     egoNetworkNetworkRendered
 } from '../../egoGraphSchema';
 import * as d3 from 'd3';
+import { overviewSVGSizeAtom } from '../../uiStore.tsx';
 
-export const egoNetworkNetworkSizeAtom = atom({ width: 1000, height: 500 });
+export const egoNetworkNetworkSizeAtom = atom({ width: 850, height: 450 });
 
 export const highlightNodeAtom = atom<string>('');
-
-export const egoNetworkNetworkNodeSizeScaleAtom = atom({ scale: null });
 
 export const scaleNodeSizeAtom = atom((get) => {
     const allSizes = get(egoNetworkNetworksOverviewAtom).nodes.map(
         (d) => d.size
     );
-    const svgSize = get(egoNetworkNetworkSizeAtom);
+    const svgSize = get(overviewSVGSizeAtom);
     const max = d3.max(allSizes);
     const min = d3.min(allSizes);
     return d3
@@ -36,7 +35,7 @@ export const aggregateNetworkAtom = atom((get) => {
     const egoNetworkNetwork = get(egoNetworkNetworksOverviewAtom);
     const outNodes = egoNetworkNetwork.nodes;
     const outEdges = egoNetworkNetwork.edges;
-    const svgSize = get(egoNetworkNetworkSizeAtom);
+    const svgSize = get(overviewSVGSizeAtom);
 
     const scaleSize = get(scaleNodeSizeAtom);
 
@@ -45,7 +44,7 @@ export const aggregateNetworkAtom = atom((get) => {
         .force('center', d3.forceCenter(svgSize.width / 2, svgSize.height / 2))
         .force(
             'charge',
-            d3.forceManyBody().strength(() => -10)
+            d3.forceManyBody().strength(() => 10)
         )
         .force(
             'link',

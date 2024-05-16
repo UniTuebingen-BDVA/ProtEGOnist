@@ -103,7 +103,7 @@ export const drugsPerProteinColorscaleAtom = atom((get) => {
             : Math.min(...densityValues);
     // generate a colorscale based on the number of drugs per protein with d3 from white to #ff7f00
     const colorScale = d3
-        .scaleLinear<string>()
+        .scaleLinear<string,number>()
         .domain([min, max])
         .range(['#ffffff', '#ff7f00'])
         .unknown('lightgray');

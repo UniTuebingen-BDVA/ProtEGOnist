@@ -1,21 +1,21 @@
 import { useEffect } from 'react';
 import './App.css';
 
-import { useAtom } from 'jotai';
-import { CircularProgress, Box, createTheme } from '@mui/material';
-import ThemeProvider from '@mui/material/styles/ThemeProvider';
+import { useAtom, useSetAtom } from 'jotai';
+import { Box, CircularProgress, createTheme } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
 
-import RadarChartViewer from './components/radarchart/radarChartViewer.tsx';
-import { tarNodeAtom } from './components/radarchart/radarStore.ts';
+import { tarNodeAtom } from './components/detailPanel/radarchart/radarStore.ts';
 import EgoNetworkNetworkViewer from './components/egoNetworkNetwork/egoNetworkNetworkViewer.tsx';
 import { selectedProteinsAtom } from './components/selectionTable/tableStore.tsx';
 import {
     getEgoNetworkNetworkAtom,
+    getEgoNetworkNetworkOverviewAtom,
     getRadarAtom,
     getTableAtom,
-    getEgoNetworkNetworkOverviewAtom,
     startDataOverview,
-    selectedExampleAtom
+    selectedExampleAtom,
+    uploadingDataAtom
 } from './apiCalls.ts';
 import EgoNetworkNetworkOverviewViewer from './components/overview_component/egoNetworkNetworkOverviewViewer.tsx';
 import LogoBlue from './assets/LogoBlue.svg';
@@ -23,10 +23,12 @@ import LogoBlue from './assets/LogoBlue.svg';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import { MainPage } from './components/HomePage/MainPage.tsx';
 import TabsElements from './components/HomePage/TabsElements.tsx';
-
+import DetailPanel from './components/detailPanel/detailPanel.tsx';
+import { remToPxAtom, windowSizeAtom } from './uiStore.tsx';
 
 function App() {
     const [selectedExample] = useAtom(selectedExampleAtom);
+    const [uploadingData] = useAtom(uploadingDataAtom);
     const [tableData, getTableData] = useAtom(getTableAtom);
     const [intersectionData, getRadarData] = useAtom(getRadarAtom);
     const [_selectedProteins, setSelectedProteins] =
@@ -37,6 +39,8 @@ function App() {
     const [egoNetworkNetworkOverviewData, getEgoNetworkNetworkOverviewData] =
         useAtom(getEgoNetworkNetworkOverviewAtom);
     const [tarNode, setTarNode] = useAtom(tarNodeAtom);
+    const updateFontSize = useSetAtom(remToPxAtom);
+    const setWindowSize = useSetAtom(windowSizeAtom);
     const theme = createTheme({
         palette: {
             primary: {
@@ -47,17 +51,21 @@ function App() {
             }
         }
     });
-
+    useEffect(() => {
+        window.addEventListener('resize', () => {
+            setWindowSize();
+            updateFontSize();
+        });
+        return () => {
+            window.removeEventListener('resize', () => {
+                setWindowSize();
+                updateFontSize();
+            });
+        };
+    }, [setWindowSize, updateFontSize]);
     useEffect(() => {
         if (selectedExample) {
             getTableData();
-            //ForUseCase
-            // setTarNode('P61978');
-            // getRadarData('P61978');
-            // Chosen starts
-
-            // For useCase
-            // setSelectedProteins(['P61978', 'O43447', 'Q14498', 'Q92922']);
             getEgoNetworkNetworkOverviewData(startDataOverview);
         }
     }, [
@@ -78,7 +86,6 @@ function App() {
         egoNetworkNetworkOverviewData.nodes.length > 0
     ) {
         return (
-
             <MainPage columns={16} alignContent="center" theme={theme}>
                 {/* <!-- First Column --> */}
                 <Grid container xs={7} sx={{ height: '100%' }}>
@@ -102,15 +109,10 @@ function App() {
                             height: '45%',
                             textAlign: 'center'
                         }}
-
                     >
-                        <RadarChartViewer
-                            intersectionData={intersectionData}
-                            tarNode={tarNode}
-                        />
+                        <DetailPanel />
                     </Grid>
                 </Grid>
-
 
                 {/* <!-- Second Column --> */}
                 <Grid container xs={9} sx={{ height: '100%' }}>
@@ -124,7 +126,7 @@ function App() {
                 </Grid>
             </MainPage>
         );
-    } else if (selectedExample) {
+    } else if (selectedExample || uploadingData) {
         return (
             <ThemeProvider theme={theme}>
                 <Box
@@ -132,20 +134,39 @@ function App() {
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
+                        flexDirection: 'column',
                         height: '100vh'
-                    }}
-                >
-                    <img
-                        src={LogoBlue}
-                        style={{
-                            height: '18vh',
-                            top: '41vh',
-                            position: 'fixed'
+                    }}>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            height: '45vh'
                         }}
-                    />
-                    <CircularProgress size={'30vh'} />
+                    >
+                        <img
+                            src={LogoBlue}
+                            style={{
+                                height: '18vh',
+                                top: '41vh',
+                                position: 'fixed'
+                            }}
+                        />
+                        <CircularProgress size={'30vh'} />
+
+                    </Box>
+                    {uploadingData && (
+                        <span
+                            style={{
+                                fontSize: '1.5em',
+                                textAlign: 'center',
+                                color: 'black'
+                            }}
+                        > Depending on the size of your data, this upload might take a while.</span>
+                    )}
                 </Box>
-            </ThemeProvider>
+            </ThemeProvider >
         );
     } else {
         return (

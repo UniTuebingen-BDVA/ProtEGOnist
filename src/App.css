@@ -28,6 +28,20 @@
 .header-title {
   background-color: #61dafbaa;
 }
+
+.titles-form{
+  color: #1C63A5 !important;
+  font-size: 1.0em;
+  /*Bold*/;
+  font-weight: bold !important;
+  margin-bottom: 0.2em !important;
+}
+.subtitles-form{
+  color: #3f90dc !important;
+  font-size: 1.0em;
+  /*Bold*/;
+  margin-bottom: 0.2em !important;
+}
 /* .container {
   display: flex; 
   flex-direction: column;

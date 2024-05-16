@@ -1,17 +1,23 @@
-import { intersectionDatum } from '../../egoGraphSchema';
+import { intersectionDatum } from '../../../egoGraphSchema';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import * as d3 from 'd3';
-import { tarNodeAtom } from './radarStore';
-import { getRadarAtom, nameNodesByAtom } from '../../apiCalls';
+import { labelsAtoms, tarNodeAtom } from './radarStore';
+import { getRadarAtom, nameNodesByAtom } from '../../../apiCalls';
 import RadarCircles from './radarCircles';
 import RadarLabel from './radarLabel';
-import { selectedProteinsAtom, tableAtom } from '../selectionTable/tableStore';
-import AdvancedTooltip from '../utilityComponents/advancedTooltip';
+import {
+    selectedProteinsAtom,
+    tableAtom
+} from '../../selectionTable/tableStore';
+import { hoverAtom } from '../../utilityComponents/hoverStore';
+import { svgFontSizeAtom } from '../../../uiStore.tsx';
+import { calculateTextWidth } from '../../../UtilityFunctions.ts';
 
 interface RadarChartProps {
     baseRadius: number;
     intersectionData: { [name: string | number]: intersectionDatum };
     tarNode: string;
+    transform: string;
 }
 
 const RadarChart = (props: RadarChartProps) => {
@@ -21,6 +27,9 @@ const RadarChart = (props: RadarChartProps) => {
     const setSelectedProteins = useSetAtom(selectedProteinsAtom);
     const [tableData] = useAtom(tableAtom);
     const [nameNodesBy] = useAtom(nameNodesByAtom);
+    const [_hoveredNode, setHoveredNode] = useAtom(hoverAtom);
+    const [svgFontSize] = useAtom(svgFontSizeAtom);
+    const [labels] = useAtom(labelsAtoms);
 
     const intersectionDataClone = structuredClone(intersectionData);
     //generate a linear scale for the size of the intersection property in each intersectionDatum
@@ -77,7 +86,7 @@ const RadarChart = (props: RadarChartProps) => {
     ) {
         classificationProportionsalternating.push(
             classificationProportionsSorted[
-                classificationProportionsSorted.length - 1 - i
+            classificationProportionsSorted.length - 1 - i
             ]
         );
         classificationProportionsalternating.push(
@@ -87,7 +96,7 @@ const RadarChart = (props: RadarChartProps) => {
     if (classificationProportionsSorted.length % 2 !== 0) {
         classificationProportionsalternating.push(
             classificationProportionsSorted[
-                Math.floor(classificationProportionsSorted.length / 2)
+            Math.floor(classificationProportionsSorted.length / 2)
             ]
         );
     }
@@ -117,17 +126,18 @@ const RadarChart = (props: RadarChartProps) => {
     const pieChartSegments = angles.reduce(
         (acc, { classification, angle }) => {
             // limit label length to 15 characters
-            const classificationInternal =
-                classification.length > 15
-                    ? classification.slice(0, 15) + '...'
-                    : classification;
+            const classificationInternal = labels[classification].short;
             const startAngle =
                 acc.length > 0 ? acc[acc.length - 1].endAngle : 0;
             const endAngle = startAngle + angle;
             const midAngle = (startAngle + endAngle) / 2;
             // estimate the angular width of the label text at TEXT_RADIUS in radians
             const labelAngleWidth =
-                (classificationInternal.length * 1.9 * Math.PI) / 180; // 10px per character
+                2 *
+                Math.PI *
+                ((calculateTextWidth([classificationInternal], svgFontSize) *
+                    1.2) /
+                    (Math.PI * 2 * (baseRadius + svgFontSize))); // 10px per character
             acc.push({
                 classification: classificationInternal,
                 classificationFull: classification,
@@ -182,7 +192,7 @@ const RadarChart = (props: RadarChartProps) => {
             if (
                 segment.midAngle - segment.labelAngleWidth / 2 >
                 segmentWithRingIndex.midAngle +
-                    segmentWithRingIndex.labelAngleWidth / 2
+                segmentWithRingIndex.labelAngleWidth / 2
             ) {
                 // remove the ringIndex from unavailableRingIndices and add it to availableRingIndices
                 unavailableRingIndices.splice(
@@ -227,14 +237,16 @@ const RadarChart = (props: RadarChartProps) => {
         '#cab2d6'
     ];
     const colorScale = d3
-        .scaleOrdinal()
+        .scaleOrdinal<string>()
         .domain(
             Object.values(sortedIntersectionData).map(
                 (d) => d[1].classification
             )
         )
         .range(colorsRadar);
-    const baseRadiusInternal = baseRadius - 18 * (maxRingIndex + 1);
+    const fontGap = 2;
+    const baseRadiusInternal =
+        baseRadius - (svgFontSize + fontGap) * (maxRingIndex + 1);
     const GUIDE_CIRCLE_RADIUS = baseRadiusInternal;
     const GUIDE_CIRCLE_STEP = baseRadiusInternal / 4;
     const GUIDE_CIRCLE_RADIUS_MIN = baseRadiusInternal / 4;
@@ -251,7 +263,7 @@ const RadarChart = (props: RadarChartProps) => {
         // });
         const nodeData = tableData.rows[id];
 
-        const nodeNames = (nodeData?.[nameNodesBy] ?? nodeData.nodeID).split(
+        const nodeNames = String(nodeData?.[nameNodesBy] ?? nodeData.nodeID).split(
             ';'
         );
         // generate set of unique protein names
@@ -263,12 +275,11 @@ const RadarChart = (props: RadarChartProps) => {
         CIRCLE_RADIUS +
         intersectionLengthScale(tarNodeData.setSize) * CIRCLE_RADIUS;
     return (
-        <g>
+        <g transform={props.transform}>
             {/* labels and pie segments */}
             {pieChartSegments.map(
                 (
                     {
-                        classification,
                         classificationFull,
                         startAngle,
                         endAngle,
@@ -280,11 +291,13 @@ const RadarChart = (props: RadarChartProps) => {
                     return (
                         <g key={classificationFull}>
                             <RadarLabel
-                                label={classification}
                                 hoverLabel={classificationFull}
                                 startAngle={startAngle}
                                 endAngle={endAngle}
-                                radius={TEXT_RADIUS + 16 * ringIndex}
+                                radius={
+                                    TEXT_RADIUS +
+                                    (svgFontSize + fontGap) * ringIndex
+                                }
                                 guideCircleRadius={GUIDE_CIRCLE_RADIUS}
                                 colorScale={colorScale}
                             />
@@ -330,7 +343,7 @@ const RadarChart = (props: RadarChartProps) => {
                                     y={y}
                                     dx="1em"
                                     textAnchor="middle"
-                                    fontSize="12px"
+                                    fontSize={svgFontSize}
                                     opacity={0.5}
                                 >
                                     {1 - radius / GUIDE_CIRCLE_RADIUS}
@@ -350,42 +363,44 @@ const RadarChart = (props: RadarChartProps) => {
                     colorScale={colorScale}
                 />
             }
-            <AdvancedTooltip nodeID={tarNode} key={tarNode}>
-                <g>
-                    <path
-                        id={tarNode + '_label'}
-                        fill={'none'}
-                        stroke="none"
-                        d={`
+            <g>
+                <path
+                    id={tarNode + '_label'}
+                    fill={'none'}
+                    stroke="none"
+                    d={`
                     M 0 0
                     m 0, ${centerRadius}
-                    a ${centerRadius},${centerRadius} 0 1,1,0 -${
-                        centerRadius * 2
-                    }
-                    a ${centerRadius},${centerRadius} 0 1,1,0  ${
-                        centerRadius * 2
-                    }
+                    a ${centerRadius},${centerRadius} 0 1,1,0 -${centerRadius * 2
+                            }
+                    a ${centerRadius},${centerRadius} 0 1,1,0  ${centerRadius * 2
+                            }
                     `}
-                    />
-                    <circle
-                        cx={0}
-                        cy={0}
-                        r={centerRadius}
-                        stroke={'black'}
-                        fill={'#ffff99'}
-                        onClick={() => {
-                            setSelectedProteins([tarNode]);
-                        }}
-                    />
-                </g>
-            </AdvancedTooltip>
+                />
+                <circle
+                    cx={0}
+                    cy={0}
+                    r={centerRadius}
+                    stroke={'black'}
+                    fill={'#ffff99'}
+                    onClick={() => {
+                        setSelectedProteins([tarNode]);
+                    }}
+                    onMouseEnter={() => {
+                        setHoveredNode(tarNode);
+                    }}
+                    onMouseLeave={() => {
+                        setHoveredNode('');
+                    }}
+                />
+                <title>{tarNode}</title>
+            </g>
 
             <text
                 width={30}
                 textAnchor="middle"
-                fontSize="18px"
+                fontSize={svgFontSize}
                 fontWeight="bold"
-                dy={'-0.35em'}
             >
                 <textPath
                     startOffset={'50%'}

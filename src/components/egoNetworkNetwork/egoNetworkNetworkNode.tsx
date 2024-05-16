@@ -1,18 +1,16 @@
 import { useAtom, useSetAtom } from 'jotai';
-import {
-    decollapseNodeAtom,
-    highlightedEdgesAtom
-} from './egoNetworkNetworkStore';
-import { SpringValue, animated } from '@react-spring/web';
-import AdvancedTooltip from '../utilityComponents/advancedTooltip';
+import { decollapseNodeAtom } from './egoNetworkNetworkStore';
+import { animated, SpringValue } from '@react-spring/web';
 import {
     drugsPerProteinAtom,
     drugsPerProteinColorscaleAtom,
     tableAtom
 } from '../selectionTable/tableStore';
-import { memo, useState } from 'react';
+import { memo, useMemo, useState } from 'react';
 import { contextMenuAtom } from '../utilityComponents/contextMenuStore';
 import { nameNodesByAtom, quantifyNodesByAtom } from '../../apiCalls';
+import { selectedEgoGraphsAtom } from './egoNetworkNetworkStore.ts';
+import { hoverAtom, hoverColor } from '../utilityComponents/hoverStore.ts';
 
 interface EgoNetworkNetworkNodeProps {
     id: string;
@@ -32,12 +30,28 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
     const [colorscale] = useAtom(drugsPerProteinColorscaleAtom);
     const [drugsPerProtein] = useAtom(drugsPerProteinAtom);
     const [quantifyNodesBy] = useAtom(quantifyNodesByAtom);
-    const [highlightedEdges] = useAtom(highlightedEdgesAtom);
-    const [isHovered, setIsHovered] = useState(false);
     const [tableData] = useAtom(tableAtom);
     const [nameNodesBy] = useAtom(nameNodesByAtom);
+    const [selectedEgoGraphs, setSelectedEgoGraphs] = useAtom(
+        selectedEgoGraphsAtom
+    );
+    const [hoveredNode, setHoveredNode] = useAtom(hoverAtom);
+    const [isLocallyHovered, setIsLocallyHovered] = useState(false);
     const setContextMenu = useSetAtom(contextMenuAtom);
-
+    const isHovered = hoveredNode === id;
+    const isSelected = useMemo(
+        () => selectedEgoGraphs.includes(id),
+        [selectedEgoGraphs, id]
+    );
+    const strokeColor = () => {
+        if (isLocallyHovered || !(isHovered || isSelected)) {
+            return 'black';
+        } else {
+            return hoverColor;
+        }
+    };
+    const strokeWidth = isLocallyHovered || isHovered || isSelected ? 3 : 1;
+    const scaledSize = size * 1.1;
     const color =
         quantifyNodesBy['label'] != 'default'
             ? colorscale(drugsPerProtein[id])
@@ -48,8 +62,7 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
         //     return row['nodeID'] === id;
         // });
         const nodeData = tableData.rows[id];
-
-        const nodeNames = (nodeData?.[nameNodesBy] ?? nodeData.nodeID).split(
+        const nodeNames = String(nodeData?.[nameNodesBy] ?? nodeData.nodeID).split(
             ';'
         );
         // generate set of unique protein names
@@ -57,61 +70,63 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
         // join the protein names with a comma
         return uniqueNodeNames.join(', ');
     };
-
     return (
-        <AdvancedTooltip nodeID={id} key={id}>
-            <animated.g
-                key={id}
-                transform={animatedParams.transform}
-                opacity={animatedParams.opacity}
-                onContextMenu={(event) => {
-                    setContextMenu(event, id);
-                }}
-                onClick={() => setDecollapseID(id)}
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
-                style={{ cursor: 'pointer' }}
-            >
-                <circle
-                    r={size}
-                    fill={color}
-                    stroke="black"
-                    strokeWidth={
-                        highlightedEdges.ids.includes(id) || isHovered ? 3 : 1
-                    }
-                />
-                <circle
-                    r={(size * 2) / 3}
-                    fill={'none'}
-                    stroke="black"
-                    strokeWidth="1"
-                />
-                <circle
-                    r={size * 0.05 > 1 ? size * 0.05 : 1}
-                    opacity={0.75}
-                    fill={'black'}
-                    stroke="black"
-                    strokeWidth="1"
-                />
-                <text
-                    textAnchor="middle"
-                    fontSize={size / 3 < 16 ? 16 : size / 3}
-                    dy={`-${size / 10}`}
-                >
-                    <textPath
-                        startOffset={'50%'}
-                        path={`
-                        M 0 0
-                        m 0, ${size}
-                        a ${size},${size} 0 1,1,0 -${size * 2}
-                        a ${size},${size} 0 1,1,0  ${size * 2}
-                        `}
-                    >
-                        {getNodeName(id)}
-                    </textPath>
-                </text>
-            </animated.g>
-        </AdvancedTooltip>
+        <animated.g
+            key={id}
+            transform={animatedParams.transform}
+            opacity={animatedParams.opacity}
+            onContextMenu={(event) => {
+                setContextMenu(event, id, 'subnetwork');
+            }}
+            onClick={() => setSelectedEgoGraphs(id)}
+            onDoubleClick={() => setDecollapseID(id)}
+            onMouseEnter={() => {
+                setHoveredNode(id);
+                setIsLocallyHovered(true);
+            }}
+            onMouseLeave={() => {
+                setHoveredNode('');
+                setIsLocallyHovered(false);
+            }}
+            style={{ pointerEvents: 'all', cursor: 'context-menu' }}
+        >
+            <circle
+                r={size}
+                fill={color}
+                stroke={strokeColor()}
+                strokeWidth={strokeWidth}
+            />
+            <circle
+                r={(size * 2) / 3}
+                fill={'none'}
+                stroke="black"
+                strokeWidth="1"
+            />
+            <circle
+                r={size * 0.05 > 1 ? size * 0.05 : 1}
+                opacity={0.75}
+                fill={'black'}
+                stroke="black"
+                strokeWidth="1"
+            />
+            <path
+                id={id + '_labelArc'}
+                fill="none"
+                stroke="none"
+                d={`
+                M 0 0
+                m 0, ${scaledSize}
+                a ${scaledSize},${scaledSize} 0 1,1,0 -${scaledSize * 2}
+                a ${scaledSize},${scaledSize} 0 1,1,0  ${scaledSize * 2}
+                `}
+            ></path>
+            <text textAnchor="middle" fontSize={size / 3 < 16 ? 16 : size / 3}>
+                <textPath startOffset={'50%'} href={'#' + id + '_labelArc'}>
+                    {getNodeName(id)}
+                </textPath>
+            </text>
+            <title>{id}</title>
+        </animated.g>
     );
 });
 

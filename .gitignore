@@ -53,3 +53,12 @@ dist-ssr
 *.sw?
 server/data/graphml_string_cleaned.graphml
 /build/
+package-lock.json
+server/python_scripts/utilities_preprocessing/distance_IEEE.txt.gz
+server/python_scripts/utilities_preprocessing/ego-graphs_IEEE.npy
+server/python_scripts/utilities_preprocessing/IEEECoAuthorData.graphml
+server/python_scripts/utilities_preprocessing/IEEEMetadata.csv
+server/python_scripts/utilities_preprocessing/important_nodes_IEEE.txt
+server/python_scripts/utilities_preprocessing/metadata_nodes.txt
+server/python_scripts/utilities_preprocessing/test.npy
+server/python_scripts/utilities_preprocessing/testMD.csv
