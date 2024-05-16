@@ -14,6 +14,7 @@ import {
 } from '../egograph/egoGraphBundleStore.ts';
 import { egoNetworkNetworksOverviewAtom } from '../overview_component/egoNetworkNetworkOverviewStore.ts';
 import { calculateLayout } from '../egograph/egolayout.ts';
+import { svgFontSizeAtom } from '../../uiStore.tsx';
 
 // stores egoGraphs and their intersections
 export const egoGraphBundlesAtom = atom<{
@@ -343,7 +344,7 @@ function aggregateEgoNetworkNodes(
         ) {
             nodeDict[node.id] = {
                 ...node,
-                radius: Math.sqrt(radiusScale(node.size) / Math.PI),
+                radius: radiusScale(node.size),
                 collapsed: true
             };
         }
@@ -437,6 +438,8 @@ function aggregateEgoNetworkNodes(
 
 export const scaleNodeSizeAtom = atom((get) => {
     const decollapsedSize = get(decollapsedSizeAtom);
+    const svgFontSize = get(svgFontSizeAtom);
+
     //find max value in the decollapsedSize dictionary
     const maxDecollapsed: number = d3.max(Object.values(decollapsedSize));
     const maxRadius: number =
@@ -447,12 +450,9 @@ export const scaleNodeSizeAtom = atom((get) => {
     const max = d3.max(allSizes);
     const min = d3.min(allSizes);
     return d3
-        .scaleLinear()
+        .scaleSqrt()
         .domain([min, max])
-        .range([
-            Math.PI * (maxRadius / 30) ** 2,
-            Math.PI * (maxRadius / 3) ** 2
-        ]);
+        .range([svgFontSize * 3, svgFontSize * 15]);
 });
 export const interEdgesAtom = atom((get) => {
     const aggregateEgoNetworkNodeIDs = get(decollapseIDsAtom);
