@@ -11,6 +11,7 @@ import { contextMenuAtom } from '../utilityComponents/contextMenuStore';
 import { nameNodesByAtom, quantifyNodesByAtom } from '../../apiCalls';
 import { selectedEgoGraphsAtom } from './egoNetworkNetworkStore.ts';
 import { hoverAtom, hoverColor } from '../utilityComponents/hoverStore.ts';
+import { svgFontSizeAtom } from '../../uiStore.tsx';
 
 interface EgoNetworkNetworkNodeProps {
     id: string;
@@ -37,6 +38,7 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
     );
     const [hoveredNode, setHoveredNode] = useAtom(hoverAtom);
     const [isLocallyHovered, setIsLocallyHovered] = useState(false);
+    const [svgFontSize]=useAtom(svgFontSizeAtom);
     const setContextMenu = useSetAtom(contextMenuAtom);
     const isHovered = hoveredNode === id;
     const isSelected = useMemo(
@@ -123,7 +125,7 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
             ></path>
             <text
                 textAnchor="middle"
-                fontSize={scaledSize / 7 < 18 ? 18 : scaledSize / 7}
+                fontSize={scaledSize / 7 < svgFontSize ? svgFontSize : scaledSize / 7}
                 fontFamily={'monospace'}
             >
                 <textPath startOffset={'50%'} href={'#' + id + '_labelArc'}>

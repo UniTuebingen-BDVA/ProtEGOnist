@@ -2,7 +2,7 @@
 // FIXME remove this once refactor is done
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import { ReactElement, useCallback, useEffect, useMemo } from 'react';
+import { ReactElement, useCallback, useMemo } from 'react';
 import { atom, useAtom, useSetAtom } from 'jotai';
 
 import { egoGraphBundlesLayoutAtom } from './egoGraphBundleStore';
@@ -20,6 +20,7 @@ import { edgesClassificationAtom, nameNodesByAtom } from '../../apiCalls.ts';
 import { contextMenuAtom } from '../utilityComponents/contextMenuStore.ts';
 import { tableAtom } from '../selectionTable/tableStore';
 import { hoverAtom } from '../utilityComponents/hoverStore.ts';
+import { svgFontSizeAtom } from '../../uiStore.tsx';
 
 const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
     const { x, y, nodeId } = props;
@@ -75,6 +76,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
     const setContextMenu = useSetAtom(contextMenuAtom);
     const setDecollapseID = useSetAtom(decollapseNodeAtom);
     const [hoveredNode] = useAtom(hoverAtom);
+    const [svgFontSize] = useAtom(svgFontSizeAtom);
 
     const getNodeName = useCallback(
         (id) => {
@@ -170,7 +172,9 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                         <text
                             textAnchor="middle"
                             fontSize={
-                                outerRadius / 7 < 18 ? 18 : outerRadius / 7
+                                outerRadius / 7 < svgFontSize
+                                    ? svgFontSize
+                                    : outerRadius / 7
                             }
                             fontFamily={'monospace'}
                             // dy={`-${
@@ -213,7 +217,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                         <EgographNode
                             key={node.id}
                             centerPoint={{ x: node.cx, y: node.cy }}
-                            nodeRadius={node.centerDist === 0 ? 5 : 2.5}
+                            nodeRadius={node.centerDist === 0 ? layout.nodeRadius : layout.nodeRadius/2}
                             egoRadius={layout.radii[center.id]}
                             centerNode={center}
                             nodeAtom={nodeAtoms[node.index]}

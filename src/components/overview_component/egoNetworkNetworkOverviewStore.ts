@@ -11,18 +11,17 @@ export const egoNetworkNetworkSizeAtom = atom({ width: 850, height: 450 });
 export const highlightNodeAtom = atom<string>('');
 
 export const scaleNodeSizeAtom = atom((get) => {
+    const svgSize = get(overviewSVGSizeAtom);
     const allSizes = get(egoNetworkNetworksOverviewAtom).nodes.map(
         (d) => d.size
     );
-    const svgSize = get(overviewSVGSizeAtom);
     const max = d3.max(allSizes);
-    const min = d3.min(allSizes);
     return d3
-        .scaleLinear()
-        .domain([min, max])
+        .scaleSqrt()
+        .domain([1, max])
         .range([
-            Math.PI * 7 ** 2,
-            Math.PI * (Math.min(svgSize.width, svgSize.height) * 0.07) ** 2
+            7,
+            Math.min(svgSize.width, svgSize.height) * 0.07
         ]);
 });
 
@@ -54,8 +53,8 @@ export const aggregateNetworkAtom = atom((get) => {
                 .distance(
                     (d) =>
                         10 *
-                            (Math.sqrt(scaleSize(d.source.size) / Math.PI) +
-                                Math.sqrt(scaleSize(d.target.size) / Math.PI)) +
+                            (scaleSize(d.source.size) +
+                                scaleSize(d.target.size)) +
                         100 * (1 - d.weight)
                 )
         )
@@ -67,10 +66,7 @@ export const aggregateNetworkAtom = atom((get) => {
             'collision',
             d3
                 .forceCollide()
-                .radius(
-                    (d: egoNetworkNetworkNode) =>
-                        1.75 * Math.sqrt(scaleSize(d.size) / Math.PI)
-                )
+                .radius((d: egoNetworkNetworkNode) => 1.75 * scaleSize(d.size))
                 .iterations(10)
         )
         .tick(100);
@@ -101,7 +97,7 @@ function blockNodeCoordinates(
     //The blockX and blockY variables are used to set the boundaries of the nodes.
     //The node.x and node.y variables are set to be within the bounds of the svg canvas.
 
-    const radius = Math.sqrt(scaleSize(node.size) / Math.PI);
+    const radius = scaleSize(node.size);
     const blockX = svgSize.width - 2 * radius;
     const blockY = svgSize.height - 2 * radius;
 
