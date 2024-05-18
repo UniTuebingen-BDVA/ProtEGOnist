@@ -12,8 +12,8 @@ import {
     egoGraphBundlesLayoutAtom,
     sortNodesBy
 } from '../egograph/egoGraphBundleStore.ts';
-import { egoNetworkNetworksOverviewAtom } from '../overview_component/egoNetworkNetworkOverviewStore.ts';
 import { calculateLayout } from '../egograph/egolayout.ts';
+import { minMaxRadiusAtom } from '../../uiStore.tsx';
 
 // stores egoGraphs and their intersections
 export const egoGraphBundlesAtom = atom<{
@@ -23,6 +23,32 @@ export const egoGraphBundlesAtom = atom<{
     };
 }>({});
 
+const calculateNodeRadius = (bundles: {
+    [key: string]: {
+        egoGraphs: egoGraph[];
+        intersections: { [p: string]: string[] };
+    };
+},decollapseMode,maxRadius) => {
+    let numNodes;
+    if(decollapseMode==="shared") {
+        numNodes= Math.max(...
+            Object.values(bundles).map((bundle) => {
+                const names = bundle.egoGraphs.map((d) => d.centerNode.originalID);
+                return Object.keys(bundle.intersections)
+                    .filter((id) => !names.includes(id) && id.split(',').filter(d=>d.includes(id)))
+                    .map((key) => bundle.intersections[key].length)
+                    .reduce((acc, curr) => acc + curr, 0);
+            })
+        );
+    } else{
+         numNodes= Math.max(...
+            Object.values(bundles).map((bundle) => {
+                return bundle.egoGraphs.map(d=>d.nodes.length)
+            }).flat()
+        );
+    }
+    return ((maxRadius*2*Math.PI)/numNodes)*1.3
+};
 export const updateEgoGraphBundleAtom = atom(
     null,
     (
@@ -47,6 +73,7 @@ export const updateEgoGraphBundleAtom = atom(
             bundles = restB;
         });
         bundles = { ...bundles, ...updater.bundles };
+        const nodeRadius= calculateNodeRadius(bundles,get(decollapseModeAtom),get(minMaxRadiusAtom)[1]);
         Object.entries(updater.bundles).forEach(([key, value]) => {
             layouts = {
                 ...layouts,
@@ -54,7 +81,9 @@ export const updateEgoGraphBundleAtom = atom(
                     value.egoGraphs,
                     value.intersections,
                     get(decollapseModeAtom),
-                    get(sortNodesBy)
+                    get(sortNodesBy),
+                    nodeRadius,
+                    get(minMaxRadiusAtom)[0]
                 )
             };
         });
@@ -69,12 +98,15 @@ export const decollapseModeAtom = atom(
     (get, set, value: string) => {
         const bundles = get(egoGraphBundlesAtom);
         const newLayouts = {};
+        const nodeRadius= calculateNodeRadius(bundles,value,get(minMaxRadiusAtom)[1]);
         Object.entries(bundles).forEach(([id, bundle]) => {
             newLayouts[id] = calculateLayout(
                 bundle.egoGraphs,
                 bundle.intersections,
                 value,
-                get(sortNodesBy)
+                get(sortNodesBy),
+                nodeRadius,
+                get(minMaxRadiusAtom)[0]
             );
         });
         set(decollapseModeStoreAtom, value);
@@ -343,7 +375,7 @@ function aggregateEgoNetworkNodes(
         ) {
             nodeDict[node.id] = {
                 ...node,
-                radius: Math.sqrt(radiusScale(node.size) / Math.PI),
+                radius: radiusScale(node.size),
                 collapsed: true
             };
         }
@@ -435,24 +467,15 @@ function aggregateEgoNetworkNodes(
     return { outNodes: outNodes, outEdges: outEdges };
 }
 
+
 export const scaleNodeSizeAtom = atom((get) => {
-    const decollapsedSize = get(decollapsedSizeAtom);
     //find max value in the decollapsedSize dictionary
-    const maxDecollapsed: number = d3.max(Object.values(decollapsedSize));
-    const maxRadius: number =
-        maxDecollapsed === undefined ? 150 : maxDecollapsed;
-    const allSizes = get(egoNetworkNetworksOverviewAtom).nodes.map(
+    const allSizes = get(egoNetworkNetworkDeepCopyAtom).nodes.map(
         (d) => d.size
     );
     const max = d3.max(allSizes);
-    const min = d3.min(allSizes);
-    return d3
-        .scaleLinear()
-        .domain([min, max])
-        .range([
-            Math.PI * (maxRadius / 30) ** 2,
-            Math.PI * (maxRadius / 3) ** 2
-        ]);
+    const [minRadius, maxRadius] = get(minMaxRadiusAtom);
+    return d3.scaleSqrt().domain([1, max]).range([minRadius, maxRadius]);
 });
 export const interEdgesAtom = atom((get) => {
     const aggregateEgoNetworkNodeIDs = get(decollapseIDsAtom);
@@ -599,7 +622,7 @@ const selectedBandsBaseAtom = atom<string[]>([]);
  */
 export const selectedEgoGraphsAtom = atom(
     (get) => get(selectedEgoGraphsBaseAtom),
-    (get, set, value:string) => {
+    (get, set, value: string) => {
         const prevSelection = get(selectedEgoGraphsBaseAtom).slice();
         const valIdx = prevSelection.indexOf(value);
         if (valIdx !== -1) {
@@ -615,7 +638,7 @@ export const selectedEgoGraphsAtom = atom(
  */
 export const selectedBandsAtom = atom(
     (get) => get(selectedBandsBaseAtom),
-    (get, set, value:string) => {
+    (get, set, value: string) => {
         const prevSelection = get(selectedBandsBaseAtom).slice();
         const valIdx = prevSelection.indexOf(value);
         if (valIdx !== -1) {
@@ -630,32 +653,38 @@ export const selectedBandsAtom = atom(
  * Stores currently selected nodes
  */
 export const selectedNodesAtom = atom((get) => {
-    const nodes:string[] = [];
+    const nodes: string[] = [];
     get(selectedBandsAtom).forEach((selectedBand) => {
         const egoBundles = get(egoGraphBundlesAtom);
         // find the intersection that matches the selected band
         const containingBundle = Object.values(egoBundles).find((bundle) =>
             Object.keys(bundle.intersections).includes(selectedBand)
         );
-        let bandNodes:string[];
-        if(containingBundle){
-            bandNodes=containingBundle.intersections[selectedBand];
-        } else{
+        let bandNodes: string[];
+        if (containingBundle) {
+            bandNodes = containingBundle.intersections[selectedBand];
+        } else {
             const egoNetworkNetwork = get(aggregateNetworkAtom);
-            const ids=selectedBand.split(',')
-            const first = egoNetworkNetwork.nodes.filter(d => d.id === ids[0])
-                .map(node =>node.neighbors).flat();
-            const second=egoNetworkNetwork.nodes.filter(d => d.id === ids[1])
-                .map(node =>node.neighbors).flat();
-            bandNodes=first.filter(d=>second.includes(d));
+            const ids = selectedBand.split(',');
+            const first = egoNetworkNetwork.nodes
+                .filter((d) => d.id === ids[0])
+                .map((node) => node.neighbors)
+                .flat();
+            const second = egoNetworkNetwork.nodes
+                .filter((d) => d.id === ids[1])
+                .map((node) => node.neighbors)
+                .flat();
+            bandNodes = first.filter((d) => second.includes(d));
         }
         nodes.push(...bandNodes);
     });
     get(selectedEgoGraphsAtom).forEach((selectedEgoGraph) => {
-         const egoNetworkNetwork = get(egoNetworkNetworkDeepCopyAtom);
-         const egoNodes = egoNetworkNetwork.nodes.filter(d => d.id === selectedEgoGraph)
-                .map(node =>node.neighbors).flat()
-        nodes.push(...egoNodes)
+        const egoNetworkNetwork = get(egoNetworkNetworkDeepCopyAtom);
+        const egoNodes = egoNetworkNetwork.nodes
+            .filter((d) => d.id === selectedEgoGraph)
+            .map((node) => node.neighbors)
+            .flat();
+        nodes.push(...egoNodes);
     });
     return [...new Set(nodes)];
 });

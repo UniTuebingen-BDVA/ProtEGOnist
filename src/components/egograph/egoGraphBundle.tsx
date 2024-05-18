@@ -2,7 +2,7 @@
 // FIXME remove this once refactor is done
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import { ReactElement, useCallback, useEffect, useMemo } from 'react';
+import { ReactElement, useCallback, useMemo } from 'react';
 import { atom, useAtom, useSetAtom } from 'jotai';
 
 import { egoGraphBundlesLayoutAtom } from './egoGraphBundleStore';
@@ -20,6 +20,7 @@ import { edgesClassificationAtom, nameNodesByAtom } from '../../apiCalls.ts';
 import { contextMenuAtom } from '../utilityComponents/contextMenuStore.ts';
 import { tableAtom } from '../selectionTable/tableStore';
 import { hoverAtom } from '../utilityComponents/hoverStore.ts';
+import { svgFontSizeAtom } from '../../uiStore.tsx';
 
 const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
     const { x, y, nodeId } = props;
@@ -74,20 +75,22 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
     const [nameNodesBy] = useAtom(nameNodesByAtom);
     const setContextMenu = useSetAtom(contextMenuAtom);
     const setDecollapseID = useSetAtom(decollapseNodeAtom);
-    const [hoveredNode]=useAtom(hoverAtom);
+    const [hoveredNode] = useAtom(hoverAtom);
+    const [svgFontSize] = useAtom(svgFontSizeAtom);
 
-
-    const getNodeName = useCallback((id) => {
-
-        const nodeData = tableData.rows[id];
-        const nodeNames = String(nodeData?.[nameNodesBy] ?? nodeData.nodeID).split(
-            ';'
-        );
-        // generate set of unique protein names
-        const uniqueNodeNames = [...new Set(nodeNames)];
-        // join the protein names with a comma
-        return uniqueNodeNames.join(', ');
-    }, [nameNodesBy, tableData.rows]);
+    const getNodeName = useCallback(
+        (id) => {
+            const nodeData = tableData.rows[id];
+            const nodeNames = String(
+                nodeData?.[nameNodesBy] ?? nodeData.nodeID
+            ).split(';');
+            // generate set of unique protein names
+            const uniqueNodeNames = [...new Set(nodeNames)];
+            // join the protein names with a comma
+            return uniqueNodeNames.join(', ');
+        },
+        [nameNodesBy, tableData.rows]
+    );
     // generate a d3 categorcal color scale with 20 colors
     const [edgesClassification] = useAtom(edgesClassificationAtom);
 
@@ -169,8 +172,11 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                         <text
                             textAnchor="middle"
                             fontSize={
-                                outerRadius / 3 < 50 ? 50 : outerRadius / 3
+                                outerRadius / 7 < svgFontSize
+                                    ? svgFontSize
+                                    : outerRadius / 7
                             }
+                            fontFamily={'monospace'}
                             // dy={`-${
                             //     outerRadius / 4.5 < 40 ? 40 : outerRadius / 4.5
                             // }`}
@@ -211,7 +217,7 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                         <EgographNode
                             key={node.id}
                             centerPoint={{ x: node.cx, y: node.cy }}
-                            nodeRadius={node.centerDist === 0 ? 5 : 2.5}
+                            nodeRadius={node.centerDist === 0 ? layout.nodeRadius : layout.nodeRadius/2}
                             egoRadius={layout.radii[center.id]}
                             centerNode={center}
                             nodeAtom={nodeAtoms[node.index]}
@@ -255,8 +261,10 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
                 .filter(
                     (edge) =>
                         edge.id.split('_')[0] === center.id &&
-                        (layout.nodes[edge.sourceIndex].originalID===hoveredNode ||
-                            layout.nodes[edge.targetIndex].originalID===hoveredNode)
+                        (layout.nodes[edge.sourceIndex].originalID ===
+                            hoveredNode ||
+                            layout.nodes[edge.targetIndex].originalID ===
+                                hoveredNode)
                 )
                 .map((edge) => {
                     let colorEdge: string;
@@ -311,7 +319,17 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
             );
         });
         return returnGroups;
-    }, [edgesClassification, hoveredNode, layout.centers, layout.edges, layout.nodes, nodeId, setContextMenu, setDecollapseID, setSelectedEgoGraphs]);
+    }, [
+        edgesClassification,
+        hoveredNode,
+        layout.centers,
+        layout.edges,
+        layout.nodes,
+        nodeId,
+        setContextMenu,
+        setDecollapseID,
+        setSelectedEgoGraphs
+    ]);
     const bands = useMemo(() => {
         const returnBands: ReactElement[] = [];
         if (layout.bandData) {
@@ -338,8 +356,8 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
         const backgroundBands: ReactElement[] = [];
         layout.identityEdges.forEach((edge) => {
             const isHighlighted =
-                layout.nodes[edge.sourceIndex].originalID===hoveredNode ||
-                            layout.nodes[edge.targetIndex].originalID===hoveredNode
+                layout.nodes[edge.sourceIndex].originalID === hoveredNode ||
+                layout.nodes[edge.targetIndex].originalID === hoveredNode;
             if (isHighlighted) {
                 foregroundBands.push(
                     <line

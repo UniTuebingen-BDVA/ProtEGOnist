@@ -11,6 +11,7 @@ import { contextMenuAtom } from '../utilityComponents/contextMenuStore';
 import { nameNodesByAtom, quantifyNodesByAtom } from '../../apiCalls';
 import { selectedEgoGraphsAtom } from './egoNetworkNetworkStore.ts';
 import { hoverAtom, hoverColor } from '../utilityComponents/hoverStore.ts';
+import { svgFontSizeAtom } from '../../uiStore.tsx';
 
 interface EgoNetworkNetworkNodeProps {
     id: string;
@@ -37,6 +38,7 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
     );
     const [hoveredNode, setHoveredNode] = useAtom(hoverAtom);
     const [isLocallyHovered, setIsLocallyHovered] = useState(false);
+    const [svgFontSize]=useAtom(svgFontSizeAtom);
     const setContextMenu = useSetAtom(contextMenuAtom);
     const isHovered = hoveredNode === id;
     const isSelected = useMemo(
@@ -62,14 +64,15 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
         //     return row['nodeID'] === id;
         // });
         const nodeData = tableData.rows[id];
-        const nodeNames = String(nodeData?.[nameNodesBy] ?? nodeData.nodeID).split(
-            ';'
-        );
+        const nodeNames = String(
+            nodeData?.[nameNodesBy] ?? nodeData.nodeID
+        ).split(';');
         // generate set of unique protein names
         const uniqueNodeNames = [...new Set(nodeNames)];
         // join the protein names with a comma
         return uniqueNodeNames.join(', ');
     };
+
     return (
         <animated.g
             key={id}
@@ -120,7 +123,11 @@ const EgoNetworkNetworkNode = memo(function EgoNetworkNetworkNode(
                 a ${scaledSize},${scaledSize} 0 1,1,0  ${scaledSize * 2}
                 `}
             ></path>
-            <text textAnchor="middle" fontSize={size / 3 < 16 ? 16 : size / 3}>
+            <text
+                textAnchor="middle"
+                fontSize={scaledSize / 7 < svgFontSize ? svgFontSize : scaledSize / 7}
+                fontFamily={'monospace'}
+            >
                 <textPath startOffset={'50%'} href={'#' + id + '_labelArc'}>
                     {getNodeName(id)}
                 </textPath>
