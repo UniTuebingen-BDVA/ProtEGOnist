@@ -1,7 +1,8 @@
 import * as d3 from 'd3';
-import { ScaleBand } from 'd3';
 import { midPointPolar2PI, polarToCartesian } from '../../UtilityFunctions';
 import { egoGraph, egoGraphEdge, egoGraphNode } from '../../egoGraphSchema';
+import { ScaleBand } from 'd3';
+import { nodeRadius } from './egoGraphBundleStore.ts';
 
 export type layoutNode = egoGraphNode & {
     index: number;
@@ -30,12 +31,11 @@ type identityEdge = {
     y2: number;
 };
 
-type layoutBand = [
-    { x: number; y: number },
-    { x: number; y: number },
-    string,
-    { graphId: string; x: number; y: number }
-];
+type layoutBand = {
+    start: { x: number; y: number },
+    end: { x: number; y: number },
+    center: {graphId:string, x: number; y: number },
+};
 
 type graphCenter = {
     x: number;
@@ -56,11 +56,6 @@ export interface egoGraphLayout {
     nodes: layoutNode[];
     edges: layoutEdge[];
     identityEdges: identityEdge[];
-    firstAndLastNodes: {
-        [key: string]: {
-            [key: string]: string[];
-        };
-    };
     radii: { [key: string]: number };
     centers: { x: number; y: number; id: string; outerSize: number }[];
     decollapsedSize: number;
@@ -69,120 +64,106 @@ export interface egoGraphLayout {
 /**
  * Calculates the needed radius for the ego graph such that the nodes are not overlapping and evenly distributed
  */
-function calculateRadius(amount: number,nodeRadius, minRadius ) {
+function calculateRadius(amount: number,minRadius:number ) {
     const minCirc=2*Math.PI*minRadius
     const circ=amount*nodeRadius>minCirc?amount*nodeRadius:minCirc;
     return circ / (2 * Math.PI);
 }
+function calculateRadii(){
+
+}
 
 /**
  * Create nodes for a layer in the ego graph
- * @param {egoGraphNode[]} layerNodes
- * @param {string[]} sortOrder
- * @param {number} center
- * @param {number} radius
+ * @param {[key:string]:egoGraphNode} nodeDict
+ * @param {string[]} nodeSortOrders
+ * @param {number} egoGraphCenter
+ * @param {number} egoGraphRadius
  * @param {[key:string]:[number,number]} xRanges
  * @param {{ x: number; y: number }} transformVector
  * @param {number} offset
  */
 function createLayerNodes(
-    layerNodes: egoGraphNode[],
-    sortOrder: {
+    nodeDict: { [key: string]: egoGraphNode },
+    nodeSortOrders: {
         id: string;
         intersections: string[];
     }[],
-    center: number,
-    radius: number,
+    egoGraphCenter: number,
+    egoGraphRadius: number,
     xRanges: { [key: string]: [number, number] }, // full circle: 0, 2PI
     transformVector: { graphId: string; x: number; y: number },
     offset: number
 ) {
     let internalOffset = offset;
-    const nodeDict: { [key: string]: egoGraphNode } = {};
-    layerNodes.forEach((d) => (nodeDict[d.id] = d));
     const nodes: { [key: string]: layoutNode } = {};
+
+    // create seperate scale for every portion on the circle
     const x: { [key: string]: ScaleBand<string> } = {};
-    sortOrder.forEach((d) => {
+    nodeSortOrders.forEach((d) => {
         x[d.id] = d3.scaleBand().range(xRanges[d.id]).domain(d.intersections);
     });
+
     // check if any element in sortOrder has an id sortOrder[i].id.split(',').length > 2
-    const tripleIntersection = sortOrder.find(
+    const tripleIntersection = nodeSortOrders.find(
         (d) => d.id.split(',').length > 2
     );
-    const doubleIntersection = sortOrder.find(
+    const doubleIntersection = nodeSortOrders.find(
         (d) => d.id.split(',').length > 1
     );
+
     // if such an element is found calculate the midpoint of the two outer nodes
-
-    let firstNode = '';
-    let lastNode = '';
-    let firstIntersection = '';
-    let lastIntersection = '';
-    if (tripleIntersection) {
-        firstIntersection = tripleIntersection.id;
-        lastIntersection = tripleIntersection.id;
-        firstNode = tripleIntersection.intersections[0];
-        lastNode =
-            tripleIntersection.intersections[
-                tripleIntersection.intersections.length - 1
-            ];
-    } else {
-        firstIntersection = sortOrder[0].id;
-        lastIntersection = sortOrder[sortOrder.length - 1].id;
-        firstNode = sortOrder[0].intersections[0];
-        lastNode =
-            sortOrder[sortOrder.length - 1].intersections[
-                sortOrder[sortOrder.length - 1].intersections.length - 1
-            ];
-    }
-
-    const firstNodeTheta = x[firstIntersection](firstNode);
-    const lastNodeTheta =
-        x[lastIntersection](lastNode) + x[lastIntersection].bandwidth();
+    // additional offset is the offset needed to rotate the graphs to face each other
     let additionalOffset = 0;
-    if (sortOrder.length > 1 || doubleIntersection || tripleIntersection) {
-        additionalOffset = midPointPolar2PI(firstNodeTheta, lastNodeTheta);
-    } else {
-        additionalOffset = 0;
+    if (nodeSortOrders.length > 1) {
+        if (tripleIntersection) {
+            const firstNodeTheta = xRanges[tripleIntersection.id][0];
+            const lastNodeTheta = xRanges[tripleIntersection.id][1];
+            additionalOffset = midPointPolar2PI(firstNodeTheta, lastNodeTheta);
+        } else if (doubleIntersection) {
+            const firstNodeTheta = xRanges[doubleIntersection.id][0];
+            const lastNodeTheta = xRanges[doubleIntersection.id][1];
+            additionalOffset = midPointPolar2PI(firstNodeTheta, lastNodeTheta);
+        } else {
+            additionalOffset = 0;
+        }
     }
     internalOffset -= additionalOffset;
-
     const bands: { [key: string]: layoutBand } = {};
-    for (let i = 0; i < sortOrder.length; i++) {
+    for (let i = 0; i < nodeSortOrders.length; i++) {
+        // create band data
         const start = polarToCartesian(
-            center,
-            center,
-            radius,
-            x[sortOrder[i].id](sortOrder[i].intersections[0]),
+            egoGraphCenter,
+            egoGraphCenter,
+            egoGraphRadius,
+            xRanges[nodeSortOrders[i].id][0],
             internalOffset
         );
         start.x += transformVector.x;
         start.y += transformVector.y;
         const end = polarToCartesian(
-            center,
-            center,
-            radius,
-            x[sortOrder[i].id](
-                sortOrder[i].intersections[
-                    sortOrder[i].intersections.length - 1
-                ]
-            ) + x[sortOrder[i].id].bandwidth(),
+            egoGraphCenter,
+            egoGraphCenter,
+            egoGraphRadius,
+            xRanges[nodeSortOrders[i].id][1],
             internalOffset
         );
         end.x += transformVector.x;
         end.y += transformVector.y;
-        bands[sortOrder[i].id] = [
+        const center={...transformVector}
+        bands[nodeSortOrders[i].id] = {
             start,
             end,
-            transformVector.graphId,
-            transformVector
-        ];
-        sortOrder[i].intersections.forEach((id) => {
+            center,
+        };
+        // create node data
+        nodeSortOrders[i].intersections.forEach((id) => {
             const nodeCoords = polarToCartesian(
-                center,
-                center,
-                radius,
-                x[sortOrder[i].id](id)! + x[sortOrder[i].id].bandwidth() / 2,
+                egoGraphCenter,
+                egoGraphCenter,
+                egoGraphRadius,
+                x[nodeSortOrders[i].id](id)! +
+                    x[nodeSortOrders[i].id].bandwidth() / 2,
                 internalOffset
             );
             nodes[id] = {
@@ -215,36 +196,31 @@ function assignToInnerNodes(
         const sourceId = edge.source;
         const targetId = edge.target;
         if (
-            Object.prototype.hasOwnProperty.call(nodeDict, sourceId) &&
-            Object.prototype.hasOwnProperty.call(nodeDict, targetId)
+            nodeDict[sourceId].centerDist === 1 &&
+            !nodeAssignment.has(sourceId)
         ) {
-            if (
-                nodeDict[sourceId].centerDist === 1 &&
-                !nodeAssignment.has(sourceId)
-            ) {
-                nodeAssignment.set(sourceId, []);
-            }
-            if (
-                nodeDict[targetId].centerDist === 1 &&
-                !nodeAssignment.has(targetId)
-            ) {
-                nodeAssignment.set(targetId, []);
-            }
-            if (
-                nodeDict[sourceId].centerDist === 2 &&
-                nodeDict[targetId].centerDist === 1 &&
-                !assignedNodes.has(sourceId)
-            ) {
-                nodeAssignment.get(targetId)?.push(sourceId);
-                assignedNodes.add(sourceId);
-            } else if (
-                nodeDict[targetId].centerDist === 2 &&
-                nodeDict[sourceId].centerDist === 1 &&
-                !assignedNodes.has(targetId)
-            ) {
-                nodeAssignment.get(sourceId)?.push(targetId);
-                assignedNodes.add(targetId);
-            }
+            nodeAssignment.set(sourceId, []);
+        }
+        if (
+            nodeDict[targetId].centerDist === 1 &&
+            !nodeAssignment.has(targetId)
+        ) {
+            nodeAssignment.set(targetId, []);
+        }
+        if (
+            nodeDict[sourceId].centerDist === 2 &&
+            nodeDict[targetId].centerDist === 1 &&
+            !assignedNodes.has(sourceId)
+        ) {
+            nodeAssignment.get(targetId)?.push(sourceId);
+            assignedNodes.add(sourceId);
+        } else if (
+            nodeDict[targetId].centerDist === 2 &&
+            nodeDict[sourceId].centerDist === 1 &&
+            !assignedNodes.has(targetId)
+        ) {
+            nodeAssignment.get(sourceId)?.push(targetId);
+            assignedNodes.add(targetId);
         }
     }
     return nodeAssignment;
@@ -434,14 +410,19 @@ export function sortByOverlap(
 
 /**
  * Sorts unique nodes in egograph
- * @param {egoGraphNode[]} nodes
+ * @param {string[]} nodeIds
  * @param {egoGraphEdge[]} edges
+ * @param {[key:string]:egoGraphNode} nodeDict
+ * @param {string} sortBy
  */
-function sortUniqueNodes(nodes: egoGraphNode[], edges: egoGraphEdge[], sortBy) {
-    const nodeDict: { [key: string]: egoGraphNode } = {};
-    nodes.forEach((node) => (nodeDict[node.id] = node));
-    const nodeAssignment = assignToInnerNodes(nodeDict, edges);
+function sortUniqueNodes(
+    nodeIds: string[],
+    edges: egoGraphEdge[],
+    nodeDict: { [key: string]: egoGraphNode },
+    sortBy: string
+) {
     if (sortBy === 'consistent') {
+        const nodeAssignment = assignToInnerNodes(nodeDict, edges);
         const innerNodes = Object.keys(nodeAssignment);
         const intersectingNodes = calculateOverlaps(nodeAssignment, innerNodes);
         let innerNodeOrder: string[] = [];
@@ -460,26 +441,32 @@ function sortUniqueNodes(nodes: egoGraphNode[], edges: egoGraphEdge[], sortBy) {
             ).flat();
             outerNodeOrder = [...new Set(allOuterOrder)];
         }
-        const nodesLayer1 = nodes.filter((d) => d.centerDist === 1);
-        const nodesLayer2 = nodes.filter((d) => d.centerDist === 2);
-        nodesLayer1.forEach((node) => {
-            if (!innerNodeOrder.includes(node.id)) {
-                innerNodeOrder.push(node.id);
+        const nodesLayer1 = nodeIds.filter((d) => nodeDict[d].centerDist === 1);
+        const nodesLayer2 = nodeIds.filter((d) => nodeDict[d].centerDist === 2);
+        nodesLayer1.forEach((d) => {
+            if (!innerNodeOrder.includes(d)) {
+                innerNodeOrder.push(d);
             }
         });
-        nodesLayer2.forEach((node) => {
-            if (!outerNodeOrder.includes(node.id)) {
-                outerNodeOrder.push(node.id);
+        nodesLayer2.forEach((d) => {
+            if (!outerNodeOrder.includes(d)) {
+                outerNodeOrder.push(d);
             }
         });
         return {
-            innerNodes: nodes.filter((d) => innerNodeOrder.includes(d.id)),
-            outerNodes: nodes.filter((d) => outerNodeOrder.includes(d.id))
+            innerNodes: nodeIds.filter((d) => innerNodeOrder.includes(d)),
+            outerNodes: nodeIds.filter((d) => outerNodeOrder.includes(d))
         };
     } else {
-        const sortedNodeIds = nodes.sort((a, b) => a.numEdges - b.numEdges);
-        const outerNodes = sortedNodeIds.filter((d) => d.centerDist === 2);
-        const innerNodes = sortedNodeIds.filter((d) => d.centerDist === 1);
+        const sortedNodeIds = nodeIds.sort(
+            (a, b) => nodeDict[a].numEdges - nodeDict[b].numEdges
+        );
+        const outerNodes = sortedNodeIds.filter(
+            (d) => nodeDict[d].centerDist === 2
+        );
+        const innerNodes = sortedNodeIds.filter(
+            (d) => nodeDict[d].centerDist === 1
+        );
         return {
             innerNodes: innerNodes,
             outerNodes: outerNodes
@@ -595,6 +582,33 @@ function calculateXRanges(
     return xRanges;
 }
 
+function performPrecomputations(
+    egoGraphs: egoGraph[],
+    intersections: {
+        [key: string]: string[];
+    },
+    decollapseMode: string,
+    minRadius
+) {
+    const nodeDict: { [key: string]: egoGraphNode } = {};
+    const decollapsedRadii: { [key: string]: number } = {};
+    egoGraphs.forEach((egoGraph) => {
+        egoGraph.nodes.forEach((node) => (nodeDict[node.id] = node));
+        decollapsedRadii[egoGraph.centerNode.originalID] = calculateRadius(
+            decollapseMode === 'shared'
+                ? egoGraphs.length === 1
+                    ? egoGraph.nodes.length
+                    : egoGraph.nodes.length -
+                      intersections[egoGraph.centerNode.originalID].length
+                : egoGraph.nodes.length,
+            minRadius
+        );
+    });
+    return { nodeDict, decollapsedRadii };
+}
+
+
+
 /**
  *
  * @param {egoGraph[]} egoGraphs
@@ -607,27 +621,15 @@ export function calculateLayout(
     intersections: { [key: string]: string[] },
     decollapseMode: string,
     sortBy: string,
-    nodeRadius:number,
-    minRadius: number
-
+    minRadius: number,
 ): egoGraphLayout {
     // create a nodeDict for all nodes in all ego-graphs
-    const nodeDict = {};
-    const decollapsedRadii: { [key: string]: number } = {};
-    egoGraphs.forEach((egoGraph) => {
-        egoGraph.nodes.forEach((node) => (nodeDict[node.id] = node));
-        decollapsedRadii[egoGraph.centerNode.originalID] = calculateRadius(
-            decollapseMode === 'shared'
-                ? egoGraphs.length === 1
-                    ? egoGraph.nodes.length
-                    : egoGraph.nodes.length -
-                      intersections[egoGraph.centerNode.originalID].length
-                : egoGraph.nodes.length,
-            nodeRadius,
-            minRadius
-        );
-    });
-    console.log(decollapsedRadii);
+    const { nodeDict, decollapsedRadii } = performPrecomputations(
+        egoGraphs,
+        intersections,
+        decollapseMode,
+        minRadius
+    );
     // sort each array in egsGraphs alphabetically by centerNode originalId
     egoGraphs.sort((a, b) => {
         if (a.centerNode.originalID > b.centerNode.originalID) {
@@ -648,12 +650,9 @@ export function calculateLayout(
             identityEdges: [],
             radii: {},
             centers: [],
-            firstAndLastNodes: {},
             decollapsedSize: 0
         };
-        const fullRange = 2 * Math.PI;
         let layoutNodeDict: { [key: string]: layoutNode } = {};
-
         let currGraphId = egoGraphs[0].centerNode.originalID;
         let prevGraphId = egoGraphs[egoGraphs.length - 1].centerNode.originalID;
         let currPairwiseIntersectionId = [prevGraphId, currGraphId]
@@ -673,8 +672,8 @@ export function calculateLayout(
         const maxRadius = Math.max(...Object.values(decollapsedRadii));
         // set radius of the bundle such that all circles are accommodated
         const radiusOfEnclosingCircle =
-            egoGraphs.length === 2 ? maxRadius * 3 : maxRadius * 3.3;
-        const placementRadius = radiusOfEnclosingCircle - maxRadius * 1.6;
+            egoGraphs.length === 2 ? maxRadius * 2.7 : maxRadius * 3;
+        const placementRadius = radiusOfEnclosingCircle - maxRadius * 1.2;
         const placementAngle = (2 * Math.PI) / egoGraphs.length;
         for (let i = 0; i < egoGraphs.length; i++) {
             currGraphId = egoGraphs[i].centerNode.originalID;
@@ -819,13 +818,14 @@ export function calculateLayout(
             prevGraphId = currGraphId;
             const currLayout = calculateMultiLayout(
                 egoGraphs[i],
+                nodeDict,
                 scaledOuterSize / 2,
                 scaledOuterSize,
                 decollapseMode === 'shared' ? [] : intersections[currGraphId], //todo need switching
                 intersectingNodes.reverse(),
                 graphCenters[i],
                 xRanges,
-                (fullRange / egoGraphs.length) * i,
+                (2*Math.PI / egoGraphs.length) * i,
                 sortBy
             );
 
@@ -858,6 +858,7 @@ export function calculateLayout(
         layout.decollapsedSize = radiusOfEnclosingCircle;
         layout.radii = decollapsedRadii;
         layout.nodeRadius=nodeRadius;
+        console.log(layout)
         return layout;
     } else {
          const layout=calculateEgoLayout(
@@ -898,12 +899,10 @@ function firstAndLastNodeIntersection(
 ) {
     // for each graphCenter and each associated intersection (key contains the graphCenter) get the first and last node in the intersection as sorted in the nodeDict
     const firstAndLastNodes: {
-        [key: string]: {
-            [key: string]: [
+        [key: string]: [
                 { graphCenterPos: graphCenter; pos: { x: number; y: number } },
                 { graphCenterPos: graphCenter; pos: { x: number; y: number } }
-            ];
-        };
+            ][];
     } = {};
     Object.entries(firstAndLastNodeIds).forEach((entry) => {
         const key = entry[0];
@@ -911,36 +910,34 @@ function firstAndLastNodeIntersection(
         // add firstLast=true property to firstNode and lastNode
         const graphCenterIds = key.split(',');
         if (entryValue) {
-            graphCenterIds.forEach((graphCenterId, _idx) => {
+            graphCenterIds.forEach((graphCenterId, idx) => {
                 //find correct entry in entryValue
                 const bandData = entryValue.find(
-                    (elem) => elem[2] === graphCenterId
+                    (elem) => elem.center.graphId === graphCenterId
                 );
                 const currentGraphCenter = centers.find(
                     (elem) => elem.id == graphCenterId
                 );
                 //check if key is in firstAndLastNodes
                 if (!Object.keys(firstAndLastNodes).includes(key)) {
-                    firstAndLastNodes[key] = {};
+                    firstAndLastNodes[key] = [];
                 }
-                firstAndLastNodes[key][graphCenterId] = [
+                firstAndLastNodes[key].push([
                     {
-                        //id: firstNode.id,
                         graphCenterPos: currentGraphCenter,
                         pos: {
-                            x: bandData[0].x,
-                            y: bandData[0].y
+                            x: bandData.start.x,
+                            y: bandData.start.y
                         }
                     },
                     {
-                        //id: lastNode.id,
                         graphCenterPos: currentGraphCenter,
                         pos: {
-                            x: bandData[1].x,
-                            y: bandData[1].y
+                            x: bandData.end.x,
+                            y: bandData.end.y
                         }
                     }
-                ];
+                ]);
             });
         }
     });
@@ -949,6 +946,7 @@ function firstAndLastNodeIntersection(
 
 function calculateMultiLayout(
     graph: egoGraph,
+    nodeDict: { [key: string]: egoGraphNode },
     innerSize: number,
     outerSize: number,
     uniqueNodeIds: string[],
@@ -961,23 +959,15 @@ function calculateMultiLayout(
     offset: number,
     sortBy: string
 ) {
+    // vector for global transformation of local coordinates
     const transformVector = {
         graphId: graphCenter.id,
         x: graphCenter.x - outerSize,
         y: graphCenter.y - outerSize
     };
-    const nodeDict: { [key: string]: egoGraphNode } = {};
-    graph.nodes.forEach((node) => (nodeDict[node.id] = node));
     let nodes: { [key: string]: layoutNode };
-    const sharedNodeIdsFlat = sharedNodeIds
-        .map((d) =>
-            d.intersections.map(
-                (nodeId) => nodeDict[graph.centerNode.originalID + '_' + nodeId]
-            )
-        )
-        .flat();
     const sharedNodesLayout = calculateLayoutSharedNodes(
-        sharedNodeIdsFlat,
+        nodeDict,
         addCenterNodeId(graph.centerNode.originalID, sharedNodeIds),
         outerSize,
         outerSize,
@@ -990,9 +980,10 @@ function calculateMultiLayout(
     if (uniqueNodeIds.length > 0) {
         const uniqueNodesLayout = calculateLayoutUniqueNodes(
             uniqueNodeIds.map(
-                (nodeId) => nodeDict[graph.centerNode.originalID + '_' + nodeId]
+                (nodeId) => graph.centerNode.originalID + '_' + nodeId
             ),
             graph.edges,
+            nodeDict,
             innerSize,
             outerSize,
             xRanges[graph.centerNode.originalID],
@@ -1013,7 +1004,6 @@ function calculateMultiLayout(
     );
     return {
         nodes: nodes,
-        // maxradius: maxRadius,
         bands: sharedNodesLayout.bands
     };
 }
@@ -1030,7 +1020,7 @@ function moveToCenter(
 
 /**
  * creates layout for shared nodes according to a sort order
- * @param {egoGraphNode[]} nodes
+ * @param {[key:string]:egoGraphNode} nodeDict
  * @param {string[]} sortOrder
  * @param {number} center
  * @param {number} radius
@@ -1040,7 +1030,7 @@ function moveToCenter(
  * @param {number} offset
  */
 function calculateLayoutSharedNodes(
-    nodes: egoGraphNode[],
+    nodeDict: { [key: string]: egoGraphNode },
     sortOrder: {
         id: string;
         intersections: string[];
@@ -1053,7 +1043,7 @@ function calculateLayoutSharedNodes(
     offset: number
 ) {
     const nodeLayout = createLayerNodes(
-        nodes,
+        nodeDict,
         sortOrder,
         center,
         radius,
@@ -1061,6 +1051,7 @@ function calculateLayoutSharedNodes(
         graphCenter,
         offset
     );
+    // create pseudo nodes and move actual nodes towards ego-graph center
     Object.keys(nodeLayout.nodes).forEach((nodeId) => {
         if (nodeLayout.nodes[nodeId].centerDist < 2) {
             nodeLayout.nodes[`${nodeId}_pseudo`] = {
@@ -1084,8 +1075,9 @@ function calculateLayoutSharedNodes(
 
 /**
  * creates layout for unique nodes and sorts them in a way to align inner and outer nodes
- * @param {egoGraphNode[]} nodes
+ * @param {string[]} nodeIds
  * @param {egoGraphEdge[]} edges
+ * @param {[key:string]:egoGraphNode} nodeDict
  * @param {number} innerSize
  * @param {number} outerSize
  * @param {[number, number]} xRange
@@ -1094,8 +1086,9 @@ function calculateLayoutSharedNodes(
  * @param {string} sortBy
  */
 function calculateLayoutUniqueNodes(
-    nodes: egoGraphNode[],
+    nodeIds: string[],
     edges: egoGraphEdge[],
+    nodeDict: { [key: string]: egoGraphNode },
     innerSize: number,
     outerSize: number,
     xRange: [number, number],
@@ -1103,10 +1096,15 @@ function calculateLayoutUniqueNodes(
     offset: number,
     sortBy: string
 ) {
-    const { innerNodes, outerNodes } = sortUniqueNodes(nodes, edges, sortBy);
+    const { innerNodes, outerNodes } = sortUniqueNodes(
+        nodeIds,
+        edges,
+        nodeDict,
+        sortBy
+    );
     const nodesLayer1Layout = createLayerNodes(
-        innerNodes,
-        [{ id: 'layer1', intersections: innerNodes.map((d) => d.id) }],
+        nodeDict,
+        [{ id: 'layer1', intersections: innerNodes }],
         outerSize,
         innerSize,
         { layer1: xRange },
@@ -1114,8 +1112,8 @@ function calculateLayoutUniqueNodes(
         offset
     );
     const nodesLayer2Layout = createLayerNodes(
-        outerNodes,
-        [{ id: 'layer2', intersections: outerNodes.map((d) => d.id) }],
+        nodeDict,
+        [{ id: 'layer2', intersections: outerNodes }],
         outerSize,
         outerSize,
         { layer2: xRange },
@@ -1275,6 +1273,7 @@ function createCenterNode(
 /**
  * Create layout for egograph
  * @param {egoGraph} graph
+ * @param {[key:string]:egoGraphNode} nodeDict
  * @param {number} innerSize
  * @param {number} outerSize
  * @param {number} nodeSize
@@ -1282,14 +1281,16 @@ function createCenterNode(
  */
 export function calculateEgoLayout(
     graph: egoGraph,
+    nodeDict: { [key: string]: egoGraphNode },
     innerSize: number,
     outerSize: number,
     nodeSize: number,
     sortBy: string
 ) {
     const { nodesLayer1Layout, nodesLayer2Layout } = calculateLayoutUniqueNodes(
-        graph.nodes,
+        graph.nodes.map((d) => d.id),
         graph.edges,
+        nodeDict,
         innerSize,
         outerSize,
         [0, 2 * Math.PI],

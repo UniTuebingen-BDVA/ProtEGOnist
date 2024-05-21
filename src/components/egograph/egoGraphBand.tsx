@@ -657,11 +657,11 @@ const EgoGraphBand = (props: EgoGraphBandProps) => {
     const { bandData, color, twoCase } = props;
     const [selectedBands, setSelectedBands] = useAtom(selectedBandsAtom);
     let pathData: { path: string[]; color: string; id: string }[] = [];
-    if (Object.values(bandData[1]).length === 0) return null;
-    if (Object.values(bandData[1]).length === 1) return null;
-    if (Object.values(bandData[1]).length === 2) {
-        const start = Object.values(bandData[1])[0];
-        const end = Object.values(bandData[1])[1];
+    if (bandData[1].length === 0) return null;
+    if (bandData[1].length === 1) return null;
+    if (bandData[1].length === 2) {
+        const start = bandData[1][0];
+        const end = bandData[1][1];
         pathData = [
             {
                 path: getPath(start, end, twoCase),
@@ -671,9 +671,9 @@ const EgoGraphBand = (props: EgoGraphBandProps) => {
         ];
     }
     if (Object.keys(bandData[1]).length === 3) {
-        const start = Object.values(bandData[1])[0];
-        const mid = Object.values(bandData[1])[1];
-        const end = Object.values(bandData[1])[2];
+        const start = bandData[1][0];
+        const mid = bandData[1][1];
+        const end = bandData[1][2];
 
         //make a path consisting of 3 bands, one for each pair of nodes
         //start to mid, mid to end, end to start

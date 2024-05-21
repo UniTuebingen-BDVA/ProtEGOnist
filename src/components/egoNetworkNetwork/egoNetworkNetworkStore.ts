@@ -14,6 +14,8 @@ import {
 } from '../egograph/egoGraphBundleStore.ts';
 import { calculateLayout } from '../egograph/egolayout.ts';
 import { minMaxRadiusAtom } from '../../uiStore.tsx';
+import { sectionEgoGraphs } from '../egograph/egoSectioning.ts';
+import { calculateLayout2 } from '../egograph/egolayout2.ts';
 
 // stores egoGraphs and their intersections
 export const egoGraphBundlesAtom = atom<{
@@ -23,32 +25,8 @@ export const egoGraphBundlesAtom = atom<{
     };
 }>({});
 
-const calculateNodeRadius = (bundles: {
-    [key: string]: {
-        egoGraphs: egoGraph[];
-        intersections: { [p: string]: string[] };
-    };
-},decollapseMode,maxRadius) => {
-    let numNodes;
-    if(decollapseMode==="shared") {
-        numNodes= Math.max(...
-            Object.values(bundles).map((bundle) => {
-                const names = bundle.egoGraphs.map((d) => d.centerNode.originalID);
-                return Object.keys(bundle.intersections)
-                    .filter((id) => !names.includes(id) && id.split(',').filter(d=>d.includes(id)))
-                    .map((key) => bundle.intersections[key].length)
-                    .reduce((acc, curr) => acc + curr, 0);
-            })
-        );
-    } else{
-         numNodes= Math.max(...
-            Object.values(bundles).map((bundle) => {
-                return bundle.egoGraphs.map(d=>d.nodes.length)
-            }).flat()
-        );
-    }
-    return ((maxRadius*2*Math.PI)/numNodes)*1.3
-};
+
+
 export const updateEgoGraphBundleAtom = atom(
     null,
     (
@@ -73,8 +51,9 @@ export const updateEgoGraphBundleAtom = atom(
             bundles = restB;
         });
         bundles = { ...bundles, ...updater.bundles };
-        const nodeRadius= calculateNodeRadius(bundles,get(decollapseModeAtom),get(minMaxRadiusAtom)[1]);
         Object.entries(updater.bundles).forEach(([key, value]) => {
+            sectionEgoGraphs(value.egoGraphs,value.intersections,2)
+            calculateLayout2(value.egoGraphs,value.intersections,get(decollapseModeAtom),get(minMaxRadiusAtom)[0],2)
             layouts = {
                 ...layouts,
                 [key]: calculateLayout(
@@ -82,7 +61,6 @@ export const updateEgoGraphBundleAtom = atom(
                     value.intersections,
                     get(decollapseModeAtom),
                     get(sortNodesBy),
-                    nodeRadius,
                     get(minMaxRadiusAtom)[0]
                 )
             };
@@ -98,14 +76,12 @@ export const decollapseModeAtom = atom(
     (get, set, value: string) => {
         const bundles = get(egoGraphBundlesAtom);
         const newLayouts = {};
-        const nodeRadius= calculateNodeRadius(bundles,value,get(minMaxRadiusAtom)[1]);
         Object.entries(bundles).forEach(([id, bundle]) => {
             newLayouts[id] = calculateLayout(
                 bundle.egoGraphs,
                 bundle.intersections,
                 value,
                 get(sortNodesBy),
-                nodeRadius,
                 get(minMaxRadiusAtom)[0]
             );
         });
