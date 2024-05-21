@@ -1,14 +1,17 @@
-import { egoGraph } from '../../egoGraphSchema.ts';
+import { egoGraph, egoGraphEdge, egoGraphNode } from '../../egoGraphSchema.ts';
 import { nodeRadius } from './egoGraphBundleStore.ts';
 import { polarToCartesian } from '../../UtilityFunctions.ts';
 import * as d3 from 'd3';
 
-type graphCenter = {
-    x: number;
-    y: number;
-    id: string;
-    outerSize: number;
+export type layoutNode = egoGraphNode & {
+    index: number;
+    identityNodes: number[];
+    isCenter: boolean;
+    cx: number;
+    cy: number;
+    pseudo: boolean; // invisible node
 };
+
 type position = {
     x: number;
     y: number;
@@ -87,7 +90,7 @@ function calculateNodePositions(
         const domain = layers.flat().flat();
         scale = d3.scaleBand<string>().range([0, angle]).domain(domain);
     }
-    for (let i = 0; i < numLayers; i++) {
+    for (let i = 0; i <= numLayers; i++) {
         if (isUnique) {
             const domain = layers[i].flat();
             scale = d3.scaleBand<string>().range([0, angle]).domain(domain);
@@ -108,16 +111,19 @@ function calculateNodePositions(
     return positions;
 }
 
+const offset = (1 / 50) * Math.PI;
+
 function calculateSectionLayout(
     nodes: string[][][],
     nodeTotal: number,
     numLayers: number,
     egoRadius: number,
     center: { x: number; y: number },
-    currRotation: number
+    currRotation: number,
+    isUnique: boolean
 ) {
     const proportion = nodes.flat().flat().length / nodeTotal;
-    const angle = proportion * Math.PI * 2;
+    const angle = proportion * (Math.PI * 2 - offset);
     const nodePositions = calculateNodePositions(
         nodes,
         numLayers,
@@ -125,7 +131,7 @@ function calculateSectionLayout(
         angle,
         center,
         currRotation,
-        false
+        isUnique
     );
     const start = polarToCartesian(
         center.x,
@@ -156,7 +162,7 @@ function calculateEgoLayout(
     center: { x: number; y: number }
 ) {
     let positions: nodePositions = {};
-    const bands = {};
+    const bands = [];
     let uniqueNodes: string[][][] = [];
     let nodeTotal: number;
     let currRotation = rotation;
@@ -167,6 +173,7 @@ function calculateEgoLayout(
         nodeTotal = sections
             .map((d) => d.nodes)
             .flat()
+            .flat()
             .flat().length;
         const uniqueLayout = calculateSectionLayout(
             uniqueNodes,
@@ -174,7 +181,8 @@ function calculateEgoLayout(
             numLayers,
             egoRadius,
             center,
-            currRotation
+            currRotation,
+            true
         );
         positions = { ...positions, ...uniqueLayout.nodePositions };
         currRotation += uniqueLayout.angle;
@@ -182,6 +190,7 @@ function calculateEgoLayout(
         nodeTotal = sections
             .filter((d) => d.ids.length > 1)
             .map((d) => d.nodes)
+            .flat()
             .flat()
             .flat().length;
     }
@@ -196,9 +205,15 @@ function calculateEgoLayout(
             numLayers,
             egoRadius,
             center,
-            currRotation
+            currRotation,
+            false
         );
         positions = { ...positions, ...prevLayout.nodePositions };
+        bands.push({
+            ids: [currID, prevID],
+            positions: [prevLayout.start, prevLayout.end],
+            center: center
+        });
         currRotation += prevLayout.angle;
         if (prevID !== nextID) {
             const sharedAllNodes = sections.filter(
@@ -210,13 +225,19 @@ function calculateEgoLayout(
                 numLayers,
                 egoRadius,
                 center,
-                currRotation
+                currRotation,
+                false
             );
             positions = { ...positions, ...allLayout.nodePositions };
+            bands.push({
+                ids: [currID, prevID, nextID],
+                positions: [allLayout.start, allLayout.end],
+                center: center
+            });
             currRotation += allLayout.angle;
             const nextNodes = sections.filter(
                 (section) =>
-                    section.ids.includes(prevID) && section.ids.includes(currID)
+                    section.ids.includes(nextID) && section.ids.includes(currID)
             )[0].nodes;
             const nextLayout = calculateSectionLayout(
                 nextNodes,
@@ -224,12 +245,52 @@ function calculateEgoLayout(
                 numLayers,
                 egoRadius,
                 center,
-                currRotation
+                currRotation,
+                false
             );
             positions = { ...positions, ...nextLayout.nodePositions };
+            bands.push({
+                ids: [currID, nextID],
+                positions: [nextLayout.start, nextLayout.end],
+                center: center
+            });
         }
     }
-    return positions;
+    return { positions, bands };
+}
+
+function transformBandData(
+    bands: {
+        ids: string[];
+        positions: [position, position];
+        center: position;
+    }[]
+) {
+    const transformedData = [];
+    bands.forEach((search_band, index) => {
+        if (index < bands.length - 1) {
+            const bandDict = {
+                [search_band.ids[0]]: {
+                    positions: search_band.positions,
+                    center: search_band.center
+                }
+            };
+            bands
+                .slice(index + 1)
+                .filter((band) =>
+                    band.ids.every((id) => search_band.ids.includes(id))
+                )
+                .forEach(
+                    (band) =>
+                        (bandDict[band.ids[0]] = {
+                            positions: band.positions,
+                            center: band.center
+                        })
+                );
+            transformedData.push({ ids: search_band.ids, bands: bandDict });
+        }
+    });
+    return transformedData;
 }
 
 function iterateEgoGraphs(
@@ -238,10 +299,12 @@ function iterateEgoGraphs(
     placementRadius: number,
     placementAngle: number,
     decollapseMode: string,
-    egoRadii,
+    egoRadii: { [key: string]: number },
     numLayers: number
 ) {
-    let layoutNodeDict = {};
+    let positions = {};
+    let bands = [];
+    const centers = [];
     for (let i = 0; i < egoGraphs.length; i++) {
         const currId = egoGraphs[i].centerNode.originalID;
         let prevId: string;
@@ -263,22 +326,126 @@ function iterateEgoGraphs(
             i * placementAngle,
             Math.PI
         );
-        layoutNodeDict = {
-            ...layoutNodeDict,
-            ...calculateEgoLayout(
-                egoGraphs[i].sections,
-                currId,
-                prevId,
-                nextId,
-                decollapseMode,
-                egoRadii[currId],
-                numLayers,
-                placementAngle * i,
-                center
-            )
+        center.id = egoGraphs[i].centerNode.originalID;
+        center.outerSize = egoRadii[egoGraphs[i].centerNode.originalID];
+        centers.push(center);
+        const egoLayout = calculateEgoLayout(
+            egoGraphs[i].sections,
+            currId,
+            prevId,
+            nextId,
+            decollapseMode,
+            egoRadii[currId],
+            numLayers,
+            placementAngle * i,
+            center
+        );
+        positions = {
+            ...positions,
+            ...egoLayout.positions
         };
+        bands.push(...egoLayout.bands);
     }
-    return layoutNodeDict;
+    const allNodes = egoGraphs.map((d) => d.nodes).flat();
+    const layoutNodeMap = createLayoutNodes(allNodes, positions);
+    const edges = createInteractionEdges(
+        layoutNodeMap,
+        egoGraphs.map((egoGraph) => egoGraph.edges).flat()
+    );
+    return {
+        nodes: [...layoutNodeMap.values()],
+        identityEdges: createIdentityEdges([...layoutNodeMap.values()]),
+        edges: edges,
+        bandData: transformBandData(bands),
+        centers
+    };
+}
+
+function createIdentityEdges(layoutNodes: layoutNode[]) {
+    const identityEdges: identityEdge[] = [];
+    const usedNodeIDs: string[] = [];
+    layoutNodes.forEach((node) => {
+        if (!usedNodeIDs.includes(node.originalID)) {
+            const sourceIndex = node.index;
+            const x1 = node.cx;
+            const y1 = node.cy;
+            node.identityNodes.map((index) => {
+                const targetNode = layoutNodes[index];
+                const targetIndex = targetNode.index;
+                const x2 = targetNode.cx;
+                const y2 = targetNode.cy;
+                const id = node.id + '_' + targetNode.id;
+                identityEdges.push({
+                    sourceIndex,
+                    targetIndex,
+                    x1,
+                    x2,
+                    y1,
+                    y2,
+                    id
+                });
+            });
+            usedNodeIDs.push(node.originalID);
+        }
+    });
+    return identityEdges;
+}
+
+function createInteractionEdges(
+    nodeMap: Map<string, layoutNode>,
+    edges: egoGraphEdge[]
+) {
+    const layoutEdges: layoutEdge[] = [];
+    edges.forEach((edge) => {
+        const sourceId = edge.source;
+        const targetId = edge.target;
+        //check if both source and target are in nodeDict
+        if (nodeMap.has(sourceId) && nodeMap.has(targetId)) {
+            const source = nodeMap.get(sourceId);
+            const target = nodeMap.get(targetId);
+            const currEdge: layoutEdge = {
+                ...edge,
+                sourceIndex: source.index,
+                targetIndex: target.index,
+                x1: source.cx,
+                x2: target.cx,
+                y1: source.cy,
+                y2: target.cy
+            };
+            layoutEdges.push(currEdge);
+        }
+    });
+    return layoutEdges;
+}
+
+function createLayoutNodes(
+    nodes: layoutNode[],
+    positions: { [key: string]: position }
+) {
+    const layoutNodes = new Map<string, layoutNode>();
+    let index = 0;
+    nodes.forEach((node) => {
+        if (Object.keys(positions).includes(node.id)) {
+            layoutNodes.set(node.id, {
+                ...node,
+                index: index,
+                cx: positions[node.id].x,
+                cy: positions[node.id].y
+            });
+            node.identityNodeKeys.forEach((key) => {
+                if (layoutNodes.has(key)) {
+                    const identityNode = layoutNodes.get(key);
+                    const indices = [...identityNode.identityNodes, index];
+                    layoutNodes.set(key, {
+                        ...identityNode,
+                        identityNodes: indices
+                    });
+                }
+            });
+            index += 1;
+        }
+    });
+    return layoutNodes;
 }
 
 export function calculateLayout2(
@@ -310,8 +477,8 @@ export function calculateLayout2(
         decollapseMode
     );
 
-    console.log(
-        iterateEgoGraphs(
+    return {
+        ...iterateEgoGraphs(
             egoGraphs,
             radiusOfEnclosingCircle,
             placementRadius,
@@ -319,6 +486,9 @@ export function calculateLayout2(
             decollapseMode,
             egoRadii,
             numLayers
-        )
-    );
+        ),
+        radii: egoRadii,
+        decollapsedSize: radiusOfEnclosingCircle,
+        nodeRadius: nodeRadius
+    };
 }

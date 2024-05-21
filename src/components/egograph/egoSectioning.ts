@@ -22,10 +22,28 @@ export function sectionEgoGraphs(
     });
 }
 
+function findIdentityNodes(id: string, nodes: egoGraphNode[]) {
+    return nodes.reduce((acc: string[], node) => {
+        if (node.originalID === id) acc.push(node.id);
+        return acc;
+    }, []);
+}
+
 function createNodeDict(egoGraphs: egoGraph[]) {
     const nodeDict: NodeDict = {};
     egoGraphs.forEach((egoGraph) => {
-        egoGraph.nodes.forEach((node) => (nodeDict[node.id] = node));
+        egoGraph.nodes.forEach((node) => {
+            node.isCenter = false;
+            node.cx = 0;
+            node.cy = 0;
+            node.pseudo = false;
+            node.identityNodeKeys = findIdentityNodes(
+                node.originalID,
+                egoGraphs.map((d) => d.nodes).flat()
+            );
+            node.identityNodes=[];
+            nodeDict[node.id] = node;
+        });
     });
     return nodeDict;
 }

@@ -655,25 +655,28 @@ function getPath(
 
 const EgoGraphBand = (props: EgoGraphBandProps) => {
     const { bandData, color, twoCase } = props;
+    console.log(bandData)
     const [selectedBands, setSelectedBands] = useAtom(selectedBandsAtom);
     let pathData: { path: string[]; color: string; id: string }[] = [];
-    if (bandData[1].length === 0) return null;
-    if (bandData[1].length === 1) return null;
-    if (bandData[1].length === 2) {
-        const start = bandData[1][0];
-        const end = bandData[1][1];
+    if (bandData.ids.length === 0) return null;
+    if (bandData.ids.length === 1) return null;
+    if (bandData.ids.length === 2) {
+        const firstId=bandData.ids[0];
+        const secondId=bandData.ids[1]
+        const start = bandData.bands[firstId].positions[0];
+        const end = bandData.positions[1];
         pathData = [
             {
                 path: getPath(start, end, twoCase),
                 color: color,
-                id: bandData[0]
+                id: bandData.ids.join("_")
             }
         ];
     }
-    if (Object.keys(bandData[1]).length === 3) {
-        const start = bandData[1][0];
-        const mid = bandData[1][1];
-        const end = bandData[1][2];
+    if (bandData.ids.length === 3) {
+        const start = bandData.positions[0];
+        const mid = bandData.positions[1];
+        const end = bandData.positions[2];
 
         //make a path consisting of 3 bands, one for each pair of nodes
         //start to mid, mid to end, end to start
@@ -682,19 +685,19 @@ const EgoGraphBand = (props: EgoGraphBandProps) => {
         pathData.push({
             path: getPath(start, mid),
             color: color,
-            id: bandData[0]
+            id: bandData.ids[0]+'_'+bandData.ids[1]
         });
         // push mid to end
         pathData.push({
             path: getPath(mid, end),
             color: color,
-            id: bandData[0]
+            id: bandData.ids[0]+'_'+bandData.ids[1]+'_'+bandData.ids[2]
         });
         // push end to start
         pathData.push({
             path: getPath(end, start),
             color: color,
-            id: bandData[0]
+            id: bandData.ids[1]+'_'+bandData.ids[2]
         });
     }
 

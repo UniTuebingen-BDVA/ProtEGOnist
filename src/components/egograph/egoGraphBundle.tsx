@@ -333,17 +333,18 @@ const EgographBundle = (props: { x: number; y: number; nodeId: string }) => {
     const bands = useMemo(() => {
         const returnBands: ReactElement[] = [];
         if (layout.bandData) {
-            Object.entries(layout.bandData).forEach((band, i) => {
+            console.log(layout.bandData)
+            layout.bandData.forEach((band, i) => {
                 returnBands.push(
                     <EgoGraphBand
                         key={nodeId + 'band_' + i}
                         bandData={band}
                         color={
-                            band[0].split(',').length === 3
+                            band.ids.length === 3
                                 ? '#778ea9'
                                 : '#bed2e8'
                         }
-                        twoCase={Object.entries(layout.bandData).length === 1}
+                        twoCase={layout.bandData.length === 1}
                     />
                 );
             });
