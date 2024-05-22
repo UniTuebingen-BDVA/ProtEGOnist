@@ -8,16 +8,17 @@ import {
 import React, { useCallback, useEffect, useState } from 'react';
 import { animated, useSpring } from '@react-spring/web';
 import { useGesture } from '@use-gesture/react';
-import { Autocomplete, IconButton, TextField, Tooltip } from '@mui/material';
+import { Autocomplete, Button, IconButton, TextField, Tooltip } from '@mui/material';
 import {
     FitToPageOutline,
     MagnifyMinusOutline,
     MagnifyPlusOutline
 } from 'mdi-material-ui';
 import SyncIcon from '@mui/icons-material/Sync';
-import { nodeKeysAtom, selectedNodeAtom } from './detailStore.ts';
+import { nodeKeysAtom, selectedNodeAtom, currentlyShownNodesAtom } from './detailStore.ts';
 import Grid from '@mui/system/Unstable_Grid/Grid';
 import { detailedSVGSizeAtom } from '../../../uiStore.tsx';
+import { selectedNodesAtom } from '../../egoNetworkNetwork/egoNetworkNetworkStore.ts';
 
 interface DetailNodeLinkViewerProps {}
 
@@ -33,7 +34,15 @@ function DetailNodeLinkViewer(props: DetailNodeLinkViewerProps) {
     const [searchedNode, setSearchedNode] = useAtom(selectedNodeAtom);
     const [getNodeKeys] = useAtom(nodeKeysAtom);
     const [svgSize] = useAtom(detailedSVGSizeAtom);
+    const [selectedNodesIds] = useAtom(selectedNodesAtom);
+    const [currentlyShownIds] = useAtom(currentlyShownNodesAtom);
+    const selectedNodesIdsSet = new Set(selectedNodesIds);
+    const currentlyShownIdSet = new Set(currentlyShownIds);
+    const nodesUpToDate = (
+        selectedNodesIdsSet.size === currentlyShownIdSet.size &&
+        selectedNodesIds.every(item => currentlyShownIdSet.has(item))
 
+    );
     // prevent default pinch zoom
     document.addEventListener('gesturestart', (e) => e.preventDefault());
     document.addEventListener('gesturechange', (e) => e.preventDefault());
@@ -82,7 +91,7 @@ function DetailNodeLinkViewer(props: DetailNodeLinkViewerProps) {
     }, [api, svgSize.width,svgSize.height]);
     useEffect(() => {
             resetZoomPosition();
-    }, [resetZoomPosition]);
+    }, [resetZoomPosition]);currentlyShownIds
     useGesture(
         {
             onWheel: ({ delta: [, dy] }) => {
@@ -150,15 +159,18 @@ function DetailNodeLinkViewer(props: DetailNodeLinkViewerProps) {
                     </IconButton>
                 </Tooltip>
             </Grid>
-            <Grid xs={1}>
+            <Grid xs={3}>
                 <Tooltip title="DetailNodeLinkViewer">
-                    <IconButton
+                    <Button
                         onClick={() => {
                             getNodeLink();
                         }}
+                        variant="outlined"
+                        color={nodesUpToDate? 'primary' : 'error'}
+                        size='small'
                     >
-                        <SyncIcon />
-                    </IconButton>
+                        { nodesUpToDate? 'Nodes Up to date' : 'Update Nodes'}
+                    </Button>
                 </Tooltip>
             </Grid>
         </Grid>

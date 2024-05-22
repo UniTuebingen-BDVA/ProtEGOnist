@@ -15,6 +15,8 @@ import {
     tarNodeAtom,
     radarNodesAtom
 } from './components/detailPanel/radarchart/radarStore.ts';
+
+import { currentlyShownNodesAtom } from './components/detailPanel/detailNodeLink/detailStore.ts';
 import {
     tableAtom,
     selectedProteinsAtom
@@ -71,6 +73,7 @@ export const selectedExampleAtom = atom(
                 set(quantifyNodesByAtom, quantifyBy);
                 set(classifyByAtom, classifyBy);
                 set(tarNodeAtom, startRadarNode);
+                currentlyShownNodesAtom;
                 set(getRadarAtom, startRadarNode);
                 set(selectedProteinsAtom, startSelectedNodes);
                 let edgesClassification =
@@ -416,6 +419,7 @@ function processNodesAndLinks(
 export const getNodeLinkFromSelectionAtom = atom(null, (get, set) => {
     set(detailNodeLinkBusyAtom, true);
     const selectedNodesIds = get(selectedNodesAtom);
+    set(currentlyShownNodesAtom, selectedNodesIds);
     const payload = {
         ids: selectedNodesIds,
         example: get(selectedExampleAtom)
