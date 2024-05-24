@@ -43,10 +43,11 @@ The color indicates how many of the contained connections and nodes are present 
 ### Ego-Graph Subnetwork
 
 The Ego-Graph Subnetwork shows user-selected ego graphs, either in aggregated form or expanded.
-The user can select up to three ego graphs to be displayed as an ego-graph group, meaning three expanded ego-graphs that highlight identical nodes between them.
 The nodes are colored according to the metadata variable, and the edges indicate overlap between the ego graphs.
-
-![Image](https://github.com/UniTuebingen-BDVA/ProtEGOnist/blob/readmeAssets/assets/Subnetwork.png?raw=true)
+The user can select up to three ego graphs to be displayed as an ego-graph group, meaning three expanded ego-graphs that highlight identical nodes between them.
+<img src="https://github.com/UniTuebingen-BDVA/ProtEGOnist/blob/readmeAssets/assets/Subnetwork.png?raw=true" width="45%" >
+<img src="https://github.com/UniTuebingen-BDVA/ProtEGOnist/blob/readmeAssets/assets/output.gif?raw=true" width="45%" >
+<img src="https://github.com/UniTuebingen-BDVA/ProtEGOnist/blob/aee4cd8a65fe5f77554f7cf9f368f0d448a09c7a/assets/compare.png" width="45%">
 
 ### Radar Chart
 
