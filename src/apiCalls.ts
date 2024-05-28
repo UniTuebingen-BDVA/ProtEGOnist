@@ -15,6 +15,7 @@ import {
     tarNodeAtom,
     radarNodesAtom
 } from './components/detailPanel/radarchart/radarStore.ts';
+import { currentlyShownNodesAtom } from './components/detailPanel/detailNodeLink/detailStore.ts';
 import {
     tableAtom,
     selectedProteinsAtom
@@ -416,6 +417,7 @@ function processNodesAndLinks(
 export const getNodeLinkFromSelectionAtom = atom(null, (get, set) => {
     set(detailNodeLinkBusyAtom, true);
     const selectedNodesIds = get(selectedNodesAtom);
+    set(currentlyShownNodesAtom, selectedNodesIds);
     const payload = {
         ids: selectedNodesIds,
         example: get(selectedExampleAtom)

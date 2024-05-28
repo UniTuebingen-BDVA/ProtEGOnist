@@ -1,5 +1,14 @@
 import { atom } from 'jotai';
 
+//nodes that are currently shown in the diagram
+const currentlyShownNodesStoreAtom = atom<string[]>([]);
+
+export const currentlyShownNodesAtom = atom(
+    (get) => get(currentlyShownNodesStoreAtom),
+    (_get, set, values: string[]) => {
+        set(currentlyShownNodesStoreAtom, values);
+    }
+);
 // link atom
 /**
  * Atom representing the link store.

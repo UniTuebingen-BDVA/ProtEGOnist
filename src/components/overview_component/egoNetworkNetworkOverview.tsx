@@ -71,7 +71,7 @@ const EgoNetworkNetworkOverview = () => {
             })}
 
             {nodes.map((node) => {
-                const sizeNode = Math.sqrt(scaleSize(node.size) / Math.PI);
+                const sizeNode = scaleSize(node.size);
                 const nodeNeighbors = node.neighbors ?? [];
 
                 // Intersection between nodeNeighbors and accountedProteinsNeigborhood

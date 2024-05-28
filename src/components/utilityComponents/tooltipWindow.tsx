@@ -8,7 +8,7 @@ import {
     hoverAtom,
     hoverStorePersistAtom
 } from './hoverStore';
-import { Paper, Slide } from '@mui/material';
+import { Paper, Fade } from '@mui/material';
 
 //generate a custom content for the tooltipwindow based on the selectedNode
 const TooltipContent = memo(function TooltipContent(props: {
@@ -102,11 +102,11 @@ export const TooltipWindow = memo(
         const [hoverStorePersist] = useAtom(hoverStorePersistAtom);
 
         return (
-            <Slide
-                direction="up"
+            <Fade
+                //direction="up"
                 in={hoverId !== ''}
                 timeout={500}
-                container={ref.current}
+                //container={ref.current}
             >
                 <Paper
                     elevation={3}
@@ -121,7 +121,7 @@ export const TooltipWindow = memo(
                 >
                     <TooltipContent hoveredNode={hoverStorePersist} />
                 </Paper>
-            </Slide>
+            </Fade>
         );
     })
 );
