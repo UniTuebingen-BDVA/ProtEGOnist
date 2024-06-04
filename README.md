@@ -21,7 +21,7 @@ ProtEGOnist is available as a web application and can be accessed at [https://pr
 ProtEGOnist aims at reducing the visual clutter commonly found in small-world networks by aggregating nodes based on the concept of ego graphs.
 An ego graph is a subgraph that consists of a central node (the ego) and its neighbors (the alters).
 
-![Image](https://raw.githubusercontent.com/UniTuebingen-BDVA/ProtEGOnist/5c315f95719c5099266f6ac86e45b38ee1b329e6/assets/Ego-Concept.svg)
+![Image](https://raw.githubusercontent.com/UniTuebingen-BDVA/ProtEGOnist/282429441b7d6e4e22cbfd9531189ed5281915b1/assets/Ego-Concept.svg)
 
 We then construct a network out of these aggregated ego-graphs, where the edges indicate overlap, i.e., the number of alters that two egos have in common.
 To provide the user with detail on demand, we allow the user to interact with the network by selecting a node and expanding its ego graph.
