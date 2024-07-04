@@ -5,7 +5,7 @@ Additionally, several example networks are provided to demonstrate the tool's ca
 The tool is designed to be user-friendly and interactive, allowing users to explore their networks simply and intuitively.
 
 Originally developed for the [Bio+MedVis Challenge @ IEEE VIS 2023](http://biovis.net/2023/biovisChallenges_vis/), the aim was to develop a tool for the visualization of protein-protein interaction networks in the context of a large-scale cancer protein-marker study.
-ProtEGOnist was awarded 1st place in the challenge.
+ProtEGOnist was awarded 1st place in the Bio+MedVis challenge.
 
 ProtEGOnist was then further developed to be a more general tool for the visualization of small-world networks.
 It was presented at the [EuroVis 2024](https://event.sdu.dk/eurovis) conference and the accompanying paper is available [here](https://doi.org/).
